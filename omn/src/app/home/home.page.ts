@@ -10,7 +10,8 @@ export class HomePage {
   constructor(private menu: MenuController) {}
 
   openCustom() {
-    this.menu.enable(true, 'custom');
-    this.menu.open('custom');
+    this.menu.enable(true, 'omn-menu');
+    this.menu.open('omn-menu');
+    console.log(this.menu);
   }
 }
