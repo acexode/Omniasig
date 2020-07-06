@@ -1,0 +1,7 @@
+{
+  "name": "omn",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
