@@ -122,16 +122,16 @@
               "browserTarget": "app:build:production"
             },
             "dev": {
-              "browserTarget": "omnaui:build:dev"
+              "browserTarget": "app:build:dev"
             },
             "local": {
               "hmr": true,
-              "browserTarget": "omnaui:build:local",
+              "browserTarget": "app:build:local",
               "hmrWarning": false
             },
             "hmr": {
               "hmr": true,
-              "browserTarget": "omnaui:build:hmr",
+              "browserTarget": "app:build:hmr",
               "hmrWarning": false
             },
             "ci": {
