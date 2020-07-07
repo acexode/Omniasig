@@ -10,8 +10,8 @@ import {
   distinctUntilChanged,
   filter,
   map,
-  tap,
   switchMap,
+  tap,
 } from 'rxjs/operators';
 import { authEndpoints } from '../../configs/endpoints';
 import { Account } from '../../models/account.interface';
@@ -25,6 +25,12 @@ import { RequestService } from '../request/request.service';
   providedIn: 'root',
 })
 export class AuthService {
+  demoAccount: Account = {
+    firstName: 'Ion',
+    lastName: 'Ionescu',
+    userStates: [],
+  };
+  // TODO: DEMO - reset auth state to default one login is implemented.
   initialState: AuthState = {
     init: false,
     account: null,
@@ -40,6 +46,12 @@ export class AuthService {
     // Load account state from local/session/cookie storage.
     this.storeS.getItem('account').subscribe((account: Account) => {
       this.authState.next({ init: true, account });
+    });
+
+    // TODO: Remove Demo code once logi is implemented.
+    this.authState.next({
+      init: true,
+      account: this.demoAccount,
     });
   }
 
@@ -81,11 +93,7 @@ export class AuthService {
   }
 
   processAuthResponse(data: LoginResponse) {
-    const account = {
-      nume: 'vlad',
-      prenume: 'mihai',
-      image: null,
-    };
+    const account = data.account ? data.account : null;
     return this.storeS.setItem('account', account).pipe(
       tap(() => {
         this.authState.next({
