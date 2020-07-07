@@ -1,5 +1,8 @@
+import { AccountStates } from './account-states';
+
 export interface Account {
-  nume: string;
-  prenume: string;
-  image: string;
+  firstName: string;
+  lastName: string;
+  userIcon?: string;
+  userStates: Array<AccountStates>;
 }
