@@ -1,18 +1,48 @@
 <ion-tabs>
-  <ion-tab-bar color="primary" slot="bottom">
-    <ion-tab-button tab="">
-      <ion-icon name="home-outline"></ion-icon>
-      <ion-label>Acasã</ion-label>
+  <ion-tab-bar slot="bottom">
+    <ion-tab-button tab="acasa" (click)="setCurrentTab('acasa')">
+      <ion-icon
+        *ngIf="currentTab == 'acasa'; else acasaElseBlock"
+        name="md-active-acasa"
+      ></ion-icon>
+      <ng-template #acasaElseBlock
+        ><ion-icon name="md-acasa"></ion-icon
+      ></ng-template>
+      <ion-label
+        class="custom-label"
+        [class.label-border]="currentTab == 'acasa'"
+        >Acasã</ion-label
+      >
     </ion-tab-button>
 
-    <ion-tab-button tab="speakers">
-      <ion-icon name="shield-checkmark-outline"></ion-icon>
-      <ion-label>Asiguarãri</ion-label>
+    <ion-tab-button tab="asiguarari" (click)="setCurrentTab('asiguarari')">
+      <ion-icon
+        *ngIf="currentTab == 'asiguarari'; else elseBlock"
+        name="md-active-polita"
+      ></ion-icon>
+      <ng-template #elseBlock
+        ><ion-icon name="md-polita"></ion-icon
+      ></ng-template>
+      <ion-label
+        class="custom-label"
+        [class.label-border]="currentTab == 'asiguarari'"
+        >Asiguarãri</ion-label
+      >
     </ion-tab-button>
 
-    <ion-tab-button tab="map">
-      <ion-icon name="person-outline"></ion-icon>
-      <ion-label>Profil</ion-label>
+    <ion-tab-button tab="profil" (click)="setCurrentTab('profil')">
+      <ion-icon
+        *ngIf="currentTab == 'profil'; else profilElseBlock"
+        name="md-active-user"
+      ></ion-icon>
+      <ng-template #profilElseBlock
+        ><ion-icon name="md-user"></ion-icon
+      ></ng-template>
+      <ion-label
+        class="custom-label"
+        [class.label-border]="currentTab == 'profil'"
+        >Profil</ion-label
+      >
     </ion-tab-button>
   </ion-tab-bar>
 </ion-tabs>
