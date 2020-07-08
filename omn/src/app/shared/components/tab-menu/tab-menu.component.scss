@@ -1,3 +1,5 @@
+@import '../../../../assets/scss/mixins';
+
 ion-tab-button {
   // Icon and text
   --color: var(--app-text-color);
@@ -9,8 +11,8 @@ ion-tab-button {
 }
 
 .custom-label {
-  padding-bottom: 0.1rem;
-  margin-top: 0.3rem;
+  padding-bottom: rem(1.6);
+  margin-top: rem(4.8);
 }
 
 .label-border {
