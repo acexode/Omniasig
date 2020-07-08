@@ -15,9 +15,9 @@
       >
     </ion-tab-button>
 
-    <ion-tab-button tab="asiguarari" (click)="setCurrentTab('asiguarari')">
+    <ion-tab-button tab="asigurari" (click)="setCurrentTab('asigurari')">
       <ion-icon
-        *ngIf="currentTab == 'asiguarari'; else elseBlock"
+        *ngIf="currentTab == 'asigurari'; else elseBlock"
         name="md-active-polita"
       ></ion-icon>
       <ng-template #elseBlock
@@ -25,7 +25,7 @@
       ></ng-template>
       <ion-label
         class="custom-label"
-        [class.label-border]="currentTab == 'asiguarari'"
+        [class.label-border]="currentTab == 'asigurari'"
         >Asiguarãri</ion-label
       >
     </ion-tab-button>
