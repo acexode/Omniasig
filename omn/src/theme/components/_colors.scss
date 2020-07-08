@@ -1,0 +1,10 @@
+@import '../variables.scss';
+
+.ion-color-green-gradient {
+  --ion-color-base: var(--ion-color-green-gradient);
+  --ion-color-base-rgb: var(--ion-color-green-gradient-rgb);
+  --ion-color-contrast: var(--ion-color-green-gradient-contrast);
+  --ion-color-contrast-rgb: var(--ion-color-green-gradient-contrast-rgb);
+  --ion-color-shade: var(--ion-color-green-gradient-shade);
+  --ion-color-tint: var(--ion-color-green-gradient-tint);
+}
