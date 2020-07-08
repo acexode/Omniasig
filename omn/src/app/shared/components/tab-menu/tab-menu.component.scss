@@ -1,11 +1,11 @@
 ion-tab-button {
   // Icon and text
-  --color: #191a19;
-  --color-selected: #018641;
+  --color: var(--app-text-color);
+  --color-selected: var(--app-green-color);
   // Background
-  --background: white;
-  --background-focused: white;
-  --ripple-color: white;
+  --background: var(--app-white-color);
+  --background-focused: var(--app-white-color);
+  --ripple-color: var(--app-white-color);
 }
 
 .custom-label {
@@ -14,5 +14,5 @@ ion-tab-button {
 }
 
 .label-border {
-  border-bottom: 2px solid red;
+  border-bottom: 2px solid var(--app-red-color);
 }
