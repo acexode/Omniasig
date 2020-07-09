@@ -2,6 +2,7 @@
 @import '../mixins/mixins';
 
 ion-tab-bar {
+  --ion-tab-bar-background: var(--ion-background-color);
   border: 0;
   height: rem(80);
 }
@@ -11,7 +12,7 @@ ion-tab-button {
   --color: var(--app-text-color);
   --color-selected: var(--app-green-color);
   // Background
-  --background: var(--app-white-color);
+  --background: var(--ion-background-color);
   --background-focused: var(--app-white-color);
   --ripple-color: var(--app-white-color);
 

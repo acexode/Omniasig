@@ -15,8 +15,13 @@
 .w-100 {
   width: 100%;
 }
-
+.flex-column {
+  @include flex-direction(column);
+}
 .bottom-radius-40 {
-    border-bottom-left-radius: rem(40);
-    border-bottom-right-radius: rem(40);
+  border-bottom-left-radius: rem(40);
+  border-bottom-right-radius: rem(40);
+}
+.h-272 {
+  height: rem(272);
 }

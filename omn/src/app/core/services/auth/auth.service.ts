@@ -49,6 +49,7 @@ export class AuthService {
     });
 
     // TODO: Remove Demo code once logi is implemented.
+    this.storeS.setItem('account', this.demoAccount);
     this.authState.next({
       init: true,
       account: this.demoAccount,

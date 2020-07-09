@@ -8,3 +8,11 @@
   --ion-color-shade: var(--ion-color-green-gradient-shade);
   --ion-color-tint: var(--ion-color-green-gradient-tint);
 }
+.ion-color-omn-green {
+  --ion-color-base: var(--app-green-color);
+  --ion-color-base-rgb: rgba(var(--app-green-color), 1);
+  --ion-color-contrast: var(--ion-color-green-gradient-contrast);
+  --ion-color-contrast-rgb: var(--ion-color-green-gradient-contrast-rgb);
+  --ion-color-shade: var(--ion-color-green-gradient-shade);
+  --ion-color-tint: var(--ion-color-green-gradient-tint);
+}

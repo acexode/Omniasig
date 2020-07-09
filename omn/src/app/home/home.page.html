@@ -1,18 +1,36 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title (click)="openCustom()">
-      Blank
+<ion-header [translucent]="false">
+  <ion-toolbar size="small" color="omn-green">
+    <ion-buttons slot="start" class="header">
+      <ion-button (click)="openCustom()">
+        <ion-icon slot="icon-only" name="md-menu" class="icon-20"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-buttons slot="end" class="header">
+      <ion-button>
+        <ion-icon
+          slot="icon-only"
+          name="md-notificare"
+          class="icon-20"
+        ></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title class="ion-text-left"
+      ><h2 *ngIf="account$ | async as account">
+        {{account?.firstName + ' '+ account?.lastName}}
+      </h2>
     </ion-title>
   </ion-toolbar>
 </ion-header>
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Blank</ion-title>
-    </ion-toolbar>
-  </ion-header>
-
+<ion-content>
   <ion-grid class="p-32">
+    <ion-row class="ion-no-padding h-272 mt-n80 mx-n32 mt-n32" style="background-color: red;"
+      ></ion-row
+    >
+    <ion-row class="mt-n128">
+      <ion-text color="omn-light">
+        <h4 class="mb-8">Asigurari</h4>
+      </ion-text>
+    </ion-row>
     <ion-row class="ion-no-padding">
       <ion-col class="ion-no-padding">
         <ion-row class="ion-no-padding"></ion-row>
@@ -24,13 +42,13 @@
                   <ion-icon
                     name="md-acasa-light"
                     slot="start"
-                    color="success"
+                    color="omn-green"
                   ></ion-icon>
-                  <ion-label>
-                    <div class="text-small" color="success">
+                  <ion-label class="my-16">
+                    <div class="text-small pb-4" color="omn-green">
                       Asigurarea facultativă a locuințelor
                     </div>
-                    <div>Garant AMPLUS</div>
+                    <div class="h2-title pb-2">Garant AMPLUS</div>
                     <div class="text-small">Strada Traian 45, Brasov</div>
                   </ion-label>
                   <ion-icon
@@ -43,18 +61,18 @@
                   <ion-icon
                     name="md-acasa-light"
                     slot="start"
-                    color="success"
+                    color="omn-green"
                   ></ion-icon>
                   <ion-label>
-                    <div class="text-small" color="success">
+                    <div class="text-small" color="omn-green">
                       Asigurarea facultativă a locuințelor
                     </div>
-                    <div>Garant AMPLUS</div>
+                    <div class="h2-title mb-2">Garant AMPLUS</div>
                     <div class="text-small">Strada Traian 45, Brasov</div>
                   </ion-label>
                   <ion-icon
                     name="md-chevron-right"
-                    color="success"
+                    color="omn-green"
                     slot="end"
                   ></ion-icon>
                 </ion-item>
@@ -85,8 +103,8 @@
     <ion-row class="mt-32">
       <ion-col class="ion-no-padding">
         <ion-row>
-          <ion-text color="success">
-            <h4>Daune</h4>
+          <ion-text color="omn-green">
+            <h4 class="mb-8">Daune</h4>
           </ion-text>
         </ion-row>
         <ion-row>
@@ -99,7 +117,7 @@
               ></ion-icon>
               <ion-card-header class="absolute-header"></ion-card-header>
               <ion-card-content
-                class="p-8 text-small text-weight-medium ion-align-self-end ion-text-center"
+                class="p-8 text-small text-weight-medium ion-align-items-end flex-1 ion-text-center"
               >
                 Dosar Nr. 123456
               </ion-card-content>
@@ -114,7 +132,7 @@
               ></ion-icon>
               <ion-card-header class="absolute-header"></ion-card-header>
               <ion-card-content
-                class="p-8 text-small text-weight-medium ion-align-self-end ion-text-center"
+                class="flex p-8 text-small text-weight-medium ion-align-items-end flex-1 ion-justify-content-center w-100 ion-text-center"
               >
                 Deschide dosar
               </ion-card-content>
@@ -126,13 +144,13 @@
     <ion-row class="mt-32">
       <ion-col class="ion-no-padding">
         <ion-row>
-          <ion-text color="success">
-            <h4>Ai nevoie de ajutor?</h4>
+          <ion-text color="omn-green">
+            <h4 class="mb-8">Ai nevoie de ajutor?</h4>
           </ion-text>
         </ion-row>
         <ion-row>
-          <ion-col class="ion-no-padding">
-            <ion-card class="ml-0 mr-8 my-0 h-100">
+          <ion-col class="ion-no-padding ml-0 mr-8">
+            <ion-card class="m-0 h-100 flex-column flex w-100">
               <ion-icon
                 name="md-call-center"
                 color="green-gradient"
@@ -140,14 +158,14 @@
               ></ion-icon>
               <ion-card-header class="absolute-header"></ion-card-header>
               <ion-card-content
-                class="p-8 text-small text-weight-medium ion-align-self-end ion-text-center"
+                class="flex p-8 text-small text-weight-medium ion-align-items-end flex-1 ion-justify-content-center w-100 ion-text-center"
               >
                 Call Center
               </ion-card-content>
             </ion-card>
           </ion-col>
-          <ion-col class="ion-no-padding">
-            <ion-card class="mx-8 my-0 h-100">
+          <ion-col class="ion-no-padding mx-8">
+            <ion-card class="m-0 h-100 flex-column flex w-100">
               <ion-icon
                 name="md-chat"
                 color="green-gradient"
@@ -155,14 +173,14 @@
               ></ion-icon>
               <ion-card-header class="absolute-header"></ion-card-header>
               <ion-card-content
-                class="p-8 text-small text-weight-medium ion-align-self-end ion-text-center"
+                class="flex p-8 text-small text-weight-medium ion-align-items-end flex-1 ion-justify-content-center w-100 ion-text-center"
               >
                 Chat
               </ion-card-content>
             </ion-card>
           </ion-col>
-          <ion-col class="ion-no-padding">
-            <ion-card class="mr-0 ml-8 my-0 h-100">
+          <ion-col class="ion-no-padding mr-0 ml-8">
+            <ion-card class="m-0 h-100 flex-column flex w-100">
               <ion-icon
                 name="md-intrebari"
                 color="green-gradient"
@@ -170,7 +188,7 @@
               ></ion-icon>
               <ion-card-header class="absolute-header"></ion-card-header>
               <ion-card-content
-                class="p-8 text-small text-weight-medium ion-align-self-end ion-text-center"
+                class="flex p-8 text-small text-weight-medium ion-align-items-end flex-1 ion-justify-content-center w-100 ion-text-center"
               >
                 Întrebări frecvente
               </ion-card-content>
@@ -181,28 +199,4 @@
     </ion-row>
   </ion-grid>
 </ion-content>
-<!-- 
-<ion-tab-bar slot="bottom">
-  <ion-tab-button [routerLink]='"home"' tab>
-    <ion-icon name="calendar"></ion-icon>
-    <ion-label>Schedule</ion-label>
-    <ion-badge>6</ion-badge>
-  </ion-tab-button>
-
-  <ion-tab-button tab="speakers">
-    <ion-icon name="person-circle"></ion-icon>
-    <ion-label>Speakers</ion-label>
-  </ion-tab-button>
-
-  <ion-tab-button tab="map">
-    <ion-icon name="map"></ion-icon>
-    <ion-label>Map</ion-label>
-  </ion-tab-button>
-
-  <ion-tab-button tab="about">
-    <ion-icon name="information-circle"></ion-icon>
-    <ion-label>About</ion-label>
-  </ion-tab-button>
-</ion-tab-bar> -->
-
 <app-tab-menu></app-tab-menu>
