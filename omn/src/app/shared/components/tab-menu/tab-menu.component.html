@@ -1,3 +1,40 @@
-<p>
-  tab-menu works!
-</p>
+<ion-tab-bar slot="bottom">
+  <ion-tab-button tab="acasa" (click)="setCurrentTab('acasa')">
+    <ion-icon
+      [hidden]="!(currentTab === 'acasa')"
+      name="md-active-acasa"
+    ></ion-icon>
+    <ion-icon [hidden]="currentTab === 'acasa'" name="md-acasa"></ion-icon>
+    <ion-label
+      class="custom-label"
+      [class.label-border]="currentTab === 'acasa'"
+      >Acasã</ion-label
+    >
+  </ion-tab-button>
+
+  <ion-tab-button tab="asigurari" (click)="setCurrentTab('asigurari')">
+    <ion-icon
+      [hidden]="!(currentTab === 'asigurari')"
+      name="md-active-polita"
+    ></ion-icon>
+    <ion-icon [hidden]="currentTab === 'asigurari'" name="md-polita"></ion-icon>
+    <ion-label
+      class="custom-label"
+      [class.label-border]="currentTab === 'asigurari'"
+      >Asigurãri</ion-label
+    >
+  </ion-tab-button>
+
+  <ion-tab-button tab="profil" (click)="setCurrentTab('profil')">
+    <ion-icon
+      [hidden]="!(currentTab === 'profil')"
+      name="md-active-user"
+    ></ion-icon>
+    <ion-icon [hidden]="currentTab === 'profil'" name="md-user"></ion-icon>
+    <ion-label
+      class="custom-label"
+      [class.label-border]="currentTab === 'profil'"
+      >Profil</ion-label
+    >
+  </ion-tab-button>
+</ion-tab-bar>

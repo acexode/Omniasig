@@ -13,6 +13,8 @@ import { HomePage } from './home.page';
     SharedModule,
     HomePageRoutingModule,
     IonicModule,
+    HomePageRoutingModule,
+    SharedModule,
   ],
   declarations: [HomePage],
 })
