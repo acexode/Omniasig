@@ -1,4 +1,5 @@
 import { Component, OnInit, Input } from "@angular/core";
+import { Location } from "@angular/common";
 
 @Component({
   selector: "app-sub-page-header",
@@ -10,7 +11,11 @@ export class SubPageHeaderComponent implements OnInit {
   @Input() leadingIcon = "arrow-back-outline";
   @Input() trailingIcon = "add-outline";
 
-  constructor() {}
+  constructor(private _location: Location) {}
 
   ngOnInit() {}
+
+  back() {
+    this._location.back();
+  }
 }
