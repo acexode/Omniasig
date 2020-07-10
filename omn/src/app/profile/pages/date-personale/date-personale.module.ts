@@ -4,17 +4,17 @@ import { FormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
-import { ProfilePageRoutingModule } from './profile-routing.module';
+import { DatePersonalePageRoutingModule } from './date-personale-routing.module';
 
-import { ProfilePage } from './profile.page';
+import { DatePersonalePage } from './date-personale.page';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    ProfilePageRoutingModule
+    DatePersonalePageRoutingModule
   ],
-  declarations: [ProfilePage]
+  declarations: [DatePersonalePage]
 })
-export class ProfilePageModule {}
+export class DatePersonalePageModule {}

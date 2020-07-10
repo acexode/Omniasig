@@ -1,12 +1,26 @@
 import { NgModule } from "@angular/core";
 import { Routes, RouterModule } from "@angular/router";
 
-import { ProfilComponent } from "./main/profil/profil.component";
+import { ProfilePage } from "./profile.page";
 
 const routes: Routes = [
   {
     path: "",
-    component: ProfilComponent,
+    component: ProfilePage,
+    children: [
+      {
+        path: "",
+        loadChildren: () =>
+          import("./main/profil/profil.module").then((m) => m.ProfilPageModule),
+      },
+    ],
+  },
+  {
+    path: "date-personale",
+    loadChildren: () =>
+      import("./pages/date-personale/date-personale.module").then(
+        (m) => m.DatePersonalePageModule
+      ),
   },
 ];
 

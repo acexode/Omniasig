@@ -29,15 +29,15 @@
       >
     </ion-tab-button>
 
-    <ion-tab-button tab="profil" (click)="setCurrentTab('profil')">
+    <ion-tab-button tab="profile" (click)="setCurrentTab('profile')">
       <ion-icon
-        [hidden]="!(currentTab === 'profil')"
+        [hidden]="!(currentTab === 'profile')"
         name="md-active-user"
       ></ion-icon>
-      <ion-icon [hidden]="currentTab === 'profil'" name="md-user"></ion-icon>
+      <ion-icon [hidden]="currentTab === 'profile'" name="md-user"></ion-icon>
       <ion-label
         class="custom-label"
-        [class.label-border]="currentTab === 'profil'"
+        [class.label-border]="currentTab === 'profile'"
         >Profil</ion-label
       >
     </ion-tab-button>
