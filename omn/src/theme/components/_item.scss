@@ -1,0 +1,52 @@
+@import '../variables';
+@import '../mixins/mixins';
+.omn {
+  ion-item-group {
+    &.asig-item {
+      border-bottom: rem(1) solid $medium-grey-2;
+      --min-height: 95px;
+      min-height: rem(95);
+      ion-item {
+        --min-height: 16px;
+        position: relative;
+        --padding-start: 0;
+        --inner-padding-end: 0;
+        --inner-border-width: 0;
+        &:last-of-type {
+          --inner-padding-bottom: 11px;
+        }
+        &.no-items {
+          --inner-padding-top: 44px;
+          --inner-padding-bottom: 29px;
+        }
+      }
+
+      ion-label {
+        margin-left: rem(60);
+        margin-right: rem(44);
+        margin-top: 0;
+        margin-bottom: 0;
+        &.no-item {
+          margin-top: rem(42);
+          margin-top: rem(42);
+        }
+      }
+      ion-icon {
+        margin: 0;
+        position: absolute;
+        &.icon-start {
+          left: rem(26);
+          top: rem(2);
+          &.no-items {
+            top: rem(44);
+          }
+        }
+        &.icon-end {
+          right: rem(14);
+          top: rem(2);
+          //   margin-top: rem(42);
+        }
+      }
+    }
+  }
+}

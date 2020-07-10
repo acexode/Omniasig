@@ -48,7 +48,7 @@
         </ion-button>
       </ion-buttons>
       <ion-title class="ion-text-left header-title"
-        ><h2 *ngIf="account$ | async as account">
+        ><h2 class="alt-font" *ngIf="account$ | async as account">
           {{account?.firstName + ' '+ account?.lastName}}
         </h2>
       </ion-title>
@@ -63,64 +63,102 @@
         <h4 class="mb-8">Asigurari</h4>
       </ion-text>
     </ion-row>
-    <ion-row class="ion-no-padding">
+    <ion-row class="ion-no-padding mx-n8">
       <ion-col class="ion-no-padding">
         <ion-row class="ion-no-padding"></ion-row>
         <ion-row class="ion-no-padding">
           <ion-col class="ion-no-padding">
             <ion-card class="m-0 bottom-radius-40">
-              <ion-list>
-                <ion-item>
-                  <ion-icon
-                    name="md-acasa-light"
-                    slot="start"
-                    color="omn-green"
-                  ></ion-icon>
-                  <ion-label class="my-16">
-                    <div class="text-small pb-4" color="omn-green">
-                      Asigurarea facultativă a locuințelor
-                    </div>
-                    <div class="h2-title pb-2">Garant AMPLUS</div>
-                    <div class="text-small">Strada Traian 45, Brasov</div>
-                  </ion-label>
-                  <ion-icon
-                    name="md-plata-light"
-                    color="danger"
-                    slot="end"
-                  ></ion-icon>
-                </ion-item>
-                <ion-item>
-                  <ion-icon
-                    name="md-acasa-light"
-                    slot="start"
-                    color="omn-green"
-                  ></ion-icon>
-                  <ion-label>
-                    <div class="text-small" color="omn-green">
-                      Asigurarea facultativă a locuințelor
-                    </div>
-                    <div class="h2-title mb-2">Garant AMPLUS</div>
-                    <div class="text-small">Strada Traian 45, Brasov</div>
-                  </ion-label>
-                  <ion-icon
-                    name="md-chevron-right"
-                    color="omn-green"
-                    slot="end"
-                  ></ion-icon>
-                </ion-item>
-                <ion-item>
-                  <ion-icon name="md-acasa-light" slot="start"></ion-icon>
-                  <ion-label>Nici o poliță activă</ion-label>
-                </ion-item>
-                <ion-item>
-                  <ion-label>Pac-Man</ion-label>
-                </ion-item>
+              <ion-list class="py-0 ion-text-center ion-text-wrap">
+                <ion-item-group class="asig-item" [routerLink]="'/home'">
+                  <ion-item detail="false">
+                    <ion-label class="mt-22 mb-4">
+                      <div class="text-small color-dark-green">
+                        Asigurarea facultativă a locuințelor
+                      </div></ion-label
+                    >
+                  </ion-item>
+
+                  <ion-item detail="false">
+                    <ion-icon
+                      name="md-acasa-light"
+                      slot="start"
+                      color="success"
+                      class="icon-20 icon-start"
+                    ></ion-icon>
+                    <ion-label>
+                      <div class="h2-title mb-2 alt-font text-weight-bold">
+                        Garant AMPLUS
+                      </div>
+                    </ion-label>
+                    <ion-icon
+                      name="md-plata-light"
+                      color="danger"
+                      slot="end"
+                      class="icon-20 icon-end pay"
+                    ></ion-icon>
+                  </ion-item>
+                  <ion-item detail="false">
+                    <ion-label>
+                      <div class="text-small">Strada Traian 45, Brasov</div>
+                    </ion-label>
+                  </ion-item>
+                </ion-item-group>
+                <ion-item-group class="asig-item">
+                  <ion-item detail="false">
+                    <ion-label class="mt-22 mb-4">
+                      <div class="text-small color-dark-green">
+                        Asigurarea facultativă a locuințelor
+                      </div></ion-label
+                    >
+                  </ion-item>
+                  <ion-item detail="false">
+                    <ion-icon
+                      name="md-acasa-light"
+                      slot="start"
+                      color="success"
+                      class="icon-20 icon-start"
+                    ></ion-icon>
+                    <ion-label>
+                      <div class="h2-title mb-2 alt-font text-weight-bold">
+                        PAD - Polița de asigurare obligatorie
+                      </div>
+                    </ion-label>
+                    <ion-icon
+                      name="md-chevron-right"
+                      color="success"
+                      slot="end"
+                      class="icon-16 icon-end chevron mr-2"
+                    ></ion-icon>
+                  </ion-item>
+                  <ion-item detail="false">
+                    <ion-label>
+                      <div class="text-small">Strada Traian 45, Brasov</div>
+                    </ion-label>
+                  </ion-item>
+                </ion-item-group>
+                <ion-item-group class="asig-item">
+                  <ion-item detail="false" class="no-items">
+                    <ion-icon
+                      name="md-no-policy-light"
+                      slot="start"
+                      class="icon-20 icon-start no-items"
+                      color="medium"
+                    ></ion-icon>
+                    <ion-label
+                      ><div class="h2-title alt-font text-weight-bold no-item">
+                        Nici o poliță activă
+                      </div></ion-label
+                    >
+                  </ion-item>
+                </ion-item-group>
               </ion-list>
               <div class="pt-8 pb-16 px-16">
                 <ion-button
                   color="danger"
                   fill="solid"
                   expand="block"
+                  size="large"
                   class="m-0 w-100"
                   ><h5>Cumpără asigurare</h5>
                 </ion-button>

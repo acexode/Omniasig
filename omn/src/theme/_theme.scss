@@ -2,6 +2,10 @@
 @import './mixins/mixins';
 @import './components/index';
 
+body.omn {
+  --color: var(--color);
+}
+
 .flex-1 {
   flex: 1;
 }

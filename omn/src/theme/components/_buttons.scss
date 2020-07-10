@@ -1,2 +1,30 @@
 @import '../variables.scss';
 @import '../mixins/mixins';
+
+.omn {
+  ion-button {
+    text-transform: none;
+    padding-inline-start: 0;
+    padding-inline-end: 0;
+    &.button-large {
+      --border-radius: 28px;
+      border-radius: rem(28);
+      height: rem(42);
+      border: 0;
+      box-shadow: $box-shadow-2;
+      --box-shadow: $box-shadow-2;
+      .button {
+        border: 0;
+        &:after {
+          display: none;
+        }
+      }
+    }
+    &.ion-color-danger, .ion-color-danger {
+      --background: var(--danger-gradient);
+      --ion-color-danger: var(--danger-gradient);
+      --ion-color-shade: var(--danger-gradient)!important;
+      --ion-color-tint: var(--danger-gradient)!important;
+    }
+  }
+}
