@@ -3,11 +3,11 @@ import { CommonModule } from "@angular/common";
 import { IonicModule } from "@ionic/angular";
 import { FormsModule } from "@angular/forms";
 import { TabMenuComponent } from "./components/tab-menu/tab-menu.component";
-import { SubPageComponent } from "./components/sub-page/sub-page.component";
+import { SubPageHeaderComponent } from "./components/sub-page-header/sub-page-header.component";
 
 @NgModule({
-  declarations: [TabMenuComponent, SubPageComponent],
+  declarations: [TabMenuComponent, SubPageHeaderComponent],
   imports: [CommonModule, FormsModule, IonicModule],
-  exports: [TabMenuComponent, SubPageComponent],
+  exports: [TabMenuComponent, SubPageHeaderComponent],
 })
 export class SharedModule {}
