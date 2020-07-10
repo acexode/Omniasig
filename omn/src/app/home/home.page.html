@@ -1,4 +1,4 @@
-<ion-header [translucent]="false">
+<!-- <ion-header [translucent]="false">
   <ion-toolbar size="small" color="omn-green">
     <ion-buttons slot="start" class="header">
       <ion-button (click)="openCustom()">
@@ -20,14 +20,46 @@
       </h2>
     </ion-title>
   </ion-toolbar>
-</ion-header>
+</ion-header> -->
+
 <ion-content>
-  <ion-grid class="p-32">
-    <ion-row class="ion-no-padding h-272 mt-n80 mx-n32 mt-n32" style="background-color: red;"
-      ></ion-row
+  <ion-header [translucent]="false" class="header-element">
+    <ion-toolbar
+      size="small"
+      color="omn-transparent-white"
+      class="header-toolbar"
     >
-    <ion-row class="mt-n128">
-      <ion-text color="omn-light">
+      <ion-buttons slot="start" class="header-buttons">
+        <ion-button (click)="openCustom()" class="header-button">
+          <ion-icon
+            slot="icon-only"
+            name="md-menu"
+            class="icon-20 header-button-icon"
+          ></ion-icon>
+        </ion-button>
+      </ion-buttons>
+      <ion-buttons slot="end" class="header-buttons">
+        <ion-button class="header-button">
+          <ion-icon
+            slot="icon-only"
+            name="md-notificare"
+            class="icon-20 header-button-icon"
+          ></ion-icon>
+        </ion-button>
+      </ion-buttons>
+      <ion-title class="ion-text-left header-title"
+        ><h2 *ngIf="account$ | async as account">
+          {{account?.firstName + ' '+ account?.lastName}}
+        </h2>
+      </ion-title>
+    </ion-toolbar>
+  </ion-header>
+  <ion-grid class="p-32">
+    <ion-row
+      class="ion-no-padding h-272 mt-n112 mx-n32 omn-background-green-gradient"
+    ></ion-row>
+    <ion-row class="mt-n128" color="omn-transparent-white">
+      <ion-text color="light">
         <h4 class="mb-8">Asigurari</h4>
       </ion-text>
     </ion-row>
@@ -84,17 +116,15 @@
                   <ion-label>Pac-Man</ion-label>
                 </ion-item>
               </ion-list>
-              <ion-item class="px-16 pt-8 pb-8">
-                <ion-label>
-                  <ion-button
-                    color="danger"
-                    fill="solid"
-                    expand="block"
-                    class="m-0 w-100"
-                    ><h5>Cumpără asigurare</h5>
-                  </ion-button>
-                </ion-label>
-              </ion-item>
+              <div class="pt-8 pb-16 px-16">
+                <ion-button
+                  color="danger"
+                  fill="solid"
+                  expand="block"
+                  class="m-0 w-100"
+                  ><h5>Cumpără asigurare</h5>
+                </ion-button>
+              </div>
             </ion-card>
           </ion-col>
         </ion-row>

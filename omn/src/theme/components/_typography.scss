@@ -4,6 +4,9 @@
 $font-size-base: 1rem;
 $font-family-base: var(--ion-font-family);
 
+.alt-font {
+  font-family: $alt-font;
+}
 .text-weight-medium {
   font-weight: 500;
 }

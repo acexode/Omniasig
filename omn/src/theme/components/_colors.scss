@@ -16,3 +16,17 @@
   --ion-color-shade: var(--ion-color-green-gradient-shade);
   --ion-color-tint: var(--ion-color-green-gradient-tint);
 }
+.ion-color-omn-transparent-white {
+  --ion-color-base: transparent;
+  --ion-color-base-rgb: transparent;
+  --ion-color-contrast: var(--ion-color-primary-contrast);
+  --ion-color-contrast-rgb: var(--ion-color-primary-contrast-rgb);
+  --ion-color-shade: transparent;
+  --ion-color-tint: transparent;
+}
+
+.omn-background-green-gradient {
+  --ion-color-base: transparent;
+  --ion-color-base-rgb: transparent;
+  background: $green-gradient;
+}

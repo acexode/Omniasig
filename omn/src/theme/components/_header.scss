@@ -1,5 +1,6 @@
 @import '../variables';
 @import '../mixins/mixins';
+
 @mixin full-reset-header {
   margin-inline-start: 0;
   margin-right: 0;
@@ -12,25 +13,33 @@
 }
 
 ion-header {
-  ion-toolbar {
+  &.header-element {
+    --border-width: 0;
+    &:after {
+      display: none;
+    }
+  }
+  ion-toolbar.header-toolbar {
+    &:last-of-type {
+      --border-width: 0;
+    }
+    --border-width: 0;
+    --ion-safe-area-top: 24px;
     margin-inline-start: 0;
     margin-right: 0;
     margin-left: 0;
     margin-inline-end: 0 !important;
     --padding-start: 16px !important;
     --padding-end: 16px !important;
-    --padding-top: 24px !important;
-    --padding-bottom: 0 !important;
+    --padding-top: 18px !important;
+    --padding-bottom: 6px !important;
     --min-height: 32px;
   }
-  ion-buttons.header {
+  ion-buttons.header-buttons {
     @include full-reset-header();
     min-height: rem(32);
 
-    ion-button,
-    ion-button.button-native,
-    ion-button.button-has-icon-only,
-    ion-button.button-last-slot {
+    ion-button.header-button {
       --border-radius: 0 !important;
       width: rem(20) !important;
       height: rem(20) !important;
@@ -45,7 +54,8 @@ ion-header {
       font-size: rem(16);
     }
   }
-  ion-title {
+  ion-title.header-title {
+    position: relative;
     &.md {
       padding-inline-start: rem(24);
       padding-inline-end: rem(24);
@@ -55,8 +65,8 @@ ion-header {
     --padding-start: 0;
     --padding-end: 0;
     --min-height: rem(32);
-    padding-inline-start: rem(60);
-    padding-inline-end: rem(60);
+    padding-inline-start: rem(24);
+    padding-inline-end: rem(24);
   }
   ion-icon {
     --border-radius: 0;
