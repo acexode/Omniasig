@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { ImageCard } from '../../models/component/image-card';
 
 @Component({
@@ -8,7 +8,16 @@ import { ImageCard } from '../../models/component/image-card';
 })
 export class ImageCardComponent implements OnInit {
   @Input() item: ImageCard;
+
+  @Output() itemEvent: EventEmitter<{
+    type: string;
+    data: any;
+  }> = new EventEmitter();
   constructor() {}
 
   ngOnInit() {}
+
+  emitItemEvent(eventName, item) {
+    this.itemEvent.emit({ type: eventName, data: item });
+  }
 }

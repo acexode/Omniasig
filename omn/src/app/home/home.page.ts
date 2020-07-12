@@ -148,7 +148,21 @@ export class HomePage {
       },
     },
   ];
-
+  addDaune = {
+    mainIcon: {
+      name: 'md-plus',
+      color: 'green-gradient',
+      classes: 'icon-32 mt-20 mb-8',
+    },
+    textContent: [
+      {
+        text: 'Deschide dosar',
+      },
+    ],
+    id: '0',
+    routerLink: '/home',
+    itemClass: 'mh-104 flex-0',
+  };
   daune?: Array<ImageCard> = [
     {
       mainIcon: {
@@ -167,22 +181,8 @@ export class HomePage {
       routerLink: '/home',
       itemClass: 'mh-104',
     },
-    {
-      mainIcon: {
-        name: 'md-plus',
-        color: 'green-gradient',
-        classes: 'icon-32 mt-20 mb-8',
-      },
-      textContent: [
-        {
-          text: 'Deschide dosar',
-        },
-      ],
-      id: '0',
-      routerLink: '/home',
-      itemClass: 'mh-104 flex-0',
-    },
-  ];
+  ].concat(this.addDaune);
+
   constructor(
     private menu: MenuController,
     private authS: AuthService,

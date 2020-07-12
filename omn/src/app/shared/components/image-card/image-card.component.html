@@ -1,4 +1,7 @@
-<ion-card class="m-0 w-100 flex-column flex mh-104">
+<ion-card
+  class="m-0 w-100 flex-column flex mh-104"
+  (click)="emitItemEvent('item-click', item)"
+>
   <ion-icon
     *ngIf="item?.headerIcon"
     [name]="item?.headerIcon?.name"
@@ -17,7 +20,7 @@
     *ngIf="item?.textContent?.length"
     class="flex mt-auto p-8 text-small text-weight-medium ion-align-items-end flex-1 ion-justify-content-center w-100 ion-text-center"
   >
-   <ion-col class="ion-no-padding w-100">
+    <ion-col class="ion-no-padding w-100">
       <ion-text
         class="w-100 ion-no-padding"
         *ngFor="let text of item?.textContent"
@@ -27,5 +30,5 @@
         {{ text?.text }}
       </ion-text>
     </ion-col>
-  </ion-card-content> 
+  </ion-card-content>
 </ion-card>
