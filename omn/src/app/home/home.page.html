@@ -58,14 +58,13 @@
     <ion-row
       class="ion-no-padding h-272 mt-n112 mx-n32 omn-background-green-gradient"
     ></ion-row>
-    <ion-row class="mt-n128" color="omn-transparent-white">
-      <ion-text color="light">
-        <h4 class="mb-8">Asigurari</h4>
-      </ion-text>
-    </ion-row>
-    <ion-row class="ion-no-padding mx-n8">
+    <ion-row class="ion-no-padding mx-n8 mt-n128">
       <ion-col class="ion-no-padding">
-        <ion-row class="ion-no-padding"></ion-row>
+        <ion-row class="ion-no-padding">
+          <ion-text color="omn-transparent-white">
+            <h4 class="mb-8 color-white">Oferte</h4>
+          </ion-text></ion-row
+        >
         <ion-row class="ion-no-padding">
           <ion-col class="ion-no-padding">
             <ion-card class="m-0 bottom-radius-40">
@@ -155,16 +154,227 @@
               </ion-list>
               <div class="pt-8 pb-16 px-16">
                 <ion-button
+                  color="success"
+                  fill="solid"
+                  expand="block"
+                  size="large"
+                  class="m-0 w-100"
+                  >Vezi ofertă
+                </ion-button>
+              </div>
+            </ion-card>
+          </ion-col>
+        </ion-row>
+      </ion-col>
+    </ion-row>
+    <ion-row class="ion-no-padding mx-n8 mt-32">
+      <ion-col class="ion-no-padding">
+        <ion-row class="ion-no-padding">
+          <ion-text color="omn-transparent-white">
+            <h4 class="mb-8 color-dark-green">Asigurari</h4>
+          </ion-text></ion-row
+        >
+        <ion-row class="ion-no-padding">
+          <ion-col class="ion-no-padding">
+            <ion-card class="m-0 bottom-radius-40">
+              <ion-list class="py-0 ion-text-center ion-text-wrap">
+                <ion-item-group class="asig-item" [routerLink]="'/home'">
+                  <ion-item detail="false">
+                    <ion-label class="mt-22 mb-4">
+                      <div
+                        class="text-small color-dark-green white-space-normal"
+                      >
+                        Oferta 123456
+                      </div></ion-label
+                    >
+                  </ion-item>
+
+                  <ion-item detail="false">
+                    <ion-icon
+                      name="md-acasa-light"
+                      slot="start"
+                      color="success"
+                      class="icon-20 icon-start"
+                    ></ion-icon>
+                    <ion-label>
+                      <div
+                        class="h2-title mb-2 alt-font text-weight-bold white-space-normal"
+                      >
+                        Garant AMPLUS
+                      </div>
+                    </ion-label>
+                    <ion-icon
+                      name="md-plata-light"
+                      color="danger"
+                      slot="end"
+                      class="icon-20 icon-end pay"
+                    ></ion-icon>
+                  </ion-item>
+                  <ion-item detail="false">
+                    <ion-label>
+                      <div class="text-small white-space-normal">
+                        Data expirarii: 31.05.2020
+                      </div>
+                    </ion-label>
+                  </ion-item>
+                </ion-item-group>
+                <ion-item-group class="asig-item">
+                  <ion-item detail="false">
+                    <ion-label class="mt-22 mb-4">
+                      <div
+                        class="text-small color-dark-green white-space-normal"
+                      >
+                        Asigurarea facultativă a locuințelor
+                      </div></ion-label
+                    >
+                  </ion-item>
+                  <ion-item detail="false">
+                    <ion-icon
+                      name="md-acasa-light"
+                      slot="start"
+                      color="success"
+                      class="icon-20 icon-start"
+                    ></ion-icon>
+                    <ion-label>
+                      <div
+                        class="h2-title mb-2 alt-font text-weight-bold white-space-normal"
+                      >
+                        PAD - Polița de asigurare obligatorie
+                      </div>
+                    </ion-label>
+                    <ion-icon
+                      name="md-chevron-right"
+                      color="success"
+                      slot="end"
+                      class="icon-16 icon-end chevron mr-2"
+                    ></ion-icon>
+                  </ion-item>
+                  <ion-item detail="false">
+                    <ion-label>
+                      <div class="text-small white-space-normal">
+                        Strada Traian 45, Brasov
+                      </div>
+                    </ion-label>
+                  </ion-item>
+                </ion-item-group>
+                <ion-item-group class="asig-item">
+                  <ion-item detail="false" class="no-items">
+                    <ion-icon
+                      name="md-no-policy-light"
+                      slot="start"
+                      class="icon-20 icon-start no-items"
+                      color="medium"
+                    ></ion-icon>
+                    <ion-label
+                      ><div class="h2-title alt-font text-weight-bold no-item">
+                        Nici o poliță activă
+                      </div></ion-label
+                    >
+                  </ion-item>
+                </ion-item-group>
+              </ion-list>
+              <div class="pt-8 pb-16 px-16">
+                <ion-button
                   color="danger"
                   fill="solid"
                   expand="block"
                   size="large"
                   class="m-0 w-100"
-                  ><h5>Cumpără asigurare</h5>
+                  >Cumpără asigurare
                 </ion-button>
               </div>
             </ion-card>
           </ion-col>
+        </ion-row>
+      </ion-col>
+    </ion-row>
+    <ion-row class="mt-32 mx-n8">
+      <ion-col class="ion-no-padding">
+        <!-- TODO: asdsad -->
+        <ion-row>
+          <ion-text color="omn-green">
+            <h4 class="mb-8">Daune</h4>
+          </ion-text>
+        </ion-row>
+
+        <ion-row>
+          <ion-card
+            class="w-100 no-shadow top-radius-0 bottom-radius-24 py-0 px-16 mt-16 mb-0 mx-0 overflow-visible"
+            color="omn-light-green"
+          >
+            <ion-row class="ion-no-padding">
+              <ion-col class="ion-no-padding mw-120">
+                <ion-card
+                  class="m-0 w-100 flex-column flex mt-n16 mb-16 mh-104"
+                >
+                  <ion-icon
+                    name="md-lock-light"
+                    color="omn-disabled-icon"
+                    class="icon-20 px-10 py-8 position-absolute right-0 top-0 bottom-left-radius-8"
+                  ></ion-icon>
+                  <ion-icon
+                    name="md-plus"
+                    color="omn-medium"
+                    class="icon-32 mt-20 mb-8 mx-auto flex ion-align-self-start"
+                  ></ion-icon>
+                  <ion-card-content
+                    class="flex p-8 text-small text-weight-medium ion-align-items-end flex-1 ion-justify-content-center w-100 ion-text-center"
+                  >
+                    Deschide dosar
+                  </ion-card-content>
+                </ion-card></ion-col
+              >
+              <ion-col class="ion-no-padding pl-16 pr-0 py-16">
+                <ion-card-content
+                  class="p-0 mb-6 ion-align-items-end flex-1 ion-text-left text-normal"
+                >
+                  Activează-ți contul ca să poți deschide un dosar de daună.
+                </ion-card-content>
+              </ion-col>
+            </ion-row>
+          </ion-card>
+        </ion-row>
+
+        <ion-row>
+          <ion-card
+            class="w-100 no-shadow top-radius-0 bottom-radius-24 py-0 px-16 mt-16 mb-0 mx-0 overflow-visible"
+            color="omn-light-green"
+          >
+            <ion-row class="ion-no-padding">
+              <ion-col class="ion-no-padding flex-0">
+                <ion-card
+                  class="m-0 w-100 flex-column flex flex-1 mt-n16 p-16 mb-8"
+                >
+                  <ion-icon
+                    name="md-user-light"
+                    color="green-gradient"
+                    class="icon-32"
+                  ></ion-icon>
+                </ion-card>
+                <ion-card
+                  class="m-0 w-100 flex-column flex p-16 flex-1 mb-16 mt-4"
+                >
+                  <ion-icon
+                    name="md-email-light"
+                    color="green-gradient"
+                    class="icon-32"
+                  ></ion-icon>
+                </ion-card>
+              </ion-col>
+              <ion-col class="ion-no-padding pl-16 pr-0 py-16">
+                <ion-card-header
+                  class="pt-0 px-0 h2 alt-font text-weight-bold pb-8"
+                  >Activează-ți contul</ion-card-header
+                >
+                <ion-card-content
+                  class="p-0 mb-2 ion-align-items-end flex-1 ion-text-left text-normal"
+                >
+                  Pentru a activa contul, validează-ți adresa de e-mail și
+                  verifică identitatea.
+                </ion-card-content>
+              </ion-col>
+            </ion-row>
+          </ion-card>
         </ion-row>
       </ion-col>
     </ion-row>
@@ -176,27 +386,28 @@
           </ion-text>
         </ion-row>
         <ion-row>
-          <ion-col class="ion-no-padding">
-            <ion-card class="ml-0 mr-8 my-0 h-100">
+          <ion-col class="ion-no-padding mw-120 ml-0 mr-8">
+            <ion-card class="m-0 h-100 flex-column flex w-100  mh-104">
               <ion-icon
                 name="md-dosar"
                 color="green-gradient"
-                class="icon-40 mt-16 mx-auto flex ion-align-self-start"
+                class="icon-40 mt-16 mb-8 mx-auto flex ion-align-self-start"
               ></ion-icon>
               <ion-card-header class="absolute-header"></ion-card-header>
               <ion-card-content
-                class="p-8 text-small text-weight-medium ion-align-items-end flex-1 ion-text-center"
+                class="flex p-8 text-small text-weight-medium ion-align-items-end flex-1 ion-justify-content-center w-100 ion-text-center"
               >
-                Dosar Nr. 123456
+                Dosar Nr. 123456 dsdad 
+                Dosar Nr. 123456 dsdad sdas
               </ion-card-content>
             </ion-card>
           </ion-col>
-          <ion-col class="ion-no-padding">
-            <ion-card class="mr-0 ml-8 my-0 h-100">
+          <ion-col class="ion-no-padding mw-120 mr-0 ml-8">
+            <ion-card class="m-0 flex-column flex w-100  mh-104">
               <ion-icon
                 name="md-plus"
                 color="green-gradient"
-                class="icon-40 mt-16 mx-auto flex ion-align-self-start"
+                class="icon-32 mt-20 mb-8 mx-auto flex ion-align-self-start"
               ></ion-icon>
               <ion-card-header class="absolute-header"></ion-card-header>
               <ion-card-content
@@ -218,7 +429,7 @@
         </ion-row>
         <ion-row>
           <ion-col class="ion-no-padding ml-0 mr-8">
-            <ion-card class="m-0 h-100 flex-column flex w-100">
+            <ion-card class="m-0 h-100 flex-column flex w-100  mh-104">
               <ion-icon
                 name="md-call-center"
                 color="green-gradient"
@@ -233,7 +444,7 @@
             </ion-card>
           </ion-col>
           <ion-col class="ion-no-padding mx-8">
-            <ion-card class="m-0 h-100 flex-column flex w-100">
+            <ion-card class="m-0 h-100 flex-column flex w-100  mh-104">
               <ion-icon
                 name="md-chat"
                 color="green-gradient"
@@ -248,7 +459,7 @@
             </ion-card>
           </ion-col>
           <ion-col class="ion-no-padding mr-0 ml-8">
-            <ion-card class="m-0 h-100 flex-column flex w-100">
+            <ion-card class="m-0 h-100 flex-column flex w-100  mh-104">
               <ion-icon
                 name="md-intrebari"
                 color="green-gradient"

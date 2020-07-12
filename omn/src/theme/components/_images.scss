@@ -1,9 +1,15 @@
 @import '../variables.scss';
+@import '../mixins/mixins';
+
 
 ion-icon {
   &.icon-40 {
-    height: 40px;
-    width: 40px;
+    height: rem(40);
+    width: rem(40);
+  }
+  &.icon-32 {
+    height: rem(32);
+    width: rem(32);
   }
   &.icon-20 {
     font-size: rem(20);

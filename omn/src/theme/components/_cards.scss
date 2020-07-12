@@ -1,11 +1,12 @@
-@import '../variables.scss';
+@import '../variables';
 @import '../mixins/mixins';
 
 ion-card {
-  --color: $black;
-  background-color: $white;
+  --color: var(--color);
+  --ion-item-background: var(--app-white-color);
   border-radius: rem(8);
   box-shadow: $box-shadow-1;
+  line-height: rem(22);
   &.no-shadow {
     box-shadow: none;
   }

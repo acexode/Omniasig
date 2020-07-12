@@ -1,0 +1,19 @@
+@import '../variables.scss';
+@import '../mixins/mixins';
+
+.top-radius-0 {
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
+.bottom-radius-40 {
+  border-bottom-left-radius: rem(40);
+  border-bottom-right-radius: rem(40);
+}
+.bottom-radius-24 {
+  border-bottom-left-radius: rem(24);
+  border-bottom-right-radius: rem(24);
+}
+
+.bottom-left-radius-8 {
+   border-bottom-left-radius: rem(8); 
+}

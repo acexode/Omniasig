@@ -7,24 +7,43 @@
     padding-inline-start: 0;
     padding-inline-end: 0;
     &.button-large {
-      --border-radius: 28px;
       border-radius: rem(28);
-      height: rem(42);
+      min-height: rem(48);
+      height: rem(48);
+      font-size: rem(18);
+      line-height: rem(24);
+      white-space: normal;
       border: 0;
       box-shadow: $box-shadow-2;
       --box-shadow: $box-shadow-2;
+      --border-radius: 28px;
       .button {
-        border: 0;
+        --padding-top: rem(12);
+        --padding-bottom: rem(12);
+        padding-top: rem(12);
+        min-height: rem(48);
+        padding-bottom: rem(12);
+        border-width: 0;
+        border: none;
         &:after {
           display: none;
         }
       }
     }
-    &.ion-color-danger, .ion-color-danger {
+    &.ion-color-danger,
+    .ion-color-danger {
       --background: var(--danger-gradient);
       --ion-color-danger: var(--danger-gradient);
-      --ion-color-shade: var(--danger-gradient)!important;
-      --ion-color-tint: var(--danger-gradient)!important;
+      --ion-color-shade: var(--danger-gradient) !important;
+      --ion-color-tint: var(--danger-gradient) !important;
+    }
+
+    &.ion-color-success,
+    .ion-color-success {
+      --background: var(--danger-gradient);
+      --ion-color-success: var(--success-gradient);
+      --ion-color-shade: var(--success-gradient) !important;
+      --ion-color-tint: var(--success-gradient) !important;
     }
   }
 }

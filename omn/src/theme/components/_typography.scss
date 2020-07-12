@@ -4,6 +4,8 @@
 $font-size-base: 1rem;
 $font-family-base: var(--ion-font-family);
 
+body.omn {
+}
 .alt-font {
   font-family: $alt-font;
 }
@@ -33,7 +35,8 @@ h5 {
   line-height: rem(24);
 }
 
-h2 {
+h2,
+.h2 {
   line-height: rem(32);
   font-size: rem(24);
 }
@@ -51,4 +54,12 @@ h2 {
 .s18-h24 {
   font-size: rem(18);
   line-height: rem(24);
+}
+.white-space-normal {
+  white-space: normal;
+}
+
+.text-normal {
+  font-size: rem(16);
+  line-height: rem(22);
 }

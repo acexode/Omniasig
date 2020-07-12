@@ -1,7 +1,6 @@
 @import '../variables.scss';
 @import './spacing';
 
-
 @function rem($pixels, $context: $baseFontSizePx) {
   @if (unitless($pixels)) {
     $pixels: $pixels * 1px;
@@ -13,7 +12,12 @@
 
   @return $pixels / $context * 1rem;
 }
-
+@mixin make-row($gutter: $grid-gutter-width) {
+  display: flex;
+  flex-wrap: wrap;
+  margin-right: -$gutter / 2;
+  margin-left: -$gutter / 2;
+}
 // For each breakpoint, define the maximum width of the container in a media query
 @mixin make-container-max-widths-important(
   $max-widths: $container-max-widths,
