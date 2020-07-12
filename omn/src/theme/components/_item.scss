@@ -17,7 +17,7 @@
         }
         &.no-items {
           --inner-padding-top: 44px;
-          --inner-padding-bottom: 29px;
+          --inner-padding-bottom: 28px;
         }
       }
 
@@ -38,13 +38,13 @@
           left: rem(26);
           top: rem(2);
           &.no-items {
-            top: rem(44);
+            top: rem(45);
+            left: rem(24);
           }
         }
         &.icon-end {
           right: rem(14);
           top: rem(2);
-          //   margin-top: rem(42);
         }
       }
     }
