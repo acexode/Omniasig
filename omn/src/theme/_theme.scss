@@ -50,5 +50,6 @@ body.omn {
 .omn-gradient-image {
   background-image: url('/assets/custom-ion-icons/md-omn-green-bg.svg');
   background-position: left top;
-  background-repeat: repeat-x;
+  background-repeat: no-repeat;
+  background-size: 100%;
 }

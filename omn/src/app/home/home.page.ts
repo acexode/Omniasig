@@ -190,7 +190,6 @@ export class HomePage implements OnInit {
   reqOffers(id: string | number) {
     this.policyS.getUserOffers(id).subscribe((offers) => {
       if (offers && offers.length > 0) {
-        console.log(offers);
         this.offers$.next(offers.map((o) => offerHomeItemHelper(o)));
         this.asigTitle.classes = 'color-dark-green';
         this.hasOffers = true;

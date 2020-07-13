@@ -3,17 +3,16 @@ import {
   ActivatedRoute,
   ActivatedRouteSnapshot,
   Router,
-  UrlTree
+  UrlTree,
 } from '@angular/router';
 import { BehaviorSubject } from 'rxjs';
 import {
   distinctUntilChanged,
   filter,
   map,
-
-
-  share, switchMap,
-  tap
+  share,
+  switchMap,
+  tap,
 } from 'rxjs/operators';
 import { authEndpoints } from '../../configs/endpoints';
 import { AccountStates } from '../../models/account-states';
@@ -32,7 +31,7 @@ export class AuthService {
     id: 1,
     firstName: 'Ion',
     lastName: 'Ionescu',
-    userStates: [],
+    userStates: [AccountStates.ACTIVE],
   };
   // TODO: DEMO - reset auth state to default one login is implemented.
   initialState: AuthState = {
@@ -127,6 +126,6 @@ export class AuthService {
   }
 
   accountActivated(acc: Account) {
-    return acc.userStates.findIndex((s) => AccountStates.ACTIVE) > -1;
+    return acc.userStates.findIndex((s) => s === AccountStates.ACTIVE) > -1;
   }
 }
