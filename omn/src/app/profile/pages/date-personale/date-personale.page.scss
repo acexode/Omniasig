@@ -1,0 +1,43 @@
+@import "../../../../assets/scss/mixins";
+
+ion-item {
+  // doesn't seem to work with rem
+  --padding-start: 32px;
+}
+
+ion-label p {
+  font-size: rem(14);
+}
+
+ion-text {
+  font-size: rem(18);
+  color: var(--app-text-color);
+}
+
+.active {
+  --color: var(--app-text-color);
+  --background: var(--app-active-color);
+}
+
+.inactive {
+  --background: var(--app-red-color);
+}
+
+.right-padding {
+  // doesn't seem to work with rem
+  --padding-end: 32px;
+}
+
+.activation-msg {
+  color: var(--app-green-color);
+  font-size: rem(20);
+}
+
+.activate-btn {
+  --background: var(--app-green-color);
+  margin: rem(16) rem(32) rem(32) rem(32);
+}
+
+.vertical-spacing {
+  margin-top: rem(120);
+}
