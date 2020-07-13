@@ -3,5 +3,7 @@ export interface IonTextItem {
   classes?: string;
   routerLink?: any;
   text: string;
+  prefix?: string;
+  suffix?: string;
   color?: string;
 }

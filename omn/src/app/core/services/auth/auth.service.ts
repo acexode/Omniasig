@@ -3,17 +3,20 @@ import {
   ActivatedRoute,
   ActivatedRouteSnapshot,
   Router,
-  UrlTree,
+  UrlTree
 } from '@angular/router';
 import { BehaviorSubject } from 'rxjs';
 import {
   distinctUntilChanged,
   filter,
   map,
-  switchMap,
-  tap,
+
+
+  share, switchMap,
+  tap
 } from 'rxjs/operators';
 import { authEndpoints } from '../../configs/endpoints';
+import { AccountStates } from '../../models/account-states';
 import { Account } from '../../models/account.interface';
 import { AuthState } from '../../models/auth-state.interface';
 import { LoginResponse } from '../../models/login-response.interface';
@@ -26,6 +29,7 @@ import { RequestService } from '../request/request.service';
 })
 export class AuthService {
   demoAccount: Account = {
+    id: 1,
     firstName: 'Ion',
     lastName: 'Ionescu',
     userStates: [],
@@ -62,13 +66,17 @@ export class AuthService {
 
   getAuthState() {
     return this.authState.pipe(
+      share(),
       filter((val: AuthState) => val && val.hasOwnProperty('init') && val.init),
       distinctUntilChanged()
     );
   }
 
   getAccountData() {
-    return this.getAuthState().pipe(map((val: AuthState) => val.account));
+    return this.getAuthState().pipe(
+      share(),
+      map((val: AuthState) => val.account)
+    );
   }
 
   login(loginData: {
@@ -116,5 +124,9 @@ export class AuthService {
     }
 
     return this.routerS.createUrlTree(['/']);
+  }
+
+  accountActivated(acc: Account) {
+    return acc.userStates.findIndex((s) => AccountStates.ACTIVE) > -1;
   }
 }

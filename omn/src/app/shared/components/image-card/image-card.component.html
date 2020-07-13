@@ -1,5 +1,6 @@
 <ion-card
-  class="m-0 w-100 flex-column flex mh-104"
+  class="m-0 w-100 flex-column flex"
+  [ngClass]="item?.itemClass"
   (click)="emitItemEvent('item-click', item)"
 >
   <ion-icon
@@ -14,7 +15,7 @@
     [name]="item?.mainIcon?.name"
     [color]="item?.mainIcon?.color"
     [ngClass]="item?.mainIcon?.classes"
-    class="icon-40 mt-16 mb-8 mx-auto flex ion-align-self-start"
+    class="icon-40 mb-0 mx-auto flex ion-align-self-start"
   ></ion-icon>
   <ion-card-content
     *ngIf="item?.textContent?.length"

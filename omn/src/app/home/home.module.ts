@@ -5,7 +5,7 @@ import { IonicModule } from '@ionic/angular';
 import { SharedModule } from '../shared/shared.module';
 import { HomePageRoutingModule } from './home-routing.module';
 import { HomePage } from './home.page';
-import { InsuranceListComponent } from './components/insurance-list/insurance-list.component';
+import { PolicySharedModule } from '../modules/policy/policy-shared.module';
 
 @NgModule({
   imports: [
@@ -15,7 +15,9 @@ import { InsuranceListComponent } from './components/insurance-list/insurance-li
     IonicModule,
     HomePageRoutingModule,
     SharedModule,
+    PolicySharedModule
   ],
-  declarations: [HomePage, InsuranceListComponent],
+  declarations: [HomePage],
 })
+
 export class HomePageModule {}

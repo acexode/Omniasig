@@ -8,6 +8,13 @@ const routes: Routes = [
       import('./home/home.module').then((m) => m.HomePageModule),
   },
   {
+    path: 'policy',
+    loadChildren: () =>
+      import('./modules/policy/policy.module').then(
+        (m) => m.PolicyModule
+      ),
+  },
+  {
     path: '',
     redirectTo: 'home',
     pathMatch: 'full',

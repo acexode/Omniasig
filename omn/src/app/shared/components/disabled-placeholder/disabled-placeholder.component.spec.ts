@@ -1,19 +1,19 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 
-import { InsuranceListComponent } from './insurance-list.component';
+import { DisabledPlaceholderComponent } from './disabled-placeholder.component';
 
-describe('InsuranceListComponent', () => {
-  let component: InsuranceListComponent;
-  let fixture: ComponentFixture<InsuranceListComponent>;
+describe('DisabledPlaceholderComponent', () => {
+  let component: DisabledPlaceholderComponent;
+  let fixture: ComponentFixture<DisabledPlaceholderComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ InsuranceListComponent ],
+      declarations: [ DisabledPlaceholderComponent ],
       imports: [IonicModule.forRoot()]
     }).compileComponents();
 
-    fixture = TestBed.createComponent(InsuranceListComponent);
+    fixture = TestBed.createComponent(DisabledPlaceholderComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   }));

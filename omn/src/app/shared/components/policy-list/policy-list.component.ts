@@ -6,19 +6,19 @@ import {
   Output,
   EventEmitter,
 } from '@angular/core';
-import { InsuranceListItem } from 'src/app/shared/models/component/insurance-list-item';
+import { PolicyListItem } from 'src/app/shared/models/component/policy-list-item';
 import { IonTextItem } from 'src/app/shared/models/component/ion-text-item';
 
 @Component({
-  selector: 'app-insurance-list',
-  templateUrl: './insurance-list.component.html',
-  styleUrls: ['./insurance-list.component.scss'],
+  selector: 'app-policy-list',
+  templateUrl: './policy-list.component.html',
+  styleUrls: ['./policy-list.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class InsuranceListComponent implements OnInit {
+export class PolicyListComponent implements OnInit {
   @Input() title?: IonTextItem;
-  @Input() list: Array<InsuranceListItem>;
-  @Input() emptyItem: InsuranceListItem;
+  @Input() list: Array<PolicyListItem>;
+  @Input() emptyItem: PolicyListItem;
 
   @Output() itemEvent: EventEmitter<{
     type: string;

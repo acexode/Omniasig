@@ -32,17 +32,21 @@
   </ion-header>
   <ion-grid class="p-32">
     <ion-row
-      class="ion-no-padding h-272 mt-n112 mx-n32 omn-background-green-gradient"
+      class="ion-no-padding h-272 mt-n112 mx-n32 omn-background-green-gradient omn-gradient-image"
     ></ion-row>
-    <ion-row class="ion-no-padding mx-n8 mt-n128">
-      <app-insurance-list
+    <ion-row
+      class="ion-no-padding mx-n8 mt-n128"
+      *ngIf="(offers$|async)?.length"
+    >
+      <app-policy-list
         [title]="oferteTitle"
         class="flex w-100"
-        [list]="list"
+        [list]="offers$|async"
         [emptyItem]="emptyItem"
       >
         <div class="pt-8 pb-16 px-16 list-button">
           <ion-button
+            routerLink="/policy"
             color="success"
             fill="solid"
             expand="block"
@@ -51,17 +55,24 @@
             >Vezi ofertă
           </ion-button>
         </div>
-      </app-insurance-list>
+      </app-policy-list>
     </ion-row>
-    <ion-row class="ion-no-padding mx-n8 mt-32">
-      <app-insurance-list
+    <ion-row
+      class="ion-no-padding mx-n8"
+      [ngClass]="{
+        ' mt-32': hasOffers,
+        'mt-n128': !hasOffers
+      }"
+    >
+      <app-policy-list
         [title]="asigTitle"
         class="flex w-100"
-        [list]="list2"
+        [list]="policies$|async"
         [emptyItem]="emptyItem"
       >
         <div class="pt-8 pb-16 px-16">
           <ion-button
+            routerLink="/policy"
             color="danger"
             fill="solid"
             expand="block"
@@ -70,106 +81,21 @@
             >Cumpără asigurare
           </ion-button>
         </div>
-      </app-insurance-list>
+      </app-policy-list>
     </ion-row>
-    <ion-row class="mt-32 mx-n8">
-      <ion-col class="ion-no-padding">
-        <!-- TODO: asdsad -->
-        <ion-row>
-          <ion-text color="omn-green">
-            <h4 class="mb-8">Daune</h4>
-          </ion-text>
-        </ion-row>
-
-        <ion-row>
-          <ion-card
-            class="w-100 no-shadow top-radius-0 bottom-radius-24 py-0 px-16 mt-16 mb-0 mx-0 overflow-visible"
-            color="omn-light-green"
-          >
-            <ion-row class="ion-no-padding">
-              <ion-col class="ion-no-padding mw-120">
-                <ion-card
-                  class="m-0 w-100 flex-column flex mt-n16 mb-16 mh-104"
-                >
-                  <ion-icon
-                    name="md-lock-light"
-                    color="omn-disabled-icon"
-                    class="icon-20 px-10 py-8 position-absolute right-0 top-0 bottom-left-radius-8"
-                  ></ion-icon>
-                  <ion-icon
-                    name="md-plus"
-                    color="omn-medium"
-                    class="icon-32 mt-20 mb-8 mx-auto flex ion-align-self-start"
-                  ></ion-icon>
-                  <ion-card-content
-                    class="flex p-8 text-small text-weight-medium ion-align-items-end flex-1 ion-justify-content-center w-100 ion-text-center"
-                  >
-                    Deschide dosar
-                  </ion-card-content>
-                </ion-card>
-              </ion-col>
-              <ion-col class="ion-no-padding pl-16 pr-0 py-16">
-                <ion-card-content
-                  class="p-0 mb-6 ion-align-items-end flex-1 ion-text-left text-normal"
-                >
-                  Activează-ți contul ca să poți deschide un dosar de daună.
-                </ion-card-content>
-              </ion-col>
-            </ion-row>
-          </ion-card>
-        </ion-row>
-
-        <ion-row>
-          <ion-card
-            class="w-100 no-shadow top-radius-0 bottom-radius-24 py-0 px-16 mt-16 mb-0 mx-0 overflow-visible"
-            color="omn-light-green"
-          >
-            <ion-row class="ion-no-padding">
-              <ion-col class="ion-no-padding flex-0">
-                <ion-card
-                  class="m-0 w-100 flex-column flex flex-1 mt-n16 p-16 mb-8"
-                >
-                  <ion-icon
-                    name="md-user-light"
-                    color="green-gradient"
-                    class="icon-32"
-                  ></ion-icon>
-                </ion-card>
-                <ion-card
-                  class="m-0 w-100 flex-column flex p-16 flex-1 mb-16 mt-4"
-                >
-                  <ion-icon
-                    name="md-email-light"
-                    color="green-gradient"
-                    class="icon-32"
-                  ></ion-icon>
-                </ion-card>
-              </ion-col>
-              <ion-col class="ion-no-padding pl-16 pr-0 py-16">
-                <ion-card-header
-                  class="pt-0 px-0 h2 alt-font text-weight-bold pb-8"
-                  >Activează-ți contul</ion-card-header
-                >
-                <ion-card-content
-                  class="p-0 mb-2 ion-align-items-end flex-1 ion-text-left text-normal"
-                >
-                  Pentru a activa contul, validează-ți adresa de e-mail și
-                  verifică identitatea.
-                </ion-card-content>
-              </ion-col>
-            </ion-row>
-          </ion-card>
-        </ion-row>
-      </ion-col>
-    </ion-row>
-    <ion-row class="mt-32">
+    <ion-row class="mt-32 mx-n8" *ngIf="release2">
       <ion-col class="ion-no-padding">
         <ion-row>
           <ion-text color="omn-green">
             <h4 class="mb-8">Daune</h4>
           </ion-text>
         </ion-row>
-        <ion-row class="ion-wrap">
+        <ion-row *ngIf="!accountActivated">
+          <app-disabled-placeholder
+            [item]="dauneDisabled"
+          ></app-disabled-placeholder>
+        </ion-row>
+        <ion-row class="ion-wrap" *ngIf="daune?.length && accountActivated">
           <ng-container
             *ngFor="let cardI of daune; let first=first; let i=index"
           >
@@ -187,6 +113,11 @@
         </ion-row>
       </ion-col>
     </ion-row>
+    <ion-row class="mt-32 mx-n8" *ngIf="!accountActivated">
+      <app-disabled-placeholder
+        [item]="accountNotActivated"
+      ></app-disabled-placeholder>
+    </ion-row>
     <ion-row class="mt-32">
       <ion-col class="ion-no-padding">
         <ion-row>
@@ -196,49 +127,22 @@
         </ion-row>
         <ion-row>
           <ion-col class="ion-no-padding ml-0 mr-8">
-            <ion-card class="m-0 h-100 flex-column flex w-100 mh-104">
-              <ion-icon
-                name="md-call-center"
-                color="green-gradient"
-                class="icon-40 mt-16 mx-auto flex ion-align-self-start"
-              ></ion-icon>
-              <ion-card-header class="absolute-header"></ion-card-header>
-              <ion-card-content
-                class="flex p-8 text-small text-weight-medium ion-align-items-end flex-1 ion-justify-content-center w-100 ion-text-center"
-              >
-                Call Center
-              </ion-card-content>
-            </ion-card>
+            <app-image-card
+              [item]="helpItems[0]"
+              class="flex w-100"
+            ></app-image-card>
           </ion-col>
           <ion-col class="ion-no-padding mx-8">
-            <ion-card class="m-0 h-100 flex-column flex w-100 mh-104">
-              <ion-icon
-                name="md-chat"
-                color="green-gradient"
-                class="icon-40 mt-16 mx-auto flex ion-align-self-start"
-              ></ion-icon>
-              <ion-card-header class="absolute-header"></ion-card-header>
-              <ion-card-content
-                class="flex p-8 text-small text-weight-medium ion-align-items-end flex-1 ion-justify-content-center w-100 ion-text-center"
-              >
-                Chat
-              </ion-card-content>
-            </ion-card>
+            <app-image-card
+              [item]="helpItems[1]"
+              class="flex w-100"
+            ></app-image-card>
           </ion-col>
           <ion-col class="ion-no-padding mr-0 ml-8">
-            <ion-card class="m-0 h-100 flex-column flex w-100 mh-104">
-              <ion-icon
-                name="md-intrebari"
-                color="green-gradient"
-                class="icon-40 mt-16 mx-auto flex ion-align-self-start"
-              ></ion-icon>
-              <ion-card-header class="absolute-header"></ion-card-header>
-              <ion-card-content
-                class="flex p-8 text-small text-weight-medium ion-align-items-end flex-1 ion-justify-content-center w-100 ion-text-center"
-              >
-                Întrebări frecvente
-              </ion-card-content>
-            </ion-card>
+            <app-image-card
+              [item]="helpItems[2]"
+              class="flex w-100"
+            ></app-image-card>
           </ion-col>
         </ion-row>
       </ion-col>
