@@ -10,7 +10,7 @@ export class ProfilPage implements OnInit {
   cards: Array<ImageCard> = [
     {
       mainIcon: {
-        name: 'md-user-light',
+        name: 'md-user-light-ling',
         color: 'green-gradient',
         classes: 'icon-40 mt-16 mb-8',
       },
@@ -25,7 +25,7 @@ export class ProfilPage implements OnInit {
     },
     {
       mainIcon: {
-        name: 'md-pin',
+        name: 'md-pin-ling',
         color: 'green-gradient',
         classes: 'icon-40 mt-16 mb-8',
       },
@@ -39,7 +39,7 @@ export class ProfilPage implements OnInit {
     },
     {
       mainIcon: {
-        name: 'md-car',
+        name: 'md-car-ling',
         color: 'green-gradient',
         classes: 'icon-40 mt-16 mb-8',
       },
@@ -53,7 +53,7 @@ export class ProfilPage implements OnInit {
     },
     {
       mainIcon: {
-        name: 'md-grup',
+        name: 'md-grup-ling',
         color: 'green-gradient',
         classes: 'icon-40 mt-16 mb-8',
       },
@@ -67,7 +67,7 @@ export class ProfilPage implements OnInit {
     },
     {
       mainIcon: {
-        name: 'md-file',
+        name: 'md-file-ling',
         color: 'green-gradient',
         classes: 'icon-40 mt-16 mb-8',
       },
@@ -81,7 +81,7 @@ export class ProfilPage implements OnInit {
     },
     {
       mainIcon: {
-        name: 'md-email-light',
+        name: 'md-email-light-ling',
         color: 'green-gradient',
         classes: 'icon-40 mt-16 mb-8',
       },
