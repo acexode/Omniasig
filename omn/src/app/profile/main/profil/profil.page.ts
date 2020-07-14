@@ -22,7 +22,7 @@ export class ProfilPage implements OnInit {
       ],
       id: 'account',
       itemClass: 'mh-104 shadow-page-item',
-      isButton: false,
+      isButton: true,
       routerLink: ['date-personale'],
     },
     {

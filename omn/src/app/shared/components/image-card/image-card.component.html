@@ -1,10 +1,37 @@
 <ion-card
+  *ngIf="!item?.routerLink"
+  [button]="item?.isButton"
+  class="m-0 w-100 flex-column flex is-link"
+  [ngClass]="item?.itemClass + ' ' + (item?.isButton ? 'is-button' : ' ')"
+  (click)="emitItemEvent('item-click', item)"
+>
+  <ng-container
+    [ngTemplateOutlet]="innerCardContent"
+    [ngTemplateOutletContext]="{ item: item }"
+    templa
+  ></ng-container>
+</ion-card>
+<ion-card
+  *ngIf="item?.routerLink"
   [button]="item?.isButton"
   [routerLink]="item?.routerLink"
   class="m-0 w-100 flex-column flex"
-  [ngClass]="item?.itemClass"
+  [ngClass]="
+    item?.itemClass +
+    ' ' +
+    (item?.isButton ? 'is-button' : ' ') +
+    ' ' +
+    (item?.routerLink ? 'is-link' : '')
+  "
   (click)="emitItemEvent('item-click', item)"
 >
+  <ng-container
+    [ngTemplateOutlet]="innerCardContent"
+    [ngTemplateOutletContext]="{ item: item }"
+    templa
+  ></ng-container>
+</ion-card>
+<ng-template #innerCardContent let-item="item">
   <ion-icon
     *ngIf="item?.headerIcon"
     [name]="item?.headerIcon?.name"
@@ -34,4 +61,4 @@
       </ion-text>
     </ion-col>
   </ion-card-content>
-</ion-card>
+</ng-template>
