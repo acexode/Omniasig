@@ -203,6 +203,5 @@ export class HomePage implements OnInit {
   openCustom() {
     this.menu.enable(true, 'omn-menu');
     this.menu.open('omn-menu');
-    console.log(this.menu);
   }
 }

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { MenuController } from '@ionic/angular';
 import { ImageCard } from 'src/app/shared/models/component/image-card';
 
 @Component({
@@ -21,7 +22,8 @@ export class ProfilPage implements OnInit {
       ],
       id: 'account',
       itemClass: 'mh-104 shadow-page-item',
-      isButton: true,
+      isButton: false,
+      routerLink: ['date-personale'],
     },
     {
       mainIcon: {
@@ -94,7 +96,12 @@ export class ProfilPage implements OnInit {
       itemClass: 'mh-104 shadow-page-item',
     },
   ];
-  constructor() {}
+  constructor(private menu: MenuController) {}
 
   ngOnInit() {}
+
+  openCustom() {
+    this.menu.enable(true, 'omn-menu');
+    this.menu.open('omn-menu');
+  }
 }
