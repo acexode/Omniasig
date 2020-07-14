@@ -1,4 +1,5 @@
 <ion-card
+  [button]="item?.isButton"
   class="m-0 w-100 flex-column flex"
   [ngClass]="item?.itemClass"
   (click)="emitItemEvent('item-click', item)"

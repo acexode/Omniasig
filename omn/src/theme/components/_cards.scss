@@ -10,4 +10,7 @@ ion-card {
   &.no-shadow {
     box-shadow: none;
   }
+  &.shadow-page-item {
+    box-shadow: $box-shadow-3;
+  }
 }

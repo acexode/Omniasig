@@ -1,0 +1,25 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>profil</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-button href="profile/date-personale">Date Personale</ion-button>
+  <ion-grid class="mx-32">
+    <ion-row class="ion-wrap" *ngIf="cards?.length">
+      <ng-container *ngFor="let cardI of cards; let first=first; let i=index">
+        <ion-col
+          class="ion-no-padding m-0 mb-24"
+          size="6"
+          [ngClass]="{
+                'pl-8': i%2,
+                'pr-8': !(i%2)
+            }"
+        >
+          <app-image-card [item]="cardI" class="flex w-100"></app-image-card
+        ></ion-col>
+      </ng-container>
+    </ion-row>
+  </ion-grid>
+</ion-content>
