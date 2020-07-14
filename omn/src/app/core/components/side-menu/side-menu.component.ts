@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import {AuthService } from '../../services/auth/auth.service';
+import { Account  } from '../../models/account.interface';
 
 @Component({
   selector: 'app-side-menu',
@@ -7,8 +9,11 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SideMenuComponent implements OnInit {
   subMenuHidden = true;
+  demoAccount: Account;
 
-  constructor() { }
+  constructor(private authService: AuthService) {
+    this.demoAccount = authService.demoAccount;
+  }
 
   ngOnInit() {}
 

@@ -1,63 +1,67 @@
-    <ion-header class="omn-app-menu__header ion-no-border">
-      <ion-item lines="none">
-        <ion-label>
-          Ion Ionesu
-        </ion-label>
-      </ion-item>
-    </ion-header>
-    <ion-content class="omn-app-menu__content">
-      <ion-list class="omn-app-menu__content-list">
-        <ion-item lines="none">
-          <ion-icon name="acasa"></ion-icon>
-          <ion-label>Acasă</ion-label>
+<ion-header class="omn-app-menu__header ion-no-border">
+  <ion-item lines="none">
+    <ion-label>
+      {{ demoAccount.firstName + ' ' + demoAccount.lastName }}
+    </ion-label>
+  </ion-item>
+
+</ion-header>
+<ion-content class="omn-app-menu__content">
+  <ion-list class="omn-app-menu__content-list">
+    <ion-item lines="none">
+      <ion-icon name="acasa"></ion-icon>
+      <ion-label>Acasă</ion-label>
+    </ion-item>
+    <ion-item lines="none">
+      <ion-icon name="polita"></ion-icon>
+      <ion-label>Asigurări</ion-label>
+    </ion-item>
+    <ion-item lines="none">
+      <ion-icon name="dosar"></ion-icon>
+      <ion-label>Daune</ion-label>
+    </ion-item>
+    <ion-item
+      lines="{{ subMenuHidden === true ? 'full' : 'none' }}" (click)="toggleSubMenu()"
+      [class.toggle-option]="!subMenuHidden"
+    >
+      <ion-icon name="omniasig"></ion-icon>
+      <ion-label>OMNIASIG</ion-label>
+      <ion-icon 
+        name="chevron-down"
+        [class.toggle-option-arrow-icon]="!subMenuHidden"
+      ></ion-icon>
+    </ion-item>
+    <ion-menu-toggle [hidden]="subMenuHidden">
+      <ion-list lines="none">
+        <ion-item>
+          <ion-icon></ion-icon>
+          <ion-label>Despre noi</ion-label>
         </ion-item>
-        <ion-item lines="none">
-          <ion-icon name="polita"></ion-icon>
-          <ion-label>Asigurări</ion-label>
-        </ion-item>
-        <ion-item lines="none">
-          <ion-icon name="dosar"></ion-icon>
-          <ion-label>Daune</ion-label>
+        <ion-item>
+          <ion-icon></ion-icon>
+          <ion-label>Rețeaua noastră</ion-label>
         </ion-item>
         <ion-item
-          lines="{{ subMenuHidden === true ? 'full' : 'none' }}" (click)="toggleSubMenu()"
-          [class.toggle-option]="!subMenuHidden"
+          lines="{{ !subMenuHidden ? 'full' : 'none' }}"
         >
-          <ion-icon name="omniasig"></ion-icon>
-          <ion-label>OMNIASIG</ion-label>
-          <ion-icon 
-            name="chevron-down"
-            [class.toggle-option-arrow-icon]="!subMenuHidden"
-          ></ion-icon>
-        </ion-item>
-        <ion-menu-toggle [hidden]="subMenuHidden">
-          <ion-list lines="none">
-            <ion-item>
-              <ion-label>Despre noi</ion-label>
-            </ion-item>
-            <ion-item>
-              <ion-label>Rețeaua noastră</ion-label>
-            </ion-item>
-            <ion-item
-              lines="{{ !subMenuHidden ? 'full' : 'none' }}"
-            >
-              <ion-label>Contact</ion-label>
-            </ion-item>
-          </ion-list>
-        </ion-menu-toggle>
-        <ion-item lines="none">
-          <ion-icon name="setari"></ion-icon>
-          <ion-label>Setări</ion-label>
-        </ion-item>
-        <ion-item lines="none">
-          <ion-icon name="asistenta"></ion-icon>
-          <ion-label>Asistență</ion-label>
+          <ion-icon></ion-icon>
+          <ion-label>Contact</ion-label>
         </ion-item>
       </ion-list>
-    </ion-content>
-    <ion-footer class="omn-app-menu__footer ion-no-border">
-     <ion-item>
-      <ion-icon name="iesire"></ion-icon>
-      <ion-label>Ieșire</ion-label>
-     </ion-item>
-    </ion-footer>
+    </ion-menu-toggle>
+    <ion-item lines="none">
+      <ion-icon name="setari"></ion-icon>
+      <ion-label>Setări</ion-label>
+    </ion-item>
+    <ion-item lines="none">
+      <ion-icon name="asistenta"></ion-icon>
+      <ion-label>Asistență</ion-label>
+    </ion-item>
+  </ion-list>
+</ion-content>
+<ion-footer class="omn-app-menu__footer ion-no-border">
+  <ion-item>
+  <ion-icon name="iesire"></ion-icon>
+  <ion-label>Ieșire</ion-label>
+  </ion-item>
+</ion-footer>
