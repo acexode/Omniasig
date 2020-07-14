@@ -9,9 +9,14 @@ ion-label p {
   font-size: rem(14);
 }
 
-ion-input {
+ion-input,
+ion-textarea {
   font-size: rem(18);
   color: var(--app-text-color);
+}
+
+.md input {
+  padding-left: 0px;
 }
 
 .active {

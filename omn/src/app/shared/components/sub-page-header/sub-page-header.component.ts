@@ -8,7 +8,7 @@ import { Location } from "@angular/common";
 })
 export class SubPageHeaderComponent implements OnInit {
   @Input() pageTitle;
-  @Input() leadingIcon = "arrow-back-outline";
+  @Input() backButton: boolean = true;
   @Input() trailingIcon = "add-outline";
 
   constructor(private _location: Location) {}
