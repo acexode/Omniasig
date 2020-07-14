@@ -10,6 +10,8 @@ import { StatusBar } from '@ionic-native/status-bar/ngx';
   styleUrls: ['app.component.scss']
 })
 export class AppComponent {
+  subMenuHidden = true;
+
   constructor(
     private platform: Platform,
     private splashScreen: SplashScreen,
@@ -23,5 +25,9 @@ export class AppComponent {
       this.statusBar.styleDefault();
       this.splashScreen.hide();
     });
+  }
+
+  public toggleSubMenu() {
+    this.subMenuHidden = !this.subMenuHidden;
   }
 }

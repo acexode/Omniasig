@@ -1,0 +1,36 @@
+@import "../assets/scss/mixins.scss";
+
+.omn-app-menu {
+  &__header {
+    font-size: rem(24);
+    margin: rem(25) 0;
+  }
+
+  &__content {
+    font-size: rem(18);
+  }
+
+  &__footer {
+    font-size: rem(18);
+  }
+
+  ion-item > ion-icon {
+    height: 15px;
+    width: 15px;
+    --color: var(--app-green-color);
+    margin-right: rem(20);
+  }
+
+  ion-menu-toggle > ion-list {
+    margin-left: rem(35);
+  }
+
+  .toggle-option {
+    --background: var(--app-light-green-color);
+    --border-radius: 100px 0 0 100px;
+  }
+
+  .toggle-option-arrow-icon {
+    transform: rotateX(180deg);
+  }
+}

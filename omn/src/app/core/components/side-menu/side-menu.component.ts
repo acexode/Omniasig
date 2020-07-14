@@ -6,9 +6,14 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./side-menu.component.scss'],
 })
 export class SideMenuComponent implements OnInit {
+  subMenuHidden = true;
 
   constructor() { }
 
   ngOnInit() {}
+
+  public toggleSubMenu() {
+    this.subMenuHidden = !this.subMenuHidden;
+  }
 
 }

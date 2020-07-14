@@ -8,6 +8,7 @@ import { SideMenuComponent } from './components/side-menu/side-menu.component';
 import { IonicStorageModule } from '@ionic/storage';
 import { CustomStorageService } from './services/custom-storage/custom-storage.service';
 import { AuthService } from './services/auth/auth.service';
+import { MenuService } from './services/menu/menu.service';
 
 @NgModule({
   declarations: [SideMenuComponent],
@@ -25,6 +26,7 @@ import { AuthService } from './services/auth/auth.service';
     ConfigService,
     AuthService,
     CustomStorageService,
+    MenuService,
   ],
   exports: [SideMenuComponent],
 })

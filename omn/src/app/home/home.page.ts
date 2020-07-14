@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { MenuController } from '@ionic/angular';
+import { MenuService } from '../core/services/menu/menu.service';
 
 @Component({
   selector: 'app-home',
@@ -7,11 +7,11 @@ import { MenuController } from '@ionic/angular';
   styleUrls: ['home.page.scss'],
 })
 export class HomePage {
-  constructor(private menu: MenuController) {}
+  constructor(
+    private menuService: MenuService
+  ) {}
 
   openCustom() {
-    this.menu.enable(true, 'omn-menu');
-    this.menu.open('omn-menu');
-    console.log(this.menu);
+    this.menuService.openMenu();
   }
 }
