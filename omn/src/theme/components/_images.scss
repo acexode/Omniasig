@@ -1,0 +1,38 @@
+@import '../variables.scss';
+@import '../mixins/mixins';
+
+ion-icon {
+  &.icon-40 {
+    height: rem(40);
+    width: rem(40);
+  }
+  &.icon-32 {
+    height: rem(32);
+    width: rem(32);
+  }
+  &.icon-20 {
+    font-size: rem(20);
+    height: rem(20);
+    max-width: rem(20);
+    line-height: rem(20);
+  }
+  &.icon-22 {
+    font-size: rem(22);
+    height: rem(22);
+    max-width: rem(22);
+    line-height: rem(22);
+  }
+  &.icon-16 {
+    font-size: rem(16);
+    height: rem(16);
+    max-width: rem(20);
+  }
+  &.green-gradient {
+    #color1 {
+      stop-color: $green;
+    }
+    #color2 {
+      stop-color: $dark-green;
+    }
+  }
+}

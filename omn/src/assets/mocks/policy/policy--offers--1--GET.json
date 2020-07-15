@@ -1,0 +1,13 @@
+[
+    {
+        "id": "1",
+        "policy": {
+            "id": 2,
+            "name": "Garant AMPLUS",
+            "typeId": "AMPLUS",
+            "state": 1,
+            "listingSubtitle": "Strada Traian 45, Brasov"
+        },
+        "expiry": "20.07.2020"
+    }
+]

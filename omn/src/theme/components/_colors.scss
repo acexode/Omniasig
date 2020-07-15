@@ -1,0 +1,71 @@
+@import '../variables.scss';
+
+.ion-color-green-gradient {
+  --ion-color-base: var(--ion-color-green-gradient);
+  --ion-color-base-rgb: var(--ion-color-green-gradient-rgb);
+  --ion-color-contrast: var(--ion-color-green-gradient-contrast);
+  --ion-color-contrast-rgb: var(--ion-color-green-gradient-contrast-rgb);
+  --ion-color-shade: var(--ion-color-green-gradient-shade);
+  --ion-color-tint: var(--ion-color-green-gradient-tint);
+}
+.ion-color-omn-green {
+  --ion-color-base: var(--app-green-color);
+  --ion-color-base-rgb: rgba(var(--app-green-color), 1);
+  --ion-color-contrast: var(--ion-color-green-gradient-contrast);
+  --ion-color-contrast-rgb: var(--ion-color-green-gradient-contrast-rgb);
+  --ion-color-shade: var(--ion-color-green-gradient-shade);
+  --ion-color-tint: var(--ion-color-green-gradient-tint);
+}
+.ion-color-omn-transparent-white {
+  --ion-color-base: transparent;
+  --ion-color-base-rgb: transparent;
+  --ion-color-contrast: var(--ion-color-primary-contrast);
+  --ion-color-contrast-rgb: var(--ion-color-primary-contrast-rgb);
+  --ion-color-shade: transparent;
+  --ion-color-tint: transparent;
+}
+
+.omn-background-green-gradient {
+  --ion-color-base: transparent;
+  --ion-color-base-rgb: transparent;
+  background: $green-gradient;
+}
+
+.ion-color-omn-light-green {
+  --ion-color-base: var(--ion-color-omn-light-green);
+  --ion-color-base-rgb: var(--ion-color-omn-light-green-rgb);
+  --ion-color-contrast: var(--ion-color-omn-light-green-contrast);
+  --ion-color-contrast-rgb: var(--ion-color-omn-light-green-contrast-rgb);
+  --ion-color-shade: var(--ion-color-omn-light-green-shade);
+  --ion-color-tint: var(--ion-color-omn-light-green-tint);
+}
+
+.ion-color-omn-medium {
+  --ion-color-base: var(--ion-color-omn-medium);
+  --ion-color-base-rgb: var(--ion-color-omn-medium-rgb);
+  --ion-color-contrast: var(--ion-color-omn-medium-contrast);
+  --ion-color-contrast-rgb: var(--ion-color-omn-medium-contrast-rgb);
+  --ion-color-shade: var(--ion-color-omn-medium-shade);
+  --ion-color-tint: var(--ion-color-omn-medium-tint);
+}
+.ion-color-omn-disabled-icon {
+  --ion-color-base: var(--ion-color-omn-grey-5);
+  --ion-color-base-rgb: var(--ion-color-omn-medium-rgb);
+  --ion-color-contrast: var(--ion-color-omn-medium-contrast);
+  --ion-color-contrast-rgb: var(--ion-color-omn-medium-contrast-rgb);
+  --ion-color-shade: var(--ion-color-omn-grey-5);
+  --ion-color-tint: var(--ion-color-omn-medium-tint);
+  --background: var(--ion-color-omn-grey-medium-2);
+  --ion-item-background: var(--ion-color-omn-grey-medium-2);
+  --ion-background-color: var(--ion-color-omn-grey-medium-2);
+  background-color: $light-grey-2;
+}
+.color-dark-green {
+  color: $dark-green;
+}
+.color-secondary-grey {
+  color: $secondary-grey;
+}
+.color-white {
+  color: $white;
+}

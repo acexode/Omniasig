@@ -1,0 +1,75 @@
+@import '../variables';
+@import '../mixins/mixins';
+
+@mixin full-reset-header {
+  margin-inline-start: 0;
+  margin-right: 0;
+  margin-left: 0;
+  margin-inline-end: 0 !important;
+  --padding-start: 0 !important;
+  --padding-end: 0 !important;
+  --padding-top: 0 !important;
+  --padding-bottom: 0 !important;
+}
+
+ion-header {
+  &.header-element {
+    --border-width: 0;
+    &:after {
+      display: none;
+    }
+  }
+  ion-toolbar.header-toolbar {
+    &:last-of-type {
+      --border-width: 0;
+    }
+    --border-width: 0;
+    --ion-safe-area-top: 24px;
+    margin-inline-start: 0;
+    margin-right: 0;
+    margin-left: 0;
+    margin-inline-end: 0 !important;
+    --padding-start: 16px !important;
+    --padding-end: 16px !important;
+    --padding-top: 18px !important;
+    --padding-bottom: 6px !important;
+    --min-height: 32px;
+  }
+  ion-buttons.header-buttons {
+    @include full-reset-header();
+    min-height: rem(32);
+
+    ion-button.header-button {
+      --border-radius: 0 !important;
+      width: rem(20) !important;
+      height: rem(20) !important;
+      --padding-start: 0 !important;
+      --padding-bottom: 0 !important;
+      --padding-top: 0 !important;
+      --padding-end: 0 !important;
+      margin-inline-start: 0;
+      margin-right: 0;
+      margin-left: 0;
+      margin-inline-end: 0 !important;
+      font-size: rem(16);
+    }
+  }
+  ion-title.header-title {
+    position: relative;
+    &.md {
+      padding-inline-start: rem(24);
+      padding-inline-end: rem(24);
+    }
+    --padding-top: 0;
+    --padding-bottom: 0;
+    --padding-start: 0;
+    --padding-end: 0;
+    --min-height: rem(32);
+    padding-inline-start: rem(24);
+    padding-inline-end: rem(24);
+  }
+  ion-icon {
+    --border-radius: 0;
+    font-size: rem(16);
+  }
+}

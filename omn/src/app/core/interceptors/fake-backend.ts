@@ -44,8 +44,8 @@ export class FakeBackendInterceptor implements HttpInterceptor {
             if (request.url.match(/\/api-call/)) {
               return handleJsonDataReq(request, 'api-call');
             }
-            if (request.url.match(/\/exchange/)) {
-              return handleJsonDataReq(request, 'exchange');
+            if (request.url.match(/\/policy/)) {
+              return handleJsonDataReq(request, 'policy');
             }
             // // authenticate - public
             // if (request.url.endsWith('/users/authenticate') && request.method === 'POST') {

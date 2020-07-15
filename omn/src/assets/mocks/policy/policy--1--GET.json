@@ -1,0 +1,16 @@
+[
+    {
+        "id": 2,
+        "name": "Garant AMPLUS",
+        "typeId": "AMPLUS",
+        "state": 1,
+        "listingSubtitle": "Strada Traian 45, Brasov"
+    },
+    {
+        "id": 1,
+        "name": "PAD - Polița de asigurare obligatorie",
+        "typeId": "PAD",
+        "state": 0,
+        "listingSubtitle": "Strada Traian 45, Brasov"
+    }
+]
