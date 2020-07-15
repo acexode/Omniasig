@@ -32,26 +32,10 @@
     >
   </ion-tab-button>
 
-<<<<<<< HEAD
-    <ion-tab-button tab="profile" (click)="setCurrentTab('profile')">
-      <ion-icon
-        [hidden]="!(currentTab === 'profile')"
-        name="md-active-user"
-      ></ion-icon>
-      <ion-icon [hidden]="currentTab === 'profile'" name="md-user"></ion-icon>
-      <ion-label
-        class="custom-label"
-        [class.label-border]="currentTab === 'profile'"
-        >Profil</ion-label
-      >
-    </ion-tab-button>
-  </ion-tab-bar>
-</ion-tabs>
-=======
   <ion-tab-button
-    tab="profil"
-    (click)="setCurrentTab('profil')"
-    [routerLink]="'/profil'"
+    tab="profile"
+    (click)="setCurrentTab('profile')"
+    [routerLink]="'/profile'"
     routerLinkActive="active"
     [selected]="rla3?.isActive"
     #rla3="routerLinkActive"
@@ -65,4 +49,3 @@
     >
   </ion-tab-button>
 </ion-tab-bar>
->>>>>>> f6ea9ace60478f55e9ce5a51240071e130086bba
