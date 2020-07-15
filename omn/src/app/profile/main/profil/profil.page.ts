@@ -39,34 +39,34 @@ export class ProfilPage implements OnInit {
       id: 'places',
       itemClass: 'mh-104 shadow-page-item',
     },
-    {
-      mainIcon: {
-        name: 'md-car-ling',
-        color: 'green-gradient',
-        classes: 'icon-40 mt-16 mb-8',
-      },
-      textContent: [
-        {
-          text: 'Mașini',
-        },
-      ],
-      id: 'cars',
-      itemClass: 'mh-104 shadow-page-item',
-    },
-    {
-      mainIcon: {
-        name: 'md-grup-ling',
-        color: 'green-gradient',
-        classes: 'icon-40 mt-16 mb-8',
-      },
-      textContent: [
-        {
-          text: 'Persoane',
-        },
-      ],
-      id: 'personas',
-      itemClass: 'mh-104 shadow-page-item',
-    },
+    // {
+    //   mainIcon: {
+    //     name: 'md-car-ling',
+    //     color: 'green-gradient',
+    //     classes: 'icon-40 mt-16 mb-8',
+    //   },
+    //   textContent: [
+    //     {
+    //       text: 'Mașini',
+    //     },
+    //   ],
+    //   id: 'cars',
+    //   itemClass: 'mh-104 shadow-page-item',
+    // },
+    // {
+    //   mainIcon: {
+    //     name: 'md-grup-ling',
+    //     color: 'green-gradient',
+    //     classes: 'icon-40 mt-16 mb-8',
+    //   },
+    //   textContent: [
+    //     {
+    //       text: 'Persoane',
+    //     },
+    //   ],
+    //   id: 'personas',
+    //   itemClass: 'mh-104 shadow-page-item',
+    // },
     {
       mainIcon: {
         name: 'md-file-ling',
