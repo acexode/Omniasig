@@ -1,33 +1,34 @@
-import { Injectable } from '@angular/core';
+import { Injectable } from "@angular/core";
 import {
   ActivatedRoute,
   ActivatedRouteSnapshot,
   Router,
   UrlTree,
-} from '@angular/router';
-import { BehaviorSubject } from 'rxjs';
+} from "@angular/router";
+import { BehaviorSubject } from "rxjs";
 import {
   distinctUntilChanged,
   filter,
   map,
   switchMap,
   tap,
-} from 'rxjs/operators';
-import { authEndpoints } from '../../configs/endpoints';
-import { Account } from '../../models/account.interface';
-import { AuthState } from '../../models/auth-state.interface';
-import { LoginResponse } from '../../models/login-response.interface';
-import { Login } from '../../models/login.interface';
-import { CustomStorageService } from '../custom-storage/custom-storage.service';
-import { RequestService } from '../request/request.service';
+} from "rxjs/operators";
+import { authEndpoints } from "../../configs/endpoints";
+import { AccountStates } from "../../models/account-states";
+import { Account } from "../../models/account.interface";
+import { AuthState } from "../../models/auth-state.interface";
+import { LoginResponse } from "../../models/login-response.interface";
+import { Login } from "../../models/login.interface";
+import { CustomStorageService } from "../custom-storage/custom-storage.service";
+import { RequestService } from "../request/request.service";
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: "root",
 })
 export class AuthService {
   demoAccount: Account = {
-    firstName: 'Ion',
-    lastName: 'Ionescu',
+    firstName: "Ion",
+    lastName: "Ionescu",
     userStates: [],
   };
   // TODO: DEMO - reset auth state to default one login is implemented.
@@ -44,7 +45,7 @@ export class AuthService {
     private reqS: RequestService
   ) {
     // Load account state from local/session/cookie storage.
-    this.storeS.getItem('account').subscribe((account: Account) => {
+    this.storeS.getItem("account").subscribe((account: Account) => {
       this.authState.next({ init: true, account });
     });
 
@@ -61,7 +62,7 @@ export class AuthService {
 
   getAuthState() {
     return this.authState.pipe(
-      filter((val: AuthState) => val && val.hasOwnProperty('init') && val.init),
+      filter((val: AuthState) => val && val.hasOwnProperty("init") && val.init),
       distinctUntilChanged()
     );
   }
@@ -94,7 +95,7 @@ export class AuthService {
 
   processAuthResponse(data: LoginResponse) {
     const account = data.account ? data.account : null;
-    return this.storeS.setItem('account', account).pipe(
+    return this.storeS.setItem("account", account).pipe(
       tap(() => {
         this.authState.next({
           init: true,
@@ -108,12 +109,16 @@ export class AuthService {
   redirectUrlTree(snapshot: ActivatedRouteSnapshot): UrlTree {
     if (snapshot) {
       const qP = snapshot.queryParams;
-      const rUk = 'returnUrl';
+      const rUk = "returnUrl";
       if (qP.hasOwnProperty(rUk) && qP[rUk]) {
         return this.routerS.createUrlTree([qP[rUk]]);
       }
     }
 
-    return this.routerS.createUrlTree(['/']);
+    return this.routerS.createUrlTree(["/"]);
+  }
+
+  accountActivated(acc: Account) {
+    return acc.userStates.findIndex((s) => s === AccountStates.ACTIVE) > -1;
   }
 }

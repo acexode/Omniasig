@@ -1,4 +1,5 @@
 import { Component, OnInit } from "@angular/core";
+import { AuthService } from "../../../core/services/auth/auth.service";
 
 @Component({
   selector: "app-date-personale",
@@ -6,8 +7,15 @@ import { Component, OnInit } from "@angular/core";
   styleUrls: ["./date-personale.page.scss"],
 })
 export class DatePersonalePage implements OnInit {
-  active: boolean = false;
-  constructor() {}
+  accountActivated: boolean;
+  account$ = this.authS.getAccountData();
+  constructor(private authS: AuthService) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.account$.subscribe((account) => {
+      if (account) {
+        this.accountActivated = this.authS.accountActivated(account);
+      }
+    });
+  }
 }

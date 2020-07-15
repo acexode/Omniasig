@@ -24,7 +24,7 @@
       </ion-label>
       <ion-button
         mode="ios"
-        *ngIf="!active"
+        *ngIf="!accountActivated"
         size="small"
         shape="round"
         class="active"
@@ -38,7 +38,7 @@
         <ion-text>escuion@email.com</ion-text>
       </ion-label>
       <ion-button
-        *ngIf="!active"
+        *ngIf="!accountActivated"
         mode="ios"
         size="small"
         shape="round"
@@ -46,7 +46,7 @@
         >Validează</ion-button
       >
       <ion-button
-        *ngIf="active"
+        *ngIf="accountActivated"
         mode="ios"
         size="small"
         shape="round"
@@ -55,14 +55,14 @@
       >
     </ion-item>
 
-    <ion-item *ngIf="active" lines="none">
+    <ion-item *ngIf="accountActivated" lines="none">
       <ion-label class="ion-text-wrap">
         <p>Domiciliu</p>
         <ion-text>Strada Traian 45, Brasov, jud. Brasov, Cod 500332</ion-text>
       </ion-label>
     </ion-item>
 
-    <ion-item *ngIf="active" lines="none">
+    <ion-item *ngIf="accountActivated" lines="none">
       <ion-label class="ion-text-wrap">
         <p>Alte adrese</p>
         <ion-text
@@ -74,7 +74,7 @@
     </ion-item>
 
     <ion-item
-      *ngIf="!active"
+      *ngIf="!accountActivated"
       lines="none"
       class="right-padding vertical-spacing"
     >
@@ -85,7 +85,7 @@
     </ion-item>
 
     <ion-button
-      *ngIf="!active"
+      *ngIf="!accountActivated"
       class="activate-btn"
       expand="full"
       shape="round"
