@@ -8,6 +8,8 @@ ion-icon {
 ion-title {
   color: var(--app-green-color);
   font-size: rem(24);
+  text-align: center;
+  line-height: rem(32);
 }
 
 ion-header::after {
