@@ -1,5 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { AuthService } from "../../../core/services/auth/auth.service";
+import { Account } from "../../../core/models/account.interface";
 
 @Component({
   selector: "app-date-personale",
@@ -9,7 +10,7 @@ import { AuthService } from "../../../core/services/auth/auth.service";
 export class DatePersonalePage implements OnInit {
   accountActivated: boolean;
   account$ = this.authS.getAccountData();
-  accountData: any;
+  accountData: Account;
 
   constructor(private authS: AuthService) {}
 
