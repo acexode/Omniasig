@@ -9,11 +9,14 @@ import { AuthService } from "../../../core/services/auth/auth.service";
 export class DatePersonalePage implements OnInit {
   accountActivated: boolean;
   account$ = this.authS.getAccountData();
+  accountData: any;
+
   constructor(private authS: AuthService) {}
 
   ngOnInit() {
     this.account$.subscribe((account) => {
       if (account) {
+        this.accountData = account;
         this.accountActivated = this.authS.accountActivated(account);
       }
     });

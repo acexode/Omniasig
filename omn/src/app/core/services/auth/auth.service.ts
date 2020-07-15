@@ -29,6 +29,13 @@ export class AuthService {
   demoAccount: Account = {
     firstName: "Ion",
     lastName: "Ionescu",
+    cnp: "189******7634",
+    email: "escuion@email.com",
+    addresses: [
+      "Strada Traian 45, Brasov, jud. Brasov, Cod 500332",
+      `Strada Dimitrie Bolintineanu 71-73, Scara B, Ap. 21 Turnu Magurele,
+      jud.Teleorman, Cod 654321`,
+    ],
     userStates: [],
   };
   // TODO: DEMO - reset auth state to default one login is implemented.
