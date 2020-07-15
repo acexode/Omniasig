@@ -31,7 +31,7 @@ export class AuthService {
     id: 1,
     firstName: 'Ion',
     lastName: 'Ionescu',
-    userStates: [],
+    userStates: [AccountStates.ACTIVE],
   };
   // TODO: DEMO - reset auth state to default one login is implemented.
   initialState: AuthState = {

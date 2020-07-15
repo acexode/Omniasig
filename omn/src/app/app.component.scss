@@ -1,7 +1,9 @@
 .omn-app-menu {
-  display: flex;
-  flex-direction: column;
-  flex: 1;
+  &.show-menu {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+  }
   app-side-menu {
     display: flex;
     flex-direction: column;

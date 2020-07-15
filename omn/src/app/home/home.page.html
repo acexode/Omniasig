@@ -1,6 +1,152 @@
-<ion-content [fullscreen]="true">
-  <p>Home page</p>
-  <button (click)="openCustom()">open menu</button>
-  <router-outlet></router-outlet>
+<ion-content>
+  <ion-header [translucent]="false" class="header-element">
+    <ion-toolbar
+      size="small"
+      color="omn-transparent-white"
+      class="header-toolbar"
+    >
+      <ion-buttons slot="start" class="header-buttons">
+        <ion-button (click)="openCustom()" class="header-button">
+          <ion-icon
+            slot="icon-only"
+            name="md-menu"
+            class="icon-20 header-button-icon"
+          ></ion-icon>
+        </ion-button>
+      </ion-buttons>
+      <ion-buttons slot="end" class="header-buttons">
+        <ion-button class="header-button">
+          <ion-icon
+            slot="icon-only"
+            name="md-notificare"
+            class="icon-20 header-button-icon"
+          ></ion-icon>
+        </ion-button>
+      </ion-buttons>
+      <ion-title class="ion-text-left header-title"
+        ><h2 class="alt-font" *ngIf="account$ | async as account">
+          {{account?.firstName + ' '+ account?.lastName}}
+        </h2>
+      </ion-title>
+    </ion-toolbar>
+  </ion-header>
+  <ion-grid class="p-32">
+    <ion-row
+      class="ion-no-padding h-272 mt-n112 mx-n32 omn-background-green-gradient omn-gradient-image"
+    ></ion-row>
+    <ion-row
+      class="ion-no-padding mx-n8 mt-n128"
+      *ngIf="(offers$|async)?.length"
+    >
+      <app-policy-list
+        [title]="oferteTitle"
+        class="flex w-100"
+        [list]="offers$|async"
+        [emptyItem]="emptyItem"
+      >
+        <div class="pt-8 pb-16 px-16 list-button">
+          <ion-button
+            routerLink="/policy"
+            color="success"
+            fill="solid"
+            expand="block"
+            size="large"
+            class="m-0 w-100"
+            >Vezi ofertă
+          </ion-button>
+        </div>
+      </app-policy-list>
+    </ion-row>
+    <ion-row
+      class="ion-no-padding mx-n8"
+      [ngClass]="{
+        ' mt-32': hasOffers,
+        'mt-n128': !hasOffers
+      }"
+    >
+      <app-policy-list
+        [title]="asigTitle"
+        class="flex w-100"
+        [list]="policies$|async"
+        [emptyItem]="emptyItem"
+      >
+        <div class="pt-8 pb-16 px-16">
+          <ion-button
+            routerLink="/policy"
+            color="danger"
+            fill="solid"
+            expand="block"
+            size="large"
+            class="m-0 w-100"
+            >Cumpără asigurare
+          </ion-button>
+        </div>
+      </app-policy-list>
+    </ion-row>
+    <ion-row class="mt-32 mx-n8" *ngIf="release2">
+      <ion-col class="ion-no-padding">
+        <ion-row>
+          <ion-text color="omn-green">
+            <h4 class="mb-8">Daune</h4>
+          </ion-text>
+        </ion-row>
+        <ion-row *ngIf="!accountActivated">
+          <app-disabled-placeholder
+            [item]="dauneDisabled"
+          ></app-disabled-placeholder>
+        </ion-row>
+        <ion-row class="ion-wrap" *ngIf="daune?.length && accountActivated">
+          <ng-container
+            *ngFor="let cardI of daune; let first=first; let i=index"
+          >
+            <ion-col
+              class="ion-no-padding mw-120 mr-0"
+              size="6"
+              [ngClass]="{
+                'ml-8': i%2,
+                'mr-8': !(i%2)
+            }"
+            >
+              <app-image-card [item]="cardI" class="flex w-100"></app-image-card
+            ></ion-col>
+          </ng-container>
+        </ion-row>
+      </ion-col>
+    </ion-row>
+    <ion-row class="mt-32 mx-n8" *ngIf="!accountActivated">
+      <app-disabled-placeholder
+        [item]="accountNotActivated"
+      ></app-disabled-placeholder>
+    </ion-row>
+    <ion-row class="mt-32">
+      <ion-col class="ion-no-padding">
+        <ion-row>
+          <ion-text color="omn-green">
+            <h4 class="mb-8">Ai nevoie de ajutor?</h4>
+          </ion-text>
+        </ion-row>
+        <ion-row>
+          <ion-col class="ion-no-padding ml-0 mr-8">
+            <app-image-card
+              [item]="helpItems[0]"
+              class="flex w-100"
+            ></app-image-card>
+          </ion-col>
+          <ion-col class="ion-no-padding mx-8">
+            <app-image-card
+              [item]="helpItems[1]"
+              class="flex w-100"
+            ></app-image-card>
+          </ion-col>
+          <ion-col class="ion-no-padding mr-0 ml-8">
+            <app-image-card
+              [item]="helpItems[2]"
+              class="flex w-100"
+            ></app-image-card>
+          </ion-col>
+        </ion-row>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
 </ion-content>
 <app-tab-menu></app-tab-menu>
