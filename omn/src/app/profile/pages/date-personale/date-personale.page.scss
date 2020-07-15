@@ -3,20 +3,19 @@
 ion-item {
   // doesn't seem to work with rem
   --padding-start: 32px;
+  margin-bottom: rem(10);
 }
 
-ion-label p {
-  font-size: rem(14);
+ion-label {
+  margin: 0 !important;
+  p {
+    font-size: rem(14);
+  }
 }
 
-ion-input,
-ion-textarea {
+ion-text {
   font-size: rem(18);
   color: var(--app-text-color);
-}
-
-.md input {
-  padding-left: 0px;
 }
 
 .active {
