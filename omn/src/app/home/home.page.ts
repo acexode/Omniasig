@@ -1,4 +1,9 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  OnInit,
+  ChangeDetectorRef,
+} from '@angular/core';
 import { MenuController } from '@ionic/angular';
 import { BehaviorSubject } from 'rxjs';
 import { AuthService } from '../core/services/auth/auth.service';
@@ -154,7 +159,8 @@ export class HomePage implements OnInit {
   constructor(
     private menu: MenuController,
     private authS: AuthService,
-    private policyS: PolicyDataService
+    private policyS: PolicyDataService,
+    private cdRef: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
@@ -198,6 +204,7 @@ export class HomePage implements OnInit {
         this.asigTitle.classes = 'color-white';
         this.hasOffers = false;
       }
+      this.cdRef.markForCheck();
     });
   }
   openCustom() {

@@ -30,9 +30,13 @@
         <p>Email</p>
         <ion-input type="email" value="escuion@email.com"></ion-input>
       </ion-label>
-      <ion-button size="small" shape="round" class="inactive"
-        >Validează</ion-button
-      >
+      <ion-button
+        size="small"
+        shape="round"
+        class="inactive"
+        [routerLink]="['edit-email']"
+        >Validează
+      </ion-button>
     </ion-item>
 
     <ion-item lines="none">

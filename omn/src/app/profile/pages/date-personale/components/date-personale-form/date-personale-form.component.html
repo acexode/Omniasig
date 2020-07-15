@@ -1,0 +1,61 @@
+<ion-header [translucent]="false" class="header-element">
+  <ion-toolbar
+    size="small"
+    color="omn-transparent-green"
+    class="header-toolbar"
+  >
+    <ion-buttons slot="start" class="header-buttons">
+      <ion-button class="header-button omn-green">
+        <ion-icon
+          slot="icon-only"
+          name="md-menu"
+          class="icon-20 header-button-icon"
+        ></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title class="ion-text-left header-title omn-green"
+      ><h2 class="alt-font omn-green">
+        {{ title }}
+      </h2>
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-grid class="mx-32 mt-72 p-0">
+    <ng-container *ngIf="formGroup">
+      <ion-col class="ion-no-padding" [formGroup]="formGroup">
+        <ion-row class="ion-no-padding">
+          <ng-container *ngIf="email && formMode === formModes.EDIT_EMAIL">
+            <ion-item>
+              <ion-label position="stacked">Email</ion-label>
+              <ion-input
+                type="email"
+                autocomplete="email"
+                formControlName="email"
+              ></ion-input> </ion-item
+          ></ng-container>
+          <ng-container *ngIf="cnp && formMode === formModes.EDIT_CNP">
+            <ion-item class="form-group">
+              <ion-label>CNP</ion-label>
+              <ion-input
+                type="text"
+                formControlName="cnp"
+              ></ion-input> </ion-item
+          ></ng-container>
+        </ion-row>
+        <ion-row class="ion-no-padding mt-96">
+          <ion-button
+            routerLink="/policy"
+            color="success"
+            fill="solid"
+            expand="block"
+            size="large"
+            class="m-0 w-100"
+            >Salveaza
+          </ion-button>
+        </ion-row>
+      </ion-col>
+    </ng-container>
+  </ion-grid>
+</ion-content>

@@ -1,14 +1,11 @@
-import { NgModule } from "@angular/core";
-import { CommonModule } from "@angular/common";
-import { FormsModule } from "@angular/forms";
-
-import { IonicModule } from "@ionic/angular";
-
-import { DatePersonalePageRoutingModule } from "./date-personale-routing.module";
-
-import { DatePersonalePage } from "./date-personale.page";
-
-import { SharedModule } from "../../../shared/shared.module";
+import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { IonicModule } from '@ionic/angular';
+import { SharedModule } from '../../../shared/shared.module';
+import { DatePersonalePageRoutingModule } from './date-personale-routing.module';
+import { DatePersonalePage } from './date-personale.page';
+import { DatePersonaleFormComponent } from './components/date-personale-form/date-personale-form.component';
 
 @NgModule({
   imports: [
@@ -17,7 +14,8 @@ import { SharedModule } from "../../../shared/shared.module";
     IonicModule,
     DatePersonalePageRoutingModule,
     SharedModule,
+    ReactiveFormsModule,
   ],
-  declarations: [DatePersonalePage],
+  declarations: [DatePersonalePage, DatePersonaleFormComponent],
 })
 export class DatePersonalePageModule {}
