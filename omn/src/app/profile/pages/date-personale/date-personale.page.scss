@@ -21,10 +21,12 @@ ion-text {
 .active {
   --color: var(--app-text-color);
   --background: var(--app-active-color);
+  --background-hover: var(--app-active-color);
 }
 
 .inactive {
   --background: var(--app-red-color);
+  --background-hover: var(--app-red-color);
 }
 
 .right-padding {
@@ -38,7 +40,16 @@ ion-text {
 }
 
 .activate-btn {
-  --background: linear-gradient(#008641);
+  --background: linear-gradient(
+    to right,
+    var(--app-light-green-color),
+    var(--app-green-color)
+  );
+  --background-hover: linear-gradient(
+    to right,
+    var(--app-light-green-color),
+    var(--app-green-color)
+  );
   margin: rem(16) rem(32) rem(32) rem(32);
 }
 

@@ -9,3 +9,7 @@ ion-title {
   color: var(--app-green-color);
   font-size: rem(24);
 }
+
+ion-header::after {
+  background-image: none;
+}
