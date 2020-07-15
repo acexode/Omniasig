@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, HostBinding } from '@angular/core';
 
 @Component({
   selector: 'app-date-personale',
@@ -6,10 +6,9 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./date-personale.page.scss'],
 })
 export class DatePersonalePage implements OnInit {
+  @HostBinding('class') color = 'ion-color-white-page';
 
-  constructor() { }
+  constructor() {}
 
-  ngOnInit() {
-  }
-
+  ngOnInit() {}
 }

@@ -1,2 +1,47 @@
 @import '../variables.scss';
 @import '../mixins/mixins';
+.omn {
+  ion-input {
+    --ion-border-color: var(--app-secondary-text-color);
+    --border-color: var(--app-secondary-text-color);
+
+    input,
+    input.native-input {
+      @extend .text-normal;
+      background: var(--background);
+      --border-radius: 4px 4px 0 0;
+      --background: var(--app-input-bg) !important;
+      --padding-start: 8px;
+      --padding-end: 8px;
+      --highlight-height: 1px;
+      &:-webkit-autofill {
+        background: var(--background) !important;
+        background-color: var(--background) !important;
+      }
+      --placeholder-color: var(--app-input-label-color);
+    }
+
+    /* Chrome, Safari, Edge, Opera */
+    input::-webkit-outer-spin-button,
+    input::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+
+    /* Firefox */
+    input[type='number'] {
+      -moz-appearance: textfield;
+    }
+
+    .input-clear-icon {
+        position: absolute;
+        height: rem(14);
+        width:rem(14);
+        
+    }
+  }
+
+  .input-label {
+    --color: var(--app-input-label-color);
+  }
+}

@@ -5,13 +5,17 @@
     class="header-toolbar"
   >
     <ion-buttons slot="start" class="header-buttons">
-      <ion-button class="header-button omn-green">
-        <ion-icon
+      <ion-back-button
+        class="header-button omn-green"
+        icon="md-arrow-left"
+        [defaultHref]="'/profil/date-personale'"
+      >
+        <!-- <ion-icon
           slot="icon-only"
           name="md-menu"
           class="icon-20 header-button-icon"
-        ></ion-icon>
-      </ion-button>
+        ></ion-icon> -->
+      </ion-back-button>
     </ion-buttons>
     <ion-title class="ion-text-left header-title omn-green"
       ><h2 class="alt-font omn-green">
@@ -27,8 +31,10 @@
       <ion-col class="ion-no-padding" [formGroup]="formGroup">
         <ion-row class="ion-no-padding">
           <ng-container *ngIf="email && formMode === formModes.EDIT_EMAIL">
-            <ion-item>
-              <ion-label position="stacked">Email</ion-label>
+            <ion-item class="form-group w-100">
+              <ion-label position="stacked" class="mb-8 input-label"
+                >Adresă nouă de e-mail</ion-label
+              >
               <ion-input
                 type="email"
                 autocomplete="email"
@@ -36,17 +42,27 @@
               ></ion-input> </ion-item
           ></ng-container>
           <ng-container *ngIf="cnp && formMode === formModes.EDIT_CNP">
-            <ion-item class="form-group">
-              <ion-label>CNP</ion-label>
+            <ion-item class="form-group w-100">
+              <ion-label class="mb-8 input-label" position="stacked"
+                >CNP</ion-label
+              >
               <ion-input
-                type="text"
+                type="number"
                 formControlName="cnp"
-              ></ion-input> </ion-item
-          ></ng-container>
+                placeholder="1234567891012"
+                length="13"
+              ></ion-input>
+            </ion-item>
+          </ng-container>
+        </ion-row>
+        <ion-row class="ion-no-padding mt-16 w-100 ion-justify-content-center">
+          <ion-label color="omn-green" class="text-normal ion-text-center ion"
+            >Această adresă va trebui validată.</ion-label
+          >
         </ion-row>
         <ion-row class="ion-no-padding mt-96">
           <ion-button
-            routerLink="/policy"
+            type="submit"
             color="success"
             fill="solid"
             expand="block"

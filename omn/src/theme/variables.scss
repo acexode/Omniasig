@@ -101,6 +101,7 @@
   --app-text-color: #191a19;
   --color: #191a19;
   --app-secondary-text-color: #747c78;
+  --app-input-label-color: #8b8b8b;
   --app-white-color: #ffffff;
   --app-red-color: #e1261c;
 
@@ -120,6 +121,10 @@
     var(--succes-gradient-2) 100%
   );
   --app-active-color: #f2f9f5;
+
+  // Inputs
+
+  --app-input-bg: var(--ion-color-omn-grey-medium-2);
 }
 
 @media (prefers-color-scheme: 'white') {
@@ -336,6 +341,7 @@ $blue: #0087ea;
 //Secondary
 $secondary-grey: #747c78;
 $grey: #636463;
+$grey3: #8b8b8b;
 $grey-4: #4c4f51;
 $grey-5: #4a4f4c;
 $medium-grey: #a7aaac;
@@ -359,7 +365,8 @@ $ultra-light-green: #f2f9f5;
 $box-shadow-1: 0 3px 10px -2px rgba(0, 0, 0, 0.2),
   0 1px 2px 0 rgba(0, 0, 0, 0.15);
 $box-shadow-2: 0 14px 10px -6px rgba(0, 99, 48, 0.25);
-$box-shadow-3: 0 2px 5px 0 rgba(0,0,0,0.12), 0 10px 20px 0 rgba(0,0,0,0.12);;
+$box-shadow-3: 0 2px 5px 0 rgba(0, 0, 0, 0.12),
+  0 10px 20px 0 rgba(0, 0, 0, 0.12);
 
 $green-gradient: linear-gradient(135deg, $green 0%, $dark-green 100%);
 $red-gradient: linear-gradient(135deg, $green 0%, $dark-green 100%);

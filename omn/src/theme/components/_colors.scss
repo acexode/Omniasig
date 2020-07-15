@@ -39,6 +39,13 @@
   background: $green-gradient;
 }
 
+.ion-color-white-page {
+  --background: var(--app-white-color, #ffffff);
+  --ion-background-color: var(--background, #ffffff);
+  --ion-background-color-rgb: 255, 255, 255;
+  background: $white;
+}
+
 .ion-color-omn-light-green {
   --ion-color-base: var(--ion-color-omn-light-green);
   --ion-color-base-rgb: var(--ion-color-omn-light-green-rgb);

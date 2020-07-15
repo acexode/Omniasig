@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, HostBinding, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-date-personale-validate-email',
@@ -6,9 +6,10 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./date-personale-validate-email.component.scss'],
 })
 export class DatePersonaleValidateEmailComponent implements OnInit {
-
-  constructor() { }
+  @HostBinding('class') color = 'ion-color-white-page';
+  constructor() {}
 
   ngOnInit() {}
 
+  openVerifyModal() {}
 }

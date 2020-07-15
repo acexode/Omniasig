@@ -63,3 +63,17 @@ h2,
   font-size: rem(16);
   line-height: rem(22);
 }
+
+.label-normal {
+  font-size: rem(14);
+  line-height: rem(16);
+  font-weight: normal;
+}
+.input-label,
+ion-label.input-label,
+.item .ion-label {
+  font-size: rem(14) !important;
+  line-height: rem(16) !important;
+  transform: none !important;
+  font-weight: normal;
+}

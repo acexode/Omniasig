@@ -1,11 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, HostBinding } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { map, switchMap } from 'rxjs/operators';
+import { NavController } from '@ionic/angular';
+import { switchMap } from 'rxjs/operators';
 import { AuthService } from 'src/app/core/services/auth/auth.service';
 import { CustomRouterService } from 'src/app/core/services/custom-router/custom-router.service';
 import { DatePersonaleFormModes } from 'src/app/shared/models/modes/date-personale-form-modes';
-import { NavController } from '@ionic/angular';
 
 @Component({
   selector: 'app-date-personale-form',
@@ -13,6 +13,7 @@ import { NavController } from '@ionic/angular';
   styleUrls: ['./date-personale-form.component.scss'],
 })
 export class DatePersonaleFormComponent implements OnInit {
+  @HostBinding('class') color = 'ion-color-white-page';
   title = '';
   formModes = DatePersonaleFormModes;
   formMode = null;
@@ -53,18 +54,18 @@ export class DatePersonaleFormComponent implements OnInit {
     this.authS.getAccountData().subscribe((acc) => {
       if (this.formMode === this.formModes.EDIT_EMAIL) {
         this.formGroup = this.fb.group({
-          email: this.fb.control(
-            acc && acc.email ? acc.email : '',
-            Validators.email
-          ),
+          email: this.fb.control(acc && acc.email ? acc.email : '', [
+            Validators.email,
+            Validators.required,
+          ]),
         });
       }
       if (this.formMode === this.formModes.EDIT_CNP) {
         this.formGroup = this.fb.group({
-          cnp: this.fb.control(
-            acc && acc.cnp ? acc.cnp : '',
-            Validators.minLength(13)
-          ),
+          cnp: this.fb.control(acc && acc.cnp ? acc.cnp : '', [
+            Validators.minLength(13),
+            Validators.required,
+          ]),
         });
       }
     });

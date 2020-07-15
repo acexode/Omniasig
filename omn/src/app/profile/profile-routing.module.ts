@@ -12,14 +12,14 @@ const routes: Routes = [
         loadChildren: () =>
           import('./main/profil/profil.module').then((m) => m.ProfilPageModule),
       },
+      {
+        path: 'date-personale',
+        loadChildren: () =>
+          import('./pages/date-personale/date-personale.module').then(
+            (m) => m.DatePersonalePageModule
+          ),
+      },
     ],
-  },
-  {
-    path: 'date-personale',
-    loadChildren: () =>
-      import('./pages/date-personale/date-personale.module').then(
-        (m) => m.DatePersonalePageModule
-      ),
   },
 ];
 

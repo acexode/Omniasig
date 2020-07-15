@@ -49,4 +49,25 @@
       }
     }
   }
+
+  ion-item {
+    &.form-group {
+      display: flex;
+      flex-direction: column;
+      --padding-start: 0;
+      --inner-padding-end: 0;
+      --inner-border-width: 0;
+      --ion-safe-area-left: 0;
+      --highlight-height: 1px;
+      --highlight-color-focused: var(--app-secondary-text-color);
+      --ion-border-color: var(--app-secondary-text-color);
+      --border-color: var(--app-secondary-text-color);
+      &.item-has-focus ion-label{
+        color: var(--app-secondary-text-color);
+      }
+      .item-background {
+        --ion-item-border-color: var(--ion-color-medium);
+      }
+    }
+  }
 }
