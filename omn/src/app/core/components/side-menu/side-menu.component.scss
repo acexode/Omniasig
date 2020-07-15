@@ -4,6 +4,15 @@
   &__header {
     font-size: rem(24);
     margin: rem(25) 0;
+
+    .header-text {
+      --color: var(--app-dark-green);
+
+    .account-inactive {
+      font-size: rem(13);
+      color: var(--app-light-red-color);
+    }
+    }
   }
 
   &__content {

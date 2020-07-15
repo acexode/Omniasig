@@ -1,7 +1,12 @@
 <ion-header class="omn-app-menu__header ion-no-border">
-  <ion-item lines="none">
-    <ion-label>
+  <ion-item lines="none" >
+    <ion-label class="header-text" *ngIf="demoAccount">
       {{ demoAccount.firstName + ' ' + demoAccount.lastName }}
+      <ion-text
+        [hidden]="isAccountActive"
+      >
+        <p class="account-inactive">Cont Inactive</p>
+      </ion-text>
     </ion-label>
   </ion-item>
 
@@ -9,25 +14,25 @@
 <ion-content class="omn-app-menu__content">
   <ion-list class="omn-app-menu__content-list">
     <ion-item lines="none">
-      <ion-icon name="acasa"></ion-icon>
+      <ion-icon name="sm-acasa"></ion-icon>
       <ion-label>Acasă</ion-label>
     </ion-item>
     <ion-item lines="none">
-      <ion-icon name="polita"></ion-icon>
+      <ion-icon name="sm-polita"></ion-icon>
       <ion-label>Asigurări</ion-label>
     </ion-item>
     <ion-item lines="none">
-      <ion-icon name="dosar"></ion-icon>
+      <ion-icon name="sm-dosar"></ion-icon>
       <ion-label>Daune</ion-label>
     </ion-item>
     <ion-item
       lines="{{ subMenuHidden === true ? 'full' : 'none' }}" (click)="toggleSubMenu()"
       [class.toggle-option]="!subMenuHidden"
     >
-      <ion-icon name="omniasig"></ion-icon>
+      <ion-icon name="sm-omniasig"></ion-icon>
       <ion-label>OMNIASIG</ion-label>
       <ion-icon 
-        name="chevron-down"
+        name="sm-chevron-down"
         [class.toggle-option-arrow-icon]="!subMenuHidden"
       ></ion-icon>
     </ion-item>
@@ -50,18 +55,18 @@
       </ion-list>
     </ion-menu-toggle>
     <ion-item lines="none">
-      <ion-icon name="setari"></ion-icon>
+      <ion-icon name="sm-setari"></ion-icon>
       <ion-label>Setări</ion-label>
     </ion-item>
     <ion-item lines="none">
-      <ion-icon name="asistenta"></ion-icon>
+      <ion-icon name="sm-asistenta"></ion-icon>
       <ion-label>Asistență</ion-label>
     </ion-item>
   </ion-list>
 </ion-content>
 <ion-footer class="omn-app-menu__footer ion-no-border">
   <ion-item>
-  <ion-icon name="iesire"></ion-icon>
+  <ion-icon name="sm-iesire"></ion-icon>
   <ion-label>Ieșire</ion-label>
   </ion-item>
 </ion-footer>

@@ -10,12 +10,16 @@ import { Account  } from '../../models/account.interface';
 export class SideMenuComponent implements OnInit {
   subMenuHidden = true;
   demoAccount: Account;
+  isAccountActive = true;
 
-  constructor(private authService: AuthService) {
-    this.demoAccount = authService.demoAccount;
+  constructor(private authService: AuthService) {}
+
+  ngOnInit() {
+    this.authService.getAccountData().subscribe((account: Account) => {
+      this.demoAccount = account;
+      this.isAccountActive = this.authService.accountActivated(account);
+    });
   }
-
-  ngOnInit() {}
 
   public toggleSubMenu() {
     this.subMenuHidden = !this.subMenuHidden;

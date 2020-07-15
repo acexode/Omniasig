@@ -9,7 +9,7 @@ export class MenuService {
     private menu: MenuController
   ) {}
 
-  public openMenu() {
+  openMenu() {
     this.menu.enable(true, 'omn-menu');
     this.menu.open('omn-menu');
   }
