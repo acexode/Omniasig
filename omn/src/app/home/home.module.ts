@@ -1,20 +1,23 @@
-import { NgModule } from "@angular/core";
-import { CommonModule } from "@angular/common";
-import { IonicModule } from "@ionic/angular";
-import { FormsModule } from "@angular/forms";
-import { HomePage } from "./home.page";
-
-import { HomePageRoutingModule } from "./home-routing.module";
-import { SharedModule } from "../shared/shared.module";
+import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { IonicModule } from '@ionic/angular';
+import { SharedModule } from '../shared/shared.module';
+import { HomePageRoutingModule } from './home-routing.module';
+import { HomePage } from './home.page';
+import { PolicySharedModule } from '../modules/policy/policy-shared.module';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
+    HomePageRoutingModule,
     IonicModule,
     HomePageRoutingModule,
     SharedModule,
+    PolicySharedModule
   ],
   declarations: [HomePage],
 })
+
 export class HomePageModule {}

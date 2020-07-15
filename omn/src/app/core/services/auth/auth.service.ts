@@ -10,10 +10,12 @@ import {
   distinctUntilChanged,
   filter,
   map,
+  share,
   switchMap,
   tap,
 } from 'rxjs/operators';
 import { authEndpoints } from '../../configs/endpoints';
+import { AccountStates } from '../../models/account-states';
 import { Account } from '../../models/account.interface';
 import { AuthState } from '../../models/auth-state.interface';
 import { LoginResponse } from '../../models/login-response.interface';
@@ -26,9 +28,10 @@ import { RequestService } from '../request/request.service';
 })
 export class AuthService {
   demoAccount: Account = {
+    id: 1,
     firstName: 'Ion',
     lastName: 'Ionescu',
-    userStates: [],
+    userStates: [AccountStates.ACTIVE],
   };
   // TODO: DEMO - reset auth state to default one login is implemented.
   initialState: AuthState = {
@@ -49,6 +52,7 @@ export class AuthService {
     });
 
     // TODO: Remove Demo code once logi is implemented.
+    this.storeS.setItem('account', this.demoAccount);
     this.authState.next({
       init: true,
       account: this.demoAccount,
@@ -61,13 +65,17 @@ export class AuthService {
 
   getAuthState() {
     return this.authState.pipe(
+      share(),
       filter((val: AuthState) => val && val.hasOwnProperty('init') && val.init),
       distinctUntilChanged()
     );
   }
 
   getAccountData() {
-    return this.getAuthState().pipe(map((val: AuthState) => val.account));
+    return this.getAuthState().pipe(
+      share(),
+      map((val: AuthState) => val.account)
+    );
   }
 
   login(loginData: {
@@ -115,5 +123,9 @@ export class AuthService {
     }
 
     return this.routerS.createUrlTree(['/']);
+  }
+
+  accountActivated(acc: Account) {
+    return acc.userStates.findIndex((s) => s === AccountStates.ACTIVE) > -1;
   }
 }

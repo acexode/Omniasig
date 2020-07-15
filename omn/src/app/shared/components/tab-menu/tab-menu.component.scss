@@ -1,27 +1,2 @@
 @import "../../../../assets/scss/mixins";
 
-ion-tab-button {
-  // Icon and text
-  --color: var(--app-text-color);
-  --color-selected: var(--app-green-color);
-  // Background
-  --background: var(--app-white-color);
-  --background-focused: var(--app-white-color);
-  --ripple-color: var(--app-white-color);
-}
-
-.custom-label {
-  padding-bottom: rem(1.6);
-}
-
-.label-border {
-  border-bottom: 2px solid var(--app-red-color);
-}
-
-ion-icon {
-  font-size: rem(20);
-}
-
-.ios ion-label {
-  font-size: rem(12);
-}
