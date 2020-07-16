@@ -1,0 +1,10 @@
+@import '../variables.scss';
+@import '../mixins/mixins';
+
+.margin-top-40 {
+  margin-top: rem(40);
+}
+
+.margin-bottom-40 {
+  margin-bottom: rem(40);
+}

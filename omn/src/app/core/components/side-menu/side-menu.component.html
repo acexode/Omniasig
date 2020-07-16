@@ -1,18 +1,20 @@
 <ion-header class="omn-app-menu__header ion-no-border">
-  <ion-item lines="none" >
-    <ion-label class="header-text" *ngIf="demoAccount">
-      {{ demoAccount.firstName + ' ' + demoAccount.lastName }}
+  <ion-item lines="none" class="margin-top-40 margin-bottom-40">
+    <ion-label *ngIf="demoAccount">
+      <ion-text class="alt-font text-weight-medium h2 color-dark-green">
+        {{ demoAccount.firstName + ' ' + demoAccount.lastName }}
+      </ion-text>
       <ion-text
         [hidden]="isAccountActive"
       >
-        <p class="account-inactive">Cont Inactive</p>
+        <p class="text-small color-light-red">Cont Inactive</p>
       </ion-text>
     </ion-label>
   </ion-item>
 
 </ion-header>
-<ion-content class="omn-app-menu__content">
-  <ion-list class="omn-app-menu__content-list">
+<ion-content class="s18-h24 omn">
+  <ion-list>
     <ion-item lines="none">
       <ion-icon name="sm-acasa"></ion-icon>
       <ion-label>Acasă</ion-label>
@@ -64,7 +66,7 @@
     </ion-item>
   </ion-list>
 </ion-content>
-<ion-footer class="omn-app-menu__footer ion-no-border">
+<ion-footer class="ion-no-border">
   <ion-item>
   <ion-icon name="sm-iesire"></ion-icon>
   <ion-label>Ieșire</ion-label>
