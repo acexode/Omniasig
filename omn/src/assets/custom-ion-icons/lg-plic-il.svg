@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="254px" height="224px" viewBox="0 0 254 224" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>Plic</title>
+    <defs>
+        <filter x="-19.8%" y="-28.1%" width="139.6%" height="156.2%" filterUnits="objectBoundingBox" id="filter-1">
+            <feGaussianBlur stdDeviation="12" in="SourceGraphic"></feGaussianBlur>
+        </filter>
+        <path d="M212,0.255257917 L212,104 C212,106.209139 210.209139,108 208,108 L4,108 C1.790861,108 7.67489063e-15,106.209139 0,104 L0,0.255257917 L0,0.255257917 L212,0.255257917 Z" id="path-2"></path>
+        <path d="M108.256485,1.54165446 L209.384728,70.6335291 C211.021228,71.7516032 212,73.6057059 212,75.5876804 L212,78.4203102 L212,78.4203102 L110.134953,139.923735 C107.592091,141.459048 104.407909,141.459048 101.865047,139.923735 L0,78.4203102 L0,78.4203102 L0,75.5876804 C8.63906232e-15,73.6057059 0.978771587,71.7516032 2.6152719,70.6335291 L103.743515,1.54165446 C105.104213,0.612011223 106.895787,0.612011223 108.256485,1.54165446 Z" id="path-4"></path>
+    </defs>
+    <g id="Create-User-profile" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Verificare-pas-1A" transform="translate(-61.000000, -91.000000)">
+            <g id="Plic" transform="translate(83.000000, 91.579690)">
+                <rect id="Rectangle" fill="#5C8F5E" opacity="0.691638765" filter="url(#filter-1)" x="14" y="58.4203102" width="182" height="128"></rect>
+                <g id="Path" transform="translate(0.000000, 76.420310)">
+                    <mask id="mask-3" fill="white">
+                        <use xlink:href="#path-2"></use>
+                    </mask>
+                    <use id="Mask" fill="#3C968D" xlink:href="#path-2"></use>
+                    <path d="M107.945371,53.9171994 L212,-4 L212,-4 L212,107 L106,56 L0,107 L0,-4 L104.054629,53.9171994 C105.264173,54.5904358 106.735827,54.5904358 107.945371,53.9171994 Z" fill="#6EC5AB" mask="url(#mask-3)"></path>
+                </g>
+                <g id="Rectangle-+-Rectangle-Mask">
+                    <mask id="mask-5" fill="white">
+                        <use xlink:href="#path-4"></use>
+                    </mask>
+                    <use id="Mask" fill="#A43E43" xlink:href="#path-4"></use>
+                    <rect id="Rectangle" fill="#572A2C" mask="url(#mask-5)" x="42" y="64.4203102" width="144" height="81"></rect>
+                    <rect id="Rectangle" fill="#FFFFFF" mask="url(#mask-5)" x="34" y="56" width="144" height="90"></rect>
+                    <rect id="Rectangle" fill="#7FBD9D" mask="url(#mask-5)" x="84" y="101.42031" width="46" height="19" rx="9.5"></rect>
+                    <rect id="Rectangle" fill="#7FBD9D" mask="url(#mask-5)" x="62" y="80.4203102" width="90" height="9"></rect>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>
