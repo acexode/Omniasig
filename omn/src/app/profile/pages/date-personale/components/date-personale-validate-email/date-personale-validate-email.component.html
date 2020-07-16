@@ -1,4 +1,48 @@
 <ion-content fullscreen="true">
+  <ng-container *ngTemplateOutlet="successType"></ng-container>
+</ion-content>
+
+<ng-template #successType>
+  <ion-grid class="px-32 pt-32 pb-24 flex flex-1 h-100">
+    <ion-col class="ion-no-padding flex flex-1 flex-column">
+      <ion-row class="ion-no-padding flex flex-1 ion-justify-content-center">
+        <ion-col
+          class="ion-no-padding flex flex-1 flex-column ion-justify-content-between ion-align-items-center"
+        >
+          <div></div>
+          <ion-icon
+            name="lg-check-il"
+            class="w-100 d-flex check-icon-lg"
+          ></ion-icon>
+
+          <ion-label
+            color="omn-green"
+            class="h2 ls-min-02 alt-font border-danger ion-text-center text-weight-bold w-auto"
+            >Email validat cu succes
+          </ion-label>
+        </ion-col>
+      </ion-row>
+      <ion-row
+        class="ion-no-padding mt-auto flex flex-1 flex-column ion-align-items-end"
+      >
+        <ion-col class="ion-no-padding mt-auto flex mt-auto">
+          <ion-button
+            type="submit"
+            color="success"
+            fill="solid"
+            expand="block"
+            size="large"
+            (click)="openVerifyModal()"
+            class="m-0 w-100 ion-align-self-end"
+            >Continua
+          </ion-button>
+        </ion-col>
+      </ion-row>
+    </ion-col>
+  </ion-grid>
+</ng-template>
+
+<ng-template #formType>
   <ion-grid class="px-32 pt-32 pb-24 flex flex-1 h-100">
     <ion-col class="ion-no-padding flex flex-1 flex-column">
       <ion-row class="ion-no-padding ion-justify-content-end flex">
@@ -6,10 +50,15 @@
           >Verifică mai târziu</ion-label
         >
       </ion-row>
-      <ion-row class="ion-no-padding flex mt-24   ion-justify-content-center">
-        <ion-icon name="lg-plic-il" class="w-100 d-flex"></ion-icon>
+      <ion-row class="ion-no-padding flex mt-24 ion-justify-content-center">
+        <ion-icon
+          name="lg-plic-il"
+          class="w-100 d-flex plic-icon-lg"
+        ></ion-icon>
       </ion-row>
-      <ion-row class="ion-no-padding mt-32 ion-justify-content-center flex mb-16">
+      <ion-row
+        class="ion-no-padding mt-32 ion-justify-content-center flex mb-16"
+      >
         <ion-label
           color="omn-green"
           class="h2 ls-min-02 alt-font border-danger ion-text-center text-weight-bold"
@@ -24,7 +73,9 @@
           Verifică-ți mailul, incluzând folderul de spam.
         </ion-label>
       </ion-row>
-      <ion-row class="ion-no-padding  ion-justify-content-center flex-column ion-align-content-center flex flex-1">
+      <ion-row
+        class="ion-no-padding ion-justify-content-center flex-column ion-align-content-center flex flex-1"
+      >
         <ion-label class="text-small ion-text-center"
           >Poți solicita un alt e-mail în 00:59
         </ion-label>
@@ -43,4 +94,4 @@
       </ion-row>
     </ion-col>
   </ion-grid>
-</ion-content>
+</ng-template>

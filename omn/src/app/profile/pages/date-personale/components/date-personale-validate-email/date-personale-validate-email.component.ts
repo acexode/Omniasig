@@ -1,5 +1,6 @@
 import { Component, HostBinding, OnInit } from '@angular/core';
 import { ActionSheetController } from '@ionic/angular';
+import { OmnAppLauncherService } from 'src/app/shared/modules/omn-app-launcher/services/omn-app-launcher.service';
 
 @Component({
   selector: 'app-date-personale-validate-email',
@@ -8,7 +9,10 @@ import { ActionSheetController } from '@ionic/angular';
 })
 export class DatePersonaleValidateEmailComponent implements OnInit {
   @HostBinding('class') color = 'ion-color-white-page';
-  constructor(public actionSheetController: ActionSheetController) {}
+  constructor(
+    public actionSheetController: ActionSheetController,
+    private appS: OmnAppLauncherService
+  ) {}
 
   ngOnInit() {}
 
@@ -24,6 +28,7 @@ export class DatePersonaleValidateEmailComponent implements OnInit {
               'm-0 w-100 no-shadow ion-color text-weight-medium ion-color-success button button-block button-large button-solid',
             handler: () => {
               console.log('Share clicked');
+              this.tryApp();
             },
           },
           {
@@ -41,5 +46,8 @@ export class DatePersonaleValidateEmailComponent implements OnInit {
         actionSheet = v;
         actionSheet.present();
       });
+  }
+  tryApp() {
+    this.appS.tryEmailRead().subscribe((v) => console.log(v));
   }
 }

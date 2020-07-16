@@ -10,14 +10,13 @@
       padding-bottom: rem(24);
     }
     .action-sheet-group {
-      box-shadow: $box-shadow-3;
       padding-left: rem(16);
       padding-right: rem(16);
-      
+
       .action-sheet-title {
         text-align: center;
-        padding-inline-start:rem(24);
-        padding-inline-start:rem(16);
+        padding-inline-start: rem(24);
+        padding-inline-start: rem(16);
         @extend .text-small;
       }
       &:first-of-type {
@@ -25,6 +24,7 @@
       }
       &:last-of-type {
         @extend .bottom-radius-36;
+        box-shadow: $box-shadow-3;
         padding-top: rem(16);
         padding-bottom: rem(16);
       }
@@ -48,10 +48,10 @@
           --background-selected-opacity
         );
         --button-color: var(--ion-color-contrast);
-        --button-color-activated: var(--color-activated);
-        --button-color-focused: var(--color-focused);
-        --button-color-hover: var(--color-hover);
-        --button-color-selected: var(--color-hover);
+        // --button-color-activated: var(--color-activated);
+        // --button-color-focused: var(--color-focused);
+        // --button-color-hover: var(--color-hover);
+        // --button-color-selected: var(--color-hover);
         .action-sheet-button-inner {
           @extend button;
         }

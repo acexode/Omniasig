@@ -71,6 +71,10 @@ export class DatePersonaleFormComponent implements OnInit {
     });
   }
 
+  submitForm() {
+    this.navCtrl.navigateForward('/profil/date-personale/validate-email');
+  }
+
   get email() {
     return this.formGroup ? this.formGroup.get('email') : null;
   }
