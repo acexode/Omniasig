@@ -10,7 +10,7 @@ import { PolicyListItem } from '../shared/models/component/policy-list-item';
 import { dauneDisabled } from './data/home-daune-data';
 import { offerHomeItemHelper } from './data/home-offer-item-helper';
 import { policyHomeItemHelper } from './data/home-policy-item-helper';
-import { ConsoleReporter } from 'jasmine';
+// import { ConsoleReporter } from 'jasmine';
 
 @Component({
   selector: 'app-home',

@@ -1,4 +1,5 @@
 @import "../../../../assets/scss/mixins.scss";
+@import "../../../../theme/variables.scss";
 
   ion-item > ion-icon {
     height: 15px;
@@ -7,8 +8,8 @@
   }
 
   .toggle-option {
-    --background: var(--app-light-green-color);
     --border-radius: 100px 0 0 100px;
+    --background: var(--app-light-green-color);
   }
 
   .toggle-option-arrow-icon {
