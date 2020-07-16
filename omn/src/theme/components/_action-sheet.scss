@@ -1,0 +1,61 @@
+@import '../variables.scss';
+@import '../mixins/mixins';
+
+.omn {
+  ion-action-sheet {
+    --color: var(--app-text-color);
+    .action-sheet-container {
+      padding-left: rem(16);
+      padding-right: rem(16);
+      padding-bottom: rem(24);
+    }
+    .action-sheet-group {
+      box-shadow: $box-shadow-3;
+      padding-left: rem(16);
+      padding-right: rem(16);
+      
+      .action-sheet-title {
+        text-align: center;
+        padding-inline-start:rem(24);
+        padding-inline-start:rem(16);
+        @extend .text-small;
+      }
+      &:first-of-type {
+        @extend .top-radius-8;
+      }
+      &:last-of-type {
+        @extend .bottom-radius-36;
+        padding-top: rem(16);
+        padding-bottom: rem(16);
+      }
+      button {
+        @include justify-content(center);
+        @extend ion-button;
+        text-align: center;
+        --backdrop-opacity: 1;
+
+        --button-background: var(--background);
+        --button-background-activated: var(--background-activated);
+        --button-background-activated-opacity: var(
+          --background-activated-opacity
+        );
+        --button-background-focused: var(--background-focused);
+        --button-background-focused-opacity: var(--background-focused-opacity);
+        --button-background-hover: var(--background-hover);
+        --button-background-hover-opacity: var(--background-hover-opacity);
+        --button-background-selected: var(--background-selected);
+        --button-background-selected-opacity: var(
+          --background-selected-opacity
+        );
+        --button-color: var(--ion-color-contrast);
+        --button-color-activated: var(--color-activated);
+        --button-color-focused: var(--color-focused);
+        --button-color-hover: var(--color-hover);
+        --button-color-selected: var(--color-hover);
+        .action-sheet-button-inner {
+          @extend button;
+        }
+      }
+    }
+  }
+}

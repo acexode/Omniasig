@@ -15,5 +15,14 @@
 }
 
 .bottom-left-radius-8 {
-   border-bottom-left-radius: rem(8); 
+  border-bottom-left-radius: rem(8);
+}
+
+.bottom-radius-36 {
+  border-bottom-left-radius: rem(36);
+  border-bottom-right-radius: rem(36);
+}
+.top-radius-8 {
+  border-top-left-radius: rem(8);
+  border-top-right-radius: rem(8);
 }

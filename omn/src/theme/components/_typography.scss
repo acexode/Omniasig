@@ -69,6 +69,7 @@ h2,
   line-height: rem(16);
   font-weight: normal;
 }
+
 .input-label,
 ion-label.input-label,
 .item .ion-label {
@@ -76,4 +77,11 @@ ion-label.input-label,
   line-height: rem(16) !important;
   transform: none !important;
   font-weight: normal;
+}
+.ls-min-02 {
+  letter-spacing: -0.2px;
+}
+.border-danger {
+  padding-bottom: rem(7);
+  border-bottom: rem(1) solid $red;
 }
