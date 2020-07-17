@@ -3,6 +3,7 @@ import { IonTextItem } from './ion-text-item';
 
 export interface ImageCard {
   headerIcon?: IonIconItem;
+  isButton?: boolean;
   mainIcon?: IonIconItem;
   textContent?: Array<IonTextItem>;
   id: string | number;

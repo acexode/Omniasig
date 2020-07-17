@@ -1,15 +1,15 @@
-import { Component, OnInit, Input } from "@angular/core";
-import { Location } from "@angular/common";
+import { Component, OnInit, Input } from '@angular/core';
+import { Location } from '@angular/common';
 
 @Component({
-  selector: "app-sub-page-header",
-  templateUrl: "./sub-page-header.component.html",
-  styleUrls: ["./sub-page-header.component.scss"],
+  selector: 'app-sub-page-header',
+  templateUrl: './sub-page-header.component.html',
+  styleUrls: ['./sub-page-header.component.scss'],
 })
 export class SubPageHeaderComponent implements OnInit {
   @Input() pageTitle;
-  @Input() leadingIcon = "arrow-back-outline";
-  @Input() trailingIcon = "add-outline";
+  @Input() leadingIcon = 'arrow-back-outline';
+  @Input() trailingIcon = 'add-outline';
 
   constructor(private _location: Location) {}
 

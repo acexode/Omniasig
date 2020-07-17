@@ -1,0 +1,12 @@
+.omn-app-menu {
+  &.show-menu {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+  }
+  app-side-menu {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+  }
+}
