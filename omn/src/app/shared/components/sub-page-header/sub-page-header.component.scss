@@ -11,7 +11,9 @@ ion-title {
   text-align: center;
   line-height: rem(32);
 }
-
+ion-toolbar {
+  --background: var(--app-white-color) !important;
+}
 ion-header::after {
   background-image: none;
 }
