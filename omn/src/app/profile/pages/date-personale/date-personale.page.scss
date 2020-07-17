@@ -6,6 +6,10 @@ ion-item {
   margin-bottom: rem(10);
 }
 
+ion-content {
+  --padding-top: 43px;
+}
+
 ion-content,
 ion-item {
   --background: var(--app-white-color) !important;
