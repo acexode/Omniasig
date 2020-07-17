@@ -14,7 +14,7 @@ import { SharedModule } from './shared/shared.module';
   entryComponents: [],
   imports: [
     BrowserModule,
-    IonicModule.forRoot({ mode: 'md' }),
+    IonicModule.forRoot({ mode: 'md', rippleEffect: false }),
     AppRoutingModule,
     CoreModule,
     SharedModule,

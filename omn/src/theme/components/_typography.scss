@@ -7,7 +7,7 @@ $font-family-base: var(--ion-font-family);
 body.omn {
 }
 .alt-font {
-  font-family: $alt-font;
+  font-family: $alt-font !important;
 }
 .text-weight-medium {
   font-weight: 500;
@@ -37,8 +37,8 @@ h5 {
 
 h2,
 .h2 {
-  line-height: rem(32);
-  font-size: rem(24);
+  line-height: rem(32) !important;
+  font-size: rem(24) !important;
 }
 
 .link-small {
@@ -52,8 +52,8 @@ h2,
 }
 
 .s18-h24 {
-  font-size: rem(18);
-  line-height: rem(24);
+  font-size: rem(18) !important;
+  line-height: rem(24) !important;
 }
 .white-space-normal {
   white-space: normal;

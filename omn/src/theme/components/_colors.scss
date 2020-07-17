@@ -76,11 +76,15 @@
   background-color: $light-grey-2;
 }
 .color-dark-green {
-  color: $dark-green;
+  color: $dark-green !important;
 }
 .color-secondary-grey {
   color: $secondary-grey;
 }
 .color-white {
   color: $white;
+}
+
+.color-light-red {
+  color: $light-red;
 }

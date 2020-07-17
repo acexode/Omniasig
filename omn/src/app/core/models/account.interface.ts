@@ -7,5 +7,6 @@ export interface Account {
   firstName: string;
   lastName: string;
   userIcon?: string;
+  addresses: string[];
   userStates: Array<AccountStates>;
 }
