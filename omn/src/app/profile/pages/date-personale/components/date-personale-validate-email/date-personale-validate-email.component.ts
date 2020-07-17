@@ -1,14 +1,15 @@
 import {
-  Component,
-  HostBinding,
-  OnInit,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
+  Component,
+  HostBinding,
+  OnDestroy,
+  OnInit,
 } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ActionSheetController, NavController } from '@ionic/angular';
 import { get } from 'lodash';
-import { BehaviorSubject, zip } from 'rxjs';
+import { BehaviorSubject, Subscription, zip } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import { AuthService } from 'src/app/core/services/auth/auth.service';
 import { CustomRouterService } from 'src/app/core/services/custom-router/custom-router.service';
@@ -22,12 +23,13 @@ import { OmnAppLauncherService } from 'src/app/shared/modules/omn-app-launcher/s
   styleUrls: ['./date-personale-validate-email.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class DatePersonaleValidateEmailComponent implements OnInit {
+export class DatePersonaleValidateEmailComponent implements OnInit, OnDestroy {
   @HostBinding('class') color = 'ion-color-white-page';
-  displayMode = EmailValidateModes;
-  validateEmailModes: EmailValidateModes = this.displayMode.EMAIL_NEW_VALIDATE;
+  validateEmailModes = EmailValidateModes;
+  displayMode: EmailValidateModes = this.validateEmailModes.EMAIL_NEW_VALIDATE;
   email = '';
   loaded = false;
+  timerSubs: Subscription;
   timer$ = new BehaviorSubject(0);
 
   constructor(
@@ -41,11 +43,15 @@ export class DatePersonaleValidateEmailComponent implements OnInit {
     private cdRef: ChangeDetectorRef
   ) {
     this.subscribeTimer();
-    this.timerS.startEmailValidateTimer();
   }
 
   subscribeTimer() {
-    this.timerS.emailValidateTimer$.subscribe((v) => this.timer$.next(v));
+    if (this.timerSubs) {
+      this.timerSubs.unsubscribe();
+    }
+    this.timerSubs = this.timerS.emailValidateTimer$.subscribe((v) =>
+      this.timer$.next(v)
+    );
   }
 
   ngOnInit() {
@@ -61,12 +67,7 @@ export class DatePersonaleValidateEmailComponent implements OnInit {
       )
       .subscribe((vM) => {
         if (vM) {
-          console.log(vM);
-          this.validateEmailModes = get(
-            vM,
-            '0.validateMode',
-            this.validateEmailModes
-          );
+          this.displayMode = get(vM, '0.validateMode', this.displayMode);
           this.email = get(vM, '1.email', this.email);
         }
         this.cdRef.markForCheck();
@@ -90,6 +91,9 @@ export class DatePersonaleValidateEmailComponent implements OnInit {
           {
             text: 'Renunță',
             role: 'cancel',
+            handler: () => {
+              this.tryApp(1);
+            },
             cssClass:
               'm-0 w-100 no-shadow ion-color-secondary button button-block button-large button-solid',
           },
@@ -101,15 +105,44 @@ export class DatePersonaleValidateEmailComponent implements OnInit {
       });
   }
 
-  tryApp() {
+  tryApp(type = 0) {
+    if (type) {
+      this.toggleSuccess();
+    }
     this.appS.tryEmailRead().subscribe((v) => console.log(v));
   }
 
+  toggleSuccess() {
+    if (this.displayMode === this.validateEmailModes.EMAIL_NEW_VALIDATE) {
+      this.displayMode = this.validateEmailModes.EMAIL_NEW_VALIDATE_SUCCESS;
+    }
+    if (this.displayMode === this.validateEmailModes.EMAIL_CHANGE_VALIDATE) {
+      this.displayMode = this.validateEmailModes.EMAIL_CHANGE_VALIDATE_SUCCESS;
+    }
+    this.cdRef.markForCheck();
+  }
+
+  getEmail() {
+    this.timerS.startEmailValidateTimer();
+    this.subscribeTimer();
+    this.cdRef.markForCheck();
+  }
+
+  continueValidate() {
+    this.cancelValidate();
+  }
+
   cancelValidate() {
-    if (this.validateEmailModes === this.displayMode.EMAIL_CHANGE_VALIDATE) {
+    if (this.displayMode === this.validateEmailModes.EMAIL_CHANGE_VALIDATE) {
       this.navCtrl.navigateBack('/profil/date-personale/validate-email');
     } else {
       this.navCtrl.navigateBack('/home');
+    }
+  }
+
+  ngOnDestroy() {
+    if (this.timerSubs) {
+      this.timerSubs.unsubscribe();
     }
   }
 }

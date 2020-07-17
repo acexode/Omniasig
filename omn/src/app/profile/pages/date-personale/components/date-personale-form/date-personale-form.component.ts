@@ -7,6 +7,7 @@ import { AuthService } from 'src/app/core/services/auth/auth.service';
 import { CustomRouterService } from 'src/app/core/services/custom-router/custom-router.service';
 import { DatePersonaleFormModes } from 'src/app/shared/models/modes/date-personale-form-modes';
 import { EmailValidateModes } from 'src/app/shared/models/modes/email-validate-modes';
+import { CustomTimersService } from 'src/app/core/services/custom-timers.service';
 
 @Component({
   selector: 'app-date-personale-form',
@@ -24,7 +25,8 @@ export class DatePersonaleFormComponent implements OnInit {
     private authS: AuthService,
     private routerS: CustomRouterService,
     private aRoute: ActivatedRoute,
-    private navCtrl: NavController
+    private navCtrl: NavController,
+    private timerS: CustomTimersService
   ) {}
 
   ngOnInit() {
@@ -36,7 +38,6 @@ export class DatePersonaleFormComponent implements OnInit {
         })
       )
       .subscribe((fM) => {
-        console.log(fM);
         this.formMode = fM;
         this.setTitles();
         this.buildForm();
@@ -74,6 +75,7 @@ export class DatePersonaleFormComponent implements OnInit {
   }
 
   submitForm() {
+        this.timerS.startEmailValidateTimer();
     this.navCtrl.navigateForward('/profil/date-personale/validate-email', {
       state: {
         validateMode:
