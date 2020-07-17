@@ -6,6 +6,7 @@ import { IonicModule } from '@ionic/angular';
 import { DisabledPlaceholderComponent } from './components/disabled-placeholder/disabled-placeholder.component';
 import { ImageCardComponent } from './components/image-card/image-card.component';
 import { PolicyListComponent } from './components/policy-list/policy-list.component';
+import { SubPageHeaderComponent } from './components/sub-page-header/sub-page-header.component';
 import { TabMenuComponent } from './components/tab-menu/tab-menu.component';
 
 @NgModule({
@@ -14,6 +15,7 @@ import { TabMenuComponent } from './components/tab-menu/tab-menu.component';
     ImageCardComponent,
     DisabledPlaceholderComponent,
     PolicyListComponent,
+    SubPageHeaderComponent,
   ],
   imports: [CommonModule, FormsModule, IonicModule, RouterModule],
   exports: [
@@ -21,6 +23,8 @@ import { TabMenuComponent } from './components/tab-menu/tab-menu.component';
     ImageCardComponent,
     DisabledPlaceholderComponent,
     PolicyListComponent,
+    TabMenuComponent,
+    SubPageHeaderComponent,
   ],
 })
 export class SharedModule {}

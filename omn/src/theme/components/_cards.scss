@@ -10,4 +10,18 @@ ion-card {
   &.no-shadow {
     box-shadow: none;
   }
+  &.shadow-page-item {
+    box-shadow: $box-shadow-3;
+  }
+  &.flex {
+    &.is-link::part(native) {
+      display: flex;
+    }
+  }
+  &.flex-column {
+    &.is-link::part(native) {
+      flex: 1;
+      flex-direction: column;
+    }
+  }
 }
