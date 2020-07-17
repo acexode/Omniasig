@@ -3,13 +3,28 @@
 ion-item {
   // doesn't seem to work with rem
   --padding-start: 32px;
+  margin-bottom: rem(10);
 }
 
-ion-label p {
-  font-size: rem(14);
+ion-content {
+  --padding-top: 43px;
 }
 
-ion-input {
+ion-content,
+ion-item {
+  --background: var(--app-white-color) !important;
+  --color: var(--app-white-color) !important;
+}
+
+ion-label {
+  margin: 0 !important;
+  p {
+    font-size: rem(14);
+    font-weight: 500;
+  }
+}
+
+ion-text {
   font-size: rem(18);
   color: var(--app-text-color);
 }
@@ -17,10 +32,12 @@ ion-input {
 .active {
   --color: var(--app-text-color);
   --background: var(--app-active-color);
+  --background-hover: var(--app-active-color);
 }
 
 .inactive {
   --background: var(--app-red-color);
+  --background-hover: var(--app-red-color);
 }
 
 .right-padding {
@@ -34,7 +51,16 @@ ion-input {
 }
 
 .activate-btn {
-  --background: var(--app-green-color);
+  --background: linear-gradient(
+    to right,
+    var(--app-light-green-color),
+    var(--app-green-color)
+  );
+  --background-hover: linear-gradient(
+    to right,
+    var(--app-light-green-color),
+    var(--app-green-color)
+  );
   margin: rem(16) rem(32) rem(32) rem(32);
 }
 

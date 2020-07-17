@@ -1,9 +1,9 @@
-<ion-header>
-  <ion-toolbar>
+<ion-header [translucent]="false" class="header-element">
+  <ion-toolbar class="header-toolbar alt-font">
     <ion-buttons slot="start">
       <ion-icon (click)="back()" name="{{ leadingIcon }}"></ion-icon>
     </ion-buttons>
-    <ion-title size="small">{{ pageTitle }}</ion-title>
+    <ion-title class="header-title" size="small">{{ pageTitle }}</ion-title>
     <ion-buttons slot="end">
       <ion-icon name="{{ trailingIcon }}"></ion-icon>
     </ion-buttons>
