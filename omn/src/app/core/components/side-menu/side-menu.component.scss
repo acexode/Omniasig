@@ -1,0 +1,17 @@
+@import "../../../../assets/scss/mixins.scss";
+@import "../../../../theme/variables.scss";
+
+  ion-item > ion-icon {
+    height: 15px;
+    width: 15px;
+    margin-right: rem(20);
+  }
+
+  .toggle-option {
+    --border-radius: 100px 0 0 100px;
+    --background: var(--app-light-green-color);
+  }
+
+  .toggle-option-arrow-icon {
+    transform: rotateX(180deg);
+  }

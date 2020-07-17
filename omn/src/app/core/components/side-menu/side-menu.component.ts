@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import {AuthService } from '../../services/auth/auth.service';
+import { Account  } from '../../models/account.interface';
 
 @Component({
   selector: 'app-side-menu',
@@ -6,9 +8,21 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./side-menu.component.scss'],
 })
 export class SideMenuComponent implements OnInit {
+  subMenuHidden = true;
+  demoAccount: Account;
+  isAccountActive = true;
 
-  constructor() { }
+  constructor(private authService: AuthService) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.authService.getAccountData().subscribe((account: Account) => {
+      this.demoAccount = account;
+      this.isAccountActive = this.authService.accountActivated(account);
+    });
+  }
+
+  public toggleSubMenu() {
+    this.subMenuHidden = !this.subMenuHidden;
+  }
 
 }
