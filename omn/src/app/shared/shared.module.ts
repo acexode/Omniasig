@@ -8,6 +8,7 @@ import { ImageCardComponent } from './components/image-card/image-card.component
 import { PolicyListComponent } from './components/policy-list/policy-list.component';
 import { SubPageHeaderComponent } from './components/sub-page-header/sub-page-header.component';
 import { TabMenuComponent } from './components/tab-menu/tab-menu.component';
+import { TimePipe } from './pipes/time.pipe';
 
 @NgModule({
   declarations: [
@@ -16,6 +17,7 @@ import { TabMenuComponent } from './components/tab-menu/tab-menu.component';
     DisabledPlaceholderComponent,
     PolicyListComponent,
     SubPageHeaderComponent,
+    TimePipe,
   ],
   imports: [CommonModule, FormsModule, IonicModule, RouterModule],
   exports: [
@@ -25,6 +27,7 @@ import { TabMenuComponent } from './components/tab-menu/tab-menu.component';
     PolicyListComponent,
     TabMenuComponent,
     SubPageHeaderComponent,
+    TimePipe,
   ],
 })
 export class SharedModule {}

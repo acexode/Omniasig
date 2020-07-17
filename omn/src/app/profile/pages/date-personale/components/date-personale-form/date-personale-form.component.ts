@@ -1,4 +1,4 @@
-import { Component, OnInit, HostBinding } from '@angular/core';
+import { Component, HostBinding, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { NavController } from '@ionic/angular';
@@ -6,6 +6,7 @@ import { switchMap } from 'rxjs/operators';
 import { AuthService } from 'src/app/core/services/auth/auth.service';
 import { CustomRouterService } from 'src/app/core/services/custom-router/custom-router.service';
 import { DatePersonaleFormModes } from 'src/app/shared/models/modes/date-personale-form-modes';
+import { EmailValidateModes } from 'src/app/shared/models/modes/email-validate-modes';
 
 @Component({
   selector: 'app-date-personale-form',
@@ -35,6 +36,7 @@ export class DatePersonaleFormComponent implements OnInit {
         })
       )
       .subscribe((fM) => {
+        console.log(fM);
         this.formMode = fM;
         this.setTitles();
         this.buildForm();
@@ -72,7 +74,14 @@ export class DatePersonaleFormComponent implements OnInit {
   }
 
   submitForm() {
-    this.navCtrl.navigateForward('/profil/date-personale/validate-email');
+    this.navCtrl.navigateForward('/profil/date-personale/validate-email', {
+      state: {
+        validateMode:
+          this.formMode === this.formModes.EDIT_EMAIL
+            ? EmailValidateModes.EMAIL_CHANGE_VALIDATE
+            : EmailValidateModes.EMAIL_NEW_VALIDATE,
+      },
+    });
   }
 
   get email() {

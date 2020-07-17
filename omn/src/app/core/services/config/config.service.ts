@@ -26,4 +26,7 @@ export class ConfigService {
   public getServerUrlConfig() {
     return this.getConfigKey('serverUrl');
   }
+  public activateDelay() {
+    return this.getConfigKey('activateDelay');
+  }
 }

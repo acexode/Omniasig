@@ -4,4 +4,5 @@ export const environment = {
   serverUrl: 'http://127.0.0.1',
   fakeBackend: true,
   recaptchaKey: '6LcvoUgUAAAAAJJbhcXvLn3KgG-pyULLusaU4mL1',
+  activateDelay: 120,
 };
