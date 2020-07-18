@@ -28,12 +28,15 @@
         padding-top: rem(16);
         padding-bottom: rem(16);
       }
-      button {
+      button,
+      .action-sheet-button {
         @include justify-content(center);
         @extend ion-button;
         text-align: center;
         --backdrop-opacity: 1;
-
+        --color-activated: var(--color);
+        --color-focused: var(--color);
+        --color-hover: var(--color);
         --button-background: var(--background);
         --button-background-activated: var(--background-activated);
         --button-background-activated-opacity: var(
@@ -48,10 +51,14 @@
           --background-selected-opacity
         );
         --button-color: var(--ion-color-contrast);
-        // --button-color-activated: var(--color-activated);
-        // --button-color-focused: var(--color-focused);
-        // --button-color-hover: var(--color-hover);
-        // --button-color-selected: var(--color-hover);
+        --color: var(--button-color);
+        --button-color-activated: var(
+          --color-activated,
+          --button-color
+        ) !important;
+        --button-color-focused: var(--color-focused, --button-color) !important;
+        --button-color-hover: var(--color-hover, --button-color) !important;
+        --button-color-selected: var(--color-hover, --button-color) !important;
         .action-sheet-button-inner {
           @extend button;
         }

@@ -1,11 +1,18 @@
 import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
+import { RouterModule, Routes } from '@angular/router';
 import { PolicyComponent } from './components/policy/policy.component';
+import { PolicyPage } from './page/policy.page';
 
 const routes: Routes = [
   {
     path: '',
-    component: PolicyComponent,
+    component: PolicyPage,
+    children: [
+      {
+        path: '',
+        component: PolicyComponent,
+      },
+    ],
   },
 ];
 

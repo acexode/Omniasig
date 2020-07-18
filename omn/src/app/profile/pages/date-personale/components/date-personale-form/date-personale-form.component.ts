@@ -1,18 +1,26 @@
-import { Component, HostBinding, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  HostBinding,
+  OnInit,
+  ChangeDetectorRef,
+} from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { NavController } from '@ionic/angular';
 import { switchMap } from 'rxjs/operators';
 import { AuthService } from 'src/app/core/services/auth/auth.service';
 import { CustomRouterService } from 'src/app/core/services/custom-router/custom-router.service';
+import { CustomTimersService } from 'src/app/core/services/custom-timers.service';
 import { DatePersonaleFormModes } from 'src/app/shared/models/modes/date-personale-form-modes';
 import { EmailValidateModes } from 'src/app/shared/models/modes/email-validate-modes';
-import { CustomTimersService } from 'src/app/core/services/custom-timers.service';
+import { subPageHeaderDefault } from 'src/app/shared/data/sub-page-header-default';
 
 @Component({
   selector: 'app-date-personale-form',
   templateUrl: './date-personale-form.component.html',
   styleUrls: ['./date-personale-form.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DatePersonaleFormComponent implements OnInit {
   @HostBinding('class') color = 'ion-color-white-page';
@@ -20,13 +28,15 @@ export class DatePersonaleFormComponent implements OnInit {
   formModes = DatePersonaleFormModes;
   formMode = null;
   formGroup: FormGroup;
+  headerConfig = null;
   constructor(
     private fb: FormBuilder,
     private authS: AuthService,
     private routerS: CustomRouterService,
     private aRoute: ActivatedRoute,
     private navCtrl: NavController,
-    private timerS: CustomTimersService
+    private timerS: CustomTimersService,
+    private cdRef: ChangeDetectorRef
   ) {}
 
   ngOnInit() {
@@ -41,15 +51,16 @@ export class DatePersonaleFormComponent implements OnInit {
         this.formMode = fM;
         this.setTitles();
         this.buildForm();
+        this.cdRef.markForCheck();
       });
   }
 
   setTitles() {
     if (this.formMode === this.formModes.EDIT_EMAIL) {
-      this.title = 'Schimbare adresă e-mail';
+      this.headerConfig = subPageHeaderDefault('Schimbare adresă e-mail');
     }
     if (this.formMode === this.formModes.EDIT_CNP) {
-      this.title = 'Introdu CNP';
+      this.headerConfig = subPageHeaderDefault('Introdu CNP');
     }
   }
 
@@ -75,7 +86,7 @@ export class DatePersonaleFormComponent implements OnInit {
   }
 
   submitForm() {
-        this.timerS.startEmailValidateTimer();
+    this.timerS.startEmailValidateTimer();
     this.navCtrl.navigateForward('/profil/date-personale/validate-email', {
       state: {
         validateMode:

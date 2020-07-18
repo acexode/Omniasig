@@ -49,13 +49,12 @@
       --ion-color-success: var(--success-gradient);
       --ion-color-shade: var(--success-gradient) !important;
       --ion-color-tint: var(--success-gradient) !important;
-    }
-    &.ion-color-success,
-    .ion-color-success {
-      --background: var(--success-gradient);
-      --ion-color-success: var(--success-gradient);
-      --ion-color-shade: var(--success-gradient) !important;
-      --ion-color-tint: var(--success-gradient) !important;
+      &.flat {
+        --background: var(--app-green-color-light)!important;
+        --ion-color-success: var(--app-green-color-light);
+        --ion-color-shade: var(--app-green-color-light) !important;
+        --ion-color-tint: var(--app-green-color-light) !important;
+      }
     }
 
     &.ion-color-secondary,

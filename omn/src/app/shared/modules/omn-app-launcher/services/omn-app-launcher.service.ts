@@ -40,12 +40,9 @@ export class OmnAppLauncherService {
     let options = null;
     switch (funct) {
       case NativeFunctionalities.READ_EMAIL:
-        // Intent intent = new Intent(Intent.ACTION_MAIN);
-        // intent.addCategory(Intent.CATEGORY_APP_EMAIL);
-        // getActivity().startActivity(intent);
         options = {
-          action: 'Intent.ACTION_MAIN',
-          type: 'Intent.CATEGORY_APP_EMAIL'
+          action: this.webIntent.ACTION_VIEW,
+          type: 'vnd.android.cursor.item/email',
         };
         break;
 
@@ -64,7 +61,7 @@ export class OmnAppLauncherService {
         if (this.platform.is('ios')) {
           return this.doLaunch(options);
         } else if (optionsI !== null) {
-          return this.doIntent(options);
+          return this.doIntent(optionsI);
         } else {
           throwError(null);
         }
@@ -83,7 +80,6 @@ export class OmnAppLauncherService {
 
   doLaunch(options: AppLauncherOptions) {
     return new Observable((observer) => {
-      console.log('1');
       this.appLauncher
         .launch(options)
         .then((data) => {
@@ -98,7 +94,7 @@ export class OmnAppLauncherService {
   doIntent(options: any) {
     return new Observable((observer) => {
       this.webIntent
-        .sendBroadcast(options)
+        .startActivity(options)
         .then((data) => {
           observer.next(data);
         })

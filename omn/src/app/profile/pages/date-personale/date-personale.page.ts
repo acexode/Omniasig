@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, HostBinding, OnInit } from '@angular/core';
 import { Account } from '../../../core/models/account.interface';
 import { AuthService } from '../../../core/services/auth/auth.service';
+import { subPageHeaderDefault } from 'src/app/shared/data/sub-page-header-default';
 
 @Component({
   selector: 'app-date-personale',
@@ -8,10 +9,11 @@ import { AuthService } from '../../../core/services/auth/auth.service';
   styleUrls: ['./date-personale.page.scss'],
 })
 export class DatePersonalePage implements OnInit {
+  @HostBinding('class') color = 'ion-color-white-page';
   accountActivated: boolean;
   account$ = this.authS.getAccountData();
   accountData: Account;
-
+  headerConfig = subPageHeaderDefault('Date Personale');
   constructor(private authS: AuthService) {}
 
   ngOnInit() {

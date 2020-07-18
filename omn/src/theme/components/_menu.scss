@@ -6,7 +6,7 @@ ion-menu {
     --min-height: 40px;
   }
 
-  .toggle-option {
+  .toggle-option, .active-item {
     --border-radius: 100px 0 0 100px;
     --background: var(--app-light-green-color);
     font-weight: 500;

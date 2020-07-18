@@ -10,12 +10,14 @@ import { CustomStorageService } from './services/custom-storage/custom-storage.s
 import { AuthService } from './services/auth/auth.service';
 import { MenuService } from './services/menu/menu.service';
 import { IonicModule } from '@ionic/angular';
+import { RouterModule } from '@angular/router';
 
 @NgModule({
   declarations: [SideMenuComponent],
   imports: [
     CommonModule,
     HttpClientModule,
+    RouterModule,
     IonicModule,
     IonicStorageModule.forRoot({
       name: '__omndb',

@@ -83,7 +83,7 @@ export class DatePersonaleValidateEmailComponent implements OnInit, OnDestroy {
           {
             text: 'Deschide e-mail',
             cssClass:
-              'm-0 w-100 no-shadow ion-color text-weight-medium ion-color-success button button-block button-large button-solid',
+              'm-0 w-100 no-shadow ion-color text-weight-medium ion-color-success flat button button-block button-large button-solid',
             handler: () => {
               this.tryApp();
             },
