@@ -40,10 +40,10 @@ export const policyHomeItemHelper = (policy: PolicyItem): PolicyListItem => {
     baseItem.id = policy.id;
     baseItem.routerLink = '/policy/' + policy.id;
     if (policy.type) {
-      baseItem.textContent.head.text = policy.type.shortDescription
+      baseItem.textContent.head.text = policy.type.name ? policy.type.name : '';
+      baseItem.textContent.body.text = policy.type.shortDescription
         ? policy.type.shortDescription
         : '';
-      baseItem.textContent.body.text = policy.type.name ? policy.type.name : '';
     }
     baseItem.textContent.footer.text = policy.listingSubtitle
       ? policy.listingSubtitle
