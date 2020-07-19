@@ -9,6 +9,7 @@ export const environment = {
   fakeBackend: true,
   recaptchaKey: null,
   activateDelay: 30,
+  release: 2,
 };
 
 /*

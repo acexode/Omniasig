@@ -9,6 +9,7 @@ import { PolicyListComponent } from './components/policy-list/policy-list.compon
 import { SubPageHeaderComponent } from './components/sub-page-header/sub-page-header.component';
 import { TabMenuComponent } from './components/tab-menu/tab-menu.component';
 import { TimePipe } from './pipes/time.pipe';
+import { CnpPipe } from './pipes/cnp.pipe';
 
 @NgModule({
   declarations: [
@@ -18,6 +19,7 @@ import { TimePipe } from './pipes/time.pipe';
     PolicyListComponent,
     SubPageHeaderComponent,
     TimePipe,
+    CnpPipe,
   ],
   imports: [CommonModule, FormsModule, IonicModule, RouterModule],
   exports: [
@@ -28,6 +30,7 @@ import { TimePipe } from './pipes/time.pipe';
     TabMenuComponent,
     SubPageHeaderComponent,
     TimePipe,
+    CnpPipe
   ],
 })
 export class SharedModule {}

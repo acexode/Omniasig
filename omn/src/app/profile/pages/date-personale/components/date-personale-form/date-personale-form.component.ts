@@ -1,9 +1,9 @@
 import {
   ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
   HostBinding,
   OnInit,
-  ChangeDetectorRef,
 } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
@@ -11,10 +11,9 @@ import { NavController } from '@ionic/angular';
 import { switchMap } from 'rxjs/operators';
 import { AuthService } from 'src/app/core/services/auth/auth.service';
 import { CustomRouterService } from 'src/app/core/services/custom-router/custom-router.service';
-import { CustomTimersService } from 'src/app/core/services/custom-timers.service';
+import { subPageHeaderDefault } from 'src/app/shared/data/sub-page-header-default';
 import { DatePersonaleFormModes } from 'src/app/shared/models/modes/date-personale-form-modes';
 import { EmailValidateModes } from 'src/app/shared/models/modes/email-validate-modes';
-import { subPageHeaderDefault } from 'src/app/shared/data/sub-page-header-default';
 
 @Component({
   selector: 'app-date-personale-form',
@@ -35,7 +34,6 @@ export class DatePersonaleFormComponent implements OnInit {
     private routerS: CustomRouterService,
     private aRoute: ActivatedRoute,
     private navCtrl: NavController,
-    private timerS: CustomTimersService,
     private cdRef: ChangeDetectorRef
   ) {}
 
@@ -78,6 +76,8 @@ export class DatePersonaleFormComponent implements OnInit {
         this.formGroup = this.fb.group({
           cnp: this.fb.control(acc && acc.cnp ? acc.cnp : '', [
             Validators.minLength(13),
+            Validators.maxLength(13),
+            Validators.pattern('[0-9]*'),
             Validators.required,
           ]),
         });
@@ -86,15 +86,25 @@ export class DatePersonaleFormComponent implements OnInit {
   }
 
   submitForm() {
-    this.timerS.startEmailValidateTimer();
-    this.navCtrl.navigateForward('/profil/date-personale/validate-email', {
-      state: {
-        validateMode:
-          this.formMode === this.formModes.EDIT_EMAIL
-            ? EmailValidateModes.EMAIL_CHANGE_VALIDATE
-            : EmailValidateModes.EMAIL_NEW_VALIDATE,
-      },
-    });
+    if (this.formGroup.valid) {
+      if (this.formMode === this.formModes.EDIT_EMAIL) {
+        this.authS.demoUpdate({ email: this.email.value });
+        this.navCtrl.navigateForward('/profil/date-personale/validate-email', {
+          state: {
+            validateMode:
+              this.formMode === this.formModes.EDIT_EMAIL
+                ? EmailValidateModes.EMAIL_CHANGE_VALIDATE
+                : EmailValidateModes.EMAIL_NEW_VALIDATE,
+          },
+        });
+      } else if (this.formMode === this.formModes.EDIT_CNP) {
+        this.authS.demoUpdate({ cnp: this.cnp.value });
+        this.navCtrl.navigateBack('/profil/date-personale');
+      }
+    } else {
+      this.formGroup.updateValueAndValidity();
+      this.cdRef.markForCheck();
+    }
   }
 
   get email() {

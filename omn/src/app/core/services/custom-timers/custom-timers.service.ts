@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
-import { of, timer } from 'rxjs';
+import { of, timer, BehaviorSubject } from 'rxjs';
 import { scan, takeWhile } from 'rxjs/operators';
-import { ConfigService } from './config/config.service';
+import { ConfigService } from '../config/config.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class CustomTimersService {
-  public emailValidateTimer$ = of(0);
+  public emailValidateTimer$ = new BehaviorSubject(0);
   constructor(private configS: ConfigService) {}
 
   buildTimer(seconds) {
@@ -19,6 +19,8 @@ export class CustomTimersService {
 
   public startEmailValidateTimer() {
     const maxTimer = this.configS.activateDelay();
-    this.emailValidateTimer$ = this.buildTimer(maxTimer);
+    this.buildTimer(maxTimer).subscribe((v) =>
+      this.emailValidateTimer$.next(v)
+    );
   }
 }

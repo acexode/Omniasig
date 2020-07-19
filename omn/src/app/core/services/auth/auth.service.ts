@@ -31,10 +31,10 @@ export class AuthService {
     id: 1,
     firstName: 'Ion',
     lastName: 'Ionescu',
-    cnp: '189******7634',
+    cnp: '1234567890123',
     email: 'escuion@email.com',
     addresses: [],
-    userStates: [],
+    userStates: [AccountStates.INACTIVE, AccountStates.EMAIL_INVALIDATED],
   };
   // TODO: DEMO - reset auth state to default one login is implemented.
   initialState: AuthState = {
@@ -51,14 +51,20 @@ export class AuthService {
   ) {
     // Load account state from local/session/cookie storage.
     this.storeS.getItem('account').subscribe((account: Account) => {
-      this.authState.next({ init: true, account });
-    });
+      if (account) {
+        this.authState.next({
+          init: true,
+          account,
+        });
+      } else {
+        // TODO: Remove Demo code once logi is implemented.
+        this.storeS.setItem('account', this.demoAccount);
 
-    // TODO: Remove Demo code once logi is implemented.
-    this.storeS.setItem('account', this.demoAccount);
-    this.authState.next({
-      init: true,
-      account: this.demoAccount,
+        this.authState.next({
+          init: true,
+          account: this.demoAccount,
+        });
+      }
     });
   }
 
@@ -126,11 +132,47 @@ export class AuthService {
         return this.routerS.createUrlTree([qP[rUk]]);
       }
     }
-
     return this.routerS.createUrlTree(['/']);
   }
 
   accountActivated(acc: Account) {
     return acc.userStates.findIndex((s) => s === AccountStates.ACTIVE) > -1;
+  }
+
+  // TODO: DEMO
+  demoLogout() {
+    this.storeS.removeItem('account');
+    this.storeS.setItem('account', this.demoAccount);
+    this.authState.next({
+      init: true,
+      account: this.demoAccount,
+    });
+  }
+
+  demoActivate() {
+    const state = this.authState.value;
+    state.account.userStates = [
+      AccountStates.ACTIVE,
+      AccountStates.EMAIL_VALIDATED,
+    ];
+    this.authState.next({
+      init: true,
+      account: { ...state.account },
+    });
+  }
+
+  demoUpdate(data: { cnp?: string; email?: string }) {
+    const account = this.authState.value.account;
+    if (data.cnp) {
+      account.cnp = data.cnp;
+    }
+    if (data.email) {
+      account.email = data.email;
+    }
+    this.storeS.setItem('account', account);
+    this.authState.next({
+      init: true,
+      account,
+    });
   }
 }

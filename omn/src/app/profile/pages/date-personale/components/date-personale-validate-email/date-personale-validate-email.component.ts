@@ -9,11 +9,11 @@ import {
 import { ActivatedRoute } from '@angular/router';
 import { ActionSheetController, NavController } from '@ionic/angular';
 import { get } from 'lodash';
-import { BehaviorSubject, Subscription, zip } from 'rxjs';
+import { BehaviorSubject, Subscription, zip, forkJoin } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import { AuthService } from 'src/app/core/services/auth/auth.service';
 import { CustomRouterService } from 'src/app/core/services/custom-router/custom-router.service';
-import { CustomTimersService } from 'src/app/core/services/custom-timers.service';
+import { CustomTimersService } from 'src/app/core/services/custom-timers/custom-timers.service';
 import { EmailValidateModes } from 'src/app/shared/models/modes/email-validate-modes';
 import { OmnAppLauncherService } from 'src/app/shared/modules/omn-app-launcher/services/omn-app-launcher.service';
 
@@ -52,6 +52,9 @@ export class DatePersonaleValidateEmailComponent implements OnInit, OnDestroy {
     this.timerSubs = this.timerS.emailValidateTimer$.subscribe((v) =>
       this.timer$.next(v)
     );
+    if (!this.timerS.emailValidateTimer$.value) {
+      this.timerS.startEmailValidateTimer();
+    }
   }
 
   ngOnInit() {
@@ -61,7 +64,7 @@ export class DatePersonaleValidateEmailComponent implements OnInit, OnDestroy {
         switchMap(() => {
           return zip(
             this.routerS.processChildDataAsync(this.aRoute, 'validateMode'),
-            this.authS.getAccountData()
+            this.authS.getAccountData(),
           );
         })
       )
@@ -120,6 +123,7 @@ export class DatePersonaleValidateEmailComponent implements OnInit, OnDestroy {
       this.displayMode = this.validateEmailModes.EMAIL_CHANGE_VALIDATE_SUCCESS;
     }
     this.cdRef.markForCheck();
+    this.authS.demoActivate();
   }
 
   getEmail() {
@@ -133,7 +137,10 @@ export class DatePersonaleValidateEmailComponent implements OnInit, OnDestroy {
   }
 
   cancelValidate() {
-    if (this.displayMode === this.validateEmailModes.EMAIL_CHANGE_VALIDATE) {
+    if (
+      this.displayMode === this.validateEmailModes.EMAIL_CHANGE_VALIDATE ||
+      this.displayMode === this.validateEmailModes.EMAIL_CHANGE_VALIDATE_SUCCESS
+    ) {
       this.navCtrl.navigateBack('/profil/date-personale/validate-email');
     } else {
       this.navCtrl.navigateBack('/home');

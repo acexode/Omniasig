@@ -140,6 +140,9 @@
 
   --ion-backdrop-color: var(--ion-color-omn-medium);
   --ion-backdrop-opacity: 0.8;
+  :focus {
+    outline: none;
+  }
 }
 
 // Custom variables.
@@ -236,6 +239,8 @@ $light-red: #c32328;
 $box-shadow-1: 0 3px 10px -2px rgba(0, 0, 0, 0.2),
   0 1px 2px 0 rgba(0, 0, 0, 0.15);
 $box-shadow-2: 0 14px 10px -6px rgba(0, 99, 48, 0.25);
+$box-shadow-31: 0 2px 5px 0 rgba(0, 0, 0, 0.12);
+$box-shadow-32: 0 10px 20px 0 rgba(0, 0, 0, 0.12);
 $box-shadow-3: 0 2px 5px 0 rgba(0, 0, 0, 0.12),
   0 10px 20px 0 rgba(0, 0, 0, 0.12);
 

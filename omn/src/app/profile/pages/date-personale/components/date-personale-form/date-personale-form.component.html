@@ -2,7 +2,7 @@
 <ion-content>
   <ion-grid class="mx-32 mt-72 p-0">
     <ng-container *ngIf="formGroup">
-      <ion-col class="ion-no-padding" [formGroup]="formGroup">
+      <ion-col class="ion-no-padding" [formGroup]="formGroup" #form>
         <ion-row class="ion-no-padding">
           <ng-container *ngIf="email && formMode === formModes.EDIT_EMAIL">
             <ion-item class="form-group w-100">
@@ -21,15 +21,19 @@
                 >CNP</ion-label
               >
               <ion-input
-                type="number"
+                type="tel"
                 formControlName="cnp"
                 placeholder="1234567891012"
-                length="13"
+                maxlength="13"
+                minlength="13"
               ></ion-input>
             </ion-item>
           </ng-container>
         </ion-row>
-        <ion-row class="ion-no-padding mt-16 w-100 ion-justify-content-center">
+        <ion-row
+          class="ion-no-padding mt-16 w-100 ion-justify-content-center"
+          *ngIf="formMode === formModes.EDIT_EMAIL"
+        >
           <ion-label color="omn-green" class="text-normal ion-text-center ion"
             >Această adresă va trebui validată.</ion-label
           >
@@ -44,6 +48,7 @@
             expand="block"
             size="large"
             class="m-0 w-100 flex mt-auto"
+            [disabled]="!formGroup?.valid"
             (click)="submitForm()"
             >Salveaza
           </ion-button>

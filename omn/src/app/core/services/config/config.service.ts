@@ -29,4 +29,8 @@ export class ConfigService {
   public activateDelay() {
     return this.getConfigKey('activateDelay');
   }
+
+  public release() {
+    return this.getConfigKey('release');
+  }
 }

@@ -5,4 +5,5 @@ export const environment = {
   fakeBackend: false,
   recaptchaKey: '6LdFYvwUAAAAAJVVUGjb70IOCuccNKf2w4E9wVcx',
   activateDelay: 120,
+  release: 1,
 };

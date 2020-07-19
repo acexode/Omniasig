@@ -103,7 +103,7 @@
             class="ion-no-padding ion-justify-content-center flex-column ion-align-content-center flex flex-1 w-100"
           >
             <ion-button
-              *ngIf="!(timer$ | async)"
+              *ngIf="(timer$ | async) === 0"
               type="submit"
               color="danger"
               fill="solid"

@@ -26,7 +26,7 @@ export class OmnAppLauncherService {
         if (this.platform.is('ios')) {
           options.uri = 'message://';
         } else if (this.platform.is('android')) {
-          options.uri = 'mailto://';
+          options.uri = 'mailto:';
         }
         break;
 
@@ -42,7 +42,8 @@ export class OmnAppLauncherService {
       case NativeFunctionalities.READ_EMAIL:
         options = {
           action: this.webIntent.ACTION_VIEW,
-          type: 'vnd.android.cursor.item/email',
+
+          url: 'mailto:',
         };
         break;
 
@@ -55,7 +56,6 @@ export class OmnAppLauncherService {
   tryEmailRead() {
     const options = this.buildAppOptions(NativeFunctionalities.READ_EMAIL);
     const optionsI = this.buildIntentOptions(NativeFunctionalities.READ_EMAIL);
-    console.log(options);
     return this.checFunct(options).pipe(
       switchMap(() => {
         if (this.platform.is('ios')) {
