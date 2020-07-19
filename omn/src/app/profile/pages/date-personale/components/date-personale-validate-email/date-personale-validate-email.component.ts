@@ -64,7 +64,7 @@ export class DatePersonaleValidateEmailComponent implements OnInit, OnDestroy {
         switchMap(() => {
           return zip(
             this.routerS.processChildDataAsync(this.aRoute, 'validateMode'),
-            this.authS.getAccountData(),
+            this.authS.getAccountData()
           );
         })
       )
@@ -111,8 +111,9 @@ export class DatePersonaleValidateEmailComponent implements OnInit, OnDestroy {
   tryApp(type = 0) {
     if (type) {
       this.toggleSuccess();
+    } else {
+      this.appS.tryEmailRead().subscribe((v) => console.log(v));
     }
-    this.appS.tryEmailRead().subscribe((v) => console.log(v));
   }
 
   toggleSuccess() {
