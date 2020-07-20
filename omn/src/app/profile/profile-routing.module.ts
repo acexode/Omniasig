@@ -19,6 +19,13 @@ const routes: Routes = [
             (m) => m.DatePersonalePageModule
           ),
       },
+      {
+        path: 'locuinte',
+        loadChildren: () =>
+          import('./pages/locuinte/locuinte.module').then(
+            (m) => m.LocuintePageModule
+          ),
+      },
     ],
   },
 ];
