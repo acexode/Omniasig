@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <svg width="20px" height="20px" viewBox="0 0 20 20" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
     <title>140C675D-C68F-4732-97E1-95458F74E542@2x</title>
-          <linearGradient id="lg" gradientTransform="rotate(135)">
+          <linearGradient id="lg" gradientTransform="rotate(135,50%,50%)" gradientUnits="userSpaceOnUse">
     <stop id="color1" offset="0" style="stop-color:var(--ion-color-base);"/>
     <stop id="color2" offset="1" style="stop-color:var(--ion-color-shade);" />
   </linearGradient>
