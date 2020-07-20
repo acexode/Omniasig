@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Config } from '@ionic/angular';
+import { ConfigService } from 'src/app/core/services/config/config.service';
 
 @Component({
   selector: 'app-tab-menu',
@@ -7,7 +9,8 @@ import { Component, OnInit } from '@angular/core';
 })
 export class TabMenuComponent implements OnInit {
   currentTab: string;
-  constructor() {}
+  release = this.configS.release();
+  constructor(private configS: ConfigService) {}
 
   ngOnInit() {}
 

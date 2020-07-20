@@ -44,7 +44,30 @@
   </ion-tab-button>
 
   <ion-tab-button
-    tab="profile"
+    *ngIf="release === 2"
+    tab="daune"
+    (click)="setCurrentTab('daune')"
+    [routerLink]="'/daune'"
+    routerLinkActive="active"
+    [selected]="rla4?.isActive"
+    routerDirection="root"
+    #rla4="routerLinkActive"
+    [routerDirection]="rla3?.isActive ? 'back' : 'forward'"
+  >
+    <ion-icon [hidden]="!rla4?.isActive" name="md-dosar-filled"></ion-icon>
+    <ion-icon
+      [hidden]="rla4?.isActive"
+      name="md-dosar-light"
+      color="success"
+    ></ion-icon>
+    <ion-label
+      class="custom-label link-small text-weight-medium"
+      [class.label-border]="rla4?.isActive"
+      >Daune</ion-label
+    >
+  </ion-tab-button>
+  <ion-tab-button
+    tab="profil"
     (click)="setCurrentTab('profil')"
     [routerLink]="'/profil'"
     routerLinkActive="active"
