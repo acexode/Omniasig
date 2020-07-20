@@ -57,9 +57,6 @@ export class DatePersonaleFormComponent implements OnInit {
         this.buildForm();
         this.cdRef.markForCheck();
       });
-    this.timerSubs = this.timerS.emailValidateTimer$.subscribe((v) =>
-      this.timer$.next(v)
-    );
   }
 
   setTitles() {
@@ -80,6 +77,9 @@ export class DatePersonaleFormComponent implements OnInit {
             Validators.required,
           ]),
         });
+        this.timerSubs = this.timerS.emailValidateTimer$.subscribe((v) =>
+          this.timer$.next(v)
+        );
       }
       if (this.formMode === this.formModes.EDIT_CNP) {
         this.formGroup = this.fb.group({
