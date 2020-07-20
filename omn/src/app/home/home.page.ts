@@ -210,6 +210,7 @@ export class HomePage implements OnInit {
         this.asigTitle.classes = 'color-white';
         this.hasOffers = false;
       }
+      this.asigTitle = { ...this.asigTitle };
       this.cdRef.markForCheck();
     });
   }
