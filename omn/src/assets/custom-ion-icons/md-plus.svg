@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <svg width="20px" height="20px" viewBox="0 0 20 20" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-      <linearGradient id="lg" gradientTransform="rotate(135)">
+      <linearGradient id="lg" gradientTransform="rotate(135)" gradientUnits="userSpaceOnUse">
     <stop id="color1" offset="0" style="stop-color:var(--ion-color-base);"/>
     <stop id="color2" offset="1" style="stop-color:var(--ion-color-shade);" />
   </linearGradient>

@@ -1,18 +1,23 @@
-import { Component, OnInit } from "@angular/core";
-import { AuthService } from "../../../core/services/auth/auth.service";
-import { Account } from "../../../core/models/account.interface";
+import { Component, HostBinding, OnInit } from '@angular/core';
+import { Account } from '../../../core/models/account.interface';
+import { AuthService } from '../../../core/services/auth/auth.service';
+import { subPageHeaderDefault } from 'src/app/shared/data/sub-page-header-default';
+import { ConfigService } from 'src/app/core/services/config/config.service';
 
 @Component({
-  selector: "app-date-personale",
-  templateUrl: "./date-personale.page.html",
-  styleUrls: ["./date-personale.page.scss"],
+  selector: 'app-date-personale',
+  templateUrl: './date-personale.page.html',
+  styleUrls: ['./date-personale.page.scss'],
 })
 export class DatePersonalePage implements OnInit {
+  @HostBinding('class') color = 'ion-color-white-page';
+  release = this.configS.release();
   accountActivated: boolean;
   account$ = this.authS.getAccountData();
   accountData: Account;
+  headerConfig = subPageHeaderDefault('Date Personale');
 
-  constructor(private authS: AuthService) {}
+  constructor(private authS: AuthService, private configS: ConfigService) {}
 
   ngOnInit() {
     this.account$.subscribe((account) => {

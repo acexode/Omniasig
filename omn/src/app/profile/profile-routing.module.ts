@@ -12,21 +12,21 @@ const routes: Routes = [
         loadChildren: () =>
           import('./main/profil/profil.module').then((m) => m.ProfilPageModule),
       },
+      {
+        path: 'date-personale',
+        loadChildren: () =>
+          import('./pages/date-personale/date-personale.module').then(
+            (m) => m.DatePersonalePageModule
+          ),
+      },
+      {
+        path: 'locuinte',
+        loadChildren: () =>
+          import('./pages/locuinte/locuinte.module').then(
+            (m) => m.LocuintePageModule
+          ),
+      },
     ],
-  },
-  {
-    path: 'date-personale',
-    loadChildren: () =>
-      import('./pages/date-personale/date-personale.module').then(
-        (m) => m.DatePersonalePageModule
-      ),
-  },
-  {
-    path: 'locuinte',
-    loadChildren: () =>
-      import('./pages/locuinte/locuinte.module').then(
-        (m) => m.LocuintePageModule
-      ),
   },
 ];
 

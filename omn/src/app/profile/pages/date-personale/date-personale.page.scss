@@ -5,11 +5,6 @@ ion-item {
   --padding-start: 32px;
   margin-bottom: rem(10);
 }
-
-ion-content {
-  --padding-top: 43px;
-}
-
 ion-content,
 ion-item {
   --background: var(--app-white-color) !important;
@@ -61,7 +56,6 @@ ion-text {
     var(--app-light-green-color),
     var(--app-green-color)
   );
-  margin: rem(16) rem(32) rem(32) rem(32);
 }
 
 .vertical-spacing {

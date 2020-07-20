@@ -1,0 +1,67 @@
+<app-sub-page-header [config]="headerConfig"> </app-sub-page-header>
+<ion-content>
+  <ion-grid class="mx-32 mt-72 p-0">
+    <ng-container *ngIf="formGroup">
+      <ion-col class="ion-no-padding" [formGroup]="formGroup" #form>
+        <ion-row class="ion-no-padding">
+          <ng-container *ngIf="email && formMode === formModes.EDIT_EMAIL">
+            <ion-item class="form-group w-100">
+              <ion-label position="stacked" class="mb-8 input-label"
+                >Adresă nouă de e-mail</ion-label
+              >
+              <ion-input
+                type="email"
+                autocomplete="email"
+                formControlName="email"
+              ></ion-input> </ion-item
+          ></ng-container>
+          <ng-container *ngIf="cnp && formMode === formModes.EDIT_CNP">
+            <ion-item class="form-group w-100">
+              <ion-label class="mb-8 input-label" position="stacked"
+                >CNP</ion-label
+              >
+              <ion-input
+                type="tel"
+                formControlName="cnp"
+                placeholder="1234567891012"
+                maxlength="13"
+                minlength="13"
+              ></ion-input>
+            </ion-item>
+          </ng-container>
+        </ion-row>
+        <ion-row
+          class="ion-no-padding mt-16 w-100 ion-justify-content-center"
+          *ngIf="formMode === formModes.EDIT_EMAIL"
+        >
+          <ion-label color="omn-green" class="text-normal ion-text-center ion"
+            >Această adresă va trebui validată.</ion-label
+          >
+        </ion-row>
+        <ion-row
+          class="ion-no-padding mt-96 flex flex-1 flex-column ion-align-items-end ion-justify-content-end"
+        >
+          <ng-container *ngIf="formMode === formModes.EDIT_EMAIL">
+            <ion-label
+              *ngIf="timer$ | async"
+              class="w-100 text-small ion-text-center ion-text-center"
+              >Poți solicita un alt e-mail în {{ timer$ | async | time }}
+            </ion-label>
+          </ng-container>
+          <ion-button
+            *ngIf="(timer$ | async) === 0"
+            type="submit"
+            color="success"
+            fill="solid"
+            expand="block"
+            size="large"
+            class="m-0 w-100 flex mt-auto"
+            [disabled]="!formGroup?.valid"
+            (click)="submitForm()"
+            >Salveaza
+          </ion-button>
+        </ion-row>
+      </ion-col>
+    </ng-container>
+  </ion-grid>
+</ion-content>

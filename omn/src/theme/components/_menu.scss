@@ -1,0 +1,19 @@
+@import '../variables.scss';
+@import '../mixins/mixins';
+
+ion-menu {
+  ion-item {
+    --min-height: 40px;
+  }
+
+  .toggle-option, .active-item {
+    --border-radius: 100px 0 0 100px;
+    --background: var(--app-light-green-color);
+    font-weight: 500;
+    --color: var(--app-dark-green);
+  }
+
+  .toggle-option-arrow-icon {
+    transform: rotateX(180deg);
+  }
+}
