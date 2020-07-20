@@ -8,13 +8,16 @@ import { LocuintePageRoutingModule } from './locuinte-routing.module';
 
 import { LocuintePage } from './locuinte.page';
 
+import { SharedModule } from '../../../shared/shared.module';
+
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    LocuintePageRoutingModule
+    LocuintePageRoutingModule,
+    SharedModule,
   ],
-  declarations: [LocuintePage]
+  declarations: [LocuintePage],
 })
 export class LocuintePageModule {}
