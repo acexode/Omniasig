@@ -33,7 +33,10 @@ export class AuthService {
     lastName: 'Ionescu',
     cnp: '1234567890123',
     email: 'escuion@email.com',
-    addresses: [],
+    addresses: [
+      'Strada Traian 45, Brasov, jud. Brasov, Cod 500332',
+      'Strada Dimitrie Bolintineanu 71-73, Scara B, Ap. 21 Turnu Magurele jud.Teleorman, Cod 654321',
+    ],
     userStates: [AccountStates.INACTIVE, AccountStates.EMAIL_INVALIDATED],
   };
   // TODO: DEMO - reset auth state to default one login is implemented.
