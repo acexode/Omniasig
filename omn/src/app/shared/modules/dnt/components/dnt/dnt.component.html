@@ -1,11 +1,75 @@
 <ion-grid class="mx-32 mt-72 p-0">
   <ion-col class="ion-no-padding flex flex-1 w-100 flex-column">
-    <ion-row>
-      <ion-icon></ion-icon>
+    <ion-row *ngIf="visibleItem?.top">
+      <ion-icon
+        *ngIf="visibleItem?.top?.icon"
+        [name]="visibleItem?.top?.icon?.name"
+        [color]="visibleItem?.top?.icon?.color"
+        [ngClass]="visibleItem?.top?.icon?.classes"
+        class="icon-40 mb-0 mx-auto flex ion-align-self-start"
+      ></ion-icon>
       <ion-text></ion-text>
       <ion-text></ion-text>
     </ion-row>
-    <ion-row></ion-row>
-    <ion-row></ion-row>
+    <ion-row *ngIf="visibleItem?.middle">
+      <ion-icon
+        *ngIf="visibleItem?.middle?.icon"
+        [name]="visibleItem?.middle?.icon?.name"
+        [color]="visibleItem?.middle?.icon?.color"
+        [ngClass]="visibleItem?.middle?.icon?.classes"
+        class="icon-40 mb-0 mx-auto flex ion-align-self-start"
+      ></ion-icon>
+    </ion-row>
+    <ion-row *ngIf="visibleItem?.content" class="ion-no-padding">
+      <ng-container *ngFor="let textItem of visibleItem?.content">
+        <ion-text
+          [color]="textItem?.color"
+          [ngClass]="textItem?.classes"
+          class="dnt-content text-content-item"
+        >
+          {{ textItem?.text }}
+        </ion-text>
+      </ng-container>
+    </ion-row>
+    <ion-row *ngIf="visibleItem?.buttons">
+      <ng-container *ngIf="visibleItem?.buttons?.start">
+        <ng-container
+          [ngTemplateOutlet]="buttonTemplate"
+          [ngTemplateOutletContext]="{ button: visibleItem?.buttons?.start }"
+        ></ng-container>
+      </ng-container>
+      <ng-container *ngIf="visibleItem?.buttons?.end">
+        <ng-container
+          [ngTemplateOutlet]="buttonTemplate"
+          [ngTemplateOutletContext]="{ button: visibleItem?.buttons?.end }"
+        ></ng-container>
+      </ng-container>
+    </ion-row>
   </ion-col>
 </ion-grid>
+
+<ng-template #buttonTemplate let-button="button">
+  <ion-button
+    class="dnt-button"
+    [color]="button?.color"
+    [ngClass]="button?.classes"
+    [expand]="button?.expand"
+    [fill]="button?.fill"
+    [size]="button?.size"
+  >
+    <ion-label
+      class="button-label"
+      *ngIf="button?.text"
+      [ngClass]="button?.text?.classes"
+      [color]="button?.text?.color"
+      >{{ button?.text?.text }}</ion-label
+    >
+    <ion-icon
+      *ngIf="button?.icon"
+      [name]="button?.icon?.name"
+      [color]="button?.icon?.color"
+      [ngClass]="button?.icon?.classes"
+      class="icon-40 mb-0 mx-auto flex ion-align-self-start"
+    ></ion-icon>
+  </ion-button>
+</ng-template>

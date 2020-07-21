@@ -1,18 +1,7 @@
-import { IonIconItem } from 'src/app/shared/models/component/ion-icon-item';
-import { IonTextItem } from 'src/app/shared/models/component/ion-text-item';
+import { DntItemConfig } from './dnt-item-config';
 
 export interface DntConfig {
-  top: {
-    icon: IonIconItem;
-    primary: IonTextItem;
-    secondary: IonTextItem;
-  };
-  middle?: {
-    icon: IonIconItem;
-  };
-  bottom: Array<IonTextItem>;
-  buttons: {
-    start: any;
-    end: any;
-  };
+  items: Array<DntItemConfig>;
+  success: DntItemConfig;
+  cancel: DntItemConfig;
 }
