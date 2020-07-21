@@ -41,7 +41,15 @@
         <ion-row
           class="ion-no-padding mt-96 flex flex-1 flex-column ion-align-items-end ion-justify-content-end"
         >
+          <ng-container *ngIf="formMode === formModes.EDIT_EMAIL">
+            <ion-label
+              *ngIf="timer$ | async"
+              class="w-100 text-small ion-text-center ion-text-center"
+              >Poți solicita un alt e-mail în {{ timer$ | async | time }}
+            </ion-label>
+          </ng-container>
           <ion-button
+            *ngIf="(timer$ | async) === 0"
             type="submit"
             color="success"
             fill="solid"

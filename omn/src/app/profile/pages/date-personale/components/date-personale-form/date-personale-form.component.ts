@@ -14,6 +14,8 @@ import { CustomRouterService } from 'src/app/core/services/custom-router/custom-
 import { subPageHeaderDefault } from 'src/app/shared/data/sub-page-header-default';
 import { DatePersonaleFormModes } from 'src/app/shared/models/modes/date-personale-form-modes';
 import { EmailValidateModes } from 'src/app/shared/models/modes/email-validate-modes';
+import { BehaviorSubject, Subscription } from 'rxjs';
+import { CustomTimersService } from 'src/app/core/services/custom-timers/custom-timers.service';
 
 @Component({
   selector: 'app-date-personale-form',
@@ -28,13 +30,17 @@ export class DatePersonaleFormComponent implements OnInit {
   formMode = null;
   formGroup: FormGroup;
   headerConfig = null;
+  timerSubs: Subscription;
+  timer$ = new BehaviorSubject(0);
+
   constructor(
     private fb: FormBuilder,
     private authS: AuthService,
     private routerS: CustomRouterService,
     private aRoute: ActivatedRoute,
     private navCtrl: NavController,
-    private cdRef: ChangeDetectorRef
+    private cdRef: ChangeDetectorRef,
+    private timerS: CustomTimersService
   ) {}
 
   ngOnInit() {
@@ -71,6 +77,9 @@ export class DatePersonaleFormComponent implements OnInit {
             Validators.required,
           ]),
         });
+        this.timerSubs = this.timerS.emailValidateTimer$.subscribe((v) =>
+          this.timer$.next(v)
+        );
       }
       if (this.formMode === this.formModes.EDIT_CNP) {
         this.formGroup = this.fb.group({
