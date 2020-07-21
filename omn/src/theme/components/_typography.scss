@@ -70,6 +70,12 @@ h2,
   font-weight: normal;
 }
 
+.label-large {
+  font-size: rem(20);
+  line-height: rem(24);
+  font-weight: 600;
+}
+
 .input-label,
 ion-label.input-label,
 .item .ion-label {
