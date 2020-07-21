@@ -35,20 +35,26 @@
       <ng-container *ngIf="visibleItem?.buttons?.start">
         <ng-container
           [ngTemplateOutlet]="buttonTemplate"
-          [ngTemplateOutletContext]="{ button: visibleItem?.buttons?.start }"
+          [ngTemplateOutletContext]="{
+            button: visibleItem?.buttons?.start,
+            type: 'start'
+          }"
         ></ng-container>
       </ng-container>
       <ng-container *ngIf="visibleItem?.buttons?.end">
         <ng-container
           [ngTemplateOutlet]="buttonTemplate"
-          [ngTemplateOutletContext]="{ button: visibleItem?.buttons?.end }"
+          [ngTemplateOutletContext]="{
+            button: visibleItem?.buttons?.end,
+            type: 'end'
+          }"
         ></ng-container>
       </ng-container>
     </ion-row>
   </ion-col>
 </ion-grid>
 
-<ng-template #buttonTemplate let-button="button">
+<ng-template #buttonTemplate let-button="button" let-type="type">
   <ion-button
     class="dnt-button"
     [color]="button?.color"
@@ -56,6 +62,7 @@
     [expand]="button?.expand"
     [fill]="button?.fill"
     [size]="button?.size"
+    (click)="buttonClick(type, button?.data)"
   >
     <ion-label
       class="button-label"

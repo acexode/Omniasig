@@ -1,15 +1,15 @@
 import {
-  Component,
-  OnInit,
   ChangeDetectionStrategy,
-  Input,
   ChangeDetectorRef,
-  Output,
+  Component,
   EventEmitter,
+  Input,
+  OnInit,
+  Output,
 } from '@angular/core';
+import { get } from 'lodash';
 import { DntConfig } from '../../models/dnt-config';
 import { DntItemConfig } from '../../models/dnt-item-config';
-import { get } from 'lodash';
 
 @Component({
   selector: 'app-dnt',
@@ -20,21 +20,45 @@ import { get } from 'lodash';
 export class DntComponent implements OnInit {
   vConfig: DntConfig;
   visibleItem: DntItemConfig;
-  visibleItemIndex = null;
-  @Output() dntEvents: EventEmitter<'success' | 'error'> = new EventEmitter();
+  visibleItemIndex = -1;
+  contentItems = [];
+  successItem: DntItemConfig = null;
+  cancelItem: DntItemConfig = null;
+
+  @Output() dntEvents: EventEmitter<'success' | 'cancel'> = new EventEmitter();
   @Input() set config(conf: DntConfig) {
     this.vConfig = conf;
-    const items = get(conf, 'items', []);
-    if (items.length) {
-      this.visibleItemIndex = 0;
-      this.visibleItem = items[0];
+    this.contentItems = get(conf, 'items', []);
+    this.cancelItem = get(conf, 'cancel', []);
+    this.successItem = get(conf, 'success', []);
+    if (this.contentItems.length) {
+      this.navigateInList();
     }
   }
   constructor(private cdRef: ChangeDetectorRef) {}
 
-  navigateInList() {}
+  navigateInList(type = 'next') {
+    if (type === 'next' && this.contentItems[this.visibleItemIndex + 1]) {
+      this.visibleItemIndex = this.visibleItemIndex + 1;
+      this.visibleItem = this.contentItems[this.visibleItemIndex + 1];
+    }
+  }
 
   navigateToSuccess() {}
 
   ngOnInit() {}
+
+  buttonClick(type: 'start' | 'next' | 'end', data = null) {
+    if (type === 'next') {
+      if (this.visibleItemIndex === this.contentItems.length) {
+        this.visibleItemIndex = -1;
+        if (this.successItem) {
+          this.visibleItem = this.successItem;
+        }
+      } else {
+        this.navigateInList(type);
+      }
+    }
+    this.cdRef.markForCheck();
+  }
 }
