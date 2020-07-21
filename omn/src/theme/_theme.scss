@@ -26,6 +26,9 @@ body.omn {
 .flex-column {
   @include flex-direction(column);
 }
+.flex-row-reverse {
+  @include flex-direction(row-reverse);
+}
 .overflow-y-visible {
   overflow-y: visible;
 }

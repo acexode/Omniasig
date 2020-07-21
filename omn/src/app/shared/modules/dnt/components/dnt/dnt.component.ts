@@ -31,16 +31,19 @@ export class DntComponent implements OnInit {
     this.contentItems = get(conf, 'items', []);
     this.cancelItem = get(conf, 'cancel', []);
     this.successItem = get(conf, 'success', []);
+
     if (this.contentItems.length) {
       this.navigateInList();
     }
+    this.cdRef.markForCheck();
   }
   constructor(private cdRef: ChangeDetectorRef) {}
 
   navigateInList(type = 'next') {
     if (type === 'next' && this.contentItems[this.visibleItemIndex + 1]) {
-      this.visibleItemIndex = this.visibleItemIndex + 1;
       this.visibleItem = this.contentItems[this.visibleItemIndex + 1];
+      this.visibleItemIndex = this.visibleItemIndex + 1;
+      this.cdRef.markForCheck();
     }
   }
 
@@ -54,11 +57,11 @@ export class DntComponent implements OnInit {
         this.visibleItemIndex = -1;
         if (this.successItem) {
           this.visibleItem = this.successItem;
+          this.cdRef.markForCheck();
         }
       } else {
         this.navigateInList(type);
       }
     }
-    this.cdRef.markForCheck();
   }
 }

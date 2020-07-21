@@ -1,17 +1,28 @@
-<ion-grid class="mx-32 mt-72 p-0">
+<ion-grid class="m-0 p-0 flex flex-1 h-100 w-100">
   <ion-col class="ion-no-padding flex flex-1 w-100 flex-column">
     <ion-row *ngIf="visibleItem?.top">
-      <ion-icon
-        *ngIf="visibleItem?.top?.icon"
-        [name]="visibleItem?.top?.icon?.name"
-        [color]="visibleItem?.top?.icon?.color"
-        [ngClass]="visibleItem?.top?.icon?.classes"
-        class="icon-40 mb-0 mx-auto flex ion-align-self-start"
-      ></ion-icon>
-      <ion-text></ion-text>
-      <ion-text></ion-text>
+      <ion-col class="flex flex-1 flex-column">
+        <ion-icon
+          *ngIf="visibleItem?.top?.icon"
+          [name]="visibleItem?.top?.icon?.name"
+          [color]="visibleItem?.top?.icon?.color"
+          [ngClass]="visibleItem?.top?.icon?.classes"
+          class="icon-40 mb-0 mx-auto flex ion-align-self-start"
+        ></ion-icon>
+        <ng-container *ngFor="let cItem of visibleItem?.top?.content">
+          <ion-label
+            class="text-small text-weight-medium ion-text-center"
+            [ngClass]="cItem?.classes"
+            [color]="cItem?.color"
+            >{{ cItem?.text }}</ion-label
+          >
+        </ng-container>
+      </ion-col>
     </ion-row>
-    <ion-row *ngIf="visibleItem?.middle">
+    <ion-row
+      *ngIf="visibleItem?.middle"
+      [ngClass]="visibleItem?.middle?.classes"
+    >
       <ion-icon
         *ngIf="visibleItem?.middle?.icon"
         [name]="visibleItem?.middle?.icon?.name"
@@ -21,15 +32,17 @@
       ></ion-icon>
     </ion-row>
     <ion-row *ngIf="visibleItem?.content" class="ion-no-padding">
-      <ng-container *ngFor="let textItem of visibleItem?.content">
-        <ion-text
-          [color]="textItem?.color"
-          [ngClass]="textItem?.classes"
-          class="dnt-content text-content-item"
-        >
-          {{ textItem?.text }}
-        </ion-text>
-      </ng-container>
+      <ion-col class="flex flex-1 flex-column">
+        <ng-container *ngFor="let textItem of visibleItem?.content">
+          <ion-label
+            [color]="textItem?.color"
+            [ngClass]="textItem?.classes"
+            class="dnt-content text-content-item ion-text-center"
+          >
+            {{ textItem?.text }}
+          </ion-label>
+        </ng-container>
+      </ion-col>
     </ion-row>
     <ion-row *ngIf="visibleItem?.buttons">
       <ng-container *ngIf="visibleItem?.buttons?.start">
@@ -76,7 +89,8 @@
       [name]="button?.icon?.name"
       [color]="button?.icon?.color"
       [ngClass]="button?.icon?.classes"
-      class="icon-40 mb-0 mx-auto flex ion-align-self-start"
+      class="button-icon"
+      [slot]="button?.icon?.slot"
     ></ion-icon>
   </ion-button>
 </ng-template>

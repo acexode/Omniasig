@@ -2,7 +2,7 @@ import { IonIconItem } from './ion-icon-item';
 import { IonTextItem } from './ion-text-item';
 
 export interface IonButtonItem {
-  id: string;
+  id?: string;
   color?: string;
   classes?: string;
   icon?: IonIconItem;
