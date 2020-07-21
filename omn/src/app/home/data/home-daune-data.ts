@@ -12,7 +12,7 @@ export const testDauneData = [
         text: 'Dosar Nr. 123456',
       },
       {
-        text: '123456 dsdad sdas',
+        text: 'Lorem Ipsum',
       },
     ],
     id: '0',

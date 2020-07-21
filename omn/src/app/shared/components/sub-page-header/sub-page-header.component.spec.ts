@@ -1,9 +1,8 @@
-import { async, ComponentFixture, TestBed } from "@angular/core/testing";
-import { IonicModule } from "@ionic/angular";
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { IonicModule } from '@ionic/angular';
+import { SubPageHeaderComponent } from './sub-page-header.component';
 
-import { SubPageHeaderComponent } from "./sub-page-header.component";
-
-describe("SubPageComponent", () => {
+describe('SubPageComponent', () => {
   let component: SubPageHeaderComponent;
   let fixture: ComponentFixture<SubPageHeaderComponent>;
 
@@ -18,7 +17,7 @@ describe("SubPageComponent", () => {
     fixture.detectChanges();
   }));
 
-  it("should create", () => {
+  it('should create', () => {
     expect(component).toBeTruthy();
   });
 });

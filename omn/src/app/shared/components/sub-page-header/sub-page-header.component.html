@@ -1,11 +1,46 @@
-<ion-header [translucent]="false" class="header-element">
-  <ion-toolbar class="header-toolbar alt-font">
-    <ion-buttons slot="start">
-      <ion-icon (click)="back()" name="{{ leadingIcon }}"></ion-icon>
+<ion-header
+  [translucent]="false"
+  class="header-element"
+  [ngClass]="config?.headerClasses"
+>
+  <ion-toolbar
+    class="header-toolbar alt-font"
+    [color]="config?.toolbarColor"
+    [ngClass]="config?.toolbarClasses"
+  >
+    <ion-buttons
+      slot="start"
+      *ngIf="config?.leadingIcon"
+      class="m-0"
+      (click)="backAction(config?.leadingIcon)"
+    >
+      <ion-icon
+        *ngIf="config?.leadingIcon"
+        [name]="config?.leadingIcon?.name"
+        [color]="config?.leadingIcon?.color"
+        [ngClass]="config?.leadingIcon?.classes"
+      ></ion-icon>
     </ion-buttons>
-    <ion-title class="header-title" size="small">{{ pageTitle }}</ion-title>
-    <ion-buttons slot="end">
-      <ion-icon name="{{ trailingIcon }}"></ion-icon>
+    <ion-title
+      *ngIf="config?.title"
+      class="header-title alt-font"
+      [color]="config?.title?.color"
+      [class]="'header-title alt-font ' + config?.title?.classes"
+      [ngClass]="{
+        'pl-44': !config?.leadingIcon,
+        'pr-44': !config?.trailingIcon
+      }"
+      size="small"
+      >{{ config?.title?.text }}</ion-title
+    >
+    <ion-buttons slot="end" class="m-0">
+      <ion-icon
+        *ngIf="config?.trailingIcon"
+        [name]="config?.trailingIcon?.name"
+        [color]="config?.trailingIcon?.color"
+        [ngClass]="config?.trailingIcon?.classes"
+        (click)="trailingAction()"
+      ></ion-icon>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>

@@ -35,4 +35,16 @@ ion-icon {
       stop-color: $dark-green;
     }
   }
+
+  // Custom icon
+
+  &.plic-icon-lg {
+    height: rem(224);
+    width: rem(254);
+  }
+
+  &.check-icon-lg {
+    height: rem(166);
+    width: rem(160);
+  }
 }

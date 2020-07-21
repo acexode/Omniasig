@@ -1,0 +1,87 @@
+@import '../variables.scss';
+@import '../mixins/mixins';
+
+.omn {
+  ion-action-sheet {
+    --color: var(--app-text-color);
+    .action-sheet-container {
+      padding-left: rem(16);
+      padding-right: rem(16);
+      padding-bottom: rem(24);
+    }
+    .action-sheet-group {
+      position: relative;
+      padding-left: rem(16);
+      padding-right: rem(16);
+      box-shadow: $box-shadow-31;
+      --ion-safe-area-top: 0;
+      --ion-safe-area-bottom: 0;
+
+      .action-sheet-title {
+        text-align: center;
+        padding-inline-start: rem(24);
+        padding-inline-start: rem(16);
+        @extend .text-small;
+      }
+      &:not(:last-of-type) {
+        padding-bottom: rem(8);
+        &:after {
+          content: '';
+          height: rem(3);
+          background: inherit;
+          bottom: 0;
+          z-index: 1;
+          left: 0;
+          right: 0;
+          position: absolute;
+        }
+      }
+      &:first-of-type {
+        @extend .top-radius-8;
+        @extend .bottom-radius-0;
+      }
+      &:last-of-type {
+        @extend .top-radius-0;
+        box-shadow: $box-shadow-3;
+        @extend .bottom-radius-36;
+        padding-top: rem(8);
+        padding-bottom: rem(16);
+      }
+      button,
+      .action-sheet-button {
+        @include justify-content(center);
+        @extend ion-button;
+        text-align: center;
+        --backdrop-opacity: 1;
+        --color-activated: var(--color);
+        --color-focused: var(--color);
+        --color-hover: var(--color);
+        --button-background: var(--background);
+        --button-background-activated: var(--background-activated);
+        --button-background-activated-opacity: var(
+          --background-activated-opacity
+        );
+        --button-background-focused: var(--background-focused);
+        --button-background-focused-opacity: var(--background-focused-opacity);
+        --button-background-hover: var(--background-hover);
+        --button-background-hover-opacity: var(--background-hover-opacity);
+        --button-background-selected: var(--background-selected);
+        --button-background-selected-opacity: var(
+          --background-selected-opacity
+        );
+        --button-color: var(--ion-color-contrast);
+        --color: var(--button-color);
+        --button-color-activated: var(
+          --color-activated,
+          --button-color
+        ) !important;
+        --button-color-focused: var(--color-focused, --button-color) !important;
+        --button-color-hover: var(--color-hover, --button-color) !important;
+        --button-color-selected: var(--color-hover, --button-color) !important;
+        .action-sheet-button-inner {
+          @extend button;
+        }
+      }
+    }
+  }
+}

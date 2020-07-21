@@ -10,12 +10,15 @@ import { CustomStorageService } from './services/custom-storage/custom-storage.s
 import { AuthService } from './services/auth/auth.service';
 import { MenuService } from './services/menu/menu.service';
 import { IonicModule } from '@ionic/angular';
+import { RouterModule } from '@angular/router';
+import { CustomTimersService } from './services/custom-timers/custom-timers.service';
 
 @NgModule({
   declarations: [SideMenuComponent],
   imports: [
     CommonModule,
     HttpClientModule,
+    RouterModule,
     IonicModule,
     IonicStorageModule.forRoot({
       name: '__omndb',
@@ -28,6 +31,7 @@ import { IonicModule } from '@ionic/angular';
     ConfigService,
     AuthService,
     CustomStorageService,
+    CustomTimersService,
     MenuService,
   ],
   exports: [SideMenuComponent],

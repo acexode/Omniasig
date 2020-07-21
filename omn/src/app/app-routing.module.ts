@@ -10,9 +10,7 @@ const routes: Routes = [
   {
     path: 'policy',
     loadChildren: () =>
-      import('./modules/policy/policy.module').then(
-        (m) => m.PolicyModule
-      ),
+      import('./modules/policy/policy.module').then((m) => m.PolicyModule),
   },
   {
     path: '',

@@ -1,11 +1,11 @@
-import { Injectable } from "@angular/core";
+import { Injectable } from '@angular/core';
 import {
   ActivatedRoute,
   ActivatedRouteSnapshot,
   Router,
   UrlTree,
-} from "@angular/router";
-import { BehaviorSubject } from "rxjs";
+} from '@angular/router';
+import { BehaviorSubject } from 'rxjs';
 import {
   distinctUntilChanged,
   filter,
@@ -13,32 +13,31 @@ import {
   share,
   switchMap,
   tap,
-} from "rxjs/operators";
-import { authEndpoints } from "../../configs/endpoints";
-import { AccountStates } from "../../models/account-states";
-import { Account } from "../../models/account.interface";
-import { AuthState } from "../../models/auth-state.interface";
-import { LoginResponse } from "../../models/login-response.interface";
-import { Login } from "../../models/login.interface";
-import { CustomStorageService } from "../custom-storage/custom-storage.service";
-import { RequestService } from "../request/request.service";
+} from 'rxjs/operators';
+import { authEndpoints } from '../../configs/endpoints';
+import { AccountStates } from '../../models/account-states';
+import { Account } from '../../models/account.interface';
+import { AuthState } from '../../models/auth-state.interface';
+import { LoginResponse } from '../../models/login-response.interface';
+import { Login } from '../../models/login.interface';
+import { CustomStorageService } from '../custom-storage/custom-storage.service';
+import { RequestService } from '../request/request.service';
 
 @Injectable({
-  providedIn: "root",
+  providedIn: 'root',
 })
 export class AuthService {
   demoAccount: Account = {
     id: 1,
-    firstName: "Ion",
-    lastName: "Ionescu",
-    cnp: "189******7634",
-    email: "escuion@email.com",
+    firstName: 'Ion',
+    lastName: 'Ionescu',
+    cnp: '1234567890123',
+    email: 'escuion@email.com',
     addresses: [
-      "Strada Traian 45, Brasov, jud. Brasov, Cod 500332",
-      `Strada Dimitrie Bolintineanu 71-73, Scara B, Ap. 21 Turnu Magurele,
-      jud.Teleorman, Cod 654321`,
+      'Strada Traian 45, Brasov, jud. Brasov, Cod 500332',
+      'Strada Dimitrie Bolintineanu 71-73, Scara B, Ap. 21 Turnu Magurele jud.Teleorman, Cod 654321',
     ],
-    userStates: [AccountStates.ACTIVE],
+    userStates: [AccountStates.INACTIVE, AccountStates.EMAIL_INVALIDATED],
   };
   // TODO: DEMO - reset auth state to default one login is implemented.
   initialState: AuthState = {
@@ -54,15 +53,21 @@ export class AuthService {
     private reqS: RequestService
   ) {
     // Load account state from local/session/cookie storage.
-    this.storeS.getItem("account").subscribe((account: Account) => {
-      this.authState.next({ init: true, account });
-    });
+    this.storeS.getItem('account').subscribe((account: Account) => {
+      if (account) {
+        this.authState.next({
+          init: true,
+          account,
+        });
+      } else {
+        // TODO: Remove Demo code once logi is implemented.
+        this.storeS.setItem('account', this.demoAccount);
 
-    // TODO: Remove Demo code once logi is implemented.
-    this.storeS.setItem("account", this.demoAccount);
-    this.authState.next({
-      init: true,
-      account: this.demoAccount,
+        this.authState.next({
+          init: true,
+          account: this.demoAccount,
+        });
+      }
     });
   }
 
@@ -73,7 +78,7 @@ export class AuthService {
   getAuthState() {
     return this.authState.pipe(
       share(),
-      filter((val: AuthState) => val && val.hasOwnProperty("init") && val.init),
+      filter((val: AuthState) => val && val.hasOwnProperty('init') && val.init),
       distinctUntilChanged()
     );
   }
@@ -81,7 +86,9 @@ export class AuthService {
   getAccountData() {
     return this.getAuthState().pipe(
       share(),
-      map((val: AuthState) => val.account)
+      map((val: AuthState) => {
+        return val.account;
+      })
     );
   }
 
@@ -109,7 +116,7 @@ export class AuthService {
 
   processAuthResponse(data: LoginResponse) {
     const account = data.account ? data.account : null;
-    return this.storeS.setItem("account", account).pipe(
+    return this.storeS.setItem('account', account).pipe(
       tap(() => {
         this.authState.next({
           init: true,
@@ -123,16 +130,52 @@ export class AuthService {
   redirectUrlTree(snapshot: ActivatedRouteSnapshot): UrlTree {
     if (snapshot) {
       const qP = snapshot.queryParams;
-      const rUk = "returnUrl";
+      const rUk = 'returnUrl';
       if (qP.hasOwnProperty(rUk) && qP[rUk]) {
         return this.routerS.createUrlTree([qP[rUk]]);
       }
     }
-
-    return this.routerS.createUrlTree(["/"]);
+    return this.routerS.createUrlTree(['/']);
   }
 
   accountActivated(acc: Account) {
     return acc.userStates.findIndex((s) => s === AccountStates.ACTIVE) > -1;
+  }
+
+  // TODO: DEMO
+  demoLogout() {
+    this.storeS.removeItem('account');
+    this.storeS.setItem('account', this.demoAccount);
+    this.authState.next({
+      init: true,
+      account: this.demoAccount,
+    });
+  }
+
+  demoActivate() {
+    const state = this.authState.value;
+    state.account.userStates = [
+      AccountStates.ACTIVE,
+      AccountStates.EMAIL_VALIDATED,
+    ];
+    this.authState.next({
+      init: true,
+      account: { ...state.account },
+    });
+  }
+
+  demoUpdate(data: { cnp?: string; email?: string }) {
+    const account = this.authState.value.account;
+    if (data.cnp) {
+      account.cnp = data.cnp;
+    }
+    if (data.email) {
+      account.email = data.email;
+    }
+    this.storeS.setItem('account', account);
+    this.authState.next({
+      init: true,
+      account,
+    });
   }
 }
