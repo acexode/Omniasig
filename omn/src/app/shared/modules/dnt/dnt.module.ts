@@ -1,13 +1,11 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { DntComponent } from './components/dnt/dnt.component';
-import { DntService } from './services/dnt.service';
+import { NgModule } from '@angular/core';
 import { IonicModule } from '@ionic/angular';
+import { DntComponent } from './components/dnt/dnt.component';
 
 @NgModule({
   declarations: [DntComponent],
   imports: [CommonModule, IonicModule],
-  providers: [DntService],
   exports: [DntComponent],
 })
 export class DntModule {}
