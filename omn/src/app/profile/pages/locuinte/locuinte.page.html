@@ -3,13 +3,13 @@
 <ion-content>
   <ion-grid class="px-32 pt-32 pb-24 h-100 flex flex-column">
     <ion-row
-      *ngIf="!cards?.length"
+      *ngIf="accountActivated && !cards?.length"
       class="ion-no-padding flex ion-justify-content-center ion-align-items-center flex-column flex-1 mb-32"
     >
       <ion-icon name="lg-casa-il" class="w-100 d-flex lg-casa-il"></ion-icon>
     </ion-row>
     <ion-row
-      *ngIf="!cards?.length"
+      *ngIf="accountActivated && !cards?.length"
       class="ion-no-padding flex ion-justify-content-center mb-16"
     >
       <ion-label color="omn-green" class="label-large">
@@ -17,7 +17,7 @@
       </ion-label>
     </ion-row>
     <ion-row
-      *ngIf="!cards?.length"
+      *ngIf="accountActivated && !cards?.length"
       class="flex ion-justify-content-center mb-16"
     >
       <ion-label class="text-normal ion-text-center">
@@ -26,7 +26,20 @@
         acesteia. Simplu și rapid.
       </ion-label>
     </ion-row>
-    <ion-row class="ion-wrap" *ngIf="cards?.length">
+    <ion-row
+      *ngIf="!cards?.length"
+      class="flex ion-justify-content-center mb-16"
+    >
+      <ion-label
+        *ngIf="!accountActivated"
+        color="omn-green"
+        class="text-normal ion-text-center"
+      >
+        Activează-ți contul pentru a te bucura de serviciile noastre rapid și
+        sigur direct din aplicație.
+      </ion-label>
+    </ion-row>
+    <ion-row class="ion-wrap" *ngIf="accountActivated && cards?.length">
       <ng-container *ngFor="let cardI of cards; let first=first; let i=index">
         <ion-col
           class="ion-no-padding m-0 mb-24"
@@ -48,6 +61,7 @@
         expand="block"
         size="large"
         class="m-0 w-100"
+        (click)="openVerifyModal()"
         >Adaugă locuință
       </ion-button>
     </ion-row>
