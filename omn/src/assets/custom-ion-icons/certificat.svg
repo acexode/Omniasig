@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="131px" height="144px" viewBox="0 0 131 144" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>62A1B324-225E-436A-A35D-C54E69069C84</title>
+    <defs>
+        <filter x="-29.3%" y="-25.0%" width="158.5%" height="150.0%" filterUnits="objectBoundingBox" id="filter-1">
+            <feGaussianBlur stdDeviation="8" in="SourceGraphic"></feGaussianBlur>
+        </filter>
+        <linearGradient x1="50%" y1="0%" x2="50%" y2="100%" id="linearGradient-2">
+            <stop stop-color="#D5F3DD" offset="0%"></stop>
+            <stop stop-color="#AAE4B8" offset="100%"></stop>
+        </linearGradient>
+        <linearGradient x1="24.0725842%" y1="10.2304151%" x2="24.0725842%" y2="90.855638%" id="linearGradient-3">
+            <stop stop-color="#4FB0A7" offset="0%"></stop>
+            <stop stop-color="#7AC799" offset="100%"></stop>
+        </linearGradient>
+    </defs>
+    <g id="Cover" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Icons-and-illustrations" transform="translate(-1147.000000, -1454.000000)">
+            <g id="Certificat" transform="translate(1162.000000, 1454.000000)">
+                <rect id="Rectangle" fill="#87A7AE" opacity="0.691638765" filter="url(#filter-1)" x="9.5" y="24" width="82" height="96"></rect>
+                <path d="M2,0 L76,0 L76,0 L100,24 L100,118 C100,119.104569 99.1045695,120 98,120 L2,120 C0.8954305,120 1.3527075e-16,119.104569 0,118 L0,2 C-1.3527075e-16,0.8954305 0.8954305,2.02906125e-16 2,0 Z" id="Rectangle" fill="url(#linearGradient-2)"></path>
+                <path d="M76,0 L100,24 L77,24 C76.4477153,24 76,23.5522847 76,23 L76,0 L76,0 Z" id="Rectangle" fill="url(#linearGradient-3)" opacity="0.900000036"></path>
+                <g id="Group-2" transform="translate(76.000000, 68.000000)">
+                    <polygon id="Path" fill="#3C968D" points="18 0 21.6336695 2.6556 26.098238 1.82170717 28.0993854 5.628 32.3565857 6.67223296 32.5243982 11.0964 36 13.950881 34.1599164 17.9988 36 22.049119 32.5243982 24.9024 32.3565857 29.327767 28.0993854 30.3708 26.098238 34.1782928 21.6349011 33.3432 18 36 14.3637418 33.3432 9.90176204 34.1782928 7.89802589 30.3708 3.64341433 29.327767 3.47424467 24.9024 0 22.049119 1.83872644 18 0 13.950881 3.47424467 11.0964 3.64341433 6.67223296 7.89802589 5.628 9.90176204 1.82170717 14.3649733 2.6556"></polygon>
+                    <circle id="Oval" fill="#F1DA81" cx="18" cy="18" r="10"></circle>
+                </g>
+                <rect id="Rectangle" fill="#2E485D" x="16" y="62" width="40" height="5" rx="1"></rect>
+                <rect id="Rectangle" fill="#3C968D" x="16" y="71" width="40" height="5" rx="1"></rect>
+                <rect id="Rectangle" fill="#2E485D" x="16" y="71" width="40" height="5" rx="1"></rect>
+                <rect id="Rectangle" fill="#2E485D" x="16" y="80" width="40" height="5" rx="1"></rect>
+                <rect id="Rectangle" fill="#2E485D" x="16" y="89" width="24" height="5" rx="1"></rect>
+                <rect id="Rectangle" fill="#2E485D" x="16" y="49" width="32" height="5" rx="1"></rect>
+                <path d="M26,19 L37,27 L37,28 L36,28 L36,39 L16,39 L16,28 L15,28 L15,27 L26,19 Z M29,30 L23,30 L23,39 L29,39 L29,30 Z M31,39 L21,39 L21,40 C21,40.5522847 21.4477153,41 22,41 L30,41 C30.5522847,41 31,40.5522847 31,40 L31,39 L31,39 Z" id="🍎-Culoare" fill="#3C968D"></path>
+            </g>
+        </g>
+    </g>
+</svg>
