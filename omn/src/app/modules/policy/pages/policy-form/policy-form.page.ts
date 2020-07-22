@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { dntItemHelper } from 'src/app/shared/modules/dnt/data/dnt-item-helper';
-import { DntConfig } from 'src/app/shared/modules/dnt/models/dnt-config';
+import { policyTypes } from 'src/app/shared/models/data/policy-types';
 
 @Component({
   selector: 'app-policy-form',
@@ -8,12 +7,9 @@ import { DntConfig } from 'src/app/shared/modules/dnt/models/dnt-config';
   styleUrls: ['./policy-form.page.scss'],
 })
 export class PolicyFormPage implements OnInit {
-  dntConfig: DntConfig = {
-    items: [dntItemHelper()],
-    success: dntItemHelper(),
-    cancel: dntItemHelper(),
-  };
-  dntConfigItem = dntItemHelper();
+  typeV = 'PAD';
+  typeItem = policyTypes[this.typeV];
+  dntConfig = this.typeItem.dntConfig;
   constructor() {}
 
   ngOnInit() {}

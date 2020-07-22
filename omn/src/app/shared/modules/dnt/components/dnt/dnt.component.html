@@ -59,7 +59,7 @@
     <ion-row
       *ngIf="visibleItem?.buttons"
       [ngClass]="visibleItem?.buttons?.classes"
-      class="flex w-100 ion-justify-content-between ion-no-padding bg-white pt-32 pb-24 px-32"
+      class="flex w-100 ion-no-padding bg-white pt-32 pb-24 px-32"
     >
       <ng-container *ngIf="visibleItem?.buttons?.start">
         <ng-container
@@ -85,7 +85,7 @@
 
 <ng-template #buttonTemplate let-button="button" let-type="type">
   <ion-button
-    class="dnt-button no-shadow m-0"
+    class="dnt-button m-0"
     [color]="button?.color || 'omn-light-green'"
     [ngClass]="button?.classes"
     [expand]="button?.expand"
@@ -94,7 +94,7 @@
     (click)="buttonClick(type, button?.data)"
   >
     <ion-label
-      class="button-label s18-h24 text-weight-medium ls-0"
+      class="button-label text-weight-medium ls-0"
       *ngIf="button?.text"
       [ngClass]="button?.text?.classes"
       [color]="button?.text?.color"
