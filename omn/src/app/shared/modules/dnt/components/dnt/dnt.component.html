@@ -1,13 +1,13 @@
 <ion-grid class="m-0 p-0 flex flex-1 h-100 w-100">
   <ion-col class="ion-no-padding flex flex-1 w-100 flex-column">
-    <ion-row *ngIf="visibleItem?.top">
-      <ion-col class="flex flex-1 flex-column">
+    <ion-row *ngIf="visibleItem?.top" class="ion-no-padding mh-223 pb-36 px-32">
+      <ion-col class="flex flex-1 flex-column ion-no-padding">
         <ion-icon
           *ngIf="visibleItem?.top?.icon"
           [name]="visibleItem?.top?.icon?.name"
           [color]="visibleItem?.top?.icon?.color"
           [ngClass]="visibleItem?.top?.icon?.classes"
-          class="icon-40 mb-0 mx-auto flex ion-align-self-start"
+          class="my-16 mx-0 w-100"
         ></ion-icon>
         <ng-container *ngFor="let cItem of visibleItem?.top?.content">
           <ion-label
@@ -19,32 +19,48 @@
         </ng-container>
       </ion-col>
     </ion-row>
-    <ion-row
-      *ngIf="visibleItem?.middle"
-      [ngClass]="visibleItem?.middle?.classes"
-    >
-      <ion-icon
-        *ngIf="visibleItem?.middle?.icon"
-        [name]="visibleItem?.middle?.icon?.name"
-        [color]="visibleItem?.middle?.icon?.color"
-        [ngClass]="visibleItem?.middle?.icon?.classes"
-        class="icon-40 mb-0 mx-auto flex ion-align-self-start"
-      ></ion-icon>
-    </ion-row>
-    <ion-row *ngIf="visibleItem?.content" class="ion-no-padding">
-      <ion-col class="flex flex-1 flex-column">
-        <ng-container *ngFor="let textItem of visibleItem?.content">
-          <ion-label
-            [color]="textItem?.color"
-            [ngClass]="textItem?.classes"
-            class="dnt-content text-content-item ion-text-center"
+    <ion-row class="ion-no-padding bg-white flex flex-1 flex-column px-32">
+      <ion-col class="ion-no-padding flex flex-1 flex-column">
+        <ion-row
+          *ngIf="visibleItem?.middle"
+          [ngClass]="visibleItem?.middle?.classes"
+          class="ion-no-padding position-absolute w-100 mt-n20"
+        >
+          <div
+            class="flex flex-1 w-100 ion-justify-content-center ion-align-items-center ion-color-danger"
           >
-            {{ textItem?.text }}
-          </ion-label>
-        </ng-container>
+            <ion-icon
+              *ngIf="visibleItem?.middle?.icon"
+              [name]="visibleItem?.middle?.icon?.name"
+              [color]="visibleItem?.middle?.icon?.color"
+              [ngClass]="visibleItem?.middle?.icon?.classes"
+              class="p-10 icon-20 radius-50-perc bg-danger color-white"
+            ></ion-icon>
+          </div>
+        </ion-row>
+        <ion-row
+          *ngIf="visibleItem?.content"
+          class="ion-no-padding mt-28 flex flex-1 flex-column"
+        >
+          <ion-col class="flex flex-1 flex-column ion-no-padding">
+            <ng-container *ngFor="let textItem of visibleItem?.content">
+              <ion-label
+                [color]="textItem?.color"
+                [ngClass]="textItem?.classes"
+                class="dnt-content text-content-item ion-text-center flex ion-justify-content-center w-100"
+              >
+                {{ textItem?.text || ' ' }}
+              </ion-label>
+            </ng-container>
+          </ion-col>
+        </ion-row>
       </ion-col>
     </ion-row>
-    <ion-row *ngIf="visibleItem?.buttons">
+    <ion-row
+      *ngIf="visibleItem?.buttons"
+      [ngClass]="visibleItem?.buttons?.classes"
+      class="flex w-100 ion-justify-content-between ion-no-padding bg-white pt-32 pb-24 px-32"
+    >
       <ng-container *ngIf="visibleItem?.buttons?.start">
         <ng-container
           [ngTemplateOutlet]="buttonTemplate"
@@ -69,16 +85,16 @@
 
 <ng-template #buttonTemplate let-button="button" let-type="type">
   <ion-button
-    class="dnt-button"
-    [color]="button?.color"
+    class="dnt-button no-shadow m-0"
+    [color]="button?.color || 'omn-light-green'"
     [ngClass]="button?.classes"
     [expand]="button?.expand"
     [fill]="button?.fill"
-    [size]="button?.size"
+    [size]="button?.size || 'large'"
     (click)="buttonClick(type, button?.data)"
   >
     <ion-label
-      class="button-label"
+      class="button-label s18-h24 text-weight-medium ls-0"
       *ngIf="button?.text"
       [ngClass]="button?.text?.classes"
       [color]="button?.text?.color"
@@ -87,9 +103,9 @@
     <ion-icon
       *ngIf="button?.icon"
       [name]="button?.icon?.name"
-      [color]="button?.icon?.color"
+      [color]="button?.icon?.color || 'medium'"
       [ngClass]="button?.icon?.classes"
-      class="button-icon"
+      class="button-icon icon-20"
       [slot]="button?.icon?.slot"
     ></ion-icon>
   </ion-button>

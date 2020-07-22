@@ -181,6 +181,7 @@ $spacers: map-merge(
     26: 26px,
     28: 28px,
     30: 30px,
+    36: 36px,
     32: 32px,
     40: 40px,
     44: 44px,
@@ -201,9 +202,10 @@ $spacers: map-merge(
 
 $alt-font: 'Source Sans Pro', 'Helvetica Neue', Arial, sans-serif;
 /** Custom colors **/
-//Colors
+// Colors
 $white: #ffffff;
 $blue: #0087ea;
+$danger: #ef6d53;
 
 //Primary
 $green: #008641;

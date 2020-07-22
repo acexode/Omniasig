@@ -1,18 +1,25 @@
 @import '../variables.scss';
 @import '../mixins/mixins';
 
+.radius-50-perc {
+  border-radius: 50%;
+}
+
 .top-radius-0 {
   border-top-left-radius: 0;
   border-top-right-radius: 0;
 }
+
 .bottom-radius-0 {
   border-bottom-left-radius: 0;
   border-bottom-right-radius: 0;
 }
+
 .bottom-radius-40 {
   border-bottom-left-radius: rem(40);
   border-bottom-right-radius: rem(40);
 }
+
 .bottom-radius-24 {
   border-bottom-left-radius: rem(24);
   border-bottom-right-radius: rem(24);
@@ -26,6 +33,7 @@
   border-bottom-left-radius: rem(36);
   border-bottom-right-radius: rem(36);
 }
+
 .top-radius-8 {
   border-top-left-radius: rem(8);
   border-top-right-radius: rem(8);

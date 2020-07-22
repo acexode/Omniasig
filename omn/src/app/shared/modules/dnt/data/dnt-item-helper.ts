@@ -5,7 +5,7 @@ export const dntItemHelper = (): DntItemConfig => {
     top: {
       icon: {
         name: 'lg-casa-2',
-        classes: 'py-16',
+        classes: 'mh-94',
       },
       content: [
         {
@@ -21,17 +21,16 @@ export const dntItemHelper = (): DntItemConfig => {
     middle: {
       icon: {
         name: 'md-intrebari',
-        classes: 'icon-20',
       },
     },
     content: [
       {
         text: 'Formular de analiză a cerinţelor şi necesităţilor clienţilor',
-        classes: 'text-normal h3 alt-font text-weight-bold',
+        classes: 'text-normal h3 alt-font text-weight-bold mb-16',
       },
       {
         text: 'Ai o locuință pe care vrei să o asiguri?',
-        classes: 'text-normal',
+        classes: 'text-normal mb-16 flex-1',
         color: 'omn-green',
       },
       {
@@ -43,33 +42,29 @@ export const dntItemHelper = (): DntItemConfig => {
 
     buttons: {
       start: {
-        color: 'omn-light-green button-large no-shadow',
         text: {
           text: 'Nu',
-          classes: 's18-h24 text-weight-medium pr-8 pl-16 ls-0',
+          classes: 'pr-8 pl-16',
         },
         icon: {
           name: 'md-close',
-          classes: 'icon-20 mx-n2',
+          classes: 'mx-n2',
           color: 'medium',
           slot: 'start',
         },
-        classes: 'm-0',
       },
       end: {
-        color: 'omn-light-green button-large no-shadow',
-
+        color: 'omn-light-green',
+        size: 'large',
         text: {
           text: 'Da',
-          classes: 's18-h24 text-weight-medium pl-8 pr-16 ls-0',
+          classes: 'pl-8 pr-16',
         },
         icon: {
           name: 'md-check',
-          classes: 'icon-20 mx-n2',
-          color: 'medium',
+          classes: 'mx-n2 mt-n1',
           slot: 'end',
         },
-        classes: 'm-0',
       },
     },
   };
