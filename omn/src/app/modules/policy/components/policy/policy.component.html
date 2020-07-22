@@ -5,7 +5,12 @@
     class="header-toolbar"
   >
     <ion-buttons slot="start" class="header-buttons">
-      <ion-button (click)="openCustom()" class="header-button omn-green">
+      <ion-button
+        ion-menu-button
+        autoHide="false"
+        menu="omn-menu"
+        class="header-button omn-green"
+      >
         <ion-icon
           slot="icon-only"
           name="md-menu"
@@ -21,5 +26,7 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content> </ion-content>
+<ion-content>
+  
+</ion-content>
 <app-tab-menu></app-tab-menu>
