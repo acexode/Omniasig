@@ -49,25 +49,26 @@ export class LocuintePage implements OnInit {
     let actionSheet = null;
     this.actionSheetController
       .create({
-        // header: 'trash',
+        cssClass: 'locuinte-sheet',
         buttons: [
           {
             text: '',
             icon: 'certificat',
-            role: 'destruction',
-            cssClass: 'm-0 w-100 no-shadow',
-            // handler: () => {
-            //   console.log('here');
-            // },
+            cssClass: 'mt-24 w-100 no-shadow remove-event certificat',
           },
           {
-            text: 'Renunță',
-            role: 'cancel',
-            handler: () => {
-              console.log('here');
-            },
+            text: 'Atenție!',
+            cssClass: 'm-0 w-100 no-shadow remove-event atentie',
+          },
+          {
+            text:
+              'Nu poți asigura o locuință prin intermediul aplicației decât dacă ești proprietarul ei.!',
+            cssClass: 'm-0 w-100 mb-16 no-shadow remove-event',
+          },
+          {
+            text: 'Am înțeles!',
             cssClass:
-              'm-0 w-100 no-shadow ion-color-secondary button button-block button-large button-solid',
+              'm-0 w-100 no-shadow ion-color text-weight-medium ion-color-success flat button button-block button-large button-solid',
           },
         ],
       })
