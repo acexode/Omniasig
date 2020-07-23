@@ -39,7 +39,7 @@
         sigur direct din aplicație.
       </ion-label>
     </ion-row>
-    <ion-row class="ion-wrap" *ngIf="accountActivated && cards?.length">
+    <ion-row class="ion-wrap" *ngIf="cards?.length">
       <ng-container *ngFor="let cardI of cards; let first=first; let i=index">
         <ion-col
           class="ion-no-padding m-0 mb-24"
@@ -49,7 +49,10 @@
                   'pr-8': !(i%2)
               }"
         >
-          <app-image-card [item]="cardI" class="flex w-100"></app-image-card
+          <app-locuinte-card
+            [item]="cardI"
+            class="flex w-100"
+          ></app-locuinte-card
         ></ion-col>
       </ng-container>
     </ion-row>

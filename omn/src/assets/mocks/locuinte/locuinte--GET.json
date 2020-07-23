@@ -1,0 +1,27 @@
+[
+  {
+    "name": "Acasă Traian 45, Brasov",
+    "address": {
+      "county": "string",
+      "city": "string",
+      "street": "string",
+      "number": 7,
+      "entrance": "string"
+    },
+
+    "info": {
+      "type": "string",
+      "resistenceStructure": "string",
+      "buildYear": 5,
+      "value": {
+        "currency": "string",
+        "sum": "string"
+      },
+      "occupancy": "string",
+      "usablesurface": 10,
+      "heightRegime": 78,
+      "roomCount": 88,
+      "alarm": true
+    }
+  }
+]

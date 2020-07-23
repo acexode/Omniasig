@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ActionSheetController, NavController } from '@ionic/angular';
 import { subPageHeaderDefault } from 'src/app/shared/data/sub-page-header-default';
-import { ImageCard } from 'src/app/shared/models/component/image-card';
 import { AuthService } from 'src/app/core/services/auth/auth.service';
+import { LocuinteService } from 'src/app/core/services/locuinte/locuinte.service';
+import { Locuinte } from 'src/app/shared/models/data/locuinte';
 
 @Component({
   selector: 'app-locuinte',
@@ -13,35 +14,26 @@ export class LocuintePage implements OnInit {
   headerConfig = subPageHeaderDefault('Locuințe');
   accountActivated: boolean;
   account$ = this.authS.getAccountData();
-  cards: Array<ImageCard> = [
-    {
-      mainIcon: {
-        name: 'md-pin-ling',
-        color: 'green-gradient',
-        classes: 'icon-40 mt-16 mb-8',
-      },
-      textContent: [
-        {
-          text: 'Acasă Traian 45, Brasov',
-        },
-      ],
-      id: 'places',
-      itemClass: 'mh-104 shadow-page-item',
-      isButton: true,
-      // routerLink: ['locuinte'],
-    },
-  ];
+  cards: Array<Locuinte> = [];
 
   constructor(
     public actionSheetController: ActionSheetController,
-    private authS: AuthService
+    private authS: AuthService,
+    private locuinteS: LocuinteService
   ) {}
 
   ngOnInit() {
     this.account$.subscribe((account) => {
       if (account) {
         this.accountActivated = this.authS.accountActivated(account);
+        this.reQLocuintes();
       }
+    });
+  }
+
+  reQLocuintes() {
+    this.locuinteS.getUserLocuinte().subscribe((locuintes) => {
+      this.cards = locuintes;
     });
   }
 
