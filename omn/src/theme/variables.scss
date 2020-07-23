@@ -248,6 +248,12 @@ $box-shadow-3: 0 2px 5px 0 rgba(0, 0, 0, 0.12),
 
 $green-gradient: linear-gradient(135deg, $green 0%, $dark-green 100%);
 $red-gradient: linear-gradient(135deg, $green 0%, $dark-green 100%);
+$white-layer-gradient: linear-gradient(
+  180deg,
+  #ffffff 0%,
+  rgba(255, 255, 255, 0.67) 30.25%,
+  rgba(255, 255, 255, 0) 100%
+);
 
 $backdrop-opacity: 0.8;
 $backdrop-color: rgba($medium-green-2, $backdrop-opacity);

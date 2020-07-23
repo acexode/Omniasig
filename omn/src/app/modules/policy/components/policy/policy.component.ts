@@ -1,15 +1,15 @@
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
 import { MenuController } from '@ionic/angular';
 import { BehaviorSubject } from 'rxjs';
+import { Account } from 'src/app/core/models/account.interface';
 import { AuthService } from 'src/app/core/services/auth/auth.service';
 import { ImageCard } from 'src/app/shared/models/component/image-card';
+import { policyTypes } from 'src/app/shared/models/data/policy-types';
 import { offerItemHelper } from '../../data/main-offer-item-helper';
 import { policyItemHelper } from '../../data/main-policy-item-helper';
-import { PolicyDataService } from '../../services/policy-data.service';
-import { policyTypes } from 'src/app/shared/models/data/policy-types';
 import { policySalesItemHelper } from '../../data/main-policy-sales-item';
 import { policyListTitles } from '../../data/policy-list-titles';
-import { Account } from 'src/app/core/models/account.interface';
+import { PolicyDataService } from '../../services/policy-data.service';
 
 @Component({
   selector: 'app-policy',
@@ -17,6 +17,7 @@ import { Account } from 'src/app/core/models/account.interface';
   styleUrls: ['./policy.component.scss'],
 })
 export class PolicyComponent implements OnInit {
+  @ViewChild('footerButtons', { static: true }) footerButtons;
   titles = { ...policyListTitles };
   hasOffers = false;
   accountActivated = false;
@@ -81,7 +82,7 @@ export class PolicyComponent implements OnInit {
 
   buildSalesItems(account: Account) {
     const salesList = Object.values(policyTypes).map((pT) => {
-      const item = policySalesItemHelper(pT, account);
+      const item = policySalesItemHelper(pT, account, this.footerButtons);
       return item;
     });
     this.salesItems$.next(salesList);

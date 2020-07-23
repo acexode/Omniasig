@@ -17,12 +17,18 @@ body.omn {
 .flex-0 {
   flex: 0;
 }
+.mt-0-reset{
+  margin-top: 0!important;
+}
 
 .flex-column {
   @include flex-direction(column);
 }
 .flex-row-reverse {
   @include flex-direction(row-reverse);
+}
+.flex-column-reverse {
+  @include flex-direction(column-reverse);
 }
 .overflow-y-visible {
   overflow-y: visible;

@@ -7,8 +7,12 @@ export interface ImageCard {
   isButton?: boolean;
   mainIcon?: IonIconItem;
   textContent?: Array<IonTextItem>;
-  contentRef?: TemplateRef<any>;
-  contentRefData?: any;
+  textClass?: string;
+  contentRef?: {
+    item: TemplateRef<any>;
+    data?: any;
+    classes?: string;
+  };
   id: string | number;
   routerLink?: any;
   itemClass?: string;

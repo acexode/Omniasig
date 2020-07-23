@@ -7,8 +7,8 @@
   <ion-row class="ion-no-padding">
     <ion-col class="ion-no-padding">
       <ng-container *ngIf="items?.length">
-        <ion-row *ngFor="let item of items" class="ion-no-padding">
-          <app-image-card [item]="item"></app-image-card>
+        <ion-row *ngFor="let item of items" class="ion-no-padding mb-16">
+          <app-image-card [item]="item" class="w-100"></app-image-card>
         </ion-row>
       </ng-container>
     </ion-col>

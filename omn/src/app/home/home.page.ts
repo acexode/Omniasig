@@ -71,7 +71,7 @@ export class HomePage implements OnInit {
       mainIcon: {
         name: 'md-call-center',
         color: 'green-gradient',
-        classes: 'icon-40 mt-16',
+        classes: 'icon-40 mt-16 ion-align-self-start',
       },
       textContent: [
         {
@@ -86,7 +86,7 @@ export class HomePage implements OnInit {
       mainIcon: {
         name: 'md-chat',
         color: 'green-gradient',
-        classes: 'icon-40 mt-16 mb-8',
+        classes: 'icon-40 mt-16 mb-8 ion-align-self-start',
       },
       textContent: [
         {
@@ -101,7 +101,7 @@ export class HomePage implements OnInit {
       mainIcon: {
         name: 'md-intrebari',
         color: 'green-gradient',
-        classes: 'icon-40 mt-16 mb-0',
+        classes: 'icon-40 mt-16 mb-0 ion-align-self-start',
       },
       textContent: [
         {
@@ -123,7 +123,7 @@ export class HomePage implements OnInit {
         mainIcon: {
           name: 'md-user-light',
           color: 'green-gradient',
-          classes: 'icon-32 mt-0',
+          classes: 'icon-32 mt-0 ion-align-self-start',
         },
         textContent: [],
         id: 'account',
@@ -133,7 +133,7 @@ export class HomePage implements OnInit {
         mainIcon: {
           name: 'md-email-light',
           color: 'green-gradient',
-          classes: 'icon-32 mt-0 mx-0',
+          classes: 'icon-32 mt-0 mx-0 ion-align-self-start',
         },
         textContent: [],
         id: 'email',

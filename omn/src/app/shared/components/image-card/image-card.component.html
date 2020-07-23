@@ -35,28 +35,41 @@
     [name]="item?.headerIcon?.name"
     [color]="item?.headerIcon?.color"
     [ngClass]="item?.headerIcon?.classes"
-    class="icon-20 px-10 py-8 position-absolute right-0 top-0 bottom-left-radius-8"
+    class="icon-20 px-10 py-8 position-absolute right-0 top-0 bottom-left-radius-8 header-icon"
   ></ion-icon>
   <ion-icon
     *ngIf="item?.mainIcon"
     [name]="item?.mainIcon?.name"
     [color]="item?.mainIcon?.color"
     [ngClass]="item?.mainIcon?.classes"
-    class="icon-40 mb-0 mx-auto flex ion-align-self-start"
+    class="mb-0 mx-auto flex main-icon"
   ></ion-icon>
   <ion-card-content
     *ngIf="item?.textContent?.length"
-    class="flex mt-auto p-8 text-small text-weight-medium ion-align-items-end flex-1 ion-justify-content-center w-100 ion-text-center"
+    [ngClass]="item?.textClass"
+    class="flex flex-1 w-100 ion-text-center mt-auto p-8 text-small text-weight-medium ion-align-items-end ion-justify-content-center"
   >
-    <ion-col class="ion-no-padding w-100">
-      <ion-text
-        class="w-100 ion-no-padding"
-        *ngFor="let text of item?.textContent"
-        [ngClass]="text?.classes"
-        [color]="text?.color"
-      >
-        {{ text?.text }}
-      </ion-text>
-    </ion-col>
+    <ion-row class="ion-no-padding w-100">
+      <ion-col class="ion-no-padding w-100">
+        <ion-text
+          class="w-100 ion-no-padding"
+          *ngFor="let text of item?.textContent"
+          [ngClass]="text?.classes"
+          [color]="text?.color"
+        >
+          {{ text?.text }}
+        </ion-text>
+      </ion-col>
+    </ion-row>
+    <ion-row
+      *ngIf="item?.contentRef"
+      class="ion-no-padding content-ref-wrapper w-100"
+      [ngClass]="item?.contentRef?.classes"
+    >
+      <ng-container
+        [ngTemplateOutlet]="item?.contentRef?.item"
+        [ngTemplateOutletContext]="item?.contentRef?.data"
+      ></ng-container>
+    </ion-row>
   </ion-card-content>
 </ng-template>

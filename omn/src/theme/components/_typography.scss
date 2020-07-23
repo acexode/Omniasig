@@ -64,6 +64,10 @@ h3,
   font-size: rem(18) !important;
   line-height: rem(24) !important;
 }
+.s24-h25 {
+  font-size: rem(24);
+  line-height: rem(25);
+}
 .white-space-normal {
   white-space: normal;
 }
@@ -88,6 +92,9 @@ ion-label.input-label,
   font-weight: normal;
 }
 .ls-min-02 {
+  letter-spacing: -0.2px;
+}
+.ls-02 {
   letter-spacing: -0.2px;
 }
 

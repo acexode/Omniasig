@@ -13,7 +13,7 @@ export class ProfilPage implements OnInit {
       mainIcon: {
         name: 'md-user-light-ling',
         color: 'green-gradient',
-        classes: 'icon-40 mt-16 mb-8',
+        classes: 'icon-40 mt-16 mb-8 ion-align-self-start',
       },
       textContent: [
         {
@@ -29,7 +29,7 @@ export class ProfilPage implements OnInit {
       mainIcon: {
         name: 'md-pin-ling',
         color: 'green-gradient',
-        classes: 'icon-40 mt-16 mb-8',
+        classes: 'icon-40 mt-16 mb-8 ion-align-self-start',
       },
       textContent: [
         {
@@ -43,7 +43,7 @@ export class ProfilPage implements OnInit {
     //   mainIcon: {
     //     name: 'md-car-ling',
     //     color: 'green-gradient',
-    //     classes: 'icon-40 mt-16 mb-8',
+    //     classes: 'icon-40 mt-16 mb-8 ion-align-self-start',
     //   },
     //   textContent: [
     //     {
@@ -71,7 +71,7 @@ export class ProfilPage implements OnInit {
       mainIcon: {
         name: 'md-file-ling',
         color: 'green-gradient',
-        classes: 'icon-40 mt-16 mb-8',
+        classes: 'icon-40 mt-16 mb-8 ion-align-self-start',
       },
       textContent: [
         {
@@ -85,7 +85,7 @@ export class ProfilPage implements OnInit {
       mainIcon: {
         name: 'md-email-light-ling',
         color: 'green-gradient',
-        classes: 'icon-40 mt-16 mb-8',
+        classes: 'icon-40 mt-16 mb-8 ion-align-self-start',
       },
       textContent: [
         {

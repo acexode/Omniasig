@@ -24,4 +24,23 @@ ion-card {
       flex-direction: column;
     }
   }
+  &.white-overlay-gradient {
+    &::before {
+      content: ' ';
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      height: 100%;
+      width: 100%;
+      z-index: 1;
+      background: $white-layer-gradient;
+      border-radius: rem(8);
+    }
+    > * {
+      z-index: 2;
+      &.main-icon {
+        z-index: 0;
+      }
+    }
+  }
 }

@@ -51,3 +51,20 @@
   </ion-grid>
 </ion-content>
 <app-tab-menu> </app-tab-menu>
+
+<ng-template #footerButtons let-data>
+  <ion-row class="ion-no-padding flex" [ngClass]="data?.classes">
+    <ion-col class="ion-no-padding flex">
+      <ion-button
+        [expand]="data?.leftButton?.expand"
+        [fill]="data?.leftButton?.fill"
+        [color]="data?.leftButton?.color"
+        [size]="data?.leftButton?.size"
+        [ngClass]="data?.leftButton?.classes"
+        *ngIf="data?.leftButton"
+        >{{ data?.leftButton?.text }}</ion-button
+      >
+    </ion-col>
+    <ion-col class="ion-no-padding flex"></ion-col>
+  </ion-row>
+</ng-template>

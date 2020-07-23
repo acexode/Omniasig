@@ -5,7 +5,7 @@ export const testDauneData = [
     mainIcon: {
       name: 'md-dosar',
       color: 'green-gradient',
-      classes: 'mb-8 mt-16',
+      classes: 'mb-8 mt-16 icon-40',
     },
     textContent: [
       {

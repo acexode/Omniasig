@@ -3,6 +3,7 @@ import {
   OnInit,
   Input,
   ChangeDetectionStrategy,
+  ViewChild,
 } from '@angular/core';
 import { ImageCard } from 'src/app/shared/models/component/image-card';
 import { IonTextItem } from 'src/app/shared/models/component/ion-text-item';
@@ -14,7 +15,8 @@ import { IonTextItem } from 'src/app/shared/models/component/ion-text-item';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PolicyCardListComponent implements OnInit {
-  @Input() items: Array<ImageCard> = [];
+  @Input()
+  items: Array<ImageCard> = [];
   @Input() title: IonTextItem = null;
   constructor() {}
 
