@@ -48,8 +48,10 @@ body.omn {
 }
 
 .omn-gradient-image {
-  background-image: url('/assets/custom-ion-icons/md-omn-green-bg.svg');
-  background-position: left top;
+  background: $green-gradient;
+  background-image: url('/assets/custom-ion-icons/md-omn-green-bg.svg'),
+    $green-gradient;
+  background-position: left bottom;
   background-repeat: no-repeat;
   background-size: 100%;
 }
