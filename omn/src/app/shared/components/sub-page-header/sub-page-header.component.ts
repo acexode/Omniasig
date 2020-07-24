@@ -1,5 +1,8 @@
-import { Component, OnInit, Input } from '@angular/core';
-import { Location } from '@angular/common';
+import { Component, Input, OnInit } from '@angular/core';
+import { NavController } from '@ionic/angular';
+import { IonIconItem } from '../../models/component/ion-icon-item';
+import { SubPageHeader } from '../../models/component/sub-page-header';
+import { get } from 'lodash';
 
 @Component({
   selector: 'app-sub-page-header',
@@ -7,15 +10,19 @@ import { Location } from '@angular/common';
   styleUrls: ['./sub-page-header.component.scss'],
 })
 export class SubPageHeaderComponent implements OnInit {
-  @Input() pageTitle;
-  @Input() leadingIcon = 'arrow-back-outline';
-  @Input() trailingIcon = 'add-outline';
+  @Input() config: SubPageHeader;
 
-  constructor(private _location: Location) {}
+  constructor(private navCtrl: NavController) {}
 
   ngOnInit() {}
 
-  back() {
-    this._location.back();
+  backAction(iconConf?: IonIconItem) {
+    const rLink = iconConf ? get(iconConf, 'routerLink', null) : null;
+    if (rLink === null) {
+      this.navCtrl.back();
+    } else {
+      this.navCtrl.navigateBack(rLink);
+    }
   }
+  trailingAction() {}
 }

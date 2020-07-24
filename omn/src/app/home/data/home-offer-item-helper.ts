@@ -28,10 +28,10 @@ export const offerHomeItemHelper = (offer: PolicyOffer) => {
     baseItem.routerLink = '/policy/offer/' + offer.id;
     if (offer.policy && offer.policy.type) {
       const t = offer.policy.type;
-      baseItem.textContent.head.text = t.shortDescription
+      baseItem.textContent.head.text = t.name ? t.name : '';
+      baseItem.textContent.body.text = t.shortDescription
         ? t.shortDescription
         : '';
-      baseItem.textContent.body.text = t.name ? t.name : '';
     }
     baseItem.textContent.footer.text = offer.expiry
       ? offer.expiry.toString()

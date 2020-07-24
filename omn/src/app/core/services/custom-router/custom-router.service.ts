@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
-import { filter, share } from 'rxjs/operators';
+import { filter, share, map } from 'rxjs/operators';
+import { Subject, BehaviorSubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -25,6 +26,19 @@ export class CustomRouterService {
       return stateChild.data.value[dataKey];
     } else {
       return null;
+    }
+  }
+
+  processChildDataAsync(state, dataKey): Subject<any> {
+    const stateChild = this.getStateChildFromTree(state);
+    if (
+      stateChild &&
+      stateChild.hasOwnProperty('data') &&
+      stateChild.data instanceof Subject
+    ) {
+      return stateChild.data.pipe(map((value) => value[dataKey]));
+    } else {
+      return new BehaviorSubject(null);
     }
   }
 

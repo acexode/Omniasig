@@ -1,16 +1,21 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  OnInit,
+} from '@angular/core';
 import { MenuController } from '@ionic/angular';
 import { BehaviorSubject } from 'rxjs';
 import { AuthService } from '../core/services/auth/auth.service';
+import { ConfigService } from '../core/services/config/config.service';
 import { PolicyDataService } from '../modules/policy/services/policy-data.service';
 import { DisabledPlaceholderCard } from '../shared/models/component/disabled-placeholder-card';
 import { ImageCard } from '../shared/models/component/image-card';
 import { IonTextItem } from '../shared/models/component/ion-text-item';
 import { PolicyListItem } from '../shared/models/component/policy-list-item';
-import { dauneDisabled } from './data/home-daune-data';
+import { dauneDisabled, testDauneData, addDaune } from './data/home-daune-data';
 import { offerHomeItemHelper } from './data/home-offer-item-helper';
 import { policyHomeItemHelper } from './data/home-policy-item-helper';
-// import { ConsoleReporter } from 'jasmine';
 
 @Component({
   selector: 'app-home',
@@ -19,7 +24,7 @@ import { policyHomeItemHelper } from './data/home-policy-item-helper';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HomePage implements OnInit {
-  release2 = false;
+  release = this.configS.release();
   dauneDisabled = dauneDisabled;
   hasOffers = false;
   accountActivated = false;
@@ -27,7 +32,6 @@ export class HomePage implements OnInit {
   policies$: BehaviorSubject<Array<PolicyListItem>> = new BehaviorSubject([]);
   account$ = this.authS.getAccountData();
 
-  // DEMO:daune: Array<ImageCard> = testDauneData.concat(addDaune);
   daune: Array<ImageCard> = null;
 
   // Default title configs.
@@ -133,6 +137,7 @@ export class HomePage implements OnInit {
         },
         textContent: [],
         id: 'email',
+        routerLink: ['/profil', 'date-personale', 'validate-email'],
         itemClass: 'p-16 flex-1 mb-16',
       },
     ],
@@ -155,8 +160,14 @@ export class HomePage implements OnInit {
   constructor(
     private menu: MenuController,
     private authS: AuthService,
-    private policyS: PolicyDataService
-  ) {}
+    private policyS: PolicyDataService,
+    private cdRef: ChangeDetectorRef,
+    private configS: ConfigService
+  ) {
+    if (this.release === 2) {
+      this.daune = testDauneData.concat(addDaune);
+    }
+  }
 
   ngOnInit(): void {
     this.account$.subscribe((account) => {
@@ -199,10 +210,11 @@ export class HomePage implements OnInit {
         this.asigTitle.classes = 'color-white';
         this.hasOffers = false;
       }
+      this.asigTitle = { ...this.asigTitle };
+      this.cdRef.markForCheck();
     });
   }
   openCustom() {
-    console.log(this.menu);
     this.menu.enable(true, 'omn-menu');
     this.menu.open('omn-menu');
   }
