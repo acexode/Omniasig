@@ -92,7 +92,7 @@
 }
 .color-white {
   color: $white;
-  --color: var(--app-color-white)
+  --color: var(--app-color-white);
 }
 .color-light-red {
   color: $light-red;
@@ -102,6 +102,9 @@
 }
 .bg-green {
   background-color: $green;
+}
+.bg-green-08 {
+  background-color: rgba($green, 0.8);
 }
 .bg-white {
   background-color: $white;

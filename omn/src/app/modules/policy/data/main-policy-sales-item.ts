@@ -17,7 +17,7 @@ export const policySalesItemHelper = (
     itemClass: 'mh-160 shadow-page-item white-overlay-gradient',
     contentClass:
       'mt-0-reset ion-align-items-start ion-text-left pt-12 ' +
-      'flex flex-1 flex-column',
+      'pr-16 flex flex-1 flex-column',
     textClass:
       'ion-align-items-start ion-text-left w-100 pl-8 pr-52 ' +
       'flex flex-1 flex-column ion-justify-content-center',
@@ -43,21 +43,21 @@ export const policySalesItemHelper = (
   if (containerRefItem) {
     baseItem.contentRef = {
       item: containerRefItem,
-      classes: 'flex flex-1 flex-column ion-justify-content-end w-100',
+      classes: 'flex flex-1 flex-column ion-justify-content-end w-100 pl-8',
       data: {
         leftButton: {
-          classes: 'mb-8 mt-0 mx-0 no-shadow flat',
+          classes: 'mb-8 mt-0 mx-0 no-shadow flat mr-16',
           text: 'Vezi polita',
           size: 'small',
           shape: 'round',
           color: 'danger',
         },
         rightLabel: {
-          text: 'qweqweqweqw',
+          text: '12.07.2020 - 12.07.2021',
           classes:
-            'flex ion-align-items-center ion-justify-content-end ' +
-            'ion-text-end mx-n8 pl-8 pr-16 text-small bg-green color-white' +
-            'ls-m-02 py-3 font-weight-medium',
+            'flex ion-align-items-end ion-justify-content-end ' +
+            'mr-n16 pl-8 pr-16 text-small bg-green-08 color-white ' +
+            'ls-m-02 py-4 font-weight-medium',
         },
       },
     };
