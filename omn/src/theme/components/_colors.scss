@@ -63,6 +63,7 @@
   --ion-color-shade: var(--ion-color-omn-medium-shade);
   --ion-color-tint: var(--ion-color-omn-medium-tint);
 }
+
 .ion-color-omn-disabled-icon {
   --ion-color-base: var(--ion-color-omn-grey-5);
   --ion-color-base-rgb: var(--ion-color-omn-medium-rgb);
@@ -78,13 +79,22 @@
 .color-dark-green {
   color: $dark-green !important;
 }
+
 .color-secondary-grey {
   color: $secondary-grey;
+}
+.color-tertiary-grey {
+  color: $grey3;
 }
 .color-white {
   color: $white;
 }
-
 .color-light-red {
   color: $light-red;
+}
+.bg-danger {
+  background-color: $danger;
+}
+.bg-white {
+  background-color: $white;
 }

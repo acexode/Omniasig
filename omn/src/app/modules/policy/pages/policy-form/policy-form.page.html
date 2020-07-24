@@ -1,0 +1,24 @@
+<ion-header [translucent]="false" class="header-element">
+  <ion-toolbar
+    size="small"
+    color="omn-transparent-green"
+    class="header-toolbar"
+  >
+    <ion-buttons slot="start" class="header-buttons">
+      <ion-button class="header-button omn-green">
+        <ion-icon
+          slot="icon-only"
+          name="md-menu"
+          class="icon-20 header-button-icon"
+        ></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title class="ion-text-left header-title omn-green"
+      ><h2 class="alt-font omn-green">
+        Asigurari
+      </h2>
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content> <app-dnt [config]="dntConfig"></app-dnt> </ion-content>
