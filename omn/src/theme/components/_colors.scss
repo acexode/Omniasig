@@ -77,9 +77,11 @@
   --ion-background-color: var(--ion-color-omn-grey-medium-2);
   background-color: $light-grey-2;
 }
+
 .color-dark-green {
   color: $dark-green !important;
 }
+
 .color-green {
   color: $green !important;
 }
@@ -87,29 +89,39 @@
 .color-secondary-grey {
   color: $secondary-grey;
 }
+
 .color-tertiary-grey {
   color: $grey3;
 }
+
 .color-white {
   color: $white;
   --color: var(--app-color-white);
 }
+
 .color-light-red {
   color: $light-red;
 }
+
 .bg-danger {
   background-color: $danger;
 }
+
 .bg-green {
   background-color: $green;
 }
+
 .bg-green-08 {
   background-color: rgba($green, 0.8);
 }
+
 .bg-white {
   background-color: $white;
 }
 
+.bg-light-green-2 {
+  background-color: $light-green-2;
+}
 .bg-white-layer-gradient {
   background: $white-layer-gradient;
 }

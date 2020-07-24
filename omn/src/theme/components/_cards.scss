@@ -43,4 +43,19 @@ ion-card {
       }
     }
   }
+
+  &.light-green-gradient {
+    background: $green-gradient-45;
+    background-color: $light-green-2;
+    .main-icon {
+      opacity: 0.45;
+    }
+  }
+
+  &.dark-green-gradient {
+    background: $green-gradient-45, $green-gradient;
+    .main-icon {
+      opacity: 0.45;
+    }
+  }
 }
