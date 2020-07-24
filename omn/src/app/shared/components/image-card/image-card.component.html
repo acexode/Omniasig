@@ -46,10 +46,10 @@
   ></ion-icon>
   <ion-card-content
     *ngIf="item?.textContent?.length"
-    [ngClass]="item?.textClass"
+    [ngClass]="item?.contentClass"
     class="flex flex-1 w-100 ion-text-center mt-auto p-8 text-small text-weight-medium ion-align-items-end ion-justify-content-center"
   >
-    <ion-row class="ion-no-padding w-100">
+    <ion-row class="ion-no-padding w-100" [ngClass]="item?.textClass">
       <ion-col class="ion-no-padding w-100">
         <ion-text
           class="w-100 ion-no-padding"
@@ -63,12 +63,12 @@
     </ion-row>
     <ion-row
       *ngIf="item?.contentRef"
-      class="ion-no-padding content-ref-wrapper w-100"
+      class="ion-no-padding content-ref-wrapper"
       [ngClass]="item?.contentRef?.classes"
     >
       <ng-container
         [ngTemplateOutlet]="item?.contentRef?.item"
-        [ngTemplateOutletContext]="item?.contentRef?.data"
+        [ngTemplateOutletContext]="{ data: item?.contentRef?.data }"
       ></ng-container>
     </ion-row>
   </ion-card-content>

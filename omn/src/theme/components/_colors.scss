@@ -24,6 +24,7 @@
   --ion-color-shade: transparent;
   --ion-color-tint: transparent;
 }
+
 .ion-color-omn-transparent-green {
   --ion-color-base: transparent;
   --ion-color-base-rgb: transparent;
@@ -79,6 +80,9 @@
 .color-dark-green {
   color: $dark-green !important;
 }
+.color-green {
+  color: $green !important;
+}
 
 .color-secondary-grey {
   color: $secondary-grey;
@@ -88,12 +92,16 @@
 }
 .color-white {
   color: $white;
+  --color: var(--app-color-white)
 }
 .color-light-red {
   color: $light-red;
 }
 .bg-danger {
   background-color: $danger;
+}
+.bg-green {
+  background-color: $green;
 }
 .bg-white {
   background-color: $white;

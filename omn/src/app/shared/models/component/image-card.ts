@@ -7,6 +7,7 @@ export interface ImageCard {
   isButton?: boolean;
   mainIcon?: IonIconItem;
   textContent?: Array<IonTextItem>;
+  contentClass?: string;
   textClass?: string;
   contentRef?: {
     item: TemplateRef<any>;
