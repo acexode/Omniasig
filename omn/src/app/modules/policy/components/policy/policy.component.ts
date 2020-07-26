@@ -39,8 +39,8 @@ export class PolicyComponent implements OnInit {
         this.buildSalesItems(account);
         this.accountActivated = this.authS.accountActivated(account);
         if (this.accountActivated) {
-          this.reQPolicies(account.id);
-          this.reqOffers(account.id);
+          this.reQPolicies(account);
+          this.reqOffers(account);
         }
       }
     });
@@ -53,12 +53,14 @@ export class PolicyComponent implements OnInit {
 
   /**
    * Request user Policies data.
-   * @param id - User Id
+   * @param account - User account
    */
-  reQPolicies(id: string | number) {
-    this.policyS.getUserPolicies(id).subscribe((policies) => {
+  reQPolicies(account: Account) {
+    this.policyS.getUserPolicies(account.id).subscribe((policies) => {
       if (policies) {
-        this.policies$.next(policies.map((p) => policyItemHelper(p)));
+        this.policies$.next(
+          policies.map((p) => policyItemHelper(p, account, null))
+        );
       } else {
         this.policies$.next([]);
       }
@@ -67,12 +69,12 @@ export class PolicyComponent implements OnInit {
 
   /**
    * Request user Offers data.
-   * @param id - User Id
+   * @param account - User account
    */
-  reqOffers(id: string | number) {
-    this.policyS.getUserOffers(id).subscribe((offers) => {
+  reqOffers(account: Account) {
+    this.policyS.getUserOffers(account.id).subscribe((offers) => {
       if (offers && offers.length > 0) {
-        this.offers$.next(offers.map((o) => offerItemHelper(o)));
+        this.offers$.next(offers.map((o) => offerItemHelper(o, account, null)));
       } else {
         this.offers$.next([]);
       }

@@ -23,7 +23,7 @@ export const testDauneData = [
 
 export const addDaune = {
   mainIcon: {
-    name: 'md-plus',
+    name: 'md-plus-ling',
     color: 'green-gradient',
     classes: 'icon-32 mt-20 mb-8',
   },
@@ -43,7 +43,7 @@ export const dauneDisabled: DisabledPlaceholderCard = {
   cards: [
     {
       mainIcon: {
-        name: 'md-plus',
+        name: 'md-plus-ling',
         color: 'omn-medium',
         classes: 'icon-32 mt-20 mb-8 mx-auto',
       },

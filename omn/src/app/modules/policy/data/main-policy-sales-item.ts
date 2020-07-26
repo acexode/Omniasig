@@ -13,10 +13,9 @@ export const policySalesItemHelper = (
   const baseItem: ImageCard = {
     mainIcon: policy.listingIcon,
     id: policy.id,
-    routerLink: '/policy',
-    //itemClass: 'mh-160 shadow-page-item white-overlay-gradient',
+    itemClass: 'mh-160 shadow-page-item white-overlay-gradient',
     // itemClass: 'mh-160 shadow-page-item  light-green-gradient',
-    itemClass: 'mh-160 shadow-page-item dark-green-gradient',
+    // itemClass: 'mh-160 shadow-page-item dark-green-gradient',
     contentClass:
       'mt-0-reset ion-align-items-start ion-text-left pt-12 ' +
       'pr-16 flex flex-1 flex-column',
@@ -35,7 +34,10 @@ export const policySalesItemHelper = (
       },
     ],
   };
-  baseItem.headerIcon = policyHeaderIcons.lock;
+  baseItem.headerIcon = {
+    ...policyHeaderIcons.plus,
+    ...{ color: 'white-light-green-2-bg' },
+  };
   if (has(baseItem, 'mainIcon.classes')) {
     baseItem.mainIcon.classes =
       baseItem.mainIcon.classes +

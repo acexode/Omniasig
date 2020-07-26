@@ -28,11 +28,23 @@
 
 <ion-content>
   <ion-grid>
-    <ion-row class="ion-no-padding offers">
-      <ion-col class="no-padding"></ion-col>
+    <ion-row class="ion-no-padding offers" *ngIf="offers$ | async as sItems">
+      <ion-col class="no-padding"
+        ><app-policy-card-list
+          [items]="sItems"
+          [title]="titles?.myOffers"
+        ></app-policy-card-list
+      ></ion-col>
     </ion-row>
-    <ion-row class="ion-no-padding own-policy"
-      ><ion-col class="no-padding"></ion-col
+    <ion-row
+      class="ion-no-padding own-policy"
+      *ngIf="policies$ | async as pItems"
+    >
+      <ion-col class="no-padding"
+        ><app-policy-card-list
+          [items]="pItems"
+          [title]="titles?.myPolicies"
+        ></app-policy-card-list></ion-col
     ></ion-row>
     <ion-row
       class="ion-no-padding sales-list"
