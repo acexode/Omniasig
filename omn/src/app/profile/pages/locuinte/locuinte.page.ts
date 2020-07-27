@@ -33,7 +33,7 @@ export class LocuintePage implements OnInit {
 
   reQLocuintes() {
     this.locuinteS.getUserLocuinte().subscribe((locuintes) => {
-      this.cards = locuintes;
+      // this.cards = locuintes;
     });
   }
 
