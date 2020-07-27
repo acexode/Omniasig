@@ -1,6 +1,12 @@
-import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
+import {
+  ChangeDetectorRef,
+  Component,
+  OnInit,
+  ViewChild,
+  OnDestroy,
+} from '@angular/core';
 import { MenuController } from '@ionic/angular';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Subscription } from 'rxjs';
 import { Account } from 'src/app/core/models/account.interface';
 import { AuthService } from 'src/app/core/services/auth/auth.service';
 import { ImageCard } from 'src/app/shared/models/component/image-card';
@@ -10,21 +16,29 @@ import { policyItemHelper } from '../../data/main-policy-item-helper';
 import { policySalesItemHelper } from '../../data/main-policy-sales-item';
 import { policyListTitles } from '../../data/policy-list-titles';
 import { PolicyDataService } from '../../services/policy-data.service';
+import { PolicyItem } from 'src/app/shared/models/data/policy-item';
+import { PolicyOffer } from 'src/app/shared/models/data/policy-offer';
+import { mainPolicyArchiveListItem } from '../../data/main-policy-archive-list-item';
+import { ArchiveListItem } from 'src/app/shared/models/component/archive-list-item';
 
 @Component({
   selector: 'app-policy',
   templateUrl: './policy.component.html',
   styleUrls: ['./policy.component.scss'],
 })
-export class PolicyComponent implements OnInit {
+export class PolicyComponent implements OnInit, OnDestroy {
   @ViewChild('footerButtons', { static: true }) footerButtons;
   titles = { ...policyListTitles };
   hasOffers = false;
   accountActivated = false;
   offers$: BehaviorSubject<Array<ImageCard>> = new BehaviorSubject([]);
   policies$: BehaviorSubject<Array<ImageCard>> = new BehaviorSubject([]);
+  policyArchive$: BehaviorSubject<
+    Array<ArchiveListItem>
+  > = new BehaviorSubject([]);
   salesItems$: BehaviorSubject<Array<ImageCard>> = new BehaviorSubject([]);
   account$ = this.authS.getAccountData();
+  subsList = [];
 
   constructor(
     private menu: MenuController,
@@ -34,16 +48,32 @@ export class PolicyComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.account$.subscribe((account) => {
-      if (account) {
-        this.buildSalesItems(account);
-        this.accountActivated = this.authS.accountActivated(account);
-        if (this.accountActivated) {
-          this.reQPolicies(account);
-          this.reqOffers(account);
+    this.subsList.push(
+      this.account$.subscribe((account) => {
+        if (account) {
+          this.accountActivated = this.authS.accountActivated(account);
+          this.buildSalesItems(account);
+          if (this.accountActivated) {
+            this.subsList.push(
+              this.policyS.policyStore$.subscribe((v) =>
+                this.policies$.next(this.mapPolicies(v, account))
+              )
+            );
+            // TODO: Proper list
+            this.subsList.push(
+              this.policyS.policyStore$.subscribe((v) =>
+                this.policyArchive$.next(this.mapPoliciesArchive(v))
+              )
+            );
+            this.subsList.push(
+              this.policyS.offerStore$.subscribe((v) =>
+                this.offers$.next(this.mapOffers(v, account))
+              )
+            );
+          }
         }
-      }
-    });
+      })
+    );
   }
 
   openCustom() {
@@ -52,41 +82,58 @@ export class PolicyComponent implements OnInit {
   }
 
   /**
-   * Request user Policies data.
-   * @param account - User account
+   * Preprocess user Policies data.
    */
-  reQPolicies(account: Account) {
-    this.policyS.getUserPolicies(account.id).subscribe((policies) => {
-      if (policies) {
-        this.policies$.next(
-          policies.map((p) => policyItemHelper(p, account, null))
-        );
-      } else {
-        this.policies$.next([]);
-      }
-    });
+  mapPolicies(policies: Array<PolicyItem>, account) {
+    if (policies) {
+      return policies.map((p) =>
+        policyItemHelper(p, account, this.footerButtons)
+      );
+    } else {
+      return [];
+    }
+  }
+
+  /**
+   * Preprocess user Policies data.
+   */
+  mapPoliciesArchive(policies: Array<PolicyItem>) {
+    if (policies) {
+      return policies.map((p) => mainPolicyArchiveListItem(p));
+    } else {
+      return [];
+    }
   }
 
   /**
    * Request user Offers data.
-   * @param account - User account
    */
-  reqOffers(account: Account) {
-    this.policyS.getUserOffers(account.id).subscribe((offers) => {
-      if (offers && offers.length > 0) {
-        this.offers$.next(offers.map((o) => offerItemHelper(o, account, null)));
-      } else {
-        this.offers$.next([]);
-      }
-      this.cdRef.markForCheck();
-    });
+  mapOffers(offers: Array<PolicyOffer>, account) {
+    if (offers && offers.length > 0) {
+      return offers.map((o) => offerItemHelper(o, account, this.footerButtons));
+    } else {
+      return [];
+    }
   }
 
   buildSalesItems(account: Account) {
     const salesList = Object.values(policyTypes).map((pT) => {
-      const item = policySalesItemHelper(pT, account, this.footerButtons);
-      return item;
+      return policySalesItemHelper(
+        pT,
+        account,
+        this.accountActivated,
+        this.footerButtons
+      );
     });
     this.salesItems$.next(salesList);
+  }
+
+  ngOnDestroy(): void {
+    this.subsList.forEach((ss) => {
+      if (ss instanceof Subscription) {
+        ss.unsubscribe();
+      }
+    });
+    this.subsList = [];
   }
 }

@@ -27,9 +27,12 @@
 </ion-header>
 
 <ion-content>
-  <ion-grid>
-    <ion-row class="ion-no-padding offers" *ngIf="offers$ | async as sItems">
-      <ion-col class="no-padding"
+  <ion-grid class="p-32">
+    <ion-row
+      class="ion-no-padding offers pb-16"
+      *ngIf="offers$ | async as sItems"
+    >
+      <ion-col class="ion-no-padding" *ngIf="accountActivated"
         ><app-policy-card-list
           [items]="sItems"
           [title]="titles?.myOffers"
@@ -37,10 +40,10 @@
       ></ion-col>
     </ion-row>
     <ion-row
-      class="ion-no-padding own-policy"
+      class="ion-no-padding own-policy pb-16"
       *ngIf="policies$ | async as pItems"
     >
-      <ion-col class="no-padding"
+      <ion-col class="ion-no-padding" *ngIf="accountActivated"
         ><app-policy-card-list
           [items]="pItems"
           [title]="titles?.myPolicies"
@@ -50,16 +53,42 @@
       class="ion-no-padding sales-list"
       *ngIf="salesItems$ | async as sItems"
     >
-      <ion-col class="no-padding"
+      <ion-col class="ion-no-padding"
         ><app-policy-card-list
           [items]="sItems"
           [title]="titles?.salesList"
         ></app-policy-card-list
       ></ion-col>
     </ion-row>
-    <ion-row class="ion-no-padding archive"
-      ><ion-col class="no-padding"></ion-col
-    ></ion-row>
+
+    <ion-row
+      class="ion-no-padding archive"
+      *ngIf="policyArchive$ | async as aItems"
+      ><ion-col class="ion-no-padding">
+        <app-policy-archive-list
+          *ngIf="accountActivated"
+          [items]="aItems"
+          [title]="titles?.archiveList"
+        ></app-policy-archive-list>
+      </ion-col>
+    </ion-row>
+
+    <ion-row class="ion-no-padding flex w-100 flex-1" *ngIf="!accountActivated">
+      <ion-col
+        class="ion-no-padding flex flex-1 w-100 flex-column ion-justify-content-end p-0"
+      >
+        <ion-text
+          color="omn-green"
+          class="h3 alt-text ion-text-center w-100 right-padding vertical-spacing mb-22 mt-auto ls-min-02"
+        >
+          Activează-ți contul pentru a te bucura de serviciile noastre rapid și
+          sigur direct din aplicație.
+        </ion-text>
+        <ion-button class="activate-btn m-0" color="success" size="large">
+          Verifică identitatea
+        </ion-button>
+      </ion-col>
+    </ion-row>
   </ion-grid>
 </ion-content>
 <app-tab-menu> </app-tab-menu>

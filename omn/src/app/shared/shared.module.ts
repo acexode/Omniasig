@@ -10,6 +10,7 @@ import { SubPageHeaderComponent } from './components/sub-page-header/sub-page-he
 import { TabMenuComponent } from './components/tab-menu/tab-menu.component';
 import { TimePipe } from './pipes/time.pipe';
 import { CnpPipe } from './pipes/cnp.pipe';
+import { ArchiveListComponent } from './components/archive-list/archive-list.component';
 
 @NgModule({
   declarations: [
@@ -20,6 +21,7 @@ import { CnpPipe } from './pipes/cnp.pipe';
     SubPageHeaderComponent,
     TimePipe,
     CnpPipe,
+    ArchiveListComponent,
   ],
   imports: [CommonModule, FormsModule, IonicModule, RouterModule],
   exports: [
@@ -30,7 +32,8 @@ import { CnpPipe } from './pipes/cnp.pipe';
     TabMenuComponent,
     SubPageHeaderComponent,
     TimePipe,
-    CnpPipe
+    CnpPipe,
+    ArchiveListComponent,
   ],
 })
 export class SharedModule {}

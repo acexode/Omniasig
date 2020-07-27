@@ -47,13 +47,13 @@ export const offerItemHelper = (
       data: {
         leftButton: {
           classes: 'mb-8 mt-0 mx-0 no-shadow flat mr-16',
-          text: 'Vezi polita',
+          text: 'Vezi oferta',
           size: 'small',
           shape: 'round',
           color: 'danger',
         },
         rightLabel: {
-          text: '12.07.2020 - 12.07.2021',
+          text: 'Expira la: ' + '12.07.2021',
           classes:
             'flex ion-align-items-end ion-justify-content-end ' +
             'mr-n16 pl-8 pr-16 text-small bg-green-08 color-white ' +

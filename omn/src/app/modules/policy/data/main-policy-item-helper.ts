@@ -33,7 +33,7 @@ export const policyItemHelper = (
       },
     ],
   };
-  baseItem.headerIcon = policyHeaderIcons.plus;
+  baseItem.headerIcon = policyHeaderIcons.check;
   if (has(baseItem, 'mainIcon.classes')) {
     baseItem.mainIcon.classes =
       baseItem.mainIcon.classes +
@@ -64,3 +64,5 @@ export const policyItemHelper = (
   }
   return baseItem;
 };
+
+

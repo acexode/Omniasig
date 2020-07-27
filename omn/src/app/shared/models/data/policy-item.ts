@@ -7,6 +7,10 @@ export interface PolicyItem {
   name: string;
   typeId: string;
   state: PolicyStates;
+  dates?: {
+    from: Date | string;
+    to: Date | string;
+  };
   // Display
   type?: PolicyType;
   listingSubtitle?: string;

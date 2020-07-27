@@ -1,10 +1,16 @@
-import { NgModule } from '@angular/core';
+import { NgModule, ModuleWithProviders } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { PolicyDataService } from './services/policy-data.service';
 
 @NgModule({
   declarations: [],
   imports: [CommonModule],
-  providers: [PolicyDataService],
 })
-export class PolicySharedModule {}
+export class PolicySharedModule {
+  static forRoot(): ModuleWithProviders {
+    return {
+      ngModule: PolicySharedModule,
+      providers: [PolicyDataService],
+    };
+  }
+}

@@ -5,9 +5,9 @@
         "typeId": "AMPLUS",
         "state": 1,
         "listingSubtitle": "Strada Traian 45, Brasov",
-        "dates": {
-            "from": "2020-03-25T12:00:00Z",
-            "to": "2021-03-25T12:00:00Z"
+        "dates":{
+            "from":"2015-03-25T12:00:00Z",
+            "to":"2016-03-25T12:00:00Z"
         }
     },
     {
@@ -17,8 +17,8 @@
         "state": 0,
         "listingSubtitle": "Strada Traian 45, Brasov",
         "dates": {
-            "from": "2020-05-25T12:00:00Z",
-            "to": "2021-05-25T12:00:00Z"
+            "from": "2014-03-25T12:00:00Z",
+            "to": "2015-03-25T12:00:00Z"
         }
     }
 ]

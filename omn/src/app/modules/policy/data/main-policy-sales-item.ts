@@ -8,6 +8,7 @@ import { policyHeaderIcons } from './policy-header-icons';
 export const policySalesItemHelper = (
   policy: PolicyType,
   account: Account,
+  accountActivated: boolean,
   containerRefItem: TemplateRef<any>
 ): ImageCard => {
   const baseItem: ImageCard = {
@@ -34,10 +35,13 @@ export const policySalesItemHelper = (
       },
     ],
   };
-  baseItem.headerIcon = {
-    ...policyHeaderIcons.plus,
-    ...{ color: 'white-light-green-2-bg' },
-  };
+  console.log(accountActivated);
+  baseItem.headerIcon = accountActivated
+    ? {
+        ...policyHeaderIcons.plus,
+        ...{ color: 'white-light-green-2-bg' },
+      }
+    : policyHeaderIcons.lock;
   if (has(baseItem, 'mainIcon.classes')) {
     baseItem.mainIcon.classes =
       baseItem.mainIcon.classes +
@@ -51,18 +55,18 @@ export const policySalesItemHelper = (
       data: {
         leftButton: {
           classes: 'mb-8 mt-0 mx-0 no-shadow flat mr-16',
-          text: 'Vezi polita',
+          text: 'Vezi produsul',
           size: 'small',
           shape: 'round',
           color: 'danger',
         },
-        rightLabel: {
-          text: '12.07.2020 - 12.07.2021',
-          classes:
-            'flex ion-align-items-end ion-justify-content-end ' +
-            'mr-n16 pl-8 pr-16 text-small bg-green-08 color-white ' +
-            'ls-m-02 py-4 font-weight-medium',
-        },
+        // rightLabel: {
+        //   text: '12.07.2020 - 12.07.2021',
+        //   classes:
+        //     'flex ion-align-items-end ion-justify-content-end ' +
+        //     'mr-n16 pl-8 pr-16 text-small bg-green-08 color-white ' +
+        //     'ls-m-02 py-4 font-weight-medium',
+        // },
       },
     };
   }
