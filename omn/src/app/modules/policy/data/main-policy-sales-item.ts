@@ -35,7 +35,6 @@ export const policySalesItemHelper = (
       },
     ],
   };
-  console.log(accountActivated);
   baseItem.headerIcon = accountActivated
     ? {
         ...policyHeaderIcons.plus,

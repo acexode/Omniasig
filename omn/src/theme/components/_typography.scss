@@ -106,3 +106,12 @@ ion-label.input-label,
   padding-bottom: rem(7);
   border-bottom: rem(1) solid $red;
 }
+
+.text-nowrap {
+  word-wrap: nowrap;
+}
+
+.overflow-ellipsis {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

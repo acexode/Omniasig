@@ -1,8 +1,9 @@
-<ion-list [ngClass]="listConfig?.classes">
+<ion-list [ngClass]="listConfig?.classes" class="my-0 w-100 py-0">
   <ion-item
     *ngFor="let item of items"
     (click)="itemClick(item.id)"
     [ngClass]="item?.classes"
+    class="w-100"
   >
     <ion-icon
       [slot]="item?.icon?.slot || 'start'"
@@ -11,7 +12,7 @@
       [ngClass]="item?.icon?.classes"
     ></ion-icon>
     <ion-grid class="ion-no-padding">
-      <ion-row class="ion-no-padding">
+      <ion-row class="ion-no-padding ion-nowrap flex ion-justify-content-between">
         <ion-col class="ion-no-padding" *ngIf="item?.title">
           <ion-label
             class="w-100 ion-no-padding"

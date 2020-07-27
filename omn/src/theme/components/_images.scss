@@ -27,6 +27,11 @@ ion-icon {
     height: rem(16);
     max-width: rem(20);
   }
+  &.icon-8 {
+    font-size: rem(8);
+    height: rem(8);
+    max-width: rem(8);
+  }
   &.green-gradient {
     #color1 {
       stop-color: $green;

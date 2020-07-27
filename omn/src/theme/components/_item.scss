@@ -62,12 +62,17 @@
       --highlight-color-focused: var(--app-secondary-text-color);
       --ion-border-color: var(--app-secondary-text-color);
       --border-color: var(--app-secondary-text-color);
-      &.item-has-focus ion-label{
+      &.item-has-focus ion-label {
         color: var(--app-secondary-text-color);
       }
       .item-background {
         --ion-item-border-color: var(--ion-color-medium);
       }
+    }
+    &.archive-item {
+      --padding-start: 0;
+      --inner-padding-end: 0;
+      align-items: flex-start;
     }
   }
 }

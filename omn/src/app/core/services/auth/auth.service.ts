@@ -37,7 +37,8 @@ export class AuthService {
       'Strada Traian 45, Brasov, jud. Brasov, Cod 500332',
       'Strada Dimitrie Bolintineanu 71-73, Scara B, Ap. 21 Turnu Magurele jud.Teleorman, Cod 654321',
     ],
-    userStates: [AccountStates.INACTIVE, AccountStates.EMAIL_INVALIDATED],
+    // userStates: [AccountStates.INACTIVE, AccountStates.EMAIL_INVALIDATED],
+    userStates: [],
   };
   // TODO: DEMO - reset auth state to default one login is implemented.
   initialState: AuthState = {
