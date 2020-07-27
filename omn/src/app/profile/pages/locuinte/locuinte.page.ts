@@ -33,7 +33,7 @@ export class LocuintePage implements OnInit {
 
   reQLocuintes() {
     this.locuinteS.getUserLocuinte().subscribe((locuintes) => {
-      // this.cards = locuintes;
+      this.cards = locuintes;
     });
   }
 
@@ -50,7 +50,7 @@ export class LocuintePage implements OnInit {
           },
           {
             text: 'Atenție!',
-            cssClass: 'm-0 w-100 no-shadow remove-event atentie',
+            cssClass: 'm-0 w-100 no-shadow remove-event atentie alt-font',
           },
           {
             text:

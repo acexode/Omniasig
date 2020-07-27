@@ -122,11 +122,17 @@ ion-label.input-label,
 
 .atentie {
   font-size: rem(24) !important;
+  font-weight: 600;
   color: var(--app-red-color) !important;
 }
 
 .locuinte-sheet {
+  display: flex;
   .action-sheet-container {
-    padding-bottom: rem(100) !important;
+    justify-content: center;
+    align-items: center;
+    .action-sheet-group {
+      width: 100%;
+    }
   }
 }
