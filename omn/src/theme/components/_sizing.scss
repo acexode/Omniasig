@@ -1,0 +1,28 @@
+@import '../variables';
+@import '../mixins/mixins';
+
+.h-272 {
+  height: rem(272);
+}
+
+.mh-104 {
+  min-height: rem(104);
+}
+.mw-120 {
+  max-width: rem(120) !important;
+}
+
+.h-100 {
+  height: 100%;
+}
+.w-100 {
+  width: 100%;
+}
+
+.mh-223 {
+  min-height: rem(223);
+}
+
+.mh-94 {
+  min-height: rem(94);
+}

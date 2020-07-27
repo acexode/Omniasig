@@ -14,6 +14,13 @@ const routes: Routes = [
       },
     ],
   },
+  {
+    path: 'form',
+    loadChildren: () =>
+      import('./pages/policy-form/policy-form.module').then(
+        (m) => m.PolicyFormPageModule
+      ),
+  },
 ];
 
 @NgModule({

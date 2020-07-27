@@ -12,6 +12,9 @@ body.omn {
 .text-weight-medium {
   font-weight: 500;
 }
+.text-weight-normal {
+  font-weight: normal;
+}
 .text-weight-bold {
   font-weight: 600;
 }
@@ -39,6 +42,12 @@ h2,
 .h2 {
   line-height: rem(32) !important;
   font-size: rem(24) !important;
+}
+
+h3,
+.h3 {
+  line-height: rem(24) !important;
+  font-size: rem(20) !important;
 }
 
 .link-small {
@@ -87,6 +96,11 @@ ion-label.input-label,
 .ls-min-02 {
   letter-spacing: -0.2px;
 }
+
+.ls-0 {
+  letter-spacing: 0;
+}
+
 .border-danger {
   padding-bottom: rem(7);
   border-bottom: rem(1) solid $red;
