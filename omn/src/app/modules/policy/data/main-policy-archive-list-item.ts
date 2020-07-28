@@ -17,7 +17,8 @@ export const mainPolicyArchiveListItem = (
     title: {
       color: 'omn-green',
       classes:
-        'text-small text-weight-medium text-nowrap overflow-ellipsis mb-3 mr-8',
+        'text-small text-weight-medium text-nowrap overflow-ellipsis' +
+        ' mb-3 mr-8 flex flex-grow-0 flex-shrink-1',
       text: policy.type.shortDescription,
     },
     content: {

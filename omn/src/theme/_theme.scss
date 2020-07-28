@@ -37,6 +37,9 @@ body.omn {
   flex-shrink: 1;
 }
 
+.flex-row {
+  @include flex-direction(row);
+}
 .flex-column {
   @include flex-direction(column);
 }
