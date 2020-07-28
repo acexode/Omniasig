@@ -38,6 +38,8 @@ export class ProfilPage implements OnInit {
       ],
       id: 'places',
       itemClass: 'mh-104 shadow-page-item',
+      isButton: true,
+      routerLink: ['locuinte'],
     },
     // {
     //   mainIcon: {

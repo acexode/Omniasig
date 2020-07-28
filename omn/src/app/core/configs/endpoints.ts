@@ -15,3 +15,7 @@ export const policyEndpoints = {
   userPoliciesArchive: baseEndpoints.policy + '/archive',
   userOffersBase: baseEndpoints.policy + '/offers',
 };
+
+export const locuinteEndpoints = {
+  base: serverBaseUrl + '/locuinte',
+};

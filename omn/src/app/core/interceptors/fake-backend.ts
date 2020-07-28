@@ -47,6 +47,9 @@ export class FakeBackendInterceptor implements HttpInterceptor {
             if (request.url.match(/\/policy/)) {
               return handleJsonDataReq(request, 'policy');
             }
+            if (request.url.match(/\/locuinte/)) {
+              return handleJsonDataReq(request, 'locuinte');
+            }
             // // authenticate - public
             // if (request.url.endsWith('/users/authenticate') && request.method === 'POST') {
             //    return ok(null);
