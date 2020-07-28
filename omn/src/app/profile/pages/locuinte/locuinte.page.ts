@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActionSheetController } from '@ionic/angular';
+import { ActionSheetController, NavController } from '@ionic/angular';
 import { AuthService } from 'src/app/core/services/auth/auth.service';
 import { subPageHeaderDefault } from 'src/app/shared/data/sub-page-header-default';
 import { Locuinte } from 'src/app/shared/models/data/locuinte';
@@ -19,7 +19,8 @@ export class LocuintePage implements OnInit {
   constructor(
     public actionSheetController: ActionSheetController,
     private authS: AuthService,
-    private locuinteS: LocuinteService
+    private locuinteS: LocuinteService,
+    private navCtrl: NavController
   ) {}
 
   ngOnInit() {
@@ -63,6 +64,7 @@ export class LocuintePage implements OnInit {
             text: 'Am înțeles!',
             cssClass:
               'm-0 w-100 no-shadow ion-color text-weight-medium ion-color-success flat button button-block button-large button-solid',
+            handler: () => this.redirectToAddForm(),
           },
         ],
       })
@@ -70,5 +72,9 @@ export class LocuintePage implements OnInit {
         actionSheet = v;
         actionSheet.present();
       });
+  }
+
+  redirectToAddForm() {
+    this.navCtrl.navigateForward('/profil/locuinte/add');
   }
 }
