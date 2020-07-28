@@ -26,19 +26,7 @@
         acesteia. Simplu și rapid.
       </ion-label>
     </ion-row>
-    <ion-row
-      *ngIf="!cards?.length"
-      class="flex ion-justify-content-center mb-16"
-    >
-      <ion-label
-        *ngIf="!accountActivated"
-        color="omn-green"
-        class="text-normal ion-text-center alt-font"
-      >
-        Activează-ți contul pentru a te bucura de serviciile noastre rapid și
-        sigur direct din aplicație.
-      </ion-label>
-    </ion-row>
+
     <ion-row class="ion-wrap" *ngIf="cards?.length">
       <ng-container *ngFor="let cardI of cards; let first=first; let i=index">
         <ion-col
@@ -56,7 +44,25 @@
         ></ion-col>
       </ng-container>
     </ion-row>
-    <ion-row class="ion-no-padding mt-auto flex w-100 mb-24">
+    <ion-row class="ion-no-padding mt-auto flex w-100">
+      <ion-label
+        *ngIf="!accountActivated"
+        color="omn-green"
+        class="text-normal ion-text-center alt-font h3 mb-16"
+      >
+        Activează-ți contul pentru a te bucura de serviciile noastre rapid și
+        sigur direct din aplicație.
+      </ion-label>
+      <ion-button
+        *ngIf="!accountActivated"
+        type="submit"
+        color="success"
+        fill="solid"
+        expand="block"
+        size="large"
+        class="m-0 w-100"
+        >Activează-ți contul
+      </ion-button>
       <ion-button
         *ngIf="accountActivated"
         type="submit"
@@ -67,16 +73,6 @@
         class="m-0 w-100"
         (click)="openVerifyModal()"
         >Adaugă locuință
-      </ion-button>
-      <ion-button
-        *ngIf="!accountActivated"
-        type="submit"
-        color="success"
-        fill="solid"
-        expand="block"
-        size="large"
-        class="m-0 w-100"
-        >Activează-ți contul
       </ion-button>
     </ion-row>
   </ion-grid>
