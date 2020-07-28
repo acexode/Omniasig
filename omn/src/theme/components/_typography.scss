@@ -79,6 +79,12 @@ h3,
   font-weight: normal;
 }
 
+.label-large {
+  font-size: rem(20);
+  line-height: rem(24);
+  font-weight: 600;
+}
+
 .input-label,
 ion-label.input-label,
 .item .ion-label {
@@ -98,4 +104,35 @@ ion-label.input-label,
 .border-danger {
   padding-bottom: rem(7);
   border-bottom: rem(1) solid $red;
+}
+
+.remove-event {
+  pointer-events: none;
+}
+
+.certificat {
+  height: rem(120) !important;
+  span {
+    ion-icon {
+      margin-right: 0 !important;
+      font-size: rem(130) !important;
+    }
+  }
+}
+
+.atentie {
+  font-size: rem(24) !important;
+  font-weight: 600;
+  color: var(--app-red-color) !important;
+}
+
+.locuinte-sheet {
+  display: flex;
+  .action-sheet-container {
+    justify-content: center;
+    align-items: center;
+    .action-sheet-group {
+      width: 100%;
+    }
+  }
 }

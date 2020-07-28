@@ -12,5 +12,9 @@ export const baseEndpoints = {
 export const policyEndpoints = {
   base: baseEndpoints.policy,
   userPoliciesBase: baseEndpoints.policy,
-  userOffersBase: baseEndpoints.policy + '/offers'
+  userOffersBase: baseEndpoints.policy + '/offers',
+};
+
+export const locuinteEndpoints = {
+  base: serverBaseUrl + '/locuinte',
 };
