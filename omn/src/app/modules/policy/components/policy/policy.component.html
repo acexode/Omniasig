@@ -27,12 +27,14 @@
 </ion-header>
 
 <ion-content>
-  <ion-grid class="p-32">
+  <ion-grid class="px-32 pt-0 pb-16">
     <ion-row
-      class="ion-no-padding offers pb-16"
-      *ngIf="offers$ | async as sItems"
-    >
-      <ion-col class="ion-no-padding" *ngIf="accountActivated"
+      class="ion-no-padding mh-64 flex flex-1 ion-align-items-end ion-justify-content-center"
+    ></ion-row>
+    <ion-row class="ion-no-padding offers" *ngIf="offers$ | async as sItems">
+      <ion-col
+        class="ion-no-padding pb-16"
+        *ngIf="accountActivated && sItems?.length"
         ><app-policy-card-list
           [items]="sItems"
           [title]="titles?.myOffers"
@@ -40,10 +42,12 @@
       ></ion-col>
     </ion-row>
     <ion-row
-      class="ion-no-padding own-policy pb-16"
+      class="ion-no-padding own-policy"
       *ngIf="policies$ | async as pItems"
     >
-      <ion-col class="ion-no-padding" *ngIf="accountActivated"
+      <ion-col
+        class="ion-no-padding pb-16"
+        *ngIf="accountActivated && pItems?.length"
         ><app-policy-card-list
           [items]="pItems"
           [title]="titles?.myPolicies"
@@ -53,7 +57,7 @@
       class="ion-no-padding sales-list"
       *ngIf="salesItems$ | async as sItems"
     >
-      <ion-col class="ion-no-padding"
+      <ion-col class="ion-no-padding pb-16"
         ><app-policy-card-list
           [items]="sItems"
           [title]="titles?.salesList"
@@ -62,18 +66,23 @@
     </ion-row>
 
     <ion-row
-      class="ion-no-padding archive"
+      class="ion-no-padding archive mr-n32"
       *ngIf="policyArchive$ | async as aItems"
-      ><ion-col class="ion-no-padding">
+      ><ion-col
+        class="ion-no-padding pb-16"
+        *ngIf="accountActivated && aItems?.length"
+      >
         <app-policy-archive-list
-          *ngIf="accountActivated"
           [items]="aItems"
           [title]="titles?.archiveList"
         ></app-policy-archive-list>
       </ion-col>
     </ion-row>
 
-    <ion-row class="ion-no-padding flex w-100 flex-1" *ngIf="!accountActivated">
+    <ion-row
+      class="ion-no-padding flex w-100 flex-1 pb-16"
+      *ngIf="!accountActivated"
+    >
       <ion-col
         class="ion-no-padding flex flex-1 w-100 flex-column ion-justify-content-end p-0"
       >

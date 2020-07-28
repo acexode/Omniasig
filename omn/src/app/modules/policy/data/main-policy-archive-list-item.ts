@@ -7,8 +7,8 @@ export const mainPolicyArchiveListItem = (
 ): ArchiveListItem => {
   const item: ArchiveListItem = {
     id: policy.id,
-    classes: 'archive-item mw-0',
-    contentGridClasses: 'pt-11 pb-8',
+    classes: 'archive-item mw-0 border-medium-green-3',
+    contentGridClasses: 'pt-11 pb-8 mw-0',
     icon: {
       name: 'sm-right-triangle',
       color: 'omn-green',
@@ -22,12 +22,12 @@ export const mainPolicyArchiveListItem = (
       text: policy.type.shortDescription,
     },
     content: {
-      classes: 'text-normal text-nowrap  overflow-ellipsis',
+      classes: 'text-normal text-nowrap  overflow-ellipsis pr-8',
       text: policy.type.name,
     },
     timeContent: {
       color: 'omn-medium',
-      classes: 'text-small ion-justify-content-end ion-text-end',
+      classes: 'text-small ion-justify-content-end ion-text-end pr-16',
       text:
         dateHelperYear(policy.dates.from) +
         '-' +

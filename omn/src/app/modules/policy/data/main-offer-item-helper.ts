@@ -4,6 +4,10 @@ import { Account } from 'src/app/core/models/account.interface';
 import { ImageCard } from 'src/app/shared/models/component/image-card';
 import { PolicyOffer } from 'src/app/shared/models/data/policy-offer';
 import { policyHeaderIcons } from './policy-header-icons';
+import {
+  dateHelperYear,
+  dateHelperDMY,
+} from 'src/app/core/helpers/date.helper';
 
 export const offerItemHelper = (
   offer: PolicyOffer,
@@ -53,7 +57,8 @@ export const offerItemHelper = (
           color: 'danger',
         },
         rightLabel: {
-          text: 'Expira la: ' + '12.07.2021',
+          text:
+            'Expira la: ' + (offer.expiry ? dateHelperDMY(offer.expiry) : ''),
           classes:
             'flex ion-align-items-end ion-justify-content-end ' +
             'mr-n16 pl-8 pr-16 text-small bg-green-08 color-white ' +

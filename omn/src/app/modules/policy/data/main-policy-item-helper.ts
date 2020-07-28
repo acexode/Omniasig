@@ -4,6 +4,7 @@ import { Account } from 'src/app/core/models/account.interface';
 import { ImageCard } from 'src/app/shared/models/component/image-card';
 import { PolicyItem } from 'src/app/shared/models/data/policy-item';
 import { policyHeaderIcons } from './policy-header-icons';
+import { dateHelperDMY } from 'src/app/core/helpers/date.helper';
 
 export const policyItemHelper = (
   policy: PolicyItem,
@@ -53,7 +54,11 @@ export const policyItemHelper = (
           color: 'danger',
         },
         rightLabel: {
-          text: '12.07.2020 - 12.07.2021',
+          text: policy.dates
+            ? dateHelperDMY(policy.dates.from) +
+              '-' +
+              dateHelperDMY(policy.dates.to)
+            : '',
           classes:
             'flex ion-align-items-end ion-justify-content-end ' +
             'mr-n16 pl-8 pr-16 text-small bg-green-08 color-white ' +
@@ -65,4 +70,20 @@ export const policyItemHelper = (
   return baseItem;
 };
 
-
+export const policyEmptyItemHelper = (): ImageCard => {
+  const baseItem: ImageCard = {
+    mainIcon: {
+      name: 'lg-nori',
+      classes: 'mh-42 mw-90 pt-32 pb-32',
+    },
+    id: null,
+    itemClass: 'mh-144',
+    textContent: [
+      {
+        classes: 'text-normal pb-16 text-weight-normal',
+        text: 'Nu ai nici o poliță de asigurare.',
+      },
+    ],
+  };
+  return baseItem;
+};
