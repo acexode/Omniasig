@@ -1,6 +1,10 @@
 @import '../variables';
 @import '../mixins/mixins';
 
+.mw-0 {
+  min-width: 0;
+}
+
 .h-272 {
   height: rem(272);
 }

@@ -9,4 +9,5 @@ export interface ArchiveListItem {
   content?: IonTextItem;
   timeContent?: IonTextItem;
   classes?: string;
+  contentGridClasses?: string;
 }

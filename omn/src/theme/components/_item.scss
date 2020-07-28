@@ -54,6 +54,8 @@
     &.form-group {
       display: flex;
       flex-direction: column;
+      --inner-padding-top: 11px;
+      --inner-padding-bottom: 7px;
       --padding-start: 0;
       --inner-padding-end: 0;
       --inner-border-width: 0;
@@ -70,6 +72,7 @@
       }
     }
     &.archive-item {
+      --min-height: 40px;
       --padding-start: 0;
       --inner-padding-end: 0;
       align-items: flex-start;
