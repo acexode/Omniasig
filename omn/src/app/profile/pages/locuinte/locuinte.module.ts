@@ -10,6 +10,8 @@ import { LocuintePage } from './locuinte.page';
 
 import { SharedModule } from '../../../shared/shared.module';
 
+import { LocuinteSharedModule } from './locuinte-shared.module';
+
 @NgModule({
   imports: [
     CommonModule,
@@ -17,6 +19,7 @@ import { SharedModule } from '../../../shared/shared.module';
     IonicModule,
     LocuintePageRoutingModule,
     SharedModule,
+    LocuinteSharedModule,
   ],
   declarations: [LocuintePage],
 })

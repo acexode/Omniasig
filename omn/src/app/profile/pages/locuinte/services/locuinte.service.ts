@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
-import { RequestService } from '../request/request.service';
-import { locuinteEndpoints } from '../../configs/endpoints';
+import { RequestService } from 'src/app/core/services/request/request.service';
+import { locuinteEndpoints } from 'src/app/core/configs/endpoints';
 import { Locuinte } from 'src/app/shared/models/data/locuinte';
-import { catchError, map } from 'rxjs/operators';
+import { catchError } from 'rxjs/operators';
 import { of } from 'rxjs';
 
 @Injectable({
@@ -18,7 +18,6 @@ export class LocuinteService {
       catchError((e) => {
         return of(emptyV);
       })
-      // map((pv) => (pv ? pv.map((pvi) => this.mapPolicyType(pvi)) : []))
     );
   }
 }
