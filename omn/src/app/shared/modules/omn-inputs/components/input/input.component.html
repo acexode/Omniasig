@@ -1,0 +1,22 @@
+<ion-item class="form-group w-100" [formGroup]="formGroup">
+  <ion-label
+    class="mb-8 input-label"
+    position="stacked"
+    [ngClass]="config?.inputLabel?.classes"
+    [color]="config?.inputLabel?.color"
+    >{{ config?.inputLabel?.text }}</ion-label
+  >
+  <ion-input
+    [type]="config?.type"
+    formControlName="input"
+    [placeholder]="config?.placeholder"
+    [maxlength]="config?.maxLength"
+    [minlength]="config?.minLength"
+    [size]="config?.size"
+    [step]="config?.step"
+    [clearInput]="config?.clearable"
+    [autocorrect]="config?.autoCorrect"
+    [autocomplete]="config?.autoComplete"
+    [inputmode]="config?.inputMode"
+  ></ion-input>
+</ion-item>

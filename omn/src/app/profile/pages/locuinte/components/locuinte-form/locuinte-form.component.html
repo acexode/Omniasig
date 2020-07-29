@@ -1,5 +1,73 @@
-<app-sub-page-header [config]="headerConfig"> </app-sub-page-header>
+<ion-grid class="m-0 h-100 flex flex-column ion-no-padding">
+  <ng-container *ngTemplateOutlet="address"></ng-container>
+</ion-grid>
 
-<ion-content>
-  <ion-grid class="px-32 pt-32 pb-24 h-100 flex flex-column"> </ion-grid
-></ion-content>
+<ng-template #address>
+  <ion-grid
+    class="m-0 h-100 flex flex-column ion-no-padding flex-1"
+    *ngIf="formGroups?.address"
+    [formGroup]="formGroups?.address"
+  >
+    <ion-row class="ion-no-padding judet">
+      <app-select
+        class="w-100"
+        [config]="fieldConfig?.county"
+        formControlName="county"
+        [options]="list"
+      ></app-select>
+    </ion-row>
+    <ion-row class="ion-no-padding localitate">
+      <app-select
+        class="w-100"
+        [config]="fieldConfig?.city"
+        [options]="list"
+        formControlName="city"
+      ></app-select>
+    </ion-row>
+    <ion-row class="ion-no-padding strada">
+      <app-select
+        class="w-100"
+        [config]="fieldConfig?.street"
+        formControlName="street"
+        [options]="list"
+      ></app-select>
+    </ion-row>
+    <ion-row class="ion-no-padding numar">
+      <app-input class="w-100" [config]="fieldConfig?.number"
+      formControlName="number"
+      ></app-input>
+    </ion-row>
+    <ion-row class="ion-no-padding scara">
+      <app-input class="w-100" [config]="fieldConfig?.entrance"
+      formControlName="entrance"></app-input>
+    </ion-row>
+    <ion-row  class="ion-no-padding apartament">
+      <app-input class="w-100" [config]="fieldConfig?.apartment"
+      formControlName="apartment"></app-input>
+    </ion-row>
+    <ion-row class="ion-no-padding cod-postal">
+      <app-input class="w-100" [config]="fieldConfig?.postalCode"
+      formControlName="postalCode"></app-input>
+    </ion-row>
+    <ion-row class="ion-no-padding profile-name">
+      <app-input class="w-100" [config]="fieldConfig?.name"></app-input>
+    </ion-row>
+  </ion-grid>
+</ng-template>
+
+<ng-template #locuinte>
+  <ion-grid class="m-0 h-100 flex flex-column ion-no-padding flex-1">
+    <ion-row class="ion-no-padding tip-casa"></ion-row>
+    <ion-row class="ion-no-padding structura-rezistenta"></ion-row>
+    <ion-row class="ion-no-padding an-constructie"></ion-row>
+    <ion-row class="ion-no-padding valoare">
+      <ion-row class="ion-no-padding valoare-moneda"></ion-row>
+      <ion-row class="ion-no-padding valoare-suma"></ion-row>
+    </ion-row>
+    <ion-row class="ion-no-padding ocupare"></ion-row>
+    <ion-row class="ion-no-padding suprafata-utila"></ion-row>
+    <ion-row class="ion-no-padding regim-inaltime"></ion-row>
+    <ion-row class="ion-no-padding numar-camere"></ion-row>
+    <ion-row class="ion-no-padding alarma"></ion-row>
+  </ion-grid>
+</ng-template>

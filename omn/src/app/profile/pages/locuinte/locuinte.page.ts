@@ -3,7 +3,7 @@ import { ActionSheetController, NavController } from '@ionic/angular';
 import { AuthService } from 'src/app/core/services/auth/auth.service';
 import { subPageHeaderDefault } from 'src/app/shared/data/sub-page-header-default';
 import { Locuinte } from 'src/app/shared/models/data/locuinte';
-import { LocuinteService } from './services/locuinte.service';
+import { LocuinteService } from './services/locuinte/locuinte.service';
 
 @Component({
   selector: 'app-locuinte',
@@ -75,6 +75,7 @@ export class LocuintePage implements OnInit {
   }
 
   redirectToAddForm() {
+    console.log('a');
     this.navCtrl.navigateForward('/profil/locuinte/add');
   }
 }

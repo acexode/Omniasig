@@ -4,8 +4,7 @@ import {
   Component,
   OnInit,
 } from '@angular/core';
-import { FormGroup, FormBuilder } from '@angular/forms';
-import { ActivatedRouteSnapshot } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { switchMap } from 'rxjs/operators';
 import { CustomRouterService } from 'src/app/core/services/custom-router/custom-router.service';
 import { subPageHeaderDefault } from 'src/app/shared/data/sub-page-header-default';
@@ -23,16 +22,11 @@ export class LocuinteFormPageComponent implements OnInit {
   dataModel: Locuinte;
   formMode: LocuinteFormModes;
   formModes = LocuinteFormModes;
-  formGroups: {
-    adresa: FormGroup;
-    locuinta: FormGroup;
-  };
 
   constructor(
     private routerS: CustomRouterService,
-    private aRoute: ActivatedRouteSnapshot,
-    private cdRef: ChangeDetectorRef,
-    private fb: FormBuilder
+    private aRoute: ActivatedRoute,
+    private cdRef: ChangeDetectorRef
   ) {}
 
   ngOnInit() {
@@ -46,7 +40,6 @@ export class LocuinteFormPageComponent implements OnInit {
       .subscribe((fM) => {
         this.formMode = fM;
         this.setTitles();
-        this.buildForm();
         this.cdRef.markForCheck();
       });
   }
@@ -58,9 +51,5 @@ export class LocuinteFormPageComponent implements OnInit {
     if (this.formMode === this.formModes.EDIT_FULL) {
       this.headerConfig = subPageHeaderDefault('Adresa');
     }
-  }
-  buildForm() {
-    this.formGroups.adresa = this.fb.group({});
-    this.formGroups.locuinta = this.fb.group({});
   }
 }
