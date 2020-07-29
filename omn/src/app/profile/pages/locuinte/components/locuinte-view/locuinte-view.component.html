@@ -1,4 +1,35 @@
 <app-sub-page-header [config]="headerConfig"> </app-sub-page-header>
 <ion-content>
-  <p>LocuintePage works</p>
+  <ion-grid class="ion-no-padding pb-24 h-100 flex flex-column bg-white">
+    <ion-row
+      class="px-64 flex ion-justify-content-center ion-align-items-center flex-column mb-24"
+    >
+      <ion-icon name="lg-case-12" class="w-100 d-flex lg-case-12"></ion-icon>
+    </ion-row>
+
+    <ion-row class="ion-no-padding flex ion-justify-content-center mb-48">
+      <ion-label color="omn-green" class="label-x-large alt-font">
+        Traian 45, Brașov
+      </ion-label>
+    </ion-row>
+
+    <ion-row class="px-32 pt-64 info">
+      <ion-col class="pt-n32">
+        <div
+          class="flex ion-justify-content-around ion-align-items-center fond color-dark-green"
+        >
+          <span>Șterge</span>
+          <ion-icon name="md-bin"></ion-icon>
+        </div>
+      </ion-col>
+      <ion-col>
+        <div
+          class="flex ion-justify-content-around ion-align-items-center fond color-dark-green"
+        >
+          <span>Modifică</span>
+          <ion-icon name="md-edit"></ion-icon>
+        </div>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
 </ion-content>
