@@ -12,6 +12,8 @@ import { SharedModule } from '../../../shared/shared.module';
 
 import { LocuinteSharedModule } from './locuinte-shared.module';
 
+import { LocuinteViewComponent } from './components/locuinte-view/locuinte-view.component';
+
 @NgModule({
   imports: [
     CommonModule,
@@ -21,6 +23,6 @@ import { LocuinteSharedModule } from './locuinte-shared.module';
     SharedModule,
     LocuinteSharedModule,
   ],
-  declarations: [LocuintePage],
+  declarations: [LocuintePage, LocuinteViewComponent],
 })
 export class LocuintePageModule {}
