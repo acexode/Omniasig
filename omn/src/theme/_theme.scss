@@ -42,3 +42,10 @@ body.omn {
   background-repeat: no-repeat;
   background-size: 100%;
 }
+
+:root {
+  // Global enforce.
+  :focus {
+    outline: none;
+  }
+}

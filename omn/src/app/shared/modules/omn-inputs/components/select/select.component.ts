@@ -4,6 +4,10 @@ import {
   Component,
   Input,
   OnInit,
+  ViewChild,
+  AfterViewInit,
+  Renderer2,
+  ElementRef,
 } from '@angular/core';
 import {
   ControlValueAccessor,
@@ -27,12 +31,21 @@ import { IonSelectListOption } from 'src/app/shared/models/component/ion-select-
     },
   ],
 })
-export class SelectComponent implements OnInit, ControlValueAccessor {
-  @Input() config: IonSelectConfig;
+export class SelectComponent
+  implements OnInit, ControlValueAccessor, AfterViewInit {
+  @ViewChild('selectEl', { static: true, read: ElementRef }) selectEl;
+  @Input()
+  config: IonSelectConfig;
   @Input() set options(opts: Array<IonSelectListOption>) {
     this.opts = opts;
     this.updateItems();
   }
+  constructor(
+    private fb: FormBuilder,
+    private cdRef: ChangeDetectorRef,
+    private renderer: Renderer2
+  ) {}
+
   items: Array<{
     id: any;
     label: string;
@@ -46,10 +59,26 @@ export class SelectComponent implements OnInit, ControlValueAccessor {
   onChange: (_: any) => void;
   onTouched: () => void;
   value: any;
-  constructor(private fb: FormBuilder, private cdRef: ChangeDetectorRef) {}
+
+  compareWithFn = (o1, o2) => {
+    return o1 && o2 ? o1.id === o2.id : o1 === o2;
+  }
 
   ngOnInit() {}
 
+  ngAfterViewInit(): void {
+    console.log(this.selectEl);
+    if (this.selectEl) {
+      try {
+        const sR = this.selectEl.nativeElement.shadowRoot;
+        console.log(sR);
+        sR.querySelector('.select-icon').setAttribute(
+          'style',
+          'display: none !important'
+        );
+      } catch (e) {}
+    }
+  }
   updateItems() {
     const labelK = get(this.config, 'labelKey', 'label');
     const idK = get(this.config, 'idKey', 'id');
@@ -67,17 +96,13 @@ export class SelectComponent implements OnInit, ControlValueAccessor {
     this.cdRef.markForCheck();
   }
 
-  compareWithFn(o1, o2) {
-    return o1 && o2 ? o1.id === o2.id : o1 === o2;
-  }
-
   writeValue(obj: any): void {
     let value = this.value;
     this.value = obj;
 
-    const force = (this.config = this.config
+    const force = this.config
       ? get(this.config, 'forceListItems', false)
-      : false);
+      : false;
 
     if (force) {
       value = this.filterValues(obj);

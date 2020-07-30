@@ -6,16 +6,26 @@
     [color]="config?.inputLabel?.color"
     >{{ config?.inputLabel?.text }}</ion-label
   >
-  <ion-select
-    interface="alert"
-    okText="Okay"
-    cancelText="Dismiss"
-    [compareWith]="compareWithFn"
-    formArrayName="select"
-    [multiple]="config?.multiple"
-  >
-    <ng-container *ngFor="let item of items">
-      <ion-select-option [value]="item.id">{{ item.label }}</ion-select-option>
-    </ng-container>
-  </ion-select>
+  <div class="select-wrapper w-100">
+    <ion-select
+      #selectEl
+      interface="alert"
+      okText="Okay"
+      cancelText="Dismiss"
+      [compareWith]="compareWithFn"
+      formArrayName="select"
+      [multiple]="config?.multiple"
+      class="mw-100 w-100"
+    >
+      <ng-container *ngFor="let item of items">
+        <ion-select-option [value]="item.id">{{
+          item.label
+        }}</ion-select-option>
+      </ng-container>
+    </ion-select>
+    <ion-icon
+      name="sm-chevron-down-t"
+      class="icon-16 custom-select-icon"
+    ></ion-icon>
+  </div>
 </ion-item>

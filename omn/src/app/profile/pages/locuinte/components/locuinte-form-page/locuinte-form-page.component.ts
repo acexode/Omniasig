@@ -3,6 +3,7 @@ import {
   ChangeDetectorRef,
   Component,
   OnInit,
+  HostBinding,
 } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { switchMap } from 'rxjs/operators';
@@ -18,6 +19,7 @@ import { LocuinteFormModes } from 'src/app/shared/models/modes/locuinte-form-mod
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LocuinteFormPageComponent implements OnInit {
+  @HostBinding('class') color = 'ion-color-white-page';
   headerConfig = null;
   dataModel: Locuinte;
   formMode: LocuinteFormModes;

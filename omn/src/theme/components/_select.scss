@@ -1,0 +1,19 @@
+@import '../variables.scss';
+@import '../mixins/mixins';
+
+ion-select {
+  max-width: 100%;
+  position: relative;
+  &::part(icon) {
+    display: none !important;
+  }
+}
+
+.select-wrapper {
+  position: relative;
+  .custom-select-icon {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+  }
+}
