@@ -10,8 +10,29 @@ import {
 } from '../../modules/dnt/data/dnt-item-helper';
 
 export const policyTypes: { [key: string]: PolicyType } = {
+  AMPLUS: {
+    order: 0,
+    id: 'AMPLUS',
+    name: 'Garant AMPLUS',
+    shortDescription: 'Asigurarea facultativă a locuințelor',
+    listingIcon: {
+      name: 'lg-casa-1',
+      classes: 'mh-100  mw-188',
+    },
+  },
+  AMPLUS_PAD: {
+    order: 1,
+    id: 'Garant AMPLUS+ PAD',
+    name: 'Pachet asigurare obligatorie + facultativă',
+    shortDescription: 'Garant AMPLUS + PAD',
+    listingIcon: {
+      name: 'lg-casa-3',
+      classes: 'mh-100  mw-188',
+    },
+  },
   PAD: {
     id: 'PAD',
+    order: 2,
     name: 'PAD - Polița de asigurare obligatorie',
     shortDescription: 'Asigurarea obligatorie a locuințelor',
     dntConfig: {
@@ -65,15 +86,9 @@ export const policyTypes: { [key: string]: PolicyType } = {
         }),
       ],
     },
-  },
-  AMPLUS: {
-    id: 'AMPLUS',
-    name: 'Garant AMPLUS',
-    shortDescription: 'Asigurarea facultativă a locuințelor',
-  },
-  AMPLUS_PAD: {
-    id: 'Garant AMPLUS+ PAD',
-    name: 'Pachet asigurare obligatorie + facultativă',
-    shortDescription: 'Garant AMPLUS + PAD',
+    listingIcon: {
+      name: 'lg-casa-2',
+      classes: 'mh-100  mw-188',
+    },
   },
 };

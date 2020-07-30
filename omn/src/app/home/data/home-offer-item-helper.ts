@@ -1,3 +1,4 @@
+import { dateHelperDMY } from 'src/app/core/helpers/date.helper';
 import { PolicyOffer } from 'src/app/shared/models/data/policy-offer';
 
 export const offerHomeItemHelper = (offer: PolicyOffer) => {
@@ -34,7 +35,9 @@ export const offerHomeItemHelper = (offer: PolicyOffer) => {
         : '';
     }
     baseItem.textContent.footer.text = offer.expiry
-      ? offer.expiry.toString()
+      ? offer.expiry
+        ? dateHelperDMY(offer.expiry)
+        : ''
       : '';
   }
   return baseItem;
