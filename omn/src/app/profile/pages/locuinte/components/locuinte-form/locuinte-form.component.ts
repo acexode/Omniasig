@@ -1,10 +1,11 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
+import { inputConfigHelper } from 'src/app/shared/data/input-config-helper';
+import { radiosConfigHelper } from 'src/app/shared/data/radios-config-helper';
+import { selectConfigHelper } from 'src/app/shared/data/select-config-helper';
 import { Locuinte } from 'src/app/shared/models/data/locuinte';
 import { LocuinteFormModes } from 'src/app/shared/models/modes/locuinte-form-modes';
 import { LocuinteFormService } from '../../services/locuinte-form/locuinte-form.service';
-import { selectConfigHelper } from 'src/app/shared/data/select-config-helper';
-import { inputConfigHelper } from 'src/app/shared/data/input-config-helper';
 
 @Component({
   selector: 'app-locuinte-form',
@@ -51,6 +52,11 @@ export class LocuinteFormComponent implements OnInit {
       label: 'Vrei să dai o denumire acestui profil? (opțional)',
       type: 'text',
       placeholder: '',
+    }),
+
+    name2: radiosConfigHelper({
+      label: 'test',
+      mode: 'chip',
     }),
   };
   list = [

@@ -67,7 +67,7 @@ export class SelectComponent implements OnInit, ControlValueAccessor {
     this.cdRef.markForCheck();
   }
 
-  compareWithFn(o1, o2){
+  compareWithFn(o1, o2) {
     return o1 && o2 ? o1.id === o2.id : o1 === o2;
   }
 
@@ -92,12 +92,15 @@ export class SelectComponent implements OnInit, ControlValueAccessor {
   filterValues(obj: any) {
     return obj;
   }
+
   registerOnChange(fn) {
     this.onChange = fn;
   }
+
   registerOnTouched(fn: any): void {
     this.onTouched = fn;
   }
+
   setDisabledState?(isDisabled: boolean): void {
     if (isDisabled) {
       this.formGroup.disable({ emitEvent: true });

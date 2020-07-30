@@ -33,24 +33,42 @@
       ></app-select>
     </ion-row>
     <ion-row class="ion-no-padding numar">
-      <app-input class="w-100" [config]="fieldConfig?.number"
-      formControlName="number"
+      <app-input
+        class="w-100"
+        [config]="fieldConfig?.number"
+        formControlName="number"
       ></app-input>
     </ion-row>
     <ion-row class="ion-no-padding scara">
-      <app-input class="w-100" [config]="fieldConfig?.entrance"
-      formControlName="entrance"></app-input>
+      <app-input
+        class="w-100"
+        [config]="fieldConfig?.entrance"
+        formControlName="entrance"
+      ></app-input>
     </ion-row>
-    <ion-row  class="ion-no-padding apartament">
-      <app-input class="w-100" [config]="fieldConfig?.apartment"
-      formControlName="apartment"></app-input>
+    <ion-row class="ion-no-padding apartament">
+      <app-input
+        class="w-100"
+        [config]="fieldConfig?.apartment"
+        formControlName="apartment"
+      ></app-input>
     </ion-row>
     <ion-row class="ion-no-padding cod-postal">
-      <app-input class="w-100" [config]="fieldConfig?.postalCode"
-      formControlName="postalCode"></app-input>
+      <app-input
+        class="w-100"
+        [config]="fieldConfig?.postalCode"
+        formControlName="postalCode"
+      ></app-input>
     </ion-row>
     <ion-row class="ion-no-padding profile-name">
       <app-input class="w-100" [config]="fieldConfig?.name"></app-input>
+    </ion-row>
+    <ion-row class="ion-no-padding profile-name2">
+      <app-radios
+        class="w-100"
+        [config]="fieldConfig?.name2"
+        [options]="list"
+      ></app-radios>
     </ion-row>
   </ion-grid>
 </ng-template>

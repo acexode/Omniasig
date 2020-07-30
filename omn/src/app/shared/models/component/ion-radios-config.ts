@@ -1,11 +1,12 @@
+import { TemplateRef } from '@angular/core';
 import { IonTextItem } from './ion-text-item';
-import { IonIconItem } from './ion-icon-item';
-import { ImageCard } from './image-card';
 
 export interface IonRadiosConfig {
   mode: 'chip' | 'item' | 'icon';
   inputLabel: IonTextItem;
+  itemTemplateRef?: TemplateRef<any>;
+  itemRefWrapperClasses?: TemplateRef<any>;
   idKey?: string;
-  labelKey: string;
+  labelKey?: string;
   name?: string;
 }

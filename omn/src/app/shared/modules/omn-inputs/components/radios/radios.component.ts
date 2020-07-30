@@ -10,7 +10,9 @@ import {
   NG_VALUE_ACCESSOR,
   FormBuilder,
 } from '@angular/forms';
+import { get } from 'lodash';
 import { IonRadiosConfig } from 'src/app/shared/models/component/ion-radios-config';
+import { IonRadioInputOption } from 'src/app/shared/models/component/ion-radio-input-option';
 
 @Component({
   selector: 'app-radios',
@@ -27,7 +29,15 @@ import { IonRadiosConfig } from 'src/app/shared/models/component/ion-radios-conf
 })
 export class RadiosComponent implements OnInit, ControlValueAccessor {
   @Input() config: IonRadiosConfig;
-
+  @Input() @Input() set options(opts: Array<IonRadioInputOption>) {
+    this.opts = opts;
+    this.updateItems();
+  }
+  items: Array<{
+    id: any;
+    label: string;
+  }> = [];
+  private opts: Array<IonRadioInputOption> = [];
   formGroup = this.fb.group({
     radio: this.fb.control(null),
   });
@@ -40,21 +50,58 @@ export class RadiosComponent implements OnInit, ControlValueAccessor {
 
   ngOnInit() {}
 
-  writeValue(obj: any): void {
-    throw new Error('Method not implemented.');
+  updateItems() {
+    const labelK = get(this.config, 'labelKey', 'label');
+    const idK = get(this.config, 'idKey', 'id');
+    this.items = this.opts
+      .map((v) => {
+        return {
+          id: get(v, idK, null),
+          label: get(v, labelK, null),
+        };
+      })
+      .filter((vv) => {
+        return get(vv, 'id', null) !== null;
+      });
+    console.log(this.items);
+    console.log(this.config);
+    this.cdRef.markForCheck();
   }
+
+  writeValue(obj: any): void {
+    this.value = obj;
+    this.formGroup.setValue({ radio: obj });
+    this.formGroup.updateValueAndValidity();
+    this.cdRef.markForCheck();
+  }
+
   registerOnChange(fn) {
     this.onChange = fn;
   }
+
   registerOnTouched(fn: any): void {
     this.onTouched = fn;
   }
+
   setDisabledState?(isDisabled: boolean): void {
     if (isDisabled) {
       this.formGroup.disable({ emitEvent: true });
     } else {
       this.formGroup.enable({ emitEvent: true });
     }
+    this.cdRef.markForCheck();
+  }
+
+  get controlI() {
+    return this.formGroup.get('radio');
+  }
+
+  get controlValue() {
+    return this.controlI ? this.controlI.value : null;
+  }
+
+  toggleRadio(item) {
+    this.controlI.setValue(item.id);
     this.cdRef.markForCheck();
   }
 }
