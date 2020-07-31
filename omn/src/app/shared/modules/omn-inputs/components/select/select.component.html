@@ -8,6 +8,7 @@
   >
   <div class="select-wrapper w-100">
     <ion-select
+      appCustomSelect
       #selectEl
       interface="alert"
       okText="Okay"
@@ -16,6 +17,7 @@
       formArrayName="select"
       [multiple]="config?.multiple"
       class="mw-100 w-100"
+      [placeholder]="config?.placeholder"
     >
       <ng-container *ngFor="let item of items">
         <ion-select-option [value]="item.id">{{
@@ -25,7 +27,8 @@
     </ion-select>
     <ion-icon
       name="sm-chevron-down-t"
-      class="icon-16 custom-select-icon"
+      color="omn-medium"
+      class="icon-20 mr-8 custom-select-icon"
     ></ion-icon>
   </div>
 </ion-item>

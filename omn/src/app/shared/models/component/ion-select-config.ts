@@ -7,4 +7,5 @@ export interface IonSelectConfig {
   labelKey?: string;
   alertOptions?: any;
   forceListItems: boolean;
+  placeholder?: string;
 }

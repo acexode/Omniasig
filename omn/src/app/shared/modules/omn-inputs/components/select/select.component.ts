@@ -4,10 +4,7 @@ import {
   Component,
   Input,
   OnInit,
-  ViewChild,
-  AfterViewInit,
   Renderer2,
-  ElementRef,
 } from '@angular/core';
 import {
   ControlValueAccessor,
@@ -31,9 +28,7 @@ import { IonSelectListOption } from 'src/app/shared/models/component/ion-select-
     },
   ],
 })
-export class SelectComponent
-  implements OnInit, ControlValueAccessor, AfterViewInit {
-  @ViewChild('selectEl', { static: true, read: ElementRef }) selectEl;
+export class SelectComponent implements OnInit, ControlValueAccessor {
   @Input()
   config: IonSelectConfig;
   @Input() set options(opts: Array<IonSelectListOption>) {
@@ -66,19 +61,6 @@ export class SelectComponent
 
   ngOnInit() {}
 
-  ngAfterViewInit(): void {
-    console.log(this.selectEl);
-    if (this.selectEl) {
-      try {
-        const sR = this.selectEl.nativeElement.shadowRoot;
-        console.log(sR);
-        sR.querySelector('.select-icon').setAttribute(
-          'style',
-          'display: none !important'
-        );
-      } catch (e) {}
-    }
-  }
   updateItems() {
     const labelK = get(this.config, 'labelKey', 'label');
     const idK = get(this.config, 'idKey', 'id');

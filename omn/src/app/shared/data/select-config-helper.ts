@@ -12,6 +12,7 @@ export const selectConfigHelper = (conf: {
     },
     forceListItems: conf.force || false,
     multiple: conf.multiple || false,
+    placeholder: 'Selectează',
   };
   return config;
 };
