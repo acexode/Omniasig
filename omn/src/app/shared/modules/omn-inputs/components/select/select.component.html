@@ -14,9 +14,10 @@
       okText="Okay"
       cancelText="Dismiss"
       [compareWith]="compareWithFn"
-      formArrayName="select"
+      formControlName="select"
       [multiple]="config?.multiple"
       class="mw-100 w-100"
+      [interfaceOptions]="config?.alertOptions"
       [placeholder]="config?.placeholder"
     >
       <ng-container *ngFor="let item of items">

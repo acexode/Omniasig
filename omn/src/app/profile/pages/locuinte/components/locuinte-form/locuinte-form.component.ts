@@ -1,11 +1,13 @@
-import { Component, Input, OnInit } from '@angular/core';
+import {
+  ChangeDetectorRef,
+  Component,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
+} from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { inputConfigHelper } from 'src/app/shared/data/input-config-helper';
-import { radiosConfigHelper } from 'src/app/shared/data/radios-config-helper';
-import { selectConfigHelper } from 'src/app/shared/data/select-config-helper';
-import { Locuinte } from 'src/app/shared/models/data/locuinte';
-import { LocuinteFormModes } from 'src/app/shared/models/modes/locuinte-form-modes';
-import { LocuinteFormService } from '../../services/locuinte-form/locuinte-form.service';
+import { LocuinteFormType } from 'src/app/shared/models/modes/locuinte-form-modes';
 
 @Component({
   selector: 'app-locuinte-form',
@@ -13,64 +15,27 @@ import { LocuinteFormService } from '../../services/locuinte-form/locuinte-form.
   styleUrls: ['./locuinte-form.component.scss'],
 })
 export class LocuinteFormComponent implements OnInit {
-  @Input() formMode: LocuinteFormModes = null;
-  @Input() dataModel: Locuinte;
+  private fG: FormGroup;
+  formTypes = LocuinteFormType;
 
-  formModes = LocuinteFormModes;
-  formGroups: {
-    address: FormGroup;
-    locuinta: FormGroup;
-  } = {
-    address: null,
-    locuinta: null,
-  };
-  fieldConfig = {
-    county: selectConfigHelper({ label: 'Județ' }),
-    city: selectConfigHelper({ label: 'Localitate' }),
-    street: selectConfigHelper({ label: 'Strada' }),
-    number: inputConfigHelper({
-      label: 'Număr',
-      type: 'text',
-      placeholder: '',
-    }),
-    entrance: inputConfigHelper({
-      label: 'Scara (opțional)',
-      type: 'text',
-      placeholder: '',
-    }),
-    apartment: inputConfigHelper({
-      label: 'Apartament',
-      type: 'text',
-      placeholder: '',
-    }),
-    postalCode: inputConfigHelper({
-      label: 'Cod poștal',
-      type: 'text',
-      placeholder: '',
-    }),
-    name: inputConfigHelper({
-      label: 'Vrei să dai o denumire acestui profil? (opțional)',
-      type: 'text',
-      placeholder: '',
-    }),
-
-    name2: radiosConfigHelper({
-      label: 'test',
-      mode: 'chip',
-    }),
-  };
-  list = [
-    { id: 1, label: 'label1' },
-    { id: 2, label: 'label1' },
-  ];
-  constructor(private fb: FormBuilder, private formS: LocuinteFormService) {}
-
-  ngOnInit() {
-    this.buildForm();
+  @Input() formType: LocuinteFormType = null;
+  @Input() fieldConfig: { [key: string]: any } = {};
+  @Input() fieldConfigData: { [key: string]: any } = {};
+  @Input() set formGroupInstance(fg: FormGroup) {
+    this.fG = fg;
+    this.cdRef.markForCheck();
   }
+  get formGroupInstance() {
+    return this.fG;
+  }
+  @Output() eventSubmit: EventEmitter<any> = new EventEmitter();
+  constructor(private fb: FormBuilder, private cdRef: ChangeDetectorRef) {}
 
-  buildForm() {
-    this.formGroups.address = this.formS.buildAddressSubform();
-    this.formGroups.locuinta = this.formS.buildLocuinteSubform();
+  ngOnInit() {}
+
+  doSubmit() {
+    if (this.fG.valid) {
+      this.eventSubmit.emit(true);
+    }
   }
 }

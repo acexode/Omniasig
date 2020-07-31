@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActionSheetController, NavController } from '@ionic/angular';
 import { AuthService } from 'src/app/core/services/auth/auth.service';
 import { subPageHeaderDefault } from 'src/app/shared/data/sub-page-header-default';
-import { Locuinte } from 'src/app/shared/models/data/locuinte';
+import { Locuinte } from 'src/app/shared/models/data/locuinte.interface';
 import { LocuinteService } from './services/locuinte/locuinte.service';
 
 @Component({

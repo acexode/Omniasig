@@ -30,7 +30,7 @@ import { IonRadioInputOption } from 'src/app/shared/models/component/ion-radio-i
 export class RadiosComponent implements OnInit, ControlValueAccessor {
   @Input() config: IonRadiosConfig;
   @Input() @Input() set options(opts: Array<IonRadioInputOption>) {
-    this.opts = opts;
+    this.opts = opts ? opts : [];
     this.updateItems();
   }
   items: Array<{
@@ -48,7 +48,17 @@ export class RadiosComponent implements OnInit, ControlValueAccessor {
 
   constructor(private fb: FormBuilder, private cdRef: ChangeDetectorRef) {}
 
-  ngOnInit() {}
+  getFieldValue() {
+    const field = this.formGroup.get('radio');
+    return field ? field.value : null;
+  }
+  ngOnInit() {
+    this.formGroup.valueChanges.subscribe((vals) => {
+      if (this.onChange) {
+        this.onChange(this.getFieldValue());
+      }
+    });
+  }
 
   updateItems() {
     const labelK = get(this.config, 'labelKey', 'label');

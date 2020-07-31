@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { Locuinte } from '../../models/data/locuinte';
+import { Locuinte } from '../../models/data/locuinte.interface';
 
 @Component({
   selector: 'app-locuinte-card',

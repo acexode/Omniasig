@@ -1,7 +1,14 @@
 <app-sub-page-header [config]="headerConfig"> </app-sub-page-header>
 
 <ion-content>
-  <ion-grid class="px-32 pt-32 pb-24 h-100 flex flex-column"> 
-    <app-locuinte-form></app-locuinte-form>
-    </ion-grid
+  <ion-grid class="px-32 pt-32 pb-24 h-100 flex flex-column">
+    <app-locuinte-form
+      (eventSubmit)="handleFormSubmit()"
+      class="flex flex-1"
+      *ngIf="formInstance"
+      [formGroupInstance]="formInstance?.group"
+      [fieldConfig]="formInstance?.config"
+      [fieldConfigData]="formInstance?.data"
+      [formType]="formType"
+    ></app-locuinte-form> </ion-grid
 ></ion-content>

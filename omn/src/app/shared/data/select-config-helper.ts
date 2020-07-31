@@ -13,6 +13,16 @@ export const selectConfigHelper = (conf: {
     forceListItems: conf.force || false,
     multiple: conf.multiple || false,
     placeholder: 'Selectează',
+    alertOptions: {
+      customClass: 'omn-select-alert',
+      inputs: [
+        {
+          name: 'name1',
+          type: 'text',
+          placeholder: 'Placeholder 1',
+        },
+      ],
+    },
   };
   return config;
 };

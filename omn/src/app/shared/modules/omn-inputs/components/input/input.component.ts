@@ -55,5 +55,15 @@ export class InputComponent implements OnInit, ControlValueAccessor {
     this.cdRef.markForCheck();
   }
 
-  ngOnInit() {}
+  getFieldValue() {
+    const field = this.formGroup.get('input');
+    return field ? field.value : null;
+  }
+  ngOnInit() {
+    this.formGroup.valueChanges.subscribe((vals) => {
+      if (this.onChange) {
+        this.onChange(this.getFieldValue());
+      }
+    });
+  }
 }

@@ -134,6 +134,7 @@
 
   // Inputs
   --app-input-bg: var(--ion-color-omn-grey-medium-2);
+  --app-input-placeholder-color: #8b8b8b;
 
   // Overlays
   --ion-overlay-background-color: var(--app-white-color);
@@ -145,9 +146,9 @@
   --app-chip-label-color: #8b8b8b;
   --app-chip-label-color-rgb: 139, 139, 139;
   --app-chip-border-color: #a7aca9;
-  
+
   // Select
-  --app-select-placeholder-color: #8b8b8b;
+  --app-select-placeholder-color: var(--app-input-placeholder-color, #8b8b8b);
   --app-select-placeholder-font: var(--ion-font-family);
 }
 

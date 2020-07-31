@@ -1,0 +1,17 @@
+@import '../variables.scss';
+@import '../mixins/mixins';
+
+ion-alert {
+  &.select-alert {
+    .alert-wrapper {
+      --max-width: calc(100% - 64px);
+      .alert-head {
+        padding-inline-end: rem(32);
+        padding-inline-start: rem(32);
+        .alert-title {
+          @extend .h3;
+        }
+      }
+    }
+  }
+}

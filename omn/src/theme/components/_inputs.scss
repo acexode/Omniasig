@@ -4,7 +4,8 @@
   ion-input {
     --ion-border-color: var(--app-secondary-text-color);
     --border-color: var(--app-secondary-text-color);
-
+    --placeholder-color: var(--app-input-placeholder-color);
+    --placeholder-opacity: 1;
     input,
     input.native-input {
       @extend .text-normal;
@@ -18,7 +19,6 @@
         background: var(--background) !important;
         background-color: var(--background) !important;
       }
-      --placeholder-color: var(--app-input-label-color);
     }
 
     /* Chrome, Safari, Edge, Opera */

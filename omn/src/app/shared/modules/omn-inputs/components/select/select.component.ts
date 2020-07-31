@@ -4,7 +4,6 @@ import {
   Component,
   Input,
   OnInit,
-  Renderer2,
 } from '@angular/core';
 import {
   ControlValueAccessor,
@@ -32,14 +31,10 @@ export class SelectComponent implements OnInit, ControlValueAccessor {
   @Input()
   config: IonSelectConfig;
   @Input() set options(opts: Array<IonSelectListOption>) {
-    this.opts = opts;
+    this.opts = opts ? opts : [];
     this.updateItems();
   }
-  constructor(
-    private fb: FormBuilder,
-    private cdRef: ChangeDetectorRef,
-    private renderer: Renderer2
-  ) {}
+  constructor(private fb: FormBuilder, private cdRef: ChangeDetectorRef) {}
 
   items: Array<{
     id: any;
@@ -59,7 +54,17 @@ export class SelectComponent implements OnInit, ControlValueAccessor {
     return o1 && o2 ? o1.id === o2.id : o1 === o2;
   }
 
-  ngOnInit() {}
+  getFieldValue() {
+    const field = this.formGroup.get('select');
+    return field ? field.value : null;
+  }
+  ngOnInit() {
+    this.formGroup.valueChanges.subscribe((vals) => {
+      if (this.onChange) {
+        this.onChange(this.getFieldValue());
+      }
+    });
+  }
 
   updateItems() {
     const labelK = get(this.config, 'labelKey', 'label');
