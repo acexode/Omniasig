@@ -12,6 +12,8 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { CoreModule } from './core/core.module';
 import { SharedModule } from './shared/shared.module';
+import { PolicyDataService } from './modules/policy/services/policy-data.service';
+import { PolicySharedModule } from './modules/policy/policy-shared.module';
 
 @NgModule({
   declarations: [AppComponent],
@@ -26,6 +28,7 @@ import { SharedModule } from './shared/shared.module';
     AppRoutingModule,
     CoreModule,
     SharedModule,
+    PolicySharedModule.forRoot()
   ],
   providers: [
     StatusBar,

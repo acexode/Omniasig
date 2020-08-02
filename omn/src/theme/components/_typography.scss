@@ -4,8 +4,6 @@
 $font-size-base: 1rem;
 $font-family-base: var(--ion-font-family);
 
-body.omn {
-}
 .alt-font {
   font-family: $alt-font !important;
 }
@@ -70,6 +68,10 @@ h3,
   line-height: rem(24) !important;
 }
 
+.s24-h25 {
+  font-size: rem(24);
+  line-height: rem(25);
+}
 .white-space-normal {
   white-space: normal;
 }
@@ -108,6 +110,9 @@ ion-label.input-label,
 .ls-min-02 {
   letter-spacing: -0.2px;
 }
+.ls-02 {
+  letter-spacing: -0.2px;
+}
 
 .ls-0 {
   letter-spacing: 0;
@@ -116,6 +121,15 @@ ion-label.input-label,
 .border-danger {
   padding-bottom: rem(7);
   border-bottom: rem(1) solid $red;
+}
+
+.text-nowrap {
+  word-wrap: nowrap;
+}
+
+.overflow-ellipsis {
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .remove-event {

@@ -12,6 +12,7 @@ export interface IonButtonItem {
   fill?: string;
   size?: string;
   slot?: string;
+  shape?: string;
   // Use this to store data for special configs.
   data?: any;
 }

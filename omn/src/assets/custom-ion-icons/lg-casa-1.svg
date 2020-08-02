@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="210px" height="112px" viewBox="0 0 210 112" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>4231273B-A99F-4CF3-A594-21E4A7896A17@2x</title>
+    <g id="Cover" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Icons-and-illustrations" transform="translate(-48.000000, -602.000000)">
+            <g id="UI/Misc/Ilustratii/Casa-1" transform="translate(48.000000, 602.000000)">
+                <g id="Group">
+                    <path d="M99.4,0 C113.254405,0 124.340285,7.23011278 132.657639,21.6903383 C133.906583,23.8617033 136.220596,25.2001956 138.725529,25.2001813 L170.45,25.2 L170.45,25.2 C188.040269,25.2 202.3,40.8597307 202.3,58.45 C202.3,76.0402693 188.040269,91.7 170.45,91.7 L34.15,91.7 C16.5597307,91.7 2.3,76.0402693 2.3,58.45 C2.3,40.8597307 15,25 31.1004393,24.9997949 L35.5,25 C40.4588858,10.3470994 57.3724958,0 73.7,0 L99.4,0 Z" id="Path" fill="#BFE2D0"></path>
+                    <polygon id="Rectangle" fill="#E3F9EC" points="27 65 53 39 79 65 79 104 27 104"></polygon>
+                    <polygon id="Rectangle" fill="#2E485D" points="21 65 50 36 79 65 79 59 50 30 21 60"></polygon>
+                    <polygon id="Rectangle" fill="#3C968D" points="50 30 79 59 174 59 145 30"></polygon>
+                    <path d="M169,54 L170,55 L75,55 L74,54 L169,54 Z M164,49 L165,50 L70,50 L69,49 L164,49 Z M159,44 L160,45 L65,45 L64,44 L159,44 Z M154,39 L155,40 L60,40 L59,39 L154,39 Z M149,34 L150,35 L55,35 L54,34 L149,34 Z" id="Combined-Shape" fill="#34827A"></path>
+                    <polygon id="Path" fill="#2E485D" points="137 45 137.2 59.5 123 59 109 45"></polygon>
+                    <polygon id="Path" fill="#FFFFFF" points="137 51.5 152 65 167 65 167 104 79 104 79 65 123 64.999"></polygon>
+                    <polygon id="Path" fill="#E3F9EC" points="137 58 126 69 79.1 69.3 79.1 63.7 125 64 137 52 150 64 167 64 167 69 149 69"></polygon>
+                    <polygon id="Path" fill="#6EC5AB" points="137 53 125 65 79 65 79 59 123 59 137 45 151 59 174 59 174 65 150 65"></polygon>
+                    <polygon id="Rectangle" fill="#3C968D" transform="translate(37.000000, 50.500000) scale(1, -1) translate(-37.000000, -50.500000) " points="21 36 27 36 53 62 50 65"></polygon>
+                    <rect id="Rectangle" fill="#A43E43" x="41" y="74" width="24" height="15"></rect>
+                    <rect id="Rectangle" fill="#A43E43" transform="translate(105.000000, 81.500000) scale(-1, 1) translate(-105.000000, -81.500000) " x="93" y="74" width="24" height="15"></rect>
+                    <rect id="Rectangle" fill="#5E9F98" x="46" y="74" width="14" height="15"></rect>
+                    <rect id="Rectangle" fill="#2E485D" x="50" y="60" width="6" height="6"></rect>
+                    <rect id="Rectangle" fill="#5E9F98" transform="translate(105.000000, 81.500000) scale(-1, 1) translate(-105.000000, -81.500000) " x="98" y="74" width="14" height="15"></rect>
+                    <rect id="Rectangle" fill="#5E9F98" transform="translate(156.500000, 81.500000) scale(-1, 1) translate(-156.500000, -81.500000) " x="152" y="74" width="9" height="15"></rect>
+                    <rect id="Rectangle" fill="#6EC5AB" x="46" y="74" width="3" height="15"></rect>
+                    <rect id="Rectangle" fill="#6EC5AB" transform="translate(110.500000, 81.500000) scale(-1, 1) translate(-110.500000, -81.500000) " x="109" y="74" width="3" height="15"></rect>
+                    <rect id="Rectangle" fill="#6EC5AB" transform="translate(159.500000, 81.500000) scale(-1, 1) translate(-159.500000, -81.500000) " x="158" y="74" width="3" height="15"></rect>
+                    <rect id="Rectangle" fill="#2E485D" transform="translate(53.500000, 90.500000) scale(1, -1) translate(-53.500000, -90.500000) " x="46" y="89" width="15" height="3"></rect>
+                    <rect id="Rectangle" fill="#2E485D" transform="translate(104.500000, 90.500000) scale(-1, -1) translate(-104.500000, -90.500000) " x="97" y="89" width="15" height="3"></rect>
+                    <rect id="Rectangle" fill="#A43E43" x="129" y="71" width="17" height="33"></rect>
+                    <rect id="Rectangle" fill="#F0BDA1" transform="translate(130.500000, 91.000000) scale(-1, 1) translate(-130.500000, -91.000000) " x="129" y="89" width="3" height="4"></rect>
+                    <rect id="Rectangle" fill="#572A2C" x="129" y="71" width="17" height="3"></rect>
+                    <path d="M15.3652445,104 L194.634756,104 C200.75499,104 206.490276,106.986109 210,112 L210,112 L210,112 L0,112 C3.50972388,106.986109 9.24501025,104 15.3652445,104 Z" id="Rectangle" fill="#008641"></path>
+                    <path d="M125,112 L134,112 L124,104 L111,104 L111.817807,104 C114.511863,104 117.112247,104.988664 119.12581,106.778497 L125,112 L125,112 Z" id="Path" fill="#006330"></path>
+                    <path d="M133,108 L133,104 L153,104 L153,108 L157,108 L157,112 L137,112 L137,108 L133,108 Z" id="Combined-Shape" fill="#D6676C"></path>
+                    <path d="M134,112 L126.73914,106.191312 C124.966009,104.772808 122.762904,104 120.492189,104 L118,104 L118,104 L133,104 L133,108 L137,108 L137,112 L134,112 Z" id="Path" fill="#572A2C"></path>
+                    <rect id="Rectangle" fill="#A43E43" x="74" y="25" width="24" height="5"></rect>
+                    <rect id="Rectangle" fill="#572A2C" x="74" y="25" width="6" height="5"></rect>
+                    <path d="M95,25 C92.208682,13.5996055 87.5880565,7.93313726 81.1381234,8.00059522 C71.4632238,8.10178215 70.0593999,15.9519297 63.5361638,15.9519297 C57.0129278,15.9519297 55.9389671,13.1611288 48.2296387,13.2100902 C43.0900864,13.2427312 37.3468735,17.1727011 31,25 L95,25 Z" id="Path-28" fill="#E3F9EC"></path>
+                    <path d="M82,91 C89.1797017,91 95,96.5964406 95,104 L95,104 L69,104 C69,96.5964406 74.8202983,91 82,91 Z" id="Combined-Shape" fill="#F1DA81"></path>
+                    <path d="M168,91 C175.179702,91 181,96.5964406 181,104 L181,104 L155,104 C155,96.5964406 160.820298,91 168,91 Z" id="Combined-Shape" fill="#F1DA81"></path>
+                    <path d="M68,96 C71.6421356,96 75,99.3578644 75,104 L75,103.999 L60.0000001,103.998997 C60.0004745,99.4449647 63.2326787,96.12716 67.7386231,96.0035723 Z" id="Combined-Shape" fill="#F1DA81"></path>
+                    <path d="M184,96 C187.642136,96 191,99.3578644 191,104 L191,103.999 L176,103.998997 C176.000475,99.4449647 179.232679,96.12716 183.738623,96.0035723 Z" id="Combined-Shape" fill="#F1DA81"></path>
+                    <path d="M29,96 C32.6421356,96 36,99.3578644 36,104 L36,103.999 L21.0000001,103.998997 C21.0004745,99.4449647 24.2326787,96.12716 28.7386231,96.0035723 Z" id="Combined-Shape" fill="#F1DA81"></path>
+                    <path d="M87.3,106 C87.6865993,106 88,106.313401 88,106.7 L88,112 L86,112 L86,106.7 C86,106.313401 86.3134007,106 86.7,106 L87.3,106 Z M84.3,108 C84.6865993,108 85,108.313401 85,108.7 L85,112 L83,112 L83,108.7 C83,108.313401 83.3134007,108 83.7,108 L84.3,108 Z M51.3,108 C51.6865993,108 52,108.313401 52,108.7 L52,110.3 C52,110.686599 51.6865993,111 51.3,111 L49.7,111 C49.3134007,111 49,110.686599 49,110.3 L49,108.7 C49,108.313401 49.3134007,108 49.7,108 L51.3,108 Z M190.3,106 C190.686599,106 191,106.313401 191,106.7 L191,108.3 C191,108.686599 190.686599,109 190.3,109 L188.7,109 C188.313401,109 188,108.686599 188,108.3 L188,106.7 C188,106.313401 188.313401,106 188.7,106 L190.3,106 Z M112.3,105 C112.686599,105 113,105.313401 113,105.7 L113,107.3 C113,107.686599 112.686599,108 112.3,108 L110.7,108 C110.313401,108 110,107.686599 110,107.3 L110,105.7 C110,105.313401 110.313401,105 110.7,105 L112.3,105 Z" id="Combined-Shape" fill="#006330"></path>
+                </g>
+                <rect id="Rectangle" fill="#D7ECE1" x="35" y="74" width="3" height="3" rx="0.7"></rect>
+                <rect id="Rectangle" fill="#FFEA96" x="172" y="99" width="3" height="3" rx="0.7"></rect>
+                <rect id="Rectangle" fill="#FFEA96" x="75" y="96" width="3" height="3" rx="0.7"></rect>
+            </g>
+        </g>
+    </g>
+</svg>

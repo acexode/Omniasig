@@ -1,15 +1,22 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
+import { RouterModule } from '@angular/router';
+import { IonicModule } from '@ionic/angular';
+import { SharedModule } from 'src/app/shared/shared.module';
+import { PolicyArchiveListComponent } from './components/policy-archive-list/policy-archive-list.component';
+import { PolicyCardListComponent } from './components/policy-card-list/policy-card-list.component';
+import { PolicyComponent } from './components/policy/policy.component';
 import { PolicyPage } from './page/policy.page';
 import { PolicyRoutingModule } from './policy-routing.module';
 import { PolicySharedModule } from './policy-shared.module';
-import { IonicModule } from '@ionic/angular';
-import { RouterModule } from '@angular/router';
-import { SharedModule } from 'src/app/shared/shared.module';
-import { PolicyComponent } from './components/policy/policy.component';
 
 @NgModule({
-  declarations: [PolicyPage, PolicyComponent],
+  declarations: [
+    PolicyPage,
+    PolicyComponent,
+    PolicyCardListComponent,
+    PolicyArchiveListComponent,
+  ],
   imports: [
     CommonModule,
     PolicyRoutingModule,
