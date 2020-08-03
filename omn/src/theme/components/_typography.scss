@@ -162,3 +162,15 @@ ion-label.input-label,
     }
   }
 }
+
+.shadow-1 {
+  box-shadow: $box-shadow-1;
+}
+
+.mb-13 {
+  margin-bottom: rem(13);
+}
+
+.mx-42 {
+  margin: 0 rem(42) 0 rem(42) !important;
+}

@@ -10,7 +10,10 @@ ion-content {
 
 .fond {
   height: rem(48);
-  width: rem(128);
   --background: #e5f2ec;
   --box-shadow: none;
+}
+
+.info-icon {
+  font-size: 40px;
 }

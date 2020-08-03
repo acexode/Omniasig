@@ -1,0 +1,18 @@
+@import '../../../../../../theme/mixins/mixins';
+.alert {
+  font-size: rem(24);
+  padding-left: rem(8);
+  padding-right: rem(8);
+}
+
+.add {
+  font-size: rem(24);
+}
+
+ion-item {
+  --padding-start: 0;
+}
+
+ion-input {
+  --background: white !important;
+}
