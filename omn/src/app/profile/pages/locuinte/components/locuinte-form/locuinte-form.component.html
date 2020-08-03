@@ -164,9 +164,19 @@
         [config]="fieldConfig?.heightRegime"
         formControlName="heightRegime"
       ></app-input>
-      <ion-item class="form-description"> </ion-item>
+      <ion-item class="form-description p-0 no-paddings" lines="none">
+        <ion-icon
+          slot="start"
+          name="md-info"
+          class="icon-20 position-absolute top-0 m-0 color-secondary-blue"
+        ></ion-icon
+        ><ion-text class="text-small ml-32"
+          >Câte etaje are clădirea. Pentru clădirile care au doar parter sau
+          parter și un etaj, regimul de înălțime este 1.
+        </ion-text>
+      </ion-item>
     </ion-row>
-    <ion-row class="ion-no-padding numar-camere mb-24">
+    <ion-row class="ion-no-padding numar-camere mb-24 flex-column">
       <app-input
         class="w-100"
         [config]="fieldConfig?.roomCount"

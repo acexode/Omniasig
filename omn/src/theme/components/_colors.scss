@@ -100,6 +100,7 @@
   --ion-background-color: var(--ion-color-omn-grey-medium-2);
   background-color: $light-grey-2;
 }
+
 .color-dark-green {
   color: $dark-green !important;
 }
@@ -107,18 +108,27 @@
 .color-secondary-grey {
   color: $secondary-grey;
 }
+
 .color-tertiary-grey {
   color: $grey3;
 }
+
 .color-white {
   color: $white;
 }
+
 .color-light-red {
   color: $light-red;
 }
+
 .bg-danger {
   background-color: $danger;
 }
+
 .bg-white {
   background-color: $white;
+}
+
+.color-secondary-blue {
+  color: $secondary-blue;
 }
