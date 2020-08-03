@@ -55,14 +55,14 @@ export class LocuinteFormService {
         get(model, 'info.usableSurface', ''),
         Validators.required
       ),
-      heightRegime: this.fb.control(
-        get(model, 'info.heightRegime', 1),
-        Validators.required
-      ),
-      roomCount: this.fb.control(
-        get(model, 'info.roomCount', 1),
-        Validators.required
-      ),
+      heightRegime: this.fb.control(get(model, 'info.heightRegime', 1), [
+        Validators.required,
+        Validators.min(1),
+      ]),
+      roomCount: this.fb.control(get(model, 'info.roomCount', 1), [
+        Validators.required,
+        Validators.min(1),
+      ]),
       alarm: this.fb.control(
         get(model, 'info.alarm', false),
         Validators.required
@@ -197,6 +197,12 @@ export class LocuinteFormService {
             placeholder: 'Ex: Casa de vacanță',
           }),
         };
+        configModel.usableSurface.spinnerConfig = { step: 1 };
+        configModel.usableSurface.min = 0;
+        configModel.heightRegime.spinnerConfig = { step: 1 };
+        configModel.heightRegime.min = 1;
+        configModel.roomCount.spinnerConfig = { step: 1 };
+        configModel.roomCount.min = 1;
         break;
 
       default:

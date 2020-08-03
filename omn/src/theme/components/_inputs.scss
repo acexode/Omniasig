@@ -38,10 +38,22 @@
       height: rem(14);
       width: rem(14);
     }
+
+    &.has-spinners {
+      input,
+      input.native-input {
+        --padding-start: 46px;
+        --padding-end: 46px;
+      }
+    }
   }
 
   .input-label {
     --color: var(--app-input-label-color);
     color: var(--color);
+  }
+
+  .input-spinner {
+    z-index: 2;
   }
 }

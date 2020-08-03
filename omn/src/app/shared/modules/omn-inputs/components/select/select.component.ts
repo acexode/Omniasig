@@ -56,7 +56,7 @@ export class SelectComponent implements OnInit, ControlValueAccessor {
     } else {
       return o1 === o2;
     }
-  };
+  }
 
   getFieldValue() {
     const field = this.formGroup.get('select');

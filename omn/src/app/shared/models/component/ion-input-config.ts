@@ -6,10 +6,12 @@ export interface IonInputConfig {
   inputName?: string;
   type: string;
   size?: number;
-  // Number input.
-  step?: number;
   min?: number;
   max?: number;
+  spinnerConfig?: {
+    // Number input.
+    step?: number;
+  };
 
   // Text types.
   clearable?: boolean;

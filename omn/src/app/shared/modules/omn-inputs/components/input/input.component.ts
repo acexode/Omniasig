@@ -5,6 +5,7 @@ import {
   NG_VALUE_ACCESSOR,
 } from '@angular/forms';
 import { IonInputConfig } from 'src/app/shared/models/component/ion-input-config';
+import { get } from 'lodash';
 
 @Component({
   selector: 'app-input',
@@ -65,5 +66,31 @@ export class InputComponent implements OnInit, ControlValueAccessor {
         this.onChange(this.getFieldValue());
       }
     });
+  }
+
+  increment() {
+    const max = get(this.config, 'max', null);
+    const step = get(this.config, 'step', 1);
+    let val = this.getFieldValue();
+    val = val !== null && val !== undefined && val !== '' ? val : 0;
+    const newV = val + step;
+    if (val !== null && newV >= max) {
+      this.writeValue(max ? max : newV);
+    } else {
+      this.writeValue(newV);
+    }
+  }
+
+  decrement() {
+    const min = get(this.config, 'min', 0);
+    const step = get(this.config.spinnerConfig.step, 'step', 1);
+    let val = this.getFieldValue();
+    val = val !== null && val !== undefined && val !== '' ? val : 0;
+    const newV = val - step;
+    if (val !== null && newV <= min) {
+      this.writeValue(min);
+    } else {
+      this.writeValue(val - step);
+    }
   }
 }
