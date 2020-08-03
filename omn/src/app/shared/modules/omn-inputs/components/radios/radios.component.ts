@@ -73,8 +73,6 @@ export class RadiosComponent implements OnInit, ControlValueAccessor {
       .filter((vv) => {
         return get(vv, 'id', null) !== null;
       });
-    console.log(this.items);
-    console.log(this.config);
     this.cdRef.markForCheck();
   }
 

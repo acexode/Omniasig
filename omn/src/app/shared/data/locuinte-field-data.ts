@@ -1,29 +1,39 @@
+export enum LocuinteStructureType {
+  BETON_ARMAT,
+  ZIDARIE_PORTANTA,
+  METAL,
+  LEMN,
+}
 export const locuinteFieldsData = {
   resistenceStructure: [
     {
-      id: 'betonArmat',
+      id: LocuinteStructureType.BETON_ARMAT,
       label: 'Beton armat (cadre, diafragme, prefabricate)',
     },
     {
-      id: 'zidariePortanta',
+      id: LocuinteStructureType.ZIDARIE_PORTANTA,
       label: 'Zidărie portantă (zidarie, piatra)',
     },
     {
-      id: 'metal',
+      id: LocuinteStructureType.METAL,
       label: 'Metal',
     },
     {
-      id: 'lemnSub60',
-      label: 'Lemn, sub 60%',
+      id: LocuinteStructureType.LEMN,
+      label: 'Lemn',
     },
-    {
-      id: 'lemnPeste60',
-      label: 'Lemn, peste 60%',
-    },
-    {
-      id: 'chirpiciPaianta',
-      label: 'Chirpici/Paiantă',
-    },
+    // {
+    //   id: 'lemnSub60',
+    //   label: 'Lemn, sub 60%',
+    // },
+    // {
+    //   id: 'lemnPeste60',
+    //   label: 'Lemn, peste 60%',
+    // },
+    // {
+    //   id: 'chirpiciPaianta',
+    //   label: 'Chirpici/Paiantă',
+    // },
   ],
   valueCurrency: [
     { id: 'EUR', label: 'Euro' },
@@ -48,6 +58,7 @@ export const locuinteFieldsData = {
   city: [
     { id: 1, label: 'test1' },
     { id: 0, label: 'test2' },
+    { id: 2, label: 'test3' },
   ],
   street: [
     { id: 1, label: 'test1' },

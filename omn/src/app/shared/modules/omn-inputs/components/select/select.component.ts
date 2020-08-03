@@ -10,7 +10,7 @@ import {
   FormBuilder,
   NG_VALUE_ACCESSOR,
 } from '@angular/forms';
-import { get } from 'lodash';
+import { get, has } from 'lodash';
 import { IonSelectConfig } from 'src/app/shared/models/component/ion-select-config';
 import { IonSelectListOption } from 'src/app/shared/models/component/ion-select-list-option';
 
@@ -51,13 +51,18 @@ export class SelectComponent implements OnInit, ControlValueAccessor {
   value: any;
 
   compareWithFn = (o1, o2) => {
-    return o1 && o2 ? o1.id === o2.id : o1 === o2;
-  }
+    if (o1 && o2 && has(o1, 'id') && has(o2, 'id')) {
+      return o1.id === o2.id;
+    } else {
+      return o1 === o2;
+    }
+  };
 
   getFieldValue() {
     const field = this.formGroup.get('select');
     return field ? field.value : null;
   }
+
   ngOnInit() {
     this.formGroup.valueChanges.subscribe((vals) => {
       if (this.onChange) {
@@ -79,7 +84,6 @@ export class SelectComponent implements OnInit, ControlValueAccessor {
       .filter((vv) => {
         return get(vv, 'id', null) !== null;
       });
-
     this.cdRef.markForCheck();
   }
 

@@ -5,11 +5,38 @@ ion-alert {
   &.select-alert {
     .alert-wrapper {
       --max-width: calc(100% - 64px);
+      --max-height: calc(100% - 64px);
       .alert-head {
         padding-inline-end: rem(32);
         padding-inline-start: rem(32);
         .alert-title {
           @extend .h3;
+        }
+      }
+      .alert-radio-group {
+        max-height: calc(100% - 64px);
+        .alert-radio-button {
+          min-height: rem(22);
+          height: auto;
+          contain: none;
+          .alert-button-inner {
+            @include align-items(start);
+            .alert-radio-icon {
+              margin-top: rem(18);
+              margin-bottom: rem(16);
+              left: rem(32);
+            }
+            .alert-radio-label {
+              padding-top: rem(16);
+              padding-bottom: rem(16);
+              font-size: rem(16);
+              line-height: rem(22);
+              padding-inline-start: rem(44);
+              min-height: rem(22);
+              white-space: normal;
+              overflow: visible;
+            }
+          }
         }
       }
     }

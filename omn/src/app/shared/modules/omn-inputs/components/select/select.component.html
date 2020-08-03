@@ -11,8 +11,8 @@
       appCustomSelect
       #selectEl
       interface="alert"
-      okText="Okay"
-      cancelText="Dismiss"
+      okText="Selectează"
+      cancelText="Renunță"
       [compareWith]="compareWithFn"
       formControlName="select"
       [multiple]="config?.multiple"
@@ -21,9 +21,9 @@
       [placeholder]="config?.placeholder"
     >
       <ng-container *ngFor="let item of items">
-        <ion-select-option [value]="item.id">{{
-          item.label
-        }}</ion-select-option>
+        <ion-select-option [value]="item.id"
+          >{{ item.label }}
+        </ion-select-option>
       </ng-container>
     </ion-select>
     <ion-icon
