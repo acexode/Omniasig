@@ -13,7 +13,7 @@
       </ion-label>
     </ion-row>
 
-    <ion-row class="pb-64 info">
+    <ion-row class="pb-64 alt-bg">
       <ion-col>
         <ion-row
           class="mt-n28 w-auto mx-42 ion-justify-content-between ion-nowrap ion-align-self-center"
@@ -115,24 +115,6 @@
           <ion-text class="s18-h24">Da</ion-text>
         </ion-row>
 
-        <ion-row class="w-100 mb-16 pr-16 ion-justify-content-end">
-          <ion-label
-            class="mr-18 s18-h21 text-weight-bold"
-            [color]="variant == 'not-insured' ? 'omn-green' : ''"
-            >V1</ion-label
-          >
-          <ion-label
-            [color]="variant == 'not-found' ? 'omn-green' : ''"
-            class="mr-18 s18-h21 text-weight-bold"
-            >V2</ion-label
-          >
-          <ion-label
-            [color]="variant == 'found' ? 'omn-green' : ''"
-            class="s18-h21 text-weight-bold"
-            >V3</ion-label
-          >
-        </ion-row>
-
         <ion-row class="px-16">
           <app-locuinte-view-card [variant]="variant"></app-locuinte-view-card>
         </ion-row>
@@ -153,28 +135,30 @@
             aceasta trebuie:
           </ion-text>
           <ol class="link-small m-0 pl-24">
-            <li>să nu fie construită înainte de anul 1940;</li>
-            <li>
+            <li class="mb-8">să nu fie construită înainte de anul 1940;</li>
+            <li class="mb-8">
               să nu aibă o valoare (cumulată pentru clădire și bunuri) sub
               21.000 Euro sau care depășește 200.000 Euro;
             </li>
-            <li>
+            <li class="mb-8">
               să nu fie în curs de construcţie/nefinalizată și să nu fie
               folosită în alt scop decât cel de locuit;
             </li>
-            <li>
+            <li class="mb-8">
               să nu aibă structura de rezistență sau pereți exteriori din lemn;
             </li>
-            <li>
+            <li class="mb-8">
               să nu fie situată la mai puţ in de 100 m de ape neregularizate
               (neîndiguite/neconsolidate);
             </li>
-            <li>
+            <li class="mb-8">
               să nu fie menționată în lista clădirilor expertizate tehnic pentru
               riscul de cutremur
             </li>
-            <li>să nu se afle într-o zonă expusă alunecărilor de teren;</li>
-            <li>să nu fie o clădire de patrimoniu;</li>
+            <li class="mb-8">
+              să nu se afle într-o zonă expusă alunecărilor de teren;
+            </li>
+            <li class="mb-8">să nu fie o clădire de patrimoniu;</li>
             <li>
               să nu se afle într-o zonă în care construcția este interzisă.
             </li>
