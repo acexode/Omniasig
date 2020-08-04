@@ -50,12 +50,11 @@
       ></app-select>
     </ion-row>
     <ion-row class="ion-no-padding strada mb-24">
-      <app-select
+      <app-autocomplete
         class="w-100"
-        [config]="fieldConfig?.street"
         formControlName="street"
-        [options]="fieldConfigData?.street || []"
-      ></app-select>
+        [config]="fieldConfig?.street"
+      ></app-autocomplete>
     </ion-row>
     <ion-row class="ion-no-padding numar-scara mb-24">
       <ion-col size="6" class="pr-16">

@@ -1,0 +1,17 @@
+@import '../variables.scss';
+@import '../mixins/mixins';
+
+app-autocomplete {
+
+  ion-item {
+    overflow: visible;
+  }
+
+  ion-auto-complete {
+    ul {
+      left: 0;
+      top: 100%;
+      z-index: 3;
+    }
+  }
+}

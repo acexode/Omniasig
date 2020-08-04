@@ -7,6 +7,8 @@ import { InputComponent } from './components/input/input.component';
 import { RadiosComponent } from './components/radios/radios.component';
 import { SelectComponent } from './components/select/select.component';
 import { CustomSelectDirective } from './directives/custom-select.directive';
+import { AutoCompleteModule } from 'ionic4-auto-complete';
+import { AutocompleteComponent } from './components/autocomplete/autocomplete.component';
 
 @NgModule({
   declarations: [
@@ -15,13 +17,15 @@ import { CustomSelectDirective } from './directives/custom-select.directive';
     RadiosComponent,
     CustomSelectDirective,
     DatepickerComponent,
+    AutocompleteComponent,
   ],
-  imports: [CommonModule, IonicModule, ReactiveFormsModule],
+  imports: [CommonModule, IonicModule, ReactiveFormsModule, AutoCompleteModule],
   exports: [
     SelectComponent,
     InputComponent,
     RadiosComponent,
     DatepickerComponent,
+    AutocompleteComponent,
   ],
 })
 export class OmnInputsModule {}

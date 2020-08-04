@@ -1,13 +1,15 @@
 import { Injectable } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
-import { LocuinteFormType } from 'src/app/shared/models/modes/locuinte-form-modes';
-import { selectConfigHelper } from 'src/app/shared/data/select-config-helper';
-import { inputConfigHelper } from 'src/app/shared/data/input-config-helper';
-import { radiosConfigHelper } from 'src/app/shared/data/radios-config-helper';
-import { Locuinte } from 'src/app/shared/models/data/locuinte.interface';
-import { get, forOwn, set } from 'lodash';
-import { locuinteFieldsData } from 'src/app/shared/data/locuinte-field-data';
+import { forOwn, get, set } from 'lodash';
+import { Observable } from 'rxjs';
+import { autoCompleteConfigHelper } from 'src/app/shared/data/autocomplete-config-helper';
 import { dateTimeConfigHelper } from 'src/app/shared/data/datetime-config-helper';
+import { inputConfigHelper } from 'src/app/shared/data/input-config-helper';
+import { locuinteFieldsData } from 'src/app/shared/data/locuinte-field-data';
+import { radiosConfigHelper } from 'src/app/shared/data/radios-config-helper';
+import { selectConfigHelper } from 'src/app/shared/data/select-config-helper';
+import { Locuinte } from 'src/app/shared/models/data/locuinte.interface';
+import { LocuinteFormType } from 'src/app/shared/models/modes/locuinte-form-modes';
 
 @Injectable({
   providedIn: 'root',
@@ -120,7 +122,10 @@ export class LocuinteFormService {
         configModel = {
           county: selectConfigHelper({ label: 'Județ' }),
           city: selectConfigHelper({ label: 'Localitate' }),
-          street: selectConfigHelper({ label: 'Strada' }),
+          street: autoCompleteConfigHelper({
+            label: 'Strada',
+            dataServiceCb: this.streetLookup,
+          }),
           number: inputConfigHelper({
             label: 'Număr',
             type: 'text',
@@ -225,5 +230,11 @@ export class LocuinteFormService {
       set(data, k, get(fData, k, get(defaultV, k, null)));
     });
     return data;
+  }
+
+  streetLookup(input: any): Observable<Array<any>> {
+    return new Observable((observer) => {
+      observer.next([{ id: 'test', label: 'test' }]);
+    });
   }
 }

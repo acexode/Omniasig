@@ -86,7 +86,6 @@ export class LocuinteFormPageComponent implements OnInit {
       case this.formModes.EDIT_FULL:
         this.headerConfig = subPageHeaderDefault('Adresa');
         break;
-
       default:
         this.headerConfig = subPageHeaderDefault('Adresa');
         break;
