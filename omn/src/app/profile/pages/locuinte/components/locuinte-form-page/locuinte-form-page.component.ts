@@ -124,14 +124,12 @@ export class LocuinteFormPageComponent implements OnInit {
     this.formData.address = this.formS.getFormFieldsData(
       this.formConfigs.address
     );
-    console.log(this.formData);
     this.formData.place = this.formS.getFormFieldsData(this.formConfigs.place);
     this.formGroups.address = this.formS.buildAddressSubform(this.dataModel);
     this.formGroups.place = this.formS.buildLocuinteSubform(this.dataModel);
   }
 
   handleFormSubmit() {
-    console.log('submit');
     switch (this.formMode) {
       case this.formModes.ADD_NEW_FULL:
       case this.formModes.EDIT_FULL:

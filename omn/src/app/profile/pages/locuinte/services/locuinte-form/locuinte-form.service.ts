@@ -7,6 +7,7 @@ import { radiosConfigHelper } from 'src/app/shared/data/radios-config-helper';
 import { Locuinte } from 'src/app/shared/models/data/locuinte.interface';
 import { get, forOwn, set } from 'lodash';
 import { locuinteFieldsData } from 'src/app/shared/data/locuinte-field-data';
+import { dateTimeConfigHelper } from 'src/app/shared/data/datetime-config-helper';
 
 @Injectable({
   providedIn: 'root',
@@ -157,7 +158,11 @@ export class LocuinteFormService {
           resistenceStructure: selectConfigHelper({
             label: 'Structură de rezistență',
           }),
-          buildYear: selectConfigHelper({ label: 'Anul construcției' }),
+          buildYear: dateTimeConfigHelper({
+            label: 'Anul construcției',
+            displayFormat: 'YYYY',
+            pickerFormat: 'YYYY',
+          }),
           valueCurrency: radiosConfigHelper({
             label: 'Monedă',
             mode: 'chip',
@@ -203,6 +208,8 @@ export class LocuinteFormService {
         configModel.heightRegime.min = 1;
         configModel.roomCount.spinnerConfig = { step: 1 };
         configModel.roomCount.min = 1;
+        configModel.buildYear.min = 1800;
+        configModel.buildYear.max = new Date().getFullYear();
         break;
 
       default:
