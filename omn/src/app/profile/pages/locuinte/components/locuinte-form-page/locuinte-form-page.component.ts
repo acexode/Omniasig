@@ -134,6 +134,9 @@ export class LocuinteFormPageComponent implements OnInit {
       case this.formModes.EDIT_FULL:
         if (this.formType === LocuinteFormType.ADDRESS) {
           this.formType = LocuinteFormType.PLACE;
+          const header = subPageHeaderDefault('Adresa');
+          header.leadingIcon.routerLink = false;
+          this.headerConfig = header;
           this.formInstance = {
             config: this.formConfigs.place,
             group: this.formGroups.place,
@@ -147,4 +150,29 @@ export class LocuinteFormPageComponent implements OnInit {
     }
     this.cdRef.markForCheck();
   }
+
+  navigateBack() {
+    switch (this.formMode) {
+      case this.formModes.ADD_NEW_FULL:
+      case this.formModes.EDIT_FULL:
+        if (this.formType === LocuinteFormType.PLACE) {
+          this.formInstance = {
+            config: this.formConfigs.address,
+            group: this.formGroups.address,
+            data: this.formData.address,
+          };
+          this.formType = LocuinteFormType.ADDRESS;
+          const header = subPageHeaderDefault('Adresa');
+          header.leadingIcon.routerLink = null;
+          this.headerConfig = header;
+        }
+        break;
+
+      default:
+        break;
+    }
+    this.cdRef.markForCheck();
+  }
+
+  trailingAction() {}
 }

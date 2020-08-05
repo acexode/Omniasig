@@ -1,4 +1,4 @@
-<ion-grid class="m-0 h-100 flex flex-column w-100 h-100 flex-1 ion-no-padding">
+<ion-grid class="m-0 mh-100p flex flex-column w-100 flex-1 ion-no-padding">
   <ng-container [ngSwitch]="formType">
     <ion-row class="ion-no-padding flex" *ngSwitchCase="formTypes.ADDRESS"
       ><ng-container *ngTemplateOutlet="address"></ng-container
@@ -29,7 +29,7 @@
 
 <ng-template #address>
   <ion-grid
-    class="m-0 h-100 flex flex-column ion-no-padding"
+    class="m-0 mh-100p w-100 flex flex-column ion-no-padding"
     *ngIf="formGroupInstance"
     [formGroup]="formGroupInstance"
   >
@@ -96,7 +96,7 @@
 
 <ng-template #place>
   <ion-grid
-    class="m-0 h-100 flex flex-column ion-no-padding flex-1"
+    class="m-0 mh-100p flex flex-column ion-no-padding flex-1 w-100"
     *ngIf="formGroupInstance"
     [formGroup]="formGroupInstance"
   >
