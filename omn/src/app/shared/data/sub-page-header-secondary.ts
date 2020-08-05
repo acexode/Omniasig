@@ -6,7 +6,8 @@ export const subPageHeaderSecondary = (title: string): SubPageHeader => {
     toolbarColor: 'omn-transparent-green',
     title: {
       text: title,
-      classes: 'h2 alt-font omn-green header-title omn-green ion-text-center',
+      classes:
+        'h2 alt-font omn-green header-title omn-green ion-text-center p-0 pl-0',
     },
     trailingIcon: {
       name: 'close-outline',

@@ -1,4 +1,58 @@
 <app-sub-page-header [config]="headerConfig"></app-sub-page-header>
 <ion-content>
-  <p>Info doc componeent</p>
+  <ion-grid class="pt-80 px-0">
+    <ion-row class="mx-32 mb-32">
+      <ion-col class="ion-no-padding">
+        <ion-row>
+          <ion-label class="text-small"
+            >Asigurarea obligatorie a locuinței</ion-label
+          >
+        </ion-row>
+        <ion-row class="mb-16">
+          <ion-text color="omn-green" class="alt-font x-large">
+            Polița de asigurare împotriva dezastrelor naturale (PAD)
+          </ion-text>
+        </ion-row>
+
+        <ion-row>
+          <ion-label class="text-small">Societatea:</ion-label>
+          <ion-text class="text-normal">
+            Pool-ul de Asigurare Împotriva Dezastrelor Naturale S.A. (P.A.I.D.)
+          </ion-text>
+        </ion-row>
+      </ion-col>
+    </ion-row>
+
+    <ion-row class="pt-32 px-32 alt-bg">
+      <ion-col class="ion-no-padding">
+        <ion-row class="mb-32">
+          <ion-label class="s18-h24 text-weight-medium">Ce asigură</ion-label>
+        </ion-row>
+
+        <ion-row>
+          <ion-col class="ion-no-padding m-0 mb-24 pr-8" size="4">
+            <app-info-card
+              label="Cutremure
+            de pământ"
+              icon="cutremur"
+            ></app-info-card>
+          </ion-col>
+          <ion-col class="ion-no-padding m-0 mb-24 pl-8 pr-8" size="4">
+            <app-info-card
+              label="Alunecări
+              de teren"
+              icon="alunecari"
+            ></app-info-card>
+          </ion-col>
+          <ion-col class="ion-no-padding m-0 mb-24 pl-8" size="4">
+            <app-info-card
+              label="Cutremure
+            de pământ"
+              icon="alunecari"
+            ></app-info-card>
+          </ion-col>
+        </ion-row>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
 </ion-content>

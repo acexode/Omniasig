@@ -10,6 +10,7 @@ import { PolicyPage } from './page/policy.page';
 import { PolicyRoutingModule } from './policy-routing.module';
 import { PolicySharedModule } from './policy-shared.module';
 import { InfoDocComponent } from './components/info-doc/info-doc.component';
+import { InfoCardComponent } from './components/info-card/info-card.component';
 
 @NgModule({
   declarations: [
@@ -18,6 +19,7 @@ import { InfoDocComponent } from './components/info-doc/info-doc.component';
     PolicyCardListComponent,
     PolicyArchiveListComponent,
     InfoDocComponent,
+    InfoCardComponent,
   ],
   imports: [
     CommonModule,
