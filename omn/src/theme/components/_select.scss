@@ -23,11 +23,11 @@ ion-select {
   --padding-end: 40px;
   --highlight-height: 1px;
   --padding-top: 12px;
-  --padding-bottom: 10px;
+  --padding-bottom: 8px;
 }
 
 .select-wrapper {
-  min-height: rem(40);
+  min-height: rem(39);
   position: relative;
   .custom-select-icon {
     z-index: 2;

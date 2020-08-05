@@ -13,7 +13,11 @@ export const autoCompleteConfigHelper = (conf: {
     labelKey: 'label',
     idKey: 'id',
     clearInvalid: false,
-    autocompleteOptions: { searchIcon: null, noItems: 'Nu a fost gasit nici un rezultat.' },
+    autocompleteOptions: {
+      placeholder: 'Selectează',
+      searchIcon: null,
+      noItems: 'Nu a fost gasit nici un rezultat.',
+    },
     dataServiceCb: conf.dataServiceCb,
   };
   return config;

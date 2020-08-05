@@ -4,13 +4,14 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Input,
+  ViewChild,
 } from '@angular/core';
 import {
   ControlValueAccessor,
   FormBuilder,
   NG_VALUE_ACCESSOR,
 } from '@angular/forms';
-import { get } from 'lodash';
+import { get, has, set } from 'lodash';
 import { AutocompleteProviderService } from '../../services/autocomplete-provider.service';
 import { IonAutocompleteConfig } from 'src/app/shared/models/component/ion-autocomplete-config';
 
@@ -30,17 +31,25 @@ import { IonAutocompleteConfig } from 'src/app/shared/models/component/ion-autoc
   ],
 })
 export class AutocompleteComponent implements OnInit, ControlValueAccessor {
+  @ViewChild('autoField', { static: true }) autoField: any;
   aConfig: IonAutocompleteConfig;
   @Input() set config(conf: IonAutocompleteConfig) {
+    if (this.autoField && conf) {
+      const placeholder = get(conf, 'autocompleteOptions.placeholder', null);
+      const defOpts = get(this.autoField, 'defaultOpts', null);
+      if (placeholder && defOpts) {
+        defOpts.placeholder = placeholder;
+      }
+    }
     this.aConfig = conf;
     if (conf) {
-      console.log(conf);
       this.autocompleteProvider.updateConfig({
         labelAttribute: get(conf, 'labelKey', 'label'),
         formValueAttribute: get(conf, 'idKey', 'label'),
         dataServiceCb: conf.dataServiceCb,
       });
     }
+    this.cdRef.markForCheck();
   }
 
   get config() {

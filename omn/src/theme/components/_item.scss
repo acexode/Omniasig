@@ -53,23 +53,52 @@
   ion-item {
     &.form-group {
       display: flex;
+      z-index: 0;
+      &.autocomplete {
+        z-index: 1;
+      }
       flex-direction: column;
       --padding-start: 0;
       --inner-padding-end: 0;
       --inner-border-width: 0;
       --ion-safe-area-left: 0;
       --highlight-height: 1px;
+      --background-focused: --background;
+      --background-hover: --background;
+      --background-activated: --background;
       --highlight-color-focused: var(--app-secondary-text-color);
-      --ion-border-color: var(--app-secondary-text-color);
-      --border-color: var(--app-secondary-text-color);
-      &.item-has-focus ion-label {
-        color: var(--app-secondary-text-color);
+      --ion-border-color: var(--ion-color-light);
+      --border-color: var(--ion-color-light);
+      &.item-has-value:not(.item-has-focus):not(.ion-invalid) {
+        ion-label {
+          color: var(--color);
+          --color: var(--color);
+        }
+        --ion-border-color: var(--ion-color-medium);
+        --border-color: var(--ion-color-medium);
+      }
+      &.item-has-focus {
+        ion-label {
+          color: var(--color);
+          --color: var(--color);
+        }
+        &.ion-valid {
+          ion-label,
+          ion-icon {
+            color: var(--app-green-color);
+            --color: var(--app-green-color);
+            --ion-color-base: var(--app-green-color);
+          }
+        }
       }
     }
     &.no-paddings {
       --inner-padding-start: 0;
       --inner-padding-end: 0;
       --ion-safe-area-left: 0;
+    }
+    &.form-description {
+      --min-height: rem(20);
     }
   }
 }

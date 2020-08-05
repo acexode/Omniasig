@@ -1,4 +1,4 @@
-<ion-grid class="m-0 h-100 flex flex-column w-100 flex-1 ion-no-padding">
+<ion-grid class="m-0 h-100 flex flex-column w-100 h-100 flex-1 ion-no-padding">
   <ng-container [ngSwitch]="formType">
     <ion-row class="ion-no-padding flex" *ngSwitchCase="formTypes.ADDRESS"
       ><ng-container *ngTemplateOutlet="address"></ng-container
@@ -88,7 +88,7 @@
         ></app-input
       ></ion-col>
     </ion-row>
-    <ion-row class="ion-no-padding profile-name">
+    <ion-row class="ion-no-padding profile-name mb-24">
       <app-input class="w-100" [config]="fieldConfig?.name"></app-input>
     </ion-row>
   </ion-grid>

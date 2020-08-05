@@ -212,6 +212,8 @@ export class LocuinteFormService {
         configModel.heightRegime.spinnerConfig = { step: 1 };
         configModel.heightRegime.min = 1;
         configModel.roomCount.spinnerConfig = { step: 1 };
+        configModel.valueSum.spinnerConfig = { step: 1 };
+        configModel.valueSum.min = 1;
         configModel.roomCount.min = 1;
         configModel.buildYear.min = 1800;
         configModel.buildYear.max = new Date().getFullYear();
@@ -234,7 +236,13 @@ export class LocuinteFormService {
 
   streetLookup(input: any): Observable<Array<any>> {
     return new Observable((observer) => {
-      observer.next([{ id: 'test', label: 'test' }]);
+      observer.next([
+        { id: 'test', label: 'test' },
+        { id: 'test2', label: 'test2 test' },
+        { id: 'test3', label: 'test2 test2' },
+        { id: 'test4', label: 'test3 test3' },
+        { id: 'test5', label: 'test4 test3' },
+      ]);
     });
   }
 }

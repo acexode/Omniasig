@@ -2,8 +2,6 @@
 @import '../mixins/mixins';
 .omn {
   ion-input {
-    --ion-border-color: var(--app-secondary-text-color);
-    --border-color: var(--app-secondary-text-color);
     --placeholder-color: var(--app-input-placeholder-color);
     --placeholder-opacity: 1;
     input,
@@ -14,6 +12,8 @@
       --background: var(--app-input-bg) !important;
       --padding-start: 8px;
       --padding-end: 8px;
+      --padding-bottom: 8px;
+      --padding-top: 9px;
       --highlight-height: 1px;
       &:-webkit-autofill {
         background: var(--background) !important;

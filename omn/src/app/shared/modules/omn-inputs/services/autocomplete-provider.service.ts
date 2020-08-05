@@ -19,7 +19,6 @@ export class AutocompleteProviderService implements AutoCompleteService {
     currentData?: any[];
     dataServiceCb?: (filter: any) => Observable<Array<any>>;
   }) {
-    console.log(conf);
     if (has(conf, 'labelAttribute')) {
       this.labelAttribute = conf.labelAttribute;
     }

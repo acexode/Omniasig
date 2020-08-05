@@ -1,4 +1,4 @@
-<ion-item class="form-group w-100" [formGroup]="formGroup">
+<ion-item class="form-group w-100" [formGroup]="formGroup" lines="full">
   <ion-label
     class="mb-8 input-label"
     position="stacked"
@@ -34,15 +34,15 @@
     <ion-col
       class="position-absolute w-auto input-spinner"
       *ngIf="config?.spinnerConfig"
-      (click)="increment()"
-      ><ion-icon name="md-plus" color="omn-medium" class="icon-16 p-12">
+      (click)="decrement()"
+      ><ion-icon name="md-minus" color="omn-medium" class="icon-16 p-12">
       </ion-icon
     ></ion-col>
     <ion-col
       class="position-absolute w-auto input-spinner right-0"
       *ngIf="config?.spinnerConfig"
-      (click)="decrement()"
-      ><ion-icon name="md-minus" color="omn-medium" class="icon-16 p-12">
+      (click)="increment()"
+      ><ion-icon name="md-plus" color="omn-medium" class="icon-16 p-12">
       </ion-icon
     ></ion-col>
   </ion-row>

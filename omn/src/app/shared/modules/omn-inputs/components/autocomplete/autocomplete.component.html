@@ -1,4 +1,7 @@
-<div class="form-group w-100 flex flex-column" [formGroup]="formGroup">
+<ion-item
+  class="form-group w-100 flex flex-column autocomplete"
+  [formGroup]="formGroup"
+>
   <ion-label
     class="mb-8 input-label"
     position="stacked"
@@ -6,14 +9,15 @@
     [color]="config?.inputLabel?.color"
     >{{ config?.inputLabel?.text }}</ion-label
   >
-  <div class="select-wrapper w-100">
+  <div class="select-wrapper flex w-100">
     <ion-auto-complete
       [useIonInput]="true"
       [clearInvalidInput]="false"
       [dataProvider]="autocompleteProvider"
       [options]="config?.autocompleteOptions || {}"
       formControlName="text"
-      #searchbar
+      class="flex"
+      #autoField
     ></ion-auto-complete>
     <ion-icon
       name="sm-chevron-down-t"
@@ -21,4 +25,4 @@
       class="icon-20 mr-8 custom-select-icon"
     ></ion-icon>
   </div>
-</div>
+</ion-item>
