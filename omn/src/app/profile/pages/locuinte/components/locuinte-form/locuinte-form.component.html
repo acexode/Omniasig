@@ -6,6 +6,11 @@
     <ion-row class="ion-no-padding flex" *ngSwitchCase="formTypes.PLACE"
       ><ng-container *ngTemplateOutlet="place"></ng-container
     ></ion-row>
+    <ion-row
+      class="ion-no-padding flex h-100 pt-24"
+      *ngSwitchCase="formTypes.SUCCESS_MSG"
+      ><ng-container *ngTemplateOutlet="successType"></ng-container
+    ></ion-row>
     <p *ngSwitchDefault></p>
   </ng-container>
 
@@ -14,6 +19,7 @@
     *ngIf="formGroupInstance"
   >
     <ion-button
+      *ngIf="buttonVisible"
       type="submit"
       color="success"
       fill="solid"
@@ -190,4 +196,26 @@
       ></app-radios>
     </ion-row>
   </ion-grid>
+</ng-template>
+
+<ng-template #successType>
+  <ion-col
+    (click)="emitEvents()"
+    class="ion-no-padding flex flex-1 h-100 flex-column ion-justify-content-between ion-align-items-center"
+  >
+    <div
+      class="ion-no-padding flex flex-1 flex-column ion-justify-content-between ion-align-items-center"
+    >
+      <ion-icon
+        name="lg-check-il"
+        class="w-100 d-flex check-icon-lg"
+      ></ion-icon>
+      <ion-label
+        color="omn-green"
+        class="h2 ls-min-02 alt-font border-danger ion-text-center text-weight-bold w-auto"
+        >Profilul a fost salvat
+      </ion-label>
+    </div>
+    <div class="flex flex-1"></div>
+  </ion-col>
 </ng-template>

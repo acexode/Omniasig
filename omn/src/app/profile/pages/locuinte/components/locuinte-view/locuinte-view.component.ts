@@ -8,7 +8,7 @@ import { subPageHeaderDefault } from 'src/app/shared/data/sub-page-header-defaul
 })
 export class LocuinteViewComponent implements OnInit {
   headerConfig = subPageHeaderDefault('Locuințe');
-  variant: string = 'found'; //not-insured, not-found, found.
+  variant = 'found'; // not-insured, not-found, found.
   @HostBinding('class') color = 'ion-color-white-page';
   constructor() {}
 

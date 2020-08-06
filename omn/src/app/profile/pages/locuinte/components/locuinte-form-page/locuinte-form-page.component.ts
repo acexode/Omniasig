@@ -1,3 +1,4 @@
+import { NavController } from '@ionic/angular';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -26,6 +27,7 @@ import { LocuinteFormService } from '../../services/locuinte-form/locuinte-form.
 export class LocuinteFormPageComponent implements OnInit {
   @HostBinding('class') color = 'ion-color-white-page';
   headerConfig = null;
+  buttonVisible = true;
   dataModel: Locuinte;
   formMode: LocuinteFormModes;
   formType: LocuinteFormType;
@@ -58,7 +60,8 @@ export class LocuinteFormPageComponent implements OnInit {
     private routerS: CustomRouterService,
     private aRoute: ActivatedRoute,
     private cdRef: ChangeDetectorRef,
-    private formS: LocuinteFormService
+    private formS: LocuinteFormService,
+    private navCtrl: NavController
   ) {}
 
   ngOnInit() {
@@ -132,6 +135,7 @@ export class LocuinteFormPageComponent implements OnInit {
     switch (this.formMode) {
       case this.formModes.ADD_NEW_FULL:
       case this.formModes.EDIT_FULL:
+        this.buttonVisible = true;
         if (this.formType === LocuinteFormType.ADDRESS) {
           this.formType = LocuinteFormType.PLACE;
           const header = subPageHeaderDefault('Adresa');
@@ -142,9 +146,17 @@ export class LocuinteFormPageComponent implements OnInit {
             group: this.formGroups.place,
             data: this.formData.place,
           };
+        } else if (this.formType === LocuinteFormType.PLACE) {
+          this.formType = LocuinteFormType.SUCCESS_MSG;
+          const header = subPageHeaderDefault('');
+          header.leadingIcon = null;
+          this.headerConfig = header;
+          this.buttonVisible = false;
+          setTimeout(() => {
+            this.navigateToMain();
+          }, 4000);
         }
         break;
-
       default:
         break;
     }
@@ -155,6 +167,7 @@ export class LocuinteFormPageComponent implements OnInit {
     switch (this.formMode) {
       case this.formModes.ADD_NEW_FULL:
       case this.formModes.EDIT_FULL:
+        this.buttonVisible = true;
         if (this.formType === LocuinteFormType.PLACE) {
           this.formInstance = {
             config: this.formConfigs.address,
@@ -175,4 +188,22 @@ export class LocuinteFormPageComponent implements OnInit {
   }
 
   trailingAction() {}
+
+  formCustomEvents() {
+    // Add more as needed.
+    this.navigateToMain();
+  }
+
+  navigateToMain() {
+    switch (this.formMode) {
+      case this.formModes.ADD_NEW_FULL:
+      case this.formModes.EDIT_FULL:
+        if (this.formType === LocuinteFormType.SUCCESS_MSG) {
+          this.navCtrl.navigateRoot(['/profil', 'locuinte']);
+        }
+        break;
+      default:
+        break;
+    }
+  }
 }

@@ -19,8 +19,10 @@ export class LocuinteFormComponent implements OnInit {
   formTypes = LocuinteFormType;
 
   @Input() formType: LocuinteFormType = null;
+  @Input() buttonVisible = true;
   @Input() fieldConfig: { [key: string]: any } = {};
   @Input() fieldConfigData: { [key: string]: any } = {};
+  @Output() customEvents: EventEmitter<any> = new EventEmitter();
   @Input() set formGroupInstance(fg: FormGroup) {
     this.fG = fg;
     this.cdRef.markForCheck();
@@ -36,6 +38,12 @@ export class LocuinteFormComponent implements OnInit {
   doSubmit() {
     if (this.fG.valid) {
       this.eventSubmit.emit(true);
+    } else {
+      this.fG.updateValueAndValidity();
+      this.cdRef.markForCheck();
     }
+  }
+  emitEvents() {
+    this.customEvents.emit();
   }
 }

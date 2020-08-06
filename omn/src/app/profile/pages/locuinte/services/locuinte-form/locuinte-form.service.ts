@@ -106,10 +106,11 @@ export class LocuinteFormService {
         get(model, 'address.apartment', ''),
         Validators.required
       ),
-      postalCode: this.fb.control(
-        get(model, 'address.postalCode', ''),
-        Validators.required
-      ),
+      postalCode: this.fb.control(get(model, 'address.postalCode', ''), [
+        Validators.required,
+        Validators.minLength(6),
+        Validators.maxLength(6),
+      ]),
       // Additional - add validator after build
       name: this.fb.control(get(model, 'name', '')),
     });
@@ -143,8 +144,12 @@ export class LocuinteFormService {
           }),
           postalCode: inputConfigHelper({
             label: 'Cod poștal',
-            type: 'text',
+            type: 'number',
             placeholder: '',
+            custom: {
+              maxLength: 6,
+              minLength: 6,
+            },
           }),
           name: inputConfigHelper({
             label: 'Vrei să dai o denumire acestui profil? (opțional)',

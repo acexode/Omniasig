@@ -12,7 +12,7 @@ import { LocuinteService } from './services/locuinte/locuinte.service';
 })
 export class LocuintePage implements OnInit {
   headerConfig = subPageHeaderDefault('Locuințe');
-  accountActivated: boolean = true;
+  accountActivated = true;
   account$ = this.authS.getAccountData();
   cards: Array<Locuinte> = [];
 

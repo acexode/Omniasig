@@ -6,4 +6,5 @@ export enum LocuinteFormModes {
 export enum LocuinteFormType {
   ADDRESS,
   PLACE,
+  SUCCESS_MSG
 }

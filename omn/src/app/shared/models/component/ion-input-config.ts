@@ -1,10 +1,10 @@
 import { IonTextItem } from './ion-text-item';
 
 export interface IonInputConfig {
-  inputLabel: IonTextItem;
+  inputLabel?: IonTextItem;
   placeholder?: string;
   inputName?: string;
-  type: string;
+  type?: string;
   size?: number;
   min?: number;
   max?: number;

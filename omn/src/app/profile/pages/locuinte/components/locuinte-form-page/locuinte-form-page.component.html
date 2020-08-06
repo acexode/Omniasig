@@ -12,9 +12,11 @@
       (eventSubmit)="handleFormSubmit()"
       class="flex flex-1 mh-100p w-100"
       *ngIf="formInstance"
+      [buttonVisible]="buttonVisible"
       [formGroupInstance]="formInstance?.group"
       [fieldConfig]="formInstance?.config"
       [fieldConfigData]="formInstance?.data"
       [formType]="formType"
+      (customEvents)="formCustomEvents()"
     ></app-locuinte-form> </ion-grid
 ></ion-content>
