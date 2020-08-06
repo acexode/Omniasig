@@ -43,7 +43,7 @@ export class InfoDocComponent implements OnInit {
     },
     {
       mainIcon: {
-        name: 'md-intrebari',
+        name: 'md-inundatie',
         color: 'green-gradient',
         classes: 'icon-40 mt-16 mb-0 ion-align-self-start',
       },
@@ -61,7 +61,7 @@ export class InfoDocComponent implements OnInit {
   tipItems: Array<ImageCard> = [
     {
       mainIcon: {
-        name: 'cutremur',
+        name: 'md-tip-a',
         color: 'green-gradient',
         classes: 'icon-40 mt-16 ion-align-self-start',
       },
@@ -76,7 +76,7 @@ export class InfoDocComponent implements OnInit {
     },
     {
       mainIcon: {
-        name: 'alunecari',
+        name: 'md-tip-b',
         color: 'green-gradient',
         classes: 'icon-40 mt-16 mb-8 ion-align-self-start',
       },
@@ -89,21 +89,21 @@ export class InfoDocComponent implements OnInit {
       routerLink: '/home',
       itemClass: 'mh-104',
     },
-    {
-      mainIcon: {
-        name: 'md-intrebari',
-        color: 'green-gradient',
-        classes: 'icon-40 mt-16 mb-0 ion-align-self-start',
-      },
-      textContent: [
-        {
-          text: '',
-        },
-      ],
-      id: '0',
-      routerLink: '/home',
-      itemClass: 'mh-104',
-    },
+    // {
+    //   mainIcon: {
+    //     name: 'md-infomation',
+    //     color: 'green-gradient',
+    //     classes: 'icon-40 mt-16 mb-0 ion-align-self-start',
+    //   },
+    //   textContent: [
+    //     {
+    //       text: '',
+    //     },
+    //   ],
+    //   id: '0',
+    //   routerLink: '/home',
+    //   itemClass: 'mh-104',
+    // },
   ];
 
   cardInfo = [

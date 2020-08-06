@@ -31,23 +31,23 @@
           >
         </ion-row>
 
-        <ion-row class="ion-nowrap mb-16">
-          <ion-col class="ion-no-padding ml-0 mr-8">
+        <ion-row class="mb-16">
+          <ion-col class="py-0 pl-0">
             <app-image-card
               [item]="helpItems[0]"
-              class="flex w-100"
+              class="flex w-100 h-100"
             ></app-image-card>
           </ion-col>
-          <ion-col class="ion-no-padding mx-8">
+          <ion-col class="py-0">
             <app-image-card
               [item]="helpItems[1]"
-              class="flex w-100"
+              class="flex w-100 h-100"
             ></app-image-card>
           </ion-col>
-          <ion-col class="ion-no-padding mr-0 ml-8">
+          <ion-col class="py-0 pr-0">
             <app-image-card
               [item]="helpItems[2]"
-              class="flex w-100"
+              class="flex w-100 h-100"
             ></app-image-card>
           </ion-col>
         </ion-row>
@@ -73,20 +73,19 @@
           <ion-col class="ion-no-padding ml-0 mr-8">
             <app-image-card
               [item]="tipItems[0]"
-              class="flex w-100"
+              class="flex w-100 h-100"
             ></app-image-card>
           </ion-col>
           <ion-col class="ion-no-padding mx-8">
             <app-image-card
               [item]="tipItems[1]"
-              class="flex w-100"
+              class="flex w-100 h-100"
             ></app-image-card>
           </ion-col>
-          <ion-col class="ion-no-padding mr-0 ml-8">
-            <app-image-card
-              [item]="tipItems[2]"
-              class="flex w-100"
-            ></app-image-card>
+          <ion-col
+            class="ion-no-padding mr-0 ml-8 flex ion-justify-content-center ion-align-items-center"
+          >
+            <ion-icon size="large" name="md-infomation"></ion-icon>
           </ion-col>
         </ion-row>
 

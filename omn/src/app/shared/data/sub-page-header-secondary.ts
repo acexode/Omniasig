@@ -10,7 +10,7 @@ export const subPageHeaderSecondary = (title: string): SubPageHeader => {
         'h2 alt-font omn-green header-title omn-green ion-text-center p-0 pl-0',
     },
     trailingIcon: {
-      name: 'close-outline',
+      name: 'md-close-2',
       classes: 'icon-16 mt-2',
     },
   };
