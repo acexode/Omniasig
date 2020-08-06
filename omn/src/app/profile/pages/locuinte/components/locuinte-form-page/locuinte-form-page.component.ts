@@ -1,12 +1,15 @@
-import { NavController } from '@ionic/angular';
+import { LocuinteService } from './../../services/locuinte/locuinte.service';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
-  OnInit,
   HostBinding,
+  OnInit,
 } from '@angular/core';
+import { FormGroup } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
+import { NavController } from '@ionic/angular';
+import { combineLatest, Observable, of } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import { CustomRouterService } from 'src/app/core/services/custom-router/custom-router.service';
 import { subPageHeaderDefault } from 'src/app/shared/data/sub-page-header-default';
@@ -15,7 +18,6 @@ import {
   LocuinteFormModes,
   LocuinteFormType,
 } from 'src/app/shared/models/modes/locuinte-form-modes';
-import { FormGroup } from '@angular/forms';
 import { LocuinteFormService } from '../../services/locuinte-form/locuinte-form.service';
 
 @Component({
@@ -61,7 +63,8 @@ export class LocuinteFormPageComponent implements OnInit {
     private aRoute: ActivatedRoute,
     private cdRef: ChangeDetectorRef,
     private formS: LocuinteFormService,
-    private navCtrl: NavController
+    private navCtrl: NavController,
+    private locuinteS: LocuinteService
   ) {}
 
   ngOnInit() {
@@ -69,15 +72,20 @@ export class LocuinteFormPageComponent implements OnInit {
       .getNavigationEndEvent()
       .pipe(
         switchMap(() => {
-          return this.routerS.processChildDataAsync(this.aRoute, 'formMode');
+          return combineLatest([
+            this.routerS.processChildDataAsync(this.aRoute, 'formMode'),
+            this.routerS.processChildParamsAsync(this.aRoute, 'id'),
+          ]);
         })
       )
-      .subscribe((fM) => {
-        this.formMode = fM;
-        this.initConfigs();
+      .subscribe((vals: any) => {
+        this.formMode = vals[0];
+        const id = vals[1];
         this.setTitles();
-        this.initForm();
-        this.cdRef.markForCheck();
+        this.initConfigs(id).subscribe((v) => {
+          this.initForm();
+          this.cdRef.markForCheck();
+        });
       });
   }
 
@@ -95,13 +103,35 @@ export class LocuinteFormPageComponent implements OnInit {
     }
   }
 
-  initConfigs() {
-    switch (this.formMode) {
-      case this.formModes.ADD_NEW_FULL:
-      case this.formModes.EDIT_FULL:
-        this.buildFormAdd();
-        break;
-    }
+  initConfigs(id) {
+    return new Observable((observer) => {
+      switch (this.formMode) {
+        case this.formModes.ADD_NEW_FULL:
+          this.buildFormAdd();
+          observer.next(true);
+          break;
+        case this.formModes.EDIT_FULL:
+          if (id) {
+            this.locuinteS.getSingleLocuinta(id).subscribe(
+              (val: Locuinte) => {
+                if (val) {
+                  this.dataModel = val;
+                  this.buildFormAdd();
+                  observer.next(true);
+                } else {
+                  this.navCtrl.navigateRoot(['/profil', 'locuinte']);
+                  observer.next(false);
+                }
+              },
+              () => {
+                this.navCtrl.navigateRoot(['/profil', 'locuinte']);
+                observer.next(false);
+              }
+            );
+          }
+          break;
+      }
+    });
   }
   initForm() {
     switch (this.formMode) {

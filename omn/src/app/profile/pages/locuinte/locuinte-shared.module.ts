@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, ModuleWithProviders } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { LocuinteService } from './services/locuinte/locuinte.service';
 import { LocuinteFormComponent } from './components/locuinte-form/locuinte-form.component';
@@ -21,4 +21,11 @@ import { OmnInputsModule } from 'src/app/shared/modules/omn-inputs/omn-inputs.mo
   providers: [LocuinteService, LocuinteFormService],
   exports: [LocuinteFormComponent],
 })
-export class LocuinteSharedModule {}
+export class LocuinteSharedModule {
+  static forRoot(): ModuleWithProviders {
+    return {
+      ngModule: LocuinteSharedModule,
+      providers: [LocuinteService],
+    };
+  }
+}

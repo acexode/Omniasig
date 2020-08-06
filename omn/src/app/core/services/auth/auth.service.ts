@@ -163,6 +163,7 @@ export class AuthService {
       init: true,
       account: { ...state.account },
     });
+    this.storeS.setItem('account', state.account);
   }
 
   demoUpdate(data: { cnp?: string; email?: string }) {

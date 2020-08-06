@@ -1,3 +1,4 @@
+import { LocuinteSharedModule } from './profile/pages/locuinte/locuinte-shared.module';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouteReuseStrategy } from '@angular/router';
@@ -11,9 +12,8 @@ import {
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { CoreModule } from './core/core.module';
-import { SharedModule } from './shared/shared.module';
-import { PolicyDataService } from './modules/policy/services/policy-data.service';
 import { PolicySharedModule } from './modules/policy/policy-shared.module';
+import { SharedModule } from './shared/shared.module';
 
 @NgModule({
   declarations: [AppComponent],
@@ -28,7 +28,8 @@ import { PolicySharedModule } from './modules/policy/policy-shared.module';
     AppRoutingModule,
     CoreModule,
     SharedModule,
-    PolicySharedModule.forRoot()
+    PolicySharedModule.forRoot(),
+    LocuinteSharedModule.forRoot(),
   ],
   providers: [
     StatusBar,

@@ -1,8 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { ActionSheetController, NavController } from '@ionic/angular';
 import { AuthService } from 'src/app/core/services/auth/auth.service';
 import { subPageHeaderDefault } from 'src/app/shared/data/sub-page-header-default';
-import { Locuinte } from 'src/app/shared/models/data/locuinte.interface';
 import { LocuinteService } from './services/locuinte/locuinte.service';
 
 @Component({
@@ -14,30 +13,30 @@ export class LocuintePage implements OnInit {
   headerConfig = subPageHeaderDefault('Locuințe');
   accountActivated = true;
   account$ = this.authS.getAccountData();
-  cards: Array<Locuinte> = [];
+  cards$ = this.locuinteS.locuinteStore$;
 
   constructor(
     public actionSheetController: ActionSheetController,
     private authS: AuthService,
     private locuinteS: LocuinteService,
-    private navCtrl: NavController
+    private navCtrl: NavController,
+    private cdRef: ChangeDetectorRef
   ) {}
 
   ngOnInit() {
     this.account$.subscribe((account) => {
       if (account) {
-        // this.accountActivated = this.authS.accountActivated(account);
+        this.accountActivated = this.authS.accountActivated(account);
         if (this.accountActivated) {
           this.reQLocuintes();
+          this.cdRef.markForCheck();
         }
       }
     });
   }
 
   reQLocuintes() {
-    this.locuinteS.getUserLocuinte().subscribe((locuintes) => {
-      this.cards = locuintes;
-    });
+    this.locuinteS.loadAllData();
   }
 
   async openVerifyModal() {
@@ -75,7 +74,6 @@ export class LocuintePage implements OnInit {
   }
 
   redirectToAddForm() {
-    console.log('a');
     this.navCtrl.navigateForward('/profil/locuinte/add');
   }
 }

@@ -54,6 +54,22 @@ export class CustomRouterService {
       return null;
     }
   }
+  processChildParamsAsync(state, dataKey) {
+    const stateChild = this.getStateChildFromTree(state);
+    if (
+      stateChild &&
+      stateChild.hasOwnProperty('params') &&
+      stateChild.params instanceof Subject
+    ) {
+      return stateChild.params.pipe(
+        map((value) => {
+          return value[dataKey];
+        })
+      );
+    } else {
+      return new BehaviorSubject(null);
+    }
+  }
 
   processChildSnapshot(state, dataKey) {
     const stateChild = this.getStateChildFromTree(state);

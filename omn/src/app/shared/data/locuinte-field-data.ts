@@ -52,16 +52,20 @@ export const locuinteFieldsData = {
     { id: 'apartament', label: 'Apartament' },
   ],
   county: [
-    { id: 1, label: 'test1' },
-    { id: 0, label: 'test2' },
+    { id: 'Brasov', label: 'Brasov' },
+    { id: 'Bacau', label: 'Bacau' },
+    { id: 'Bucuresti', label: 'Bucuresti' },
   ],
   city: [
-    { id: 1, label: 'test1' },
-    { id: 0, label: 'test2' },
-    { id: 2, label: 'test3' },
+    { id: 'Brasov', label: 'Brasov' },
+    { id: 'Bacau', label: 'Bacau' },
+    { id: 'Bucuresti', label: 'Bucuresti' },
   ],
   street: [
-    { id: 1, label: 'test1' },
-    { id: 0, label: 'test2' },
+    { id: 'Republicii', label: 'Republicii' },
+    { id: 'Traian', label: 'Traian' },
+    { id: 'test3', label: 'test2 test2' },
+    { id: 'test4', label: 'test3 test3' },
+    { id: 'test5', label: 'test4 test3' },
   ],
 };

@@ -51,18 +51,18 @@ export class LocuinteFormService {
         Validators.required
       ),
       occupancy: this.fb.control(
-        get(model, 'info.occupancy', ''),
+        get(model, 'info.occupancy', null),
         Validators.required
       ),
       usableSurface: this.fb.control(
-        get(model, 'info.usableSurface', ''),
+        Number(get(model, 'info.usableSurface', 0)),
         Validators.required
       ),
-      heightRegime: this.fb.control(get(model, 'info.heightRegime', 1), [
-        Validators.required,
-        Validators.min(1),
-      ]),
-      roomCount: this.fb.control(get(model, 'info.roomCount', 1), [
+      heightRegime: this.fb.control(
+        Number(get(model, 'info.heightRegime', 1)),
+        [Validators.required, Validators.min(1)]
+      ),
+      roomCount: this.fb.control(Number(get(model, 'info.roomCount', 1)), [
         Validators.required,
         Validators.min(1),
       ]),
@@ -241,13 +241,7 @@ export class LocuinteFormService {
 
   streetLookup(input: any): Observable<Array<any>> {
     return new Observable((observer) => {
-      observer.next([
-        { id: 'test', label: 'test' },
-        { id: 'test2', label: 'test2 test' },
-        { id: 'test3', label: 'test2 test2' },
-        { id: 'test4', label: 'test3 test3' },
-        { id: 'test5', label: 'test4 test3' },
-      ]);
+      observer.next(locuinteFieldsData.street);
     });
   }
 }

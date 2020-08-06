@@ -1,4 +1,5 @@
 export interface Locuinte {
+  id: number;
   name: string;
   address: {
     county: string;
@@ -15,10 +16,8 @@ export interface Locuinte {
     type: string;
     resistenceStructure: string;
     buildYear: number;
-    value: {
-      currency: string;
-      sum: string;
-    };
+    valueCurrency: string;
+    valueSum: string;
     occupancy: string;
     usableSurface: number;
     heightRegime: number;
