@@ -10,7 +10,7 @@
       @extend .text-normal;
       background: var(--background);
       --border-radius: 4px 4px 0 0;
-      --background: var(--app-input-bg) !important;
+      // --background: var(--app-input-bg);
       --padding-start: 8px;
       --padding-end: 8px;
       --highlight-height: 1px;
@@ -34,10 +34,9 @@
     }
 
     .input-clear-icon {
-        position: absolute;
-        height: rem(14);
-        width:rem(14);
-        
+      position: absolute;
+      height: rem(14);
+      width: rem(14);
     }
   }
 

@@ -1,0 +1,14 @@
+@import '../../../../../../theme/mixins/mixins';
+
+ion-content {
+  --background: fff;
+}
+.fond {
+  height: rem(48);
+  --background: #e5f2ec;
+  --box-shadow: none;
+}
+
+.info-icon {
+  font-size: 40px;
+}
