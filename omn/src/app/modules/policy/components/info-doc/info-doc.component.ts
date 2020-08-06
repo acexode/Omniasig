@@ -1,4 +1,10 @@
-import { Component, OnInit, HostBinding } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  HostBinding,
+  Output,
+  EventEmitter,
+} from '@angular/core';
 import { subPageHeaderSecondary } from 'src/app/shared/data/sub-page-header-secondary';
 import { ImageCard } from 'src/app/shared/models/component/image-card';
 
@@ -10,6 +16,7 @@ import { ImageCard } from 'src/app/shared/models/component/image-card';
 export class InfoDocComponent implements OnInit {
   headerConfig = subPageHeaderSecondary('Document de Informare');
   @HostBinding('class') color = 'ion-color-white-page';
+  @Output() continue = new EventEmitter();
   helpItems: Array<ImageCard> = [
     {
       mainIcon: {
@@ -89,21 +96,6 @@ export class InfoDocComponent implements OnInit {
       routerLink: '/home',
       itemClass: 'mh-104',
     },
-    // {
-    //   mainIcon: {
-    //     name: 'md-infomation',
-    //     color: 'green-gradient',
-    //     classes: 'icon-40 mt-16 mb-0 ion-align-self-start',
-    //   },
-    //   textContent: [
-    //     {
-    //       text: '',
-    //     },
-    //   ],
-    //   id: '0',
-    //   routerLink: '/home',
-    //   itemClass: 'mh-104',
-    // },
   ];
 
   cardInfo = [
@@ -261,4 +253,10 @@ export class InfoDocComponent implements OnInit {
   constructor() {}
 
   ngOnInit() {}
+
+  back() {}
+
+  next() {
+    this.continue.emit();
+  }
 }

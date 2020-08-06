@@ -1,4 +1,7 @@
-<app-sub-page-header [config]="headerConfig"></app-sub-page-header>
+<app-sub-page-header
+  (close)="back()"
+  [config]="headerConfig"
+></app-sub-page-header>
 <ion-content>
   <ion-grid class="pt-80 px-0">
     <ion-row class="mx-32 mb-32">
@@ -161,6 +164,7 @@
         expand="block"
         size="large"
         class="m-0 w-100"
+        (click)="next()"
         >Continuă
       </ion-button>
     </ion-row>

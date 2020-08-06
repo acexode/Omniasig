@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 import { NavController } from '@ionic/angular';
 import { IonIconItem } from '../../models/component/ion-icon-item';
 import { SubPageHeader } from '../../models/component/sub-page-header';
@@ -11,6 +11,7 @@ import { get } from 'lodash';
 })
 export class SubPageHeaderComponent implements OnInit {
   @Input() config: SubPageHeader;
+  @Output() close = new EventEmitter();
 
   constructor(private navCtrl: NavController) {}
 
@@ -24,5 +25,7 @@ export class SubPageHeaderComponent implements OnInit {
       this.navCtrl.navigateBack(rLink);
     }
   }
-  trailingAction() {}
+  trailingAction() {
+    this.close.emit();
+  }
 }
