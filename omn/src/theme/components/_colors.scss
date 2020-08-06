@@ -120,7 +120,7 @@
 }
 
 .color-tertiary-grey {
-  color: $grey3;
+  color: $grey3 !important;
 }
 
 .color-white {
@@ -130,6 +130,10 @@
 
 .color-light-red {
   color: $light-red;
+}
+
+.color-red {
+  color: $red;
 }
 
 .bg-danger {
@@ -150,10 +154,17 @@
 
 .bg-white {
   background-color: $white;
+  --background: $white;
 }
 
 .bg-light-green-2 {
   background-color: $light-green-2;
+  --background: $light-green-2;
+}
+
+.bg-light-green {
+  background-color: $light-green;
+  --background: $light-green;
 }
 .bg-white-layer-gradient {
   background: $white-layer-gradient;
