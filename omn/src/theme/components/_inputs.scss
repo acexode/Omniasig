@@ -7,9 +7,9 @@
     input,
     input.native-input {
       @extend .text-normal;
-      background: var(--background);
       --border-radius: 4px 4px 0 0;
-      --background: var(--app-input-bg) !important;
+      --background: var(--app-input-bg);
+      background: var(--app-input-bg);
       --padding-start: 8px;
       --padding-end: 8px;
       --padding-bottom: 8px;

@@ -12,7 +12,7 @@ import { LocuinteService } from './services/locuinte/locuinte.service';
 })
 export class LocuintePage implements OnInit {
   headerConfig = subPageHeaderDefault('Locuințe');
-  accountActivated: boolean;
+  accountActivated: boolean = true;
   account$ = this.authS.getAccountData();
   cards: Array<Locuinte> = [];
 
@@ -26,7 +26,7 @@ export class LocuintePage implements OnInit {
   ngOnInit() {
     this.account$.subscribe((account) => {
       if (account) {
-        this.accountActivated = this.authS.accountActivated(account);
+        // this.accountActivated = this.authS.accountActivated(account);
         if (this.accountActivated) {
           this.reQLocuintes();
         }

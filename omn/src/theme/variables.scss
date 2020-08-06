@@ -99,11 +99,20 @@
   --ion-color-omn-medium-shade: #a7aca9;
   --ion-color-omn-medium-tint: #b0b4b2;
 
+  --ion-color-dark-green-b: #004220;
+  --ion-color-dark-green-b-rgb: 0, 66, 32;
+  --ion-color-dark-green-b-contrast: #ffffff;
+  --ion-color-dark-green-b-contrast-rgb: 255, 255, 255;
+  --ion-color-dark-green-b-shade: #003a1c;
+  --ion-color-dark-green-b-tint: #1a5536;
+
   --ion-color-omn-grey-5: #4a4f4c;
   --ion-color-omn-grey-medium-2: #f7f8f7;
 
   --app-green-color: #006330;
+  --app-dark-green-b-color: #004220;
   --app-green-color-light: #008641;
+  --app-green-color-light2: #5fb63d;
   --app-text-color: #191a19;
   --color: #191a19;
   --app-secondary-text-color: #747c78;
@@ -113,6 +122,8 @@
   --app-active-color: #f2f9f5;
   --app-light-green-color: #e5f2ec;
   --app-light-red-color: #c32328;
+  --app-color-danger: #ef6d53;
+  --app-color-white: #ffffff;
   --danger-gradient-1: #ef6d53;
   --danger-gradient-2: #e63c2d;
   --danger-gradient: linear-gradient(
@@ -171,13 +182,15 @@ $spacers: map-merge(
   (
     0: 0,
     2: 2px,
-    6: 6px,
-    4: 4px,
     3: 3px,
+    4: 4px,
+    5: 5px,
+    6: 6px,
     8: 8px,
     11: 11px,
     10: 10px,
     12: 12px,
+    13: 13px,
     14: 14px,
     16: 16px,
     18: 18px,
@@ -191,6 +204,7 @@ $spacers: map-merge(
     36: 36px,
     32: 32px,
     40: 40px,
+    42: 42px,
     44: 44px,
     48: 48px,
     52: 52px,
@@ -238,6 +252,7 @@ $dark-grey: #454545;
 
 //Tertiary
 $dark-green: #006330;
+$dark-green-b: #004220;
 $medium-green: #bfe2ce;
 $medium-green-2: #a7aca9;
 $medium-green-3: #bfe2d0;
@@ -245,7 +260,9 @@ $light-green: #e5f2ec;
 $light-green-3: #2d7d43;
 $ultra-light-green: #f2f9f5;
 $light-red: #c32328;
+$alt-bg: #f5f9fc;
 
+$light-green-2: #5fb63d;
 $box-shadow-1: 0 3px 10px -2px rgba(0, 0, 0, 0.2),
   0 1px 2px 0 rgba(0, 0, 0, 0.15);
 $box-shadow-2: 0 14px 10px -6px rgba(0, 99, 48, 0.25);
@@ -255,7 +272,18 @@ $box-shadow-3: 0 2px 5px 0 rgba(0, 0, 0, 0.12),
   0 10px 20px 0 rgba(0, 0, 0, 0.12);
 
 $green-gradient: linear-gradient(135deg, $green 0%, $dark-green 100%);
+$green-gradient-45: linear-gradient(
+  135deg,
+  rgba($green, 0.45) 0%,
+  rgba($dark-green, 0.45) 100%
+);
 $red-gradient: linear-gradient(135deg, $green 0%, $dark-green 100%);
+$white-layer-gradient: linear-gradient(
+  180deg,
+  #ffffff 0%,
+  rgba(255, 255, 255, 0.67) 30.25%,
+  rgba(255, 255, 255, 0) 100%
+);
 
 $backdrop-opacity: 0.8;
 $backdrop-color: rgba($medium-green-2, $backdrop-opacity);

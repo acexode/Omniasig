@@ -1,0 +1,46 @@
+<ion-list [ngClass]="listConfig?.classes" class="my-0 w-100 py-0">
+  <ion-item
+    *ngFor="let item of items"
+    (click)="itemClick(item.id)"
+    [ngClass]="item?.classes"
+    class="w-100"
+  >
+    <ion-icon
+      [slot]="item?.icon?.slot || 'start'"
+      [name]="item?.icon?.name"
+      [color]="item?.icon?.color"
+      [ngClass]="item?.icon?.classes"
+    ></ion-icon>
+    <ion-grid class="ion-no-padding" [ngClass]="item?.contentGridClasses">
+      <ion-row class="ion-no-padding ion-nowrap flex mw-0 ion-justify-content-between">
+        <ion-col class="ion-no-padding flex mw-0 flex-grow-1 flex-shrink-1 ion-wrap flex-row" *ngIf="item?.title">
+          <ion-label
+            class="ion-no-padding"
+            [ngClass]="item?.title?.classes"
+            [color]="item?.title?.color"
+            >{{ item?.title?.text }}</ion-label
+          >
+        </ion-col>
+        <ion-col class="ion-no-padding flex flex-grow-0" *ngIf="item?.timeContent">
+          <ion-label
+            class="w-100 ion-no-padding"
+            [ngClass]="item?.timeContent?.classes"
+            [color]="item?.timeContent?.color"
+          >
+            {{ item?.timeContent?.text }}
+          </ion-label>
+        </ion-col>
+      </ion-row>
+      <ion-row class="ion-no-padding mw-0">
+        <ion-label
+          *ngIf="item?.content"
+          class="w-100 ion-no-padding"
+          [ngClass]="item?.content?.classes"
+          [color]="item?.content?.color"
+        >
+          {{ item?.content?.text }}
+        </ion-label>
+      </ion-row>
+    </ion-grid>
+  </ion-item>
+</ion-list>

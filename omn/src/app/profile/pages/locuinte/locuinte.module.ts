@@ -5,6 +5,8 @@ import { RouterModule } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
 import { SharedModule } from '../../../shared/shared.module';
 import { LocuinteFormPageComponent } from './components/locuinte-form-page/locuinte-form-page.component';
+import { LocuinteViewCardComponent } from './components/locuinte-view-card/locuinte-view-card.component';
+import { LocuinteViewComponent } from './components/locuinte-view/locuinte-view.component';
 import { LocuintePageRoutingModule } from './locuinte-routing.module';
 import { LocuinteSharedModule } from './locuinte-shared.module';
 import { LocuintePage } from './locuinte.page';
@@ -19,6 +21,11 @@ import { LocuintePage } from './locuinte.page';
     LocuinteSharedModule,
     RouterModule,
   ],
-  declarations: [LocuintePage, LocuinteFormPageComponent],
+  declarations: [
+    LocuintePage,
+    LocuinteViewComponent,
+    LocuinteViewCardComponent,
+    LocuinteFormPageComponent,
+  ],
 })
 export class LocuintePageModule {}

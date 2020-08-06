@@ -100,5 +100,13 @@
     &.form-description {
       --min-height: rem(20);
     }
+    &.archive-item {
+      --inner-padding-top: 11px;
+      --inner-padding-bottom: 7px;
+      --min-height: 40px;
+      --padding-start: 0;
+      --inner-padding-end: 0;
+      align-items: flex-start;
+    }
   }
 }

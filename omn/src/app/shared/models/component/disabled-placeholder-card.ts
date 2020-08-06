@@ -1,6 +1,5 @@
-import { IonIconItem } from './ion-icon-item';
-import { IonTextItem } from './ion-text-item';
 import { ImageCard } from './image-card';
+import { IonTextItem } from './ion-text-item';
 
 export interface DisabledPlaceholderCard {
   leftColumnClass?: string;

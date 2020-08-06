@@ -16,6 +16,9 @@ import { PolicyListItem } from '../shared/models/component/policy-list-item';
 import { dauneDisabled, testDauneData, addDaune } from './data/home-daune-data';
 import { offerHomeItemHelper } from './data/home-offer-item-helper';
 import { policyHomeItemHelper } from './data/home-policy-item-helper';
+import { PolicyItemFooter } from '../modules/policy/components/models/policy-item-footer';
+import { PolicyItem } from '../shared/models/data/policy-item';
+import { PolicyOffer } from '../shared/models/data/policy-offer';
 
 @Component({
   selector: 'app-home',
@@ -71,7 +74,7 @@ export class HomePage implements OnInit {
       mainIcon: {
         name: 'md-call-center',
         color: 'green-gradient',
-        classes: 'icon-40 mt-16',
+        classes: 'icon-40 mt-16 ion-align-self-start',
       },
       textContent: [
         {
@@ -86,7 +89,7 @@ export class HomePage implements OnInit {
       mainIcon: {
         name: 'md-chat',
         color: 'green-gradient',
-        classes: 'icon-40 mt-16 mb-8',
+        classes: 'icon-40 mt-16 mb-8 ion-align-self-start',
       },
       textContent: [
         {
@@ -101,7 +104,7 @@ export class HomePage implements OnInit {
       mainIcon: {
         name: 'md-intrebari',
         color: 'green-gradient',
-        classes: 'icon-40 mt-16 mb-0',
+        classes: 'icon-40 mt-16 mb-0 ion-align-self-start',
       },
       textContent: [
         {
@@ -123,7 +126,7 @@ export class HomePage implements OnInit {
         mainIcon: {
           name: 'md-user-light',
           color: 'green-gradient',
-          classes: 'icon-32 mt-0',
+          classes: 'icon-32 mt-0 ion-align-self-start',
         },
         textContent: [],
         id: 'account',
@@ -133,7 +136,7 @@ export class HomePage implements OnInit {
         mainIcon: {
           name: 'md-email-light',
           color: 'green-gradient',
-          classes: 'icon-32 mt-0 mx-0',
+          classes: 'icon-32 mt-0 mx-0 ion-align-self-start',
         },
         textContent: [],
         id: 'email',
@@ -174,46 +177,47 @@ export class HomePage implements OnInit {
       if (account) {
         this.accountActivated = this.authS.accountActivated(account);
         if (this.accountActivated) {
-          this.reQPolicies(account.id);
-          this.reqOffers(account.id);
+          this.policyS.policyStore$.subscribe((v) =>
+            this.policies$.next(this.mapPolicies(v))
+          );
+          this.policyS.offerStore$.subscribe((v) =>
+            this.offers$.next(this.mapOffers(v))
+          );
         }
       }
     });
   }
 
   /**
-   * Request user Policies data.
-   * @param id - User Id
+   * Preprocess user Policies data.
    */
-  reQPolicies(id: string | number) {
-    this.policyS.getUserPolicies(id).subscribe((policies) => {
-      if (policies) {
-        this.policies$.next(policies.map((p) => policyHomeItemHelper(p)));
-      } else {
-        this.policies$.next([]);
-      }
-    });
+  mapPolicies(policies: Array<PolicyItem>) {
+    if (policies) {
+      return policies.map((p) => policyHomeItemHelper(p));
+    } else {
+      return [];
+    }
   }
 
   /**
-   * Request user Offers data.
-   * @param id - User Id
+   * Preprocess user Offers data.
    */
-  reqOffers(id: string | number) {
-    this.policyS.getUserOffers(id).subscribe((offers) => {
-      if (offers && offers.length > 0) {
-        this.offers$.next(offers.map((o) => offerHomeItemHelper(o)));
-        this.asigTitle.classes = 'color-dark-green';
-        this.hasOffers = true;
-      } else {
-        this.offers$.next([]);
-        this.asigTitle.classes = 'color-white';
-        this.hasOffers = false;
-      }
-      this.asigTitle = { ...this.asigTitle };
-      this.cdRef.markForCheck();
-    });
+  mapOffers(offers: Array<PolicyOffer>) {
+    let newOff = [];
+    if (offers && offers.length > 0) {
+      newOff = offers.map((o) => offerHomeItemHelper(o));
+      this.asigTitle.classes = 'color-dark-green';
+      this.hasOffers = true;
+    } else {
+      newOff = [];
+      this.asigTitle.classes = 'color-white';
+      this.hasOffers = false;
+    }
+    this.asigTitle = { ...this.asigTitle };
+    this.cdRef.markForCheck();
+    return newOff;
   }
+
   openCustom() {
     this.menu.enable(true, 'omn-menu');
     this.menu.open('omn-menu');
