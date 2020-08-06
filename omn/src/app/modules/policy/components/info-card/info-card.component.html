@@ -1,14 +1,30 @@
-<ion-card button="true" class="m-0 w-100 flex-column flex is-button">
-  <ion-icon
-    [name]="icon"
-    color="green-gradient"
-    class="mx-auto flex ion-align-self-start icon-40 mt-16 mb-8"
-  ></ion-icon>
-  <ion-card-content
-    class="flex mt-auto p-8 text-small text-weight-medium ion-align-items-end flex-1 ion-justify-content-center w-100 ion-text-center"
-  >
-    <ion-col class="ion-no-padding w-100">
-      <ion-text class="w-100 ion-no-padding"> {{ label }} </ion-text>
-    </ion-col>
-  </ion-card-content>
-</ion-card>
+<ion-col class="ion-no-padding">
+  <ion-row class="mb-16">
+    <ion-card
+      class="ion-no-margin bottom-radius-0 w-100 px-8 pt-6"
+      [ngClass]="item?.classes"
+    >
+      <ion-icon
+        [name]="item?.icon?.name"
+        class="color-white ion-no-margin ion-no-padding"
+        size="large"
+      ></ion-icon>
+    </ion-card>
+  </ion-row>
+
+  <ion-row class="mb-13" [ngClass]="item?.subtitle?.classes">
+    <ion-label class="s18-h24 text-weight-medium">{{
+      item?.subtitle?.text
+    }}</ion-label>
+  </ion-row>
+
+  <ion-row>
+    <ng-container
+      *ngFor="let text of item?.textContents; let last = last; let i = index"
+    >
+      <ion-text class="text-normal" [ngClass]="{ 'mb-16': !last }">
+        {{ text }}
+      </ion-text>
+    </ng-container>
+  </ion-row>
+</ion-col>

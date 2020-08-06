@@ -23,36 +23,147 @@
       </ion-col>
     </ion-row>
 
-    <ion-row class="pt-32 px-32 alt-bg">
+    <ion-row class="pt-32 px-32 mb-64 alt-bg">
       <ion-col class="ion-no-padding">
+        <ion-row>
+          <ion-label class="s18-h24 text-weight-medium mb-32"
+            >Ce asigură</ion-label
+          >
+        </ion-row>
+
+        <ion-row class="ion-nowrap mb-16">
+          <ion-col class="ion-no-padding ml-0 mr-8">
+            <app-image-card
+              [item]="helpItems[0]"
+              class="flex w-100"
+            ></app-image-card>
+          </ion-col>
+          <ion-col class="ion-no-padding mx-8">
+            <app-image-card
+              [item]="helpItems[1]"
+              class="flex w-100"
+            ></app-image-card>
+          </ion-col>
+          <ion-col class="ion-no-padding mr-0 ml-8">
+            <app-image-card
+              [item]="helpItems[2]"
+              class="flex w-100"
+            ></app-image-card>
+          </ion-col>
+        </ion-row>
+
         <ion-row class="mb-32">
-          <ion-label class="s18-h24 text-weight-medium">Ce asigură</ion-label>
+          <ion-text class="text-normal">
+            Prin PAD se asigură
+            <ion-label class="text-weight-bold"
+              >exclusiv construcțiile cu destinația de locuință</ion-label
+            >
+            pentru următoarele trei riscuri: cutremure de pământ, alunecări de
+            teren și inundații, ca fenomene naturale.
+          </ion-text>
         </ion-row>
 
         <ion-row>
-          <ion-col class="ion-no-padding m-0 mb-24 pr-8" size="4">
-            <app-info-card
-              label="Cutremure
-            de pământ"
-              icon="cutremur"
-            ></app-info-card>
+          <ion-label class="s18-h24 text-weight-medium mb-32"
+            >Suma asigurată</ion-label
+          >
+        </ion-row>
+
+        <ion-row class="ion-nowrap mb-16">
+          <ion-col class="ion-no-padding ml-0 mr-8">
+            <app-image-card
+              [item]="tipItems[0]"
+              class="flex w-100"
+            ></app-image-card>
           </ion-col>
-          <ion-col class="ion-no-padding m-0 mb-24 pl-8 pr-8" size="4">
-            <app-info-card
-              label="Alunecări
-              de teren"
-              icon="alunecari"
-            ></app-info-card>
+          <ion-col class="ion-no-padding mx-8">
+            <app-image-card
+              [item]="tipItems[1]"
+              class="flex w-100"
+            ></app-image-card>
           </ion-col>
-          <ion-col class="ion-no-padding m-0 mb-24 pl-8" size="4">
-            <app-info-card
-              label="Cutremure
-            de pământ"
-              icon="alunecari"
-            ></app-info-card>
+          <ion-col class="ion-no-padding mr-0 ml-8">
+            <app-image-card
+              [item]="tipItems[2]"
+              class="flex w-100"
+            ></app-image-card>
           </ion-col>
         </ion-row>
+
+        <ion-row class="mb-16">
+          <ion-text class="text-normal">
+            În funcție de tipul locuinței, suma asigurată e reprezentată de
+            echivalentul în lei al sumei de 20.000 EUR pentru locuințele „Tip
+            A”, respectiv 10.000 EUR pentru cele „Tip B”.
+          </ion-text>
+        </ion-row>
+
+        <ion-row class="py-16 note">
+          <ion-text color="omn-green">
+            Acesta este un sumar.
+          </ion-text>
+          <ion-text color="omn-green">
+            Vezi mai jos întreg documentul de informare.
+          </ion-text>
+        </ion-row>
       </ion-col>
+    </ion-row>
+
+    <ion-row class="mx-24 mb-40">
+      <ion-col class="ion-no-padding">
+        <ion-row class="mb-32">
+          <ion-text class="mb-32 text-normal">
+            PAD este creată și reglementată de lege, gestionarea acesteia fiind
+            acordată PAID SA, constituită potrivit legilor din România,
+            înregistrată în registrul asigurătorilor păstrat de Autoritatea de
+            Supraveghere Financiară (ASF) sub numărul RA-065/ 14.10.2009.
+          </ion-text>
+          <ion-text class="text-normal">
+            Informațiile (termenii și condițiile asigurării) complete
+            referitoare la produs se regăsesc în Legea nr.260/2008 privind
+            asigurarea obligatorie a locuințelor împotriva cutremurelor,
+            alunecărilor de teren și inundațiilor, în Ordinul nr.
+            6/87/21.04.2011 pentru aprobarea normelor de aplicare ale legii,
+            precum și în legislația secundară a ASF: Norma nr. 7/2013, Ordinul
+            nr. 7/2009. Acestea pot fi consultate pe site-ul PAID
+            (www.paidromania.ro).
+          </ion-text>
+        </ion-row>
+
+        <ion-row>
+          <ion-label class="mb-13 s18-h24 text-weight-medium"
+            >Despre ce tip de asigurare este vorba?</ion-label
+          >
+        </ion-row>
+
+        <ion-row>
+          <ion-text class="mb-32 text-normal"
+            >Asigurarea obligatorie a locuințelor împotriva cutremurelor,
+            alunecărilor de teren și inundațiilor, ca fenomene
+            naturale.</ion-text
+          >
+        </ion-row>
+
+        <ng-container
+          *ngFor="let cardI of cardInfo; let last = last; let i = index"
+        >
+          <ion-row [ngClass]="{ 'mb-32': !last }">
+            <app-info-card [item]="cardI"></app-info-card>
+          </ion-row>
+        </ng-container>
+      </ion-col>
+    </ion-row>
+
+    <ion-row class="mx-24 mb-24">
+      <ion-button
+        type="submit"
+        color="success"
+        fill="solid"
+        expand="block"
+        size="large"
+        class="m-0 w-100"
+        >Continuă
+      </ion-button>
     </ion-row>
   </ion-grid>
 </ion-content>

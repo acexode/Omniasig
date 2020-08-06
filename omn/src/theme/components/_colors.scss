@@ -136,6 +136,10 @@
   background-color: $danger;
 }
 
+.bg-red {
+  background-color: $light-red;
+}
+
 .bg-green {
   background-color: $green;
 }
@@ -157,4 +161,20 @@
 
 .alt-bg {
   background: $alt-bg;
+}
+
+.bg-deep-blue {
+  background-color: $deep-blue;
+}
+
+.bg-light-blue {
+  background-color: $light-blue;
+}
+
+.bg-yellow {
+  background-color: $yellow;
+}
+
+.bg-dark {
+  background-color: $bg-dark;
 }

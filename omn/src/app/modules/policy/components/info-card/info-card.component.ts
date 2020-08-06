@@ -6,8 +6,7 @@ import { Component, OnInit, Input } from '@angular/core';
   styleUrls: ['./info-card.component.scss'],
 })
 export class InfoCardComponent implements OnInit {
-  @Input() icon;
-  @Input() label;
+  @Input() item;
   constructor() {}
 
   ngOnInit() {}
