@@ -110,7 +110,7 @@ export class InfoDocComponent implements OnInit {
     {
       classes: 'bg-green',
       icon: {
-        name: 'umbrella',
+        name: 'md-umbrella',
       },
       subtitle: {
         text: 'Ce se asigură?',
@@ -136,7 +136,7 @@ export class InfoDocComponent implements OnInit {
     {
       classes: 'bg-red',
       icon: {
-        name: 'umbrella',
+        name: 'md-exclusion',
       },
       subtitle: {
         text: 'Ce nu se asigură?',
@@ -163,7 +163,7 @@ export class InfoDocComponent implements OnInit {
     {
       classes: 'bg-danger',
       icon: {
-        name: 'umbrella',
+        name: 'md-restriction',
       },
       subtitle: {
         text: 'Există restricții de acoperire?',
@@ -183,7 +183,7 @@ export class InfoDocComponent implements OnInit {
     {
       classes: 'bg-deep-blue',
       icon: {
-        name: 'globe-outline',
+        name: 'md-globe',
       },
       subtitle: {
         text: 'Unde beneficiez de asigurare?',
@@ -199,7 +199,7 @@ export class InfoDocComponent implements OnInit {
     {
       classes: 'bg-light-green-2',
       icon: {
-        name: 'hand-right',
+        name: 'md-handshake',
       },
       subtitle: {
         text: 'Ce obligații am?',
@@ -218,7 +218,7 @@ export class InfoDocComponent implements OnInit {
     {
       classes: 'bg-light-green-2',
       icon: {
-        name: 'logo-bitcoin',
+        name: 'md-coins',
       },
       subtitle: {
         text: 'Când și cum plătesc?',
@@ -232,7 +232,7 @@ export class InfoDocComponent implements OnInit {
     {
       classes: 'bg-light-blue',
       icon: {
-        name: 'hourglass',
+        name: 'md-hourglass',
       },
       subtitle: {
         text: 'Când începe și când încetează acoperirea?',
@@ -247,7 +247,7 @@ export class InfoDocComponent implements OnInit {
     {
       classes: 'bg-dark',
       icon: {
-        name: 'hand-left',
+        name: 'md-annulment',
       },
       subtitle: {
         text: 'Cum pot sa reziliez contractul?',
