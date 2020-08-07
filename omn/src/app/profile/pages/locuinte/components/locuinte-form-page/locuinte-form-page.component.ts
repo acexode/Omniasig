@@ -1,16 +1,17 @@
-import { LocuinteService } from './../../services/locuinte/locuinte.service';
+import { Content } from '@angular/compiler/src/render3/r3_ast';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
   HostBinding,
   OnInit,
+  ViewChild,
 } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { NavController } from '@ionic/angular';
+import { NavController, IonContent } from '@ionic/angular';
 import { combineLatest, Observable, of } from 'rxjs';
-import { switchMap } from 'rxjs/operators';
+import { switchMap, map, catchError, finalize } from 'rxjs/operators';
 import { CustomRouterService } from 'src/app/core/services/custom-router/custom-router.service';
 import { subPageHeaderDefault } from 'src/app/shared/data/sub-page-header-default';
 import { Locuinte } from 'src/app/shared/models/data/locuinte.interface';
@@ -19,6 +20,7 @@ import {
   LocuinteFormType,
 } from 'src/app/shared/models/modes/locuinte-form-modes';
 import { LocuinteFormService } from '../../services/locuinte-form/locuinte-form.service';
+import { LocuinteService } from './../../services/locuinte/locuinte.service';
 
 @Component({
   selector: 'app-locuinte-form-page',
@@ -28,6 +30,8 @@ import { LocuinteFormService } from '../../services/locuinte-form/locuinte-form.
 })
 export class LocuinteFormPageComponent implements OnInit {
   @HostBinding('class') color = 'ion-color-white-page';
+  @ViewChild('contentRef', { static: true }) contentRef: IonContent;
+
   headerConfig = null;
   buttonVisible = true;
   dataModel: Locuinte;
@@ -56,6 +60,7 @@ export class LocuinteFormPageComponent implements OnInit {
     place: {},
   };
 
+  formSubmitting = false;
   formInstance: { group: FormGroup; config: any; data: any } = null;
 
   constructor(
@@ -167,30 +172,40 @@ export class LocuinteFormPageComponent implements OnInit {
       case this.formModes.EDIT_FULL:
         this.buttonVisible = true;
         if (this.formType === LocuinteFormType.ADDRESS) {
-          this.formType = LocuinteFormType.PLACE;
-          const header = subPageHeaderDefault('Adresa');
-          header.leadingIcon.routerLink = false;
-          this.headerConfig = header;
-          this.formInstance = {
-            config: this.formConfigs.place,
-            group: this.formGroups.place,
-            data: this.formData.place,
-          };
+          this.submitData().subscribe((v) => {
+            if (v) {
+              this.dataModel = v;
+              this.formType = LocuinteFormType.PLACE;
+              const header = subPageHeaderDefault('Adresa');
+              header.leadingIcon.routerLink = false;
+              this.headerConfig = header;
+              this.formInstance = {
+                config: this.formConfigs.place,
+                group: this.formGroups.place,
+                data: this.formData.place,
+              };
+            }
+          });
         } else if (this.formType === LocuinteFormType.PLACE) {
-          this.formType = LocuinteFormType.SUCCESS_MSG;
-          const header = subPageHeaderDefault('');
-          header.leadingIcon = null;
-          this.headerConfig = header;
-          this.buttonVisible = false;
-          setTimeout(() => {
-            this.navigateToMain();
-          }, 4000);
+          this.submitData().subscribe((v) => {
+            if (v) {
+              this.formType = LocuinteFormType.SUCCESS_MSG;
+              const header = subPageHeaderDefault('');
+              header.leadingIcon = null;
+              this.headerConfig = header;
+              this.buttonVisible = false;
+              setTimeout(() => {
+                this.navigateToMain();
+              }, 2000);
+            }
+          });
         }
         break;
       default:
         break;
     }
     this.cdRef.markForCheck();
+    this.scrollTop();
   }
 
   navigateBack() {
@@ -215,10 +230,59 @@ export class LocuinteFormPageComponent implements OnInit {
         break;
     }
     this.cdRef.markForCheck();
+    this.scrollTop();
+  }
+
+  submitData(): Observable<Locuinte> {
+    switch (this.formMode) {
+      case this.formModes.EDIT_FULL:
+        const model = this.formS.processFormModel(
+          this.formInstance.group.value,
+          this.dataModel
+        );
+        this.formSubmitting = true;
+        this.cdRef.markForCheck();
+        return this.locuinteS.updateSingleLocuinte(model).pipe(
+          finalize(() => {
+            this.formSubmitting = false;
+            this.cdRef.markForCheck();
+          })
+        );
+
+      case this.formModes.ADD_NEW_FULL:
+        const model2 = this.formS.processFormModel(
+          this.formInstance.group.value,
+          this.dataModel
+        );
+        this.formSubmitting = true;
+        this.cdRef.markForCheck();
+        if (this.dataModel) {
+          return this.locuinteS.updateSingleLocuinte(model2).pipe(
+            finalize(() => {
+              this.formSubmitting = false;
+              this.cdRef.markForCheck();
+            })
+          );
+        } else {
+          return this.locuinteS.addSingleLocuinte(model2).pipe(
+            finalize(() => {
+              this.formSubmitting = false;
+              this.cdRef.markForCheck();
+            })
+          );
+        }
+
+      default:
+        return of(null);
+    }
   }
 
   trailingAction() {}
-
+  scrollTop() {
+    if (this.contentRef) {
+      this.contentRef.scrollToTop();
+    }
+  }
   formCustomEvents() {
     // Add more as needed.
     this.navigateToMain();

@@ -71,7 +71,7 @@ export class LocuinteFormService {
         Validators.required
       ),
       // Additional - add validator after build
-      name: this.fb.control(get(model, 'name', '')),
+      // name: this.fb.control(get(model, 'name', '')),
     });
   }
 
@@ -243,5 +243,47 @@ export class LocuinteFormService {
     return new Observable((observer) => {
       observer.next(locuinteFieldsData.street);
     });
+  }
+
+  processFormModel(formGroupValue, existingModel?: Locuinte): Locuinte {
+    const newModel: Locuinte = existingModel
+      ? { ...existingModel }
+      : {
+          id: null,
+          name: null,
+          info: null,
+          address: null,
+        };
+
+    forOwn(formGroupValue, (val, key) => {
+      switch (key) {
+        case 'apartment':
+        case 'city':
+        case 'county':
+        case 'entrance':
+        case 'number':
+        case 'postalCode':
+        case 'street':
+          set(newModel, 'address.' + key, val);
+          break;
+        case 'alarm':
+        case 'buildYear':
+        case 'heightRegime':
+        case 'occupancy':
+        case 'resistenceStructure':
+        case 'roomCount':
+        case 'type':
+        case 'usableSurface':
+        case 'valueCurrency':
+        case 'valueSum':
+          set(newModel, 'info.' + key, val);
+          break;
+        default:
+          console.log(key);
+          set(newModel, key, val);
+          break;
+      }
+    });
+    return newModel;
   }
 }

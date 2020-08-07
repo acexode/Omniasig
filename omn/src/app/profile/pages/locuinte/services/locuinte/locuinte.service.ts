@@ -1,10 +1,11 @@
 import { AuthService } from 'src/app/core/services/auth/auth.service';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, of, Observable } from 'rxjs';
-import { catchError, switchMap } from 'rxjs/operators';
+import { catchError, switchMap, map } from 'rxjs/operators';
 import { locuinteEndpoints } from 'src/app/core/configs/endpoints';
 import { RequestService } from 'src/app/core/services/request/request.service';
 import { Locuinte } from 'src/app/shared/models/data/locuinte.interface';
+import { random } from 'lodash';
 
 @Injectable({
   providedIn: 'root',
@@ -66,7 +67,7 @@ export class LocuinteService {
     return this.locuinteStore$.pipe(
       switchMap((vals) => {
         if (vals instanceof Array) {
-          const existing = vals.find((v) => v.id === id);
+          const existing = vals.find((v) => v.id.toString() === id.toString());
           if (existing) {
             return of(existing);
           } else {
@@ -75,6 +76,42 @@ export class LocuinteService {
         } else {
           return this.getSingleUserLocuinta(id);
         }
+      })
+    );
+  }
+
+  addSingleLocuinte(data: Locuinte) {
+    return of({ ...data, ...{ id: random(10, 100) } }).pipe(
+      map((v) => {
+        const vals = this.locuinteStore$.value ? this.locuinteStore$.value : [];
+        vals.push(v);
+        this.locuinteStore$.next(vals);
+        return v ? v : null;
+      }),
+      catchError((err) => of(null))
+    );
+  }
+  updateSingleLocuinte(data: Locuinte) {
+    return of(data).pipe(
+      map((v) => {
+        if (!v) {
+          return null;
+        }
+        const vals = this.locuinteStore$.value ? this.locuinteStore$.value : [];
+        const existingI = vals.findIndex(
+          (val) => val.id.toString() === data.id.toString()
+        );
+
+        if (existingI > -1) {
+          vals[existingI] = v;
+        } else {
+          return null;
+        }
+        this.locuinteStore$.next(vals);
+        return data;
+      }),
+      catchError((err) => {
+        return of(null);
       })
     );
   }

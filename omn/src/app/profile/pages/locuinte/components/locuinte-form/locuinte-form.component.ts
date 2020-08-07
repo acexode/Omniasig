@@ -6,7 +6,7 @@ import {
   OnInit,
   Output,
 } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormGroup } from '@angular/forms';
 import { LocuinteFormType } from 'src/app/shared/models/modes/locuinte-form-modes';
 
 @Component({
@@ -20,6 +20,7 @@ export class LocuinteFormComponent implements OnInit {
 
   @Input() formType: LocuinteFormType = null;
   @Input() buttonVisible = true;
+  @Input() formSubmitting = false;
   @Input() fieldConfig: { [key: string]: any } = {};
   @Input() fieldConfigData: { [key: string]: any } = {};
   @Output() customEvents: EventEmitter<any> = new EventEmitter();
@@ -31,7 +32,7 @@ export class LocuinteFormComponent implements OnInit {
     return this.fG;
   }
   @Output() eventSubmit: EventEmitter<any> = new EventEmitter();
-  constructor(private fb: FormBuilder, private cdRef: ChangeDetectorRef) {}
+  constructor(private cdRef: ChangeDetectorRef) {}
 
   ngOnInit() {}
 

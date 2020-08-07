@@ -25,10 +25,16 @@
       fill="solid"
       expand="block"
       (click)="doSubmit()"
-      [disabled]="!formGroupInstance?.valid"
+      [disabled]="!formGroupInstance?.valid || formSubmitting"
       size="large"
       class="m-0 w-100 flex mt-auto"
-      >Salveaza
+    >
+      <ion-spinner
+        name="crescent"
+        *ngIf="formSubmitting"
+        class="icon-20"
+      ></ion-spinner>
+      Salveaza
     </ion-button>
   </ion-row>
 </ion-grid>

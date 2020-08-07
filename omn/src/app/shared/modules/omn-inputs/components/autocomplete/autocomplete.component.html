@@ -12,7 +12,7 @@
   <div class="select-wrapper flex w-100">
     <ion-auto-complete
       [useIonInput]="true"
-      [clearInvalidInput]="false"
+      [clearInvalidInput]="config?.clearInvalid"
       [dataProvider]="autocompleteProvider"
       [options]="config?.autocompleteOptions || {}"
       formControlName="text"

@@ -84,7 +84,7 @@ export class AutocompleteComponent implements OnInit, ControlValueAccessor {
 
   writeValue(obj: any): void {
     this.value = obj;
-    this.formGroup.setValue({ text: obj });
+    this.formGroup.setValue({ text: { label: obj } });
     this.formGroup.updateValueAndValidity();
     this.cdRef.markForCheck();
   }

@@ -36,7 +36,7 @@ export class LocuintePage implements OnInit {
   }
 
   reQLocuintes() {
-    this.locuinteS.loadAllData();
+    // this.locuinteS.loadAllData();
   }
 
   async openVerifyModal() {
