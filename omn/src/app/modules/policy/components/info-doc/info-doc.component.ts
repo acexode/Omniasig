@@ -5,6 +5,8 @@ import {
   Output,
   EventEmitter,
 } from '@angular/core';
+import { ModalController } from '@ionic/angular';
+import { TipModalComponent } from '../modals/tip-modal/tip-modal.component';
 import { subPageHeaderSecondary } from 'src/app/shared/data/sub-page-header-secondary';
 import { ImageCard } from 'src/app/shared/models/component/image-card';
 
@@ -30,7 +32,6 @@ export class InfoDocComponent implements OnInit {
         },
       ],
       id: '0',
-      routerLink: '/home',
       itemClass: 'mh-104',
     },
     {
@@ -45,7 +46,6 @@ export class InfoDocComponent implements OnInit {
         },
       ],
       id: '0',
-      routerLink: '/home',
       itemClass: 'mh-104',
     },
     {
@@ -60,7 +60,6 @@ export class InfoDocComponent implements OnInit {
         },
       ],
       id: '0',
-      routerLink: '/home',
       itemClass: 'mh-104',
     },
   ];
@@ -78,7 +77,6 @@ export class InfoDocComponent implements OnInit {
         },
       ],
       id: '0',
-      routerLink: '/home',
       itemClass: 'mh-104',
     },
     {
@@ -93,7 +91,6 @@ export class InfoDocComponent implements OnInit {
         },
       ],
       id: '0',
-      routerLink: '/home',
       itemClass: 'mh-104',
     },
   ];
@@ -250,7 +247,8 @@ export class InfoDocComponent implements OnInit {
       ],
     },
   ];
-  constructor() {}
+
+  constructor(public modalController: ModalController) {}
 
   ngOnInit() {}
 
@@ -258,5 +256,13 @@ export class InfoDocComponent implements OnInit {
 
   next() {
     this.continue.emit();
+  }
+
+  async presentModal() {
+    const modal = await this.modalController.create({
+      component: TipModalComponent,
+      cssClass: 'my-custom-modal-class',
+    });
+    return await modal.present();
   }
 }

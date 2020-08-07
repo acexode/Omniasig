@@ -72,7 +72,7 @@
           >
         </ion-row>
 
-        <ion-row class="ion-nowrap mb-16">
+        <ion-row (click)="presentModal()" class="ion-nowrap mb-16">
           <ion-col class="ion-no-padding ml-0 mr-8">
             <app-image-card
               [item]="tipItems[0]"
