@@ -1,3 +1,4 @@
+import { LocuinteItemGuard } from './guards/locuinte-item.guard';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { LocuinteFormModes } from 'src/app/shared/models/modes/locuinte-form-modes';
@@ -15,17 +16,21 @@ const routes: Routes = [
     component: LocuinteFormPageComponent,
     data: {
       formMode: LocuinteFormModes.ADD_NEW_FULL,
+      locuinta: null,
     },
   },
   {
     path: 'edit/:id',
     component: LocuinteFormPageComponent,
+    canActivate: [LocuinteItemGuard],
     data: {
       formMode: LocuinteFormModes.EDIT_FULL,
+      locuinta: null,
     },
   },
   {
     path: 'view/:id',
+    canActivate: [LocuinteItemGuard],
     component: LocuinteViewComponent,
   },
 ];
