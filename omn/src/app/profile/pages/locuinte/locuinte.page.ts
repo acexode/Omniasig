@@ -11,7 +11,7 @@ import { LocuinteService } from './services/locuinte/locuinte.service';
 })
 export class LocuintePage implements OnInit {
   headerConfig = subPageHeaderDefault('Locuințe');
-  accountActivated = true;
+  accountActivated = false;
   account$ = this.authS.getAccountData();
   cards$ = this.locuinteS.locuinteStore$;
 
@@ -27,10 +27,7 @@ export class LocuintePage implements OnInit {
     this.account$.subscribe((account) => {
       if (account) {
         this.accountActivated = this.authS.accountActivated(account);
-        if (this.accountActivated) {
-          this.reQLocuintes();
-          this.cdRef.markForCheck();
-        }
+        this.cdRef.markForCheck();
       }
     });
   }

@@ -13,7 +13,7 @@ import { random } from 'lodash';
 export class LocuinteService {
   singleLoading: BehaviorSubject<boolean> = new BehaviorSubject(false);
   multipleLoading: BehaviorSubject<boolean> = new BehaviorSubject(false);
-  locuinteStore$: BehaviorSubject<Array<Locuinte>> = new BehaviorSubject([]);
+  locuinteStore$: BehaviorSubject<Array<Locuinte>> = new BehaviorSubject(null);
   endpoints = locuinteEndpoints;
   emptyV: Array<Locuinte> = [];
 
@@ -25,6 +25,8 @@ export class LocuinteService {
     this.authS.getAccountData().subscribe((account) => {
       if (this.authS.accountActivated(account)) {
         this.loadAllData();
+      } else {
+        this.locuinteStore$.next([]);
       }
     });
   }

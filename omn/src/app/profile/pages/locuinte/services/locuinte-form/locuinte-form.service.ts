@@ -279,7 +279,6 @@ export class LocuinteFormService {
           set(newModel, 'info.' + key, val);
           break;
         default:
-          console.log(key);
           set(newModel, key, val);
           break;
       }

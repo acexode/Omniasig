@@ -13,6 +13,7 @@ import { TabMenuComponent } from './components/tab-menu/tab-menu.component';
 import { CnpPipe } from './pipes/cnp.pipe';
 import { LocuinteNamePipe } from './pipes/locuinte-name.pipe';
 import { TimePipe } from './pipes/time.pipe';
+import { LocuinteFieldPipe } from './pipes/locuinte-field.pipe';
 
 @NgModule({
   declarations: [
@@ -26,6 +27,7 @@ import { TimePipe } from './pipes/time.pipe';
     LocuinteNamePipe,
     ArchiveListComponent,
     LocuinteCardComponent,
+    LocuinteFieldPipe,
   ],
   imports: [CommonModule, FormsModule, IonicModule, RouterModule],
   exports: [
@@ -37,6 +39,7 @@ import { TimePipe } from './pipes/time.pipe';
     SubPageHeaderComponent,
     TimePipe,
     CnpPipe,
+    LocuinteFieldPipe,
     LocuinteNamePipe,
     ArchiveListComponent,
     LocuinteCardComponent,

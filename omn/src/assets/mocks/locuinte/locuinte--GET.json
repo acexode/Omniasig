@@ -14,7 +14,7 @@
     "info": {
       "type": "apartament",
       "resistenceStructure": 1,
-      "buildYear": 5,
+      "buildYear": 1930,
       "valueCurrency": "EUR",
       "valueSum": 111111,
       "occupancy": "temporar",
@@ -39,7 +39,7 @@
     "info": {
       "type": "casaVila",
       "resistenceStructure": 0,
-      "buildYear": 5,
+      "buildYear": 2020,
       "valueCurrency": "EUR",
       "valueSum": 111111,
       "occupancy": "permanent",

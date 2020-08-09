@@ -38,6 +38,7 @@ export class LocuinteFormPageComponent implements OnInit {
   formMode: LocuinteFormModes;
   formType: LocuinteFormType;
   formModes = LocuinteFormModes;
+  refTimer;
   formGroups: {
     address: FormGroup;
     place: FormGroup;
@@ -194,7 +195,7 @@ export class LocuinteFormPageComponent implements OnInit {
               header.leadingIcon = null;
               this.headerConfig = header;
               this.buttonVisible = false;
-              setTimeout(() => {
+              this.refTimer = setTimeout(() => {
                 this.navigateToMain();
               }, 2000);
             }

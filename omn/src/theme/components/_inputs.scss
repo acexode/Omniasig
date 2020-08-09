@@ -20,7 +20,13 @@
         background-color: var(--background) !important;
       }
     }
-
+    &.bg-white {
+      input,
+      input.native-input {
+        --background: var(--app-color-white);
+        background: var(--app-color-white);
+      }
+    }
     /* Chrome, Safari, Edge, Opera */
     input::-webkit-outer-spin-button,
     input::-webkit-inner-spin-button {
