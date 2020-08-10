@@ -1,0 +1,89 @@
+ul.green {
+  list-style: none;
+  padding: 0;
+  li {
+    &:before {
+      content: '✔︎';
+      display: inline-block;
+      width: 1.3rem;
+    }
+    &:nth-child(3) {
+      &:before {
+        content: '⁃';
+        display: inline-block;
+        width: 1.3rem;
+      }
+    }
+    &:nth-child(4) {
+      &:before {
+        content: '⁃';
+        display: inline-block;
+        width: 1.3rem;
+      }
+    }
+  }
+}
+
+ul.red {
+  list-style: none;
+  padding: 0;
+  li {
+    &:before {
+      content: '✖︎';
+      display: inline-block;
+      width: 1.3rem;
+    }
+  }
+}
+
+ul.danger {
+  list-style: none;
+  padding: 0;
+  li {
+    &:before {
+      content: '!';
+      display: inline-block;
+      width: 1.3rem;
+    }
+  }
+}
+
+ul.blue {
+  list-style: none;
+  padding: 0;
+  li {
+    &:before {
+      content: '✔︎';
+      display: inline-block;
+      width: 1.3rem;
+    }
+  }
+}
+
+ul.green-2 {
+  list-style: none;
+  padding: 0;
+  li {
+    padding-left: 0.5rem;
+    &:before {
+      content: '•';
+      display: inline-block;
+      width: 1.3rem;
+    }
+  }
+}
+
+ul.yellow {
+  list-style: none;
+  padding: 0;
+}
+
+ul.light-blue {
+  list-style: none;
+  padding: 0;
+}
+
+ul.dark {
+  list-style: none;
+  padding: 0;
+}
