@@ -4,9 +4,22 @@ ul.green {
   li {
     &:before {
       content: '✔︎';
-      font-family: FontAwesome;
       display: inline-block;
-      width: 1.3em;
+      width: 1.3rem;
+    }
+    &:nth-child(3) {
+      &:before {
+        content: '⁃';
+        display: inline-block;
+        width: 1.3rem;
+      }
+    }
+    &:nth-child(4) {
+      &:before {
+        content: '⁃';
+        display: inline-block;
+        width: 1.3rem;
+      }
     }
   }
 }
@@ -17,9 +30,8 @@ ul.red {
   li {
     &:before {
       content: '✖︎';
-      font-family: FontAwesome;
       display: inline-block;
-      width: 1.3em;
+      width: 1.3rem;
     }
   }
 }
@@ -30,9 +42,8 @@ ul.danger {
   li {
     &:before {
       content: '!';
-      font-family: FontAwesome;
       display: inline-block;
-      width: 1.3em;
+      width: 1.3rem;
     }
   }
 }
@@ -43,9 +54,8 @@ ul.blue {
   li {
     &:before {
       content: '✔︎';
-      font-family: FontAwesome;
       display: inline-block;
-      width: 1.3em;
+      width: 1.3rem;
     }
   }
 }
@@ -54,11 +64,11 @@ ul.green-2 {
   list-style: none;
   padding: 0;
   li {
+    padding-left: 0.5rem;
     &:before {
       content: '•';
-      font-family: FontAwesome;
       display: inline-block;
-      width: 1.3em;
+      width: 1.3rem;
     }
   }
 }

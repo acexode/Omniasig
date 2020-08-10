@@ -19,21 +19,14 @@
   </ion-row>
 
   <ion-row>
-    <ul [ngClass]="item?.listClass">
+    <ul class="m-0" [ngClass]="item?.listClass">
       <ng-container
         *ngFor="let text of item?.textContents; let last = last; let i = index"
       >
-        <li>
+        <li class="text-normal" [ngClass]="{ 'mb-16': !last }">
           {{ text }}
         </li>
       </ng-container>
     </ul>
-    <!-- <ng-container
-      *ngFor="let text of item?.textContents; let last = last; let i = index"
-    >
-      <ion-text class="text-normal" [ngClass]="{ 'mb-16': !last }">
-        {{ text }}
-      </ion-text>
-    </ng-container> -->
   </ion-row>
 </ion-col>
