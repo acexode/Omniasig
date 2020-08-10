@@ -1,4 +1,3 @@
-import { Content } from '@angular/compiler/src/render3/r3_ast';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -9,9 +8,9 @@ import {
 } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { NavController, IonContent } from '@ionic/angular';
+import { IonContent, NavController } from '@ionic/angular';
 import { combineLatest, Observable, of } from 'rxjs';
-import { switchMap, map, catchError, finalize } from 'rxjs/operators';
+import { finalize, switchMap } from 'rxjs/operators';
 import { CustomRouterService } from 'src/app/core/services/custom-router/custom-router.service';
 import { subPageHeaderDefault } from 'src/app/shared/data/sub-page-header-default';
 import { Locuinte } from 'src/app/shared/models/data/locuinte.interface';
@@ -31,7 +30,7 @@ import { LocuinteService } from './../../services/locuinte/locuinte.service';
 export class LocuinteFormPageComponent implements OnInit {
   @HostBinding('class') color = 'ion-color-white-page';
   @ViewChild('contentRef', { static: true }) contentRef: IonContent;
-
+  buttonText = 'Continuă';
   headerConfig = null;
   buttonVisible = true;
   dataModel: Locuinte;
@@ -177,6 +176,7 @@ export class LocuinteFormPageComponent implements OnInit {
             if (v) {
               this.dataModel = v;
               this.formType = LocuinteFormType.PLACE;
+              this.buttonText = 'Salvează';
               const header = subPageHeaderDefault('Adresa');
               header.leadingIcon.routerLink = false;
               this.headerConfig = header;
@@ -222,6 +222,7 @@ export class LocuinteFormPageComponent implements OnInit {
           };
           this.formType = LocuinteFormType.ADDRESS;
           const header = subPageHeaderDefault('Adresa');
+          this.buttonText = 'Continuă';
           header.leadingIcon.routerLink = null;
           this.headerConfig = header;
         }

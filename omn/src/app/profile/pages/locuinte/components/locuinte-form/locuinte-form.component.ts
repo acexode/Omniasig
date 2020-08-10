@@ -20,6 +20,7 @@ export class LocuinteFormComponent implements OnInit {
 
   @Input() formType: LocuinteFormType = null;
   @Input() buttonVisible = true;
+  @Input() buttonText = 'Continuă';
   @Input() formSubmitting = false;
   @Input() fieldConfig: { [key: string]: any } = {};
   @Input() fieldConfigData: { [key: string]: any } = {};
