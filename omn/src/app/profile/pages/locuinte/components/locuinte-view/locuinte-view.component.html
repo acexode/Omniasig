@@ -16,15 +16,15 @@
     <ion-row class="pb-64 alt-bg">
       <ion-col>
         <ion-row
-          class="mt-n28 w-auto mx-42 ion-justify-content-between ion-nowrap ion-align-self-center"
+          class="mt-n24 w-auto mx-42 ion-justify-content-center ion-nowrap ion-align-self-center"
         >
           <ion-button
             shape="round"
             size="large"
             fill="clear"
-            class="m-0 w-100 mr-16 fond color-dark-green no-shadow"
+            class="m-0 w-auto mr-16 fond color-dark-green no-shadow"
           >
-            <span class="text-weight-normal pr-16">Șterge</span>
+            <span class="text-weight-normal pr-16 mr-auto">Șterge</span>
             <ion-icon name="md-bin" class="icon-20"></ion-icon>
           </ion-button>
 
@@ -32,12 +32,12 @@
             shape="round"
             size="large"
             fill="clear"
-            class="m-0 w-100 fond color-dark-green no-shadow"
+            class="m-0 w-auto fond color-dark-green no-shadow"
             [routerLink]="
               locuinta?.id ? ['/profil', 'locuinte', 'edit', locuinta.id] : null
             "
           >
-            <span class="text-weight-normal pr-16">Modifică</span>
+            <span class="text-weight-normal pr-16 mr-auto">Modifică</span>
             <ion-icon name="md-edit" class="icon-20"></ion-icon>
           </ion-button>
         </ion-row>
