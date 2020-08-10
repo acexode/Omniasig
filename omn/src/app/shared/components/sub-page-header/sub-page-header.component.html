@@ -25,11 +25,14 @@
       *ngIf="config?.title"
       class="header-title alt-font"
       [color]="config?.title?.color"
-      [class]="'header-title alt-font ' + config?.title?.classes"
-      [ngClass]="{
-        'pl-44': !config?.leadingIcon,
-        'pr-44': !config?.trailingIcon
-      }"
+      [class]="
+        'header-title alt-font ' + !config?.leadingIcon
+          ? ''
+          : '' + !config?.trailingIcon
+          ? 'pr-44'
+          : ''
+      "
+      [ngClass]="config?.title?.classes"
       size="small"
       >{{ config?.title?.text }}</ion-title
     >

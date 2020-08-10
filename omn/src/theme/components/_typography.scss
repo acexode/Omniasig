@@ -99,6 +99,11 @@ h3,
   font-weight: 600;
 }
 
+.x-large {
+  font-size: rem(32);
+  line-height: rem(38);
+}
+
 .label-x-large {
   font-size: rem(24);
   line-height: rem(32);
@@ -174,4 +179,14 @@ ion-label.input-label,
 }
 .shadow-1 {
   box-shadow: $box-shadow-1;
+}
+
+.my-custom-modal-class {
+  --backdrop-opacity: 0.8 !important;
+
+  .modal-wrapper {
+    --height: 80% !important;
+    margin: 0 2rem;
+    border-radius: rem(8);
+  }
 }

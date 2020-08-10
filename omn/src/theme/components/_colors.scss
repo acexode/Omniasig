@@ -136,6 +136,7 @@
 
 .color-green {
   color: $green !important;
+  --color: $green !important;
 }
 
 .color-secondary-grey {
@@ -170,6 +171,11 @@
 .color-secondary-blue {
   color: $secondary-blue;
 }
+
+.bg-red {
+  background-color: $light-red;
+}
+
 .bg-green {
   background-color: $green;
 }
@@ -198,4 +204,20 @@
 
 .alt-bg {
   background: $alt-bg;
+}
+
+.bg-deep-blue {
+  background-color: $deep-blue;
+}
+
+.bg-light-blue {
+  background-color: $light-blue;
+}
+
+.bg-yellow {
+  background-color: $yellow;
+}
+
+.bg-dark {
+  background-color: $bg-dark;
 }
