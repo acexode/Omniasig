@@ -1,3 +1,90 @@
-<p>
-  exclusion-slides works!
-</p>
+<ion-grid class="ion-no-padding flex flex-1 flex-column mh-100 w-100">
+  <ion-col class="ion-no-padding flex flex-1 w-100 flex-column">
+    <ion-row>
+      <ion-row
+        class="ion-no-padding flex flex-1 flex-column card active bg-danger"
+      >
+        <ion-row class="ion-no-padding flex">
+          <ion-icon
+            [name]="'lg-casa-1'"
+            class="my-16 mx-0 mh-223 w-100 h-100"
+          ></ion-icon>
+        </ion-row>
+        <ion-row class="ion-no-padding flex">
+          <ion-text class="alt-font"
+            >Locuința pe care dorești să o asiguri este construită înainte de
+            anul 1940?
+          </ion-text>
+        </ion-row>
+      </ion-row>
+      <ion-row
+        class="ion-no-padding flex flex-1 flex-column card bg-deep-blue order-2"
+      >
+        <ion-row class="ion-no-padding flex">
+          <ion-icon
+            [name]="'lg-casa-1'"
+            class="my-16 mx-0 mh-223 w-100 h-100"
+          ></ion-icon>
+        </ion-row>
+        <ion-row class="ion-no-padding flex">
+          <ion-text class="alt-font"
+            >Locuința pe care dorești să o asiguri este construită înainte de
+            anul 1940?
+          </ion-text>
+        </ion-row>
+      </ion-row>
+    </ion-row>
+    <ion-row
+      *ngIf="visibleItem?.buttons"
+      [ngClass]="visibleItem?.buttons?.classes"
+      class="flex w-100 ion-no-padding bg-white pt-32 pb-24 px-32"
+    >
+      <ng-container *ngIf="visibleItem?.buttons?.start">
+        <ng-container
+          [ngTemplateOutlet]="buttonTemplate"
+          [ngTemplateOutletContext]="{
+            button: visibleItem?.buttons?.start,
+            type: 'start'
+          }"
+        ></ng-container>
+      </ng-container>
+      <ng-container *ngIf="visibleItem?.buttons?.end">
+        <ng-container
+          [ngTemplateOutlet]="buttonTemplate"
+          [ngTemplateOutletContext]="{
+            button: visibleItem?.buttons?.end,
+            type: 'end'
+          }"
+        ></ng-container>
+      </ng-container>
+    </ion-row>
+  </ion-col>
+</ion-grid>
+
+<ng-template #buttonTemplate let-button="button" let-type="type">
+  <ion-button
+    class="dnt-button m-0"
+    [color]="button?.color || 'omn-light-green'"
+    [ngClass]="button?.classes"
+    [expand]="button?.expand"
+    [fill]="button?.fill"
+    [size]="button?.size || 'large'"
+    (click)="buttonClick(type, button?.data)"
+  >
+    <ion-label
+      class="button-label text-weight-medium ls-0"
+      *ngIf="button?.text"
+      [ngClass]="button?.text?.classes"
+      [color]="button?.text?.color"
+      >{{ button?.text?.text }}</ion-label
+    >
+    <ion-icon
+      *ngIf="button?.icon"
+      [name]="button?.icon?.name"
+      [color]="button?.icon?.color || 'medium'"
+      [ngClass]="button?.icon?.classes"
+      class="button-icon icon-20"
+      [slot]="button?.icon?.slot"
+    ></ion-icon>
+  </ion-button>
+</ng-template>

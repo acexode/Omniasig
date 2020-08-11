@@ -1,0 +1,26 @@
+.card {
+  position: absolute;
+  opacity: 0;
+  top: 0;
+  bottom: 0;
+  transition: all 0.15s ease-in-out;
+  pointer-events: none;
+  transform-origin: top center;
+  z-index: 1;
+  margin-right: 32px;
+  margin-left: 32px;
+  margin-top: 32px;
+  margin-bottom: 32px;
+
+  &.active {
+    transform: scale(1) translateY(0px);
+    z-index: 100;
+    opacity: 1;
+    pointer-events: inherit;
+  }
+  &.order-2 {
+    transform: translateY(16px);
+    z-index: 99;
+    opacity: 1;
+  }
+}
