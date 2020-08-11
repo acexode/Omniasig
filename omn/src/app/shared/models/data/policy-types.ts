@@ -22,9 +22,9 @@ export const policyTypes: { [key: string]: PolicyType } = {
   },
   AMPLUS_PAD: {
     order: 1,
-    id: 'Garant AMPLUS+ PAD',
-    name: 'Pachet asigurare obligatorie + facultativă',
-    shortDescription: 'Garant AMPLUS + PAD',
+    id: 'Garant AMPLUS + PAD',
+    name: 'Garant AMPLUS + PAD ',
+    shortDescription: 'Pachet asigurare obligatorie + facultativă',
     listingIcon: {
       name: 'lg-casa-3',
       classes: 'mh-100  mw-188',
@@ -34,7 +34,7 @@ export const policyTypes: { [key: string]: PolicyType } = {
     id: 'PAD',
     order: 2,
     name: 'PAD - Polița de asigurare obligatorie',
-    shortDescription: 'Asigurarea obligatorie a locuințelor',
+    shortDescription: 'Polița de asigurare împotriva dezastrelor naturale',
     dntConfig: {
       success: dntItemHelper({
         topIcon: {

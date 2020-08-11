@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input, HostBinding } from '@angular/core';
+import { ModalController } from '@ionic/angular';
 
 @Component({
   selector: 'app-disabled-message-modal',
@@ -6,9 +7,13 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./disabled-message-modal.component.scss'],
 })
 export class DisabledMessageModalComponent implements OnInit {
-
-  constructor() { }
+  @HostBinding('class') color = 'ion-color-white-page';
+  @Input() item: any;
+  constructor(public modalCtrl: ModalController) {}
 
   ngOnInit() {}
 
+  dismissModal() {
+    this.modalCtrl.dismiss();
+  }
 }

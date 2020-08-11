@@ -1,7 +1,66 @@
 <ion-content>
-  <ion-grid>
-    <ion-row>
-      <ion-icon name="lg-casa-3"></ion-icon>
+  <ion-grid class="ion-no-padding">
+    <ion-row class="pb-40 bg-light-gray">
+      <ion-icon
+        (click)="dismissModal()"
+        name="md-close-2"
+        class="position-absolute right-0 top-0 bottom-left-radius-8 header-icon p-16 z-index-999"
+      >
+      </ion-icon>
+      <ion-col class="ion-no-padding">
+        <ion-row class="ion-justify-content-center">
+          <ion-icon [name]="item?.mainIcon?.name" class="font-128"></ion-icon>
+        </ion-row>
+        <ion-row class="ion-justify-content-center">
+          <ion-label
+            [color]="item?.textContent[1]?.color"
+            class="text-small mt-n18 text-weight-medium"
+            >{{ item?.textContent[1]?.text }}</ion-label
+          >
+
+          <ion-label class="s18-h21 text-weight-medium mx-8 mb-10">{{
+            item?.textContent[0]?.text
+          }}</ion-label>
+
+          <ion-text *ngIf="item.id === 'AMPLUS'" class="text-small mx-16">
+            Plan de asigurare prestabilit pentru care alegi suma cu care vrei să
+            îți asiguri locuința și bunurile. În plus, include și secțiunea de
+            răspundere civilă față de terți și servicii de asistență tehnică la
+            domiciliu.
+          </ion-text>
+          <ion-text
+            *ngIf="item.id === 'Garant AMPLUS + PAD'"
+            class="text-small mx-16"
+          >
+            Descriere, totam rem aperiam, eaque ipsa quae ab illo inventore
+            veritatis et quasi architecto beatae vitae dicta sunt explicabo.
+            Nemo enim ipsam voluptatem.
+          </ion-text>
+          <ion-text *ngIf="item.id === 'PAD'" class="text-small mx-16">
+            Baza de pornire pentru asigurarea corespunzătoare a locuinței împreună cu produsele facultative.
+          </ion-text>
+        </ion-row>
+      </ion-col>
+    </ion-row>
+    <ion-row class="ion-justify-content-center px-16 pb-16">
+      <ion-icon
+        color="white-red-bg"
+        name="md-lock-light"
+        class="p-12 radius-50-perc mt-n18 mb-3"
+      ></ion-icon>
+      <ion-label color="omn-green" class="text-normal mb-12">
+        Activează-ți contul ca să poți cumpăra acest produs.
+      </ion-label>
+      <ion-button
+        type="submit"
+        color="success"
+        fill="solid"
+        expand="block"
+        size="large"
+        class="m-0 w-100"
+      >
+        Verifică identitatea
+      </ion-button>
     </ion-row>
   </ion-grid>
 </ion-content>

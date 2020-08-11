@@ -11,6 +11,7 @@ import { PolicyRoutingModule } from './policy-routing.module';
 import { PolicySharedModule } from './policy-shared.module';
 import { InfoDocComponent } from './components/info-doc/info-doc.component';
 import { InfoCardComponent } from './components/info-card/info-card.component';
+import { DisabledMessageModalComponent } from './components/modals/disabled-message-modal/disabled-message-modal.component'
 
 @NgModule({
   declarations: [
@@ -20,6 +21,7 @@ import { InfoCardComponent } from './components/info-card/info-card.component';
     PolicyArchiveListComponent,
     InfoDocComponent,
     InfoCardComponent,
+    DisabledMessageModalComponent
   ],
   imports: [
     CommonModule,
