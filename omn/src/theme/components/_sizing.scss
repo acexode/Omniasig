@@ -16,8 +16,14 @@
   max-width: rem(120) !important;
 }
 
+.mw-116 {
+  max-width: rem(116);
+}
 .h-100 {
   height: 100%;
+}
+.mh-100p {
+  min-height: 100%;
 }
 .w-100 {
   width: 100%;
@@ -30,7 +36,9 @@
 .mh-94 {
   min-height: rem(94);
 }
-
+.w-auto {
+  width: auto;
+}
 .mh-42 {
   min-height: rem(42);
 }

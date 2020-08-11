@@ -2,25 +2,31 @@
 @import '../mixins/mixins';
 .omn {
   ion-input {
-    --ion-border-color: var(--app-secondary-text-color);
-    --border-color: var(--app-secondary-text-color);
-
+    --placeholder-color: var(--app-input-placeholder-color);
+    --placeholder-opacity: 1;
     input,
     input.native-input {
       @extend .text-normal;
-      background: var(--background);
       --border-radius: 4px 4px 0 0;
-      // --background: var(--app-input-bg);
+      --background: var(--app-input-bg);
+      background: var(--app-input-bg);
       --padding-start: 8px;
       --padding-end: 8px;
+      --padding-bottom: 8px;
+      --padding-top: 9px;
       --highlight-height: 1px;
       &:-webkit-autofill {
         background: var(--background) !important;
         background-color: var(--background) !important;
       }
-      --placeholder-color: var(--app-input-label-color);
     }
-
+    &.bg-white {
+      input,
+      input.native-input {
+        --background: var(--app-color-white);
+        background: var(--app-color-white);
+      }
+    }
     /* Chrome, Safari, Edge, Opera */
     input::-webkit-outer-spin-button,
     input::-webkit-inner-spin-button {
@@ -38,10 +44,22 @@
       height: rem(14);
       width: rem(14);
     }
+
+    &.has-spinners {
+      input,
+      input.native-input {
+        --padding-start: 46px;
+        --padding-end: 46px;
+      }
+    }
   }
 
   .input-label {
     --color: var(--app-input-label-color);
     color: var(--color);
+  }
+
+  .input-spinner {
+    z-index: 2;
   }
 }

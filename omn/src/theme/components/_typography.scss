@@ -81,6 +81,12 @@ h3,
   line-height: rem(22);
 }
 
+.text-normal-important {
+  font-size: rem(16) !important;
+  line-height: rem(22) !important;
+  font-family: $font-family-base !important;
+}
+
 .label-normal {
   font-size: rem(14);
   line-height: rem(16);
@@ -168,6 +174,9 @@ ion-label.input-label,
   }
 }
 
+.font-reset {
+  font: inherit !important;
+}
 .shadow-1 {
   box-shadow: $box-shadow-1;
 }
