@@ -1,4 +1,5 @@
 export interface Locuinte {
+  id: number;
   name: string;
   address: {
     county: string;
@@ -7,18 +8,18 @@ export interface Locuinte {
     number: number;
     // Scara bloc.
     entrance: string;
+    apartment: string;
+    postalCode: string;
   };
 
   info: {
     type: string;
     resistenceStructure: string;
     buildYear: number;
-    value: {
-      currency: string;
-      sum: string;
-    };
+    valueCurrency: string;
+    valueSum: string;
     occupancy: string;
-    usablesurface: number;
+    usableSurface: number;
     heightRegime: number;
     roomCount: number;
     alarm: boolean;

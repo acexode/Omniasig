@@ -145,15 +145,22 @@
 
   // Inputs
   --app-input-bg: var(--ion-color-omn-grey-medium-2);
+  --app-input-placeholder-color: #8b8b8b;
 
   // Overlays
   --ion-overlay-background-color: var(--app-white-color);
 
   --ion-backdrop-color: var(--ion-color-omn-medium);
   --ion-backdrop-opacity: 0.8;
-  :focus {
-    outline: none;
-  }
+
+  // chips
+  --app-chip-label-color: #8b8b8b;
+  --app-chip-label-color-rgb: 139, 139, 139;
+  --app-chip-border-color: #a7aca9;
+
+  // Select
+  --app-select-placeholder-color: var(--app-input-placeholder-color, #8b8b8b);
+  --app-select-placeholder-font: var(--ion-font-family);
 }
 
 // Custom variables.
@@ -229,6 +236,7 @@ $blue: #0087ea;
 
 //Secondary
 $secondary-grey: #747c78;
+$secondary-blue: #0077CC;
 $grey: #636463;
 $grey3: #8b8b8b;
 $grey-4: #4c4f51;

@@ -1,0 +1,231 @@
+<ion-grid class="m-0 mh-100p flex flex-column w-100 flex-1 ion-no-padding">
+  <ng-container [ngSwitch]="formType">
+    <ion-row class="ion-no-padding flex" *ngSwitchCase="formTypes.ADDRESS"
+      ><ng-container *ngTemplateOutlet="address"></ng-container
+    ></ion-row>
+    <ion-row class="ion-no-padding flex" *ngSwitchCase="formTypes.PLACE"
+      ><ng-container *ngTemplateOutlet="place"></ng-container
+    ></ion-row>
+    <ion-row
+      class="ion-no-padding flex h-100 pt-24"
+      *ngSwitchCase="formTypes.SUCCESS_MSG"
+      ><ng-container *ngTemplateOutlet="successType"></ng-container
+    ></ion-row>
+    <p *ngSwitchDefault></p>
+  </ng-container>
+
+  <ion-row
+    class="ion-no-padding mt-auto flex flex-1 flex-column"
+    *ngIf="formGroupInstance"
+  >
+    <ion-button
+      *ngIf="buttonVisible"
+      type="submit"
+      color="success"
+      fill="solid"
+      expand="block"
+      (click)="doSubmit()"
+      [disabled]="!formGroupInstance?.valid || formSubmitting"
+      size="large"
+      class="m-0 w-100 flex mt-auto"
+    >
+      <ion-spinner
+        name="crescent"
+        *ngIf="formSubmitting"
+        class="icon-20"
+      ></ion-spinner>
+      {{ buttonText }}
+    </ion-button>
+  </ion-row>
+</ion-grid>
+
+<ng-template #address>
+  <ion-grid
+    class="m-0 mh-100p w-100 flex flex-column ion-no-padding"
+    *ngIf="formGroupInstance"
+    [formGroup]="formGroupInstance"
+  >
+    <ion-row class="ion-no-padding judet mb-24">
+      <app-select
+        class="w-100"
+        [config]="fieldConfig?.county"
+        formControlName="county"
+        [options]="fieldConfigData?.county || []"
+      ></app-select>
+    </ion-row>
+    <ion-row class="ion-no-padding localitate mb-24">
+      <app-select
+        class="w-100"
+        [config]="fieldConfig?.city"
+        [options]="fieldConfigData?.city"
+        formControlName="city"
+      ></app-select>
+    </ion-row>
+    <ion-row class="ion-no-padding strada mb-24">
+      <app-autocomplete
+        class="w-100"
+        formControlName="street"
+        [config]="fieldConfig?.street"
+      ></app-autocomplete>
+    </ion-row>
+    <ion-row class="ion-no-padding numar-scara mb-24">
+      <ion-col size="6" class="pr-16">
+        <app-input
+          class="w-100"
+          [config]="fieldConfig?.number"
+          formControlName="number"
+        ></app-input
+      ></ion-col>
+      <ion-col size="6" class="pl-16">
+        <app-input
+          class="w-100"
+          [config]="fieldConfig?.entrance"
+          formControlName="entrance"
+        ></app-input>
+      </ion-col>
+    </ion-row>
+    <ion-row class="ion-no-padding apartament-postal-code mb-24">
+      <ion-col size="6" class="pr-16">
+        <app-input
+          class="w-100"
+          [config]="fieldConfig?.apartment"
+          formControlName="apartment"
+        ></app-input
+      ></ion-col>
+      <ion-col size="6" class="pl-16">
+        <app-input
+          class="w-100"
+          [config]="fieldConfig?.postalCode"
+          formControlName="postalCode"
+        ></app-input
+      ></ion-col>
+    </ion-row>
+    <ion-row class="ion-no-padding profile-name mb-24">
+      <app-input
+        class="w-100"
+        [config]="fieldConfig?.name"
+        formControlName="name"
+      ></app-input>
+    </ion-row>
+  </ion-grid>
+</ng-template>
+
+<ng-template #place>
+  <ion-grid
+    class="m-0 mh-100p flex flex-column ion-no-padding flex-1 w-100"
+    *ngIf="formGroupInstance"
+    [formGroup]="formGroupInstance"
+  >
+    <ion-row class="ion-no-padding tip-casa mb-24">
+      <app-radios
+        class="w-100"
+        [config]="fieldConfig?.type"
+        formControlName="type"
+        [options]="fieldConfigData?.type || []"
+      ></app-radios>
+    </ion-row>
+    <ion-row class="ion-no-padding structura-rezistenta mb-24">
+      <app-select
+        class="w-100"
+        [config]="fieldConfig?.resistenceStructure"
+        formControlName="resistenceStructure"
+        [options]="fieldConfigData?.resistenceStructure || []"
+      ></app-select>
+    </ion-row>
+    <ion-row class="ion-no-padding an-constructie mb-24">
+      <app-datepicker
+        class="w-100"
+        [config]="fieldConfig?.buildYear"
+        formControlName="buildYear"
+      ></app-datepicker
+    ></ion-row>
+    <ion-row class="ion-no-padding valoare flex-column mb-24">
+      <ion-label class="text-weight-medium mb-16">Valoarea locuinței</ion-label>
+      <ion-row class="ion-no-padding valoare-moneda mb-24">
+        <app-radios
+          class="w-100"
+          [config]="fieldConfig?.valueCurrency"
+          formControlName="valueCurrency"
+          [options]="fieldConfigData?.valueCurrency || []"
+        ></app-radios
+      ></ion-row>
+      <ion-row class="ion-no-padding valoare-suma">
+        <app-input
+          class="w-100"
+          [config]="fieldConfig?.valueSum"
+          formControlName="valueSum"
+        ></app-input>
+      </ion-row>
+    </ion-row>
+    <ion-row class="ion-no-padding ocupare mb-24">
+      <app-radios
+        class="w-100"
+        [config]="fieldConfig?.occupancy"
+        formControlName="occupancy"
+        [options]="fieldConfigData?.occupancy || []"
+      ></app-radios
+    ></ion-row>
+    <ion-row class="ion-no-padding suprafata-utila mb-24">
+      <app-input
+        class="w-100"
+        [config]="fieldConfig?.usableSurface"
+        formControlName="usableSurface"
+      ></app-input
+    ></ion-row>
+    <ion-row class="ion-no-padding regim-inaltime mb-24">
+      <app-input
+        class="w-100 mb-12"
+        [config]="fieldConfig?.heightRegime"
+        formControlName="heightRegime"
+      ></app-input>
+      <ion-item class="form-description p-0 no-paddings" lines="none">
+        <ion-icon
+          slot="start"
+          name="md-info"
+          class="icon-20 position-absolute top-0 m-0 color-secondary-blue"
+        ></ion-icon
+        ><ion-text class="text-small ml-32"
+          >Câte etaje are clădirea. Pentru clădirile care au doar parter sau
+          parter și un etaj, regimul de înălțime este 1.
+        </ion-text>
+      </ion-item>
+    </ion-row>
+    <ion-row class="ion-no-padding numar-camere mb-24 flex-column">
+      <app-input
+        class="w-100"
+        [config]="fieldConfig?.roomCount"
+        formControlName="roomCount"
+      ></app-input>
+    </ion-row>
+    <ion-row class="ion-no-padding alarma mb-24">
+      <app-radios
+        class="w-100"
+        [config]="fieldConfig?.alarm"
+        formControlName="alarm"
+        [options]="fieldConfigData?.alarm || []"
+      ></app-radios>
+    </ion-row>
+  </ion-grid>
+</ng-template>
+
+<ng-template #successType>
+  <ion-col
+    (click)="emitEvents()"
+    class="ion-no-padding flex flex-1 h-100 flex-column ion-justify-content-between ion-align-items-center"
+  >
+    <div
+      class="ion-no-padding flex flex-1 flex-column ion-justify-content-between ion-align-items-center"
+    >
+      <ion-icon
+        name="lg-check-il"
+        class="w-100 d-flex check-icon-lg"
+      ></ion-icon>
+      <ion-label
+        color="omn-green"
+        class="h2 ls-min-02 alt-font border-danger ion-text-center text-weight-bold w-auto"
+        >Profilul a fost salvat
+      </ion-label>
+    </div>
+    <div class="flex flex-1"></div>
+  </ion-col>
+</ng-template>

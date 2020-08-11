@@ -56,6 +56,30 @@
   --ion-color-tint: var(--ion-color-omn-light-green-tint);
 }
 
+.ion-color-omn-radio-chip {
+  --ion-color-base: var(--app-chip-label-color);
+  background: var(--ion-color-omn-grey-medium-2);
+  border-color: var(--app-chip-border-color);
+  --background: var(--ion-color-omn-grey-medium-2);
+  --color: var(--ion-color-base);
+  --ion-color-base-rgb: var(--app-chip-label-color-rgb);
+  --ion-color-shade: var(--ion-color-omn-light-green-shade);
+  --ion-color-tint: var(--ion-color-omn-light-green-tint);
+}
+
+.ion-color-omn-radio-chip-active {
+  --ion-color-base: var(--app-white-color);
+  background: var(--app-green-color);
+  border-color: var(--app-green-colo);
+  --background: var(--app-green-color);
+  --color: var(--ion-color-base);
+  --ion-color-base-rgb: 255, 255, 255;
+  --ion-color-contrast: var(--app-white-color);
+  --ion-color-contrast-rgb: 255, 255, 255;
+  --ion-color-shade: var(--ion-color-omn-light-green-shade);
+  --ion-color-tint: var(--ion-color-omn-light-green-tint);
+}
+
 .ion-color-omn-medium {
   --ion-color-base: var(--ion-color-omn-medium);
   --ion-color-base-rgb: var(--ion-color-omn-medium-rgb);
@@ -106,7 +130,6 @@
   --ion-color-contrast-rgb: var(--app-color-white);
   background: $light-green-2;
 }
-
 .color-dark-green {
   color: $dark-green !important;
 }
@@ -139,6 +162,14 @@
 
 .bg-danger {
   background-color: $danger;
+}
+
+.bg-white {
+  background-color: $white;
+}
+
+.color-secondary-blue {
+  color: $secondary-blue;
 }
 
 .bg-red {

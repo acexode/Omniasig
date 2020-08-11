@@ -1,6 +1,6 @@
 <ion-card
   button="true"
-  [routerLink]="['view/' + item.name]"
+  [routerLink]="['view/' + item.id]"
   class="m-0 w-100 flex-column flex is-button"
 >
   <ion-icon
@@ -12,7 +12,9 @@
     class="flex mt-auto p-8 text-small text-weight-medium ion-align-items-end flex-1 ion-justify-content-center w-100 ion-text-center"
   >
     <ion-col class="ion-no-padding w-100">
-      <ion-text class="w-100 ion-no-padding"> {{ item.name }} </ion-text>
+      <ion-text class="w-100 ion-no-padding">
+        {{ item | locuinteName: 'main-list' }}
+      </ion-text>
     </ion-col>
   </ion-card-content>
 </ion-card>

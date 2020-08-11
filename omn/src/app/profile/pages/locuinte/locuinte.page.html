@@ -1,79 +1,81 @@
 <app-sub-page-header [config]="headerConfig"> </app-sub-page-header>
 
 <ion-content>
-  <ion-grid class="px-32 pt-32 pb-24 h-100 flex flex-column">
-    <ion-row
-      *ngIf="!cards?.length"
-      class="ion-no-padding flex ion-justify-content-center ion-align-items-center flex-column mb-32"
-    >
-      <ion-icon name="lg-casa-il" class="w-100 d-flex lg-casa-il"></ion-icon>
-    </ion-row>
-    <ion-row
-      *ngIf="!cards?.length"
-      class="ion-no-padding flex ion-justify-content-center mb-16"
-    >
-      <ion-label color="omn-green" class="label-large alt-font">
-        Asigură-ți locuința
-      </ion-label>
-    </ion-row>
-    <ion-row
-      *ngIf="!cards?.length"
-      class="flex ion-justify-content-center mb-16"
-    >
-      <ion-label class="text-normal ion-text-center">
-        Completează datele imobilului pe care vrei să îl protejezi direct în
-        aplicație. Vei putea solicita o ofertă de preț pentru asigurarea
-        acesteia. Simplu și rapid.
-      </ion-label>
-    </ion-row>
+  <ng-container *ngIf="(cards$ | async) as cards">
+    <ion-grid class="px-32 pt-32 pb-24 h-100 flex flex-column">
+      <ion-row
+        *ngIf="!cards?.length && cards !== null"
+        class="ion-no-padding flex ion-justify-content-center ion-align-items-center flex-column mb-32"
+      >
+        <ion-icon name="lg-casa-il" class="w-100 d-flex lg-casa-il"></ion-icon>
+      </ion-row>
+      <ion-row
+        *ngIf="!cards?.length && cards !== null"
+        class="ion-no-padding flex ion-justify-content-center mb-16"
+      >
+        <ion-label color="omn-green" class="label-large alt-font">
+          Asigură-ți locuința
+        </ion-label>
+      </ion-row>
+      <ion-row
+        *ngIf="!cards?.length && cards !== null"
+        class="flex ion-justify-content-center mb-16"
+      >
+        <ion-label class="text-normal ion-text-center">
+          Completează datele imobilului pe care vrei să îl protejezi direct în
+          aplicație. Vei putea solicita o ofertă de preț pentru asigurarea
+          acesteia. Simplu și rapid.
+        </ion-label>
+      </ion-row>
 
-    <ion-row class="ion-wrap" *ngIf="cards?.length">
-      <ng-container *ngFor="let cardI of cards; let first=first; let i=index">
-        <ion-col
-          class="ion-no-padding m-0 mb-24"
-          size="6"
-          [ngClass]="{
+      <ion-row class="ion-wrap" *ngIf="cards?.length">
+        <ng-container *ngFor="let cardI of cards; let first=first; let i=index">
+          <ion-col
+            class="ion-no-padding m-0 mb-24"
+            size="6"
+            [ngClass]="{
                   'pl-8': i%2,
                   'pr-8': !(i%2)
               }"
+          >
+            <app-locuinte-card
+              [item]="cardI"
+              class="flex w-100"
+            ></app-locuinte-card
+          ></ion-col>
+        </ng-container>
+      </ion-row>
+      <ion-row class="ion-no-padding mt-auto flex w-100">
+        <ion-label
+          *ngIf="!accountActivated"
+          color="omn-green"
+          class="text-normal ion-text-center alt-font h3 mb-16"
         >
-          <app-locuinte-card
-            [item]="cardI"
-            class="flex w-100"
-          ></app-locuinte-card
-        ></ion-col>
-      </ng-container>
-    </ion-row>
-    <ion-row class="ion-no-padding mt-auto flex w-100">
-      <ion-label
-        *ngIf="!accountActivated"
-        color="omn-green"
-        class="text-normal ion-text-center alt-font h3 mb-16"
-      >
-        Activează-ți contul pentru a te bucura de serviciile noastre rapid și
-        sigur direct din aplicație.
-      </ion-label>
-      <ion-button
-        *ngIf="!accountActivated"
-        type="submit"
-        color="success"
-        fill="solid"
-        expand="block"
-        size="large"
-        class="m-0 w-100"
-        >Activează-ți contul
-      </ion-button>
-      <ion-button
-        *ngIf="accountActivated"
-        type="submit"
-        color="success"
-        fill="solid"
-        expand="block"
-        size="large"
-        class="m-0 w-100"
-        (click)="openVerifyModal()"
-        >Adaugă locuință
-      </ion-button>
-    </ion-row>
-  </ion-grid>
+          Activează-ți contul pentru a te bucura de serviciile noastre rapid și
+          sigur direct din aplicație.
+        </ion-label>
+        <ion-button
+          *ngIf="!accountActivated"
+          type="submit"
+          color="success"
+          fill="solid"
+          expand="block"
+          size="large"
+          class="m-0 w-100"
+          >Activează-ți contul
+        </ion-button>
+        <ion-button
+          *ngIf="accountActivated"
+          type="submit"
+          color="success"
+          fill="solid"
+          expand="block"
+          size="large"
+          class="m-0 w-100"
+          (click)="openVerifyModal()"
+          >Adaugă locuință
+        </ion-button>
+      </ion-row>
+    </ion-grid>
+  </ng-container>
 </ion-content>

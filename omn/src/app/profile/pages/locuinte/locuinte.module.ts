@@ -1,20 +1,15 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-
+import { RouterModule } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
-
-import { LocuintePageRoutingModule } from './locuinte-routing.module';
-
-import { LocuintePage } from './locuinte.page';
-
 import { SharedModule } from '../../../shared/shared.module';
-
-import { LocuinteSharedModule } from './locuinte-shared.module';
-
-import { LocuinteViewComponent } from './components/locuinte-view/locuinte-view.component';
-
+import { LocuinteFormPageComponent } from './components/locuinte-form-page/locuinte-form-page.component';
 import { LocuinteViewCardComponent } from './components/locuinte-view-card/locuinte-view-card.component';
+import { LocuinteViewComponent } from './components/locuinte-view/locuinte-view.component';
+import { LocuintePageRoutingModule } from './locuinte-routing.module';
+import { LocuinteSharedModule } from './locuinte-shared.module';
+import { LocuintePage } from './locuinte.page';
 
 @NgModule({
   imports: [
@@ -24,11 +19,13 @@ import { LocuinteViewCardComponent } from './components/locuinte-view-card/locui
     LocuintePageRoutingModule,
     SharedModule,
     LocuinteSharedModule,
+    RouterModule,
   ],
   declarations: [
     LocuintePage,
     LocuinteViewComponent,
     LocuinteViewCardComponent,
+    LocuinteFormPageComponent,
   ],
 })
 export class LocuintePageModule {}
