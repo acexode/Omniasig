@@ -9,6 +9,7 @@ import { ModalController } from '@ionic/angular';
 export class DisabledMessageModalComponent implements OnInit {
   @HostBinding('class') color = 'ion-color-white-page';
   @Input() item: any;
+  @Input() description: any;
   constructor(public modalCtrl: ModalController) {}
 
   ngOnInit() {}

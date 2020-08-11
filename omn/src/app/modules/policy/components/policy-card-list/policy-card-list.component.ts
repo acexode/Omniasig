@@ -9,6 +9,7 @@ import { ModalController } from '@ionic/angular';
 import { DisabledMessageModalComponent } from '../modals/disabled-message-modal/disabled-message-modal.component';
 import { ImageCard } from 'src/app/shared/models/component/image-card';
 import { IonTextItem } from 'src/app/shared/models/component/ion-text-item';
+import { PolicyText } from 'src/app/shared/models/data/policy-types';
 
 @Component({
   selector: 'app-policy-card-list',
@@ -30,6 +31,7 @@ export class PolicyCardListComponent implements OnInit {
       cssClass: 'disabled-message-modal-class',
       componentProps: {
         item: this.items[index],
+        description: PolicyText[index],
       },
     });
     return await modal.present();

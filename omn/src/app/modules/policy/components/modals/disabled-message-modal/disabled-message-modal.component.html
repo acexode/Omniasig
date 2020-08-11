@@ -22,22 +22,8 @@
             item?.textContent[0]?.text
           }}</ion-label>
 
-          <ion-text *ngIf="item.id === 'AMPLUS'" class="text-small mx-16">
-            Plan de asigurare prestabilit pentru care alegi suma cu care vrei să
-            îți asiguri locuința și bunurile. În plus, include și secțiunea de
-            răspundere civilă față de terți și servicii de asistență tehnică la
-            domiciliu.
-          </ion-text>
-          <ion-text
-            *ngIf="item.id === 'Garant AMPLUS + PAD'"
-            class="text-small mx-16"
-          >
-            Descriere, totam rem aperiam, eaque ipsa quae ab illo inventore
-            veritatis et quasi architecto beatae vitae dicta sunt explicabo.
-            Nemo enim ipsam voluptatem.
-          </ion-text>
-          <ion-text *ngIf="item.id === 'PAD'" class="text-small mx-16">
-            Baza de pornire pentru asigurarea corespunzătoare a locuinței împreună cu produsele facultative.
+          <ion-text class="text-small mx-16">
+            {{ description }}
           </ion-text>
         </ion-row>
       </ion-col>
