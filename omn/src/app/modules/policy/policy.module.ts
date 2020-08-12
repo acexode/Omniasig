@@ -23,7 +23,6 @@ import { PolicySharedModule } from './policy-shared.module';
     PolicyArchiveListComponent,
     InfoDocComponent,
     InfoCardComponent,
-    ExclusionSlidesComponent,
     TipModalComponent,
     DisabledMessageModalComponent,
     TipModalComponent,

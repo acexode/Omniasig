@@ -18,10 +18,6 @@ const routes: Routes = [
         path: 'info-doc',
         component: InfoDocComponent,
       },
-      {
-        path: 'slides',
-        component: ExclusionSlidesComponent,
-      },
     ],
   },
   {

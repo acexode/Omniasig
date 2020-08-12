@@ -1,38 +1,24 @@
-<ion-grid class="ion-no-padding flex flex-1 flex-column mh-100 w-100">
+<ion-grid class="m-0 p-0 flex flex-1 h-100 w-100">
   <ion-col class="ion-no-padding flex flex-1 w-100 flex-column">
-    <ion-row>
-      <ion-row
-        class="ion-no-padding flex flex-1 flex-column card active bg-danger"
-      >
-        <ion-row class="ion-no-padding flex">
-          <ion-icon
-            [name]="'lg-casa-1'"
-            class="my-16 mx-0 mh-223 w-100 h-100"
-          ></ion-icon>
-        </ion-row>
-        <ion-row class="ion-no-padding flex">
-          <ion-text class="alt-font"
-            >Locuința pe care dorești să o asiguri este construită înainte de
-            anul 1940?
-          </ion-text>
-        </ion-row>
-      </ion-row>
-      <ion-row
-        class="ion-no-padding flex flex-1 flex-column card bg-deep-blue order-2"
-      >
-        <ion-row class="ion-no-padding flex">
-          <ion-icon
-            [name]="'lg-casa-1'"
-            class="my-16 mx-0 mh-223 w-100 h-100"
-          ></ion-icon>
-        </ion-row>
-        <ion-row class="ion-no-padding flex">
-          <ion-text class="alt-font"
-            >Locuința pe care dorești să o asiguri este construită înainte de
-            anul 1940?
-          </ion-text>
-        </ion-row>
-      </ion-row>
+    <ion-row
+      *ngIf="contentItems"
+      class="ion-no-padding flex flex-1 flex-column position-relative m-32"
+    >
+      <ng-container *ngFor="let item of contentItems; let i = index">
+        <ion-card
+          class="ion-no-padding flex flex-1 flex-column exclusion-card bg-white w-100 border-radius-8"
+          [ngClass]="{
+            active: i === visibleItemIndex,
+            'level-2': i === visibleItemIndex + 1
+          }"
+        >
+          <ion-grid class="ion-no-padding flex flex-column flex-1">
+            <ion-row *ngFor="let cItem of item?.content" class="ion-no-padding flex">
+              
+            </ion-row>
+          </ion-grid>
+        </ion-card>
+      </ng-container>
     </ion-row>
     <ion-row
       *ngIf="visibleItem?.buttons"

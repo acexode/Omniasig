@@ -1,15 +1,15 @@
 import {
   ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
   EventEmitter,
   Input,
   OnInit,
   Output,
-  ChangeDetectorRef,
 } from '@angular/core';
 import { get } from 'lodash';
-import { DntConfig } from 'src/app/shared/modules/dnt/models/dnt-config';
-import { DntItemConfig } from 'src/app/shared/modules/dnt/models/dnt-item-config';
+import { ExclusionConfig } from './../../../../shared/models/component/exclusion-config';
+import { ExclusionItemConfig } from './../../../../shared/models/component/exclusion-item-config';
 
 @Component({
   selector: 'app-exclusion-slides',
@@ -18,17 +18,18 @@ import { DntItemConfig } from 'src/app/shared/modules/dnt/models/dnt-item-config
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ExclusionSlidesComponent implements OnInit {
+
   @Output() navEvents: EventEmitter<
     'success-ev' | 'cancel-ev' | 'success-btn' | 'cancel-btn' | number
   > = new EventEmitter();
-  vConfig: DntConfig;
-  visibleItem: DntItemConfig;
+  vConfig: ExclusionConfig;
+  visibleItem: ExclusionItemConfig;
   visibleItemIndex = -1;
   contentItems = [];
-  successItem: DntItemConfig = null;
-  cancelItem: DntItemConfig = null;
+  successItem: ExclusionItemConfig = null;
+  cancelItem: ExclusionItemConfig = null;
 
-  @Input() set config(conf: DntConfig) {
+  @Input() set config(conf: ExclusionConfig) {
     this.vConfig = conf;
     this.contentItems = get(conf, 'items', []);
     this.cancelItem = get(conf, 'cancel', []);
@@ -104,7 +105,7 @@ export class ExclusionSlidesComponent implements OnInit {
           this.cdRef.markForCheck();
         }
       } else {
-        // In case multiple questions, navigate to next.
+        // In case of multiple questions, navigate to next.
         this.navigateInList('fwd');
       }
     } else {

@@ -7,6 +7,7 @@ import { PolicySharedModule } from '../../policy-shared.module';
 import { PolicyFormPageRoutingModule } from './policy-form-routing.module';
 import { PolicyFormPage } from './policy-form.page';
 import { DntModule } from 'src/app/shared/modules/dnt/dnt.module';
+import { ExclusionSlidesComponent } from '../../components/exclusion-slides/exclusion-slides.component';
 
 @NgModule({
   imports: [
@@ -18,6 +19,6 @@ import { DntModule } from 'src/app/shared/modules/dnt/dnt.module';
     PolicyFormPageRoutingModule,
     DntModule,
   ],
-  declarations: [PolicyFormPage],
+  declarations: [PolicyFormPage, ExclusionSlidesComponent],
 })
 export class PolicyFormPageModule {}

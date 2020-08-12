@@ -58,4 +58,31 @@ ion-card {
       opacity: 0.45;
     }
   }
+  &.exclusion-card {
+    position: absolute;
+    opacity: 0;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    transition: all 0.15s ease-in-out;
+    pointer-events: none;
+    transform-origin: top center;
+    z-index: 1;
+
+    &.active {
+      transform: scale(1) translateY(0px);
+      box-shadow: $alert-shadow-1;
+      z-index: 100;
+      opacity: 1;
+      pointer-events: inherit;
+    }
+    &.level-2 {
+      transform: translateY(16px);
+      left: 16px;
+      width: calc(100% - 32px);
+      z-index: 99;
+      opacity: 1;
+    }
+  }
 }

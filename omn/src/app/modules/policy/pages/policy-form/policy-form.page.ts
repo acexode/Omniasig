@@ -10,6 +10,7 @@ export class PolicyFormPage implements OnInit {
   typeV = 'PAD';
   typeItem = policyTypes[this.typeV];
   dntConfig = this.typeItem.dntConfig;
+  exclusionConfig = this.typeItem.exclusionConfig;
   constructor() {}
 
   ngOnInit() {}

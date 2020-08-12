@@ -1,3 +1,7 @@
+import {
+  exclusionItemHelper,
+  exclusionContentButtons,
+} from './../../data/exclusion-item-helper';
 import { PolicyType } from 'src/app/shared/models/data/policy-type';
 import {
   dntCancelBtn,
@@ -84,6 +88,40 @@ export const policyTypes: { [key: string]: PolicyType } = {
             'Nu putem acorda consultanță prin intermediul aplicației. Dacă dorești consultanță, te rugăm să te adresezi unui reprezentant OMNIASIG.'
           ),
         }),
+      ],
+    },
+    exclusionConfig: {
+      items: [
+        {
+          content: exclusionItemHelper({
+            text: {
+              text: '',
+            },
+            icon: {
+              name: 'lg-exclusion-1',
+            },
+          }),
+          buttons: exclusionContentButtons,
+        },
+        {
+          content: [
+            {
+              type: 'icon',
+              item: {
+                name: 'lg-exclusion-1',
+                classes: 'mh-94',
+              },
+            },
+            {
+              type: 'text',
+              item: {
+                text:
+                  'Locuința pe care dorești să o asiguri este construită înainte de anul 1940?',
+              },
+            },
+          ],
+          buttons: exclusionContentButtons,
+        },
       ],
     },
     listingIcon: {
