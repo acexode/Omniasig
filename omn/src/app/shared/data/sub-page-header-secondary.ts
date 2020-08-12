@@ -11,7 +11,7 @@ export const subPageHeaderSecondary = (title: string): SubPageHeader => {
     },
     trailingIcon: {
       name: 'md-close-2',
-      classes: 'icon-16 mt-2',
+      classes: 'icon-20 mt-2',
     },
   };
   return item;

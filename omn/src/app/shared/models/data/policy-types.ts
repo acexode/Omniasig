@@ -92,3 +92,9 @@ export const policyTypes: { [key: string]: PolicyType } = {
     },
   },
 };
+
+export const PolicyText = [
+  `Plan de asigurare prestabilit pentru care alegi suma cu care vrei să îți asiguri locuința și bunurile.În plus, include și secțiunea de răspundere civilă față de terți și servicii de asistență tehnică la domiciliu.`,
+  `Descriere, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem.`,
+  `Baza de pornire pentru asigurarea corespunzătoare a locuinței împreună cu produsele facultative.`,
+];

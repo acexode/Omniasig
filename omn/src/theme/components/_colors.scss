@@ -124,6 +124,13 @@
   --ion-color-contrast-rgb: var(--app-color-white);
   background: $danger;
 }
+
+.ion-color-white-red-bg {
+  --ion-color-base: var(--app-color-white);
+  --ion-color-contrast: var(--app-color-white);
+  --ion-color-contrast-rgb: var(--app-color-white);
+  background: $red;
+}
 .ion-color-white-light-green-2-bg {
   --ion-color-base: var(--app-color-white);
   --ion-color-contrast: var(--app-color-white);
@@ -162,6 +169,9 @@
 
 .bg-danger {
   background-color: $danger;
+}
+.bg-warning {
+  background-color: $warning;
 }
 
 .bg-white {
@@ -220,4 +230,9 @@
 
 .bg-dark {
   background-color: $bg-dark;
+}
+
+.bg-light-gray {
+  background-color: $light-grey-2;
+  --background: $light-grey-2;
 }

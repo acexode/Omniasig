@@ -186,12 +186,10 @@ ion-label.input-label,
   box-shadow: $box-shadow-1;
 }
 
-.my-custom-modal-class {
-  --backdrop-opacity: 0.8 !important;
+.font-128 {
+  font-size: rem(128);
+}
 
-  .modal-wrapper {
-    --height: 80% !important;
-    margin: 0 2rem;
-    border-radius: rem(8);
-  }
+.z-index-999 {
+  z-index: 999;
 }
