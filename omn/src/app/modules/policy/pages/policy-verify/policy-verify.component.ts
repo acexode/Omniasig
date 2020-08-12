@@ -13,5 +13,4 @@ export class PolicyVerifyComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {}
-
 }
