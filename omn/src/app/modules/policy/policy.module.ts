@@ -1,3 +1,4 @@
+import { TipModalComponent } from './components/modals/tip-modal/tip-modal.component';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
@@ -11,7 +12,7 @@ import { PolicyRoutingModule } from './policy-routing.module';
 import { PolicySharedModule } from './policy-shared.module';
 import { InfoDocComponent } from './components/info-doc/info-doc.component';
 import { InfoCardComponent } from './components/info-card/info-card.component';
-import { DisabledMessageModalComponent } from './components/modals/disabled-message-modal/disabled-message-modal.component'
+import { DisabledMessageModalComponent } from './components/modals/disabled-message-modal/disabled-message-modal.component';
 
 @NgModule({
   declarations: [
@@ -21,7 +22,8 @@ import { DisabledMessageModalComponent } from './components/modals/disabled-mess
     PolicyArchiveListComponent,
     InfoDocComponent,
     InfoCardComponent,
-    DisabledMessageModalComponent
+    DisabledMessageModalComponent,
+    TipModalComponent,
   ],
   imports: [
     CommonModule,

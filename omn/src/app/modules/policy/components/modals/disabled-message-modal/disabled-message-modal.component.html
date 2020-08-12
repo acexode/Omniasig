@@ -1,52 +1,51 @@
-<ion-content>
-  <ion-grid class="ion-no-padding">
-    <ion-row class="pb-40 bg-light-gray">
-      <ion-icon
-        (click)="dismissModal()"
-        name="md-close-2"
-        class="position-absolute right-0 top-0 bottom-left-radius-8 header-icon p-16 z-index-999"
-      >
-      </ion-icon>
-      <ion-col class="ion-no-padding">
-        <ion-row class="ion-justify-content-center">
-          <ion-icon [name]="item?.mainIcon?.name" class="font-128"></ion-icon>
-        </ion-row>
-        <ion-row class="ion-justify-content-center">
-          <ion-label
-            [color]="item?.textContent[1]?.color"
-            class="text-small mt-n18 text-weight-medium"
-            >{{ item?.textContent[1]?.text }}</ion-label
-          >
+<ion-grid class="ion-no-padding">
+  <ion-row class="pb-40 bg-light-gray">
+    <ion-icon
+      (click)="dismissModal()"
+      name="md-close-2"
+      class="position-absolute right-0 top-0 bottom-left-radius-8 header-icon p-16 z-index-999"
+    >
+    </ion-icon>
+    <ion-col class="ion-no-padding">
+      <ion-row class="ion-justify-content-center">
+        <ion-icon [name]="item?.mainIcon?.name" class="font-128"></ion-icon>
+      </ion-row>
+      <ion-row class="ion-justify-content-center">
+        <ion-label
+          [color]="(item?.textContent)[1]?.color"
+          class="text-small mt-n18 text-weight-medium ion-text-center w-100"
+          >{{ (item?.textContent)[1]?.text }}</ion-label
+        >
 
-          <ion-label class="s18-h21 text-weight-medium mx-8 mb-10">{{
-            item?.textContent[0]?.text
-          }}</ion-label>
+        <ion-label
+          class="s18-h21 text-weight-medium mx-8 mb-10 ion-text-center w-100"
+          >{{ (item?.textContent)[0]?.text }}</ion-label
+        >
 
-          <ion-text class="text-small mx-16">
-            {{ description }}
-          </ion-text>
-        </ion-row>
-      </ion-col>
-    </ion-row>
-    <ion-row class="ion-justify-content-center px-16 pb-16">
-      <ion-icon
-        color="white-red-bg"
-        name="md-lock-light"
-        class="p-12 radius-50-perc mt-n18 mb-3"
-      ></ion-icon>
-      <ion-label color="omn-green" class="text-normal mb-12">
-        Activează-ți contul ca să poți cumpăra acest produs.
-      </ion-label>
-      <ion-button
-        type="submit"
-        color="success"
-        fill="solid"
-        expand="block"
-        size="large"
-        class="m-0 w-100"
-      >
-        Verifică identitatea
-      </ion-button>
-    </ion-row>
-  </ion-grid>
-</ion-content>
+        <ion-text class="text-small mx-16 w-100 ion-text-center">
+          {{ description }}
+        </ion-text>
+      </ion-row>
+    </ion-col>
+  </ion-row>
+  <ion-row class="ion-justify-content-center px-16 pb-16">
+    <ion-icon
+      color="white-red-bg"
+      name="md-lock-light"
+      class="p-12 radius-50-perc mt-n18 mb-3"
+    ></ion-icon>
+    <ion-label color="omn-green" class="text-normal mb-12 ion-text-center w-100">
+      Activează-ți contul ca să poți cumpăra acest produs.
+    </ion-label>
+    <ion-button
+      type="submit"
+      color="success"
+      fill="solid"
+      expand="block"
+      size="large"
+      class="m-0 w-100"
+    >
+      Verifică identitatea
+    </ion-button>
+  </ion-row>
+</ion-grid>
