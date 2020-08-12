@@ -1,3 +1,4 @@
+import { TipModalComponent } from './components/modals/tip-modal/tip-modal.component';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
@@ -20,6 +21,7 @@ import { InfoCardComponent } from './components/info-card/info-card.component';
     PolicyArchiveListComponent,
     InfoDocComponent,
     InfoCardComponent,
+    TipModalComponent
   ],
   imports: [
     CommonModule,

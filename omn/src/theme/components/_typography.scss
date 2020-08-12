@@ -185,8 +185,26 @@ ion-label.input-label,
   --backdrop-opacity: 0.8 !important;
 
   .modal-wrapper {
-    --height: 80% !important;
-    margin: 0 2rem;
+    --max-width: calc(100% - 64px);
+    --max-height: calc(100% - 64px);
+    margin: auto;
     border-radius: rem(8);
+    height: auto;
+    overflow: auto;
+    --overflow: auto;
+    --height: auto;
+    > * {
+      position: relative;
+      --height: auto;
+      height: auto;
+      width: 100%;
+      --min-height: 360px;
+      min-height: rem(360);
+      max-height: 100%;
+      display: flex;
+      flex: 1;
+      flex-direction: column;
+      contain: content;
+    }
   }
 }
