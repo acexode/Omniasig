@@ -228,6 +228,7 @@ $alt-font: 'Source Sans Pro', 'Helvetica Neue', Arial, sans-serif;
 $white: #ffffff;
 $blue: #0087ea;
 $danger: #ef6d53;
+$warning: #ef6d53;
 
 //Primary
 $green: #008641;
@@ -237,7 +238,7 @@ $blue: #0087ea;
 
 //Secondary
 $secondary-grey: #747c78;
-$secondary-blue: #0077CC;
+$secondary-blue: #0077cc;
 $grey: #636463;
 $grey3: #8b8b8b;
 $grey-4: #4c4f51;
@@ -275,6 +276,7 @@ $box-shadow-31: 0 2px 5px 0 rgba(0, 0, 0, 0.12);
 $box-shadow-32: 0 10px 20px 0 rgba(0, 0, 0, 0.12);
 $box-shadow-3: 0 2px 5px 0 rgba(0, 0, 0, 0.12),
   0 10px 20px 0 rgba(0, 0, 0, 0.12);
+$alert-shadow-1: 0 15px 10px -6px rgba(0, 0, 0, 0.25);
 
 $green-gradient: linear-gradient(135deg, $green 0%, $dark-green 100%);
 $green-gradient-45: linear-gradient(

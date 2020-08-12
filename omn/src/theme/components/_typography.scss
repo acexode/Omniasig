@@ -181,26 +181,6 @@ ion-label.input-label,
   box-shadow: $box-shadow-1;
 }
 
-.my-custom-modal-class {
-  --backdrop-opacity: 0.8 !important;
-
-  .modal-wrapper {
-    --height: 80% !important;
-    margin: 0 2rem;
-    border-radius: rem(8);
-  }
-}
-
-.disabled-message-modal-class {
-  --backdrop-opacity: 0.8 !important;
-
-  .modal-wrapper {
-    --height: 80% !important;
-    margin: 0 1rem;
-    border-radius: rem(8) rem(8) rem(40) rem(40);
-  }
-}
-
 .font-128 {
   font-size: rem(128);
 }

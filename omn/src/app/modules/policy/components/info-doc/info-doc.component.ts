@@ -24,7 +24,7 @@ export class InfoDocComponent implements OnInit {
       mainIcon: {
         name: 'cutremur',
         color: 'green-gradient',
-        classes: 'icon-40 mt-16 ion-align-self-start',
+        classes: 'icon-40 mt-16 ion-align-self-start mb-0',
       },
       textContent: [
         {
@@ -38,7 +38,7 @@ export class InfoDocComponent implements OnInit {
       mainIcon: {
         name: 'alunecari',
         color: 'green-gradient',
-        classes: 'icon-40 mt-16 mb-8 ion-align-self-start',
+        classes: 'icon-40 mt-16 mb-0 ion-align-self-start',
       },
       textContent: [
         {
@@ -69,7 +69,7 @@ export class InfoDocComponent implements OnInit {
       mainIcon: {
         name: 'md-tip-a',
         color: 'green-gradient',
-        classes: 'icon-40 mt-16 ion-align-self-start',
+        classes: 'icon-40 mt-16 mb-0 ion-align-self-start',
       },
       textContent: [
         {
@@ -97,7 +97,7 @@ export class InfoDocComponent implements OnInit {
 
   cardInfo = [
     {
-      classes: 'bg-green',
+      classes: 'bg-green no-shadow',
       icon: {
         name: 'md-umbrella',
       },
@@ -124,7 +124,7 @@ export class InfoDocComponent implements OnInit {
       ],
     },
     {
-      classes: 'bg-red',
+      classes: 'bg-red  no-shadow',
       icon: {
         name: 'md-exclusion',
       },
@@ -152,7 +152,7 @@ export class InfoDocComponent implements OnInit {
       ],
     },
     {
-      classes: 'bg-danger',
+      classes: 'bg-warning  no-shadow',
       icon: {
         name: 'md-restriction',
       },
@@ -173,7 +173,7 @@ export class InfoDocComponent implements OnInit {
       ],
     },
     {
-      classes: 'bg-deep-blue',
+      classes: 'bg-deep-blue  no-shadow',
       icon: {
         name: 'md-globe',
       },
@@ -188,7 +188,7 @@ export class InfoDocComponent implements OnInit {
       ],
     },
     {
-      classes: 'bg-light-green-2',
+      classes: 'bg-light-green-2  no-shadow',
       icon: {
         name: 'md-handshake',
       },
@@ -208,7 +208,7 @@ export class InfoDocComponent implements OnInit {
       ],
     },
     {
-      classes: 'bg-yellow',
+      classes: 'bg-yellow  no-shadow',
       icon: {
         name: 'md-coins',
       },
@@ -223,7 +223,7 @@ export class InfoDocComponent implements OnInit {
       ],
     },
     {
-      classes: 'bg-light-blue',
+      classes: 'bg-light-blue  no-shadow',
       icon: {
         name: 'md-hourglass',
       },
@@ -239,7 +239,7 @@ export class InfoDocComponent implements OnInit {
       ],
     },
     {
-      classes: 'bg-dark',
+      classes: 'bg-dark  no-shadow',
       icon: {
         name: 'md-annulment',
       },
