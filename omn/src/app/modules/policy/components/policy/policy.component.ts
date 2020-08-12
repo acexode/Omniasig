@@ -45,7 +45,7 @@ export class PolicyComponent implements OnInit, OnDestroy {
     private authS: AuthService,
     private policyS: PolicyDataService,
     private cdRef: ChangeDetectorRef
-  ) {}
+  ) {  }
 
   ngOnInit(): void {
     this.subsList.push(

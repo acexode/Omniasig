@@ -13,6 +13,7 @@ import { PolicyComponent } from './components/policy/policy.component';
 import { PolicyPage } from './page/policy.page';
 import { PolicyRoutingModule } from './policy-routing.module';
 import { PolicySharedModule } from './policy-shared.module';
+import { PolicyViewComponent } from './components/policy-view/policy-view.component';
 
 @NgModule({
   declarations: [
@@ -24,6 +25,7 @@ import { PolicySharedModule } from './policy-shared.module';
     InfoCardComponent,
     DisabledMessageModalComponent,
     TipModalComponent,
+    PolicyViewComponent,
   ],
   imports: [
     CommonModule,
