@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { subPageHeaderPrimary } from 'src/app/shared/data/sub-page-header-primary';
 
 @Component({
   selector: 'app-adresa-locuinta',
@@ -6,9 +7,18 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./adresa-locuinta.component.scss'],
 })
 export class AdresaLocuintaComponent implements OnInit {
-
-  constructor() { }
+  headerConfig = subPageHeaderPrimary('Adresă locuință');
+  version: number = 1;
+  constructor() {}
 
   ngOnInit() {}
 
+  continue(){
+    if(this.version < 4){
+      this.version++;
+      return
+    }
+    this.version = 1;
+    
+  }
 }

@@ -117,4 +117,8 @@ export class LocuinteService {
       })
     );
   }
+
+  getLocuinteWithPolicy(policyTypeID: string) {
+    
+  }
 }
