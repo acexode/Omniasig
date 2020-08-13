@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { subPageHeaderPrimary } from 'src/app/shared/data/sub-page-header-primary';
+import { LocuinteService } from 'src/app/profile/pages/locuinte/services/locuinte/locuinte.service';
 
 @Component({
   selector: 'app-adresa-locuinta',
@@ -9,16 +10,17 @@ import { subPageHeaderPrimary } from 'src/app/shared/data/sub-page-header-primar
 export class AdresaLocuintaComponent implements OnInit {
   headerConfig = subPageHeaderPrimary('Adresă locuință');
   version: number = 1;
-  constructor() {}
+  constructor(private LocuinteS: LocuinteService) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.LocuinteS.getLocuinteWithPolicy('2').subscribe((v) => {});
+  }
 
-  continue(){
-    if(this.version < 4){
+  continue() {
+    if (this.version < 4) {
       this.version++;
-      return
+      return;
     }
     this.version = 1;
-    
   }
 }

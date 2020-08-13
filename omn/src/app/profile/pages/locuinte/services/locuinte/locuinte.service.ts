@@ -119,6 +119,21 @@ export class LocuinteService {
   }
 
   getLocuinteWithPolicy(policyTypeID: string) {
-    
+    return this.locuinteStore$.pipe(
+      switchMap((vals) => {
+        if (vals instanceof Array) {
+          const existing = vals.find(
+            (v) => v.policyData.map(data => data.id.toString() === policyTypeID.toString())
+          );
+          if (existing) {
+            return of(existing);
+          } else {
+            return this.getSingleUserLocuinta(policyTypeID);
+          }
+        } else {
+          return this.getSingleUserLocuinta(policyTypeID);
+        }
+      })
+    );
   }
 }
