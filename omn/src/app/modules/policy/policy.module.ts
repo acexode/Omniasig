@@ -10,6 +10,7 @@ import { TipModalComponent } from './components/modals/tip-modal/tip-modal.compo
 import { PolicyArchiveListComponent } from './components/policy-archive-list/policy-archive-list.component';
 import { PolicyCardListComponent } from './components/policy-card-list/policy-card-list.component';
 import { PolicyComponent } from './components/policy/policy.component';
+import { OfferViewComponent } from './components/offer-view/offer-view.component';
 import { PolicyPage } from './page/policy.page';
 import { PolicyRoutingModule } from './policy-routing.module';
 import { PolicySharedModule } from './policy-shared.module';
@@ -24,6 +25,7 @@ import { PolicySharedModule } from './policy-shared.module';
     InfoCardComponent,
     DisabledMessageModalComponent,
     TipModalComponent,
+    OfferViewComponent,
   ],
   imports: [
     CommonModule,
