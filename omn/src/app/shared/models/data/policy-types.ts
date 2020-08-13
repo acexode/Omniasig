@@ -95,31 +95,113 @@ export const policyTypes: { [key: string]: PolicyType } = {
         {
           content: exclusionItemHelper({
             text: {
-              text: '',
+              text:
+                'Locuința pe care dorești să o asiguri se află într-o clădire ' +
+                'expertizată tehnic și încadrată în clasa I-a de risc seismic? ',
             },
             icon: {
-              name: 'lg-exclusion-1',
+              name: 'lg-exclusion-6',
+              classes: 'mh-200 mw-280',
             },
           }),
           buttons: exclusionContentButtons,
         },
         {
-          content: [
-            {
-              type: 'icon',
-              item: {
-                name: 'lg-exclusion-1',
-                classes: 'mh-94',
-              },
+          content: exclusionItemHelper({
+            text: {
+              text:
+                'Locuința pe care dorești să o asiguri se află într-o clădire ' +
+                'expertizată tehnic și încadrată în clasa I-a de risc seismic? ',
             },
-            {
-              type: 'text',
-              item: {
-                text:
-                  'Locuința pe care dorești să o asiguri este construită înainte de anul 1940?',
-              },
+            icon: {
+              name: 'lg-exclusion-6',
+              classes: 'mh-200 mw-280',
             },
-          ],
+          }),
+          buttons: exclusionContentButtons,
+        },
+        {
+          content: exclusionItemHelper({
+            text: {
+              text:
+                'Locuința pe care dorești să o asiguri se află într-o clădire ' +
+                'expertizată tehnic și încadrată în clasa I-a de risc seismic? ',
+            },
+            icon: {
+              name: 'lg-exclusion-6',
+              classes: 'mh-200 mw-280',
+            },
+          }),
+          buttons: exclusionContentButtons,
+        },
+        {
+          content: exclusionItemHelper({
+            text: {
+              text:
+                'Locuința pe care dorești să o asiguri se află într-o clădire ' +
+                'expertizată tehnic și încadrată în clasa I-a de risc seismic? ',
+            },
+            icon: {
+              name: 'lg-exclusion-6',
+              classes: 'mh-200 mw-280',
+            },
+          }),
+          buttons: exclusionContentButtons,
+        },
+        {
+          content: exclusionItemHelper({
+            text: {
+              text:
+                'Locuința pe care dorești să o asiguri se află într-o clădire ' +
+                'expertizată tehnic și încadrată în clasa I-a de risc seismic? ',
+            },
+            icon: {
+              name: 'lg-exclusion-6',
+              classes: 'mh-200 mw-280',
+            },
+          }),
+          buttons: exclusionContentButtons,
+        },
+        {
+          content: exclusionItemHelper({
+            text: {
+              text:
+                'Locuința pe care dorești să o asiguri se află într-o clădire ' +
+                'expertizată tehnic și încadrată în clasa I-a de risc seismic? ',
+            },
+            icon: {
+              name: 'lg-exclusion-6',
+              classes: 'mh-200 mw-280',
+            },
+          }),
+          buttons: exclusionContentButtons,
+        },
+        {
+          content: exclusionItemHelper({
+            text: {
+              text:
+                'Locuința pe care dorești să o asiguri se află într-o clădire ' +
+                'expertizată tehnic și încadrată în clasa I-a de risc seismic? ',
+            },
+            icon: {
+              name: 'lg-exclusion-6',
+              classes: 'mh-200 mw-280',
+            },
+          }),
+          buttons: exclusionContentButtons,
+        },
+        {
+          content: exclusionItemHelper({
+            text: {
+              text:
+                'Locuința pe care dorești să o asiguri se află într-o clădire ' +
+                'expertizată tehnic și încadrată în clasa I-a de risc seismic? ',
+            },
+            icon: {
+              name: 'lg-exclusion-6',
+              classes: 'mh-200 mw-280',
+            },
+          }),
           buttons: exclusionContentButtons,
         },
       ],

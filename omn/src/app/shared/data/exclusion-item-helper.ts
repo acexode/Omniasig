@@ -15,7 +15,8 @@ export const exclusionItemHelper = (item: {
     type: 'text',
     item: {
       classes:
-        'ion-text-center text-normal alt-text ' + get(item.text, 'classes', ''),
+        'h3 ion-text-center text-normal alt-font mb-16 ' +
+        get(item.text, 'classes', ''),
       text: item.text.text,
     },
   };
@@ -25,7 +26,7 @@ export const exclusionItemHelper = (item: {
     item: {
       name: item.icon.name,
       color: get(item.icon, 'color', null),
-      classes: get(item.icon, 'classes', null),
+      classes: get(item.icon, 'classes', '') + ' ion-align-flex-end',
     },
   };
   items.push(itI);

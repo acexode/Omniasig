@@ -2,20 +2,44 @@
   <ion-col class="ion-no-padding flex flex-1 w-100 flex-column">
     <ion-row
       *ngIf="contentItems"
-      class="ion-no-padding flex flex-1 flex-column position-relative m-32"
+      class="ion-no-padding flex flex-1 flex-column position-relative mx-32 mt-32"
     >
       <ng-container *ngFor="let item of contentItems; let i = index">
         <ion-card
-          class="ion-no-padding flex flex-1 flex-column exclusion-card bg-white w-100 border-radius-8"
+          class="ion-no-padding flex m-0 flex-1 flex-column exclusion-card bg-white w-100 border-radius-8"
           [ngClass]="{
             active: i === visibleItemIndex,
+            'active-hidden': i < visibleItemIndex,
             'level-2': i === visibleItemIndex + 1
           }"
+          [ngStyle]="{ 'z-index': 90 - i }"
         >
-          <ion-grid class="ion-no-padding flex flex-column flex-1">
-            <ion-row *ngFor="let cItem of item?.content" class="ion-no-padding flex">
-              
+          <ion-grid class="ion-no-padding flex flex-column flex-1 w-100 p-16">
+            <ion-row
+              class="ion-no-padding flex w-100 ion-justify-content-center mb-18"
+            >
+              <div class="border-bottom-1 border-red pb-2">
+                <ion-label class="color-dark-green px-1">
+                  {{ i != null ? i + 1 : '' }}/{{
+                    contentItems?.length
+                  }}</ion-label
+                >
+              </div>
             </ion-row>
+            <ng-container *ngFor="let cItem of item?.content">
+              <ng-container *ngIf="cItem?.type === 'text'">
+                <ng-container
+                  [ngTemplateOutlet]="textContent"
+                  [ngTemplateOutletContext]="{ item: cItem?.item }"
+                ></ng-container>
+              </ng-container>
+              <ng-container *ngIf="cItem?.type === 'icon'">
+                <ng-container
+                  [ngTemplateOutlet]="iconContent"
+                  [ngTemplateOutletContext]="{ item: cItem?.item }"
+                ></ng-container>
+              </ng-container>
+            </ng-container>
           </ion-grid>
         </ion-card>
       </ng-container>
@@ -23,7 +47,7 @@
     <ion-row
       *ngIf="visibleItem?.buttons"
       [ngClass]="visibleItem?.buttons?.classes"
-      class="flex w-100 ion-no-padding bg-white pt-32 pb-24 px-32"
+      class="flex w-100 ion-no-padding pt-32 pb-24 px-32"
     >
       <ng-container *ngIf="visibleItem?.buttons?.start">
         <ng-container
@@ -73,4 +97,23 @@
       [slot]="button?.icon?.slot"
     ></ion-icon>
   </ion-button>
+</ng-template>
+
+<ng-template #textContent let-item="item">
+  <ion-row class="ion-no-padding flex flex-1 w-100 ion-justify-content-center">
+    <ion-label [ngClass]="item?.classes" [color]="item?.color">{{
+      item?.text
+    }}</ion-label></ion-row
+  >
+</ng-template>
+
+<ng-template #iconContent let-icon="item">
+  <ion-row class="ion-no-padding flex flex-1 w-100 ion-justify-content-center">
+    <ion-icon
+      [name]="icon?.name"
+      [color]="icon?.color"
+      [ngClass]="icon?.classes"
+      class=""
+    ></ion-icon
+  ></ion-row>
 </ng-template>
