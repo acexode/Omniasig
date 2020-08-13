@@ -56,6 +56,30 @@
   --ion-color-tint: var(--ion-color-omn-light-green-tint);
 }
 
+.ion-color-omn-radio-chip {
+  --ion-color-base: var(--app-chip-label-color);
+  background: var(--ion-color-omn-grey-medium-2);
+  border-color: var(--app-chip-border-color);
+  --background: var(--ion-color-omn-grey-medium-2);
+  --color: var(--ion-color-base);
+  --ion-color-base-rgb: var(--app-chip-label-color-rgb);
+  --ion-color-shade: var(--ion-color-omn-light-green-shade);
+  --ion-color-tint: var(--ion-color-omn-light-green-tint);
+}
+
+.ion-color-omn-radio-chip-active {
+  --ion-color-base: var(--app-white-color);
+  background: var(--app-green-color);
+  border-color: var(--app-green-colo);
+  --background: var(--app-green-color);
+  --color: var(--ion-color-base);
+  --ion-color-base-rgb: 255, 255, 255;
+  --ion-color-contrast: var(--app-white-color);
+  --ion-color-contrast-rgb: 255, 255, 255;
+  --ion-color-shade: var(--ion-color-omn-light-green-shade);
+  --ion-color-tint: var(--ion-color-omn-light-green-tint);
+}
+
 .ion-color-omn-medium {
   --ion-color-base: var(--ion-color-omn-medium);
   --ion-color-base-rgb: var(--ion-color-omn-medium-rgb);
@@ -100,19 +124,26 @@
   --ion-color-contrast-rgb: var(--app-color-white);
   background: $danger;
 }
+
+.ion-color-white-red-bg {
+  --ion-color-base: var(--app-color-white);
+  --ion-color-contrast: var(--app-color-white);
+  --ion-color-contrast-rgb: var(--app-color-white);
+  background: $red;
+}
 .ion-color-white-light-green-2-bg {
   --ion-color-base: var(--app-color-white);
   --ion-color-contrast: var(--app-color-white);
   --ion-color-contrast-rgb: var(--app-color-white);
   background: $light-green-2;
 }
-
 .color-dark-green {
   color: $dark-green !important;
 }
 
 .color-green {
   color: $green !important;
+  --color: $green !important;
 }
 
 .color-secondary-grey {
@@ -138,6 +169,21 @@
 
 .bg-danger {
   background-color: $danger;
+}
+.bg-warning {
+  background-color: $warning;
+}
+
+.bg-white {
+  background-color: $white;
+}
+
+.color-secondary-blue {
+  color: $secondary-blue;
+}
+
+.bg-red {
+  background-color: $light-red;
 }
 
 .bg-green {
@@ -168,4 +214,25 @@
 
 .alt-bg {
   background: $alt-bg;
+}
+
+.bg-deep-blue {
+  background-color: $deep-blue;
+}
+
+.bg-light-blue {
+  background-color: $light-blue;
+}
+
+.bg-yellow {
+  background-color: $yellow;
+}
+
+.bg-dark {
+  background-color: $bg-dark;
+}
+
+.bg-light-gray {
+  background-color: $light-grey-2;
+  --background: $light-grey-2;
 }

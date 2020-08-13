@@ -1,0 +1,77 @@
+@import '../variables.scss';
+@import '../mixins/mixins';
+
+ion-alert {
+  &.select-alert {
+    .alert-wrapper {
+      --max-width: calc(100% - 64px);
+      --max-height: calc(100% - 64px);
+      .alert-head {
+        padding-inline-end: rem(32);
+        padding-inline-start: rem(32);
+        padding-bottom: rem(20);
+        .alert-title {
+          @extend .h3;
+        }
+      }
+      .alert-radio-group {
+        border-color: $medium-grey-2;
+        max-height: calc(100% - 64px);
+        .alert-radio-button {
+          min-height: rem(22);
+          height: auto;
+          contain: none;
+          .alert-button-inner {
+            @include align-items(start);
+
+            .alert-radio-icon {
+              margin-top: rem(18);
+              margin-bottom: rem(16);
+              left: rem(32);
+              border-color: $medium-green-2;
+              .alert-radio-inner {
+                width: rem(12);
+                height: rem(12);
+                left: rem(2);
+                top: rem(2);
+                background-color: $dark-green;
+              }
+            }
+            .alert-radio-label {
+              padding-top: rem(16);
+              padding-bottom: rem(16);
+              font-size: rem(16);
+              line-height: rem(22);
+              padding-inline-start: rem(44);
+              min-height: rem(22);
+              white-space: normal;
+              overflow: visible;
+            }
+          }
+          &[aria-checked='true'] {
+            .alert-radio-icon {
+              border-color: $green;
+            }
+          }
+        }
+      }
+      .alert-button-group {
+        padding-top: rem(12);
+        padding-bottom: rem(12);
+        .alert-button {
+          @extend .ion-color-omn-green;
+          color: var(--ion-color-base);
+          font-size: rem(16);
+          line-height: rem(22);
+          text-transform: none;
+          font-weight: normal;
+          padding-inline-start: rem(16);
+          margin-inline-end: 0;
+          padding-inline-end: rem(16);
+          padding-top: rem(10);
+          padding-bottom: rem(8);
+        }
+      }
+    }
+  }
+}

@@ -145,15 +145,22 @@
 
   // Inputs
   --app-input-bg: var(--ion-color-omn-grey-medium-2);
+  --app-input-placeholder-color: #8b8b8b;
 
   // Overlays
   --ion-overlay-background-color: var(--app-white-color);
 
   --ion-backdrop-color: var(--ion-color-omn-medium);
   --ion-backdrop-opacity: 0.8;
-  :focus {
-    outline: none;
-  }
+
+  // chips
+  --app-chip-label-color: #8b8b8b;
+  --app-chip-label-color-rgb: 139, 139, 139;
+  --app-chip-border-color: #a7aca9;
+
+  // Select
+  --app-select-placeholder-color: var(--app-input-placeholder-color, #8b8b8b);
+  --app-select-placeholder-font: var(--ion-font-family);
 }
 
 // Custom variables.
@@ -206,6 +213,7 @@ $spacers: map-merge(
     72: 72px,
     64: 64px,
     80: 80px,
+    93: 93px,
     96: 96px,
     149: 149px,
     128: 128px,
@@ -220,6 +228,7 @@ $alt-font: 'Source Sans Pro', 'Helvetica Neue', Arial, sans-serif;
 $white: #ffffff;
 $blue: #0087ea;
 $danger: #ef6d53;
+$warning: #ef6d53;
 
 //Primary
 $green: #008641;
@@ -229,6 +238,7 @@ $blue: #0087ea;
 
 //Secondary
 $secondary-grey: #747c78;
+$secondary-blue: #0077cc;
 $grey: #636463;
 $grey3: #8b8b8b;
 $grey-4: #4c4f51;
@@ -253,6 +263,10 @@ $light-green-3: #2d7d43;
 $ultra-light-green: #f2f9f5;
 $light-red: #c32328;
 $alt-bg: #f5f9fc;
+$deep-blue: #1c5393;
+$light-blue: #236faa;
+$yellow: #f7ce23;
+$bg-dark: #1a1919;
 
 $light-green-2: #5fb63d;
 $box-shadow-1: 0 3px 10px -2px rgba(0, 0, 0, 0.2),
@@ -262,6 +276,7 @@ $box-shadow-31: 0 2px 5px 0 rgba(0, 0, 0, 0.12);
 $box-shadow-32: 0 10px 20px 0 rgba(0, 0, 0, 0.12);
 $box-shadow-3: 0 2px 5px 0 rgba(0, 0, 0, 0.12),
   0 10px 20px 0 rgba(0, 0, 0, 0.12);
+$alert-shadow-1: 0 15px 10px -6px rgba(0, 0, 0, 0.25);
 
 $green-gradient: linear-gradient(135deg, $green 0%, $dark-green 100%);
 $green-gradient-45: linear-gradient(

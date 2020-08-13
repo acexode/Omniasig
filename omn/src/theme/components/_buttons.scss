@@ -52,6 +52,9 @@
       box-shadow: none;
       --box-shadow: none;
     }
+    &.text-weight-normal {
+      font-weight: 400;
+    }
     &.ion-color-danger,
     .ion-color-danger {
       --background: var(--danger-gradient);

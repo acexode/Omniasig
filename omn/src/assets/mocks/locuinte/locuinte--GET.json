@@ -1,27 +1,52 @@
 [
   {
-    "name": "Acasă Traian 45, Brasov",
+    "id": "1",
+    "name": "Acasă",
     "address": {
-      "county": "string",
-      "city": "string",
-      "street": "string",
-      "number": 7,
-      "entrance": "string"
+      "county": "Brasov",
+      "city": "Brasov",
+      "street": "Traian",
+      "number": 45,
+      "entrance": "1A",
+      "apartment": "string",
+      "postalCode": 123123
     },
-
     "info": {
-      "type": "string",
-      "resistenceStructure": "string",
-      "buildYear": 5,
-      "value": {
-        "currency": "string",
-        "sum": "string"
-      },
-      "occupancy": "string",
-      "usablesurface": 10,
-      "heightRegime": 78,
-      "roomCount": 88,
-      "alarm": true
+      "type": "apartament",
+      "resistenceStructure": 1,
+      "buildYear": 1930,
+      "valueCurrency": "EUR",
+      "valueSum": 111111,
+      "occupancy": "temporar",
+      "usableSurface": 10,
+      "heightRegime": 1,
+      "roomCount": 2,
+      "alarm": 0
+    }
+  },
+  {
+    "id": "2",
+    "name": "Acasă 2",
+    "address": {
+      "county": "Bacau",
+      "city": "Bacau",
+      "street": "Republicii",
+      "number": 30,
+      "entrance": "1A",
+      "apartment": "string",
+      "postalCode": 123123
+    },
+    "info": {
+      "type": "casaVila",
+      "resistenceStructure": 0,
+      "buildYear": 2020,
+      "valueCurrency": "EUR",
+      "valueSum": 111111,
+      "occupancy": "permanent",
+      "usableSurface": 10,
+      "heightRegime": 1,
+      "roomCount": 2,
+      "alarm": 1
     }
   }
 ]
