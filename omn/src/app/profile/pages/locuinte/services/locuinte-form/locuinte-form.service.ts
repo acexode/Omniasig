@@ -253,6 +253,8 @@ export class LocuinteFormService {
           name: null,
           info: null,
           address: null,
+          policyData: [],
+          tipLocuinta: null,
         };
 
     forOwn(formGroupValue, (val, key) => {
