@@ -1,6 +1,8 @@
 import {
   exclusionItemHelper,
   exclusionContentButtons,
+  exclusionCancelItem,
+  exclusionCancelBtn,
 } from './../../data/exclusion-item-helper';
 import { PolicyType } from 'src/app/shared/models/data/policy-type';
 import {
@@ -101,7 +103,7 @@ export const policyTypes: { [key: string]: PolicyType } = {
             },
             icon: {
               name: 'lg-exclusion-6',
-              classes: 'mh-200 mw-280',
+              classes: 'mh-200 flex mw-280',
             },
           }),
           buttons: exclusionContentButtons,
@@ -205,6 +207,10 @@ export const policyTypes: { [key: string]: PolicyType } = {
           buttons: exclusionContentButtons,
         },
       ],
+      cancel: {
+        content: exclusionCancelItem(),
+        buttons: exclusionCancelBtn(),
+      },
     },
     listingIcon: {
       name: 'lg-casa-2',

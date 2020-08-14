@@ -4,8 +4,9 @@ import { IonButtonItem } from 'src/app/shared/models/component/ion-button-item';
 
 export interface ExclusionItemConfig {
   content: Array<{
-    type: 'icon' | 'text';
-    item: IonTextItem | IonIconItem;
+    type: 'icon' | 'text' | 'button';
+    item: IonTextItem | IonIconItem | IonButtonItem;
+    itemClasses?: string;
   }>;
   buttons: {
     classes?: string;
