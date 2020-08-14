@@ -1,10 +1,10 @@
+<app-sub-page-header [config]="headerConfig"></app-sub-page-header>
 <ion-content>
-  <app-sub-page-header [config]="headerConfig"></app-sub-page-header>
   <ion-grid class="ion-no-padding flex flex-1 flex-column h-100">
     <ion-row [hidden]="version !== 1" class="ml-32">
       <ion-col class="ion-no-padding">
         <ion-row class="mt-40">
-          <ion-label color="omn-green" class="label-large"
+          <ion-label color="omn-green" class="label-large alt-font"
             >Adresele tale:</ion-label
           >
         </ion-row>
@@ -30,7 +30,7 @@
     <ion-row [hidden]="version !== 4" class="ml-32">
       <ion-col class="ion-no-padding">
         <ion-row class="mt-40">
-          <ion-label color="omn-green" class="label-large"
+          <ion-label color="omn-green" class="label-large alt-font"
             >Adresele tale:</ion-label
           >
         </ion-row>
@@ -56,7 +56,7 @@
     <ion-row [hidden]="version !== 2" class="ml-32">
       <ion-col class="ion-no-padding">
         <ion-row class="mt-40">
-          <ion-label color="omn-green" class="label-large"
+          <ion-label color="omn-green" class="label-large alt-font"
             >Adrese cu polițe active:</ion-label
           >
         </ion-row>
@@ -69,7 +69,7 @@
                 >
                 <ion-label
                   color="omn-green"
-                  class="ion-text-wrap link-small text-weight-bold"
+                  class="ion-text-wrap link-small text-weight-medium"
                   >Polița PAD valabilă până la 25.07.2020</ion-label
                 >
               </div>
@@ -89,7 +89,7 @@
     <ion-row [hidden]="version !== 3" class="ml-32 mb-96">
       <ion-col class="ion-no-padding">
         <ion-row class="mt-40">
-          <ion-label color="omn-green" class="label-large"
+          <ion-label color="omn-green" class="label-large alt-font"
             >Adresele tale:</ion-label
           >
         </ion-row>
@@ -102,7 +102,7 @@
           </ion-item>
         </ion-row>
         <ion-row class="mt-14">
-          <ion-label color="omn-green" class="label-large"
+          <ion-label color="omn-green" class="label-large alt-font"
             >Adrese cu polițe active:</ion-label
           >
         </ion-row>
@@ -116,7 +116,7 @@
                 >
                 <ion-label
                   color="omn-green"
-                  class="ion-text-wrap link-small text-weight-bold"
+                  class="ion-text-wrap link-small text-weight-medium"
                   >Polița PAD valabilă până la 25.07.2020</ion-label
                 >
               </div>
@@ -133,11 +133,11 @@
       </ion-col>
     </ion-row>
 
-    <ion-row class="mx-32 my-auto">
+    <ion-row class="mt-auto mb-32 w-100 px-32">
       <ion-col class="ion-no-padding flex flex-1 w-100 flex-column">
         <ion-button
           (click)="continue()"
-          class="activate-btn s18-h21 mb-24"
+          class="activate-btn s18-h21"
           color="success"
           expand="full"
           shape="round"
