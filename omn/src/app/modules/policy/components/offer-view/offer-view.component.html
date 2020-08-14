@@ -2,4 +2,56 @@
   (close)="back()"
   [config]="headerConfig"
 ></app-sub-page-header>
-<ion-content> </ion-content>
+<ion-content>
+  <ion-grid>
+    <ion-row class="mx-32 pt-80 pb-40 border-bottom-1 border-medium-green-3">
+      <ion-col class="ion-no-padding">
+        <ion-row class="mb-16">
+          <ion-card
+            class="ion-no-margin omn-background-green-gradient w-100 color-white"
+          >
+            <ion-card-content class="p-16 flex flex-column">
+              <ion-label class="label-large text-weight-normal alt-font mb-16">
+                Prețul poliței*
+              </ion-label>
+              <ion-label class="x-large text-weight-bold alt-font mb-8">
+                98 lei
+              </ion-label>
+              <ion-label class="text-normal text-weight-medium">
+                20 Euro la cursul de 4,9 lei/Euro
+              </ion-label>
+            </ion-card-content>
+          </ion-card>
+        </ion-row>
+
+        <ion-row>
+          <ion-text class="text-small">
+            *Prețul poliței = Prima obligatorie. Se achită integral și
+            anticipat, înainte de emiterea poliței obligatorii, și reprezintă
+            echivalentul în lei, la cursul Băncii Naționale a României valabil
+            la data efectuării plății.
+          </ion-text>
+        </ion-row>
+      </ion-col>
+    </ion-row>
+    <ion-row class="pt-40 px-32">
+      <ion-col class="ion-no-padding">
+        <ion-row class="flex-column">
+          <ion-label class="s18-h24 text-weight-medium mb-4">
+            PAD
+          </ion-label>
+          <ion-label class="x-large alt-font mb-4">
+            Ofertă de asigurare
+          </ion-label>
+          <ion-label class="text-small mb-24">
+            Nr: 001234566789
+          </ion-label>
+          <ion-label class="text-small">
+            Emisa la data de 12.05.2020 în baza datelor declarate de ASIGURAT
+          </ion-label>
+        </ion-row>
+        <ion-row> </ion-row>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>
