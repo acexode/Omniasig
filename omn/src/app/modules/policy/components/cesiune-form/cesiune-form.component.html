@@ -1,0 +1,144 @@
+<ion-content >
+    <form class="form-group" (submit)="onSubmit($event)">
+      <ion-radio-group >
+        <ion-grid class="ion-no-padding">
+          <ion-row class="mx-32">
+            <ion-col size="12">
+              <ion-list-header class="ion-no-padding">
+                <ion-label class="input-label mb-14 mt-32"  *ngIf="radioValue">Exista o cesiune?</ion-label>
+                <ion-label class="input-label exista-style"  *ngIf="!radioValue">Exista o cesiune?</ion-label>
+              </ion-list-header>
+            </ion-col>
+          </ion-row>
+        
+          <ion-row class="mx-26 mb-36" *ngIf="radioValue">
+            <ion-col size="6">
+              <ion-item lines="none" class="ion-no-padding">
+                <ion-label class="ion-no-padding">Da</ion-label>
+                <ion-radio class="ion-no-padding radio" slot="start" (click)="radioChangeHandler($event)" value="da"></ion-radio>
+              </ion-item>
+            </ion-col>
+    
+            <ion-col size="6">
+              <ion-item lines="none">
+                <ion-label>Nu</ion-label>
+                <ion-radio class="radio" slot="start" (click)="radioChangeHandler($event)" value="nu"></ion-radio>
+              </ion-item>
+            </ion-col>
+          </ion-row>
+
+          <ion-row class="mx-26" id="radio-style" *ngIf="!radioValue">
+            <ion-col size="6">
+              <ion-item lines="none" class="ion-no-padding">
+                <ion-label class="ion-no-padding">Da</ion-label>
+                <ion-radio class="ion-no-padding radio" slot="start" (click)="radioChangeHandler($event)" value="da"></ion-radio>
+              </ion-item>
+            </ion-col>
+    
+            <ion-col size="6">
+              <ion-item lines="none">
+                <ion-label>Nu</ion-label>
+                <ion-radio class="radio" slot="start" (click)="radioChangeHandler($event)" value="nu"></ion-radio>
+              </ion-item>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </ion-radio-group>
+    
+    
+    <div no-padding *ngIf="radioValue">
+      <ion-label position="stacked" class="input-label mb-8 mx-32">Număr cesionari</ion-label>
+      <ion-grid class="border ion-no-padding">
+        <!-- <ion-item class="ion-no-padding w-100"> -->
+        <ion-row class="mx-32">            
+          <ion-col class="icon" size="4">
+            <ion-item class="ion-no-padding" id="item-dec">
+            <ion-icon class="icon-20" name="remove-outline" (click)="decreaseNumberOfItems($event)"></ion-icon>
+          </ion-item>
+          </ion-col>
+
+          <ion-col class="" size="4">
+            <ion-item class="ion-no-padding">
+            <ion-input class="number-input" type="number" value={{numberOfItems}} required formControlName="numberOfItems" readonly></ion-input>
+          </ion-item>
+          </ion-col>
+
+          <ion-col class="icon" size="4">
+            <ion-item class="ion-no-padding" id="item-inc" slots="start">
+              <ion-icon class="icon-20 add-icon" name="add-outline" (click)="increaseNumberOfItems($event)"></ion-icon>
+            </ion-item>
+          </ion-col>   
+        </ion-row>
+      <!-- </ion-item> -->
+      </ion-grid>
+      
+      <ion-grid class="ion-no-padding" *ngFor="let itemNumber of itemsArray">
+        <ion-row class="mx-32 mt-40">
+          <ion-col class="mb-16" size="12">
+            <ion-label class="input-label mb-0">Cesionar {{itemNumber+1}}</ion-label>
+          </ion-col>
+        </ion-row>
+
+        <ion-row class="mx-32 mb-24">
+          <ion-col class=""  size="6">
+            <ion-item class="form-group w-100 input-tag">
+              <ion-label position="stacked" class="mb-8 input-label">CUI</ion-label>
+              <ion-input type="text" placeholder="Completează" autocomplete="text" formControlName="text">
+              </ion-input> 
+            </ion-item>
+            <!-- <ion-item class="w-100 ion-no-padding">
+              <ion-label position="stacked" class="input-label mb-8">CUI</ion-label>
+              <ion-input id='cui' class="b-radius" type="text" name='itemNumber' value="" placeholder="Completează" required></ion-input> 
+            </ion-item> -->
+          </ion-col>
+
+          <ion-col class="pl-8" size="6">
+            <ion-item class="form-group w-100 input-tag">
+              <ion-label position="stacked" class="mb-8 input-label">Procent</ion-label>
+              <ion-input type="text" placeholder="Completează" autocomplete="text" formControlName="text">
+              </ion-input> 
+            </ion-item>
+
+            <!-- <ion-item class="w-100">
+              <ion-label position="stacked" class="input-label mb-8">Procent</ion-label>
+              <ion-input id='procent' class="b-radius w-100" type="text" name='procent' value="" placeholder="Completează" required></ion-input> 
+            </ion-item> -->
+          </ion-col>
+        </ion-row>
+
+        <ion-row class="ml-32 mr-32">
+          <ion-col size="12">
+            <ion-item class="form-group w-100 input-tag">
+              <ion-label position="stacked" class="mb-8 input-label">Denumire cesionar</ion-label>
+              <ion-input type="text" class="input-tag" placeholder="Completează" autocomplete="text" formControlName="text">
+              </ion-input> 
+            </ion-item>
+            <!-- <ion-item class="w-100 ion-no-padding"> -->
+              <!-- <ion-label position="stacked" class="input-label mb-8">Denumire cesionar</ion-label>
+              <ion-input placeholder="Completează" required></ion-input>  -->
+            <!-- </ion-item> -->
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+
+      <ion-grid class="ion-no-padding">
+        <ion-row class="ion-no-padding flex flex-1 mx-32">
+          <ion-col class="ion-no-padding continua flex flex-1 w-100 flex-column ion-justify-content-end">
+            <ion-button class="activate-btn w-100 mb-24" color="success" size="large" expand="full" shape="round" mode="md">
+              Continuă
+            </ion-button>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </div>
+    <ion-grid class="ion-no-padding"  *ngIf="!radioValue">
+      <ion-row class="ion-no-padding flex flex-1 mx-32">
+        <ion-col class="ion-no-padding flex flex-1 w-100 flex-column ion-justify-content-end">
+          <ion-button class="activate-btn w-100 mb-24" color="success" size="large" expand="full" shape="round" mode="md" disabled>
+            Continuă
+          </ion-button>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </form>
+</ion-content>

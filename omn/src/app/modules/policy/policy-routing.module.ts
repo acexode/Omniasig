@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { PolicyComponent } from './components/policy/policy.component';
 import { PolicyPage } from './page/policy.page';
 import { InfoDocComponent } from './components/info-doc/info-doc.component';
+import { CesiuneFormComponent} from './components/cesiune-form/cesiune-form.component'
 
 const routes: Routes = [
   {
@@ -16,6 +17,10 @@ const routes: Routes = [
       {
         path: 'info-doc',
         component: InfoDocComponent,
+      },
+      {
+        path: 'cesiune-form',
+        component: CesiuneFormComponent,
       },
     ],
   },

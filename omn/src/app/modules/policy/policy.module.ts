@@ -13,6 +13,8 @@ import { PolicyComponent } from './components/policy/policy.component';
 import { PolicyPage } from './page/policy.page';
 import { PolicyRoutingModule } from './policy-routing.module';
 import { PolicySharedModule } from './policy-shared.module';
+import { CesiuneFormComponent} from './components/cesiune-form/cesiune-form.component'
+import { PolicyVerifyComponent} from './pages/policy-verify/policy-verify.component'
 
 @NgModule({
   declarations: [
@@ -22,6 +24,8 @@ import { PolicySharedModule } from './policy-shared.module';
     PolicyArchiveListComponent,
     InfoDocComponent,
     InfoCardComponent,
+    CesiuneFormComponent,
+    PolicyVerifyComponent,
     DisabledMessageModalComponent,
     TipModalComponent,
   ],

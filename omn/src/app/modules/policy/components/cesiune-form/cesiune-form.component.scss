@@ -1,0 +1,65 @@
+@import "../../../../../theme/mixins/mixins";
+@import "../../../../../theme/variables.scss";
+
+::placeholder{
+    font-size: rem(18);
+    font-family: var(--ion-font-family);
+    line-height: rem(24);
+}
+.icon-20{
+    --color: var(--ion-color-omn-medium);
+}
+
+.radio{
+    --color-checked: var(--app-dark-green);
+}
+
+.input-tag{
+    --color: var(--app-dark-green);
+}
+
+.exista-style{
+    margin-top: 190px;
+}
+
+#radio-style{
+    margin-bottom: 350px;
+}
+
+.continua{
+    margin-top: 103px;
+}
+
+.icon{
+    margin-top: 1px;
+}
+
+//not working yet
+.add-icon{
+   text-align: right;
+}
+
+.number-input{
+    text-align: center;
+}
+
+.b-radius{
+    // border-radius: rem(4) rem(4) 0 0;
+    // background-color: $light-grey-2;
+    // background-color: red;
+    width: 100%;
+}
+
+#item-dec{
+    background-color: $light-grey-2;
+    border-radius: rem(4) 0 0 0;
+}
+
+#item-dec{
+    background-color: $light-grey-2;
+    border-radius: 0 rem(4) 0 0;
+}
+
+.item-inner{
+    padding: 0px !important
+}
