@@ -26,7 +26,7 @@ export class PolicyCardListComponent implements OnInit {
   ngOnInit() {}
 
   async presentModal(index) {
-    console.log(this.items);
+    // console.log(this.items);
     
     const modal = await this.modalController.create({
       component: DisabledMessageModalComponent,
