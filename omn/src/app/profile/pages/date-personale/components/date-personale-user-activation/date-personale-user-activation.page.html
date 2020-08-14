@@ -11,8 +11,8 @@
   </ng-container>
 </ion-content>
 
-<ng-template #existingUser>
-  <ion-grid class="px-32 pt-32 pb-24 flex flex-1 h-100 flex-column ion-justify-content-evenly">
+<ng-template #newUser>
+  <ion-grid class="px-32 pt-32 pb-24 flex h-100 flex-column ion-justify-content-evenly">
     <ion-row class="ion-no-padding ion-justify-content-center ion-align-items-end">
       <ion-col class="ion-no-padding flex flex-1 flex-column ion-align-items-center">
         <ion-icon
@@ -21,24 +21,29 @@
         ></ion-icon>
         <ion-label
           color="omn-green"
-          class="h2 ls-min-02 alt-font border-danger ion-text-center text-weight-bold w-auto"
+          class="h2 ls-min-02 alt-font ion-text-center text-weight-bold w-auto"
         >
           Felicitări!
+        </ion-label>
+        <ion-label
+          color="omn-green"
+          class="h2 ls-min-02 alt-font border-danger ion-text-center text-weight-bold w-auto"
+        >
           Contul tău a fost creat.
         </ion-label>
-        <ion-label class="text-normal text-weight-bold ion-margin-vertical ion-text-center">
+        <ion-label class="text-normal text-weight-medium ion-margin-vertical ion-text-center">
           Pentru activarea contului sunt obligatorii două elemente de siguranță:
         </ion-label>
       </ion-col>
     </ion-row>
-    <ion-row class="ion-no-padding flex ion-justify-content-center">
+    <ion-row class="ion-no-padding flex mt-32">
       <ng-container *ngFor="let action of actions">
-        <ion-col size="6">
+        <ion-col size="6" class="ion-padding-horizontal">
           <app-image-card [item]="action" class="flex w-100"></app-image-card>
         </ion-col>
       </ng-container>
     </ion-row>
-    <ion-row class="ion-no-padding ion-justify-content-center">
+    <ion-row class="ion-no-padding ion-justify-content-center mt-auto">
       <ion-col class="flex flex-1 ion-justify-content-center">
         <ion-button class="no-shadow" fill="clear" color="omn-green" [routerLink]="['/home']">
           Fac verificările mai târziu
@@ -48,29 +53,37 @@
   </ion-grid>
 </ng-template>
 
-<ng-template #newUser>
-  <app-sub-page-header
-    [config]="headerConfig"
-  ></app-sub-page-header>
-  <ion-grid class="px-32 pt-32 pb-24 flex flex-1 h-100 flex-column ion-justify-content-evenly">
-    <ion-row class="ion-no-padding flex flex-1 flex-column">
-      <ion-col class="ion-no-padding flex ion-align-items-center">
-        <ion-label class="text-weight-bold">Pentru activarea contului sunt obligatorii două elemente de siguranță:</ion-label>
+<ng-template #existing>
+  <ion-grid class="px-32 pb-24 h-100 flex flex-column ion-justify-content-start">
+    <ion-row>
+      <ion-col class="ion-text-center">
+        <app-sub-page-header
+          [config]="headerConfig"
+        ></app-sub-page-header>
       </ion-col>
-      <ion-col class="ion-no-padding">
-        <ion-row class="ion-no-padding flex ion-justify-content-center">
+    </ion-row>
+    <ion-row class="ion-no-padding flex flex-column flex-1 ion-align-items-start">
+      <ion-col class="ion-no-padding ion-text-center flex flex-column">
+        <div class="my-80">
+          <ion-label class="text-weight-medium">Pentru activarea contului sunt obligatorii</ion-label>
+          <div></div>
+          <ion-label class="text-weight-medium"> două elemente de siguranță:</ion-label>
+        </div>
+        <ion-row class="ion-no-padding">
           <ng-container *ngFor="let action of actions">
-            <ion-col size="6">
+            <ion-col size="6" class="ion-padding-horizontal">
               <app-image-card [item]="action" class="flex w-100"></app-image-card>
             </ion-col>
           </ng-container>
         </ion-row>
       </ion-col>
     </ion-row>
-    <ion-row class="ion-no-padding flex flex-1 ion-justify-content-center">
-      <ion-button color="omn-green" fill="clear" [routerLink]="['/home']">
-        Fac verificările mai târziu
-      </ion-button>
+    <ion-row class="ion-no-padding mt-auto">
+      <ion-col class="ion-no-padding flex ion-justify-content-center">
+        <ion-button color="omn-green" fill="clear" [routerLink]="['/home']">
+          Fac verificările mai târziu
+        </ion-button>
+      </ion-col>
     </ion-row>
   </ion-grid>
 </ng-template>
