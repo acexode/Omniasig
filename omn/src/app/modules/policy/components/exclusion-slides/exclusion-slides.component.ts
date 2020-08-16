@@ -18,7 +18,6 @@ import { ExclusionItemConfig } from './../../../../shared/models/component/exclu
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ExclusionSlidesComponent implements OnInit {
-
   @Output() navEvents: EventEmitter<
     'success-ev' | 'cancel-ev' | 'success-btn' | 'cancel-btn' | number
   > = new EventEmitter();

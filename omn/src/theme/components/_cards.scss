@@ -66,35 +66,37 @@ ion-card {
     top: 0;
     right: 0;
     left: 0;
-    transition: all 0.25s ease-in-out;
+    transition: all 0.5s ease;
     pointer-events: none;
     transform-origin: top center;
+    will-change: transform, opacity, width, box-shadow;
     box-shadow: none;
     opacity: 0;
-    transform: scale(0.9) translateY(0);
+    transform: scaleX(0.9);
+    box-shadow: $box-shadow-1;
 
     &.active {
+      box-shadow: $alert-shadow-1;
       width: 100%;
       top: 0;
       left: 0;
       right: 0;
       position: relative;
-      transform: scale(1) translateY(0);
-      box-shadow: $alert-shadow-1;
-      //z-index: 100;
+      transform: scaleX(1);
       opacity: 1;
       pointer-events: inherit;
     }
     &.level-2 {
-      //z-index: 99;
       opacity: 1;
       overflow: hidden;
-      box-shadow: $box-shadow-1;
-      transform: scale(0.9) translateY(72px);
+      @include transform(scaleX(0.9) translate3D(0, 16px, 0));
     }
     &.active-hidden {
-      transform: translateY(-50%);
+      @include transform(translateY(-32px));
       opacity: 0;
+    }
+    &.last:not(.active):not(.level-2) {
+      transition: all 0s;
     }
   }
 }

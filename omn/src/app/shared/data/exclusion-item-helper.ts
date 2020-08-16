@@ -30,9 +30,10 @@ export const exclusionItemHelper = (item: {
     item: {
       name: item.icon.name,
       color: get(item.icon, 'color', null),
-      classes: get(item.icon, 'classes', '') + ' mt-auto',
+      classes: get(item.icon, 'classes', '') + ' mt-auto mx-auto mb-16',
     },
-    itemClasses: 'flex-column ion-align-items-end flex-1',
+    itemClasses:
+      'flex-column ion-align-items-end ion-justify-content-center flex-1 w-100',
   };
   items.push(itI);
 

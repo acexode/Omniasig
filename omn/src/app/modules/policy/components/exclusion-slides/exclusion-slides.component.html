@@ -2,12 +2,14 @@
   <ion-col class="ion-no-padding flex flex-1 w-100 flex-column">
     <ion-row
       *ngIf="contentItems && cancelItem && visibleItem !== cancelItem"
-      class="ion-no-padding flex flex-1 flex-column position-relative mx-32 mt-32"
+      class="ion-no-padding flex flex-1 flex-column position-relative mx-32 mt-80"
     >
-      <ng-container *ngFor="let item of contentItems; let i = index">
+      <ng-container
+        *ngFor="let item of contentItems; let i = index; let last = last"
+      >
         <ng-container
           [ngTemplateOutlet]="cardContent"
-          [ngTemplateOutletContext]="{ item: item, i: i }"
+          [ngTemplateOutletContext]="{ item: item, i: i, last: last }"
         ></ng-container>
       </ng-container>
     </ion-row>
@@ -100,11 +102,12 @@
   </ion-button>
 </ng-template>
 
-<ng-template #cardContent let-item="item" let-i="i">
+<ng-template #cardContent let-item="item" let-i="i" let-last="last">
   <ion-card
     class="ion-no-padding flex m-0 flex-1 flex-column exclusion-card bg-white w-100 border-radius-8"
     [ngClass]="{
       active: i === visibleItemIndex,
+      last: last,
       'active-hidden': i < visibleItemIndex,
       'level-2': i === visibleItemIndex + 1 && visibleItemIndex > -1
     }"
