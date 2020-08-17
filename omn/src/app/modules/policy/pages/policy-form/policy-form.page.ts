@@ -97,10 +97,10 @@ export class PolicyFormPage implements OnInit {
         this.changeStep(this.policySteps.INFO_DOC);
         break;
       case this.policySteps.EXCLUSION:
-        this.changeStep(this.policySteps.EXCLUSION);
+        this.changeStep(this.policySteps.ADDRESS_SELECT);
         break;
       case this.policySteps.INFO_DOC:
-        this.changeStep(this.policySteps.ADDRESS_SELECT);
+        this.changeStep(this.policySteps.EXCLUSION);
         break;
       // case this.policySteps.ADDRESS_SELECT:
       //   break;
@@ -129,12 +129,17 @@ export class PolicyFormPage implements OnInit {
     }
     if (forceWhite !== null) {
       this.bgWhite = forceWhite;
+      this.cdRef.markForCheck();
     }
   }
 
   dntEvents(event: string) {
+    console.log(event);
     if (event === 'success-btn') {
       this.next();
+    }
+    if (event === 'cancel-ev') {
+      this.setBgColor(true);
     }
   }
 }

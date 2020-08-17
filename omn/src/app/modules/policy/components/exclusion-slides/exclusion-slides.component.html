@@ -2,7 +2,7 @@
   <ion-col class="ion-no-padding flex flex-1 w-100 flex-column">
     <ion-row
       *ngIf="contentItems && cancelItem && visibleItem !== cancelItem"
-      class="ion-no-padding flex flex-1 flex-column position-relative mx-32 mt-80"
+      class="ion-no-padding flex flex-1 flex-column position-relative mx-32 mt-32"
     >
       <ng-container
         *ngFor="let item of contentItems; let i = index; let last = last"
@@ -116,6 +116,9 @@
     <ion-grid class="ion-no-padding flex flex-column flex-1 w-100 p-16">
       <ion-row
         class="ion-no-padding flex w-100 ion-justify-content-center mb-18"
+        [ngClass]="{
+          'opacity-0': contentItems?.length < 2 || !contentItems?.length
+        }"
       >
         <div class="border-bottom-1 border-red pb-2">
           <ion-label class="color-dark-green px-1">
