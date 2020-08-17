@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { of, BehaviorSubject } from 'rxjs';
-import { catchError, map } from 'rxjs/operators';
+import { catchError, map, switchMap } from 'rxjs/operators';
 import { policyEndpoints } from 'src/app/core/configs/endpoints';
 import { RequestService } from 'src/app/core/services/request/request.service';
 import { PolicyItem } from 'src/app/shared/models/data/policy-item';
@@ -86,5 +86,26 @@ export class PolicyDataService {
       p.type = { ...typeV };
     }
     return p;
+  }
+
+  getSingleOfferById(id: number | string) {
+    return this.offerStore$.pipe(
+      switchMap((vals) => {
+        if (vals instanceof Array) {
+          const existing = vals.find((v) => v.id.toString() === id.toString());
+          if (existing) {
+            return of(existing);
+          } else {
+            return this.getUserOffers(id).pipe(
+              map((o) => o.filter((of) => of.id === id))
+            );
+          }
+        } else {
+          return this.getUserOffers(id).pipe(
+            map((o) => o.filter((of) => of.id === id))
+          );
+        }
+      })
+    );
   }
 }

@@ -1,5 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, HostBinding } from '@angular/core';
 import { subPageHeaderSecondary } from 'src/app/shared/data/sub-page-header-secondary';
+import { ActivatedRoute } from '@angular/router';
+import { PolicyDataService } from '../../services/policy-data.service';
 
 @Component({
   selector: 'app-offer-view',
@@ -8,9 +10,23 @@ import { subPageHeaderSecondary } from 'src/app/shared/data/sub-page-header-seco
 })
 export class OfferViewComponent implements OnInit {
   headerConfig = subPageHeaderSecondary('Oferta de asigurare');
-  constructor() {}
+  @HostBinding('class') color = 'ion-color-white-page';
+  constructor(
+    private route: ActivatedRoute,
+    private policyDataService: PolicyDataService
+  ) {
+    this.route.params.subscribe((params: any) => {
+      this.getPolicyById(params.id);
+    });
+  }
 
-  ngOnInit() {}
+  ngOnInit(): void {}
+
+  getPolicyById(id) {
+    this.policyDataService.getSingleOfferById(id).subscribe((offer) => {
+      console.log(offer);
+    });
+  }
 
   back() {}
 }
