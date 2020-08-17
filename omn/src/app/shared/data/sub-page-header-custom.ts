@@ -1,6 +1,9 @@
 import { SubPageHeader } from '../models/component/sub-page-header';
 
-export const subPageHeaderCustom = (title: string,classes?:string): SubPageHeader => {
+export const subPageHeaderCustom = (
+  title: string,
+  classes?: string
+): SubPageHeader => {
   const item: SubPageHeader = {
     toolbarClasses: `header-toolbar ${classes}`,
     toolbarColor: 'omn-transparent-green',
