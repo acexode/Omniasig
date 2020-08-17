@@ -99,10 +99,7 @@ export class PolicyFormPage implements OnInit {
       case this.policySteps.INFO_DOC:
         this.changeStep(this.policySteps.EXCLUSION);
         break;
-      // case this.policySteps.ADDRESS_SELECT:
-      //   break;
       default:
-        // this.headerConfig = subPageHeaderDefault('Polita');
         break;
     }
   }
@@ -113,15 +110,10 @@ export class PolicyFormPage implements OnInit {
       case this.policySteps.DNT:
         this.bgWhite = false;
         break;
-      case this.policySteps.EXCLUSION:
-        break;
       case this.policySteps.INFO_DOC:
         this.bgWhite = true;
         break;
-      // case this.policySteps.ADDRESS_SELECT:
-      //   break;
       default:
-        // this.headerConfig = subPageHeaderDefault('Polita');
         break;
     }
     if (forceWhite !== null) {
