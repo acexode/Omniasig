@@ -23,6 +23,7 @@ import { PolicyViewComponent } from './components/policy-view/policy-view.compon
     PolicyArchiveListComponent,
     InfoDocComponent,
     InfoCardComponent,
+    AdresaLocuintaComponent,
     DisabledMessageModalComponent,
     TipModalComponent,
     PolicyViewComponent,

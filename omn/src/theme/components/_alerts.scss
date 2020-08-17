@@ -75,3 +75,9 @@ ion-alert {
     }
   }
 }
+
+.radio-btn {
+  --border-radius: 20px;
+  --color-checked: var(--ion-color-success);
+  --inner-border-radius: 16px;
+}
