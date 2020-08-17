@@ -117,4 +117,23 @@ export class LocuinteService {
       })
     );
   }
+
+  getLocuinteWithPolicy(policyTypeID: string) {
+    return this.reqS.get<Array<Locuinte>>(this.endpoints.base).pipe(
+      map((v) => {
+        if (!v) {
+          return null;
+        }
+        const data = v.map((vals) =>
+          vals.policyData.map(
+            (dataV) => dataV.id.toString() === policyTypeID.toString()
+          )
+        );
+        return data;
+      }),
+      catchError((e) => {
+        return of(this.emptyV);
+      })
+    );
+  }
 }

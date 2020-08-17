@@ -14,6 +14,7 @@ import { OfferViewComponent } from './components/offer-view/offer-view.component
 import { PolicyPage } from './page/policy.page';
 import { PolicyRoutingModule } from './policy-routing.module';
 import { PolicySharedModule } from './policy-shared.module';
+import { AdresaLocuintaComponent } from './components/adresa-locuinta/adresa-locuinta.component';
 
 @NgModule({
   declarations: [
@@ -23,6 +24,7 @@ import { PolicySharedModule } from './policy-shared.module';
     PolicyArchiveListComponent,
     InfoDocComponent,
     InfoCardComponent,
+    AdresaLocuintaComponent,
     DisabledMessageModalComponent,
     TipModalComponent,
     OfferViewComponent,
