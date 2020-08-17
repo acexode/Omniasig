@@ -16,7 +16,7 @@ export class NumarTelefonComponent implements OnInit {
   config: IonInputConfig= {
     // inputLabel:this.asigTitle,
     placeholder:"07XX XXX XXX",
-    clearable:true,
+    clearable:true, 
     inputClasses:"right-0",
     type:'tel',
     inputMode:"tel"
