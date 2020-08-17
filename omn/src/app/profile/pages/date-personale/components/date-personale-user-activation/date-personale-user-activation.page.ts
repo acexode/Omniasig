@@ -17,8 +17,10 @@ export class DatePersonaleUserActivationPage implements OnInit {
     leadingIcon: null,
     trailingIcon: null,
   };
-  displayMode: UserActivateModes = this.userActivationModes.NEW_USER;
-  itemClass = `p-16 flex-1 mb-16 ${this.displayMode === UserActivateModes.NEW_USER && 'bg-light-green'}`;
+  displayMode: UserActivateModes = this.userActivationModes.EXISTING;
+  itemClass = `p-8 flex-1 mb-16 ${
+    this.displayMode === UserActivateModes.NEW_USER && 'bg-light-green'
+  }`;
   actions: Array<ImageCard> = [
     {
       mainIcon: {
@@ -28,11 +30,7 @@ export class DatePersonaleUserActivationPage implements OnInit {
       },
       textContent: [
         {
-          text: 'Verificare',
-          classes: 'flex ion-justify-content-center',
-        },
-        {
-          text: 'identitate',
+          text: 'Verificare identitate',
           classes: 'flex ion-justify-content-center',
         },
       ],
@@ -62,9 +60,7 @@ export class DatePersonaleUserActivationPage implements OnInit {
     },
   ];
 
-  constructor() { }
+  constructor() {}
 
-  ngOnInit() {
-  }
-
+  ngOnInit() {}
 }
