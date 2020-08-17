@@ -126,7 +126,7 @@ export class LocuinteService {
         }
         const data = v.map((vals) =>
           vals.policyData.map(
-            (data) => data.id.toString() === policyTypeID.toString()
+            (dataV) => dataV.id.toString() === policyTypeID.toString()
           )
         );
         return data;
