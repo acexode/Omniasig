@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { PolicyComponent } from './components/policy/policy.component';
 import { PolicyPage } from './page/policy.page';
 import { InfoDocComponent } from './components/info-doc/info-doc.component';
+import { AdresaLocuintaComponent } from './components/adresa-locuinta/adresa-locuinta.component';
 
 const routes: Routes = [
   {
@@ -17,6 +18,10 @@ const routes: Routes = [
         path: 'info-doc',
         component: InfoDocComponent,
       },
+      {
+        path: 'adresa-locuinta',
+        component: AdresaLocuintaComponent,
+      },
     ],
   },
   {
@@ -24,6 +29,13 @@ const routes: Routes = [
     loadChildren: () =>
       import('./pages/policy-form/policy-form.module').then(
         (m) => m.PolicyFormPageModule
+      ),
+  },
+  {
+    path: 'policy-verify',
+    loadChildren: () =>
+      import('./pages/policy-verify/policy-verify.module').then(
+        (m) => m.PolicyVerifyModule
       ),
   },
 ];
