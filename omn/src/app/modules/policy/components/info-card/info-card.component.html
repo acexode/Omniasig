@@ -1,0 +1,32 @@
+<ion-col class="ion-no-padding">
+  <ion-row class="mb-16">
+    <ion-card
+      class="ion-no-margin bottom-radius-0 w-100 px-8 pt-6"
+      [ngClass]="item?.classes"
+    >
+      <ion-icon
+        [name]="item?.icon?.name"
+        class="color-white ion-no-margin ion-no-padding"
+        size="large"
+      ></ion-icon>
+    </ion-card>
+  </ion-row>
+
+  <ion-row class="mb-13" [ngClass]="item?.subtitle?.classes">
+    <ion-label class="s18-h24 text-weight-medium">{{
+      item?.subtitle?.text
+    }}</ion-label>
+  </ion-row>
+
+  <ion-row>
+    <ul class="m-0" [ngClass]="item?.listClass">
+      <ng-container
+        *ngFor="let text of item?.textContents; let last = last; let i = index"
+      >
+        <li class="text-normal" [ngClass]="{ 'mb-16': !last }">
+          {{ text }}
+        </li>
+      </ng-container>
+    </ul>
+  </ion-row>
+</ion-col>

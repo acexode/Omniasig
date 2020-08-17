@@ -33,6 +33,7 @@
     "com-darryncampbell-cordova-plugin-intent": "^2.0.0",
     "cordova-plugin-app-launcher": "^0.4.0",
     "cordova-plugin-splashscreen": "^5.0.4",
+    "ionic4-auto-complete": "^2.8.1",
     "lodash": "^4.17.19",
     "rxjs": "~6.5.1",
     "tslib": "^1.10.0",

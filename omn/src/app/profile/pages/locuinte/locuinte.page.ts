@@ -1,9 +1,8 @@
-import { Component, OnInit } from '@angular/core';
-import { ActionSheetController } from '@ionic/angular';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { ActionSheetController, NavController } from '@ionic/angular';
 import { AuthService } from 'src/app/core/services/auth/auth.service';
 import { subPageHeaderDefault } from 'src/app/shared/data/sub-page-header-default';
-import { Locuinte } from 'src/app/shared/models/data/locuinte';
-import { LocuinteService } from './services/locuinte.service';
+import { LocuinteService } from './services/locuinte/locuinte.service';
 
 @Component({
   selector: 'app-locuinte',
@@ -12,31 +11,29 @@ import { LocuinteService } from './services/locuinte.service';
 })
 export class LocuintePage implements OnInit {
   headerConfig = subPageHeaderDefault('Locuințe');
-  accountActivated: boolean = true;
+  accountActivated = false;
   account$ = this.authS.getAccountData();
-  cards: Array<Locuinte> = [];
+  cards$ = this.locuinteS.locuinteStore$;
 
   constructor(
     public actionSheetController: ActionSheetController,
     private authS: AuthService,
-    private locuinteS: LocuinteService
+    private locuinteS: LocuinteService,
+    private navCtrl: NavController,
+    private cdRef: ChangeDetectorRef
   ) {}
 
   ngOnInit() {
     this.account$.subscribe((account) => {
       if (account) {
-        // this.accountActivated = this.authS.accountActivated(account);
-        if (this.accountActivated) {
-          this.reQLocuintes();
-        }
+        this.accountActivated = this.authS.accountActivated(account);
+        this.cdRef.markForCheck();
       }
     });
   }
 
   reQLocuintes() {
-    this.locuinteS.getUserLocuinte().subscribe((locuintes) => {
-      this.cards = locuintes;
-    });
+    // this.locuinteS.loadAllData();
   }
 
   async openVerifyModal() {
@@ -63,6 +60,7 @@ export class LocuintePage implements OnInit {
             text: 'Am înțeles!',
             cssClass:
               'm-0 w-100 no-shadow ion-color text-weight-medium ion-color-success flat button button-block button-large button-solid',
+            handler: () => this.redirectToAddForm(),
           },
         ],
       })
@@ -70,5 +68,9 @@ export class LocuintePage implements OnInit {
         actionSheet = v;
         actionSheet.present();
       });
+  }
+
+  redirectToAddForm() {
+    this.navCtrl.navigateForward('/profil/locuinte/add');
   }
 }

@@ -1,0 +1,20 @@
+@import '../variables.scss';
+@import '../mixins/mixins';
+
+app-autocomplete {
+  ion-item {
+    overflow: visible;
+  }
+  ion-auto-complete {
+    width: 100%;
+    input.native-input {
+      border: none;
+    }
+    ul {
+      width: 100%;
+      left: 0;
+      top: 100%;
+      z-index: 3;
+    }
+  }
+}
