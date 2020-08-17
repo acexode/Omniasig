@@ -3,18 +3,19 @@ import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
 import { SharedModule } from 'src/app/shared/shared.module';
+import { AdresaLocuintaComponent } from './components/adresa-locuinta/adresa-locuinta.component';
 import { InfoCardComponent } from './components/info-card/info-card.component';
 import { InfoDocComponent } from './components/info-doc/info-doc.component';
 import { DisabledMessageModalComponent } from './components/modals/disabled-message-modal/disabled-message-modal.component';
 import { TipModalComponent } from './components/modals/tip-modal/tip-modal.component';
+import { OfferViewComponent } from './components/offer-view/offer-view.component';
 import { PolicyArchiveListComponent } from './components/policy-archive-list/policy-archive-list.component';
 import { PolicyCardListComponent } from './components/policy-card-list/policy-card-list.component';
+import { PolicyViewComponent } from './components/policy-view/policy-view.component';
 import { PolicyComponent } from './components/policy/policy.component';
 import { PolicyPage } from './page/policy.page';
 import { PolicyRoutingModule } from './policy-routing.module';
 import { PolicySharedModule } from './policy-shared.module';
-import { PolicyViewComponent } from './components/policy-view/policy-view.component';
-import { AdresaLocuintaComponent } from './components/adresa-locuinta/adresa-locuinta.component';
 
 @NgModule({
   declarations: [
@@ -27,6 +28,7 @@ import { AdresaLocuintaComponent } from './components/adresa-locuinta/adresa-loc
     AdresaLocuintaComponent,
     DisabledMessageModalComponent,
     TipModalComponent,
+    OfferViewComponent,
     PolicyViewComponent,
   ],
   imports: [
