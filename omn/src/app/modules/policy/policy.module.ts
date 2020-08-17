@@ -14,6 +14,7 @@ import { PolicyPage } from './page/policy.page';
 import { PolicyRoutingModule } from './policy-routing.module';
 import { PolicySharedModule } from './policy-shared.module';
 import { PolicyViewComponent } from './components/policy-view/policy-view.component';
+import { AdresaLocuintaComponent } from './components/adresa-locuinta/adresa-locuinta.component';
 
 @NgModule({
   declarations: [
