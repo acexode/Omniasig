@@ -31,6 +31,13 @@ const routes: Routes = [
         (m) => m.PolicyFormPageModule
       ),
   },
+  {
+    path: 'policy-verify',
+    loadChildren: () =>
+      import('./pages/policy-verify/policy-verify.module').then(
+        (m) => m.PolicyVerifyModule
+      ),
+  },
 ];
 
 @NgModule({
