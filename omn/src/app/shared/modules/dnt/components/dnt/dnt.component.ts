@@ -92,6 +92,9 @@ export class DntComponent implements OnInit {
    * @param data - Pass additional data.
    */
   buttonClick(type: 'start' | 'end', data = null) {
+    console.log(type);
+    console.log(data);
+    console.log(this.visibleItemIndex);
     if (type === 'end') {
       this.dntEvents.emit(this.visibleItemIndex);
       if (this.visibleItemIndex === this.contentItems.length - 1) {
@@ -110,6 +113,7 @@ export class DntComponent implements OnInit {
     } else {
       if (this.cancelItem && !data) {
         // Navigate to cancel state display.
+        this.visibleItemIndex = -1;
         this.dntEvents.emit('cancel-ev');
         this.visibleItem = this.cancelItem;
       }

@@ -53,8 +53,6 @@ export class PolicyFormPage implements OnInit {
       )
       .subscribe((vals: any) => {
         this.typeItem = vals[1];
-        console.log(this.typeItem);
-        console.log(this.currentStep);
         this.initConfigs();
         this.changeStep(vals[0]);
       });
@@ -63,7 +61,6 @@ export class PolicyFormPage implements OnInit {
   initConfigs() {}
 
   setTitles() {
-    console.log(this.currentStep);
     switch (this.currentStep) {
       case this.policySteps.DNT:
         this.headerConfig = subPageHeaderDefault('Formular de analiză');
@@ -141,5 +138,24 @@ export class PolicyFormPage implements OnInit {
     if (event === 'cancel-ev') {
       this.setBgColor(true);
     }
+    if (event === 'cancel-btn') {
+      this.exitFlow();
+    }
+  }
+
+  navEvents(event: string) {
+    if (event === 'success-btn') {
+      this.next();
+    }
+    if (event === 'cancel-ev') {
+      this.setBgColor(true);
+    }
+    if (event === 'cancel-btn') {
+      this.exitFlow();
+    }
+  }
+
+  exitFlow() {
+    this.navCtrl.navigateBack(['/policy']);
   }
 }

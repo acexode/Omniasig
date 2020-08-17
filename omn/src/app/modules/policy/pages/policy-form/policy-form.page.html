@@ -15,6 +15,7 @@
     <ng-container *ngSwitchCase="policySteps?.EXCLUSION">
       <app-exclusion-slides
         [config]="typeItem?.exclusionConfig"
+        (navEvents)="navEvents($event)"
       ></app-exclusion-slides>
     </ng-container>
     <ng-container *ngSwitchCase="policySteps?.INFO_DOC">
