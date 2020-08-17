@@ -1,4 +1,14 @@
 @import '../variables.scss';
+.ion-color-disabled {
+  --ion-color-base: var(--ion-color-disabled);
+  --ion-color-base-rgb: var(--ion-color-disabled-rgb);
+  --ion-color-contrast: var(--ion-color-disabled-contrast);
+  --ion-color-contrast-rgb: var(--ion-color-disabled-contrast-rgb);
+  --ion-color-shade: var(--ion-color-disabled-shade);
+  --ion-color-tint: var(--ion-color-disabled-tint);
+  --ion-color: var(--ion-color-disabled);
+  color: $grey3;
+}
 
 .ion-color-green-gradient {
   --ion-color-base: var(--ion-color-green-gradient);
@@ -8,6 +18,7 @@
   --ion-color-shade: var(--ion-color-green-gradient-shade);
   --ion-color-tint: var(--ion-color-green-gradient-tint);
 }
+
 .ion-color-omn-green {
   --ion-color-base: var(--app-green-color);
   --ion-color-base-rgb: rgba(var(--app-green-color), 1);
@@ -16,6 +27,7 @@
   --ion-color-shade: var(--ion-color-green-gradient-shade);
   --ion-color-tint: var(--ion-color-green-gradient-tint);
 }
+
 .ion-color-omn-transparent-white {
   --ion-color-base: transparent;
   --ion-color-base-rgb: transparent;
@@ -101,6 +113,7 @@
   --ion-background-color: var(--ion-color-omn-grey-medium-2);
   background-color: $light-grey-2;
 }
+
 .ion-color-dark-green-b {
   --ion-color-base: var(--ion-color-dark-green-b);
   --ion-color-base-rgb: var(--ion-color-dark-green-b-rgb);
@@ -118,6 +131,7 @@
   --ion-color-tint: var(--ion-color-dark-green-b-tint);
   background: $dark-green-b;
 }
+
 .ion-color-white-danger-bg {
   --ion-color-base: var(--app-color-white);
   --ion-color-contrast: var(--app-color-white);
@@ -131,12 +145,14 @@
   --ion-color-contrast-rgb: var(--app-color-white);
   background: $red;
 }
+
 .ion-color-white-light-green-2-bg {
   --ion-color-base: var(--app-color-white);
   --ion-color-contrast: var(--app-color-white);
   --ion-color-contrast-rgb: var(--app-color-white);
   background: $light-green-2;
 }
+
 .color-dark-green {
   color: $dark-green !important;
 }
@@ -167,9 +183,14 @@
   color: $red;
 }
 
+.color-disabled {
+  color: $grey3;
+}
+
 .bg-danger {
   background-color: $danger;
 }
+
 .bg-warning {
   background-color: $warning;
 }
@@ -188,6 +209,7 @@
 
 .bg-green {
   background-color: $green;
+
   --background: $green;
 }
 
@@ -214,6 +236,7 @@
   background-color: $light-green;
   --background: $light-green;
 }
+
 .bg-white-layer-gradient {
   background: $white-layer-gradient;
 }

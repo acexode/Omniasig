@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
-import { of, BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable, of } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
 import { policyEndpoints } from 'src/app/core/configs/endpoints';
+import { AuthService } from 'src/app/core/services/auth/auth.service';
 import { RequestService } from 'src/app/core/services/request/request.service';
 import { PolicyItem } from 'src/app/shared/models/data/policy-item';
 import { PolicyOffer } from 'src/app/shared/models/data/policy-offer';
 import { policyTypes } from 'src/app/shared/models/data/policy-types';
-import { AuthService } from 'src/app/core/services/auth/auth.service';
 
 @Injectable({
   providedIn: 'root',
@@ -97,14 +97,38 @@ export class PolicyDataService {
             return of(existing);
           } else {
             return this.getUserOffers(id).pipe(
-              map((o) => o.filter((of) => of.id === id))
+              map((o) => o.filter((off) => off.id === id))
             );
           }
         } else {
           return this.getUserOffers(id).pipe(
-            map((o) => o.filter((of) => of.id === id))
+            map((o) => o.filter((off) => off.id === id))
           );
         }
+      })
+    );
+  }
+  getSinglePolicyById(id) {
+    return this.policyStore$.pipe(
+      switchMap((vals) => {
+        if (vals instanceof Array) {
+          const existing = vals.find((v) => v.id.toString() === id.toString());
+          if (existing) {
+            return of(existing);
+          } else {
+            return this.getSinglePolicy(id);
+          }
+        } else {
+          return this.getSinglePolicy(id);
+        }
+      })
+    );
+  }
+
+  private getSinglePolicy(id): Observable<PolicyItem> {
+    return this.reqS.get<PolicyItem>(this.endpoints.base + '/' + id).pipe(
+      catchError((e) => {
+        return of(null);
       })
     );
   }
