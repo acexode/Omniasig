@@ -92,9 +92,6 @@ export class DntComponent implements OnInit {
    * @param data - Pass additional data.
    */
   buttonClick(type: 'start' | 'end', data = null) {
-    console.log(type);
-    console.log(data);
-    console.log(this.visibleItemIndex);
     if (type === 'end') {
       this.dntEvents.emit(this.visibleItemIndex);
       if (this.visibleItemIndex === this.contentItems.length - 1) {

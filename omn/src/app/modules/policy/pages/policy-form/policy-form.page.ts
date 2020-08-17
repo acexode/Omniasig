@@ -131,7 +131,6 @@ export class PolicyFormPage implements OnInit {
   }
 
   dntEvents(event: string) {
-    console.log(event);
     if (event === 'success-btn') {
       this.next();
     }
