@@ -1,3 +1,4 @@
+import { PolicyViewComponent } from './components/policy-view/policy-view.component';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { PolicyComponent } from './components/policy/policy.component';
@@ -18,10 +19,14 @@ const routes: Routes = [
         path: 'info-doc',
         component: InfoDocComponent,
       },
+       {
+        path: ':id',
+        component: PolicyViewComponent,
+      },
       {
         path: 'adresa-locuinta',
         component: AdresaLocuintaComponent,
-      },
+      }
     ],
   },
   {
