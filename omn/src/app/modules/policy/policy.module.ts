@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
+import { FormsModule, ReactiveFormsModule} from '@angular/forms'
 import { RouterModule } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
 import { SharedModule } from 'src/app/shared/shared.module';
@@ -36,6 +37,8 @@ import { PolicyVerifyComponent} from './pages/policy-verify/policy-verify.compon
     IonicModule,
     RouterModule,
     SharedModule,
+    FormsModule,
+    ReactiveFormsModule
   ],
 })
 export class PolicyModule {}
