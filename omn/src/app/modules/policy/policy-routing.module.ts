@@ -4,6 +4,7 @@ import { PolicyComponent } from './components/policy/policy.component';
 import { PolicyPage } from './page/policy.page';
 import { InfoDocComponent } from './components/info-doc/info-doc.component';
 import { CesiuneFormComponent} from './components/cesiune-form/cesiune-form.component'
+import { AdresaLocuintaComponent } from './components/adresa-locuinta/adresa-locuinta.component';
 
 const routes: Routes = [
   {
@@ -20,7 +21,11 @@ const routes: Routes = [
       },
       {
         path: 'cesiune-form',
-        component: CesiuneFormComponent,
+        component: CesiuneFormComponent
+      },
+      {
+        path: 'adresa-locuinta',
+        component: AdresaLocuintaComponent,
       },
     ],
   },

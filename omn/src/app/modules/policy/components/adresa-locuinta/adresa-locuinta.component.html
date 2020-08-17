@@ -1,0 +1,179 @@
+<app-sub-page-header [config]="headerConfig"></app-sub-page-header>
+<ion-content>
+  <ion-grid class="ion-no-padding flex flex-1 flex-column h-100">
+    <ion-row [hidden]="version !== 1" class="ml-32">
+      <ion-col class="ion-no-padding">
+        <ion-row class="mt-40">
+          <ion-label color="omn-green" class="label-large alt-font"
+            >Adresele tale:</ion-label
+          >
+        </ion-row>
+        <ion-row>
+          <ion-radio-group>
+            <ion-item class="ion-no-padding ion-align-items-start">
+              <ion-label class="ion-text-wrap my-24 text-normal"
+                >Strada Traian 45, Brasov, judetul Brasov, Cod 321456</ion-label
+              >
+              <ion-radio
+                class="ml-0 mr-12 my-24 radio-btn"
+                slot="start"
+              ></ion-radio>
+            </ion-item>
+            <ion-item class="ion-no-padding ion-align-items-start">
+              <ion-label class="ion-text-wrap my-24 text-normal"
+                >Adaugă o adresă nouă</ion-label
+              >
+              <ion-radio
+                class="ml-0 mr-12 my-24 radio-btn"
+                slot="start"
+              ></ion-radio>
+            </ion-item>
+          </ion-radio-group>
+        </ion-row>
+      </ion-col>
+    </ion-row>
+
+    <ion-row [hidden]="version !== 4" class="ml-32">
+      <ion-col class="ion-no-padding">
+        <ion-row class="mt-40">
+          <ion-label color="omn-green" class="label-large alt-font"
+            >Adresele tale:</ion-label
+          >
+        </ion-row>
+        <ion-row>
+          <ion-radio-group>
+            <ion-item class="ion-no-padding ion-align-items-start">
+              <ion-label class="ion-text-wrap my-24 text-normal"
+                >Strada Traian 45, Brasov, judetul Brasov, Cod 321456</ion-label
+              >
+              <ion-radio
+                class="ml-0 mr-12 my-24 radio-btn"
+                slot="start"
+              ></ion-radio>
+            </ion-item>
+            <ion-item class="ion-no-padding ion-align-items-start">
+              <ion-label class="ion-text-wrap my-24 text-normal"
+                >Adaugă o adresă nouă</ion-label
+              >
+              <ion-radio
+                class="ml-0 mr-12 my-24 radio-btn"
+                slot="start"
+              ></ion-radio>
+            </ion-item>
+          </ion-radio-group>
+        </ion-row>
+      </ion-col>
+    </ion-row>
+
+    <ion-row [hidden]="version !== 2" class="ml-32">
+      <ion-col class="ion-no-padding">
+        <ion-row class="mt-40">
+          <ion-label color="omn-green" class="label-large alt-font"
+            >Adrese cu polițe active:</ion-label
+          >
+        </ion-row>
+        <ion-row>
+          <ion-radio-group>
+            <ion-item class="ion-no-padding ion-align-items-start">
+              <div class="my-24">
+                <ion-label class="ion-text-wrap mb-14 text-normal"
+                  >Str. Traian Nr.45, Brasov, jud. BV, Cod 321456</ion-label
+                >
+                <ion-label
+                  color="omn-green"
+                  class="ion-text-wrap link-small text-weight-medium"
+                  >Polița PAD valabilă până la 25.07.2020</ion-label
+                >
+              </div>
+              <ion-radio
+                class="ml-0 mr-12 my-24 radio-btn"
+                slot="start"
+              ></ion-radio>
+            </ion-item>
+            <ion-item class="ion-no-padding ion-align-items-start">
+              <ion-label class="ion-text-wrap my-24 text-normal"
+                >Adaugă o adresă nouă</ion-label
+              >
+              <ion-radio
+                class="ml-0 mr-12 my-24 radio-btn"
+                slot="start"
+              ></ion-radio>
+            </ion-item>
+          </ion-radio-group>
+        </ion-row>
+      </ion-col>
+    </ion-row>
+
+    <ion-row [hidden]="version !== 3" class="ml-32 mb-96">
+      <ion-col class="ion-no-padding">
+        <ion-row class="mt-40">
+          <ion-label color="omn-green" class="label-large alt-font"
+            >Adresele tale:</ion-label
+          >
+        </ion-row>
+        <ion-row>
+          <ion-item class="ion-no-padding ion-align-items-start">
+            <ion-label class="ion-text-wrap my-24 text-normal"
+              >Strada Traian 45, Brasov, judetul Brasov, Cod 321456</ion-label
+            >
+            <ion-radio
+              class="ml-0 mr-12 my-24 radio-btn"
+              slot="start"
+            ></ion-radio>
+          </ion-item>
+        </ion-row>
+        <ion-row class="mt-14">
+          <ion-label color="omn-green" class="label-large alt-font"
+            >Adrese cu polițe active:</ion-label
+          >
+        </ion-row>
+        <ion-row>
+          <ion-radio-group>
+            <ion-item class="ion-no-padding ion-align-items-start">
+              <div class="my-24">
+                <ion-label class="ion-text-wrap mb-14 text-normal"
+                  >Strada Dimitrie Bolintineanu 71-73, Scara A, Apartament 10,
+                  Turnu Magurele, jud. Teleorman, Cod 345126</ion-label
+                >
+                <ion-label
+                  color="omn-green"
+                  class="ion-text-wrap link-small text-weight-medium"
+                  >Polița PAD valabilă până la 25.07.2020</ion-label
+                >
+              </div>
+              <ion-radio
+                class="ml-0 mr-12 my-24 radio-btn"
+                slot="start"
+              ></ion-radio>
+            </ion-item>
+            <ion-item class="ion-no-padding ion-align-items-start">
+              <ion-label class="ion-text-wrap my-24 text-normal"
+                >Adaugă o adresă nouă</ion-label
+              >
+              <ion-radio
+                class="ml-0 mr-12 my-24 radio-btn"
+                slot="start"
+              ></ion-radio>
+            </ion-item>
+          </ion-radio-group>
+        </ion-row>
+      </ion-col>
+    </ion-row>
+
+    <ion-row class="mt-auto mb-24 w-100 px-32 ion-no-padding">
+      <ion-col class="ion-no-padding flex flex-1 w-100 flex-column">
+        <ion-button
+          (click)="continue()"
+          class="activate-btn h3"
+          color="success"
+          expand="full"
+          size="large"
+          shape="round"
+          mode="ios"
+        >
+          Continuă
+        </ion-button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

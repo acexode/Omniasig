@@ -16,6 +16,7 @@ import { PolicyRoutingModule } from './policy-routing.module';
 import { PolicySharedModule } from './policy-shared.module';
 import { CesiuneFormComponent} from './components/cesiune-form/cesiune-form.component'
 import { PolicyVerifyComponent} from './pages/policy-verify/policy-verify.component'
+import { AdresaLocuintaComponent } from './components/adresa-locuinta/adresa-locuinta.component';
 
 @NgModule({
   declarations: [
@@ -27,6 +28,7 @@ import { PolicyVerifyComponent} from './pages/policy-verify/policy-verify.compon
     InfoCardComponent,
     CesiuneFormComponent,
     PolicyVerifyComponent,
+    AdresaLocuintaComponent,
     DisabledMessageModalComponent,
     TipModalComponent,
   ],
