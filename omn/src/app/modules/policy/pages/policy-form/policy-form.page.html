@@ -1,24 +1,26 @@
-<ion-header [translucent]="false" class="header-element">
-  <ion-toolbar
-    size="small"
-    color="omn-transparent-green"
-    class="header-toolbar"
-  >
-    <ion-buttons slot="start" class="header-buttons">
-      <ion-button class="header-button omn-green">
-        <ion-icon
-          slot="icon-only"
-          name="md-menu"
-          class="icon-20 header-button-icon"
-        ></ion-icon>
-      </ion-button>
-    </ion-buttons>
-    <ion-title class="ion-text-left header-title omn-green"
-      ><h2 class="alt-font omn-green">
-        Asigurari
-      </h2>
-    </ion-title>
-  </ion-toolbar>
-</ion-header>
+<app-sub-page-header
+  (close)="back()"
+  [config]="headerConfig"
+  [ngClass]="color"
+></app-sub-page-header>
 
-<ion-content> <app-dnt [config]="dntConfig"></app-dnt> </ion-content>
+<ion-content [ngClass]="color">
+  <ng-container [ngSwitch]="currentStep">
+    <ng-container *ngSwitchCase="policySteps?.DNT">
+      <app-dnt
+        [config]="typeItem?.dntConfig"
+        (dntEvents)="dntEvents($event)"
+      ></app-dnt>
+    </ng-container>
+    <ng-container *ngSwitchCase="policySteps?.EXCLUSION">
+      <app-exclusion-slides
+        [config]="typeItem?.exclusionConfig"
+        (navEvents)="navEvents($event)"
+      ></app-exclusion-slides>
+    </ng-container>
+    <ng-container *ngSwitchCase="policySteps?.INFO_DOC">
+      <app-info-doc (continue)="next()"> </app-info-doc>
+    </ng-container>
+    <ng-container *ngSwitchDefault></ng-container>
+  </ng-container>
+</ion-content>
