@@ -9,46 +9,47 @@ import { IonInputConfig } from '../../../../shared/models/component/ion-input-co
   templateUrl: './cesiune-form.component.html',
   styleUrls: ['./cesiune-form.component.scss'],
   providers: [
-    {
-      provide: NG_VALUE_ACCESSOR,
-      useExisting: CesiuneFormComponent,
-      multi: true,
-    },
+    // {
+    //   provide: NG_VALUE_ACCESSOR,
+    //   useExisting: CesiuneFormComponent,
+    //   multi: true,
+    // },
   ],
 })
 export class CesiuneFormComponent implements OnInit {
-  @Input() config: IonInputConfig = {
-      inputLabel: {
-        // slot?: string;
-        // classes?: string;
-        // routerLink?: any;
-        text: "Procent",
-        // prefix?: string;
-        // suffix?: string;
-        // color?: string;
-      },
-      placeholder: "Completează",
-      inputName: "procent",
-      type: "text",
-      // size?: number;
-      min: 1,
-      max: 2,
-      inputClasses: "s18-h21",
-      spinnerConfig: {
-        // Number input.
-        step: 1,
-      },
+  @Input() config: IonInputConfig;
+  // config: IonInputConfig = {
+  //     inputLabel: {
+  //       // slot?: string;
+  //       // classes?: string;
+  //       // routerLink?: any;
+  //       text: "Procent",
+  //       // prefix?: string;
+  //       // suffix?: string;
+  //       // color?: string;
+  //     },
+  //     placeholder: "Completează",
+  //     inputName: "procent",
+  //     type: "text",
+  //     // size?: number;
+  //     min: 1,
+  //     max: 2,
+  //     inputClasses: "s18-h21",
+  //     spinnerConfig: {
+  //       // Number input.
+  //       step: 1,
+  //     },
 
-      // Text types.
-      // clearable?: boolean;
+  //     // Text types.
+  //     // clearable?: boolean;
 
-      // General properties.
-      // maxLength?: number;
-      // minLength?: number;
-      autoComplete: true,
-      autoCorrect: true,
-      // inputMode?: string;
-  }
+  //     // General properties.
+  //     // maxLength?: number;
+  //     // minLength?: number;
+  //     autoComplete: true,
+  //     autoCorrect: true,
+  //     // inputMode?: string;
+  // }
 
 
   radioValue: boolean = false;
@@ -59,6 +60,7 @@ export class CesiuneFormComponent implements OnInit {
   censionar: FormArray;
   
   constructor(private fb: FormBuilder) {
+    console.log("I GOT HERE")
     this.userForm = this.fb.group({
       censionar: this.fb.array([ this.createItem() ])
     });
