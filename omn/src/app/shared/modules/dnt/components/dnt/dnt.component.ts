@@ -33,19 +33,25 @@ export class DntComponent implements OnInit {
     this.contentItems = get(conf, 'items', []);
     this.cancelItem = get(conf, 'cancel', []);
     this.successItem = get(conf, 'success', []);
+    const initialStep = get(conf, 'initialStep', null);
 
     if (this.contentItems.length) {
-      this.navigateInList();
+      if (initialStep !== null) {
+        this.navigateInList('back', initialStep);
+      } else {
+        this.navigateInList();
+      }
     }
     this.cdRef.markForCheck();
   }
+
   constructor(private cdRef: ChangeDetectorRef) {}
 
   ngOnInit() {}
 
   public navigateInList(
     type: 'fwd' | 'back' = 'fwd',
-    start: 'cancel' | 'success' = null
+    start: 'cancel' | 'success' | number = null
   ) {
     if (type === 'fwd') {
       // Only handle fwd navigation for now.
@@ -69,19 +75,16 @@ export class DntComponent implements OnInit {
         this.visibleItem = this.successItem;
         newItem = get(this.contentItems, 'length', -1);
       } else {
-        newItem = get(this.contentItems, 'length', 0) - 1;
+        newItem = this.visibleItemIndex - 1;
       }
-
       // don't navigate if no item available.
       if (this.contentItems[newItem]) {
         this.visibleItem = this.contentItems[newItem];
-        this.visibleItemIndex = newItem;
-        if (this.visibleItemIndex < 0) {
-          // Only emit in case multiple steps navigation.
-          this.dntEvents.emit(this.visibleItemIndex);
-        }
-        this.cdRef.markForCheck();
       }
+      this.visibleItemIndex = newItem;
+      this.dntEvents.emit(newItem);
+      this.cdRef.markForCheck();
+      return this.visibleItemIndex;
     }
   }
 

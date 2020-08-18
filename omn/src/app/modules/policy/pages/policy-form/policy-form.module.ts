@@ -11,6 +11,7 @@ import { PolicySharedModule } from '../../policy-shared.module';
 import { PolicyFormPageRoutingModule } from './policy-form-routing.module';
 import { PolicyFormPage } from './policy-form.page';
 import { InfoCardComponent } from '../../components/info-card/info-card.component';
+import { AdresaLocuintaComponent } from '../../components/adresa-locuinta/adresa-locuinta.component';
 
 @NgModule({
   imports: [
@@ -28,6 +29,7 @@ import { InfoCardComponent } from '../../components/info-card/info-card.componen
     InfoDocComponent,
     TipModalComponent,
     InfoCardComponent,
+    AdresaLocuintaComponent
   ],
 })
 export class PolicyFormPageModule {}

@@ -1,5 +1,5 @@
 <app-sub-page-header
-  (close)="back()"
+  (backActionEv)="back()"
   [config]="headerConfig"
   [ngClass]="color"
 ></app-sub-page-header>
@@ -8,18 +8,24 @@
   <ng-container [ngSwitch]="currentStep">
     <ng-container *ngSwitchCase="policySteps?.DNT">
       <app-dnt
+        #dntComp
         [config]="typeItem?.dntConfig"
         (dntEvents)="dntEvents($event)"
       ></app-dnt>
     </ng-container>
     <ng-container *ngSwitchCase="policySteps?.EXCLUSION">
       <app-exclusion-slides
+        #exclusionComp
         [config]="typeItem?.exclusionConfig"
         (navEvents)="navEvents($event)"
       ></app-exclusion-slides>
     </ng-container>
     <ng-container *ngSwitchCase="policySteps?.INFO_DOC">
-      <app-info-doc (continue)="next()"> </app-info-doc>
+      <app-info-doc #infoDocComp (continue)="next()"> </app-info-doc>
+    </ng-container>    
+    
+    <ng-container *ngSwitchCase="policySteps?.ADDRESS_SELECT">
+      <app-adresa-locuinta #adresaLocComp> </app-adresa-locuinta>
     </ng-container>
     <ng-container *ngSwitchDefault></ng-container>
   </ng-container>
