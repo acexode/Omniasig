@@ -1,61 +1,66 @@
-import { Component, OnInit, Input } from '@angular/core';
-import { EnumCesiuneItem } from './../models/cesiune-item'
-import { FormGroup, FormArray, FormBuilder, FormControl, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { Component, Input, OnInit } from '@angular/core';
+import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
 import { get } from 'lodash';
-import { IonInputConfig } from '../../../../shared/models/component/ion-input-config'
+import { IonInputConfig } from '../../../../shared/models/component/ion-input-config';
+import { radiosConfigHelper } from './../../../../shared/data/radios-config-helper';
+import { IonRadioInputOption } from './../../../../shared/models/component/ion-radio-input-option';
+import { IonRadiosConfig } from './../../../../shared/models/component/ion-radios-config';
+import { EnumCesiuneItem } from './../models/cesiune-item';
 
 @Component({
   selector: 'app-cesiune-form',
   templateUrl: './cesiune-form.component.html',
   styleUrls: ['./cesiune-form.component.scss'],
-  providers: [
-    {
-      provide: NG_VALUE_ACCESSOR,
-      useExisting: CesiuneFormComponent,
-      multi: true,
-    },
-  ],
 })
 export class CesiuneFormComponent implements OnInit {
   @Input() config: IonInputConfig;
 
-  radioValue: boolean = false;
-  numberOfItems: number = 1;
-  cesuineItems: EnumCesiuneItem[]
+  radioValue = false;
+  numberOfItems = 1;
+  cesuineItems: EnumCesiuneItem[];
+
+  radiosConfig: IonRadiosConfig = radiosConfigHelper({
+    label: 'Exista o cesiune?',
+    mode: 'item',
+  });
+  radioOptions: Array<IonRadioInputOption> = [
+    { label: 'Da', id: 1 },
+    { label: 'Nu', id: 0 },
+  ];
 
   public userForm: FormGroup;
   censionar: FormArray;
-  
+
   constructor(private fb: FormBuilder) {
     this.userForm = this.fb.group({
-      censionar: this.fb.array([ this.createItem() ])
+      censionar: this.fb.array([this.createItem()]),
     });
   }
-  
-   createItem(): FormGroup {
-      return this.fb.group({
-        cui: '',
-        procent: '',
-        denumireCesionar: ''
-      });
-   }
 
-  increaseItems(){
+  createItem(): FormGroup {
+    return this.fb.group({
+      cui: '',
+      procent: '',
+      denumireCesionar: '',
+    });
+  }
+
+  increaseItems(event) {
     const max = get(this.config, 'max', 2);
     const step = get(this.config, 'step', 1);
-    if(this.numberOfItems < 2 && this.numberOfItems!== 2){
+    if (this.numberOfItems < 2 && this.numberOfItems !== 2) {
       this.censionar = this.userForm.get('censionar') as FormArray;
       this.censionar.push(this.createItem());
 
-      this.numberOfItems++
+      this.numberOfItems++;
     }
   }
 
-  decreaseItems(){
+  decreaseItems(event) {
     const min = get(this.config, 'min', 1);
     const step = get(this.config?.spinnerConfig?.step, 'step', 1);
-    if(this.numberOfItems > 1){
-      this.numberOfItems--
+    if (this.numberOfItems > 1) {
+      this.numberOfItems--;
       this.censionar.removeAt(this.numberOfItems);
     }
   }
@@ -64,16 +69,15 @@ export class CesiuneFormComponent implements OnInit {
     return this.userForm.get('censionar')['controls'];
   }
 
-
-  radioHandler(event: any){
-    event.target.value === "da"? this.radioValue = true : this.radioValue = false
+  radioHandler(event: any) {
+    event.target.value === 'da'
+      ? (this.radioValue = true)
+      : (this.radioValue = false);
   }
 
-  onSubmit(){
-    this.cesuineItems = this.userForm.value
+  onSubmit() {
+    this.cesuineItems = this.userForm.value;
   }
 
-  ngOnInit() {
-
-  }
+  ngOnInit() {}
 }

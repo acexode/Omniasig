@@ -1,3 +1,4 @@
+import { OmnInputsModule } from './../../shared/modules/omn-inputs/omn-inputs.module';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -16,7 +17,6 @@ import { PolicyCardListComponent } from './components/policy-card-list/policy-ca
 import { PolicyViewComponent } from './components/policy-view/policy-view.component';
 import { PolicyComponent } from './components/policy/policy.component';
 import { PolicyPage } from './page/policy.page';
-import { PolicyVerifyComponent } from './pages/policy-verify/policy-verify.component';
 import { PolicyRoutingModule } from './policy-routing.module';
 import { PolicySharedModule } from './policy-shared.module';
 
@@ -29,7 +29,6 @@ import { PolicySharedModule } from './policy-shared.module';
     InfoDocComponent,
     InfoCardComponent,
     CesiuneFormComponent,
-    PolicyVerifyComponent,
     AdresaLocuintaComponent,
     DisabledMessageModalComponent,
     TipModalComponent,
@@ -43,6 +42,7 @@ import { PolicySharedModule } from './policy-shared.module';
     IonicModule,
     RouterModule,
     SharedModule,
+    OmnInputsModule,
     FormsModule,
     ReactiveFormsModule,
   ],

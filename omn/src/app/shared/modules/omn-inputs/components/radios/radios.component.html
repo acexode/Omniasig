@@ -33,13 +33,30 @@
             last: isLast
           }"
         ></ng-container>
+
+        <ng-container
+          *ngIf="config?.mode === 'item' || !config?.mode"
+          [ngTemplateOutlet]="radioItemRef"
+          [ngTemplateOutletContext]="{
+            item: item,
+            first: isFirst,
+            last: isLast
+          }"
+        ></ng-container>
       </ng-container>
     </ng-container>
   </ion-radio-group>
 </ion-item>
 
-<ng-template #radioItemRef let-item="item">
-  <ion-item>
+<ng-template #radioItemRef let-item="item" let-last="last" let-first="first">
+  <ion-item
+    lines="none"
+    [class]="'radio-item-wrapper ' + config?.itemClasses"
+    [ngClass]="{
+      last: last,
+      first: first
+    }"
+  >
     <ion-label class="radio-label">{{ item?.label }}</ion-label>
     <ion-radio slot="start" [value]="item?.id"></ion-radio>
   </ion-item>
