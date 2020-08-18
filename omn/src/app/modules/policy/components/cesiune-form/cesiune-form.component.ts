@@ -17,7 +17,39 @@ import { IonInputConfig } from '../../../../shared/models/component/ion-input-co
   ],
 })
 export class CesiuneFormComponent implements OnInit {
-  @Input() config: IonInputConfig;
+  @Input() config: IonInputConfig = {
+      inputLabel: {
+        // slot?: string;
+        // classes?: string;
+        // routerLink?: any;
+        text: "Procent",
+        // prefix?: string;
+        // suffix?: string;
+        // color?: string;
+      },
+      placeholder: "Completează",
+      inputName: "procent",
+      type: "text",
+      // size?: number;
+      min: 1,
+      max: 2,
+      inputClasses: "s18-h21",
+      spinnerConfig: {
+        // Number input.
+        step: 1,
+      },
+
+      // Text types.
+      // clearable?: boolean;
+
+      // General properties.
+      // maxLength?: number;
+      // minLength?: number;
+      autoComplete: true,
+      autoCorrect: true,
+      // inputMode?: string;
+  }
+
 
   radioValue: boolean = false;
   numberOfItems: number = 1;
