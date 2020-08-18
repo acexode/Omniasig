@@ -209,7 +209,13 @@
 
 .bg-green {
   background-color: $green;
-  --background: var(--ion-color-success);
+
+  --background: $green;
+}
+
+.bg-dark-green {
+  background-color: $dark-green;
+  --background: $dark-green;
 }
 
 .bg-green-08 {
@@ -237,6 +243,7 @@
 
 .alt-bg {
   background: $alt-bg;
+  --background: $alt-bg;
 }
 
 .bg-deep-blue {
@@ -258,9 +265,4 @@
 .bg-light-gray {
   background-color: $light-grey-2;
   --background: $light-grey-2;
-}
-
-.bg-dark-green {
-  background: $dark-green;
-  --background: var(--app-dark-green);
 }
