@@ -11,7 +11,7 @@ $font-family-base: var(--ion-font-family);
   font-weight: 500 !important;
 }
 .text-weight-normal {
-  font-weight: normal;
+  font-weight: normal !important;
 }
 .text-weight-bold {
   font-weight: 600;
@@ -56,6 +56,11 @@ h3,
 .h2-title {
   font-size: rem(24);
   line-height: rem(24);
+}
+
+.s20-h24 {
+  font-size: rem(20) !important;
+  line-height: rem(24) !important;
 }
 
 .s18-h24 {
@@ -120,6 +125,9 @@ ion-label.input-label,
 }
 .ls-min-02 {
   letter-spacing: -0.2px;
+}
+.ls-min-01 {
+  letter-spacing: -0.1px;
 }
 .ls-02 {
   letter-spacing: -0.2px;

@@ -108,5 +108,26 @@
       --inner-padding-end: 0;
       align-items: flex-start;
     }
+    &.download-btn {
+      box-shadow: $box-shadow-3;
+      --inner-padding-end: 16px;
+      --inner-border-width: 0;
+      --inner-padding-top: 16px;
+      --inner-padding-bottom: 16px;
+      --padding-start: 68px;
+      ion-icon {
+        margin: 0;
+        margin-inline-end: rem(16);
+        position: absolute;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        height: auto;
+      }
+      ion-label {
+        white-space: normal;
+        overflow: visible;
+      }
+    }
   }
 }
