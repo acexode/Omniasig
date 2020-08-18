@@ -4,6 +4,7 @@ import { LocuinteFormModes } from 'src/app/shared/models/modes/locuinte-form-mod
 import { LocuinteFormPageComponent } from './components/locuinte-form-page/locuinte-form-page.component';
 import { LocuinteViewComponent } from './components/locuinte-view/locuinte-view.component';
 import { LocuintePage } from './locuinte.page';
+import { LocuintaState } from 'src/app/shared/models/data/locuinte.interface';
 
 const routes: Routes = [
   {
@@ -29,6 +30,14 @@ const routes: Routes = [
   {
     path: 'view/:id',
     component: LocuinteViewComponent,
+  },
+  {
+    path: 'incomplete/:id',
+    component: LocuinteViewComponent,
+    data: {
+      formMode: LocuintaState.INCOMPLETE,
+      locuinta: null,
+    },
   },
 ];
 

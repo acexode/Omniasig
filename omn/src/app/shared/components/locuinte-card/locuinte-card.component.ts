@@ -13,9 +13,22 @@ import { Locuinte, LocuintaState } from '../../models/data/locuinte.interface';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LocuinteCardComponent implements OnInit {
-  locuinteState = LocuintaState;
+  locuintaState = LocuintaState;
+  link: string;
   @Input() item: Locuinte;
   constructor() {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    switch (this.item.locuintaState) {
+      case this.locuintaState.INCOMPLETE:
+        this.link = 'incomplete/';
+        break;
+      case this.locuintaState.INVALID:
+        this.link = 'invalid/';
+        break;
+      default:
+        this.link = 'view/';
+        break;
+    }
+  }
 }

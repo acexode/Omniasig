@@ -33,7 +33,6 @@ export class LocuintePage implements OnInit {
         this.cdRef.markForCheck();
         this.reQLocuintes();
         this.cards$.subscribe((cards) => {
-          console.log(cards);
           this.cards = cards;
         });
       }

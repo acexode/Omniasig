@@ -6,12 +6,16 @@ import {
 } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { NavController } from '@ionic/angular';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, combineLatest } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import { CustomRouterService } from 'src/app/core/services/custom-router/custom-router.service';
 import { subPageHeaderDefault } from 'src/app/shared/data/sub-page-header-default';
-import { Locuinte } from 'src/app/shared/models/data/locuinte.interface';
+import {
+  Locuinte,
+  LocuintaState,
+} from 'src/app/shared/models/data/locuinte.interface';
 import { LocuinteService } from '../../services/locuinte/locuinte.service';
+import { LocuinteFormType } from 'src/app/shared/models/modes/locuinte-form-modes';
 
 @Component({
   selector: 'app-locuinte-view',
@@ -19,9 +23,12 @@ import { LocuinteService } from '../../services/locuinte/locuinte.service';
   styleUrls: ['./locuinte-view.component.scss'],
 })
 export class LocuinteViewComponent implements OnInit {
-  headerConfig = subPageHeaderDefault('Locuințe');
+  headerConfig = null;
   locuinta$: BehaviorSubject<Locuinte> = new BehaviorSubject(null);
   variant = 'not-insured'; // not-insured, not-found, found.
+  formMode: LocuintaState;
+  locuintaState = LocuintaState;
+  formType: LocuinteFormType.ADDRESS;
   @HostBinding('class') color = 'ion-color-white-page';
   constructor(
     private routerS: CustomRouterService,
@@ -35,9 +42,17 @@ export class LocuinteViewComponent implements OnInit {
     this.routerS
       .getNavigationEndEvent()
       .pipe(
-        switchMap(() => this.routerS.processChildParamsAsync(this.aRoute, 'id'))
+        switchMap(() =>
+          combineLatest([
+            this.routerS.processChildDataAsync(this.aRoute, 'formMode'),
+            this.routerS.processChildParamsAsync(this.aRoute, 'id'),
+          ])
+        )
       )
-      .subscribe((id: any) => {
+      .subscribe((vals: any) => {
+        this.formMode = vals[0];
+        this.setTitles();
+        const id = vals[1];
         if (id) {
           this.locuinteS.getSingleLocuinta(id).subscribe((val: Locuinte) => {
             if (val) {
@@ -51,6 +66,20 @@ export class LocuinteViewComponent implements OnInit {
           this.navCtrl.navigateRoot(['/profil', 'locuinte']);
         }
       });
+  }
+
+  setTitles() {
+    switch (this.formMode) {
+      case this.locuintaState.INCOMPLETE:
+        this.headerConfig = subPageHeaderDefault('Adresa');
+        break;
+      // case this.formModes.EDIT_FULL:
+      //   this.headerConfig = subPageHeaderDefault('Adresa');
+      //   break;
+      default:
+        this.headerConfig = subPageHeaderDefault('Locuințe');
+        break;
+    }
   }
 
   demoType() {
@@ -67,4 +96,8 @@ export class LocuinteViewComponent implements OnInit {
         break;
     }
   }
+
+  formCustomEvents() {}
+
+  handleFormSubmit() {}
 }

@@ -1,10 +1,10 @@
 <ion-card
   button="true"
-  [routerLink]="['view/' + item.id]"
+  [routerLink]="[link + item.id]"
   class="m-0 w-100 flex-column flex is-button"
 >
   <ion-icon
-    *ngIf="item.locuintaState === locuinteState.INCOMPLETE"
+    *ngIf="item.locuintaState === locuintaState.INCOMPLETE"
     name="md-warning"
     class="p-8 icon-22 position-absolute top-0 right-0 bottom-left-radius-8 color-red bg-light-gray"
   ></ion-icon>

@@ -1,6 +1,9 @@
 <app-sub-page-header [config]="headerConfig"> </app-sub-page-header>
 <ion-content *ngIf="locuinta$ | async as locuinta">
-  <ion-grid class="ion-no-padding pb-24 h-100 flex flex-column bg-white">
+  <ion-grid
+    *ngIf="locuinta.locuintaState === locuintaState.COMPLETE"
+    class="ion-no-padding pb-24 h-100 flex flex-column bg-white"
+  >
     <ion-row
       class="px-64 flex ion-justify-content-center ion-align-items-center flex-column mb-24"
     >
@@ -193,6 +196,66 @@
             </li>
           </ol>
         </ion-row>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+  <ion-grid class="ion-no-padding">
+    <ion-row class="px-32 pt-40 pb-48 alt-bg">
+      <ion-col class="ion-no-padding">
+        <ion-row class="mb-16">
+          <ion-text class="text-center">
+            Adresă din Polița PAD Seria AB-123 Nr. 00012365498 valabilă în
+            perioada 21.02.2019 - 21.02.2020
+          </ion-text>
+        </ion-row>
+        <ion-row>
+          <ion-text class="text-normal text-center text-weight-medium">
+            Acest profil de locuință este incomplet. Adaugă informațiile despre
+            locuință pentru a-l completa.
+          </ion-text>
+        </ion-row>
+      </ion-col>
+    </ion-row>
+
+    <ion-row>
+      <ion-col class="ion-no-padding">
+        <ion-row
+          class="mt-n24 w-auto mx-42 ion-justify-content-center ion-nowrap ion-align-self-center"
+        >
+          <ion-button
+            shape="round"
+            size="large"
+            fill="clear"
+            disabled="true"
+            class="m-0 w-auto mr-16 fond color-dark-green no-shadow"
+          >
+            <span class="text-weight-normal pr-16 mr-auto">Șterge</span>
+            <ion-icon name="md-bin" class="icon-20"></ion-icon>
+          </ion-button>
+
+          <ion-button
+            shape="round"
+            size="large"
+            fill="clear"
+            class="m-0 w-auto color-dark-green no-shadow bg-green"
+          >
+            Completează
+          </ion-button>
+        </ion-row>
+
+        <app-locuinte-form
+          (eventSubmit)="handleFormSubmit()"
+          class="flex flex-1 mh-100p w-100"
+          [buttonVisible]=""
+          [formSubmitting]=""
+          [formGroupInstance]=""
+          [fieldConfig]="formInstance?.config"
+          [fieldConfigData]="formInstance?.data"
+          [buttonText]=""
+          [formType]="formType"
+          (customEvents)="formCustomEvents()"
+        ></app-locuinte-form>
       </ion-col>
     </ion-row>
   </ion-grid>
