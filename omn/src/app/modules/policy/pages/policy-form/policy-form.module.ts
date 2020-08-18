@@ -7,6 +7,8 @@ import { PolicySharedModule } from '../../policy-shared.module';
 import { PolicyFormPageRoutingModule } from './policy-form-routing.module';
 import { PolicyFormPage } from './policy-form.page';
 import { DntModule } from 'src/app/shared/modules/dnt/dnt.module';
+import {InsurancePeriodComponent} from '../policy-form/insurance-period/insurance-period.component'
+import { OmnInputsModule } from '../../../../shared/modules/omn-inputs/omn-inputs.module'
 
 @NgModule({
   imports: [
@@ -17,7 +19,8 @@ import { DntModule } from 'src/app/shared/modules/dnt/dnt.module';
     SharedModule,
     PolicyFormPageRoutingModule,
     DntModule,
+    OmnInputsModule
   ],
-  declarations: [PolicyFormPage],
+  declarations: [PolicyFormPage, InsurancePeriodComponent],
 })
 export class PolicyFormPageModule {}
