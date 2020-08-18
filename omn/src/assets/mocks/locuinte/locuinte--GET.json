@@ -22,7 +22,8 @@
       "heightRegime": 1,
       "roomCount": 2,
       "alarm": 0
-    }
+    },
+    "locuintaState": 1
   },
   {
     "id": "2",
@@ -47,6 +48,7 @@
       "heightRegime": 1,
       "roomCount": 2,
       "alarm": 1
-    }
+    },
+    "locuintaState": 2
   }
 ]

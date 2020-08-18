@@ -3,6 +3,7 @@ import { ActionSheetController, NavController } from '@ionic/angular';
 import { AuthService } from 'src/app/core/services/auth/auth.service';
 import { subPageHeaderDefault } from 'src/app/shared/data/sub-page-header-default';
 import { LocuinteService } from './services/locuinte/locuinte.service';
+import { Locuinte } from 'src/app/shared/models/data/locuinte.interface';
 
 @Component({
   selector: 'app-locuinte',
@@ -14,6 +15,7 @@ export class LocuintePage implements OnInit {
   accountActivated = false;
   account$ = this.authS.getAccountData();
   cards$ = this.locuinteS.locuinteStore$;
+  cards: Locuinte[];
 
   constructor(
     public actionSheetController: ActionSheetController,
@@ -26,14 +28,20 @@ export class LocuintePage implements OnInit {
   ngOnInit() {
     this.account$.subscribe((account) => {
       if (account) {
-        this.accountActivated = this.authS.accountActivated(account);
+        // this.accountActivated = this.authS.accountActivated(account);
+        this.accountActivated = true;
         this.cdRef.markForCheck();
+        this.reQLocuintes();
+        this.cards$.subscribe((cards) => {
+          console.log(cards);
+          this.cards = cards;
+        });
       }
     });
   }
 
   reQLocuintes() {
-    // this.locuinteS.loadAllData();
+    this.locuinteS.loadAllData();
   }
 
   async openVerifyModal() {

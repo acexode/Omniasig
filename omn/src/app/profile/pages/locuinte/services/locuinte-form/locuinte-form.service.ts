@@ -255,6 +255,7 @@ export class LocuinteFormService {
           address: null,
           policyData: [],
           tipLocuinta: null,
+          locuintaState: null,
         };
 
     forOwn(formGroupValue, (val, key) => {

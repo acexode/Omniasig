@@ -4,7 +4,7 @@ import {
   Input,
   ChangeDetectionStrategy,
 } from '@angular/core';
-import { Locuinte } from '../../models/data/locuinte.interface';
+import { Locuinte, LocuintaState } from '../../models/data/locuinte.interface';
 
 @Component({
   selector: 'app-locuinte-card',
@@ -13,6 +13,7 @@ import { Locuinte } from '../../models/data/locuinte.interface';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LocuinteCardComponent implements OnInit {
+  locuinteState = LocuintaState;
   @Input() item: Locuinte;
   constructor() {}
 
