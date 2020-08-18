@@ -1,15 +1,14 @@
 import {
-  Component,
-  OnInit,
-  Input,
   ChangeDetectionStrategy,
-  ViewChild,
+  Component,
+  Input,
+  OnInit,
 } from '@angular/core';
 import { ModalController } from '@ionic/angular';
-import { DisabledMessageModalComponent } from '../modals/disabled-message-modal/disabled-message-modal.component';
 import { ImageCard } from 'src/app/shared/models/component/image-card';
 import { IonTextItem } from 'src/app/shared/models/component/ion-text-item';
 import { PolicyText } from 'src/app/shared/models/data/policy-types';
+import { DisabledMessageModalComponent } from '../modals/disabled-message-modal/disabled-message-modal.component';
 
 @Component({
   selector: 'app-policy-card-list',
@@ -26,6 +25,8 @@ export class PolicyCardListComponent implements OnInit {
   ngOnInit() {}
 
   async presentModal(index) {
+    // console.log(this.items);
+
     const modal = await this.modalController.create({
       component: DisabledMessageModalComponent,
       cssClass: 'disabled-message-modal-class',

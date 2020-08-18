@@ -39,12 +39,17 @@
   border-top-right-radius: rem(8);
 }
 
+.bottom-radius-8 {
+  border-bottom-left-radius: rem(8);
+  border-bottom-right-radius: rem(8);
+}
+
 .bottom-1px-solid {
   border-bottom: 1px solid $medium-grey-2;
 }
 
 .border-medium-green-3 {
-  border-color: $medium-green-3;
+  border-color: $medium-green-3 !important;
 }
 
 .border-bottom-1 {
@@ -57,4 +62,13 @@
 
 .border-gray {
   border-color: $medium-grey-2;
+}
+
+.radius-0 {
+  --border-radius: 0 !important;
+  border-radius: 0 !important;
+}
+
+.border-radius-8 {
+  border-radius: rem(8);
 }

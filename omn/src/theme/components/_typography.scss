@@ -8,10 +8,10 @@ $font-family-base: var(--ion-font-family);
   font-family: $alt-font !important;
 }
 .text-weight-medium {
-  font-weight: 500;
+  font-weight: 500 !important;
 }
 .text-weight-normal {
-  font-weight: normal;
+  font-weight: normal !important;
 }
 .text-weight-bold {
   font-weight: 600;
