@@ -1,5 +1,4 @@
 import {
-  ChangeDetectorRef,
   Component,
   OnInit,
   Input
@@ -18,7 +17,11 @@ export class InsurancePeriodComponent implements OnInit {
   newProp: IonDateTimeConfig = {
     displayFormat: "DD/MM/YYYY",
     inputLabel: {
-      text: "Data de început"
+      text: "Data de început",
+      classes: "input-label"
+    },
+    pickerOptions: {
+      cssClass: 'custom-datepicker',
     },
     pickerFormat: "MMM D, YYYY",
     placeholder: "Selectează"
