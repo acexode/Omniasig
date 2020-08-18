@@ -1,3 +1,5 @@
+import { PasscodeComponent } from './passcode/passcode.component';
+import { InputSmsComponent } from './input-sms/input-sms.component';
 import { OmnInputsModule } from './../shared/modules/omn-inputs/omn-inputs.module';
 import { NumarTelefonComponent } from './numar-telefon/numar-telefon.component';
 import { CommonModule } from '@angular/common';
@@ -11,6 +13,6 @@ import { SharedModule } from '../shared/shared.module';
   imports: [CommonModule, FormsModule, IonicModule, LoginPageRoutingModule,OmnInputsModule, SharedModule,
     ReactiveFormsModule,
     OmnInputsModule,],
-  declarations: [NumarTelefonComponent],
+  declarations: [NumarTelefonComponent,InputSmsComponent,PasscodeComponent],
 })
 export class LoginPageModule {}

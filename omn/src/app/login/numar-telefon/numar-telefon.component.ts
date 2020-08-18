@@ -2,6 +2,7 @@ import { IonInputConfig } from './../../shared/models/component/ion-input-config
 import { Component, OnInit } from '@angular/core';
 import { IonTextItem } from 'src/app/shared/models/component/ion-text-item';
 import { FormControl } from '@angular/forms';
+import { NavController } from '@ionic/angular';
 
 @Component({
   selector: 'app-numar-telefon',
@@ -16,17 +17,19 @@ export class NumarTelefonComponent implements OnInit {
     inputMode: 'tel',
   }
   validNumber:boolean =false
-  constructor() { }
+  constructor(private navCtrl: NavController) { }
 
   ngOnInit() { }
 
   changeInput(){
+    console.log(this.phoneNumber);
+    
     var regExp = /^07[0-9].*$/
-  this.validNumber = regExp.test(this.phoneNumber)
+  this.validNumber = regExp.test(this.phoneNumber) && this.phoneNumber.length > 9
   }
 
   login(){
-    console.log(this.phoneNumber);
+ this.navCtrl.navigateRoot("login/authenticate")
   }
 
   clearInput(){

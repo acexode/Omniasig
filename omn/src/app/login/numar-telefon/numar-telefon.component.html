@@ -20,10 +20,7 @@
                     <ion-label class="link-small color-tertiary-grey mb-8">Numărul tău de telefon</ion-label>
                 </div>
                 <ion-item>
-                    <ion-input [(ngModel)]="phoneNumber" maxlength="10" required="true" (ionInput)="changeInput($event)" [type]="config?.type" [placeholder]="config?.placeholder" [step]="config?.spinnerConfig?.step" [inputmode]="config?.inputMode" [class]="config?.inputClasses"
-                        [ngClass]="{
-                                  'has-spinners ion-text-center w-100': config?.spinnerConfig
-                                }"></ion-input>
+                    <ion-input [(ngModel)]="phoneNumber" maxlength="10" required="true" (ionChange)="changeInput($event)" [type]="config?.type" [placeholder]="config?.placeholder" [inputmode]="config?.inputMode"></ion-input>
                     <ion-icon (click)="clearInput()" name="close" slot="end"></ion-icon>
                 </ion-item>
 
