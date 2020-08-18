@@ -17,8 +17,9 @@ import { PolicyViewComponent } from './components/policy-view/policy-view.compon
 import { PolicyComponent } from './components/policy/policy.component';
 import { PolicyPage } from './page/policy.page';
 import { PolicyVerifyComponent } from './pages/policy-verify/policy-verify.component';
-import { PolicyRoutingModule } from './policy-routing.module';
+import { PolicyRoutingModule } from './page/policy-routing.module';
 import { PolicySharedModule } from './policy-shared.module';
+import { OmnInputsModule } from 'src/app/shared/modules/omn-inputs/omn-inputs.module';
 
 @NgModule({
   declarations: [
@@ -45,6 +46,7 @@ import { PolicySharedModule } from './policy-shared.module';
     SharedModule,
     FormsModule,
     ReactiveFormsModule,
+    OmnInputsModule
   ],
 })
 export class PolicyModule {}
