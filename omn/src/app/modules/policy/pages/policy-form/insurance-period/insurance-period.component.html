@@ -1,9 +1,22 @@
-
-
 <ion-content>
-  <p>
-    insurance-period works!
-  </p>
-  <app-datepicker [config]="newProp" pickerFormat=""></app-datepicker>
+    <ion-grid class="w-100">
+      <div class="mt-96 mx-32">
+        <app-datepicker [config]="newProp"></app-datepicker>
+      </div>
+        
+      <ion-row class="w-100 ion-justify-content-center">
+        <ion-label class="mx-32 mt-64 icon-div">
+            <ion-icon class="info-icon" name="lg-info"></ion-icon>
+        </ion-label>
+      </ion-row>
 
-</ion-content>
+      <ion-row class="w-100 ion-justify-content-center">
+        <ion-label class="s18-h24 mx-32 mt-32 ls-0text-div">Perioada de asigurare este de un an.</ion-label>
+    </ion-row>
+      <ion-row class="w-100 ion-justify-content-center">
+        <ion-button type="submit" class="activate-btn w-100 mx-32 mt-179 mb-24" color="success" size="large" expand="full" shape="round" mode="md">
+          Continuă
+        </ion-button>
+      </ion-row>
+    </ion-grid
+></ion-content>

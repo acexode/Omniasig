@@ -1,7 +1,8 @@
 import {
   ChangeDetectorRef,
   Component,
-  OnInit
+  OnInit,
+  Input
 } from '@angular/core';
 import { IonDateTimeConfig } from 'src/app/shared/models/component/ion-datetime-config';
 
@@ -11,15 +12,19 @@ import { IonDateTimeConfig } from 'src/app/shared/models/component/ion-datetime-
   styleUrls: ['./insurance-period.component.scss'],
 })
 export class InsurancePeriodComponent implements OnInit {
+  @Input() minDate;
+  @Input() maxDate;
+
   newProp: IonDateTimeConfig = {
     displayFormat: "DD/MM/YYYY",
     inputLabel: {
-      text: "Date"
+      text: "Data de început"
     },
-    pickerFormat: "MMM D, YYYY"
+    pickerFormat: "MMM D, YYYY",
+    placeholder: "Selectează"
   }
 
-  constructor(private cdRef: ChangeDetectorRef) {}
+  constructor() {}
 
   ngOnInit() {}
 }
