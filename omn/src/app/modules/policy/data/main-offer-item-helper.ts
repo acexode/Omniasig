@@ -36,6 +36,7 @@ export const offerItemHelper = (
         text: offer.policy.type.name,
       },
     ],
+    routerLink: '/policy/offer/' + offer.id,
   };
   baseItem.headerIcon = policyHeaderIcons.plus;
   if (has(baseItem, 'mainIcon.classes')) {

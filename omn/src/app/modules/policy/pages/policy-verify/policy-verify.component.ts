@@ -1,5 +1,5 @@
-import { Component, OnInit, Input } from '@angular/core';
-import { PolicyItem } from '../../../../shared/models/data/policy-item'
+import { Component, Input, OnInit } from '@angular/core';
+import { PolicyItem } from '../../../../shared/models/data/policy-item';
 
 @Component({
   selector: 'app-policy-verify',
@@ -7,10 +7,9 @@ import { PolicyItem } from '../../../../shared/models/data/policy-item'
   styleUrls: ['./policy-verify.component.scss'],
 })
 export class PolicyVerifyComponent implements OnInit {
-
   @Input() policyData: PolicyItem = null;
 
-  constructor() { }
+  constructor() {}
 
   ngOnInit() {}
 }
