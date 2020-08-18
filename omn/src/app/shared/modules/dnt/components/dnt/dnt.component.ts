@@ -77,6 +77,8 @@ export class DntComponent implements OnInit {
         newItem = get(this.contentItems, 'length', -1);
       } else if (start === 'success-ev') {
         newItem = get(this.contentItems, 'length', 0) - 1;
+      } else if (start === 'cancel-ev') {
+        newItem = 0;
       } else {
         newItem = this.visibleItemIndex - 1;
       }

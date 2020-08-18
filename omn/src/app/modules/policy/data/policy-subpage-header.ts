@@ -5,17 +5,20 @@ export const policySubpageHeader = (conf: {
   title: string;
   classes?: string;
   hasTrailingIcon?: boolean;
+  hasLeadingIcon?: boolean;
   trailingLink?: any;
   backLink?: any;
 }): SubPageHeader => {
   const item: SubPageHeader = {
     toolbarClasses: 'header-toolbar ' + get(conf, 'classes', ''),
     toolbarColor: 'omn-transparent-green',
-    leadingIcon: {
-      name: 'md-back',
-      classes: 'icon-16 mt-2 omn-green',
-      routerLink: get(conf, 'backLink', null),
-    },
+    leadingIcon: get(conf, 'hasLeadingIcon', null)
+      ? {
+          name: 'md-back',
+          classes: 'icon-16 mt-2 omn-green',
+          routerLink: get(conf, 'backLink', null),
+        }
+      : null,
     title: {
       text: conf.title,
       classes: 'h2 alt-font omn-green header-title omn-green ion-text-center',
@@ -28,6 +31,5 @@ export const policySubpageHeader = (conf: {
       routerLink: get(conf, 'trailingLink', null),
     };
   }
-  console.log(item);
   return item;
 };

@@ -78,24 +78,38 @@ export class PolicyFormPage implements OnInit, OnDestroy {
           title: 'Formular de analiză',
           hasTrailingIcon: true,
           backLink: false,
+          hasLeadingIcon: true,
         });
         break;
       case this.policySteps.EXCLUSION:
-        this.headerConfig = policySubpageHeader({
-          title: 'Condiții de excludere',
-          backLink: false,
-        });
+        if (this.exclusionItem === 'cancel-ev') {
+          this.headerConfig = policySubpageHeader({
+            title: 'Call Center',
+            backLink: false,
+            hasTrailingIcon: true,
+            hasLeadingIcon: true,
+          });
+        } else {
+          this.headerConfig = policySubpageHeader({
+            title: 'Condiții de excludere',
+            backLink: false,
+            hasTrailingIcon: true,
+            hasLeadingIcon: true,
+          });
+        }
         break;
       case this.policySteps.INFO_DOC:
         this.headerConfig = policySubpageHeader({
           title: 'Document de Informare',
           backLink: false,
+          hasTrailingIcon: true,
         });
         break;
       case this.policySteps.ADDRESS_SELECT:
         this.headerConfig = policySubpageHeader({
           title: 'Adresă locuință',
           hasTrailingIcon: true,
+          hasLeadingIcon: true,
           backLink: false,
         });
         break;
@@ -187,8 +201,7 @@ export class PolicyFormPage implements OnInit, OnDestroy {
       this.next();
     }
     if (event === 'cancel-ev') {
-      this.dntItem = 'cancel';
-      this.setBgColor(true);
+      this.dntItem = 'cancel-ev';
     }
     if (event === 'cancel-btn' || event === -1) {
       this.exitFlow();
@@ -196,7 +209,6 @@ export class PolicyFormPage implements OnInit, OnDestroy {
   }
 
   navEvents(event: string | number) {
-    
     this.exclusionItem = event;
     if (event === 'success-btn') {
       this.exclusionItem = 'success';
@@ -212,6 +224,7 @@ export class PolicyFormPage implements OnInit, OnDestroy {
     if (event === 'cancel-btn') {
       this.exitFlow();
     }
+    this.setTitles();
   }
 
   navigateBackDnt() {

@@ -70,7 +70,9 @@ export const policyTypes: { [key: string]: PolicyType } = {
         buttons: dntCancelBtn(),
         textContent: dntAltText(
           'Formular de analiză a cerinţelor şi necesităţilor clienţilor',
-          'Ne pare rău dar nu poți cumpăra acest produs de asigurare dacă nu ești interesat de ceea ce oferă.'
+          'Dacă nu ai o locuință, nu ai nevoie de această asigurare. Rămânem alături de tine cu alte tipuri de asigurări!',
+          '',
+          'www.omniasig.ro'
         ),
       }),
       items: [
