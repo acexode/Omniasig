@@ -58,6 +58,7 @@ ion-card {
       opacity: 0.45;
     }
   }
+
   &.exclusion-card {
     position: absolute;
     overflow: visible;
@@ -98,5 +99,9 @@ ion-card {
     &.last:not(.active):not(.level-2) {
       transition: all 0s;
     }
+  }
+  
+  &.lighter-green-gradient {
+    background: linear-gradient(180deg, #F2F9F5 0%, #E5F2EC 100%);
   }
 }
