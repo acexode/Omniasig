@@ -18,20 +18,20 @@ export class DatePersonaleUserActivationPage implements OnInit {
     trailingIcon: null,
   };
   displayMode: UserActivateModes = this.userActivationModes.EXISTING;
-  itemClass = `p-8 flex-1 mb-16 ${
-    this.displayMode === UserActivateModes.NEW_USER && 'bg-light-green'
+  itemClass = `py-8 flex-1 mb-16 ${
+    this.displayMode === UserActivateModes.NEW_USER && 'lighter-green-gradient'
   }`;
   actions: Array<ImageCard> = [
     {
       mainIcon: {
         name: 'md-user-light',
         color: 'green-gradient',
-        classes: 'icon-40 mt-0 mx-0 ion-align-self-start',
+        classes: 'icon-40 mt-8 mx-0 ion-align-self-start',
       },
       textContent: [
         {
           text: 'Verificare identitate',
-          classes: 'flex ion-justify-content-center',
+          classes: 'flex ion-justify-content-center px-8 ion-text-center',
         },
       ],
       id: 'validate-id',
@@ -42,16 +42,12 @@ export class DatePersonaleUserActivationPage implements OnInit {
       mainIcon: {
         name: 'md-email-light',
         color: 'green-gradient',
-        classes: 'icon-40 mt-0 mx-0 ion-align-self-start',
+        classes: 'icon-40 mt-8 mx-0 ion-align-self-start',
       },
       textContent: [
         {
-          text: 'Validare adresă',
-          classes: 'flex ion-justify-content-center',
-        },
-        {
-          text: 'e-mail',
-          classes: 'flex ion-justify-content-center',
+          text: 'Validare adresă e-mail',
+          classes: 'flex ion-justify-content-center px-8 ion-text-center',
         },
       ],
       id: 'validate-email',

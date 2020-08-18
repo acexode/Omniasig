@@ -58,4 +58,8 @@ ion-card {
       opacity: 0.45;
     }
   }
+
+  &.lighter-green-gradient {
+    background: linear-gradient(180deg, #F2F9F5 0%, #E5F2EC 100%);
+  }
 }

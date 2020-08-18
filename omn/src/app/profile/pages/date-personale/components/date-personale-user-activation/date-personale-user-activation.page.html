@@ -50,7 +50,7 @@
     <ion-row class="ion-no-padding ion-justify-content-center mt-auto">
       <ion-col class="flex flex-1 ion-justify-content-center">
         <ion-button
-          class="no-shadow"
+          class="ion-no-margin no-shadow s18-h24"
           fill="clear"
           color="omn-green"
           [routerLink]="['/home']"
@@ -76,12 +76,8 @@
     >
       <ion-col class="ion-no-padding ion-text-center flex flex-column">
         <div class="my-80">
-          <ion-label class="text-weight-medium"
-            >Pentru activarea contului sunt obligatorii</ion-label
-          >
-          <div></div>
-          <ion-label class="text-weight-medium">
-            două elemente de siguranță:</ion-label
+          <ion-label class="text-weight-medium px-32"
+            >Pentru activarea contului sunt obligatorii două elemente de siguranță:</ion-label
           >
         </div>
         <ion-row class="ion-no-padding">
@@ -98,7 +94,12 @@
     </ion-row>
     <ion-row class="ion-no-padding mt-auto">
       <ion-col class="ion-no-padding flex ion-justify-content-center">
-        <ion-button color="omn-green" fill="clear" [routerLink]="['/home']">
+        <ion-button
+          class="ion-no-margin no-shadow s18-h24"
+          color="omn-green"
+          fill="clear"
+          [routerLink]="['/home']"
+        >
           Fac verificările mai târziu
         </ion-button>
       </ion-col>
