@@ -51,7 +51,7 @@ export class DntComponent implements OnInit {
 
   public navigateInList(
     type: 'fwd' | 'back' = 'fwd',
-    start: 'cancel' | 'success' | number = null
+    start: string | number = null
   ) {
     if (type === 'fwd') {
       // Only handle fwd navigation for now.
@@ -71,17 +71,21 @@ export class DntComponent implements OnInit {
       if (start === 'success' && this.successItem) {
         this.visibleItem = this.successItem;
         newItem = get(this.contentItems, 'length', -1);
+        this.visibleItemIndex = newItem;
       } else if (start === 'cancel' && this.cancelItem) {
         this.visibleItem = this.successItem;
         newItem = get(this.contentItems, 'length', -1);
+      } else if (start === 'success-ev') {
+        newItem = get(this.contentItems, 'length', 0) - 1;
       } else {
         newItem = this.visibleItemIndex - 1;
       }
       // don't navigate if no item available.
       if (this.contentItems[newItem]) {
+        this.visibleItemIndex = newItem;
         this.visibleItem = this.contentItems[newItem];
       }
-      this.visibleItemIndex = newItem;
+
       this.dntEvents.emit(newItem);
       this.cdRef.markForCheck();
       return this.visibleItemIndex;
@@ -97,6 +101,7 @@ export class DntComponent implements OnInit {
   buttonClick(type: 'start' | 'end', data = null) {
     if (type === 'end') {
       this.dntEvents.emit(this.visibleItemIndex);
+
       if (this.visibleItemIndex === this.contentItems.length - 1) {
         // Reset visible items and redirect to the success.
         this.visibleItemIndex = -1;
@@ -108,6 +113,7 @@ export class DntComponent implements OnInit {
         }
       } else {
         // In case multiple questions, navigate to next.
+
         this.navigateInList('fwd');
       }
     } else {
@@ -117,7 +123,11 @@ export class DntComponent implements OnInit {
         this.dntEvents.emit('cancel-ev');
         this.visibleItem = this.cancelItem;
       }
-      if (this.visibleItemIndex === -1 && data) {
+      if (
+        (this.visibleItemIndex === -1 ||
+          this.visibleItemIndex === get(this.contentItems, 'length', -1)) &&
+        data
+      ) {
         // Emit cancel/success button.
         this.dntEvents.emit(data);
       }

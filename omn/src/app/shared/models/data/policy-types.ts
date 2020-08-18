@@ -108,6 +108,20 @@ export const policyTypes: { [key: string]: PolicyType } = {
           }),
           buttons: exclusionContentButtons,
         },
+        {
+          content: exclusionItemHelper({
+            text: {
+              text:
+                'Locuința pe care dorești să o asiguri se află într-o clădire ' +
+                'expertizată tehnic și încadrată în clasa I-a de risc seismic? ',
+            },
+            icon: {
+              name: 'lg-exclusion-6',
+              classes: 'maxh-200 flex w-100 h-100 maxw-280',
+            },
+          }),
+          buttons: exclusionContentButtons,
+        },
       ],
       cancel: {
         content: exclusionCancelItem(),

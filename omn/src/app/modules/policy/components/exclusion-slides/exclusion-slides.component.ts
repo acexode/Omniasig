@@ -65,8 +65,7 @@ export class ExclusionSlidesComponent implements OnInit {
       if (start === 'success') {
         newItem = get(this.contentItems, 'length', -1) - 2;
       } else if (start === 'cancel' && this.cancelItem) {
-        this.visibleItem = this.successItem;
-        newItem = get(this.contentItems, 'length', -1);
+        newItem = 0;
       } else {
         newItem = this.visibleItemIndex - 1;
       }

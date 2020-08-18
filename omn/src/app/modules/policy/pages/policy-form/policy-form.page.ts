@@ -95,6 +95,7 @@ export class PolicyFormPage implements OnInit, OnDestroy {
       case this.policySteps.ADDRESS_SELECT:
         this.headerConfig = policySubpageHeader({
           title: 'Adresă locuință',
+          hasTrailingIcon: true,
           backLink: false,
         });
         break;
@@ -195,6 +196,7 @@ export class PolicyFormPage implements OnInit, OnDestroy {
   }
 
   navEvents(event: string | number) {
+    
     this.exclusionItem = event;
     if (event === 'success-btn') {
       this.exclusionItem = 'success';
@@ -204,8 +206,11 @@ export class PolicyFormPage implements OnInit, OnDestroy {
       this.exclusionItem = 'cancel';
       this.setBgColor(true);
     }
-    if (event === 'cancel-btn' || event === -1) {
+    if (event === -1) {
       this.back(true);
+    }
+    if (event === 'cancel-btn') {
+      this.exitFlow();
     }
   }
 
@@ -217,7 +222,7 @@ export class PolicyFormPage implements OnInit, OnDestroy {
 
   navigateBackExclusion() {
     if (this.exclusionComp) {
-      this.exclusionComp.navigateInList('back', this.dntItem);
+      this.exclusionComp.navigateInList('back', this.exclusionItem);
     }
   }
 
