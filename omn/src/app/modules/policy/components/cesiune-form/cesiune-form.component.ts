@@ -23,6 +23,7 @@ export class CesiuneFormComponent implements OnInit {
     label: 'Exista o cesiune?',
     mode: 'item',
   });
+
   radioOptions: Array<IonRadioInputOption> = [
     { label: 'Da', id: 1 },
     { label: 'Nu', id: 0 },
@@ -32,6 +33,7 @@ export class CesiuneFormComponent implements OnInit {
   censionar: FormArray;
 
   constructor(private fb: FormBuilder) {
+    this.radiosConfig.itemClasses = 'w-50 inline-flex';
     this.userForm = this.fb.group({
       censionar: this.fb.array([this.createItem()]),
     });
@@ -66,7 +68,8 @@ export class CesiuneFormComponent implements OnInit {
   }
 
   get itemControls() {
-    return this.userForm.get('censionar')['controls'];
+    return null;
+    //return this.userForm.get('censionar').controls;
   }
 
   radioHandler(event: any) {

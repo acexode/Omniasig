@@ -1,7 +1,11 @@
 <form class="form-group mt-96" [formGroup]="userForm" (ngSubmit)="onSubmit()">
   <ion-grid class="ion-no-padding">
     <ion-row class="ion-no-padding">
-      <app-radios [config]="radiosConfig" [options]="radioOptions"></app-radios>
+      <app-radios
+        [config]="radiosConfig"
+        [options]="radioOptions"
+        class="w-100"
+      ></app-radios>
     </ion-row>
   </ion-grid>
 
