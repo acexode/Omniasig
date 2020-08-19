@@ -1,14 +1,27 @@
-import { PolicyViewComponent } from '../components/policy-view/policy-view.component';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { PolicyComponent } from '../components/policy/policy.component';
-import { PolicyPage } from './policy.page';
-import { InfoDocComponent } from '../components/info-doc/info-doc.component';
-import { CesiuneFormComponent} from '../components/cesiune-form/cesiune-form.component'
-import { OfferViewComponent } from '../components/offer-view/offer-view.component';
 import { AdresaLocuintaComponent } from '../components/adresa-locuinta/adresa-locuinta.component';
+import { CesiuneFormComponent } from '../components/cesiune-form/cesiune-form.component';
+import { OfferViewComponent } from '../components/offer-view/offer-view.component';
+import { PolicyViewComponent } from '../components/policy-view/policy-view.component';
+import { PolicyComponent } from '../components/policy/policy.component';
+import { PolicyPage } from '../page/policy.page';
 
 const routes: Routes = [
+  {
+    path: 'form',
+    loadChildren: () =>
+      import('../pages/policy-form/policy-form.module').then(
+        (m) => m.PolicyFormPageModule
+      ),
+  },
+  {
+    path: 'policy-verify',
+    loadChildren: () =>
+      import('../pages/policy-verify/policy-verify.module').then(
+        (m) => m.PolicyVerifyModule
+      ),
+  },
   {
     path: '',
     component: PolicyPage,
@@ -18,16 +31,15 @@ const routes: Routes = [
         component: PolicyComponent,
       },
       {
-        path: 'info-doc',
-        component: InfoDocComponent,
-      },
-       {
-        path: ':id',
-        component: PolicyViewComponent,
+        path: 'form',
+        loadChildren: () =>
+          import('../pages/policy-form/policy-form.module').then(
+            (m) => m.PolicyFormPageModule
+          ),
       },
       {
         path: 'cesiune-form',
-        component: CesiuneFormComponent
+        component: CesiuneFormComponent,
       },
       {
         path: 'offer/:id',
@@ -36,15 +48,13 @@ const routes: Routes = [
       {
         path: 'adresa-locuinta',
         component: AdresaLocuintaComponent,
-      }
+      },
+
+      {
+        path: ':id',
+        component: PolicyViewComponent,
+      },
     ],
-  },
-  {
-    path: 'form',
-    loadChildren: () =>
-      import('../pages/policy-form/policy-form.module').then(
-        (m) => m.PolicyFormPageModule
-      ),
   },
   {
     path: 'policy-verify',

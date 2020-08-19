@@ -129,5 +129,28 @@
         overflow: visible;
       }
     }
+
+    &.radio-item-wrapper {
+      --padding-start: 0;
+      --inner-padding-end: 0;
+      --inner-border-width: 0;
+      --ion-safe-area-left: 0;
+      --inner-padding-top: 0;
+      --inner-padding-bottom: 0;
+      --inner-padding-left: 0;
+      --inner-padding-right: 0;
+      --inner-padding-start: 0;
+      --padding-right: 0;
+      --padding-left: 0;
+      --padding-top: 0;
+      --padding-bottom: 0;
+      --min-height: 22px;
+      ion-radio {
+        margin: 0 rem(12) 0 0;
+      }
+      ion-label {
+        margin: 0;
+      }
+    }
   }
 }

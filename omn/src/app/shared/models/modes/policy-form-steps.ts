@@ -1,0 +1,12 @@
+export enum PolicyFormSteps {
+  DNT,
+  EXCLUSION,
+  INFO_DOC,
+  ADDRESS_SELECT,
+  ADDRESS_FORM,
+  PAD_CHECK,
+  LOCATION_FORM,
+  MORTGAGE_FORM,
+  PERIOD_FORM,
+  data_CHECK,
+}
