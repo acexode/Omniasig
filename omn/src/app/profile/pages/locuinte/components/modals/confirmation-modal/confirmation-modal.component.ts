@@ -54,16 +54,17 @@ export class ConfirmationModalComponent implements OnInit {
   }
 
   redirectToAddForm() {
-    this.dismiss();
-    this.navCtrl.navigateForward('/profil/locuinte/add');
+    this.dismiss(true);
   }
 
   navigateBack() {
-    this.dismiss();
+    this.dismiss(false);
     this.navCtrl.navigateBack('/profil/locuinte');
   }
 
-  dismiss() {
-    this.modalCtrl.dismiss();
+  dismiss(next: boolean) {
+    this.modalCtrl.dismiss({
+      next,
+    });
   }
 }

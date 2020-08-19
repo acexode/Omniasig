@@ -195,21 +195,10 @@ export class LocuinteViewComponent implements OnInit {
       case this.locuintaState.INVALID:
         this.buttonVisible = true;
         if (this.formType === LocuinteFormType.ADDRESS) {
-          this.submitData().subscribe((v) => {
-            this.confirmModal();
-            // if (v) {
-            //   this.dataModel = v;
-            //   this.formType = LocuinteFormType.PLACE;
-            //   this.buttonText = 'Salvează';
-            //   const header = subPageHeaderDefault('Adresa');
-            //   header.leadingIcon.routerLink = false;
-            //   this.headerConfig = header;
-            //   this.formInstance = {
-            //     config: this.formConfigs.place,
-            //     group: this.formGroups.place,
-            //     data: this.formData.place,
-            //   };
-            // }
+          this.submitData().subscribe(async (v) => {
+            if (v) {
+              this.confirmModal(v);
+            }
           });
         } else if (this.formType === LocuinteFormType.PLACE) {
           this.submitData().subscribe((v) => {
@@ -308,10 +297,26 @@ export class LocuinteViewComponent implements OnInit {
     this.formType = LocuinteFormType.PLACE;
   }
 
-  async confirmModal() {
+  async confirmModal(v) {
     const modal = await this.modalController.create({
       component: ConfirmationModalComponent,
       cssClass: 'disabled-message-modal-class',
+    });
+    modal.onDidDismiss().then((data) => {
+      const next = data['data'];
+      if (next) {
+        this.dataModel = v;
+        this.formType = LocuinteFormType.PLACE;
+        this.buttonText = 'Salvează';
+        const header = subPageHeaderDefault('Adresa');
+        header.leadingIcon.routerLink = false;
+        this.headerConfig = header;
+        this.formInstance = {
+          config: this.formConfigs.place,
+          group: this.formGroups.place,
+          data: this.formData.place,
+        };
+      }
     });
     return await modal.present();
   }
