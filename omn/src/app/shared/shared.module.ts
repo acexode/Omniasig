@@ -14,6 +14,7 @@ import { CnpPipe } from './pipes/cnp.pipe';
 import { LocuinteNamePipe } from './pipes/locuinte-name.pipe';
 import { TimePipe } from './pipes/time.pipe';
 import { LocuinteFieldPipe } from './pipes/locuinte-field.pipe';
+import { LoadingPlaceholderComponent } from './components/loading-placeholder/loading-placeholder.component';
 
 @NgModule({
   declarations: [
@@ -28,6 +29,7 @@ import { LocuinteFieldPipe } from './pipes/locuinte-field.pipe';
     ArchiveListComponent,
     LocuinteCardComponent,
     LocuinteFieldPipe,
+    LoadingPlaceholderComponent,
   ],
   imports: [CommonModule, FormsModule, IonicModule, RouterModule],
   exports: [
@@ -43,6 +45,7 @@ import { LocuinteFieldPipe } from './pipes/locuinte-field.pipe';
     LocuinteNamePipe,
     ArchiveListComponent,
     LocuinteCardComponent,
+    LoadingPlaceholderComponent,
   ],
 })
 export class SharedModule {}

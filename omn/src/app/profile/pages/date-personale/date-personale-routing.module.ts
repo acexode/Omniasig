@@ -30,7 +30,10 @@ const routes: Routes = [
   },
   {
     path: 'validate',
-    loadChildren: () => import('./components/date-personale-user-activation/date-personale-user-activation.module').then( m => m.DatePersonaleUserActivationPageModule)
+    loadChildren: () =>
+      import(
+        './components/date-personale-user-activation/date-personale-user-activation.module'
+      ).then((m) => m.DatePersonaleUserActivationPageModule),
   },
 ];
 
