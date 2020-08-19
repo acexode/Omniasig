@@ -219,4 +219,4 @@ import {
          ? "chevron-forward-outline"
          : "chevron-down-outline";
    }
- }
+}
