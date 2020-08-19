@@ -2,8 +2,8 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { policyTypes } from 'src/app/shared/models/data/policy-types';
 import { PolicyFormSteps } from 'src/app/shared/models/modes/policy-form-steps';
+import { InsurancePeriodComponent } from './insurance-period/insurance-period.component';
 import { PolicyFormPage } from './policy-form.page';
-import { InsurancePeriodComponent} from './insurance-period/insurance-period.component'
 
 const routes: Routes = [
   {
