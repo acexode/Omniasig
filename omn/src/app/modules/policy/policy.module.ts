@@ -7,7 +7,6 @@ import { SharedModule } from 'src/app/shared/shared.module';
 import { OmnInputsModule } from './../../shared/modules/omn-inputs/omn-inputs.module';
 import { AdresaLocuintaComponent } from './components/adresa-locuinta/adresa-locuinta.component';
 import { CesiuneFormComponent } from './components/cesiune-form/cesiune-form.component';
-import { InfoCardComponent } from './components/info-card/info-card.component';
 import { DisabledMessageModalComponent } from './components/modals/disabled-message-modal/disabled-message-modal.component';
 import { OfferViewComponent } from './components/offer-view/offer-view.component';
 import { PolicyArchiveListComponent } from './components/policy-archive-list/policy-archive-list.component';
