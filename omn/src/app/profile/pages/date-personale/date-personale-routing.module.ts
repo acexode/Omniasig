@@ -28,6 +28,13 @@ const routes: Routes = [
     path: 'validate-email',
     component: DatePersonaleValidateEmailComponent,
   },
+  {
+    path: 'validate',
+    loadChildren: () =>
+      import(
+        './components/date-personale-user-activation/date-personale-user-activation.module'
+      ).then((m) => m.DatePersonaleUserActivationPageModule),
+  },
 ];
 
 @NgModule({
