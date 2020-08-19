@@ -1,79 +1,184 @@
-import { Component, OnInit, Input } from '@angular/core';
-import { EnumCesiuneItem } from './../models/cesiune-item'
-import { FormGroup, FormArray, FormBuilder, FormControl, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { get } from 'lodash';
-import { IonInputConfig } from '../../../../shared/models/component/ion-input-config'
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Input,
+  OnInit,
+  ChangeDetectorRef,
+} from '@angular/core';
+import {
+  AbstractControl,
+  FormArray,
+  FormBuilder,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
+import { distinctUntilChanged } from 'rxjs/operators';
+import { IonInputConfig } from '../../../../shared/models/component/ion-input-config';
+import { unsubscriberHelper } from './../../../../core/helpers/unsubscriber.helper';
+import { inputConfigHelper } from './../../../../shared/data/input-config-helper';
+import { radiosConfigHelper } from './../../../../shared/data/radios-config-helper';
+import { IonRadioInputOption } from './../../../../shared/models/component/ion-radio-input-option';
+import { IonRadiosConfig } from './../../../../shared/models/component/ion-radios-config';
+import { CesiuneItem } from './../models/cesiune-item';
 
 @Component({
   selector: 'app-cesiune-form',
   templateUrl: './cesiune-form.component.html',
   styleUrls: ['./cesiune-form.component.scss'],
-  providers: [
-    {
-      provide: NG_VALUE_ACCESSOR,
-      useExisting: CesiuneFormComponent,
-      multi: true,
-    },
-  ],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CesiuneFormComponent implements OnInit {
   @Input() config: IonInputConfig;
 
-  radioValue: boolean = false;
-  numberOfItems: number = 1;
-  cesuineItems: EnumCesiuneItem[]
+  enableCesiune = false;
+  cesuineItems: CesiuneItem[];
 
-  public userForm: FormGroup;
+  radiosConfig: IonRadiosConfig = radiosConfigHelper({
+    label: 'Locuința e ipotecată?',
+    mode: 'item',
+  });
+
+  radioOptions: Array<IonRadioInputOption> = [
+    { label: 'Da', id: 1 },
+    { label: 'Nu', id: 0 },
+  ];
+
+  cuiConfig: IonInputConfig = inputConfigHelper({
+    label: 'CUI bancă',
+    type: 'text',
+    placeholder: 'Completează',
+  });
+  denumireBancaConfig: IonInputConfig = inputConfigHelper({
+    label: 'Denumire bancă',
+    type: 'text',
+    placeholder: 'Completează',
+  });
+
+  procentConfig: IonInputConfig = inputConfigHelper({
+    label: 'Procent',
+    type: 'number',
+    placeholder: 'Completează',
+  });
+
+  numarCesionariConfig: IonInputConfig = inputConfigHelper({
+    label: 'Câte bănci dețin ipoteca?',
+    type: 'number',
+    placeholder: 'Completează',
+  });
+
+  hasCesiuneS;
+  cesiuneNumS;
+  formValidS;
+
+  public cesiuneForm: FormGroup;
   censionar: FormArray;
-  
-  constructor(private fb: FormBuilder) {
-    this.userForm = this.fb.group({
-      censionar: this.fb.array([ this.createItem() ])
-    });
-  }
-  
-   createItem(): FormGroup {
-      return this.fb.group({
-        cui: '',
-        procent: '',
-        denumireCesionar: ''
-      });
-   }
 
-  increaseItems(){
-    const max = get(this.config, 'max', 2);
-    const step = get(this.config, 'step', 1);
-    if(this.numberOfItems < 2 && this.numberOfItems!== 2){
-      this.censionar = this.userForm.get('censionar') as FormArray;
-      this.censionar.push(this.createItem());
-
-      this.numberOfItems++
-    }
-  }
-
-  decreaseItems(){
-    const min = get(this.config, 'min', 1);
-    const step = get(this.config?.spinnerConfig?.step, 'step', 1);
-    if(this.numberOfItems > 1){
-      this.numberOfItems--
-      this.censionar.removeAt(this.numberOfItems);
-    }
-  }
-
-  get itemControls() {
-    return this.userForm.get('censionar')['controls'];
-  }
-
-
-  radioHandler(event: any){
-    event.target.value === "da"? this.radioValue = true : this.radioValue = false
-  }
-
-  onSubmit(){
-    this.cesuineItems = this.userForm.value
+  constructor(private fb: FormBuilder, private cdRef: ChangeDetectorRef) {
+    this.radiosConfig.itemClasses = 'w-50 inline-flex';
+    this.radiosConfig.inputLabel.classes = 'mb-16';
+    this.numarCesionariConfig.max = 2;
+    this.numarCesionariConfig.min = 1;
+    this.numarCesionariConfig.maxLength = 1;
+    this.numarCesionariConfig.spinnerConfig = {
+      step: 1,
+    };
+    this.procentConfig.min = 1;
+    this.procentConfig.max = 100;
+    this.procentConfig.maxLength = 5;
   }
 
   ngOnInit() {
+    this.cesiuneForm = this.fb.group({
+      hasCesiune: this.fb.control(null, Validators.required),
+      cesiuneNum: this.fb.control(null),
+      cesionar: this.fb.array([]),
+    });
+    this.handleFormEvents();
+    this.cesiuneForm.updateValueAndValidity();
+    this.cdRef.markForCheck();
+  }
 
+  handleFormEvents() {
+    unsubscriberHelper(this.cesiuneNumS);
+    unsubscriberHelper(this.hasCesiuneS);
+    unsubscriberHelper(this.formValidS);
+    if (this.hasCesiune instanceof AbstractControl) {
+      this.hasCesiuneS = this.hasCesiune.valueChanges.subscribe((val) => {
+        this.enableCesiune = val === 1;
+        console.log(val);
+        if (!val) {
+          this.cesiuneNumS = 0;
+          this.cesiuneNum.clearValidators();
+          this.cesiuneNum.reset();
+        } else {
+          this.cesiuneNum.setValidators([
+            Validators.required,
+            Validators.min(1),
+            Validators.max(2),
+          ]);
+        }
+        this.cesiuneNum.updateValueAndValidity({ emitEvent: true });
+      });
+    }
+    if (this.cesiuneNum instanceof AbstractControl) {
+      this.cesiuneNumS = this.cesiuneNum.valueChanges
+        .pipe(distinctUntilChanged())
+        .subscribe((val) => {
+          if (this.cesiuneNum.valid) {
+            this.handleCesionarItems(val);
+          }
+        });
+      this.cesiuneForm.updateValueAndValidity({ emitEvent: true });
+    }
+    this.formValidS = this.cesiuneForm.statusChanges
+      .pipe(distinctUntilChanged())
+      .subscribe((v) => {
+        this.cdRef.markForCheck();
+        console.log(this.cesiuneForm.valid);
+      });
+  }
+
+  // Increase / decrease items.
+  handleCesionarItems(amount) {
+    if (amount > this.cesionar.length) {
+      while (this.cesionar.length < amount) {
+        this.cesionar.push(this.createItem());
+      }
+    } else if (amount < this.cesionar.length) {
+      while (this.cesionar.length > amount) {
+        this.cesionar.removeAt(this.cesionar.length - 1);
+      }
+    }
+  }
+
+  // This will build a new Cesionar form item.
+  createItem(): FormGroup {
+    return this.fb.group({
+      cui: this.fb.control(null, Validators.required),
+      procent: this.fb.control(null, [
+        Validators.required,
+        Validators.min(1),
+        Validators.max(100),
+      ]),
+      denumireCesionar: this.fb.control('', Validators.required),
+    });
+  }
+
+  get hasCesiune() {
+    return this.cesiuneForm.get('hasCesiune');
+  }
+
+  get cesiuneNum() {
+    return this.cesiuneForm.get('cesiuneNum');
+  }
+
+  get cesionar(): FormArray {
+    const def = this.fb.array([]);
+    const ff = this.cesiuneForm.get('cesionar');
+    return (ff ? ff : def) as FormArray;
+  }
+
+  onSubmit() {
+    this.cesuineItems = this.cesiuneForm.value;
   }
 }

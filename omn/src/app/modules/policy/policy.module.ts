@@ -1,10 +1,12 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { FormsModule, ReactiveFormsModule} from '@angular/forms'
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
 import { SharedModule } from 'src/app/shared/shared.module';
+import { OmnInputsModule } from './../../shared/modules/omn-inputs/omn-inputs.module';
 import { AdresaLocuintaComponent } from './components/adresa-locuinta/adresa-locuinta.component';
+import { CesiuneFormComponent } from './components/cesiune-form/cesiune-form.component';
 import { DisabledMessageModalComponent } from './components/modals/disabled-message-modal/disabled-message-modal.component';
 import { OfferViewComponent } from './components/offer-view/offer-view.component';
 import { PolicyArchiveListComponent } from './components/policy-archive-list/policy-archive-list.component';
@@ -14,10 +16,6 @@ import { PolicyComponent } from './components/policy/policy.component';
 import { PolicyPage } from './page/policy.page';
 import { PolicyRoutingModule } from './policy-routing.module';
 import { PolicySharedModule } from './policy-shared.module';
-import { CesiuneFormComponent} from './components/cesiune-form/cesiune-form.component'
-import { PolicyVerifyComponent} from './pages/policy-verify/policy-verify.component'
-import { InfoDocComponent } from './components/info-doc/info-doc.component';
-import { InfoCardComponent } from './components/info-card/info-card.component';
 
 @NgModule({
   declarations: [
@@ -25,10 +23,7 @@ import { InfoCardComponent } from './components/info-card/info-card.component';
     PolicyComponent,
     PolicyCardListComponent,
     PolicyArchiveListComponent,
-    InfoDocComponent,
-    InfoCardComponent,
     CesiuneFormComponent,
-    PolicyVerifyComponent,
     DisabledMessageModalComponent,
     AdresaLocuintaComponent,
     DisabledMessageModalComponent,
@@ -42,8 +37,9 @@ import { InfoCardComponent } from './components/info-card/info-card.component';
     IonicModule,
     RouterModule,
     SharedModule,
+    OmnInputsModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
   ],
 })
 export class PolicyModule {}
