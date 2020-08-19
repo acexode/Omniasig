@@ -187,6 +187,11 @@
   color: $grey3;
 }
 
+.disabled-bg {
+  background-color: $medium-grey-2;
+  --background: $medium-grey-2;
+}
+
 .bg-danger {
   background-color: $danger;
 }

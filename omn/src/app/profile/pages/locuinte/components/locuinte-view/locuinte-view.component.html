@@ -28,7 +28,7 @@
             class="m-0 w-auto mr-16 fond color-dark-green no-shadow"
           >
             <span class="text-weight-normal pr-16 mr-auto">Șterge</span>
-            <ion-icon name="md-bin" class="icon-20"></ion-icon>
+            <ion-icon name="md-bin" class="icon-20 color-green"></ion-icon>
           </ion-button>
 
           <ion-button
@@ -200,8 +200,14 @@
     </ion-row>
   </ion-grid>
 
-  <ion-grid class="ion-no-padding">
-    <ion-row class="px-32 pt-40 pb-48 alt-bg">
+  <ion-grid
+    *ngIf="locuinta.locuintaState === locuintaState.INCOMPLETE"
+    class="ion-no-padding"
+  >
+    <ion-row
+      [hidden]="formType === locuinteFormType.PLACE"
+      class="px-32 pt-40 pb-48 alt-bg"
+    >
       <ion-col class="ion-no-padding">
         <ion-row class="mb-16">
           <ion-text class="text-center">
@@ -221,6 +227,7 @@
     <ion-row>
       <ion-col class="ion-no-padding">
         <ion-row
+          [hidden]="formType === locuinteFormType.PLACE"
           class="mt-n24 w-auto mx-42 ion-justify-content-center ion-nowrap ion-align-self-center"
         >
           <ion-button
@@ -228,34 +235,39 @@
             size="large"
             fill="clear"
             disabled="true"
-            class="m-0 w-auto mr-16 fond color-dark-green no-shadow"
+            class="m-0 w-auto mr-16 disabled-bg no-shadow"
           >
-            <span class="text-weight-normal pr-16 mr-auto">Șterge</span>
-            <ion-icon name="md-bin" class="icon-20"></ion-icon>
+            <span class="text-weight-normal pr-16 mr-auto color-disabled"
+              >Șterge</span
+            >
+            <ion-icon name="md-bin" class="icon-20 color-disabled"></ion-icon>
           </ion-button>
 
           <ion-button
             shape="round"
             size="large"
             fill="clear"
-            class="m-0 w-auto color-dark-green no-shadow bg-green"
+            class="m-0 w-auto color-white no-shadow bg-green"
+            (click)="nextStep()"
           >
             Completează
           </ion-button>
         </ion-row>
 
-        <app-locuinte-form
-          (eventSubmit)="handleFormSubmit()"
-          class="flex flex-1 mh-100p w-100"
-          [buttonVisible]=""
-          [formSubmitting]=""
-          [formGroupInstance]=""
-          [fieldConfig]="formInstance?.config"
-          [fieldConfigData]="formInstance?.data"
-          [buttonText]=""
-          [formType]="formType"
-          (customEvents)="formCustomEvents()"
-        ></app-locuinte-form>
+        <ion-row class="mx-32 mt-40 mb-24">
+          <app-locuinte-form
+            (eventSubmit)="handleFormSubmit()"
+            class="flex flex-1 mh-100p w-100"
+            [buttonVisible]="buttonVisible"
+            [formSubmitting]="false"
+            [formGroupInstance]="formInstance?.group"
+            [fieldConfig]="formInstance?.config"
+            [fieldConfigData]="formInstance?.data"
+            [buttonText]="buttonText"
+            [formType]="formType"
+            (customEvents)="formCustomEvents()"
+          ></app-locuinte-form>
+        </ion-row>
       </ion-col>
     </ion-row>
   </ion-grid>
