@@ -58,4 +58,50 @@ ion-card {
       opacity: 0.45;
     }
   }
+
+  &.exclusion-card {
+    position: absolute;
+    overflow: visible;
+    opacity: 0;
+    bottom: 0;
+    top: 0;
+    right: 0;
+    left: 0;
+    transition: all 0.5s ease;
+    pointer-events: none;
+    transform-origin: top center;
+    will-change: transform, opacity, width, box-shadow;
+    box-shadow: none;
+    opacity: 0;
+    transform: scaleX(0.9);
+    box-shadow: $box-shadow-1;
+
+    &.active {
+      box-shadow: $alert-shadow-1;
+      width: 100%;
+      top: 0;
+      left: 0;
+      right: 0;
+      position: relative;
+      transform: scaleX(1);
+      opacity: 1;
+      pointer-events: inherit;
+    }
+    &.level-2 {
+      opacity: 1;
+      overflow: hidden;
+      @include transform(scaleX(0.9) translate3D(0, 16px, 0));
+    }
+    &.active-hidden {
+      @include transform(translateY(-32px));
+      opacity: 0;
+    }
+    &.last:not(.active):not(.level-2) {
+      transition: all 0s;
+    }
+  }
+  
+  &.lighter-green-gradient {
+    background: linear-gradient(180deg, #F2F9F5 0%, #E5F2EC 100%);
+  }
 }

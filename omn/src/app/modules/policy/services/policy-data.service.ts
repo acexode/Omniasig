@@ -88,6 +88,26 @@ export class PolicyDataService {
     return p;
   }
 
+  getSingleOfferById(id: number | string) {
+    return this.offerStore$.pipe(
+      switchMap((vals) => {
+        if (vals instanceof Array) {
+          const existing = vals.find((v) => v.id.toString() === id.toString());
+          if (existing) {
+            return of(existing);
+          } else {
+            return this.getUserOffers(id).pipe(
+              map((o) => o.filter((off) => off.id === id))
+            );
+          }
+        } else {
+          return this.getUserOffers(id).pipe(
+            map((o) => o.filter((off) => off.id === id))
+          );
+        }
+      })
+    );
+  }
   getSinglePolicyById(id) {
     return this.policyStore$.pipe(
       switchMap((vals) => {

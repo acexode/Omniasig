@@ -1,3 +1,9 @@
+import {
+  exclusionItemHelper,
+  exclusionContentButtons,
+  exclusionCancelItem,
+  exclusionCancelBtn,
+} from './../../data/exclusion-item-helper';
 import { PolicyType } from 'src/app/shared/models/data/policy-type';
 import {
   dntCancelBtn,
@@ -85,6 +91,28 @@ export const policyTypes: { [key: string]: PolicyType } = {
           ),
         }),
       ],
+    },
+    exclusionConfig: {
+      items: [
+        {
+          content: exclusionItemHelper({
+            text: {
+              text:
+                'Locuința pe care dorești să o asiguri se află într-o clădire ' +
+                'expertizată tehnic și încadrată în clasa I-a de risc seismic? ',
+            },
+            icon: {
+              name: 'lg-exclusion-6',
+              classes: 'maxh-200 flex w-100 h-100 maxw-280',
+            },
+          }),
+          buttons: exclusionContentButtons,
+        },
+      ],
+      cancel: {
+        content: exclusionCancelItem(),
+        buttons: exclusionCancelBtn(),
+      },
     },
     listingIcon: {
       name: 'lg-casa-2',
