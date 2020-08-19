@@ -20,3 +20,8 @@
     transform: translate(0, 100%);
   }
 }
+@include keyframes(spin) {
+  100% {
+    transform: rotate(360deg);
+  }
+}
