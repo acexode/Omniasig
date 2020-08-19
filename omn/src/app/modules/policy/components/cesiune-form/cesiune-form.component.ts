@@ -135,6 +135,7 @@ export class CesiuneFormComponent implements OnInit {
     unsubscriberHelper(this.cesiuneNumS);
     unsubscriberHelper(this.hasCesiuneS);
     unsubscriberHelper(this.formValidS);
+    
     if (this.hasCesiune instanceof AbstractControl) {
       this.hasCesiuneS = this.hasCesiune.valueChanges.subscribe((val) => {
         this.enableCesiune = val === 1;
@@ -153,6 +154,7 @@ export class CesiuneFormComponent implements OnInit {
         this.cesiuneNum.updateValueAndValidity({ emitEvent: true });
       });
     }
+
     if (this.cesiuneNum instanceof AbstractControl) {
       this.cesiuneNumS = this.cesiuneNum.valueChanges
         .pipe(distinctUntilChanged())
@@ -163,6 +165,7 @@ export class CesiuneFormComponent implements OnInit {
         });
       this.cesiuneForm.updateValueAndValidity({ emitEvent: true });
     }
+
     this.formValidS = this.cesiuneForm.statusChanges
       .pipe(distinctUntilChanged())
       .subscribe((v) => {
