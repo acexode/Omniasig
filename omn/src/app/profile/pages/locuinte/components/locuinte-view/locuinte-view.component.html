@@ -259,7 +259,7 @@
             (eventSubmit)="handleFormSubmit()"
             class="flex flex-1 mh-100p w-100"
             [buttonVisible]="buttonVisible"
-            [formSubmitting]="false"
+            [formSubmitting]="formSubmitting"
             [formGroupInstance]="formInstance?.group"
             [fieldConfig]="formInstance?.config"
             [fieldConfigData]="formInstance?.data"
@@ -269,6 +269,28 @@
           ></app-locuinte-form>
         </ion-row>
       </ion-col>
+    </ion-row>
+  </ion-grid>
+
+  <ion-grid *ngIf="locuinta.locuintaState === locuintaState.INVALID">
+    <ion-row class="mx-32 mb-32">
+      <ion-text class="text-center text-normal">
+        Te rugăm să confirmi că datele de mai jos sunt corecte.
+      </ion-text>
+    </ion-row>
+    <ion-row class="mx-32 mb-24">
+      <app-locuinte-form
+        (eventSubmit)="handleFormSubmit()"
+        class="flex flex-1 mh-100p w-100"
+        [buttonVisible]="buttonVisible"
+        [formSubmitting]="formSubmitting"
+        [formGroupInstance]="formInstance?.group"
+        [fieldConfig]="formInstance?.config"
+        [fieldConfigData]="formInstance?.data"
+        [buttonText]="buttonText"
+        [formType]="formType"
+        (customEvents)="formCustomEvents()"
+      ></app-locuinte-form>
     </ion-row>
   </ion-grid>
 </ion-content>

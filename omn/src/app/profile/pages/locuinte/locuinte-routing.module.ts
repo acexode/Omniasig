@@ -43,6 +43,15 @@ const routes: Routes = [
       locuinta: null,
     },
   },
+  {
+    path: 'invalid/:id',
+    component: LocuinteViewComponent,
+    data: {
+      formMode: LocuintaState.INVALID,
+      formStep: LocuinteFormType.ADDRESS,
+      locuinta: null,
+    },
+  },
 ];
 
 @NgModule({
