@@ -181,10 +181,7 @@ export class LocuinteViewComponent implements OnInit {
       LocuinteFormType.ADDRESS,
       disabled
     );
-    this.formConfigs.place = this.formS.buildFormConfig(
-      LocuinteFormType.PLACE,
-      disabled
-    );
+    this.formConfigs.place = this.formS.buildFormConfig(LocuinteFormType.PLACE);
     this.formData.address = this.formS.getFormFieldsData(
       this.formConfigs.address
     );
@@ -196,34 +193,28 @@ export class LocuinteViewComponent implements OnInit {
   formCustomEvents() {}
 
   handleFormSubmit() {
-    switch (this.formMode) {
-      case this.locuintaState.INCOMPLETE:
-      case this.locuintaState.INVALID:
-        this.buttonVisible = true;
-        if (this.formType === LocuinteFormType.ADDRESS) {
-          this.submitData().subscribe(async (v) => {
-            if (v) {
-              this.confirmModal(v);
-            }
-          });
-        } else if (this.formType === LocuinteFormType.PLACE) {
-          this.submitData().subscribe((v) => {
-            if (v) {
-              this.formType = LocuinteFormType.SUCCESS_MSG;
-              const header = subPageHeaderDefault('');
-              header.leadingIcon = null;
-              this.headerConfig = header;
-              this.buttonVisible = false;
-              this.refTimer = setTimeout(() => {
-                this.navigateToMain();
-              }, 2000);
-            }
-          });
+    this.buttonVisible = true;
+    if (this.formType === LocuinteFormType.ADDRESS) {
+      this.submitData().subscribe(async (v) => {
+        if (v) {
+          this.confirmModal(v);
         }
-        break;
-      default:
-        break;
+      });
+    } else if (this.formType === LocuinteFormType.PLACE) {
+      this.submitData().subscribe((v) => {
+        if (v) {
+          this.formType = LocuinteFormType.SUCCESS_MSG;
+          const header = subPageHeaderDefault('');
+          header.leadingIcon = null;
+          this.headerConfig = header;
+          this.buttonVisible = false;
+          this.refTimer = setTimeout(() => {
+            this.navigateToMain();
+          }, 2000);
+        }
+      });
     }
+
     this.cdRef.markForCheck();
     this.scrollTop();
   }
@@ -245,27 +236,27 @@ export class LocuinteViewComponent implements OnInit {
         );
 
       case this.locuintaState.INCOMPLETE:
-      // const model2 = this.formS.processFormModel(
-      //   this.formInstance.group.value,
-      //   this.dataModel
-      // );
-      // this.formSubmitting = true;
-      // this.cdRef.markForCheck();
-      // if (this.dataModel) {
-      //   return this.locuinteS.updateSingleLocuinte(model2).pipe(
-      //     finalize(() => {
-      //       this.formSubmitting = false;
-      //       this.cdRef.markForCheck();
-      //     })
-      //   );
-      // } else {
-      //   return this.locuinteS.addSingleLocuinte(model2).pipe(
-      //     finalize(() => {
-      //       this.formSubmitting = false;
-      //       this.cdRef.markForCheck();
-      //     })
-      //   );
-      // }
+        const model2 = this.formS.processFormModel(
+          this.formInstance.group.value,
+          this.dataModel
+        );
+        this.formSubmitting = true;
+        this.cdRef.markForCheck();
+        if (this.dataModel) {
+          return this.locuinteS.updateSingleLocuinte(model2).pipe(
+            finalize(() => {
+              this.formSubmitting = false;
+              this.cdRef.markForCheck();
+            })
+          );
+        } else {
+          return this.locuinteS.addSingleLocuinte(model2).pipe(
+            finalize(() => {
+              this.formSubmitting = false;
+              this.cdRef.markForCheck();
+            })
+          );
+        }
 
       default:
         return of(null);
