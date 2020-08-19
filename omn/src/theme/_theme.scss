@@ -74,6 +74,10 @@ body.omn {
     opacity: 0;
 }
 
+.opacity-0 {
+    opacity: 0;
+}
+
 .omn-gradient-image {
     background: $green-gradient;
     background-image: url('/assets/custom-ion-icons/md-omn-green-bg.svg'), $green-gradient;

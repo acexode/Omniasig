@@ -39,6 +39,9 @@
   border-top-right-radius: rem(8);
 }
 
+.border-radius-8 {
+  border-radius: rem(8);
+}
 .bottom-radius-8 {
   border-bottom-left-radius: rem(8);
   border-bottom-right-radius: rem(8);
@@ -52,8 +55,15 @@
   border-color: $medium-green-3 !important;
 }
 
+.border-medium-green-3 {
+  border-color: $medium-green-3;
+}
+
 .border-bottom-1 {
   border-bottom: 1px solid;
+}
+.border-bottom-2 {
+  border-bottom: rem(2) solid;
 }
 
 .border-top-1 {
@@ -64,6 +74,9 @@
   border-color: $medium-grey-2;
 }
 
+.border-red {
+  border-color: $red;
+}
 .radius-0 {
   --border-radius: 0 !important;
   border-radius: 0 !important;

@@ -24,11 +24,11 @@ export class PasscodeComponent implements OnInit {
       this.digitsLength = this.digits.toString().length
     }
     if (this.digitsLength > 5) {
-      this.verifyDigit()
+      this.verifyPasscode()
     }
   }
 
-  verifyDigit() {
+  verifyPasscode() {
     this.navCtrl.navigateRoot("/home")
   }
 

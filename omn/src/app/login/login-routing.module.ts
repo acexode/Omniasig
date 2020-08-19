@@ -10,7 +10,7 @@ const routes: Routes = [
     component: NumarTelefonComponent,
   },
   {
-    path: "authenticate",
+    path: "authenticate/:number",
     component: InputSmsComponent,
   },
     {

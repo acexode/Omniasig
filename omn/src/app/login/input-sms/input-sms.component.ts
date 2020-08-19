@@ -1,4 +1,6 @@
-import { Component, OnInit, AfterViewInit, ElementRef, ViewChild } from '@angular/core';
+import { Subscription } from 'rxjs';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Component, OnInit, AfterViewInit, ElementRef, ViewChild, OnDestroy } from '@angular/core';
 import { IonInput, NavController } from '@ionic/angular';
 
 @Component({
@@ -6,17 +8,29 @@ import { IonInput, NavController } from '@ionic/angular';
   templateUrl: './input-sms.component.html',
   styleUrls: ['./input-sms.component.scss'],
 })
-export class InputSmsComponent implements OnInit, AfterViewInit {
+export class InputSmsComponent implements OnInit, AfterViewInit, OnDestroy {
   input: string = '';
   min: string = '00'
   sec: any = 59;
   digits: number = null;
   digitsLength: number = 0;
   @ViewChild('inputField') inputField: IonInput;
-  constructor(private navCtrl: NavController) { }
+  sub: Subscription
+  phoneNumber = null
+  constructor(private route: ActivatedRoute, private router: Router) { }
 
   ngOnInit() {
+    this.getPhoneNumber()
+  }
 
+  getPhoneNumber() {
+    this.sub = this.route.params.subscribe((params) => {
+    if (params.number) {
+      this.phoneNumber = params.number
+    }else{
+      this.router.navigate(["/login"])
+    }
+    })
   }
 
   ngAfterViewInit() {
@@ -50,14 +64,18 @@ export class InputSmsComponent implements OnInit, AfterViewInit {
   }
 
   verifyDigit() {
-    this.navCtrl.navigateRoot("login/verfiy")
+    this.router.navigate(["login/verfiy"])
   }
 
-  spawnInput(){
-   this.inputField.getInputElement().then((input) => {
-     input.focus();
-     input.click()
-   })
-   
+  spawnInput() {
+    this.inputField.getInputElement().then((input) => {
+      input.focus();
+      input.click()
+    })
+
+  }
+
+  ngOnDestroy() {
+    this.sub.unsubscribe()
   }
 }
