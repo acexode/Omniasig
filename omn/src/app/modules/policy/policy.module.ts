@@ -5,10 +5,7 @@ import { RouterModule } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { AdresaLocuintaComponent } from './components/adresa-locuinta/adresa-locuinta.component';
-import { InfoCardComponent } from './components/info-card/info-card.component';
-import { InfoDocComponent } from './components/info-doc/info-doc.component';
 import { DisabledMessageModalComponent } from './components/modals/disabled-message-modal/disabled-message-modal.component';
-import { TipModalComponent } from './components/modals/tip-modal/tip-modal.component';
 import { OfferViewComponent } from './components/offer-view/offer-view.component';
 import { PolicyArchiveListComponent } from './components/policy-archive-list/policy-archive-list.component';
 import { PolicyCardListComponent } from './components/policy-card-list/policy-card-list.component';
@@ -19,6 +16,8 @@ import { PolicyRoutingModule } from './policy-routing.module';
 import { PolicySharedModule } from './policy-shared.module';
 import { CesiuneFormComponent} from './components/cesiune-form/cesiune-form.component'
 import { PolicyVerifyComponent} from './pages/policy-verify/policy-verify.component'
+import { InfoDocComponent } from './components/info-doc/info-doc.component';
+import { InfoCardComponent } from './components/info-card/info-card.component';
 
 @NgModule({
   declarations: [
@@ -30,9 +29,9 @@ import { PolicyVerifyComponent} from './pages/policy-verify/policy-verify.compon
     InfoCardComponent,
     CesiuneFormComponent,
     PolicyVerifyComponent,
+    DisabledMessageModalComponent,
     AdresaLocuintaComponent,
     DisabledMessageModalComponent,
-    TipModalComponent,
     OfferViewComponent,
     PolicyViewComponent,
   ],
