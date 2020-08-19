@@ -34,6 +34,7 @@ export class LocuinteViewComponent implements OnInit {
   locuintaState = LocuintaState;
   formType: LocuinteFormType;
   locuinteFormType = LocuinteFormType;
+  formStep: LocuinteFormType;
   formConfigs: {
     address: any;
     place: any;
@@ -75,14 +76,16 @@ export class LocuinteViewComponent implements OnInit {
         switchMap(() =>
           combineLatest([
             this.routerS.processChildDataAsync(this.aRoute, 'formMode'),
+            this.routerS.processChildDataAsync(this.aRoute, 'formStep'),
             this.routerS.processChildParamsAsync(this.aRoute, 'id'),
           ])
         )
       )
       .subscribe((vals: any) => {
         this.formMode = vals[0];
+        this.formStep = vals[1];
         this.setTitles();
-        const id = vals[1];
+        const id = vals[2];
         if (id) {
           this.locuinteS.getSingleLocuinta(id).subscribe((val: Locuinte) => {
             if (val) {
@@ -135,13 +138,18 @@ export class LocuinteViewComponent implements OnInit {
       case this.locuintaState.INVALID:
       case this.locuintaState.INCOMPLETE:
         if (!this.formInstance) {
-          this.formInstance = {
-            config: this.formConfigs.address,
-            group: this.formGroups.address,
-            data: this.formData.address,
-          };
+          if (this.formStep === LocuinteFormType.ADDRESS) {
+            this.formInstance = {
+              config: this.formConfigs.address,
+              group: this.formGroups.address,
+              data: this.formData.address,
+            };
+            this.formType = LocuinteFormType.ADDRESS;
+          } else {
+            this.nextStep();
+          }
         }
-        this.formType = LocuinteFormType.ADDRESS;
+
         break;
     }
   }

@@ -1,6 +1,9 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { LocuinteFormModes } from 'src/app/shared/models/modes/locuinte-form-modes';
+import {
+  LocuinteFormModes,
+  LocuinteFormType,
+} from 'src/app/shared/models/modes/locuinte-form-modes';
 import { LocuinteFormPageComponent } from './components/locuinte-form-page/locuinte-form-page.component';
 import { LocuinteViewComponent } from './components/locuinte-view/locuinte-view.component';
 import { LocuintePage } from './locuinte.page';
@@ -36,6 +39,7 @@ const routes: Routes = [
     component: LocuinteViewComponent,
     data: {
       formMode: LocuintaState.INCOMPLETE,
+      formStep: LocuinteFormType.ADDRESS,
       locuinta: null,
     },
   },
