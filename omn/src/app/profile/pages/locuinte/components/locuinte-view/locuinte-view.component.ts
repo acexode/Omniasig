@@ -175,10 +175,16 @@ export class LocuinteViewComponent implements OnInit {
   }
 
   buildFormAdd() {
+    const disabled = this.formMode === this.locuintaState.INCOMPLETE;
+
     this.formConfigs.address = this.formS.buildFormConfig(
-      LocuinteFormType.ADDRESS
+      LocuinteFormType.ADDRESS,
+      disabled
     );
-    this.formConfigs.place = this.formS.buildFormConfig(LocuinteFormType.PLACE);
+    this.formConfigs.place = this.formS.buildFormConfig(
+      LocuinteFormType.PLACE,
+      disabled
+    );
     this.formData.address = this.formS.getFormFieldsData(
       this.formConfigs.address
     );
