@@ -33,7 +33,9 @@
                     <ion-icon class="s18-h24 password-hide" *ngIf="digitsLength < 6" name="ellipse-outline"></ion-icon>
                     <ion-icon name="ellipse" class="mr-4 password-hide s18-h24" *ngIf="digitsLength > 5"></ion-icon>
                 </div>
-                <ion-input #inputField [(ngModel)]="digits" class="position-absolute bg-white text-center opacity-hide ion-no-border" maxlength="6" required="true" (ionChange)="changeInput($event)" type="number" inputmode="number" autofocus="true"></ion-input>
+                <form [formGroup]="passForm">
+                    <ion-input #inputField formControlName="passcode" class="position-absolute bg-white text-center opacity-hide ion-no-border" maxlength="6" required="true" type="number" inputmode="number" autofocus="true"></ion-input>
+                </form>
             </div>
         </ion-col>
     </div>

@@ -1,3 +1,6 @@
+import { CustomTimersService } from './../../core/services/custom-timers/custom-timers.service';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { IonInputConfig } from './../../shared/models/component/ion-input-config';
 import { Subscription } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Component, OnInit, AfterViewInit, ElementRef, ViewChild, OnDestroy } from '@angular/core';
@@ -9,19 +12,45 @@ import { IonInput, NavController } from '@ionic/angular';
   styleUrls: ['./input-sms.component.scss'],
 })
 export class InputSmsComponent implements OnInit, AfterViewInit, OnDestroy {
-  input: string = '';
   min: string = '00'
   sec: any = 59;
-  digits: number = null;
   digitsLength: number = 0;
   @ViewChild('inputField') inputField: IonInput;
   sub: Subscription
   phoneNumber = null
-  constructor(private route: ActivatedRoute, private router: Router) { }
+
+  config: IonInputConfig = {
+      type: 'number',
+    inputMode: 'number',
+  }
+  passForm: FormGroup;
+  
+  constructor(private route: ActivatedRoute, private router: Router,private timers: CustomTimersService,private formBuilder: FormBuilder) { }
 
   ngOnInit() {
+    this.initForm()
     this.getPhoneNumber()
+
   }
+  initForm(){
+    this.passForm = this.formBuilder.group({
+      digit: ['', [Validators.required,Validators.minLength(6),Validators.maxLength(6)]],
+  });
+
+  this.passForm.valueChanges.subscribe((value)=>{
+       this.changeInput(value.digit)   
+  })
+  }
+
+   changeInput(digit:number) {
+    if (digit) {
+      this.digitsLength = digit.toString().length
+    }
+    if (this.digitsLength > 5) {
+      this.verifyDigit()
+    }
+  }
+
 
   getPhoneNumber() {
     this.sub = this.route.params.subscribe((params) => {
@@ -38,33 +67,17 @@ export class InputSmsComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   startTimer() {
-    let timer = setInterval(() => {
-      if (this.sec < 1 || this.sec == 0) {
-        clearInterval(timer)
-        this.sec = '00'
-        return;
-      }
-      this.sec--
-    }, 999);
+    this.timers.buildTimer(59).subscribe((time:number)=>{
+this.sec = time
+    })
   }
 
   resendSMS() {
-    this.digits = null
-    this.sec = 59;
     this.startTimer()
   }
 
-  changeInput(_: any) {
-    if (this.digits) {
-      this.digitsLength = this.digits.toString().length
-    }
-    if (this.digitsLength > 5) {
-      this.verifyDigit()
-    }
-  }
-
   verifyDigit() {
-    this.router.navigate(["login/verfiy"])
+    this.router.navigate(["login/verify"])
   }
 
   spawnInput() {
