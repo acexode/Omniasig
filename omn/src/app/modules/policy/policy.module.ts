@@ -9,7 +9,6 @@ import { CesiuneFormComponent } from './components/cesiune-form/cesiune-form.com
 import { InfoCardComponent } from './components/info-card/info-card.component';
 import { InfoDocComponent } from './components/info-doc/info-doc.component';
 import { DisabledMessageModalComponent } from './components/modals/disabled-message-modal/disabled-message-modal.component';
-import { TipModalComponent } from './components/modals/tip-modal/tip-modal.component';
 import { OfferViewComponent } from './components/offer-view/offer-view.component';
 import { PolicyArchiveListComponent } from './components/policy-archive-list/policy-archive-list.component';
 import { PolicyCardListComponent } from './components/policy-card-list/policy-card-list.component';
@@ -31,9 +30,9 @@ import { OmnInputsModule } from 'src/app/shared/modules/omn-inputs/omn-inputs.mo
     InfoCardComponent,
     CesiuneFormComponent,
     PolicyVerifyComponent,
+    DisabledMessageModalComponent,
     AdresaLocuintaComponent,
     DisabledMessageModalComponent,
-    TipModalComponent,
     OfferViewComponent,
     PolicyViewComponent,
   ],

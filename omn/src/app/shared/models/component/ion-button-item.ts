@@ -8,6 +8,7 @@ export interface IonButtonItem {
   icon?: IonIconItem;
   iconPos?: 'start' | 'end';
   text?: IonTextItem;
+  href?: string;
   expand?: string;
   fill?: string;
   size?: string;

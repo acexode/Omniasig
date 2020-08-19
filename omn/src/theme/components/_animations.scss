@@ -1,0 +1,27 @@
+@import '../variables';
+@import '../mixins/mixins';
+
+/* The animation code */
+@include keyframes(slide-in-up) {
+  0% {
+    transform: translate(0, 100%);
+  }
+
+  100% {
+    transform: translate(0, 0);
+  }
+}
+@include keyframes(slide-out-down) {
+  0% {
+    transform: translate(0, 0);
+  }
+
+  100% {
+    transform: translate(0, 100%);
+  }
+}
+@include keyframes(spin) {
+  100% {
+    transform: rotate(360deg);
+  }
+}
