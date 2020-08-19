@@ -62,4 +62,10 @@
   .input-spinner {
     z-index: 2;
   }
+
+  .radio-btn {
+    --border-radius: 20px;
+    --color-checked: var(--ion-color-success);
+    --inner-border-radius: 16px;
+  }
 }

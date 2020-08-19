@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
+import { FormBuilder, Validators } from '@angular/forms';
 import { LocuinteService } from 'src/app/profile/pages/locuinte/services/locuinte/locuinte.service';
-import { subPageHeaderPrimary } from 'src/app/shared/data/sub-page-header-primary';
+import { PolicyLocuintaListItem } from './../../../../shared/models/component/policy-locuinta-list-item';
 
 @Component({
   selector: 'app-adresa-locuinta',
@@ -8,10 +9,27 @@ import { subPageHeaderPrimary } from 'src/app/shared/data/sub-page-header-primar
   styleUrls: ['./adresa-locuinta.component.scss'],
 })
 export class AdresaLocuintaComponent implements OnInit {
-  headerConfig = subPageHeaderPrimary('Adresă locuință');
+  vLocuinteList: Array<PolicyLocuintaListItem> = [];
+  vLocuinteListP: Array<PolicyLocuintaListItem> = [];
+  addNew = 'ADD_NEW';
+  @Input() set locuinteList(lV) {
+    this.vLocuinteList = lV.filter((vv) => !vv.policy).map((v) => v);
+    this.vLocuinteListP = lV.filter((vv) => vv.policy).map((v) => v);
+    console.log(lV);
+    this.cdRef.markForCheck();
+  }
+
+  locuintaForm = this.fb.group({
+    selection: this.fb.control('', Validators.required),
+  });
+
   version = 1;
   list: any = [];
-  constructor(private LocuinteS: LocuinteService) {}
+  constructor(
+    private LocuinteS: LocuinteService,
+    private cdRef: ChangeDetectorRef,
+    private fb: FormBuilder
+  ) {}
 
   ngOnInit() {
     this.LocuinteS.getLocuinteWithPolicy('2').subscribe((v) => {

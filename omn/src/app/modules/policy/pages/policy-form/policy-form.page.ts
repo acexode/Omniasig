@@ -1,3 +1,6 @@
+import { PolicyLocuintaListItem } from './../../../../shared/models/component/policy-locuinta-list-item';
+import { PolicyFormService } from './../../services/policy-form.service';
+import { LocuinteService } from './../../../../profile/pages/locuinte/services/locuinte/locuinte.service';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -10,7 +13,7 @@ import {
 import { ActivatedRoute } from '@angular/router';
 import { NavController } from '@ionic/angular';
 import { cloneDeep, has } from 'lodash';
-import { combineLatest } from 'rxjs';
+import { combineLatest, BehaviorSubject } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import { AuthService } from 'src/app/core/services/auth/auth.service';
 import { CustomRouterService } from 'src/app/core/services/custom-router/custom-router.service';
@@ -39,6 +42,10 @@ export class PolicyFormPage implements OnInit, OnDestroy {
   currentStep = PolicyFormSteps.DNT;
   typeItem;
 
+  policyLocuintaData$: BehaviorSubject<
+    Array<PolicyLocuintaListItem>
+  > = new BehaviorSubject([]);
+
   dntItem: any = 'success';
   exclusionItem: any = 'success';
 
@@ -47,6 +54,8 @@ export class PolicyFormPage implements OnInit, OnDestroy {
     private aRoute: ActivatedRoute,
     private authS: AuthService,
     private policyD: PolicyDataService,
+    private locS: LocuinteService,
+    private policyFs: PolicyFormService,
     private navCtrl: NavController,
     private cdRef: ChangeDetectorRef
   ) {}
@@ -65,12 +74,24 @@ export class PolicyFormPage implements OnInit, OnDestroy {
       .subscribe((vals: any) => {
         this.typeItem = cloneDeep(vals[1]);
         this.initConfigs();
+        this.loadLocuinte();
         this.changeStep(vals[0]);
       });
   }
 
   initConfigs() {}
 
+  loadLocuinte() {
+    combineLatest([
+      this.locS.getUserLocuinte(),
+      // TODO: Update this once we decide if we use the user Id.
+      this.policyD.getUserPolicies(1),
+    ]).subscribe((vals) => {
+      this.policyLocuintaData$.next(
+        this.policyFs.buildPolicyLocuintaModel(vals, this.typeItem.id)
+      );
+    });
+  }
   setTitles() {
     switch (this.currentStep) {
       case this.policySteps.DNT:
@@ -183,6 +204,7 @@ export class PolicyFormPage implements OnInit, OnDestroy {
         this.bgWhite = false;
         break;
       case this.policySteps.INFO_DOC:
+      case this.policySteps.ADDRESS_SELECT:
         this.bgWhite = true;
         break;
       default:

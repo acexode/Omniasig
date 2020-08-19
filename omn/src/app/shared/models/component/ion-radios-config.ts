@@ -9,4 +9,5 @@ export interface IonRadiosConfig {
   idKey?: string;
   labelKey?: string;
   name?: string;
+  itemClasses?: string;
 }

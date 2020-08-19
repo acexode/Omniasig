@@ -22,10 +22,14 @@
     </ng-container>
     <ng-container *ngSwitchCase="policySteps?.INFO_DOC">
       <app-info-doc #infoDocComp (continue)="next()"> </app-info-doc>
-    </ng-container>    
-    
+    </ng-container>
+
     <ng-container *ngSwitchCase="policySteps?.ADDRESS_SELECT">
-      <app-adresa-locuinta #adresaLocComp> </app-adresa-locuinta>
+      <app-adresa-locuinta
+        #adresaLocComp
+        [locuinteList]="policyLocuintaData$|async"
+      >
+      </app-adresa-locuinta>
     </ng-container>
     <ng-container *ngSwitchDefault></ng-container>
   </ng-container>
