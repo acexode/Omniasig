@@ -1,144 +1,81 @@
-<form class="form-group mt-96" [formGroup]="userForm" (ngSubmit)="onSubmit()">
-  <ion-grid class="ion-no-padding">
-    <ion-row class="ion-no-padding">
-      <app-radios
-        [config]="radiosConfig"
-        [options]="radioOptions"
+<form
+  class="form-group flex-1 flex w-100 flex-column px-32 pt-32 pb-24"
+  [formGroup]="cesiuneForm"
+  (ngSubmit)="onSubmit()"
+>
+  <ion-row class="ion-no-padding w-100 mb-24 flex">
+    <app-radios
+      [config]="radiosConfig"
+      [options]="radioOptions"
+      class="w-100"
+      formControlName="hasCesiune"
+    ></app-radios>
+  </ion-row>
+  <ion-grid
+    class="ion-no-padding flex flex-column mt-16 w-100"
+    *ngIf="enableCesiune"
+  >
+    <ion-row class="ion-no-padding w-100 mb-24">
+      <app-input
+        [config]="numarCesionariConfig"
+        formControlName="cesiuneNum"
         class="w-100"
-      ></app-radios>
+      ></app-input>
     </ion-row>
-  </ion-grid>
-
-  <div no-padding *ngIf="radioValue">
-    <ion-label position="stacked" class="input-label mb-8 mx-32"
-      >Număr cesionari</ion-label
-    >
-
-    <ion-grid class="border ion-no-padding">
-      <ion-row class="mx-32">
-        <ion-col class="icon" size="4">
-          <ion-item class="ion-no-padding numar">
-            <ion-label class="input-label">
-              <ion-icon
-                class="icon-20 ml-12"
-                name="sm-minus"
-                (click)="decreaseItems($event)"
-              ></ion-icon>
-            </ion-label>
-          </ion-item>
-        </ion-col>
-
-        <ion-col class="" size="4">
-          <ion-item class="ion-no-padding numar">
-            <ion-label class="number-input pl-28">{{
-              numberOfItems
-            }}</ion-label>
-          </ion-item>
-        </ion-col>
-
-        <ion-col class="icon" size="4">
-          <ion-item class="ion-no-padding numar">
-            <ion-label class="input-label">
-              <ion-icon
-                class="icon-20 adder"
-                name="sm-plus"
-                (click)="increaseItems($event)"
-              ></ion-icon>
-            </ion-label>
-          </ion-item>
-        </ion-col>
-      </ion-row>
-    </ion-grid>
-
-    <ion-grid
-      formArrayName="censionar"
-      class="ion-no-padding form-array"
-      *ngFor="let item of itemControls; let i = index"
-    >
-      <div [formGroupName]="i">
-        <ion-row class="mx-32 mt-40">
-          <ion-col class="mb-16" size="12">
-            <ion-label class="input-label mb-0">Cesionar {{ i + 1 }}</ion-label>
-          </ion-col>
-        </ion-row>
-
-        <ion-row class="mx-32 mb-24">
-          <ion-col class="" size="6">
-            <ion-item class="form-group w-100 input-tag">
-              <ion-label position="stacked" class="mb-8 input-label"
-                >CUI</ion-label
-              >
-              <ion-input
-                type="text"
-                class="s18-h21"
-                placeholder="Completează"
-                autocomplete="text"
-                formControlName="cui"
-              >
-              </ion-input>
-            </ion-item>
-          </ion-col>
-
-          <ion-col class="pl-8" size="6">
-            <ion-item class="form-group w-100 input-tag">
-              <ion-label position="stacked" class="mb-8 input-label"
-                >Procent</ion-label
-              >
-              <ion-input
-                type="text"
-                class="s18-h21"
-                placeholder="Completează"
-                autocomplete="text"
-                formControlName="procent"
-              >
-              </ion-input>
-            </ion-item>
-          </ion-col>
-        </ion-row>
-
-        <ion-row class="ml-32 mr-32">
-          <ion-col size="12">
-            <ion-item class="form-group w-100 input-tag">
-              <ion-label position="stacked" class="mb-8 input-label"
-                >Denumire cesionar</ion-label
-              >
-              <ion-input
-                #input
-                [step]="config?.spinnerConfig?.step"
-                [min]="config?.min"
-                [min]="config?.max"
-                type="text"
-                class="input-tag"
-                class="s18-h21"
-                placeholder="Completează"
-                autocomplete="text"
-                formControlName="denumireCesionar"
-              >
-              </ion-input>
-            </ion-item>
-          </ion-col>
-        </ion-row>
-      </div>
-    </ion-grid>
-
-    <ion-grid class="ion-no-padding mt-80">
-      <ion-row class="ion-no-padding flex flex-1 mx-32">
-        <ion-col
-          class="ion-no-padding flex flex-1 w-100 flex-column ion-justify-content-end mt-22"
-        >
-          <ion-button
-            type="submit"
-            class="activate-btn w-100 mb-24"
-            color="success"
-            size="large"
-            expand="full"
-            shape="round"
-            mode="md"
+    <ng-container *ngIf="cesionar?.length" formArrayName="cesionar">
+      <ion-grid
+        class="ion-no-padding form-array flex flex-column mt-16 w-100"
+        *ngFor="let item of cesionar?.controls; let i = index"
+        [formGroupName]="i"
+      >
+        <ion-row class="w-100 ion-text-left ion-no-padding">
+          <ion-label class="input-label mb-16 ion-text-left"
+            >Bancă
+            <ng-container *ngIf="cesionar?.length > 1">{{
+              i + 1
+            }}</ng-container></ion-label
           >
-            Continuă
-          </ion-button>
-        </ion-col>
-      </ion-row>
-    </ion-grid>
-  </div>
+        </ion-row>
+        <ion-row class="ion-no-padding flex mb-24">
+          <ion-col class="ion-no-padding mw-50-perc pr-8 flex">
+            <app-input
+              [config]="cuiConfig"
+              formControlName="cui"
+              class="w-100"
+            ></app-input>
+          </ion-col>
+          <ion-col class="ion-no-padding mw-50-perc pl-8 flex">
+            <app-input
+              [config]="procentConfig"
+              formControlName="procent"
+              class="w-100"
+            ></app-input>
+          </ion-col>
+        </ion-row>
+        <ion-row class="ion-no-padding flex w-100 mb-24">
+          <ion-col class="ion-no-padding w-100 flex">
+            <app-input
+              [config]="denumireBancaConfig"
+              formControlName="denumireCesionar"
+              class="w-100"
+            ></app-input> </ion-col
+        ></ion-row>
+      </ion-grid>
+    </ng-container>
+  </ion-grid>
+  <ion-grid
+    class="ion-no-padding mt-auto flex flex-column w-100 ion-justify-content-end"
+  >
+    <ion-button
+      type="submit"
+      color="success"
+      fill="solid"
+      expand="block"
+      size="large"
+      class="mx-0 mt-0"
+      [disabled]="!cesiuneForm?.valid"
+    >
+      Continuă
+    </ion-button>
+  </ion-grid>
 </form>
