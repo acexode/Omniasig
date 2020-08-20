@@ -285,6 +285,11 @@
     --background: $alt-bg;
 }
 
+.bg-inherit {
+    --background: inherit;
+    background-color: inherit;
+}
+
 .bg-grey-2 {
     background-color: $light-grey-2;
     --background: $light-grey-2;
