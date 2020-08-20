@@ -1,0 +1,10 @@
+@import '../../theme/variables.scss';
+
+.floating-text{
+    color: var(--color);
+}
+
+.title-text{
+    color: var(--app-dark-green);
+    font-family: $alt-font;
+}

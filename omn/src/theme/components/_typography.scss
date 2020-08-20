@@ -58,9 +58,18 @@ h3,
   line-height: rem(24);
 }
 
+.s13-h16 {
+  font-size: rem(13) !important;
+  line-height: rem(16) !important;
+}
+
 .s20-h24 {
   font-size: rem(20) !important;
   line-height: rem(24) !important;
+}
+.s24-h32{
+  font-size: rem(24) !important;
+  line-height: rem(32) !important;
 }
 
 .s18-h24 {
@@ -199,6 +208,7 @@ ion-label.input-label,
     }
   }
 }
+
 
 .font-reset {
   font: inherit !important;

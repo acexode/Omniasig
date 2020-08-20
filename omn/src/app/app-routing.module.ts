@@ -22,6 +22,11 @@ const routes: Routes = [
     loadChildren: () =>
       import('./profile/profile.module').then((m) => m.ProfilePageModule),
   },
+  {
+    path: 'biometrics',
+    loadChildren: () =>
+      import('./biometrics/biometrics.module').then((m) => m.BiometricsModule),
+  },
 ];
 
 @NgModule({

@@ -1,0 +1,38 @@
+<ion-content>
+  <ion-grid>
+    <ion-row class="ion-justify-content-end mt-52 mr-32">
+      <p class="floating-text ls-02 s13-h16 my-0">Mai târziu</p>
+    </ion-row>
+    <ion-row class="ion-justify-content-center mt-20">
+      <!-- <ion-thumbnail slot="start"> -->
+        <ion-img src="../../assets/custom-ion-icons/verification.svg" alt="verification image"></ion-img>
+      <!-- </ion-thumbnail>-->
+    </ion-row>
+    <ion-row class="ion-justify-content-center mt-32">
+      <p class="title-text s24-h32 ls-02 text-weight-bold my-0">Verificare identitate</p>
+    </ion-row>
+    <ion-row class="ion-justify-content-center">
+      <p>Prin verificarea identității ne asigurăm că doar tu vei avea acces la contul tău. Pentru asta este necesară prelucrarea datelor biometrice, respectiv a imaginii faciale (selfie) și acordul explicit pentru prelucrarea acestor date.
+      </p>
+    </ion-row>
+    <ion-row>
+
+    </ion-row>
+    <ion-row class="ion-justify-content-center">
+      <ion-button expand="block" fill="clear">Mai multe informații</ion-button>
+    </ion-row>
+    <ion-row class="ion-justify-content-center">
+      <ion-button
+        class="activate-btn"
+        size="large"
+        color="success"
+        fill="solid"
+        expand="block"
+        class="m-0 w-100 flex mt-auto"
+        [disabled]="!valid"
+      >
+        Verifică
+      </ion-button>
+    </ion-row>
+  </ion-grid>
+</ion-content>
