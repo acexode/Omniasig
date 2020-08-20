@@ -22,11 +22,6 @@ const routes: Routes = [
     loadChildren: () =>
       import('./profile/profile.module').then((m) => m.ProfilePageModule),
   },
-  {
-    path: 'omniasig',
-    loadChildren: () =>
-      import('./omniasig/omniasig.module').then((m) => m.OmniasigModule),
-  },
 ];
 
 @NgModule({

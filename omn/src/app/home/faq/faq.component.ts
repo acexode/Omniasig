@@ -9,7 +9,7 @@ import { __spreadArrays } from 'tslib';
 export class FaqComponent implements OnInit, AfterViewInit {
 
   //create an interface for this 
-  public faqs : Array<{ question: string, answer: string}> = [
+  faqs : Array<{ question: string, answer: string}> = [
     { 
        question : 'Cum accesez contul creat?', 
        answer : 'Nam laoreet nunc eu molestie condimentum. Pellentesque sit amet mauris orci. Quisque sed scelerisque ipsum. Curabitur congue est sit amet felis vehicula ultrices. Curabitur dictum odio quam, ac pharetra mauris tempus a. In ornare ex urna, faucibus elementum elit fermentum non. Quisque euismod venenatis metus. Nam laoreet nunc eu molestie condimentum. Pellentesque sit amet mauris orci. Quisque sed scelerisque ipsum. Curabitur congue est sit amet felis vehicula ultrices. Curabitur dictum odio quam, ac pharetra mauris tempus a. In ornare ex urna, faucibus elementum elit fermentum non. Quisque euismod venenatis metus.',
