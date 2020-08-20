@@ -230,6 +230,15 @@ export class PolicyFormPage implements OnInit, OnDestroy {
       case this.policySteps.ADDRESS_SELECT:
         this.changeStep(this.policySteps.EXCLUSION);
         break;
+      case this.policySteps.CESIUNE_FORM:
+        this.changeStep(this.policySteps.ADDRESS_SELECT);
+        break;
+      case this.policySteps.PERIOD_FORM:
+        this.changeStep(this.policySteps.CESIUNE_FORM);
+        break;
+      case this.policySteps.POLICY_VERIFY:
+        this.changeStep(this.policySteps.PERIOD_FORM);
+        break;
       default:
         break;
     }
@@ -256,7 +265,6 @@ export class PolicyFormPage implements OnInit, OnDestroy {
         this.changeStep(this.policySteps.PERIOD_FORM);
         break;
       case this.policySteps.PERIOD_FORM:
-        debugger;
         this.changeStep(this.policySteps.POLICY_VERIFY);
         break;
       default:

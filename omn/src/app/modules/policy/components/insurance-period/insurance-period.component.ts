@@ -17,7 +17,8 @@ import { FormBuilder, Validators } from '@angular/forms';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class InsurancePeriodComponent implements OnInit {
-  @Input() minDate;
+  currentDate = new Date();
+  @Input() minDate = new Date();
   @Input() maxDate;
 
   formGroup = this.fb.group({
@@ -35,6 +36,12 @@ export class InsurancePeriodComponent implements OnInit {
     },
     pickerFormat: 'D, MMM, YYYY',
     placeholder: 'Selectează',
+    min: this.minDate.toISOString(),
+    max: this.maxDate
+      ? this.maxDate
+      : new Date(
+          this.currentDate.setFullYear(this.currentDate.getFullYear() + 1)
+        ).toISOString(),
   };
   @Output() emitForm: EventEmitter<any> = new EventEmitter();
   constructor(private fb: FormBuilder, private cdRef: ChangeDetectorRef) {}

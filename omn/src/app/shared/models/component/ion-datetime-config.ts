@@ -7,7 +7,7 @@ export interface IonDateTimeConfig {
   displayFormat?: string;
   pickerFormat?: string;
   inputClasses?: string;
-  min?: string;
-  max?: string;
+  min?: string | Date;
+  max?: string | Date;
   pickerOptions?: any;
 }

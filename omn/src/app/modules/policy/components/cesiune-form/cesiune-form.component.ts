@@ -182,7 +182,6 @@ export class CesiuneFormComponent implements OnInit {
   onSubmit() {
     if (this.cesiuneForm.valid) {
       this.emitForm.emit(this.cesiuneForm.value);
-      debugger;
     } else {
       this.cesiuneForm.updateValueAndValidity();
       this.cdRef.markForCheck();
