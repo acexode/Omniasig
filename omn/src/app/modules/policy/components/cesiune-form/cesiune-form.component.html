@@ -1,0 +1,81 @@
+<form
+  class="form-group flex-1 flex w-100 flex-column px-32 pt-32 pb-24"
+  [formGroup]="cesiuneForm"
+  (ngSubmit)="onSubmit()"
+>
+  <ion-row class="ion-no-padding w-100 mb-24 flex">
+    <app-radios
+      [config]="radiosConfig"
+      [options]="radioOptions"
+      class="w-100"
+      formControlName="hasCesiune"
+    ></app-radios>
+  </ion-row>
+  <ion-grid
+    class="ion-no-padding flex flex-column mt-16 w-100"
+    *ngIf="enableCesiune"
+  >
+    <ion-row class="ion-no-padding w-100 mb-24">
+      <app-input
+        [config]="numarCesionariConfig"
+        formControlName="cesiuneNum"
+        class="w-100"
+      ></app-input>
+    </ion-row>
+    <ng-container *ngIf="cesionar?.length" formArrayName="cesionar">
+      <ion-grid
+        class="ion-no-padding form-array flex flex-column mt-16 w-100"
+        *ngFor="let item of cesionar?.controls; let i = index"
+        [formGroupName]="i"
+      >
+        <ion-row class="w-100 ion-text-left ion-no-padding">
+          <ion-label class="input-label mb-16 ion-text-left"
+            >Bancă
+            <ng-container *ngIf="cesionar?.length > 1">{{
+              i + 1
+            }}</ng-container></ion-label
+          >
+        </ion-row>
+        <ion-row class="ion-no-padding flex mb-24">
+          <ion-col class="ion-no-padding mw-50-perc pr-8 flex">
+            <app-input
+              [config]="cuiConfig"
+              formControlName="cui"
+              class="w-100"
+            ></app-input>
+          </ion-col>
+          <ion-col class="ion-no-padding mw-50-perc pl-8 flex">
+            <app-input
+              [config]="procentConfig"
+              formControlName="procent"
+              class="w-100"
+            ></app-input>
+          </ion-col>
+        </ion-row>
+        <ion-row class="ion-no-padding flex w-100 mb-24">
+          <ion-col class="ion-no-padding w-100 flex">
+            <app-input
+              [config]="denumireBancaConfig"
+              formControlName="denumireCesionar"
+              class="w-100"
+            ></app-input> </ion-col
+        ></ion-row>
+      </ion-grid>
+    </ng-container>
+  </ion-grid>
+  <ion-grid
+    class="ion-no-padding mt-auto flex flex-column w-100 ion-justify-content-end"
+  >
+    <ion-button
+      type="submit"
+      color="success"
+      fill="solid"
+      expand="block"
+      size="large"
+      class="mx-0 mt-0"
+      [disabled]="!cesiuneForm?.valid"
+    >
+      Continuă
+    </ion-button>
+  </ion-grid>
+</form>
