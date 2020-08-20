@@ -7,4 +7,14 @@
 .title-text{
     color: var(--app-dark-green);
     font-family: $alt-font;
+    border-bottom: 1px solid var(--app-red-color);
+}
+
+.text-block{
+    color: var(--color);
+    font-family: (--ion-font-family);
+}
+
+.button-text{
+    color: var(--app-dark-green);
 }
