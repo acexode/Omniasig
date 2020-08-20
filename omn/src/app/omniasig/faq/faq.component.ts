@@ -43,7 +43,7 @@ export class FaqComponent implements OnInit, AfterViewInit {
        answer : ' Nam laoreet nunc eu molestie condimentum. Pellentesque sit amet mauris orci. Quisque sed scelerisque ipsum. Curabitur congue est sit amet felis vehicula ultrices. Curabitur dictum odio quam, ac pharetra mauris tempus a. In ornare ex urna, faucibus elementum elit fermentum non. Quisque euismod venenatis metus.',
     },
     { 
-       question : 'Cum accesez contul în cazul în care am uitat datele de logare în aplicația OMNIASIG?', 
+       question : 'Cum accesez contul în cazul în care am uitat de logare în aplicația OMNIASIG?', 
        answer : 'Nam laoreet nunc eu molestie condimentum. Pellentesque sit amet mauris orci. Quisque sed scelerisque ipsum. Curabitur congue est sit amet felis vehicula ultrices. Curabitur dictum odio quam, ac pharetra mauris tempus a. In ornare ex urna, faucibus elementum elit fermentum non. Quisque euismod venenatis metus.',
     },
     { 
@@ -95,7 +95,7 @@ export class FaqComponent implements OnInit, AfterViewInit {
        answer : 'Nam laoreet nunc eu molestie condimentum. Pellentesque sit amet mauris orci. Quisque sed scelerisque ipsum. Curabitur congue est sit amet felis vehicula ultrices. Curabitur dictum odio quam, ac pharetra mauris tempus a. In ornare ex urna, faucibus elementum elit fermentum non. Quisque euismod venenatis metus.',
     },
     { 
-       question : 'Pot să văd care este statusul de soluționare pentru o petiție direct în aplicația OMNIASIG?', 
+       question : 'Pot să văd care este statusul de soluționare pentru direct în aplicația OMNIASIG?', 
        answer : 'Nam laoreet nunc eu molestie condimentum. Pellentesque sit amet mauris orci. Quisque sed scelerisque ipsum. Curabitur congue est sit amet felis vehicula ultrices. Curabitur dictum odio quam, ac pharetra mauris tempus a. In ornare ex urna, faucibus elementum elit fermentum non. Quisque euismod venenatis metus.',
     },
     { 
