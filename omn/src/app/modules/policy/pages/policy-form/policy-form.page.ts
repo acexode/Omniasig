@@ -1,6 +1,3 @@
-import { PolicyLocuintaListItem } from './../../../../shared/models/component/policy-locuinta-list-item';
-import { PolicyFormService } from './../../services/policy-form.service';
-import { LocuinteService } from './../../../../profile/pages/locuinte/services/locuinte/locuinte.service';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -13,13 +10,17 @@ import {
 import { ActivatedRoute } from '@angular/router';
 import { NavController } from '@ionic/angular';
 import { cloneDeep, has } from 'lodash';
-import { combineLatest, BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, combineLatest } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import { AuthService } from 'src/app/core/services/auth/auth.service';
 import { CustomRouterService } from 'src/app/core/services/custom-router/custom-router.service';
+import { LocuinteFormType } from 'src/app/shared/models/modes/locuinte-form-modes';
 import { policySubpageHeader } from '../../data/policy-subpage-header';
+import { LocuinteService } from './../../../../profile/pages/locuinte/services/locuinte/locuinte.service';
+import { PolicyLocuintaListItem } from './../../../../shared/models/component/policy-locuinta-list-item';
 import { PolicyFormSteps } from './../../../../shared/models/modes/policy-form-steps';
 import { PolicyDataService } from './../../services/policy-data.service';
+import { PolicyFormService } from './../../services/policy-form.service';
 
 @Component({
   selector: 'app-policy-form',
@@ -45,9 +46,14 @@ export class PolicyFormPage implements OnInit, OnDestroy {
   policyLocuintaData$: BehaviorSubject<
     Array<PolicyLocuintaListItem>
   > = new BehaviorSubject([]);
-
   dntItem: any = 'success';
   exclusionItem: any = 'success';
+  locuintaFormType: LocuinteFormType = LocuinteFormType.ADDRESS;
+
+  // Stored Data:
+  selectedAddressItem: PolicyLocuintaListItem;
+  cesiuneData;
+  periodStartData;
 
   constructor(
     private routerS: CustomRouterService,
@@ -134,6 +140,54 @@ export class PolicyFormPage implements OnInit, OnDestroy {
           backLink: false,
         });
         break;
+      case this.policySteps.ADDRESS_FORM:
+        this.headerConfig = policySubpageHeader({
+          title: 'Adresă nouă',
+          hasTrailingIcon: true,
+          hasLeadingIcon: true,
+          backLink: false,
+        });
+        break;
+      case this.policySteps.LOCATION_FORM:
+        this.headerConfig = policySubpageHeader({
+          title: 'Informații locuință',
+          hasTrailingIcon: true,
+          hasLeadingIcon: true,
+          backLink: false,
+        });
+        break;
+      case this.policySteps.PAD_CHECK:
+        this.headerConfig = policySubpageHeader({
+          title: 'Verificare',
+          hasTrailingIcon: false,
+          hasLeadingIcon: false,
+          backLink: false,
+        });
+        break;
+      case this.policySteps.CESIUNE_FORM:
+        this.headerConfig = policySubpageHeader({
+          title: 'Ipotecă',
+          hasTrailingIcon: true,
+          hasLeadingIcon: true,
+          backLink: false,
+        });
+        break;
+      case this.policySteps.PERIOD_FORM:
+        this.headerConfig = policySubpageHeader({
+          title: 'Perioada de asigurare',
+          hasTrailingIcon: true,
+          hasLeadingIcon: true,
+          backLink: false,
+        });
+        break;
+      case this.policySteps.POLICY_VERIFY:
+        this.headerConfig = policySubpageHeader({
+          title: 'Verificare date',
+          hasTrailingIcon: true,
+          hasLeadingIcon: true,
+          backLink: false,
+        });
+        break;
       default:
         this.headerConfig = policySubpageHeader({
           title: 'Polita',
@@ -192,6 +246,19 @@ export class PolicyFormPage implements OnInit, OnDestroy {
       case this.policySteps.INFO_DOC:
         this.changeStep(this.policySteps.EXCLUSION);
         break;
+      case this.policySteps.ADDRESS_SELECT:
+      case this.policySteps.ADDRESS_FORM:
+      case this.policySteps.PAD_CHECK:
+      case this.policySteps.LOCATION_FORM:
+        this.changeStep(this.policySteps.CESIUNE_FORM);
+        break;
+      case this.policySteps.CESIUNE_FORM:
+        this.changeStep(this.policySteps.PERIOD_FORM);
+        break;
+      case this.policySteps.PERIOD_FORM:
+        debugger;
+        this.changeStep(this.policySteps.POLICY_VERIFY);
+        break;
       default:
         break;
     }
@@ -205,6 +272,12 @@ export class PolicyFormPage implements OnInit, OnDestroy {
         break;
       case this.policySteps.INFO_DOC:
       case this.policySteps.ADDRESS_SELECT:
+      case this.policySteps.ADDRESS_FORM:
+      case this.policySteps.PAD_CHECK:
+      case this.policySteps.LOCATION_FORM:
+      case this.policySteps.CESIUNE_FORM:
+      case this.policySteps.PERIOD_FORM:
+      case this.policySteps.POLICY_VERIFY:
         this.bgWhite = true;
         break;
       default:
@@ -249,6 +322,44 @@ export class PolicyFormPage implements OnInit, OnDestroy {
     this.setTitles();
   }
 
+  addressSelect(type: string | PolicyLocuintaListItem) {
+    if (type === 'ADD_NEW') {
+      this.changeStep(this.policySteps.ADDRESS_FORM);
+      this.cdRef.markForCheck();
+    } else if (type) {
+      this.selectedAddressItem = type as PolicyLocuintaListItem;
+      this.next();
+    }
+  }
+
+  addressStepChange(step) {
+    switch (step) {
+      case LocuinteFormType.ADDRESS:
+        this.changeStep(this.policySteps.ADDRESS_FORM);
+        break;
+      case LocuinteFormType.PAD_CHECK:
+        this.changeStep(this.policySteps.PAD_CHECK);
+        break;
+      case LocuinteFormType.PLACE:
+        this.changeStep(this.policySteps.LOCATION_FORM);
+        break;
+      case 'NEXT':
+        this.next();
+        break;
+
+      default:
+        break;
+    }
+  }
+
+  cesiuneSubmit(cesiuneData) {
+    this.cesiuneData = cesiuneData;
+    this.next();
+  }
+  periodSubmit(startDate) {
+    this.periodStartData = startDate;
+    this.next();
+  }
   navigateBackDnt() {
     if (this.dntComp) {
       this.dntComp.navigateInList('back', this.dntItem);

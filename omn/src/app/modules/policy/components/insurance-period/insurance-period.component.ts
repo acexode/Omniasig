@@ -4,6 +4,8 @@ import {
   OnInit,
   ChangeDetectorRef,
   ChangeDetectionStrategy,
+  Output,
+  EventEmitter,
 } from '@angular/core';
 import { IonDateTimeConfig } from 'src/app/shared/models/component/ion-datetime-config';
 import { FormBuilder, Validators } from '@angular/forms';
@@ -34,12 +36,22 @@ export class InsurancePeriodComponent implements OnInit {
     pickerFormat: 'D, MMM, YYYY',
     placeholder: 'Selectează',
   };
-
+  @Output() emitForm: EventEmitter<any> = new EventEmitter();
   constructor(private fb: FormBuilder, private cdRef: ChangeDetectorRef) {}
 
   ngOnInit() {
     this.cdRef.markForCheck();
   }
 
-  submit() {}
+  submit() {
+    if (this.formGroup.valid) {
+      const field = this.formGroup.get('date');
+      if (field) {
+        this.emitForm.emit(field.value);
+      }
+    } else {
+      this.formGroup.updateValueAndValidity();
+      this.cdRef.markForCheck();
+    }
+  }
 }

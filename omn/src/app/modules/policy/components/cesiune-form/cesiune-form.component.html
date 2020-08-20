@@ -1,5 +1,9 @@
 <form
-  class="form-group flex-1 flex w-100 flex-column px-32 pt-32 pb-24"
+  class="flex-1 flex w-100 flex-column px-32 pb-24"
+  [ngClass]="{
+    'pt-96': !enableCesiune,
+    'pt-32': enableCesiune
+  }"
   [formGroup]="cesiuneForm"
   (ngSubmit)="onSubmit()"
 >
@@ -66,16 +70,18 @@
   <ion-grid
     class="ion-no-padding mt-auto flex flex-column w-100 ion-justify-content-end"
   >
-    <ion-button
-      type="submit"
-      color="success"
-      fill="solid"
-      expand="block"
-      size="large"
-      class="mx-0 mt-0"
-      [disabled]="!cesiuneForm?.valid"
-    >
-      Continuă
-    </ion-button>
+    <ion-row class="flex w-100 mt-auto">
+      <ion-button
+        type="submit"
+        color="success"
+        fill="solid"
+        expand="block"
+        size="large"
+        class="m-0 w-100"
+        [disabled]="!cesiuneForm?.valid"
+      >
+        Continuă
+      </ion-button>
+    </ion-row>
   </ion-grid>
 </form>

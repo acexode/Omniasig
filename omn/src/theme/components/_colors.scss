@@ -186,9 +186,11 @@
 .color-disabled {
   color: $grey3;
 }
+
 .color-grey-6 {
   color: $grey-6;
 }
+
 .bg-danger {
   background-color: $danger;
 }
@@ -267,4 +269,7 @@
 .bg-light-gray {
   background-color: $light-grey-2;
   --background: $light-grey-2;
+}
+.bg-ultra-light-green {
+  background:$ultra-light-green;
 }

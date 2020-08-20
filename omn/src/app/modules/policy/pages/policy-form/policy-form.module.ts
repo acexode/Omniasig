@@ -1,3 +1,4 @@
+import { PolicyVerifyComponent } from './../../components/policy-verify/policy-verify.component';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -12,7 +13,9 @@ import { InfoDocComponent } from '../../components/info-doc/info-doc.component';
 import { InsurancePeriodComponent } from '../../components/insurance-period/insurance-period.component';
 import { PolicySharedModule } from '../../policy-shared.module';
 import { LocuinteSharedModule } from './../../../../profile/pages/locuinte/locuinte-shared.module';
+import { CesiuneFormComponent } from './../../components/cesiune-form/cesiune-form.component';
 import { TipModalComponent } from './../../components/modals/tip-modal/tip-modal.component';
+import { PolicyAddressFormComponent } from './../../components/policy-address-form/policy-address-form.component';
 import { PolicyFormPageRoutingModule } from './policy-form-routing.module';
 import { PolicyFormPage } from './policy-form.page';
 
@@ -37,6 +40,9 @@ import { PolicyFormPage } from './policy-form.page';
     TipModalComponent,
     InfoCardComponent,
     AdresaLocuintaComponent,
+    PolicyAddressFormComponent,
+    CesiuneFormComponent,
+    PolicyVerifyComponent,
   ],
 })
 export class PolicyFormPageModule {}

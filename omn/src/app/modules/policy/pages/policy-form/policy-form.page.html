@@ -27,10 +27,35 @@
     <ng-container *ngSwitchCase="policySteps?.ADDRESS_SELECT">
       <app-adresa-locuinta
         #adresaLocComp
+        (selectionDone)="addressSelect($event)"
         [locuinteList]="policyLocuintaData$|async"
       >
       </app-adresa-locuinta>
     </ng-container>
-    <ng-container *ngSwitchDefault></ng-container>
+    <ng-container *ngSwitchCase="policySteps?.CESIUNE_FORM">
+      <app-cesiune-form
+        (emitForm)="cesiuneSubmit($event)"
+        class="flex flex-1 w-100 mh-100p"
+      ></app-cesiune-form>
+    </ng-container>
+    <ng-container *ngSwitchCase="policySteps?.PERIOD_FORM">
+      <app-insurance-period
+        (emitForm)="periodSubmit($event)"
+      ></app-insurance-period>
+    </ng-container>
+    <ng-container *ngSwitchCase="policySteps?.POLICY_VERIFY">
+      <app-policy-verify></app-policy-verify>
+    </ng-container>
+    <ng-container *ngSwitchDefault>
+      <ng-container
+        *ngIf="currentStep === policySteps?.ADDRESS_FORM || 
+        currentStep === policySteps?.LOCATION_FORM ||
+         currentStep === policySteps?.PAD_CHECK "
+      >
+        <app-policy-address-form
+          (stepChange)="addressStepChange($event)"
+        ></app-policy-address-form>
+      </ng-container>
+    </ng-container>
   </ng-container>
 </ion-content>

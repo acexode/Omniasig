@@ -35,13 +35,15 @@
         <ion-row *ngFor="let item of vLocuinteListP">
           <ion-item class="ion-no-padding ion-align-items-start w-100">
             <div class="my-24">
-              <ion-label class="ion-text-wrap mb-14 text-normal"
-                >Str. Traian Nr.45, Brasov, jud. BV, Cod 321456</ion-label
-              >
+              <ion-label class="ion-text-wrap mb-14 text-normal">{{
+                item?.locuinta | locuinteName: 'policy-list'
+              }}</ion-label>
               <ion-label
                 color="omn-green"
                 class="ion-text-wrap link-small text-weight-medium"
-                >Polița PAD valabilă până la 25.07.2020</ion-label
+                >{{
+                  item?.policy | policyName: 'address-policy-expiry'
+                }}</ion-label
               >
             </div>
             <ion-radio
@@ -64,14 +66,18 @@
         <ion-label class="ion-text-wrap my-24 text-normal"
           >Adaugă o adresă nouă</ion-label
         >
-        <ion-radio class="ml-0 mr-12 my-24 radio-btn" slot="start"></ion-radio>
+        <ion-radio
+          class="ml-0 mr-12 my-24 radio-btn"
+          slot="start"
+          [value]="addNew"
+        ></ion-radio>
       </ion-item>
     </ion-row>
   </ion-radio-group>
   <ion-row class="mt-auto w-100 px-32 ion-no-padding">
     <ion-col class="ion-no-padding flex flex-1 w-100 flex-column">
       <ion-button
-        (click)="continue()"
+        (click)="submitForm()"
         type="submit"
         color="success"
         fill="solid"

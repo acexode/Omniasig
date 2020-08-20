@@ -1,6 +1,13 @@
-import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
+import {
+  ChangeDetectorRef,
+  Component,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
+} from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
-import { LocuinteService } from 'src/app/profile/pages/locuinte/services/locuinte/locuinte.service';
+import { get } from 'lodash';
 import { PolicyLocuintaListItem } from './../../../../shared/models/component/policy-locuinta-list-item';
 
 @Component({
@@ -11,37 +18,44 @@ import { PolicyLocuintaListItem } from './../../../../shared/models/component/po
 export class AdresaLocuintaComponent implements OnInit {
   vLocuinteList: Array<PolicyLocuintaListItem> = [];
   vLocuinteListP: Array<PolicyLocuintaListItem> = [];
+  fullList: Array<PolicyLocuintaListItem> = [];
   addNew = 'ADD_NEW';
   @Input() set locuinteList(lV) {
+    this.fullList = lV;
+    // Split based on policy availability.
     this.vLocuinteList = lV.filter((vv) => !vv.policy).map((v) => v);
     this.vLocuinteListP = lV.filter((vv) => vv.policy).map((v) => v);
-    console.log(lV);
     this.cdRef.markForCheck();
   }
-
+  @Output() selectionDone: EventEmitter<
+    string | PolicyLocuintaListItem
+  > = new EventEmitter();
   locuintaForm = this.fb.group({
     selection: this.fb.control('', Validators.required),
   });
+  constructor(private cdRef: ChangeDetectorRef, private fb: FormBuilder) {}
 
-  version = 1;
-  list: any = [];
-  constructor(
-    private LocuinteS: LocuinteService,
-    private cdRef: ChangeDetectorRef,
-    private fb: FormBuilder
-  ) {}
+  ngOnInit() {}
 
-  ngOnInit() {
-    this.LocuinteS.getLocuinteWithPolicy('2').subscribe((v) => {
-      this.list = v;
-    });
-  }
-
-  continue() {
-    if (this.version < 4) {
-      this.version++;
-      return;
+  submitForm() {
+    if (this.locuintaForm.valid) {
+      const controlS = this.locuintaForm.get('selection');
+      if (controlS) {
+        const value = controlS.value;
+        if (value !== 'ADD_NEW') {
+          this.emitLocuintaItemById(value);
+        } else {
+          this.selectionDone.emit(value);
+        }
+      }
     }
-    this.version = 1;
   }
+  emitLocuintaItemById(id) {
+    const value = this.fullList.find((lI) => get(lI, 'locuinta.id', -1) === id);
+    if (value) {
+      this.selectionDone.emit(value);
+    }
+  }
+
+  initLocuintaMainForm() {}
 }

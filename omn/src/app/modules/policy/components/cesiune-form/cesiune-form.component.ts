@@ -4,6 +4,8 @@ import {
   Input,
   OnInit,
   ChangeDetectorRef,
+  Output,
+  EventEmitter,
 } from '@angular/core';
 import {
   AbstractControl,
@@ -70,6 +72,7 @@ export class CesiuneFormComponent implements OnInit {
   cesiuneNumS;
   formValidS;
 
+  @Output() emitForm: EventEmitter<any> = new EventEmitter();
   public cesiuneForm: FormGroup;
   censionar: FormArray;
 
@@ -105,7 +108,6 @@ export class CesiuneFormComponent implements OnInit {
     if (this.hasCesiune instanceof AbstractControl) {
       this.hasCesiuneS = this.hasCesiune.valueChanges.subscribe((val) => {
         this.enableCesiune = val === 1;
-        console.log(val);
         if (!val) {
           this.cesiuneNumS = 0;
           this.cesiuneNum.clearValidators();
@@ -134,7 +136,6 @@ export class CesiuneFormComponent implements OnInit {
       .pipe(distinctUntilChanged())
       .subscribe((v) => {
         this.cdRef.markForCheck();
-        console.log(this.cesiuneForm.valid);
       });
   }
 
@@ -179,6 +180,12 @@ export class CesiuneFormComponent implements OnInit {
   }
 
   onSubmit() {
-    this.cesuineItems = this.cesiuneForm.value;
+    if (this.cesiuneForm.valid) {
+      this.emitForm.emit(this.cesiuneForm.value);
+      debugger;
+    } else {
+      this.cesiuneForm.updateValueAndValidity();
+      this.cdRef.markForCheck();
+    }
   }
 }
