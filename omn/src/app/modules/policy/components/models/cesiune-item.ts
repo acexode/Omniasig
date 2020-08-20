@@ -1,5 +1,5 @@
-export interface EnumCesiuneItem {
-    cui?: any; 
-    procent?: any; 
-    denumireCesionar?: any
+export interface CesiuneItem {
+  cui?: any;
+  procent?: any;
+  denumireCesionar?: any;
 }

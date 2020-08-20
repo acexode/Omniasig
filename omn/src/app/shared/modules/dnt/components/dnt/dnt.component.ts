@@ -110,15 +110,12 @@ export class DntComponent implements OnInit {
     } else {
       if (this.cancelItem && !data) {
         // Navigate to cancel state display.
+        this.visibleItemIndex = -1;
         this.dntEvents.emit('cancel-ev');
         this.visibleItem = this.cancelItem;
       }
-      if (this.visibleItem === this.cancelItem && data) {
-        // Emit cancel button.
-        this.dntEvents.emit(data);
-      }
-      if (this.visibleItem === this.successItem && data) {
-        // Emit success button click;
+      if (this.visibleItemIndex === -1 && data) {
+        // Emit cancel/success button.
         this.dntEvents.emit(data);
       }
       this.cdRef.markForCheck();
