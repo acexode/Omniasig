@@ -1,3 +1,55 @@
-<p>
-  date-personale works!
-</p>
+<ion-content class="bg-white">
+    <app-sub-page-header [config]="headerConfig"> </app-sub-page-header>
+    <div class="px-32">
+        <div class="text-center ion-text-center pb-38">
+            <ion-text class="alt-font color-dark-green x-large text-center">
+                Cont de utilizator
+            </ion-text>
+        </div>
+        <div class="mt-30">
+            <form [formGroup]="detailsForm" (ngSubmit)="proceed()">
+                <div class="pb-24">
+                    <app-input formControlName="nume" [config]="config.nume"></app-input>
+                </div>
+                <div class="pt-24">
+                    <app-input formControlName="prenume" [config]="config.prenume"></app-input>
+                </div>
+                <div class="pt-24">
+                    <app-input formControlName="cnp" [config]="config.cnp"></app-input>
+                    <div class="pt-14">
+                        <ion-text class="text-small">
+                            CNP-ul este necesar pentru completarea actelor la care vei avea acces din aplicație. Datele tale sunt salvate în condiții de maximă siguranță.
+                        </ion-text>
+                    </div>
+                </div>
+                <div class="pt-30">
+                    <ion-text class="link-small color-tertiary-grey">
+                        Ești o persoană expusă politic?
+                    </ion-text>
+                    <div class="pt-20 bg-white">
+                        <ion-row class="inline-flex bg-white">
+                            <app-radios class="bg-white" [config]="radiosConfig" [options]="radioOptions" formControlName="option"></app-radios>
+                        </ion-row>
+                    </div>
+                </div>
+                <div class="pt-20">
+                    <ion-row>
+                        <ion-col>
+                            <ion-icon class="mr-auto ml-auto text-center icon-20 pt-40" name="informatii"></ion-icon>
+                        </ion-col>
+                        <ion-col size="10">
+                            <ion-text class="text-small">
+                                Persoane fizice care exercită sau au exercitat funcţii publice importante, membrii familiilor acestora, precum şi persoanele cunoscute public ca asociaţi apropiaţi ai persoanelor fizice care exercită funcţii publice importante
+                            </ion-text>
+                        </ion-col>
+                    </ion-row>
+                </div>
+                <div class="pt-32 pb-24">
+                    <ion-button type="submit" (click)="proceed()" [disabled]="!detailsForm.valid" class="success-gradient ion-color-success" expand="full" size="large" shape="round" mode="md">
+                        Continuă
+                    </ion-button>
+                </div>
+            </form>
+        </div>
+    </div>
+</ion-content>
