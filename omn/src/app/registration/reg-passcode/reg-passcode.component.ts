@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { IonInput, NavController } from '@ionic/angular';
 
 @Component({
   selector: 'app-reg-passcode',
@@ -6,9 +8,42 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./reg-passcode.component.scss'],
 })
 export class RegPasscodeComponent implements OnInit {
+  digitsLength: number = 0;
+  @ViewChild('inputField') inputField: IonInput;
+  passForm: FormGroup;
+  constructor(private navCtrl: NavController,private formBuilder: FormBuilder) { }
 
-  constructor() { }
+  ngOnInit() {
+this.initForm()
+  }
+  initForm(){
+    this.passForm = this.formBuilder.group({
+      passcode: ['', [Validators.required,Validators.minLength(6),Validators.maxLength(6)]],
+  });
 
-  ngOnInit() {}
+  this.passForm.valueChanges.subscribe((value)=>{
+    this.changeInput(value.passcode)   
+  })
+  }
+
+   changeInput(passcode) {
+    if (passcode) {
+      this.digitsLength = passcode.toString().length
+    }
+    if (this.digitsLength > 5) {
+      this.verifyPasscode()
+    }
+  }
+
+  verifyPasscode() {
+    this.navCtrl.navigateRoot(`registration/confirm-passcode/${this.passForm.controls["passcode"].value}`)
+  }
+
+  spawnInput(){
+   this.inputField.getInputElement().then((input) => {
+     input.focus();
+     input.click()
+   })
+  }
 
 }

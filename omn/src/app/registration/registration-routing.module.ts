@@ -1,3 +1,7 @@
+import { AdresaDeEmailComponent } from './adresa-de-email/adresa-de-email.component';
+import { ContCreatComponent } from './cont-creat/cont-creat.component';
+import { DatePersonaleComponent } from './date-personale/date-personale.component';
+import { ConfirmCodDeAccesComponent } from './confirm-cod-de-acces/confirm-cod-de-acces.component';
 import { RegPasscodeComponent } from './reg-passcode/reg-passcode.component';
 import { NotaDeInformareComponent } from './nota-de-informare/nota-de-informare.component';
 import { RegInputSmsComponent } from './reg-input-sms/reg-input-sms.component';
@@ -19,8 +23,24 @@ const routes: Routes = [
     component:NotaDeInformareComponent
   },
   {
-    path:'create-pin',
+    path:'create-passcode',
     component:RegPasscodeComponent
+  },
+  {
+    path:'confirm-passcode/:passcode',
+    component:ConfirmCodDeAccesComponent
+  },
+  {
+    path:'personal-details',
+    component:DatePersonaleComponent
+  },
+  {
+    path:'email',
+    component:AdresaDeEmailComponent
+  },
+  {
+    path:'account-created',
+    component:ContCreatComponent
   },
 ];
 

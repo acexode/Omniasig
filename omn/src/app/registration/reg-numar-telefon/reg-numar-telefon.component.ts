@@ -40,6 +40,4 @@ initForm(){
   reg(){
  this.router.navigate(['registration/confirm-number',this.teleForm.controls['phoneNumber'].value])
   }
-
-
 }
