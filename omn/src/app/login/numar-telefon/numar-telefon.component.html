@@ -16,17 +16,12 @@
                 </ion-text>
             </div>
             <div class="mt-30 pb-60">
-                <div class="mb-8">
-                    <ion-label class="link-small color-tertiary-grey mb-8">Numărul tău de telefon</ion-label>
-                </div>
-                <ion-item>
-                    <ion-input [(ngModel)]="phoneNumber" maxlength="10" required="true" (ionChange)="changeInput($event)" [type]="config?.type" [placeholder]="config?.placeholder" [inputmode]="config?.inputMode"></ion-input>
-                    <ion-icon (click)="clearInput()" name="close" slot="end"></ion-icon>
-                </ion-item>
-
+                <form [formGroup]="teleForm" (ngSubmit)="login()">
+                    <app-input formControlName="phoneNumber" [config]="config"></app-input>
+                </form>
             </div>
             <div class="ion-align-items-center ion-text-center mt-8">
-                <ion-button (click)="login()" [disabled]="!validNumber" class="success-gradient ion-color-success" expand="full" size="large" shape="round" mode="md">
+                <ion-button type="submit" (click)="login()" [disabled]="!teleForm.valid" class="success-gradient ion-color-success" expand="full" size="large" shape="round" mode="md">
                     Continuă
                 </ion-button>
             </div>

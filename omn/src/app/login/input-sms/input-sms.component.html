@@ -17,7 +17,7 @@
             </div>
             <div class="ion-text-center pb-42">
                 <ion-text class="text-small">
-                    Am trimis un cod de verificare la {{'+40 722 123 456'}}
+                    Am trimis un cod de verificare la {{phoneNumber}}
                 </ion-text>
             </div>
             <div class="ion-text-center pb-80">
@@ -35,13 +35,15 @@
                     <ion-icon class="s18-h24 password-hide" *ngIf="digitsLength < 6" name="ellipse-outline"></ion-icon>
                     <ion-icon name="ellipse" class="mr-4 password-hide s18-h24" *ngIf="digitsLength > 5"></ion-icon>
                 </div>
-                <ion-input #inputField [(ngModel)]="digits" class="position-absolute bg-white text-center opacity-hide ion-no-border" maxlength="6" required="true" (ionChange)="changeInput($event)" type="number" inputmode="number" autofocus="true"></ion-input>
+                <form [formGroup]="passForm">
+                    <ion-input #inputField formControlName="digit" class="position-absolute bg-white text-center opacity-hide ion-no-border" maxlength="6" required="true" type="number" inputmode="number" autofocus="true"></ion-input>
+                </form>
             </div>
             <div class="ion-text-center pt-80">
                 <ion-text class="text-small">
                     Poți solicita un alt cod în {{min}}:{{sec}}
                 </ion-text>
-                <div *ngIf="sec < 1 || sec == '00' || sec == 0" class="ion-align-items-center ion-text-center mt-8">
+                <div *ngIf="sec < 1 || sec == 0" class="ion-align-items-center ion-text-center mt-8">
                     <ion-button (click)="resendSMS()" class="success-gradient ion-color-success" expand="block" size="md" shape="round" mode="md">
                         Retrimite code
                     </ion-button>

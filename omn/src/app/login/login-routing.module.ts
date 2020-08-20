@@ -10,11 +10,11 @@ const routes: Routes = [
     component: NumarTelefonComponent,
   },
   {
-    path: "authenticate",
+    path: "authenticate/:number",
     component: InputSmsComponent,
   },
     {
-    path: "verfiy",
+    path: "verify",
     component: PasscodeComponent,
   }
 ];

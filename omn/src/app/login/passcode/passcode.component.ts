@@ -1,3 +1,4 @@
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { IonInput, NavController } from '@ionic/angular';
 
@@ -7,28 +8,36 @@ import { IonInput, NavController } from '@ionic/angular';
   styleUrls: ['./passcode.component.scss'],
 })
 export class PasscodeComponent implements OnInit {
-  input: string = '';
   min: string = '00'
   sec: any = 59;
-  digits: number = null;
-  digitsLength: number = 0;
+   digitsLength: number = 0;
   @ViewChild('inputField') inputField: IonInput;
-  constructor(private navCtrl: NavController) { }
+  passForm: FormGroup;
+  constructor(private navCtrl: NavController,private formBuilder: FormBuilder) { }
 
   ngOnInit() {
+this.initForm()
+  }
+  initForm(){
+    this.passForm = this.formBuilder.group({
+      passcode: ['', [Validators.required,Validators.minLength(6),Validators.maxLength(6)]],
+  });
 
+  this.passForm.valueChanges.subscribe((value)=>{
+    this.changeInput(value.passcode)   
+  })
   }
 
-   changeInput(_: any) {
-    if (this.digits) {
-      this.digitsLength = this.digits.toString().length
+   changeInput(passcode) {
+    if (passcode) {
+      this.digitsLength = passcode.toString().length
     }
     if (this.digitsLength > 5) {
-      this.verifyDigit()
+      this.verifyPasscode()
     }
   }
 
-  verifyDigit() {
+  verifyPasscode() {
     this.navCtrl.navigateRoot("/home")
   }
 
@@ -37,6 +46,6 @@ export class PasscodeComponent implements OnInit {
      input.focus();
      input.click()
    })
-   
   }
+
 }
