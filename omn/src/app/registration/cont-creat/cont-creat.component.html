@@ -11,7 +11,7 @@
         </div>
 
         <div class="">
-            <hr class="bg-white border-danger border-bottom-2 color-red border-red">
+            <hr class="bg-white border-danger border-bottom-2 color-red border-red" />
         </div>
 
         <div class="pt-16 ion-text-center">
@@ -23,11 +23,11 @@
         <div class="mt-32">
             <ion-grid class="p-0">
                 <ion-row class="ion-wrap" *ngIf="cards?.length">
-                    <ng-container *ngFor="let cardI of cards; let first=first; let i=index">
+                    <ng-container *ngFor="let cardI of cards; let first = first; let i = index">
                         <ion-col class="ion-no-padding m-0 mb-24" size="6" [ngClass]="{
-                    'pl-8': i%2,
-                    'pr-8': !(i%2)
-                }">
+                'pl-8': i % 2,
+                'pr-8': !(i % 2)
+              }">
                             <app-image-card [item]="cardI" class="flex w-100"></app-image-card>
                         </ion-col>
                     </ng-container>
@@ -36,10 +36,11 @@
         </div>
 
         <div class="pt-60 ion-text-center">
-            <ion-text class=" ion-text-center s16-h22 color-dark-green">
-                Fac verificările mai târziu
-            </ion-text>
+            <a class="no-decoration" routerLink="/home">
+                <ion-text class="ion-text-center s16-h22 color-dark-green">
+                    Fac verificările mai târziu
+                </ion-text>
+            </a>
         </div>
-
     </div>
 </ion-content>
