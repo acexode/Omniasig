@@ -1,69 +1,45 @@
 <ion-content>
-  <!-- <ion-grid class="w-100">
-    <ion-row class="ion-justify-content-center mx-16 mt-80 mb-32">
+  <ion-grid class="w-100">
+    <ion-row class="ion-justify-content-center mx-16 mt-80">
       <ion-text color="Success">
-        <p class="intrebari-frecvente">Întrebări frecvente</p>
+        <p class="highlight alt-font s32-h38 ls-05">Întrebări frecvente</p>
       </ion-text>
-    </ion-row> -->
+    </ion-row>
       
-
-
-
     <!-- FAQs ls-0 -->
-    <!-- <ion-row class="ion-justify-content-center mx-16" *ngFor="let faq of faqs; let x = index;">
-      <button class="accordion">{{faq.question}}</button>
-      <div class="panel">
-        <p>{{faq.answer}}</p>
-      </div> -->
-      <!-- <div class="accordion">
-        <p> class='question'>{{faq.question}}</p>
-      </div> -->
-      <!-- <ion-label class="accordion">
-        <p>{{faq.question}}</p>
-      </ion-label>
-      <div class="panel">
-        <p>{{faq.answer}}</p>
-      </div> -->
-    <!-- </ion-row>
+    <div class="mt-32">
+      <ion-row class="ion-justify-content-center mx-16 bordered" *ngFor="let faq of faqs; let x = index;">
+        <button class="accordion s18-h24 ls-0 py-16">{{faq.question}}</button>
+        <div class="panel">
+          <p class="text s16-h22 ls-01">{{faq.answer}}</p>
+        </div>
+      </ion-row>
+    </div>
 
-    <ion-row class="ion-justify-content-center mx-16 py-16">
-      <p class="">Ai și alte întrebări?</p>
+    <ion-row class="ion-justify-content-center mx-16 mt-64">
+      <p class="highlight alt-font s32-h38 ls-05">Ai și alte întrebări?</p>
     </ion-row>
 
-    <ion-row class="ion-justify-content-center mx-16  py-16">
-      <div>E-mail:</div>
+    <ion-row class="ion-justify-content-center mx-16 mt-32">
+      <div><b>E-mail:</b></div>
     </ion-row>
 
-    <ion-row class="ion-justify-content-center mx-16 py-16">
-      <div>suport.clienti@omniasig.ro</div>
+    <ion-row class="ion-justify-content-center mx-16">
+      <p class="s16-h22 ls-01 contact">suport.clienti@omniasig.ro</p>
     </ion-row>
 
-    <ion-row class="ion-justify-content-center mx-16 py-16">
-      <div class="blocked">Website:</div>
+    <ion-row class="ion-justify-content-center mx-16 mt-32">
+      <div class="blocked"><b>Website:</b></div>
     </ion-row>
 
-    <ion-row class="ion-justify-content-center mx-16 py-16">
-      <div>www.omniasig.ro/OMNIASISTENTA</div>
+    <ion-row class="ion-justify-content-center mx-16">
+      <p class="s16-h22 ls-01 contact">www.omniasig.ro/OMNIASISTENTA</p>
     </ion-row>
 
-    <ion-row class="ion-justify-content-center mx-16 py-16">
-      <div>
+    <ion-row class="ion-justify-content-center mx-16 mt-32 mb-64">
+      <div class="s16-h22 ls-01">
         Pentru orice întrebare legată de asigurări, daune, asistență tehnică la domiciliu sau asistență rutieră, intră în contact cu un reprezentant OMNIASIG care îți va răspunde în cel mai scurt timp.
       </div>
     </ion-row>
-  </ion-grid -->
-
-  <ion-card *ngFor="let faq of faqs; let x = index;">
-    <div>
-      <ion-item button detail="false" (click)="toggleAccordion()">
-        <ion-label>
-          <b style="color: #fff;">{{faq.question}}</b>
-        </ion-label>
-        <ion-icon slot="end" color="light" [name]="icon"></ion-icon>
-      </ion-item>
-    </div>
-    <ion-card-content #expandWrapper>
-      {{faq.question}}
-    </ion-card-content>
-  </ion-card>
-  ></ion-content>
+  </ion-grid>
+</ion-content>

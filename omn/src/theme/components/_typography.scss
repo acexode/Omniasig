@@ -63,6 +63,10 @@ h3,
   line-height: rem(24) !important;
 }
 
+.s32-h38 {
+  font-size: rem(32) !important;
+  line-height: rem(38) !important;
+}
 
 .s16-h22 {
   font-size: rem(16) !important;
@@ -129,6 +133,14 @@ ion-label.input-label,
 }
 .ls-02 {
   letter-spacing: -0.2px;
+}
+
+.ls-05 {
+  letter-spacing: -0.5px;
+}
+
+.ls-01 {
+  letter-spacing: -0.1px;
 }
 
 .ls-0 {
