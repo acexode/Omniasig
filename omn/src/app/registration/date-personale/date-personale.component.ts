@@ -43,8 +43,8 @@ export class DatePersonaleComponent implements OnInit {
     },
     cnp:{
       placeholder: "",
-      type: 'text',
-      inputMode: 'text',
+      type: 'number',
+      inputMode: 'number',
       size:100,
       inputLabel:{
         text:"CNP",
@@ -79,7 +79,7 @@ this.router.navigate(["registration/email"])
     this.detailsForm = this.formBuilder.group({
       nume: ['', [Validators.required,Validators.minLength(3)]],
       prenume: ['', [Validators.required,Validators.minLength(3)]],
-      cnp: ['', [Validators.required,Validators.minLength(3)]],
+      cnp: ['', [Validators.required,Validators.minLength(13)]],
       option: ['', [Validators.required]],
   });
   }
