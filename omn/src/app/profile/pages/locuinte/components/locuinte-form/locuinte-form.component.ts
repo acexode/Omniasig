@@ -32,6 +32,9 @@ export class LocuinteFormComponent implements OnInit {
   get formGroupInstance() {
     return this.fG;
   }
+
+  // Only used for custom policy displays.
+  @Input() policyType = null;
   @Output() eventSubmit: EventEmitter<any> = new EventEmitter();
   constructor(private cdRef: ChangeDetectorRef) {}
 

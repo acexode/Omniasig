@@ -54,6 +54,7 @@
          currentStep === policySteps?.PAD_CHECK "
       >
         <app-policy-address-form
+          [policyType]="typeItem?.id"
           (stepChange)="addressStepChange($event)"
         ></app-policy-address-form>
       </ng-container>

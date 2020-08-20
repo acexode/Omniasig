@@ -12,9 +12,9 @@
         </ion-row>
         <ion-row *ngFor="let item of vLocuinteList">
           <ion-item class="ion-no-padding ion-align-items-start w-100">
-            <ion-label class="ion-text-wrap my-24 text-normal"
-              >Strada Traian 45, Brasov, judetul Brasov, Cod 321456</ion-label
-            >
+            <ion-label class="ion-text-wrap my-24 text-normal">{{
+              item?.locuinta | locuinteName: 'policy-list'
+            }}</ion-label>
             <ion-radio
               class="ml-0 mr-12 my-24 radio-btn"
               slot="start"

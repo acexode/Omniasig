@@ -4,8 +4,17 @@ import { OfferViewComponent } from './components/offer-view/offer-view.component
 import { PolicyViewComponent } from './components/policy-view/policy-view.component';
 import { PolicyComponent } from './components/policy/policy.component';
 import { PolicyPage } from './page/policy.page';
+import { Z_FULL_FLUSH } from 'zlib';
 
 const routes: Routes = [
+  {
+    path: 'form',
+    pathMatch:'full',
+    loadChildren: () =>
+      import('./pages/policy-form/policy-form.module').then(
+        (m) => m.PolicyFormPageModule
+      ),
+  },
   {
     path: '',
     component: PolicyPage,
@@ -15,19 +24,12 @@ const routes: Routes = [
         component: PolicyComponent,
       },
       {
-        path: 'form',
-        loadChildren: () =>
-          import('./pages/policy-form/policy-form.module').then(
-            (m) => m.PolicyFormPageModule
-          ),
+        path: ':id',
+        component: PolicyViewComponent,
       },
       {
         path: 'offer/:id',
         component: OfferViewComponent,
-      },
-      {
-        path: ':id',
-        component: PolicyViewComponent,
       },
     ],
   },

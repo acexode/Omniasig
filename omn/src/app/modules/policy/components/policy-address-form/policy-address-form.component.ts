@@ -63,6 +63,7 @@ export class PolicyAddressFormComponent implements OnInit {
   formInstance: { group: FormGroup; config: any; data: any } = null;
 
   @Input() formType: LocuinteFormType = LocuinteFormType.ADDRESS;
+  @Input() policyType: string;
   @Output() stepChange: EventEmitter<any> = new EventEmitter();
 
   constructor(
@@ -109,9 +110,13 @@ export class PolicyAddressFormComponent implements OnInit {
 
   buildFormAdd() {
     this.formConfigs.address = this.formS.buildFormConfig(
-      LocuinteFormType.ADDRESS
+      LocuinteFormType.ADDRESS,
+      this.policyType
     );
-    this.formConfigs.place = this.formS.buildFormConfig(LocuinteFormType.PLACE);
+    this.formConfigs.place = this.formS.buildFormConfig(
+      LocuinteFormType.PLACE,
+      this.policyType
+    );
     this.formData.address = this.formS.getFormFieldsData(
       this.formConfigs.address
     );
