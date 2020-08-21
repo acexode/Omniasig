@@ -14,12 +14,14 @@ import { BehaviorSubject, combineLatest } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import { AuthService } from 'src/app/core/services/auth/auth.service';
 import { CustomRouterService } from 'src/app/core/services/custom-router/custom-router.service';
+import { PolicyType } from 'src/app/shared/models/data/policy-type';
 import { LocuinteFormType } from 'src/app/shared/models/modes/locuinte-form-modes';
 import { policySubpageHeader } from '../../data/policy-subpage-header';
 import { Account } from './../../../../core/models/account.interface';
 import { LocuinteService } from './../../../../profile/pages/locuinte/services/locuinte/locuinte.service';
 import { PolicyLocuintaListItem } from './../../../../shared/models/component/policy-locuinta-list-item';
 import { PolicyItem } from './../../../../shared/models/data/policy-item';
+import { PolicyOffer } from './../../../../shared/models/data/policy-offer';
 import { PolicyFormSteps } from './../../../../shared/models/modes/policy-form-steps';
 import { PolicyDataService } from './../../services/policy-data.service';
 import { PolicyFormService } from './../../services/policy-form.service';
@@ -59,7 +61,9 @@ export class PolicyFormPage implements OnInit, OnDestroy {
   periodStartData;
   userAccount: Account;
   minPeriodStartDate;
-
+  maxPeriodStartDate;
+  // This will contain all data needed for an offer.
+  offerData: PolicyOffer = null;
   constructor(
     private routerS: CustomRouterService,
     private aRoute: ActivatedRoute,
@@ -294,6 +298,13 @@ export class PolicyFormPage implements OnInit, OnDestroy {
         this.changeStep(this.policySteps.PERIOD_FORM);
         break;
       case this.policySteps.PERIOD_FORM:
+        this.offerData = this.policyFs.buildOfferItem({
+          locuintaItem: this.selectedAddressItem,
+          account: this.userAccount,
+          pType: this.typeItem as PolicyType,
+          cesiune: get(this.cesiuneData, 'cesionar', []),
+          fromDate: this.periodStartData,
+        });
         this.changeStep(this.policySteps.POLICY_VERIFY);
         break;
       default:
@@ -383,6 +394,7 @@ export class PolicyFormPage implements OnInit, OnDestroy {
 
       this.cdRef.markForCheck();
     } else if (type) {
+      this.refreshPostAddressSelect(type as PolicyLocuintaListItem);
       this.selectedAddressItem = type as PolicyLocuintaListItem;
       this.setMinDate(get(this.selectedAddressItem, 'policy', null));
       this.next();
@@ -446,9 +458,20 @@ export class PolicyFormPage implements OnInit, OnDestroy {
   }
 
   locuintaAdded(newVal: PolicyLocuintaListItem) {
+    this.refreshPostAddressSelect(newVal);
     this.selectedAddressItem = newVal;
     this.setMinDate(get(newVal, 'policy', null));
     this.cdRef.markForCheck();
+  }
+
+  refreshPostAddressSelect(newVal) {
+    if (
+      get(newVal, 'locuinta.id', -1) !==
+      get(this.selectedAddressItem, 'locuinta.id', null)
+    ) {
+      this.cesiuneData = null;
+      this.periodStartData = null;
+    }
   }
 
   setMinDate(policy: PolicyItem) {
@@ -457,7 +480,25 @@ export class PolicyFormPage implements OnInit, OnDestroy {
     } else {
       this.minPeriodStartDate = get(policy, 'dates.to', null);
     }
-    debugger;
+    this.maxPeriodStartDate = null;
+    if (this.minPeriodStartDate) {
+      const initV = Date.parse(this.minPeriodStartDate);
+
+      if (initV && !isNaN(initV)) {
+        this.maxPeriodStartDate = new Date(
+          new Date(initV).setFullYear(new Date(initV).getFullYear() + 1)
+        ).toISOString();
+      } else {
+        this.maxPeriodStartDate = new Date(
+          new Date().setFullYear(new Date().getFullYear() + 1)
+        ).toISOString();
+      }
+    } else {
+      this.minPeriodStartDate = new Date();
+      this.maxPeriodStartDate = new Date(
+        new Date().setFullYear(new Date().getFullYear() + 1)
+      ).toISOString();
+    }
   }
 
   exitFlow() {

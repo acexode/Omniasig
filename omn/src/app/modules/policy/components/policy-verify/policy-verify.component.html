@@ -26,11 +26,16 @@
 
             <div class="mb-8">
               <div class="input-label text-weight-medium mb-3">Nume</div>
-              <ion-text class="input-detail s18-h24">Ion Ionescu</ion-text>
+              <ion-text class="input-detail s18-h24"
+                >{{ offerData?.policy?.userData?.firstName }}
+                {{ offerData?.policy?.userData?.lastName }}</ion-text
+              >
             </div>
             <div>
               <div class="input-label text-weight-medium">CNP</div>
-              <ion-text class="input-detail s18-h24">189******7634</ion-text>
+              <ion-text class="input-detail s18-h24">{{
+                offerData?.policy?.userData?.cnp | cnp
+              }}</ion-text>
             </div>
           </ion-label>
         </ion-item>
@@ -46,57 +51,89 @@
 
             <div class="mb-8">
               <div class="input-label text-weight-medium mb-3">Adresa</div>
-              <ion-text class="input-detail s18-h24"
-                >Strada Traian 45, Brasov, jud. Brasov</ion-text
-              >
+              <ion-text class="input-detail s18-h24">{{
+                offerData?.policy?.locuintaData | locuinteName: 'main-list2'
+              }}</ion-text>
             </div>
             <div class="mb-8">
               <div class="input-label text-weight-medium mb-3">Tip</div>
-              <ion-text class="input-detail s18-h24">Apartament</ion-text>
+              <ion-text class="input-detail s18-h24">{{
+                offerData?.policy?.locuintaData?.info?.type
+                  | locuinteField: 'type'
+              }}</ion-text>
             </div>
             <div class="mb-8">
               <div class="input-label mb-3">Structură de rezistență</div>
-              <ion-text class="input-detail s18-h24">Beton armat</ion-text>
+              <ion-text class="input-detail s18-h24">{{
+                offerData?.policy?.locuintaData?.info?.resistenceStructure
+                  | locuinteField: 'resistenceStructure'
+              }}</ion-text>
             </div>
             <div class="mb-8">
               <div class="input-label text-weight-medium mb-3">
                 Anul construcției
               </div>
-              <ion-text class="input-detail s18-h24">1974</ion-text>
+              <ion-text class="input-detail s18-h24">{{
+                offerData?.policy?.locuintaData?.info?.buildYear
+              }}</ion-text>
             </div>
             <div class="mb-8">
               <div class="input-label text-weight-medium mb-3">
                 Valoarea locuinței
               </div>
-              <ion-text class="input-detail s18-h24">70.000 Euro</ion-text>
+              <ion-text class="input-detail s18-h24"
+                >{{ offerData?.policy?.locuintaData?.info?.valueSum }}
+                {{
+                  offerData?.policy?.locuintaData?.info?.valueCurrency
+                    | locuinteField: 'valueCurrency'
+                }}</ion-text
+              >
             </div>
             <div class="mb-8">
               <div class="input-label text-weight-medium mb-3">Ocupare</div>
-              <ion-text class="input-detail s18-h24">Permanentă</ion-text>
+              <ion-text class="input-detail s18-h24">
+                {{
+                  offerData?.policy?.locuintaData?.info?.occupancy
+                    | locuinteField: 'occupancy'
+                }}</ion-text
+              >
             </div>
             <div class="mb-8">
               <div class="input-label text-weight-medium mb-3">
                 Suprafața utilă
               </div>
-              <ion-text class="input-detail s18-h24">96 mp</ion-text>
+              <ion-text class="input-detail s18-h24">
+                {{ offerData?.policy?.locuintaData?.info?.usableSurface }}
+                mp</ion-text
+              >
             </div>
             <div class="mb-8">
               <div class="input-label text-weight-medium mb-3">
                 Regim de înălțime
               </div>
-              <ion-text class="input-detail s18-h24">3 etaje</ion-text>
+              <ion-text class="input-detail s18-h24">
+                {{ offerData?.policy?.locuintaData?.info?.heightRegime }}
+                etaje</ion-text
+              >
             </div>
             <div class="mb-8">
               <div class="input-label text-weight-medium mb-3">
                 Număr de camere
               </div>
-              <ion-text class="input-detail s18-h24">4</ion-text>
+              <ion-text class="input-detail s18-h24">
+                {{ offerData?.policy?.locuintaData?.info?.roomCount }}</ion-text
+              >
             </div>
             <div>
               <div class="input-label text-weight-medium">
                 Alarmă antiefracție
               </div>
-              <ion-text class="input-detail s18-h24">Da</ion-text>
+              <ion-text class="input-detail s18-h24">
+                {{
+                  offerData?.policy?.locuintaData?.info?.alarm
+                    | locuinteField: 'alarm'
+                }}</ion-text
+              >
             </div>
           </ion-label>
         </ion-item>
@@ -116,19 +153,27 @@
               </div>
               <ion-text class="input-detail s18-h24">20.000 Euro</ion-text>
             </div>
-            <div class="mb-8">
+            <div class="mb-8" *ngIf="offerData?.policy?.cesiune?.length > 0">
               <div class="input-label text-weight-medium mb-3">Cesiune</div>
-              <div>
-                <ion-text class="input-detail s18-h24"
-                  >Denumire cesionar: Banca Cutarescu</ion-text
-                >
-              </div>
-              <div>
-                <ion-text class="input-detail s18-h24">CUI: 321654</ion-text>
-              </div>
-              <div>
-                <ion-text class="input-detail s18-h24">Procent: 99%</ion-text>
-              </div>
+              <ng-container
+                *ngFor="let cItem of offerData?.policy?.cesiune; let i = index"
+              >
+                <div [ngClass]="{ 'mt-24': i > 0 }">
+                  <ion-text class="input-detail s18-h24"
+                    >Denumire cesionar: {{ cItem?.denumireCesionar }}</ion-text
+                  >
+                </div>
+                <div>
+                  <ion-text class="input-detail s18-h24"
+                    >CUI: {{ cItem?.cui }}</ion-text
+                  >
+                </div>
+                <div>
+                  <ion-text class="input-detail s18-h24"
+                    >Procent:{{ cItem?.procent }}%</ion-text
+                  >
+                </div>
+              </ng-container>
             </div>
             <div>
               <div class="input-label text-weight-medium mb-3">

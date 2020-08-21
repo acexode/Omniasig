@@ -45,11 +45,12 @@
       <app-insurance-period
         (emitForm)="periodSubmit($event)"
         [minDate]="minPeriodStartDate"
+        [maxDate]="maxPeriodStartDate"
         [preselectedStart]="periodStartData"
       ></app-insurance-period>
     </ng-container>
     <ng-container *ngSwitchCase="policySteps?.POLICY_VERIFY">
-      <app-policy-verify></app-policy-verify>
+      <app-policy-verify [offerData]="offerData"></app-policy-verify>
     </ng-container>
     <ng-container *ngSwitchDefault>
       <ng-container

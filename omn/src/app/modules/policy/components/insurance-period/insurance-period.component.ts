@@ -1,14 +1,14 @@
 import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
+  EventEmitter,
   Input,
   OnInit,
-  ChangeDetectorRef,
-  ChangeDetectionStrategy,
   Output,
-  EventEmitter,
 } from '@angular/core';
-import { IonDateTimeConfig } from 'src/app/shared/models/component/ion-datetime-config';
 import { FormBuilder, Validators } from '@angular/forms';
+import { IonDateTimeConfig } from 'src/app/shared/models/component/ion-datetime-config';
 
 @Component({
   selector: 'app-insurance-period',
@@ -19,8 +19,9 @@ import { FormBuilder, Validators } from '@angular/forms';
 export class InsurancePeriodComponent implements OnInit {
   currentDate = new Date();
   @Input() minDate = new Date();
-  @Input() maxDate;
-
+  @Input() maxDate = new Date(
+    this.currentDate.setFullYear(this.currentDate.getFullYear() + 1)
+  ).toISOString();
   @Input() preselectedStart = null;
   formGroup = this.fb.group({
     date: this.fb.control('', Validators.required),
@@ -39,16 +40,14 @@ export class InsurancePeriodComponent implements OnInit {
     placeholder: 'Selectează',
   };
   @Output() emitForm: EventEmitter<any> = new EventEmitter();
+
   constructor(private fb: FormBuilder, private cdRef: ChangeDetectorRef) {}
 
   ngOnInit() {
-    this.newProp.min = this.minDate.toISOString();
-    this.newProp.max = this.maxDate
-      ? this.maxDate
-      : new Date(
-          this.currentDate.setFullYear(this.currentDate.getFullYear() + 1)
-        ).toISOString();
-    debugger;
+    const minV = this.minDate ? this.minDate : new Date();
+    const maxV = this.maxDate ? this.maxDate : new Date();
+    this.newProp.min = minV instanceof Date ? minV.toISOString() : minV;
+    this.newProp.max = maxV instanceof Date ? maxV.toISOString() : maxV;
     this.preselectFormData();
     this.cdRef.markForCheck();
   }
