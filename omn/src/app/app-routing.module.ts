@@ -32,6 +32,11 @@ const routes: Routes = [
     loadChildren: () =>
       import('./registration/registration.module').then((m) => m.RegistrationPageModule),
   },
+  {
+    path: 'reset-pincode',
+    loadChildren: () =>
+      import('./pin-code-reset/pin-code-reset.module').then((m) => m.PinCodeResetPageModule),
+  },
 ];
 
 @NgModule({
