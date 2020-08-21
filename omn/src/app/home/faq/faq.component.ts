@@ -1,5 +1,6 @@
-import { Component, OnInit, AfterViewInit,ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, AfterViewInit, ChangeDetectorRef } from '@angular/core';
 import { __spreadArrays } from 'tslib';
+import { subPageHeaderDefault } from 'src/app/shared/data/sub-page-header-default';
 
 @Component({
   selector: 'app-faq',
@@ -7,6 +8,7 @@ import { __spreadArrays } from 'tslib';
   styleUrls: ['./faq.component.scss'],
 })
 export class FaqComponent implements OnInit, AfterViewInit {
+   headerConfig = subPageHeaderDefault('');
 
   //create an interface for this 
   faqs : Array<{ question: string, answer: string}> = [

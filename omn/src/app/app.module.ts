@@ -14,7 +14,6 @@ import { AppComponent } from './app.component';
 import { CoreModule } from './core/core.module';
 import { PolicySharedModule } from './modules/policy/policy-shared.module';
 import { SharedModule } from './shared/shared.module';
-import { OmniasigModule } from './omniasig/omniasig.module'
 
 @NgModule({
   declarations: [AppComponent],
@@ -31,7 +30,6 @@ import { OmniasigModule } from './omniasig/omniasig.module'
     SharedModule,
     PolicySharedModule.forRoot(),
     LocuinteSharedModule.forRoot(),
-    // OmniasigModule.forRoot()
   ],
   providers: [
     StatusBar,
