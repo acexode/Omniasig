@@ -9,7 +9,7 @@ import {
   ViewChild,
 } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { IonContent } from '@ionic/angular';
+import { IonContent, ModalController } from '@ionic/angular';
 import { Observable, of } from 'rxjs';
 import { finalize } from 'rxjs/operators';
 import { LocuinteFormService } from 'src/app/profile/pages/locuinte/services/locuinte-form/locuinte-form.service';
@@ -20,6 +20,7 @@ import {
   LocuinteFormModes,
   LocuinteFormType,
 } from 'src/app/shared/models/modes/locuinte-form-modes';
+import { PolicyValoareModalComponent } from './../modals/policy-valoare-modal/policy-valoare-modal.component';
 
 @Component({
   selector: 'app-policy-address-form',
@@ -69,7 +70,8 @@ export class PolicyAddressFormComponent implements OnInit {
   constructor(
     private cdRef: ChangeDetectorRef,
     private formS: LocuinteFormService,
-    private locuinteS: LocuinteService
+    private locuinteS: LocuinteService,
+    public modalController: ModalController
   ) {}
 
   ngOnInit() {
@@ -253,6 +255,16 @@ export class PolicyAddressFormComponent implements OnInit {
         break;
       default:
         break;
+    }
+  }
+
+  async openModal(typeV) {
+    if (typeV === 'VALOARE_MODAL') {
+      const modal = await this.modalController.create({
+        component: PolicyValoareModalComponent,
+        cssClass: 'my-custom-modal-class',
+      });
+      return await modal.present();
     }
   }
 }

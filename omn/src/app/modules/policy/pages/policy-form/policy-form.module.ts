@@ -1,3 +1,4 @@
+import { PolicyValoareModalComponent } from './../../components/modals/policy-valoare-modal/policy-valoare-modal.component';
 import { PolicyVerifyComponent } from './../../components/policy-verify/policy-verify.component';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
@@ -43,6 +44,7 @@ import { PolicyFormPage } from './policy-form.page';
     PolicyAddressFormComponent,
     CesiuneFormComponent,
     PolicyVerifyComponent,
+    PolicyValoareModalComponent,
   ],
 })
 export class PolicyFormPageModule {}

@@ -192,6 +192,7 @@
         class="form-description p-0 no-paddings"
         lines="none"
         *ngIf="policyType === 'PAD'"
+        (click)="triggerModal('VALOARE_MODAL')"
       >
         <ion-icon
           slot="start"

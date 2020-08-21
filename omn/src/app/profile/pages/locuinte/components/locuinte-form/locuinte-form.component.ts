@@ -28,6 +28,7 @@ export class LocuinteFormComponent implements OnInit {
   @Input() fieldConfig: { [key: string]: any } = {};
   @Input() fieldConfigData: { [key: string]: any } = {};
   @Output() customEvents: EventEmitter<any> = new EventEmitter();
+  @Output() openModal: EventEmitter<any> = new EventEmitter();
   @Input() set formGroupInstance(fg: FormGroup) {
     this.fG = fg;
     this.handleCustom();
@@ -101,5 +102,9 @@ export class LocuinteFormComponent implements OnInit {
       return fieldC ? fieldC.value : false;
     }
     return false;
+  }
+
+  triggerModal(modalName) {
+    this.openModal.emit(modalName);
   }
 }
