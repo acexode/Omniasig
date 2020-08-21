@@ -1,21 +1,27 @@
 @import '../variables';
 @import '../mixins/mixins';
-
 $font-size-base: 1rem;
 $font-family-base: var(--ion-font-family);
-
 .alt-font {
   font-family: $alt-font !important;
 }
+
+.custom-password {
+  font-family: $pass-font !important;
+}
+
 .text-weight-medium {
   font-weight: 500 !important;
 }
+
 .text-weight-normal {
   font-weight: normal !important;
 }
+
 .text-weight-bold {
   font-weight: 600;
 }
+
 .text-small {
   font-size: rem(13);
   line-height: rem(16);
@@ -68,6 +74,11 @@ h3,
   line-height: rem(24) !important;
 }
 
+.s16-h22 {
+  font-size: rem(16) !important;
+  line-height: rem(22) !important;
+}
+
 .s18-h21 {
   font-size: rem(18) !important;
   line-height: rem(24) !important;
@@ -77,6 +88,7 @@ h3,
   font-size: rem(24);
   line-height: rem(25);
 }
+
 .white-space-normal {
   white-space: normal;
 }
@@ -123,12 +135,15 @@ ion-label.input-label,
   transform: none !important;
   font-weight: normal;
 }
+
 .ls-min-02 {
   letter-spacing: -0.2px;
 }
+
 .ls-min-01 {
   letter-spacing: -0.1px;
 }
+
 .ls-02 {
   letter-spacing: -0.2px;
 }
@@ -185,6 +200,7 @@ ion-label.input-label,
 .font-reset {
   font: inherit !important;
 }
+
 .shadow-1 {
   box-shadow: $box-shadow-1;
 }

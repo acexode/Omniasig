@@ -1,7 +1,6 @@
 @import './variables.scss';
 @import './mixins/mixins';
 @import './components/index';
-
 body.omn {
   --color: var(--app-text-color);
   --ion-default-font: var(--ion-font-family);
@@ -10,6 +9,7 @@ body.omn {
 .flex-1 {
   flex: 1;
 }
+
 .flex {
   @include flexbox();
 }
@@ -17,6 +17,11 @@ body.omn {
 .flex-0 {
   flex: 0;
 }
+
+.inline-flex {
+  display: inline-flex;
+}
+
 .mt-0-reset {
   margin-top: 0 !important;
 }
@@ -40,6 +45,7 @@ body.omn {
 .flex-row {
   @include flex-direction(row);
 }
+
 .flex-column {
   @include flex-direction(column);
 }
@@ -68,9 +74,14 @@ body.omn {
   opacity: 0.8;
 }
 
+.opacity-hide {
+  opacity: 0;
+}
+
 .opacity-0 {
   opacity: 0;
 }
+
 .omn-gradient-image {
   background: $green-gradient;
   background-image: url('/assets/custom-ion-icons/md-omn-green-bg.svg'),

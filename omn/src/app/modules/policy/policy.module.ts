@@ -1,9 +1,12 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
 import { SharedModule } from 'src/app/shared/shared.module';
+import { OmnInputsModule } from './../../shared/modules/omn-inputs/omn-inputs.module';
 import { AdresaLocuintaComponent } from './components/adresa-locuinta/adresa-locuinta.component';
+import { CesiuneFormComponent } from './components/cesiune-form/cesiune-form.component';
 import { DisabledMessageModalComponent } from './components/modals/disabled-message-modal/disabled-message-modal.component';
 import { OfferViewComponent } from './components/offer-view/offer-view.component';
 import { PolicyArchiveListComponent } from './components/policy-archive-list/policy-archive-list.component';
@@ -20,6 +23,7 @@ import { PolicySharedModule } from './policy-shared.module';
     PolicyComponent,
     PolicyCardListComponent,
     PolicyArchiveListComponent,
+    CesiuneFormComponent,
     DisabledMessageModalComponent,
     AdresaLocuintaComponent,
     DisabledMessageModalComponent,
@@ -33,6 +37,9 @@ import { PolicySharedModule } from './policy-shared.module';
     IonicModule,
     RouterModule,
     SharedModule,
+    OmnInputsModule,
+    FormsModule,
+    ReactiveFormsModule,
   ],
 })
 export class PolicyModule {}

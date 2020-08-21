@@ -228,6 +228,7 @@ export class LocuinteFormService {
             disabled: isDisabled,
           }),
         };
+
         configModel.usableSurface.spinnerConfig = { step: 1 };
         configModel.usableSurface.min = 0;
         configModel.heightRegime.spinnerConfig = { step: 1 };
