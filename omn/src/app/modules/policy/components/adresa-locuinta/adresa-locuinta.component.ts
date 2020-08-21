@@ -25,17 +25,22 @@ export class AdresaLocuintaComponent implements OnInit {
     // Split based on policy availability.
     this.vLocuinteList = lV.filter((vv) => !vv.policy).map((v) => v);
     this.vLocuinteListP = lV.filter((vv) => vv.policy).map((v) => v);
+    this.initLocuintaMainForm();
     this.cdRef.markForCheck();
   }
   @Output() selectionDone: EventEmitter<
     string | PolicyLocuintaListItem
   > = new EventEmitter();
+
+  @Input() initialData: PolicyLocuintaListItem = null;
   locuintaForm = this.fb.group({
     selection: this.fb.control('', Validators.required),
   });
   constructor(private cdRef: ChangeDetectorRef, private fb: FormBuilder) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.initLocuintaMainForm();
+  }
 
   submitForm() {
     if (this.locuintaForm.valid) {
@@ -56,6 +61,17 @@ export class AdresaLocuintaComponent implements OnInit {
       this.selectionDone.emit(value);
     }
   }
+  get selection() {
+    return this.locuintaForm.get('selection');
+  }
 
-  initLocuintaMainForm() {}
+  initLocuintaMainForm() {
+    if (this.initialData && this.initialData.locuinta) {
+      if (this.selection) {
+        this.selection.setValue(this.initialData.locuinta.id);
+        this.selection.updateValueAndValidity();
+      }
+      this.cdRef.markForCheck();
+    }
+  }
 }

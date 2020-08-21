@@ -20,6 +20,7 @@ import {
   LocuinteFormModes,
   LocuinteFormType,
 } from 'src/app/shared/models/modes/locuinte-form-modes';
+import { get } from 'lodash';
 import { PolicyValoareModalComponent } from './../modals/policy-valoare-modal/policy-valoare-modal.component';
 
 @Component({
@@ -65,8 +66,9 @@ export class PolicyAddressFormComponent implements OnInit {
 
   @Input() formType: LocuinteFormType = LocuinteFormType.ADDRESS;
   @Input() policyType: string;
+  @Input() formInputData = null;
   @Output() stepChange: EventEmitter<any> = new EventEmitter();
-
+  @Output() dataAdded: EventEmitter<any> = new EventEmitter();
   constructor(
     private cdRef: ChangeDetectorRef,
     private formS: LocuinteFormService,
@@ -151,7 +153,7 @@ export class PolicyAddressFormComponent implements OnInit {
               // TODO: Remove when real service;
               this.refTimer = setTimeout(() => {
                 this.handleFormSubmit();
-              }, 5000);
+              }, 3000);
             }
           });
         } else if (this.formType === LocuinteFormType.PAD_CHECK) {
@@ -170,10 +172,10 @@ export class PolicyAddressFormComponent implements OnInit {
               header.leadingIcon = null;
               this.headerConfig = header;
               this.buttonVisible = false;
-              this.refTimer = setTimeout(() => {
-                this.stepChange.emit('NEXT');
-                this.navigateToMain();
-              }, 2000);
+              this.dataAdded.emit({
+                locuinta: v,
+              });
+              this.stepChange.emit('NEXT');
             }
           });
         }
@@ -196,8 +198,11 @@ export class PolicyAddressFormComponent implements OnInit {
             data: this.formData.address,
           };
           this.formType = LocuinteFormType.ADDRESS;
+        } else if (this.formType === LocuinteFormType.ADDRESS) {
+          this.stepChange.emit('BACK');
+        } else {
+          this.stepChange.emit(this.formType);
         }
-        this.stepChange.emit(this.formType);
         break;
 
       default:
@@ -215,9 +220,12 @@ export class PolicyAddressFormComponent implements OnInit {
           this.formInstance.group.value,
           this.dataModel
         );
+        if (this.formType === LocuinteFormType.ADDRESS) {
+          return of(model2);
+        }
         this.formSubmitting = true;
         this.cdRef.markForCheck();
-        if (this.dataModel) {
+        if (this.dataModel && get(this.dataModel, 'id', null)) {
           return this.locuinteS.updateSingleLocuinte(model2).pipe(
             finalize(() => {
               this.formSubmitting = false;

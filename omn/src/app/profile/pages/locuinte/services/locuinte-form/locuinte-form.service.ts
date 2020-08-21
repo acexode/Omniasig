@@ -289,6 +289,7 @@ export class LocuinteFormService {
           address: null,
           policyData: [],
           tipLocuinta: null,
+          pad: null,
         };
 
     forOwn(formGroupValue, (val, key) => {
@@ -313,6 +314,11 @@ export class LocuinteFormService {
         case 'valueCurrency':
         case 'valueSum':
           set(newModel, 'info.' + key, val);
+          break;
+        case 'padAvailable':
+        case 'padNr':
+        case 'padSerie':
+          set(newModel, 'pad.' + key, val);
           break;
         default:
           set(newModel, key, val);

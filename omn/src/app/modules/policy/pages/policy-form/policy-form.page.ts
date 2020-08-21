@@ -21,6 +21,7 @@ import { PolicyLocuintaListItem } from './../../../../shared/models/component/po
 import { PolicyFormSteps } from './../../../../shared/models/modes/policy-form-steps';
 import { PolicyDataService } from './../../services/policy-data.service';
 import { PolicyFormService } from './../../services/policy-form.service';
+import { Locuinte } from 'src/app/shared/models/data/locuinte.interface';
 
 @Component({
   selector: 'app-policy-form',
@@ -32,6 +33,7 @@ export class PolicyFormPage implements OnInit, OnDestroy {
   @ViewChild('dntComp', { static: false }) dntComp;
   @ViewChild('exclusionComp', { static: false }) exclusionComp;
   @ViewChild('infoDocComp', { static: false }) infoDocComp;
+  @ViewChild('addressFormComp', { static: false }) addressFormComp;
 
   @HostBinding('class')
   get color() {
@@ -89,15 +91,16 @@ export class PolicyFormPage implements OnInit, OnDestroy {
 
   loadLocuinte() {
     combineLatest([
-      this.locS.getUserLocuinte(),
+      this.locS.locuinteStore$,
       // TODO: Update this once we decide if we use the user Id.
-      this.policyD.getUserPolicies(1),
+      this.policyD.policyStore$,
     ]).subscribe((vals) => {
       this.policyLocuintaData$.next(
         this.policyFs.buildPolicyLocuintaModel(vals, this.typeItem.id)
       );
     });
   }
+
   setTitles() {
     switch (this.currentStep) {
       case this.policySteps.DNT:
@@ -239,6 +242,16 @@ export class PolicyFormPage implements OnInit, OnDestroy {
       case this.policySteps.POLICY_VERIFY:
         this.changeStep(this.policySteps.PERIOD_FORM);
         break;
+      case this.policySteps.ADDRESS_FORM:
+      case this.policySteps.LOCATION_FORM:
+      case this.policySteps.PAD_CHECK:
+        if (forceChange) {
+          this.changeStep(this.policySteps.ADDRESS_SELECT);
+        } else {
+          this.navigateBackForm();
+        }
+
+        break;
       default:
         break;
     }
@@ -259,6 +272,7 @@ export class PolicyFormPage implements OnInit, OnDestroy {
       case this.policySteps.ADDRESS_FORM:
       case this.policySteps.PAD_CHECK:
       case this.policySteps.LOCATION_FORM:
+        this.loadLocuinte();
         this.changeStep(this.policySteps.CESIUNE_FORM);
         break;
       case this.policySteps.CESIUNE_FORM:
@@ -335,7 +349,7 @@ export class PolicyFormPage implements OnInit, OnDestroy {
       this.changeStep(this.policySteps.ADDRESS_FORM);
       this.cdRef.markForCheck();
     } else if (type) {
-      this.selectedAddressItem = type as PolicyLocuintaListItem;
+      this.selectedAddressItem = (type as PolicyLocuintaListItem);
       this.next();
     }
   }
@@ -354,6 +368,9 @@ export class PolicyFormPage implements OnInit, OnDestroy {
       case 'NEXT':
         this.next();
         break;
+      case 'BACK':
+        this.back(true);
+        break;
 
       default:
         break;
@@ -364,20 +381,32 @@ export class PolicyFormPage implements OnInit, OnDestroy {
     this.cesiuneData = cesiuneData;
     this.next();
   }
+
   periodSubmit(startDate) {
     this.periodStartData = startDate;
     this.next();
   }
+
   navigateBackDnt() {
     if (this.dntComp) {
       this.dntComp.navigateInList('back', this.dntItem);
     }
   }
 
+  navigateBackForm() {
+    if (this.addressFormComp) {
+      this.addressFormComp.navigateBack();
+    }
+  }
   navigateBackExclusion() {
     if (this.exclusionComp) {
       this.exclusionComp.navigateInList('back', this.exclusionItem);
     }
+  }
+
+  locuintaAdded(newVal: PolicyLocuintaListItem) {
+    this.selectedAddressItem = newVal;
+    this.cdRef.markForCheck();
   }
 
   exitFlow() {
