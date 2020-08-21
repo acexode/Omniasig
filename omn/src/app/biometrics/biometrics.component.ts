@@ -26,17 +26,22 @@ import { IonRadiosConfig } from '../shared/models/component/ion-radios-config';
 })
 export class BiometricsComponent implements OnInit {
 
-  // radiosConfig: IonRadiosConfig = radiosConfigHelper({
-  //   label: 'Locuința e ipotecată?',
-  //   mode: 'item',
-  // });
+  radiosConfig: IonRadiosConfig = radiosConfigHelper({
+    label: '',
+    mode: 'item',
+  });
 
   radioOptions: Array<IonRadioInputOption> = [
-    { label: 'Sunt de acord', id: 1 },
-    { label: 'Nu sunt de acord', id: 0 },
+    { label: 'Sunt de acord', id: 0 },
+    { label: 'Nu sunt de acord', id: 1 },
   ];
 
-  constructor() { }
+  userAgrees?: number;
+
+  constructor() { 
+    this.radiosConfig.itemClasses = 'w-50 inline-flex';
+    this.radiosConfig.inputLabel.classes = 'mb-16';
+  }
 
   ngOnInit() {}
 
