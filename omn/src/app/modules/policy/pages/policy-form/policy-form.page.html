@@ -37,12 +37,15 @@
     <ng-container *ngSwitchCase="policySteps?.CESIUNE_FORM">
       <app-cesiune-form
         (emitForm)="cesiuneSubmit($event)"
+        [cesiuneData]="cesiuneData"
         class="flex flex-1 w-100 mh-100p"
       ></app-cesiune-form>
     </ng-container>
     <ng-container *ngSwitchCase="policySteps?.PERIOD_FORM">
       <app-insurance-period
         (emitForm)="periodSubmit($event)"
+        [minDate]="minPeriodStartDate"
+        [preselectedStart]="periodStartData"
       ></app-insurance-period>
     </ng-container>
     <ng-container *ngSwitchCase="policySteps?.POLICY_VERIFY">

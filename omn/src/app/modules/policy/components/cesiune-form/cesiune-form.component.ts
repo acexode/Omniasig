@@ -31,6 +31,7 @@ import { CesiuneItem } from './../models/cesiune-item';
 })
 export class CesiuneFormComponent implements OnInit {
   @Input() config: IonInputConfig;
+  @Input() cesiuneData = null;
 
   enableCesiune = false;
   cesuineItems: CesiuneItem[];
@@ -97,6 +98,9 @@ export class CesiuneFormComponent implements OnInit {
       cesionar: this.fb.array([]),
     });
     this.handleFormEvents();
+    if (this.cesiuneData) {
+      this.cesiuneForm.setValue(this.cesiuneData);
+    }
     this.cesiuneForm.updateValueAndValidity();
     this.cdRef.markForCheck();
   }

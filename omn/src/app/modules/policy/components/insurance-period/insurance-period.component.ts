@@ -21,6 +21,7 @@ export class InsurancePeriodComponent implements OnInit {
   @Input() minDate = new Date();
   @Input() maxDate;
 
+  @Input() preselectedStart = null;
   formGroup = this.fb.group({
     date: this.fb.control('', Validators.required),
   });
@@ -36,20 +37,29 @@ export class InsurancePeriodComponent implements OnInit {
     },
     pickerFormat: 'D, MMM, YYYY',
     placeholder: 'Selectează',
-    min: this.minDate.toISOString(),
-    max: this.maxDate
-      ? this.maxDate
-      : new Date(
-          this.currentDate.setFullYear(this.currentDate.getFullYear() + 1)
-        ).toISOString(),
   };
   @Output() emitForm: EventEmitter<any> = new EventEmitter();
   constructor(private fb: FormBuilder, private cdRef: ChangeDetectorRef) {}
 
   ngOnInit() {
+    this.newProp.min = this.minDate.toISOString();
+    this.newProp.max = this.maxDate
+      ? this.maxDate
+      : new Date(
+          this.currentDate.setFullYear(this.currentDate.getFullYear() + 1)
+        ).toISOString();
+    debugger;
+    this.preselectFormData();
     this.cdRef.markForCheck();
   }
 
+  preselectFormData() {
+    const field = this.formGroup.get('date');
+    if (field && this.preselectedStart) {
+      field.setValue(this.preselectedStart);
+      field.updateValueAndValidity();
+    }
+  }
   submit() {
     if (this.formGroup.valid) {
       const field = this.formGroup.get('date');

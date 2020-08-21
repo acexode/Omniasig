@@ -9,19 +9,20 @@ import {
 } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { NavController } from '@ionic/angular';
-import { cloneDeep, has } from 'lodash';
+import { cloneDeep, get, has } from 'lodash';
 import { BehaviorSubject, combineLatest } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import { AuthService } from 'src/app/core/services/auth/auth.service';
 import { CustomRouterService } from 'src/app/core/services/custom-router/custom-router.service';
 import { LocuinteFormType } from 'src/app/shared/models/modes/locuinte-form-modes';
 import { policySubpageHeader } from '../../data/policy-subpage-header';
+import { Account } from './../../../../core/models/account.interface';
 import { LocuinteService } from './../../../../profile/pages/locuinte/services/locuinte/locuinte.service';
 import { PolicyLocuintaListItem } from './../../../../shared/models/component/policy-locuinta-list-item';
+import { PolicyItem } from './../../../../shared/models/data/policy-item';
 import { PolicyFormSteps } from './../../../../shared/models/modes/policy-form-steps';
 import { PolicyDataService } from './../../services/policy-data.service';
 import { PolicyFormService } from './../../services/policy-form.service';
-import { Locuinte } from 'src/app/shared/models/data/locuinte.interface';
 
 @Component({
   selector: 'app-policy-form',
@@ -56,6 +57,8 @@ export class PolicyFormPage implements OnInit, OnDestroy {
   selectedAddressItem: PolicyLocuintaListItem;
   cesiuneData;
   periodStartData;
+  userAccount: Account;
+  minPeriodStartDate;
 
   constructor(
     private routerS: CustomRouterService,
@@ -69,6 +72,7 @@ export class PolicyFormPage implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
+    this.loadUserAccount();
     this.routerS
       .getNavigationEndEvent()
       .pipe(
@@ -81,14 +85,16 @@ export class PolicyFormPage implements OnInit, OnDestroy {
       )
       .subscribe((vals: any) => {
         this.typeItem = cloneDeep(vals[1]);
-        this.initConfigs();
         this.loadLocuinte();
         this.changeStep(vals[0]);
       });
   }
 
-  initConfigs() {}
+  loadUserAccount() {
+    this.authS.getAccountData().subscribe((acc) => (this.userAccount = acc));
+  }
 
+  // Load Address + policy combination data. Used in the address picker.
   loadLocuinte() {
     combineLatest([
       this.locS.locuinteStore$,
@@ -101,6 +107,9 @@ export class PolicyFormPage implements OnInit, OnDestroy {
     });
   }
 
+  /**
+   * Switch titles depending on steps.
+   */
   setTitles() {
     switch (this.currentStep) {
       case this.policySteps.DNT:
@@ -200,6 +209,7 @@ export class PolicyFormPage implements OnInit, OnDestroy {
     }
   }
 
+  // Run operations in order on all step changes.
   changeStep(step: PolicyFormSteps) {
     this.bgWhite = false;
     this.currentStep = step;
@@ -208,6 +218,10 @@ export class PolicyFormPage implements OnInit, OnDestroy {
     this.cdRef.markForCheck();
   }
 
+  /**
+   * Handles the back button action.
+   * @param forceChange - Specific event will force a step navigation.
+   */
   back(forceChange = false) {
     switch (this.currentStep) {
       case this.policySteps.DNT:
@@ -257,6 +271,7 @@ export class PolicyFormPage implements OnInit, OnDestroy {
     }
   }
 
+  // Next step.
   next() {
     switch (this.currentStep) {
       case this.policySteps.DNT:
@@ -286,6 +301,10 @@ export class PolicyFormPage implements OnInit, OnDestroy {
     }
   }
 
+  /**
+   * Change BG color depending on the viewed step.
+   * @param forceWhite - We may want to force color on sub-steps.
+   */
   setBgColor(forceWhite = null) {
     this.bgWhite = false;
     switch (this.currentStep) {
@@ -311,6 +330,10 @@ export class PolicyFormPage implements OnInit, OnDestroy {
     }
   }
 
+  /**
+   * Subscribes to DNT component events.
+   * @param event - Custom event naming.
+   */
   dntEvents(event: string | number) {
     this.dntItem = event;
     if (event === 'success-btn') {
@@ -325,6 +348,10 @@ export class PolicyFormPage implements OnInit, OnDestroy {
     }
   }
 
+  /**
+   * Subscribes to Exclusion component navigation events
+   * @param event - Custom event string.
+   */
   navEvents(event: string | number) {
     this.exclusionItem = event;
     if (event === 'success-btn') {
@@ -344,16 +371,30 @@ export class PolicyFormPage implements OnInit, OnDestroy {
     this.setTitles();
   }
 
+  /**
+   * Subscribes to the address select component emitter.
+   * @param type  - Emitted value.
+   *
+   * Will change step after selection.
+   */
   addressSelect(type: string | PolicyLocuintaListItem) {
     if (type === 'ADD_NEW') {
       this.changeStep(this.policySteps.ADDRESS_FORM);
+
       this.cdRef.markForCheck();
     } else if (type) {
-      this.selectedAddressItem = (type as PolicyLocuintaListItem);
+      this.selectedAddressItem = type as PolicyLocuintaListItem;
+      this.setMinDate(get(this.selectedAddressItem, 'policy', null));
       this.next();
     }
   }
 
+  /**
+   * Subscribes to the form component step emitter.
+   * @param step - Form step.
+   *
+   * Will change steps depending on the emitted value.
+   */
   addressStepChange(step) {
     switch (step) {
       case LocuinteFormType.ADDRESS:
@@ -406,7 +447,17 @@ export class PolicyFormPage implements OnInit, OnDestroy {
 
   locuintaAdded(newVal: PolicyLocuintaListItem) {
     this.selectedAddressItem = newVal;
+    this.setMinDate(get(newVal, 'policy', null));
     this.cdRef.markForCheck();
+  }
+
+  setMinDate(policy: PolicyItem) {
+    if (!policy) {
+      this.minPeriodStartDate = null;
+    } else {
+      this.minPeriodStartDate = get(policy, 'dates.to', null);
+    }
+    debugger;
   }
 
   exitFlow() {

@@ -185,7 +185,7 @@ export class LocuinteFormService {
             placeholder: '',
           });
           configModel.padNr = inputConfigHelper({
-            label: 'Serie',
+            label: 'Număr',
             type: 'text',
             placeholder: '',
           });

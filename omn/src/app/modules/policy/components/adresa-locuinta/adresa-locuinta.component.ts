@@ -55,6 +55,7 @@ export class AdresaLocuintaComponent implements OnInit {
       }
     }
   }
+
   emitLocuintaItemById(id) {
     const value = this.fullList.find((lI) => get(lI, 'locuinta.id', -1) === id);
     if (value) {
