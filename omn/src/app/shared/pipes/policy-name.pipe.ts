@@ -11,7 +11,6 @@ export class PolicyNamePipe implements PipeTransform {
     if (!value) {
       return '';
     }
-    console.log(value);
     switch (type) {
       case 'address-policy-expiry':
         return join(

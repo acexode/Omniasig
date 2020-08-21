@@ -5,13 +5,13 @@
     *ngIf="formInstance && formType !== formTypes?.PAD_CHECK"
     [buttonVisible]="buttonVisible"
     [formSubmitting]="formSubmitting"
+    [policyType]="policyType"
     [formGroupInstance]="formInstance?.group"
     [fieldConfig]="formInstance?.config"
     [fieldConfigData]="formInstance?.data"
     [buttonText]="buttonText"
     [formType]="formType"
     (customEvents)="formCustomEvents()"
-    [policyType]="policyType"
   ></app-locuinte-form>
   <app-loading-placeholder
     class="flex flex-1 mh-100p w-100"

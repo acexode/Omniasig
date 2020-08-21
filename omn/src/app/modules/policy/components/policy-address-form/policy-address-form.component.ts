@@ -121,8 +121,14 @@ export class PolicyAddressFormComponent implements OnInit {
       this.formConfigs.address
     );
     this.formData.place = this.formS.getFormFieldsData(this.formConfigs.place);
-    this.formGroups.address = this.formS.buildAddressSubform(this.dataModel);
-    this.formGroups.place = this.formS.buildLocuinteSubform(this.dataModel);
+    this.formGroups.address = this.formS.buildAddressSubform(
+      this.dataModel,
+      this.policyType
+    );
+    this.formGroups.place = this.formS.buildLocuinteSubform(
+      this.dataModel,
+      this.policyType
+    );
   }
 
   handleFormSubmit() {

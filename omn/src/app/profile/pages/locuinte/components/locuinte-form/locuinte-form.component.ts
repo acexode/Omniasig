@@ -1,3 +1,4 @@
+import { unsubscriberHelper } from './../../../../../core/helpers/unsubscriber.helper';
 import {
   ChangeDetectorRef,
   Component,
@@ -6,8 +7,9 @@ import {
   OnInit,
   Output,
 } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { FormGroup, Validators } from '@angular/forms';
 import { LocuinteFormType } from 'src/app/shared/models/modes/locuinte-form-modes';
+import { distinctUntilChanged } from 'rxjs/operators';
 
 @Component({
   selector: 'app-locuinte-form',
@@ -17,6 +19,7 @@ import { LocuinteFormType } from 'src/app/shared/models/modes/locuinte-form-mode
 export class LocuinteFormComponent implements OnInit {
   private fG: FormGroup;
   formTypes = LocuinteFormType;
+  padSubs;
 
   @Input() formType: LocuinteFormType = null;
   @Input() buttonVisible = true;
@@ -27,6 +30,7 @@ export class LocuinteFormComponent implements OnInit {
   @Output() customEvents: EventEmitter<any> = new EventEmitter();
   @Input() set formGroupInstance(fg: FormGroup) {
     this.fG = fg;
+    this.handleCustom();
     this.cdRef.markForCheck();
   }
   get formGroupInstance() {
@@ -50,5 +54,52 @@ export class LocuinteFormComponent implements OnInit {
   }
   emitEvents() {
     this.customEvents.emit();
+  }
+
+  handleCustom() {
+    if (this.policyType === 'PAD' && this.fG) {
+      const fieldC = this.fG.get('padAvailable');
+      const fieldS = this.fG.get('padSerie');
+      const fieldN = this.fG.get('padNr');
+      if (fieldC) {
+        unsubscriberHelper(this.padSubs);
+        this.padSubs = fieldC.valueChanges
+          .pipe(distinctUntilChanged())
+          .subscribe((fV) => {
+            if (fV) {
+              if (fieldN) {
+                fieldN.setValidators([Validators.required]);
+              }
+              if (fieldS) {
+                fieldS.setValidators([Validators.required]);
+              }
+            } else {
+              if (fieldN) {
+                fieldN.clearValidators();
+                fieldN.reset();
+              }
+              if (fieldS) {
+                fieldS.clearValidators();
+                fieldS.reset();
+              }
+            }
+            if (fieldN) {
+              fieldN.updateValueAndValidity();
+            }
+            if (fieldS) {
+              fieldS.updateValueAndValidity();
+            }
+            this.cdRef.markForCheck();
+          });
+      }
+    }
+  }
+
+  get padAvailableV() {
+    if (this.fG) {
+      const fieldC = this.fG.get('padAvailable');
+      return fieldC ? fieldC.value : false;
+    }
+    return false;
   }
 }

@@ -116,7 +116,7 @@ export class LocuinteFormService {
       name: this.fb.control(get(model, 'name', '')),
     });
 
-    if (policyType) {
+    if (policyType === 'PAD') {
       group.addControl(
         'padAvailable',
         this.fb.control(get(model, 'pad.padAvailable', ''), Validators.required)
