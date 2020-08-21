@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { subPageHeaderDefault } from 'src/app/shared/data/sub-page-header-default';
 
 @Component({
   selector: 'app-info',
@@ -6,6 +7,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./info.component.scss'],
 })
 export class InfoComponent implements OnInit {
+  headerConfig = subPageHeaderDefault('Verificare identitate');
 
   constructor() { }
 
