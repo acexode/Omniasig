@@ -23,6 +23,8 @@ export class PhotoService {
       filepath: "",
       webviewPath: capturedPhoto.webPath
     });
+
+    // console.log("CAPTURED PHOTO DETAILS************************************",capturedPhoto)
   }
 
   public getPhotos(){
