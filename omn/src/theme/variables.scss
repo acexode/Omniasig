@@ -141,6 +141,7 @@
     --ion-color-disabled-contrast-rgb: 0, 0, 0;
     --ion-color-disabled-shade: #b8bbb9;
     --ion-color-disabled-tint: #d6d8d7;
+    --ion-color-password-hide: #343439;
 }
 
 // disabled 
@@ -152,6 +153,11 @@ $spacers: ();
 $spacers: map-merge((0: 0, 2: 2px, 3: 3px, 4: 4px, 5: 5px, 6: 6px, 8: 8px, 11: 11px, 10: 10px, 12: 12px, 13: 13px, 14: 14px, 16: 16px, 18: 18px, 20: 20px, 21: 21px, 22: 22px, 24: 24px, 26: 26px, 28: 28px, 30: 30px, 36: 36px, 32: 32px, 40: 40px, 42: 42px, 44: 44px, 48: 48px, 52: 52px, 56: 56px, 60: 60px, 72: 72px, 64: 64px, 80: 80px, 93: 93px, 96: 96px, 149: 149px, 128: 128px, 112: rem(112), ), $spacers);
 $alt-font: 'Source Sans Pro',
 'Helvetica Neue',
+Arial,
+sans-serif;
+$pass-font: "pass-font",
+"Roboto",
+"Helvetica Neue",
 Arial,
 sans-serif;
 
