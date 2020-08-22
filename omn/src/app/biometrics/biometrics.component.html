@@ -1,0 +1,62 @@
+<ion-content>
+  <p>
+    {{ userAgrees }}
+  </p>
+  <ion-grid>
+    <ion-row class="ion-justify-content-end mt-52 mx-24">
+      <p class="floating-text ls-02 s13-h16 my-0 mr-8" routerLink="../home">Mai târziu</p>
+    </ion-row>
+    <ion-row class="ion-justify-content-center mt-20 mx-24">
+      <ion-img src="../../assets/custom-ion-icons/verification.svg" alt="verification image"></ion-img>
+    </ion-row>
+    <ion-row class="ion-justify-content-center mt-32 mx-24">
+      <div class="title-text s24-h32 ls-02 text-weight-bold my-0 pb-6">Verificare identitate</div>
+    </ion-row>
+    <ion-row class="ion-justify-content-center mt-16  mx-24">
+      <div class="text-block s14-h16 ls-0">Prin verificarea identității ne asigurăm că doar tu vei avea acces la contul tău. Pentru asta este necesară prelucrarea datelor biometrice, respectiv a imaginii faciale (selfie) și acordul explicit pentru prelucrarea acestor date.
+      </div>
+    </ion-row>
+    <ion-row class="ion-justify-content-center mt-22 mx-24">
+      <app-radios
+        [config]="radiosConfig"
+        [options]="radioOptions"
+        [(ngModel)]="userAgrees"
+        class="w-100">
+      </app-radios>
+      <!-- <app-radios
+        [config]="radiosConfig"
+        [options]="radioOptions"
+        class="w-100"
+        formControlName="hasCesiune">
+      </app-radios> -->
+    </ion-row>
+    <ion-row class="ion-justify-content-center mt-40 mx-24">
+      <ion-button expand="block" fill="clear" routerLink="./info"><span class="button-text s16-h22 ls-01">Mai multe informații</span></ion-button>
+    </ion-row>
+    <ion-row class="ion-justify-content-center mt-16 mb-24 mx-24">
+      <ion-button
+        class="activate-btn"
+        size="large"
+        color="success"
+        fill="solid"
+        expand="block"
+        class="m-0 w-100 flex mt-auto mx-8"
+        routerLink="./more-details"
+        [disabled]="userAgrees == null || userAgrees === 1"
+      >
+        Verifică
+      </ion-button>
+      <!-- <ion-button
+        class="activate-btn"
+        size="large"
+        color="success"
+        fill="solid"
+        expand="block"
+        class="m-0 w-100 flex mt-auto mx-8"
+        [disabled]="!valid"
+      >
+        Verifică
+      </ion-button> -->
+    </ion-row>
+  </ion-grid>
+</ion-content>

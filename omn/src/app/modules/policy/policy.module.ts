@@ -4,10 +4,9 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
 import { SharedModule } from 'src/app/shared/shared.module';
+import { OmnInputsModule } from './../../shared/modules/omn-inputs/omn-inputs.module';
 import { AdresaLocuintaComponent } from './components/adresa-locuinta/adresa-locuinta.component';
 import { CesiuneFormComponent } from './components/cesiune-form/cesiune-form.component';
-import { InfoCardComponent } from './components/info-card/info-card.component';
-import { InfoDocComponent } from './components/info-doc/info-doc.component';
 import { DisabledMessageModalComponent } from './components/modals/disabled-message-modal/disabled-message-modal.component';
 import { OfferViewComponent } from './components/offer-view/offer-view.component';
 import { PolicyArchiveListComponent } from './components/policy-archive-list/policy-archive-list.component';
@@ -15,10 +14,8 @@ import { PolicyCardListComponent } from './components/policy-card-list/policy-ca
 import { PolicyViewComponent } from './components/policy-view/policy-view.component';
 import { PolicyComponent } from './components/policy/policy.component';
 import { PolicyPage } from './page/policy.page';
-import { PolicyVerifyComponent } from './pages/policy-verify/policy-verify.component';
 import { PolicyRoutingModule } from './page/policy-routing.module';
 import { PolicySharedModule } from './policy-shared.module';
-import { OmnInputsModule } from 'src/app/shared/modules/omn-inputs/omn-inputs.module';
 
 @NgModule({
   declarations: [
@@ -26,15 +23,12 @@ import { OmnInputsModule } from 'src/app/shared/modules/omn-inputs/omn-inputs.mo
     PolicyComponent,
     PolicyCardListComponent,
     PolicyArchiveListComponent,
-    InfoDocComponent,
-    InfoCardComponent,
     CesiuneFormComponent,
-    PolicyVerifyComponent,
     DisabledMessageModalComponent,
     AdresaLocuintaComponent,
     DisabledMessageModalComponent,
     OfferViewComponent,
-    PolicyViewComponent,
+    PolicyViewComponent
   ],
   imports: [
     CommonModule,
@@ -43,6 +37,7 @@ import { OmnInputsModule } from 'src/app/shared/modules/omn-inputs/omn-inputs.mo
     IonicModule,
     RouterModule,
     SharedModule,
+    OmnInputsModule,
     FormsModule,
     ReactiveFormsModule,
     OmnInputsModule

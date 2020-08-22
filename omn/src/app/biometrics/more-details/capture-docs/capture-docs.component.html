@@ -1,0 +1,32 @@
+<app-sub-page-header [config]="headerConfig"> </app-sub-page-header>
+<ion-content>
+  <ion-grid *ngIf="photo.length > 0">
+    <ion-row class="ion-justify-content-center mt-40  mx-24">
+        <ion-img class="doc mt-10" src="{{ photo[0].webviewPath }}"></ion-img>
+    </ion-row>
+      
+      <ion-row class="ion-justify-content-center mt-16  mx-32">
+        <div class="text-block s16-h22 ls-01">Asigură-te că toate detaliile sunt vizibile, clare și că nu există reflexii.
+        </div>
+      </ion-row>
+
+      <ion-row class="ion-justify-content-center mt-80 mx-24">
+        <ion-button
+          class="activate-btn"
+          size="large"
+          color="success"
+          fill="solid"
+          expand="block"
+          class="m-0 w-100 flex mt-auto mx-8"
+          routerLink="../capture-photo"
+        >
+          Continuă
+        </ion-button>
+
+        <ion-row class="ion-justify-content-center mt-16 mx-24">
+          <ion-button expand="block" fill="clear" (click)="removePhoto()"><span class="button-text s16-h22 ls-01">Fă o fotografie nouă</span></ion-button>
+        </ion-row>
+      </ion-row>
+    </ion-grid>
+  <!-- ion-fab markup  -->
+</ion-content>
