@@ -13,6 +13,11 @@ const routes: Routes = [
       import('./modules/policy/policy.module').then((m) => m.PolicyModule),
   },
   {
+    path: 'asistenta',
+    loadChildren: () =>
+      import('./modules/policy/asistenta-technica/asistenta-technica.module').then((m) => m.AsistentaTechnicaPageModule),
+  },
+  {
     path: '',
     redirectTo: 'home',
     pathMatch: 'full',
