@@ -4,7 +4,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
 import { SharedModule } from 'src/app/shared/shared.module';
-//import { OmnInputsModule } from './../../shared/modules/omn-inputs/omn-inputs.module';
+import { OmnInputsModule } from './../../shared/modules/omn-inputs/omn-inputs.module';
 import { AdresaLocuintaComponent } from './components/adresa-locuinta/adresa-locuinta.component';
 import { CesiuneFormComponent } from './components/cesiune-form/cesiune-form.component';
 import { DisabledMessageModalComponent } from './components/modals/disabled-message-modal/disabled-message-modal.component';

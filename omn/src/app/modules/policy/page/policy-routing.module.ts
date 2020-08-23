@@ -9,8 +9,6 @@ import { PolicyPage } from '../page/policy.page';
 
 const routes: Routes = [
   {
-<<<<<<< HEAD
-=======
     path: 'form',
     loadChildren: () =>
       import('../pages/policy-form/policy-form.module').then(
@@ -25,7 +23,6 @@ const routes: Routes = [
       ),
   },
   {
->>>>>>> b2dcc75632ee68ed5bc21eb7e25d5236accf2b5f
     path: '',
     component: PolicyPage,
     children: [
@@ -66,16 +63,6 @@ const routes: Routes = [
       },
     ],
   },
-<<<<<<< HEAD
-=======
-  {
-    path: 'policy-verify',
-    loadChildren: () =>
-      import('../pages/policy-verify/policy-verify.module').then(
-        (m) => m.PolicyVerifyModule
-      ),
-  },
->>>>>>> b2dcc75632ee68ed5bc21eb7e25d5236accf2b5f
 ];
 
 @NgModule({

@@ -3,6 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { MoreDetailsComponent } from './more-details.component'
 import { CaptureDocsComponent } from './capture-docs/capture-docs.component'
 import { CapturePhotoComponent} from './capture-photo/capture-photo.component'
+import { CompleteVerificationComponent } from './complete-verification/complete-verification.component'
 
 
 const routes: Routes = [
@@ -19,6 +20,10 @@ const routes: Routes = [
   {
     path:'capture-photo',
     component: CapturePhotoComponent,
+  },
+  {
+    path:'complete-verification',
+    component: CompleteVerificationComponent,
   },
 ];
 
