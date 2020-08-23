@@ -27,6 +27,11 @@ const routes: Routes = [
     loadChildren: () =>
       import('./login/login.module').then((m) => m.LoginPageModule),
   },
+  {
+    path: 'asistenta',
+    loadChildren: () => import('./modules/asistenta/asistenta.module').then( m => m.AsistentaPageModule)
+  },
+
 ];
 
 @NgModule({
