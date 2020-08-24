@@ -175,6 +175,11 @@
   --color: var(--app-color-white);
 }
 
+.text-color {
+  color: var(--app-text-color);
+  --color: var(--app-text-color);
+}
+
 .color-light-red {
   color: $light-red;
 }
