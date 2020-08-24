@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
-import { SubPageHeader } from 'src/app/shared/models/component/sub-page-header';
+import { Component, HostBinding, OnInit } from '@angular/core';
 import { subPageHeaderDefault } from 'src/app/shared/data/sub-page-header-default';
+import { SubPageHeader } from 'src/app/shared/models/component/sub-page-header';
 
 @Component({
   selector: 'app-contact',
@@ -8,14 +8,13 @@ import { subPageHeaderDefault } from 'src/app/shared/data/sub-page-header-defaul
   styleUrls: ['./contact.page.scss'],
 })
 export class ContactPage implements OnInit {
+  @HostBinding('class') color = 'ion-color-white-page';
   headerConfig: SubPageHeader = {
     ...subPageHeaderDefault(''),
     trailingIcon: null,
-  }
+  };
 
-  constructor() { }
+  constructor() {}
 
-  ngOnInit() {
-  }
-
+  ngOnInit() {}
 }
