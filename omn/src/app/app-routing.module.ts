@@ -3,7 +3,7 @@ import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 
 const routes: Routes = [
   {
-    path: 'home',// /hom
+    path: 'home',
     loadChildren: () =>
       import('./home/home.module').then((m) => m.HomePageModule),
   },
@@ -35,7 +35,9 @@ const routes: Routes = [
   {
     path: 'contact',
     loadChildren: () =>
-      import('./modules/contact/contact.module').then((m) => m.ContactPageModule),
+      import('./modules/contact/contact.module').then(
+        (m) => m.ContactPageModule
+      ),
   },
 ];
 
