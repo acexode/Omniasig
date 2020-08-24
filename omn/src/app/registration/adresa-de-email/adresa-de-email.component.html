@@ -1,4 +1,4 @@
-<ion-content class="bg-white">
+<ion-content>
   <app-sub-page-header [config]="headerConfig"> </app-sub-page-header>
   <div class="px-32">
     <ion-col>
@@ -15,7 +15,6 @@
       <div class="mt-30">
         <form [formGroup]="emailForm" (ngSubmit)="proceed()">
           <app-input
-            [ngClass]="'bg-white'"
             formControlName="email"
             [config]="config"
           ></app-input>
