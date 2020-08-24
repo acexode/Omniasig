@@ -91,7 +91,12 @@
     </ion-item-group>
     <ion-menu-toggle [hidden]="subMenuHidden">
       <ion-list lines="none" class="p-0">
-        <ion-item menu-close class="mb-2 ml-52" (click)="closeMenu()">
+        <ion-item
+          menu-close
+          class="mb-2 ml-52"
+          (click)="closeMenu()"
+          [routerLink]="['/home', 'despre-noi']"
+        >
           <ion-icon class="icon-20"></ion-icon>
           <ion-label class="s18-h24 my-8">Despre noi</ion-label>
         </ion-item>
