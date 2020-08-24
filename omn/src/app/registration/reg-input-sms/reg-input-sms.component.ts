@@ -1,5 +1,11 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import {
+  Component,
+  OnInit,
+  ViewChild,
+  AfterViewInit,
+  OnDestroy,
+} from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { IonInput } from '@ionic/angular';
 import { Subscription } from 'rxjs';
@@ -11,85 +17,90 @@ import { IonInputConfig } from 'src/app/shared/models/component/ion-input-config
   templateUrl: './reg-input-sms.component.html',
   styleUrls: ['./reg-input-sms.component.scss'],
 })
-export class RegInputSmsComponent implements OnInit {
-  min: string = '00'
+export class RegInputSmsComponent implements OnInit, AfterViewInit, OnDestroy {
+  min: string = '00';
   sec: any = 59;
   digitsLength: number = 0;
   @ViewChild('inputField') inputField: IonInput;
-  sub: Subscription
-  phoneNumber = null
+  sub: Subscription;
+  phoneNumber = null;
 
   config: IonInputConfig = {
-      type: 'number',
+    type: 'number',
     inputMode: 'number',
-  }
+  };
   passForm: FormGroup;
-  
-  constructor(private route: ActivatedRoute, private router: Router,private timers: CustomTimersService,private formBuilder: FormBuilder) { }
+
+  constructor(
+    private route: ActivatedRoute,
+    private router: Router,
+    private timers: CustomTimersService,
+    private formBuilder: FormBuilder
+  ) {}
 
   ngOnInit() {
-    this.initForm()
-    this.getPhoneNumber()
-
+    this.initForm();
+    this.getPhoneNumber();
   }
-  initForm(){
+  initForm() {
     this.passForm = this.formBuilder.group({
-      digit: ['', [Validators.required,Validators.minLength(6),Validators.maxLength(6)]],
-  });
+      digit: [
+        '',
+        [Validators.required, Validators.minLength(6), Validators.maxLength(6)],
+      ],
+    });
 
-  this.passForm.valueChanges.subscribe((value)=>{
-       this.changeInput(value.digit)   
-  })
+    this.passForm.valueChanges.subscribe((value) => {
+      this.changeInput(value.digit);
+    });
   }
 
-   changeInput(digit:number) {
+  changeInput(digit: number) {
     if (digit) {
-      this.digitsLength = digit.toString().length
+      this.digitsLength = digit.toString().length;
     }
     if (this.digitsLength > 5) {
-      this.verifyDigit()
+      this.verifyDigit();
     }
   }
-
 
   getPhoneNumber() {
     this.sub = this.route.params.subscribe((params) => {
-    if (params.number) {
-      this.phoneNumber = params.number
-    }else{
-      this.router.navigate(["/registration"])
-    }
-    })
+      if (params.number) {
+        this.phoneNumber = params.number;
+      } else {
+        this.router.navigate(['/registration']);
+      }
+    });
   }
 
   ngAfterViewInit() {
-this.spawnInput()
-    this.startTimer()
+    this.spawnInput();
+    this.startTimer();
   }
 
   startTimer() {
-    this.timers.buildTimer(59).subscribe((time:number)=>{
-this.sec = time
-    })
+    this.timers.buildTimer(59).subscribe((time: number) => {
+      this.sec = time;
+    });
   }
 
   resendSMS() {
-    this.startTimer()
+    this.startTimer();
   }
 
   verifyDigit() {
-    this.router.navigate(["registration/notice"])
+    this.router.navigate(['registration/notice']);
   }
 
   spawnInput() {
     this.inputField.getInputElement().then((input) => {
-      input.click()
+      input.click();
       input.focus();
-    })
-
+    });
   }
 
   ngOnDestroy() {
-    this.sub.unsubscribe()
+    this.sub.unsubscribe();
   }
 }

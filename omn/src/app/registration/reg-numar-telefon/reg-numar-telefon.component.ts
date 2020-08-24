@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { IonInputConfig } from 'src/app/shared/models/component/ion-input-config';
 import { IonTextItem } from 'src/app/shared/models/component/ion-text-item';
@@ -10,34 +10,44 @@ import { IonTextItem } from 'src/app/shared/models/component/ion-text-item';
   styleUrls: ['./reg-numar-telefon.component.scss'],
 })
 export class RegNumarTelefonComponent implements OnInit {
-  label:IonTextItem={
-    text:"Numărul tău de telefon",
-    classes:"link-small color-tertiary-grey w-100 bg-white pb-8",
-    slot:'end'
-  }
+  label: IonTextItem = {
+    text: 'Numărul tău de telefon',
+    classes: 'link-small color-tertiary-grey w-100 bg-white pb-8',
+    slot: 'end',
+  };
   config: IonInputConfig = {
-    placeholder: "07XX XXX XXX",
+    placeholder: '07XX XXX XXX',
     type: 'tel',
     inputMode: 'tel',
-    size:100,
-    inputLabel:this.label,
-    clearable:true,
-    inputClasses:"ion-item-right"
-  }
+    size: 100,
+    inputLabel: this.label,
+    clearable: true,
+    inputClasses: 'ion-item-right',
+  };
   teleForm: FormGroup;
-  constructor(private router: Router,private formBuilder: FormBuilder) { }
+  constructor(private router: Router, private formBuilder: FormBuilder) {}
 
-  ngOnInit() { 
-    this.initForm()
+  ngOnInit() {
+    this.initForm();
   }
 
-initForm(){
-  this.teleForm = this.formBuilder.group({
-    phoneNumber: ['', [Validators.required,Validators.pattern(/^07[0-9].*$/),Validators.minLength(9)]],
-});
-}
+  initForm() {
+    this.teleForm = this.formBuilder.group({
+      phoneNumber: [
+        '',
+        [
+          Validators.required,
+          Validators.pattern(/^07[0-9].*$/),
+          Validators.minLength(9),
+        ],
+      ],
+    });
+  }
 
-  reg(){
- this.router.navigate(['registration/confirm-number',this.teleForm.controls['phoneNumber'].value])
+  reg() {
+    this.router.navigate([
+      'registration/confirm-number',
+      this.teleForm.controls['phoneNumber'].value,
+    ]);
   }
 }
