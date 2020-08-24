@@ -7,6 +7,10 @@ const routes: Routes = [
     path: '',
     component: HomePage,
   },
+  {
+    path: 'despre-noi',
+    loadChildren: () => import('./despre-noi/despre-noi.module').then( m => m.DespreNoiPageModule)
+  },
 ];
 
 @NgModule({
