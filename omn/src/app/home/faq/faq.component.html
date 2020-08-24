@@ -6,13 +6,16 @@
         <p class="highlight alt-font s32-h38 ls-05">Întrebări frecvente</p>
       </ion-text>
     </ion-row>
-      
+
     <!-- FAQs ls-0 -->
     <div class="mt-32">
-      <ion-row class="ion-justify-content-center mx-16 bordered" *ngFor="let faq of faqs; let x = index;">
-        <button class="accordion s18-h24 ls-0 py-16">{{faq.question}}</button>
+      <ion-row
+        class="ion-justify-content-center mx-16 bordered"
+        *ngFor="let faq of faqs; let x = index"
+      >
+        <button class="accordion s18-h24 ls-0 py-16">{{ faq.question }}</button>
         <div class="panel">
-          <p class="text s16-h22 ls-01 mr-16">{{faq.answer}}</p>
+          <p class="text s16-h22 ls-01 mr-16">{{ faq.answer }}</p>
         </div>
       </ion-row>
     </div>
@@ -39,7 +42,9 @@
 
     <ion-row class="ion-justify-content-center mx-16 mt-32 mb-64">
       <div class="s16-h22 ls-01">
-        Pentru orice întrebare legată de asigurări, daune, asistență tehnică la domiciliu sau asistență rutieră, intră în contact cu un reprezentant OMNIASIG care îți va răspunde în cel mai scurt timp.
+        Pentru orice întrebare legată de asigurări, daune, asistență tehnică la
+        domiciliu sau asistență rutieră, intră în contact cu un reprezentant
+        OMNIASIG care îți va răspunde în cel mai scurt timp.
       </div>
     </ion-row>
   </ion-grid>
