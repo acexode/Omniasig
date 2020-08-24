@@ -4,12 +4,11 @@ import { OfferViewComponent } from './components/offer-view/offer-view.component
 import { PolicyViewComponent } from './components/policy-view/policy-view.component';
 import { PolicyComponent } from './components/policy/policy.component';
 import { PolicyPage } from './page/policy.page';
-import { Z_FULL_FLUSH } from 'zlib';
 
 const routes: Routes = [
   {
     path: 'form',
-    pathMatch:'full',
+    pathMatch: 'full',
     loadChildren: () =>
       import('./pages/policy-form/policy-form.module').then(
         (m) => m.PolicyFormPageModule

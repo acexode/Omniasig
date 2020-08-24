@@ -5,7 +5,6 @@ import { Injectable } from '@angular/core';
 import { get } from 'lodash';
 import { PolicyLocuintaListItem } from './../../../shared/models/component/policy-locuinta-list-item';
 import { PolicyType } from 'src/app/shared/models/data/policy-type';
-import { type } from 'os';
 
 @Injectable({
   providedIn: 'root',
@@ -49,6 +48,7 @@ export class PolicyFormService {
     fromDate: any;
     account: Account;
   }): PolicyOffer {
+    const fromD = new Date(conf.fromDate);
     const offer: PolicyOffer = {
       id: null,
       expiry: new Date(new Date().setDate(new Date().getDate() + 3)),
@@ -63,6 +63,10 @@ export class PolicyFormService {
         cesiune: get(conf, 'cesiune', null),
         type: get(conf, 'pType', null),
         typeId: get(conf, 'pType.id', null),
+        dates: {
+          from: new Date(conf.fromDate),
+          to: new Date(fromD.setFullYear(new Date(fromD).getFullYear() + 1)),
+        },
       },
     };
     return offer;

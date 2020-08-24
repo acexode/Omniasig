@@ -1,3 +1,5 @@
+import { get } from 'lodash';
+import { PolicyDataService } from './../../services/policy-data.service';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -5,6 +7,7 @@ import {
   OnInit,
 } from '@angular/core';
 import { PolicyOffer } from 'src/app/shared/models/data/policy-offer';
+import { NavController } from '@ionic/angular';
 
 @Component({
   selector: 'app-policy-verify',
@@ -15,8 +18,24 @@ import { PolicyOffer } from 'src/app/shared/models/data/policy-offer';
 export class PolicyVerifyComponent implements OnInit {
   @Input() offerData: PolicyOffer;
 
-  constructor() {}
+  constructor(
+    private policyS: PolicyDataService,
+    private navCtrl: NavController
+  ) {}
 
-  ngOnInit() {
+  ngOnInit() {}
+  addOffer() {
+    this.policyS.addOffer(this.offerData).subscribe((v) => {
+      if (v) {
+        const id = get(v, 'id', null);
+        if (id) {
+          this.navCtrl.navigateForward(['/policy', 'offer', id]);
+        } else {
+          this.navCtrl.navigateRoot(['/policy']);
+        }
+      } else {
+        // We'll probably only show an error in here.
+      }
+    });
   }
 }

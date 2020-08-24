@@ -180,7 +180,10 @@
                 Perioada de valabilitate
               </div>
               <ion-text class="input-detail s18-h24"
-                >12.05.2020 - 12.05.2021</ion-text
+                >{{ offerData?.policy?.dates?.from | date: 'MM.dd.yyyy' }} -
+                {{
+                  offerData?.policy?.dates?.to | date: 'MM.dd.yyyy'
+                }}</ion-text
               >
             </div>
           </ion-label>
@@ -197,6 +200,7 @@
             size="large"
             expand="block"
             size="large"
+            (click)="addOffer()"
           >
             Vezi oferta
           </ion-button>
