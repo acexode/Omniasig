@@ -29,7 +29,10 @@
 button{
  background-color: var(--ion-background-color);
 }
-  
+ 
+// .active, .accordion:hover p{
+//   color: var(--app-dark-green);
+// }
 .active, .accordion:hover p{
   color: var(--app-dark-green);
 }
@@ -48,6 +51,8 @@ button{
 .active:after {
   content: url('../../../assets/custom-ion-icons/a-chevron-up.svg');
   margin-top: 0;
+  height: auto;
+  width: auto;
 }
 
 .panel {

@@ -1,7 +1,7 @@
 <app-sub-page-header [config]="headerConfig"> </app-sub-page-header>
 <ion-content>
   <ion-grid class="w-100">
-    <ion-row class="ion-justify-content-center mx-16 mt-80">
+    <ion-row class="ion-justify-content-center mx-16">
       <ion-text color="Success">
         <p class="highlight alt-font s32-h38 ls-05">Întrebări frecvente</p>
       </ion-text>
@@ -10,7 +10,7 @@
     <!-- FAQs ls-0 -->
     <div class="mt-32">
       <ion-row class="ion-justify-content-center mx-16 bordered" *ngFor="let faq of faqs; let x = index;">
-        <button class="accordion s18-h24 ls-0 py-16">{{faq.question}}</button>
+        <button [ngClass]="{'active': isOpen[x]}" value={{x}} id=`{{x}}` class="accordion s18-h24 ls-0 py-16" (click)="handleToogle($event)">{{faq.question}}</button>
         <div class="panel">
           <p class="text s16-h22 ls-01 mr-16">{{faq.answer}}</p>
         </div>

@@ -7,7 +7,7 @@ import { subPageHeaderDefault } from 'src/app/shared/data/sub-page-header-defaul
   templateUrl: './faq.component.html',
   styleUrls: ['./faq.component.scss'],
 })
-export class FaqComponent implements OnInit, AfterViewInit {
+export class FaqComponent implements OnInit {
    headerConfig = subPageHeaderDefault('');
 
   //create an interface for this 
@@ -106,24 +106,49 @@ export class FaqComponent implements OnInit, AfterViewInit {
     }
   ];
 
-  constructor() { 
+  constructor() {
+   this.isOpen = Array(this.faqs.length).fill(false)  
   }
 
   ngOnInit() {
   }
 
-  ngAfterViewInit() {
-   var acc = document.getElementsByClassName("accordion");
-   for (let i = 0; i < acc.length; i++) {
-      acc[i].addEventListener("click", function() {
-         this.classList.toggle("active");
-         var panel = this.nextElementSibling;
-         if (panel.style.maxHeight) {
-            panel.style.maxHeight = null;
-         } else {
-            panel.style.maxHeight = panel.scrollHeight + "px";
-         }
-      });
-   }
+isOpen: Array<boolean>
+
+  handleToogle(e){
+   // console.log("****************************",e.target.value)
+   //   console.log("****************************",e.target.id, this.isOpen)
+   
+      this.isOpen[e.target.value] = !this.isOpen[e.target.value]
+      // console.log(this.isOpen[e.target.id])
+      
+      var panel = e.target.nextElementSibling;
+
+      if(this.isOpen[e.target.value]){
+         panel.style.height = "auto"
+      }else{
+         panel.style.height = 0+"px"
+      }
+      console.log("*****************************", panel, panel.style)
+         // if (panel.style.maxHeight) {
+         //    panel.style.Height = "auto";
+         // } else {
+         //    panel.style.Height = panel.scrollHeight + "px";
+         // }
   }
+
+//   ngAfterViewInit() {  
+//    var acc = document.getElementsByClassName("accordion");
+//    for (let i = 0; i < acc.length; i++) {
+//       acc[i].addEventListener("click", function() {
+//          this.classList.toggle("active");
+//          var panel = this.nextElementSibling;
+//          if (panel.style.maxHeight) {
+//             panel.style.maxHeight = null;
+//          } else {
+//             panel.style.maxHeight = panel.scrollHeight + "px";
+//          }
+//       });
+//    }
+//   }
 }
