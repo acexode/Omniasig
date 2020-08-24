@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, HostBinding } from '@angular/core';
 import { subPageHeaderDefault } from 'src/app/shared/data/sub-page-header-default';
 
 @Component({
@@ -7,11 +7,11 @@ import { subPageHeaderDefault } from 'src/app/shared/data/sub-page-header-defaul
   styleUrls: ['./info.component.scss'],
 })
 export class InfoComponent implements OnInit {
+  @HostBinding('class') color = 'ion-color-white-page';
   headerConfig = subPageHeaderDefault('Verificare identitate');
 
-  constructor() { }
+  constructor() {}
 
   ngOnInit() {}
-
 }
 

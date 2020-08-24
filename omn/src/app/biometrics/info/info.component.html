@@ -1,40 +1,60 @@
 <app-sub-page-header [config]="headerConfig"> </app-sub-page-header>
 <ion-content>
-  <ion-grid>
+  <ion-grid class="ion-no-padding flex w-100 mh-100 flex-1 flex-column">
     <ion-row class="ion-justify-content-center mt-40 mx-24">
-      <ion-img src="../../assets/custom-ion-icons/verification.svg" alt="verification image"></ion-img>
+      <ion-img
+        src="../../assets/custom-ion-icons/verification.svg"
+        alt="verification image"
+      ></ion-img>
     </ion-row>
 
     <ion-row class="ion-justify-content-center mt-56 mx-24">
-      <div class="title s20-h24 ls-02 text-weight-bold">Ce înseamnă verificarea identității?</div>
-    </ion-row>
-
-    <ion-row class="ion-justify-content-center mt-16 mx-24">
-      <div class=" text-group s16-h22 ls-01">
-        Verificarea identității este facută de către o aplicație specializată în condiții de maximă securitate și presupune compararea fotografiei tale din cartea de identitate cu o fotografie pe care trebuie să ți-o faci tu (selfie). Cele două fotografii sunt stocate doar pe durata validării.
+      <div class="alt-font color-dark-green s20-h24 ls-02 text-weight-bold">
+        Ce înseamnă verificarea identității?
       </div>
     </ion-row>
 
-    
+    <ion-row class="ion-justify-content-center mt-16 mx-24">
+      <div class="text-group s16-h22 ls-01">
+        Verificarea identității este facută de către o aplicație specializată în
+        condiții de maximă securitate și presupune compararea fotografiei tale
+        din cartea de identitate cu o fotografie pe care trebuie să ți-o faci tu
+        (selfie). Cele două fotografii sunt stocate doar pe durata validării.
+      </div>
+    </ion-row>
+
     <ion-row class="ion-justify-content-center mt-40">
-      <div class="title s20-h24 ls-02 text-weight-bold">De ce e necesară?</div>
+      <div class="alt-font color-dark-green s20-h24 ls-02 text-weight-bold">
+        De ce e necesară?
+      </div>
     </ion-row>
 
     <ion-row class="ion-justify-content-center mx-24 mt-16">
-     <ul class="my-0 py-0">
-      <!-- <ion-item class="ion-no-padding" lines="none"> -->
-        <li class="text-group">pentru a ne asigura că doar tu vei avea acces la datele tale personale;</li>
-      <!-- </ion-item> -->
-      <!-- <ion-item class="ion-no-padding" lines="none"> -->
-        <li class="text-group mt-16">pentru a-ți proteja contul de utilizator.</li>
-      <!-- </ion-item> -->
-    </ul>
+      <ul class="my-0 py-0">
+        <!-- <ion-item class="ion-no-padding" lines="none"> -->
+        <li class="text-group">
+          pentru a ne asigura că doar tu vei avea acces la datele tale
+          personale;
+        </li>
+        <!-- </ion-item> -->
+        <!-- <ion-item class="ion-no-padding" lines="none"> -->
+        <li class="text-group mt-16">
+          pentru a-ți proteja contul de utilizator.
+        </li>
+        <!-- </ion-item> -->
+      </ul>
     </ion-row>
 
-    <ion-row class="ion-justify-content-center mx-24 mt-40 mb-32">
-      <ion-button expand="block" fill="clear"><span class="button-text s16-h22 ls-01">Înapoi</span></ion-button>
+    <ion-row
+      class="ion-justify-content-end mx-24 mt-40 mb-16 pt-10 pb-8 flex flex-column flex-1 ion-align-items-center"
+    >
+      <ion-button
+        expand="block"
+        fill="clear"
+        color="success"
+        class="color-dark-green text-weight-normal text-normal mt-auto mx-0 mb-0"
+        >Înapoi</ion-button
+      >
     </ion-row>
-    
-
   </ion-grid>
 </ion-content>

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, HostBinding } from '@angular/core';
 import { PhotoService } from '../../services/photo.service';
 import { subPageHeaderDefault } from 'src/app/shared/data/sub-page-header-default';
 
@@ -8,12 +8,12 @@ import { subPageHeaderDefault } from 'src/app/shared/data/sub-page-header-defaul
   styleUrls: ['./capture-docs.component.scss'],
 })
 export class CaptureDocsComponent implements OnInit {
+  @HostBinding('class') color = 'ion-color-white-page';
   headerConfig = subPageHeaderDefault('Carte de identitate');
   photo = this.photoService.photos;
-  step = 1
+  step = 1;
 
-  constructor(public photoService: PhotoService) { 
-  }
+  constructor(public photoService: PhotoService) {}
 
   removePhoto() {
     this.photoService.removePhoto();
@@ -22,7 +22,5 @@ export class CaptureDocsComponent implements OnInit {
 
   ngOnInit() {
     this.photoService.addNewToGallery();
-    console.log(this.photo)
   }
-
 }
