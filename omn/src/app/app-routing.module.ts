@@ -28,6 +28,11 @@ const routes: Routes = [
       import('./login/login.module').then((m) => m.LoginPageModule),
   },
   {
+    path: 'contact',
+    loadChildren: () =>
+      import('./modules/contact/contact.module').then((m) => m.ContactPageModule),
+  },
+  {
     path: 'setari',
     loadChildren: () =>
       import('./modules/setari/setari.module').then((m) => m.SetariPageModule),
