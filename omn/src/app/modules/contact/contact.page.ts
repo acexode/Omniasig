@@ -13,10 +13,6 @@ export class ContactPage implements OnInit {
     trailingIcon: null,
   }
 
-  callPhone(): void {
-    // launch dialer
-  }
-
   constructor() { }
 
   ngOnInit() {
