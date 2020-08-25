@@ -1,5 +1,6 @@
-import { AfterViewInit, Component, HostBinding, OnInit } from '@angular/core';
+import { Component, HostBinding, OnInit } from '@angular/core';
 import { subPageHeaderDefault } from 'src/app/shared/data/sub-page-header-default';
+import { faqModel } from '../models/faq-model'
 
 @Component({
   selector: 'app-faq',
@@ -10,8 +11,8 @@ export class FaqComponent implements OnInit {
   @HostBinding('class') color = 'ion-color-white-page';
   headerConfig = subPageHeaderDefault('');
 
-  // Create an interface for this
-  faqs: Array<{ question: string; answer: string }> = [
+
+  faqs: faqModel[] = [
     {
       question: 'Cum accesez contul creat?',
       answer:
@@ -155,10 +156,9 @@ isOpen: Array<boolean>
       var panel = e.target.nextElementSibling;
 
       if(this.isOpen[e.target.value]){
-         panel.style.height = panel.scrollView + "px"
+         panel.style.maxHeight = panel.scrollHeight + "px"
       }else{
-         panel.style.height = 0+"px"
+         panel.style.maxHeight = "0px"
       }
-      console.log("*****************************", panel, panel.style)
   }
 }
