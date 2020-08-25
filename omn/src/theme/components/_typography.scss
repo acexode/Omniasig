@@ -70,9 +70,9 @@ h3,
 }
 
 .s32-h38 {
-    font-size: rem(32) !important;
-    line-height: rem(38) !important;
-}  
+  font-size: rem(32) !important;
+  line-height: rem(38) !important;
+}
 
 .s18-h24 {
   font-size: rem(18) !important;
@@ -228,4 +228,8 @@ ion-label.input-label,
 
 .text-center {
   text-align: center;
+}
+
+a.no-decoration {
+  text-decoration: none !important;
 }
