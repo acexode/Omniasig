@@ -10,19 +10,16 @@
 }
 
 .doc {
-    height: 402px;
-    width: 297px;
+    --max-height: 402px !important;
+    --max-width: 297px !important;
     border-radius: 50% !important;
-    overflow: hidden;
+    overflow: scroll;
+    object-fit: contain;
 }
 
-// ion-img.doc{
-//     height: 402px !important;
-//     width: 297px !important;
-//     img{
-//         --object-fit: contain;
-//     }
-// }
+.pics-container{
+    height: 600px;
+}
 
 .button-text{
     color: var(--app-dark-green);

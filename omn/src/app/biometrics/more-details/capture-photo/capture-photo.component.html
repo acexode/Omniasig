@@ -37,9 +37,8 @@
   </ion-grid>
 
   <ion-grid *ngIf="photo.length > 1">
-    <ion-row class="ion-justify-content-center mt-16 mx-40">
-      <ion-img class="doc mt-10" width="100%" height="100%" src="{{ photo[0].webviewPath }}"></ion-img>
-      <!-- <div class="doc mt-10" [style.background-image]={{ photo[0].webviewPath }}></div> -->
+    <ion-row class="ion-justify-content-center pics-container mt-16 mx-40">
+      <ion-img class="doc mt-10" src="{{ photo[0].webviewPath }}"></ion-img>
     </ion-row>
 
     <ion-row class="ion-justify-content-center mt-40 mx-32">
