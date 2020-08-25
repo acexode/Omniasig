@@ -99,8 +99,8 @@ h3,
 }
 
 .s16-h22 {
-  font-size: rem(16) !important;
-  line-height: rem(22) !important;
+    font-size: rem(16) !important;
+    line-height: rem(22) !important;
 }
 
 .s32-h38 {
@@ -261,4 +261,8 @@ ion-label.input-label,
 
 .z-index-999 {
     z-index: 999;
+}
+
+a.no-decoration {
+    text-decoration: none !important;
 }

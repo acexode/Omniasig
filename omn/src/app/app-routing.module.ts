@@ -33,6 +33,20 @@ const routes: Routes = [
       import('./login/login.module').then((m) => m.LoginPageModule),
   },
   {
+    path: 'registration',
+    loadChildren: () =>
+      import('./registration/registration.module').then(
+        (m) => m.RegistrationPageModule
+      ),
+  },
+  {
+    path: 'phone-number',
+    loadChildren: () =>
+      import('./schimbare-numar-telefon/schimbare-numar-telefon.module').then(
+        (m) => m.SchimbareNumarTelefonPageModule
+      ),
+  },
+  {
     path: 'contact',
     loadChildren: () =>
       import('./modules/contact/contact.module').then(
