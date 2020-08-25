@@ -1,11 +1,11 @@
 import {
   ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
+  EventEmitter,
   Input,
   OnInit,
-  ChangeDetectorRef,
   Output,
-  EventEmitter,
 } from '@angular/core';
 import {
   AbstractControl,

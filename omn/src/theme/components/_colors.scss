@@ -175,6 +175,11 @@
   --color: var(--app-color-white);
 }
 
+.text-color {
+  color: var(--app-text-color);
+  --color: var(--app-text-color);
+}
+
 .color-light-red {
   color: $light-red;
 }
@@ -213,7 +218,6 @@
 
 .bg-green {
   background-color: $green;
-
   --background: $green;
 }
 
@@ -270,6 +274,36 @@
   background-color: $light-grey-2;
   --background: $light-grey-2;
 }
+
+.bg-light-green-5 {
+  background-color: $light-green-5;
+  --background: $light-green-5;
+}
+
+.bg-light-green-faded {
+  background-color: $light-green-5;
+  --background: $light-green-5;
+}
+
 .bg-ultra-light-green {
-  background:$ultra-light-green;
+  background: $ultra-light-green;
+}
+.bg-default {
+  background-color: $alt-bg;
+  --background: $alt-bg;
+}
+
+.bg-inherit {
+  --background: inherit;
+  background-color: inherit;
+}
+
+.bg-grey-2 {
+  background-color: $light-grey-2;
+  --background: $light-grey-2;
+}
+
+.bg-red {
+  background-color: $red;
+  --background: $red;
 }

@@ -12,7 +12,7 @@ import { PolicyCardListComponent } from './components/policy-card-list/policy-ca
 import { PolicyViewComponent } from './components/policy-view/policy-view.component';
 import { PolicyComponent } from './components/policy/policy.component';
 import { PolicyPage } from './page/policy.page';
-import { PolicyRoutingModule } from './policy-routing.module';
+import { PolicyRoutingModule } from './page/policy-routing.module';
 import { PolicySharedModule } from './policy-shared.module';
 
 @NgModule({
@@ -23,7 +23,7 @@ import { PolicySharedModule } from './policy-shared.module';
     PolicyArchiveListComponent,
     DisabledMessageModalComponent,
     OfferViewComponent,
-    PolicyViewComponent,
+    PolicyViewComponent
   ],
   imports: [
     CommonModule,
@@ -35,6 +35,7 @@ import { PolicySharedModule } from './policy-shared.module';
     OmnInputsModule,
     FormsModule,
     ReactiveFormsModule,
+    OmnInputsModule
   ],
 })
 export class PolicyModule {}
