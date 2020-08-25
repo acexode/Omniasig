@@ -4,9 +4,10 @@ import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 import { ProfilePageRoutingModule } from './profile-routing.module';
 import { ProfilePage } from './profile.page';
+import { PriceModalComponent } from './pages/components/modals/price-modal/price-modal.component';
 
 @NgModule({
   imports: [CommonModule, FormsModule, IonicModule, ProfilePageRoutingModule],
-  declarations: [ProfilePage],
+  declarations: [ProfilePage, PriceModalComponent],
 })
 export class ProfilePageModule {}
