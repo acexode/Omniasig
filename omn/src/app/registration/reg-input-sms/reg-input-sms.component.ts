@@ -3,7 +3,7 @@ import {
   OnInit,
   ViewChild,
   AfterViewInit,
-  OnDestroy,
+  OnDestroy, HostBinding
 } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -18,6 +18,7 @@ import { IonInputConfig } from 'src/app/shared/models/component/ion-input-config
   styleUrls: ['./reg-input-sms.component.scss'],
 })
 export class RegInputSmsComponent implements OnInit, AfterViewInit, OnDestroy {
+  @HostBinding('class') color = 'ion-color-white-page';
   min: string = '00';
   sec: any = 59;
   digitsLength: number = 0;
@@ -30,7 +31,7 @@ export class RegInputSmsComponent implements OnInit, AfterViewInit, OnDestroy {
     inputMode: 'number',
   };
   passForm: FormGroup;
-
+  InvalidCode = false;
   constructor(
     private route: ActivatedRoute,
     private router: Router,
@@ -58,6 +59,9 @@ export class RegInputSmsComponent implements OnInit, AfterViewInit, OnDestroy {
   changeInput(digit: number) {
     if (digit) {
       this.digitsLength = digit.toString().length;
+    }
+    else{
+      this.digitsLength = 0
     }
     if (this.digitsLength > 5) {
       this.verifyDigit();
@@ -90,7 +94,15 @@ export class RegInputSmsComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   verifyDigit() {
-    this.router.navigate(['registration/notice']);
+    if (this.passForm.controls.digit.value === 123456) {
+      this.router.navigate(['registration/notice']);
+    } else {
+      this.InvalidCode = true;
+      setTimeout(() => {
+        this.passForm.reset();
+        this.InvalidCode = false;
+      }, 2000);
+    }
   }
 
   spawnInput() {

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, HostBinding, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { IonInputConfig } from 'src/app/shared/models/component/ion-input-config';
@@ -10,6 +10,7 @@ import { IonTextItem } from 'src/app/shared/models/component/ion-text-item';
   styleUrls: ['./reg-numar-telefon.component.scss'],
 })
 export class RegNumarTelefonComponent implements OnInit {
+  @HostBinding('class') color = 'ion-color-white-page';
   label: IonTextItem = {
     text: 'Numărul tău de telefon',
     classes: 'link-small color-tertiary-grey w-100 bg-white pb-8',
@@ -22,6 +23,7 @@ export class RegNumarTelefonComponent implements OnInit {
     size: 100,
     inputLabel: this.label,
     clearable: true,
+    minLength:10,
     inputClasses: 'ion-item-right',
   };
   teleForm: FormGroup;

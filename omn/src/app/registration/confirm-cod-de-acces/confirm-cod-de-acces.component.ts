@@ -1,5 +1,5 @@
 import { Location } from '@angular/common';
-import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
+import { Component, OnInit, ViewChild, AfterViewInit, HostBinding } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { IonInput, NavController } from '@ionic/angular';
@@ -11,14 +11,14 @@ import { IonInput, NavController } from '@ionic/angular';
 })
 export class ConfirmCodDeAccesComponent implements OnInit, AfterViewInit {
   digitsLength: number = 0;
+  @HostBinding('class') color = 'ion-color-white-page';
   @ViewChild('inputField', { static: true }) inputField: IonInput;
   passForm: FormGroup;
   constructor(
     private navCtrl: NavController,
     private formBuilder: FormBuilder,
     private route: ActivatedRoute,
-    private router: Router,
-    private location: Location
+    private router: Router
   ) {}
   ngAfterViewInit(): void {
     this.spawnInput();
