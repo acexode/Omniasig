@@ -30,7 +30,23 @@ const routes: Routes = [
   {
     path: 'registration',
     loadChildren: () =>
-      import('./registration/registration.module').then((m) => m.RegistrationPageModule),
+      import('./registration/registration.module').then(
+        (m) => m.RegistrationPageModule
+      ),
+  },
+  {
+    path: 'phone-number',
+    loadChildren: () =>
+      import('./schimbare-numar-telefon/schimbare-numar-telefon.module').then(
+        (m) => m.SchimbareNumarTelefonPageModule
+      ),
+  },
+  {
+    path: 'contact',
+    loadChildren: () =>
+      import('./modules/contact/contact.module').then(
+        (m) => m.ContactPageModule
+      ),
   },
 ];
 
