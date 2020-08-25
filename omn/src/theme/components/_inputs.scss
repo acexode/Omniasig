@@ -66,6 +66,10 @@
     }
 }
 
+.checkbox {
+    --size: 20px !important; //Size of the checkbox icon
+}
+
 ion-toggle {
     width: rem(40);
     height: rem(24);
@@ -78,5 +82,5 @@ ion-toggle {
         no-repeat 100% / 100%;
     --handle-width: 16px;
     --handle-height: 16px;
-    --handle-spacing: 4px
+    --handle-spacing: 4px;
 }
