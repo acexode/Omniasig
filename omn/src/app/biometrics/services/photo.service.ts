@@ -12,19 +12,24 @@ export class PhotoService {
 
   public async addNewToGallery() {
     // Take a photo
-    const capturedPhoto = await Camera.getPhoto({
-      resultType: CameraResultType.Uri, 
-      source: CameraSource.Camera, 
-      quality: 100 
-    });
+    try{
+      const capturedPhoto = await Camera.getPhoto({
+        resultType: CameraResultType.Uri, 
+        source: CameraSource.Camera, 
+        quality: 100 
+      });
+  
+      //add the newly captured photo to our array
+      this.photos.unshift({
+        filepath: "",
+        webviewPath: capturedPhoto.webPath
+      });
 
-    //add the newly captured photo to our array
-    this.photos.unshift({
-      filepath: "",
-      webviewPath: capturedPhoto.webPath
-    });
-
-    // console.log("CAPTURED PHOTO DETAILS************************************",capturedPhoto)
+      return true
+    }catch{
+        return false
+    }
+    
   }
 
   public getPhotos(){
@@ -34,7 +39,6 @@ export class PhotoService {
   public removePhoto(){
     this.photos.shift()
   }
-
 }
 
 interface Photo {

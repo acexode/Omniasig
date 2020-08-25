@@ -1,15 +1,17 @@
 <app-sub-page-header [config]="headerConfig"> </app-sub-page-header>
 <ion-content>
   <ion-grid
-    *ngIf="photo.length > 0"
+    *ngIf="photo.length > 0 && captured"
     class="ion-no-padding flex flex-1 flex-column w-100 mh-100 h-100"
   >
     <ion-row class="ion-justify-content-center mt-40 mx-0">
-      <ion-img
+      <div class="docs">
+        <ion-img
         *ngIf="photo?.length"
-        class="doc mt-10"
+        class="mt-10"
         src="{{ photo[0].webviewPath }}"
       ></ion-img>
+      </div>
     </ion-row>
 
     <ion-row class="ion-justify-content-center mt-16 mx-32">
@@ -49,5 +51,26 @@
       </ion-row>
     </ion-row>
   </ion-grid>
-  <!-- ion-fab markup  -->
+
+  <ion-grid
+    *ngIf="!captured"
+    class="ion-no-padding flex flex-1 flex-column w-100 mh-100 h-100"
+  >
+    
+
+    <ion-row
+      class="ion-justify-content-end mt-16 mx-32 flex flex-1 flex-column ion-align-items-center"
+    >
+      <ion-button
+        class="activate-btn m-0 w-100 flex mt-auto mb-24"
+        size="large"
+        color="success"
+        fill="solid"
+        expand="block"
+        (click)="retake()"
+      >
+        Retake
+      </ion-button>
+    </ion-row>
+  </ion-grid>
 </ion-content>

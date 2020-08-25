@@ -11,7 +11,7 @@
       <div class="level s16-h22 ls-01 my-0">2/2</div>
     </ion-row>
     <ion-row class="ion-justify-content-center mt-14 mx-24">
-      <div class="title-text s24-h32 ls-02 text-weight-bold my-0 pb-6">
+      <div class="border-red alt-font border-bottom-1 color-dark-green s24-h32 ls-02 text-weight-bold my-0 pb-6">
         Fă-ți o fotografie!
       </div>
     </ion-row>
@@ -38,17 +38,17 @@
 
   <ion-grid *ngIf="photo.length > 1">
     <ion-row class="ion-justify-content-center mt-16 mx-40">
-      <ion-img class="doc mt-10" src="{{ photo[0].webviewPath }}"></ion-img>
+      <ion-img class="doc mt-10" width="100%" height="100%" src="{{ photo[0].webviewPath }}"></ion-img>
+      <!-- <div class="doc mt-10" [style.background-image]={{ photo[0].webviewPath }}></div> -->
     </ion-row>
 
     <ion-row class="ion-justify-content-center mt-40 mx-32">
       <ion-button
-        class="activate-btn"
+        class="activate-btn m-0 w-100 flex mt-auto mx-8"
         size="large"
         color="success"
         fill="solid"
         expand="block"
-        class="m-0 w-100 flex mt-auto mx-8"
         routerLink="../complete-verification"
       >
         Continuă

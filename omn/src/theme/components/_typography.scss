@@ -197,6 +197,15 @@ ion-label.input-label,
     border-bottom: rem(1) solid $red;
 }
 
+.bottom-border {
+    border-bottom: rem(1) solid $red;
+}
+
+.border-danger {
+    padding-bottom: rem(7);
+    border-bottom: rem(1) solid $red;
+}
+
 .text-nowrap {
     word-wrap: nowrap;
 }

@@ -10,6 +10,7 @@ import { subPageHeaderDefault } from 'src/app/shared/data/sub-page-header-defaul
 export class CapturePhotoComponent implements OnInit {
   @HostBinding('class') color = 'ion-color-white-page';
   photo = this.photoService.photos;
+
   headerConfig = subPageHeaderDefault('Fotografia ta');
 
   constructor(public photoService: PhotoService) {}
@@ -20,7 +21,7 @@ export class CapturePhotoComponent implements OnInit {
   }
 
   addPhotoToGallery() {
-    this.photoService.addNewToGallery();
+    this.photoService.addNewToGallery()
   }
 
   ngOnInit() {}

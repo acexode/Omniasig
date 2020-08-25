@@ -1,11 +1,5 @@
 @import '../../../../theme/variables.scss';
 
-.title-text{
-    color: var(--app-dark-green);
-    font-family: $alt-font;
-    border-bottom: 1px solid var(--app-red-color);
-}
-
 .text-block{
     color: var(--color);
     font-family: var(--ion-font-family);
@@ -16,9 +10,19 @@
 }
 
 .doc {
-    height: rem(269);
-    width: rem(376);
+    height: 402px;
+    width: 297px;
+    border-radius: 50% !important;
+    overflow: hidden;
 }
+
+// ion-img.doc{
+//     height: 402px !important;
+//     width: 297px !important;
+//     img{
+//         --object-fit: contain;
+//     }
+// }
 
 .button-text{
     color: var(--app-dark-green);
