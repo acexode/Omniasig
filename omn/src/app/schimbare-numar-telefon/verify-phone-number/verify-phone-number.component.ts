@@ -1,5 +1,11 @@
 import { Location } from '@angular/common';
-import { Component, OnInit, ViewChild } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  ViewChild,
+  OnDestroy,
+  AfterViewInit,
+} from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { IonInput } from '@ionic/angular';
@@ -13,11 +19,12 @@ import { IonInputConfig } from 'src/app/shared/models/component/ion-input-config
   templateUrl: './verify-phone-number.component.html',
   styleUrls: ['./verify-phone-number.component.scss'],
 })
-export class VerifyPhoneNumberComponent implements OnInit {
-  headerConfig = subPageHeaderDefault('Cod de verificare')
-  min: string = '00';
+export class VerifyPhoneNumberComponent
+  implements OnInit, OnDestroy, AfterViewInit {
+  headerConfig = subPageHeaderDefault('Cod de verificare');
+  min = '00';
   sec: any = 59;
-  digitsLength: number = 0;
+  digitsLength = 0;
   @ViewChild('inputField') inputField: IonInput;
   sub: Subscription;
   phoneNumber = null;
@@ -27,21 +34,21 @@ export class VerifyPhoneNumberComponent implements OnInit {
     inputMode: 'number',
   };
   passForm: FormGroup;
-  InvalidCode:boolean = false
+  InvalidCode = false;
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     private timers: CustomTimersService,
     private formBuilder: FormBuilder,
-    private location:Location
+    private location: Location
   ) {
-    this.route.params.subscribe((params)=>{
+    this.route.params.subscribe((params) => {
       if (params.phone) {
-        this.phoneNumber = params.phone
-      }else{
-this.location.back()
+        this.phoneNumber = params.phone;
+      } else {
+        this.location.back();
       }
-    })
+    });
   }
 
   ngOnInit() {
@@ -55,7 +62,7 @@ this.location.back()
       ],
     });
 
-  this.sub=  this.passForm.valueChanges.subscribe((value) => {
+    this.sub = this.passForm.valueChanges.subscribe((value) => {
       this.changeInput(value.digit);
     });
   }
@@ -63,18 +70,19 @@ this.location.back()
   changeInput(digit: number) {
     if (digit) {
       this.digitsLength = digit.toString().length;
-    }else{
-      this.digitsLength = 0
+    } else {
+      this.digitsLength = 0;
     }
   }
 
-  continue(){
-    if(this.passForm.controls["digit"].value == 123456)this.proceed()
-    else{
-      this.InvalidCode = true
+  continue() {
+    if (this.passForm.controls.digit.value === 123456) {
+      this.proceed();
+    } else {
+      this.InvalidCode = true;
       setTimeout(() => {
-        this.InvalidCode =false
-        this.passForm.reset()
+        this.InvalidCode = false;
+        this.passForm.reset();
       }, 2000);
     }
   }
