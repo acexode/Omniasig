@@ -21,7 +21,7 @@ import { LocuinteService } from '../../services/locuinte/locuinte.service';
 export class LocuinteViewComponent implements OnInit {
   headerConfig = subPageHeaderDefault('Locuințe');
   locuinta$: BehaviorSubject<Locuinte> = new BehaviorSubject(null);
-  variant = 'not-insured'; // not-insured, not-found, found.
+  variant = 'not-found'; // not-insured, not-found, found.
   @HostBinding('class') color = 'ion-color-white-page';
   constructor(
     private routerS: CustomRouterService,
