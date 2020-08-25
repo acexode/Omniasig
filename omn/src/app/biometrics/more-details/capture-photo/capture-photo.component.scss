@@ -9,17 +9,54 @@
     color: $dark-green;
 }
 
-.doc {
-    --max-height: 402px !important;
-    --max-width: 297px !important;
-    border-radius: 50% !important;
-    overflow: scroll;
-    object-fit: contain;
+// .doc {
+    
+//     // height: 402px !important;
+//     // width: 297px !important;
+//     border-radius: 95% !important;
+//     overflow: scroll;
+//    // object-fit: contain;
+// }
+
+// img {
+//         //height: 201px !important;
+//         //width: 150px !important;
+//         height: 100% !important;
+//         width: auto !important;
+//         //   width: 100%;
+//         //   height: 100%;
+//         object-fit: cover;
+//         border-radius: 95% !important;
+//     }
+
+// .pics-container{ 
+//     height: 402px;
+//     width: 297px;
+// }
+
+ion-img.doc::part(image) { 
+    height: 402px;
+    width: 297px;
+    // height: 100%;
+    // width: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+    overflow: visible;
+    aspect-ratio: 1/1;
 }
 
-.pics-container{
-    height: 600px;
-}
+// ion-img.doc::part(image) { 
+//     height: 402px;
+//     width: auto;
+//     max-width: 297px;
+//     border-radius: 50%;
+//     overflow: scroll;
+//     // min-height: 402px !important;
+//     // max-width: 297px;
+    
+//     object-fit: contain;
+//     // overflow: visible;
+// }
 
 .button-text{
     color: var(--app-dark-green);
