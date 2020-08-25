@@ -50,7 +50,8 @@ export class ChangePhoneNumberComponent implements OnInit {
   proceed() {
     this.router.navigate([
       'phone-number/confirm-number',
-      this.teleForm.controls['phoneNumber'].value,
+      // this.teleForm.controls['phoneNumber'].value,
+        this.teleForm.controls.phoneNumber.value,
     ]);
   }
 }

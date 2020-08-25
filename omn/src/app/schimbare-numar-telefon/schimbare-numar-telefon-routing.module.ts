@@ -6,16 +6,16 @@ import { RouterModule, Routes } from '@angular/router';
 
 const routes: Routes = [
   {
-    path:'',
-    component:ChangePhoneNumberComponent
+    path: '',
+    component: ChangePhoneNumberComponent
   },
     {
-    path:'confirm-number/:phone',
-    component:VerifyPhoneNumberComponent
+    path: 'confirm-number/:phone',
+    component: VerifyPhoneNumberComponent
   },
   {
-    path:'change-successful',
-    component:ChangeSuccessfulComponent
+    path: 'change-successful',
+    component: ChangeSuccessfulComponent
   }
 ];
 
