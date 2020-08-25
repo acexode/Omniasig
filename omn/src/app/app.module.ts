@@ -14,7 +14,8 @@ import { AppComponent } from './app.component';
 import { CoreModule } from './core/core.module';
 import { PolicySharedModule } from './modules/policy/policy-shared.module';
 import { SharedModule } from './shared/shared.module';
-
+// import { Deeplinks } from '@ionic-native/deeplinks';
+import { Deeplinks } from '@ionic-native/deeplinks/ngx';
 @NgModule({
   declarations: [AppComponent],
   entryComponents: [],
@@ -35,6 +36,7 @@ import { SharedModule } from './shared/shared.module';
     StatusBar,
     SplashScreen,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
+    Deeplinks
   ],
   bootstrap: [AppComponent],
 })
