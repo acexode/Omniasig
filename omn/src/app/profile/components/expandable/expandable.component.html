@@ -1,0 +1,45 @@
+
+<ion-text>
+  <h4 (click)="toggleAccordion()">
+    {{ name }}
+     <!-- <span *ngIf="isMenuOpen">&#9650;</span> -->
+     <!-- <span *ngIf="!isMenuOpen">&#9660;</span> -->
+     <ion-icon *ngIf="isMenuOpen" role="button" class="mb-0   flex main-icon  position-absolute top-0 pt-10 right-0 svg-absolute-right md hydrated pr-20" src="assets/custom-ion-icons/Chevron up@2x.svg" ></ion-icon>
+     <ion-icon *ngIf="!isMenuOpen" role="button" class="mb-0   flex main-icon  position-absolute top-0 pt-10 right-0 svg-absolute-right md hydrated pr-20" src="assets/custom-ion-icons/sm-chevron-down.svg" ></ion-icon>
+    
+  </h4>
+
+</ion-text>
+<ion-row 
+   [ngClass]="this.isMenuOpen ? 'active' : 'inactive'" class="document-details"  >
+ 
+  <ion-list *ngFor="let item of doc" >
+    <ion-item lines="none" class="gBorder"  [routerLink]="['../../document-page', item]" >
+      <ion-row class="w-100" >        
+        <ion-col size="1" >
+          <span class="triangular-bullet">&#8227;</span> 
+          </ion-col>
+          <ion-col size="7" >
+            <h6 class="expeditor">
+              {{item.name}}
+             </h6>
+            
+            </ion-col>
+            <ion-col size="4" >
+              <ion-text class="data float-right">
+                {{item.date}}
+              </ion-text>
+
+            </ion-col>
+            
+            <ion-col size="12" offset="1" class="ion-no-padding" >
+              <ion-text class="subiect">
+                {{item.desc}}
+               </ion-text>
+            </ion-col>
+          
+      </ion-row>
+    </ion-item>
+  </ion-list>
+   
+</ion-row>

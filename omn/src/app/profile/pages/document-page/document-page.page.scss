@@ -1,0 +1,39 @@
+.circle{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: #008641;
+    color: white;
+    text-align: center;
+}
+
+.bg-header{
+    background: #F5F9FC;
+}
+.doc-date {    
+    color: #8B8B8B;
+    font-family: Roboto;
+    font-size: 14px;
+    letter-spacing: 0;
+    line-height: 16px;
+    text-align: center;
+  }
+.oferta-asigurare-ser {   
+    color: #006330;
+    font-family: "Source Sans Pro";
+    font-size: 32px;
+    letter-spacing: -0.5px;
+    line-height: 38px;
+    text-align: center;
+    margin-bottom: .5rem;
+  }
+  .doc-details{
+    color: #191A19;
+    font-family: Roboto;
+    font-size: 16px;
+    // letter-spacing: -0.1px;
+    line-height: 22px;
+  }

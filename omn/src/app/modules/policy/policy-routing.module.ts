@@ -48,7 +48,8 @@ const routes: Routes = [
         component: PolicyViewComponent,
       },
     ],
-  },  {
+  },
+  {
     path: 'asistenta-technica',
     loadChildren: () => import('./asistenta-technica/asistenta-technica.module').then( m => m.AsistentaTechnicaPageModule)
   },

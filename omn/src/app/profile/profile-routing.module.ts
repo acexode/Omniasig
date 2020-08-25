@@ -28,6 +28,16 @@ const routes: Routes = [
       },
     ],
   },
+  {
+    path: 'documente',
+    loadChildren: () => import('./pages/documente/documente.module').then( m => m.DocumentePageModule)
+  },  {
+    path: 'document-page',
+    loadChildren: () => import('./pages/document-page/document-page.module').then( m => m.DocumentPagePageModule)
+  },
+
+  
+
 ];
 
 @NgModule({

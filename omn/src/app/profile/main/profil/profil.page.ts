@@ -82,6 +82,7 @@ export class ProfilPage implements OnInit {
       ],
       id: 'docs',
       itemClass: 'mh-104 shadow-page-item',
+      routerLink: ['documente']
     },
     {
       mainIcon: {

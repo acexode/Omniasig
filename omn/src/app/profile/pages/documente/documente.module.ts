@@ -4,9 +4,10 @@ import { FormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
-import { AsistentaTechnicaPageRoutingModule } from './asistenta-technica-routing.module';
+import { DocumentePageRoutingModule } from './documente-routing.module';
 
-import { AsistentaTechnicaPage } from './asistenta-technica.page';
+import { DocumentePage } from './documente.page';
+import { ExpandableComponent } from '../../components/expandable/expandable.component';
 import { SharedModule } from 'src/app/shared/shared.module';
 
 @NgModule({
@@ -15,8 +16,8 @@ import { SharedModule } from 'src/app/shared/shared.module';
     FormsModule,
     SharedModule,
     IonicModule,
-    AsistentaTechnicaPageRoutingModule
+    DocumentePageRoutingModule
   ],
-  declarations: [AsistentaTechnicaPage]
+  declarations: [DocumentePage, ExpandableComponent]
 })
-export class AsistentaTechnicaPageModule {}
+export class DocumentePageModule {}
