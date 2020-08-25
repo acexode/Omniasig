@@ -2,22 +2,47 @@
 <ion-content>
   <ion-grid class="w-100">
     <ion-row class="ion-justify-content-center mx-16">
-      <ion-text color="Success">
-        <p class="highlight alt-font s32-h38 ls-05">Întrebări frecvente</p>
+      <ion-text
+        color="Success"
+        class="highlight alt-font s32-h38 ls-05 color-dark-green"
+      >
+        Întrebări frecvente
       </ion-text>
     </ion-row>
 
-    <div class="mt-32">
-      <ion-row class="ion-justify-content-center mx-16 py-16 bordered" *ngFor="let faq of faqs; let x = index;">
-        <button [ngClass]="{'active': isOpen[x]}" value={{x}} id=`{{x}}` class="accordion s18-h24 ls-0 px-0" (click)="handleToogle($event)">{{faq.question}}</button>
-        <div class="panel">
-          <div class="text s16-h22 ls-01 mr-16  pt-16">{{ faq.answer }}</div>
+    <div class="mt-32 accordion-container">
+      <ion-row
+        class="ion-justify-content-center mx-16 py-16 bordered"
+        *ngFor="let faq of faqs; let x = index"
+      >
+        <button
+          [ngClass]="{ active: faq?.open }"
+          [value]="x"
+          class="accordion s18-h24 ls-0 pl-0 pr-32"
+          (click)="handleToogle(faq)"
+        >
+          {{ faq.question }}
+        </button>
+        <div
+          class="panel"
+          [ngClass]="{ 'active-item': faq?.open }"
+          [ngStyle]="
+            faq?.open && {
+              'max-height': textC?.scrollHeight + 'px'
+            }
+          "
+        >
+          <div class="text s16-h22 ls-01 mr-16 pt-16" #textC>
+            {{ faq.answer }}
+          </div>
         </div>
       </ion-row>
     </div>
 
     <ion-row class="ion-justify-content-center mx-16 mt-64">
-      <p class="highlight alt-font s32-h38 ls-05">Ai și alte întrebări?</p>
+      <p class="highlight alt-font s32-h38 ls-05 color-dark-green">
+        Ai și alte întrebări?
+      </p>
     </ion-row>
 
     <ion-row class="ion-justify-content-center mx-16 mt-32">
@@ -25,7 +50,9 @@
     </ion-row>
 
     <ion-row class="ion-justify-content-center mx-16">
-      <p class="s16-h22 ls-01 contact">suport.clienti@omniasig.ro</p>
+      <p class="s16-h22 ls-01 contact color-green">
+        suport.clienti@omniasig.ro
+      </p>
     </ion-row>
 
     <ion-row class="ion-justify-content-center mx-16 mt-32">
@@ -33,7 +60,9 @@
     </ion-row>
 
     <ion-row class="ion-justify-content-center mx-16">
-      <p class="s16-h22 ls-01 contact">www.omniasig.ro/OMNIASISTENTA</p>
+      <p class="s16-h22 ls-01 contact color-green">
+        www.omniasig.ro/OMNIASISTENTA
+      </p>
     </ion-row>
 
     <ion-row class="ion-justify-content-center mx-16 mt-32 mb-64">

@@ -1,6 +1,6 @@
 import { Component, HostBinding, OnInit } from '@angular/core';
 import { subPageHeaderDefault } from 'src/app/shared/data/sub-page-header-default';
-import { faqModel } from '../models/faq-model'
+import { FaqModel } from '../models/faq-model';
 
 @Component({
   selector: 'app-faq',
@@ -11,8 +11,7 @@ export class FaqComponent implements OnInit {
   @HostBinding('class') color = 'ion-color-white-page';
   headerConfig = subPageHeaderDefault('');
 
-
-  faqs: faqModel[] = [
+  faqs: FaqModel[] = [
     {
       question: 'Cum accesez contul creat?',
       answer:
@@ -141,24 +140,11 @@ export class FaqComponent implements OnInit {
         'Nam laoreet nunc eu molestie condimentum. Pellentesque sit amet mauris orci. Quisque sed scelerisque ipsum. Curabitur congue est sit amet felis vehicula ultrices. Curabitur dictum odio quam, ac pharetra mauris tempus a. In ornare ex urna, faucibus elementum elit fermentum non. Quisque euismod venenatis metus.',
     },
   ];
-
-  constructor() {
-   this.isOpen = Array(this.faqs.length).fill(false)  
-  }
+  constructor() {}
 
   ngOnInit() {}
 
-isOpen: Array<boolean>
-
-  handleToogle(e){
-      this.isOpen[e.target.value] = !this.isOpen[e.target.value]
-      
-      var panel = e.target.nextElementSibling;
-
-      if(this.isOpen[e.target.value]){
-         panel.style.maxHeight = panel.scrollHeight + "px"
-      }else{
-         panel.style.maxHeight = "0px"
-      }
+  handleToogle(item) {
+    item.open = item.open ? false : true;
   }
 }

@@ -1,52 +1,61 @@
-@import './variables.scss';
+@import '../variables';
+@import '../mixins/mixins';
 
-.text {
+.accordion-container {
+  .text {
     color: var(--color);
   }
-  
-  .bordered{
+
+  .bordered {
     border-bottom: 0.1px solid $medium-grey;
   }
-  
+
   .accordion {
     width: 100%;
     border: none;
     text-align: left;
     float: left;
     outline: none;
-    font-size: rem(15);
-    transition: 0.4s;
+    transition: 0.2s;
   }
-  
-  button{
-   background-color: var(--ion-background-color);
+
+  button {
+    background-color: var(--ion-background-color);
+    position: relative;
   }
-   
-  .active, .accordion:hover div{
+
+  .active,
+  .accordion:hover div {
     color: var(--app-dark-green);
+    color: $dark-green;
+    font-weight: 500;
   }
-  
+
   .accordion:after {
-    content: url('../../../assets/custom-ion-icons/a-down-turn.svg');
-    color: #006330;
+    content: url('assets/custom-ion-icons/a-down-turn.svg');
+    color: $dark-green;
     font-family: var(--ion-font-family);
     font-size: rem(18);
     font-weight: 500;
     line-height: rem(24);
     font-weight: bold;
     float: right;
+    position: absolute;
+    top: 0;
+    right: 0;
   }
-  
+
   .active:after {
-    content: url('../../../assets/custom-ion-icons/a-chevron-up.svg');
+    content: url('assets/custom-ion-icons/a-chevron-up.svg');
     margin-top: 0;
     height: auto;
     width: auto;
   }
-  
+
   .panel {
     max-height: 0;
+    height: auto;
     overflow: hidden;
     transition: max-height 0.2s ease-out;
   }
-  
+}

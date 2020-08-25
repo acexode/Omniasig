@@ -1,4 +1,5 @@
-export interface faqModel{
-    question: string; 
-    answer: string;
+export interface FaqModel {
+  question: string;
+  answer: string;
+  open?: boolean;
 }
