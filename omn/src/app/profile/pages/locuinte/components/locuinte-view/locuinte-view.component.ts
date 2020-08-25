@@ -63,7 +63,8 @@ export class LocuinteViewComponent implements OnInit {
   buttonText: string;
   formSubmitting: boolean;
   refTimer;
-  @HostBinding('class') color = 'ion-color-white-page';
+  // @HostBinding('class') color = 'ion-color-white-page';
+  @HostBinding('class') color = null;
   @ViewChild('contentRef', { static: true }) contentRef: IonContent;
   constructor(
     private routerS: CustomRouterService,
@@ -114,12 +115,15 @@ export class LocuinteViewComponent implements OnInit {
     switch (this.formMode) {
       case this.locuintaState.INCOMPLETE:
         this.headerConfig = subPageHeaderDefault('Adresa');
+        // this.color = '';
         break;
       case this.locuintaState.INVALID:
         this.headerConfig = subPageHeaderDefault('Confirmare domiciliu');
+        this.color = 'ion-color-white-page';
         break;
       default:
         this.headerConfig = subPageHeaderDefault('Locuințe');
+        this.color = 'ion-color-white-page';
         break;
     }
   }
