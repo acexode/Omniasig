@@ -1,5 +1,4 @@
 import { Component, OnInit, HostBinding } from '@angular/core';
-//import { PhotoService } from '../services/photo.service';
 
 @Component({
   selector: 'app-more-details',
@@ -8,13 +7,6 @@ import { Component, OnInit, HostBinding } from '@angular/core';
 })
 export class MoreDetailsComponent implements OnInit {
   @HostBinding('class') color = 'ion-color-white-page';
-  // photos = this.photoService.photos;
-
-  // constructor(public photoService: PhotoService) { }
-
-  // addPhotoToGallery() {
-  //   this.photoService.addNewToGallery();
-  // }
 
   constructor() {}
 

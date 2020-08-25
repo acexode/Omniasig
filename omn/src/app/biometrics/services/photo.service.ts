@@ -26,7 +26,7 @@ export class PhotoService {
       });
 
       return true
-    }catch{
+    }catch(e){
         return false
     }
     

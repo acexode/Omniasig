@@ -8,8 +8,6 @@ import { MoreDetailsRoutingModule } from './more-details-routing.module';
 import { MoreDetailsComponent } from './more-details.component';
 import { CaptureDocsComponent } from './capture-docs/capture-docs.component'
 import { CapturePhotoComponent} from './capture-photo/capture-photo.component'
-// import { CapturePhotoModule } from './capture-photo/capture-photo.module'
-
 
 @NgModule({
   declarations: [
@@ -25,7 +23,6 @@ import { CapturePhotoComponent} from './capture-photo/capture-photo.component'
     SharedModule,
     FormsModule,
     ReactiveFormsModule,
-    // CapturePhotoModule,
 
   ]
 })
