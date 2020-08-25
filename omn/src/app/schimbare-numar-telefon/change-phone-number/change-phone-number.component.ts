@@ -4,6 +4,8 @@ import { Router } from '@angular/router';
 import { subPageHeaderDefault } from 'src/app/shared/data/sub-page-header-default';
 import { IonInputConfig } from 'src/app/shared/models/component/ion-input-config';
 import { IonTextItem } from 'src/app/shared/models/component/ion-text-item';
+import { PhonenumberService } from '../services/phonenumber.service';
+import { RequestNewPhoneNumberChange } from '../models/RequestNewPhoneNumberChange.interface';
 
 @Component({
   selector: 'app-change-phone-number',
@@ -28,7 +30,11 @@ export class ChangePhoneNumberComponent implements OnInit {
     maxLength: 11,
   };
   teleForm: FormGroup;
-  constructor(private router: Router, private formBuilder: FormBuilder) {}
+    constructor(
+        private router: Router,
+        private formBuilder: FormBuilder,
+        private phS: PhonenumberService
+    ) { }
 
   ngOnInit() {
     this.initForm();
@@ -47,11 +53,20 @@ export class ChangePhoneNumberComponent implements OnInit {
     });
   }
 
-  proceed() {
-    this.router.navigate([
-      'phone-number/confirm-number',
-      // this.teleForm.controls['phoneNumber'].value,
-        this.teleForm.controls.phoneNumber.value,
-    ]);
+    proceed() {
+        const newPhoneNumber = this.teleForm.controls.phoneNumber.value;
+        const requestNewPhoneDetails: RequestNewPhoneNumberChange = {
+            userNameOrId: 'to review',
+            newPhoneNumber,
+        };
+
+        this.phS.updatePhoneNumber( requestNewPhoneDetails )
+            .subscribe( reponse => {
+                // Will review this
+                /* this.router.navigate( [
+                    'phone-number/confirm-number',
+                    this.teleForm.controls[ 'phoneNumber' ].value,
+                ] ); */
+        } );
   }
 }

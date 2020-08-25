@@ -1,29 +1,21 @@
 import { Injectable } from '@angular/core';
-import { Observable, of, throwError } from 'rxjs';
-import { HttpClient, HttpHeaders, HttpErrorResponse, HttpResponse } from '@angular/common/http';
-import { catchError, tap, map } from 'rxjs/operators';
+import { Observable } from 'rxjs';
 import { RequestService } from 'src/app/core/services/request/request.service';
-
+import { phoneNumberEndPoints } from 'src/app/core/configs/endpoints';
+import { ConfirmNewPhoneNumber } from './../models/ConfirmNewPhoneNumber.interface';
+import { RequestNewPhoneNumberChange } from './../models/RequestNewPhoneNumberChange.interface';
 @Injectable( {
     providedIn: 'root'
 } )
 export class PhonenumberService {
 
-    private phoneEndPoint = {
-        RequestNewPhoneNumberChange: '/api/UserProfile/RequestNewPhoneNumberChange',
-        ConfirmNewPhoneNumber: '/api​/UserProfile/ConfirmNewPhoneNumber'
-    };
 
     constructor( private reqS: RequestService ) { }
 
-    updatePhoneNumber( data: any ): Observable<any> {
-        const options = {
-            headers: new HttpHeaders( {
-                'Content-Type': 'application/json',
-            } )
-        };
-        return this.reqS.post( this.phoneEndPoint.RequestNewPhoneNumberChange, options );
-
+    updatePhoneNumber( data: RequestNewPhoneNumberChange ): Observable<any> {
+        return this.reqS.post( phoneNumberEndPoints.RequestNewPhoneNumberChange, data );
     }
-    validatePhoneCode() { }
+    validatePhoneCode( data: ConfirmNewPhoneNumber ): Observable<any> {
+        return this.reqS.post( phoneNumberEndPoints.ConfirmNewPhoneNumber, data );
+    }
 }
