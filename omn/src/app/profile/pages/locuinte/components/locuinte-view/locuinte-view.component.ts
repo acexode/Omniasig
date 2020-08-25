@@ -30,7 +30,7 @@ import { ConfirmationModalComponent } from '../modals/confirmation-modal/confirm
 export class LocuinteViewComponent implements OnInit {
   headerConfig = null;
   locuinta$: BehaviorSubject<Locuinte> = new BehaviorSubject(null);
-  variant = 'not-insured'; // not-insured, not-found, found.
+  variant = 'not-found'; // not-insured, not-found, found.
   dataModel: Locuinte;
   formMode: LocuintaState;
   locuintaState = LocuintaState;
@@ -63,7 +63,6 @@ export class LocuinteViewComponent implements OnInit {
   buttonText: string;
   formSubmitting: boolean;
   refTimer;
-  // @HostBinding('class') color = 'ion-color-white-page';
   @HostBinding('class') color = null;
   @ViewChild('contentRef', { static: true }) contentRef: IonContent;
   constructor(

@@ -70,13 +70,18 @@ h3,
 }
 
 .s32-h38 {
-    font-size: rem(32) !important;
-    line-height: rem(38) !important;
-}  
+  font-size: rem(32) !important;
+  line-height: rem(38) !important;
+}
 
 .s18-h24 {
   font-size: rem(18) !important;
   line-height: rem(24) !important;
+}
+
+.s32-h38 {
+  font-size: rem(32) !important;
+  line-height: rem(38) !important;
 }
 
 .s16-h22 {
@@ -161,6 +166,14 @@ ion-label.input-label,
   letter-spacing: -0.5px;
 }
 
+.ls-05 {
+  letter-spacing: -0.5px;
+}
+
+.ls-01 {
+  letter-spacing: -0.1px;
+}
+
 .ls-0 {
   letter-spacing: 0;
 }
@@ -228,4 +241,8 @@ ion-label.input-label,
 
 .text-center {
   text-align: center;
+}
+
+a.no-decoration {
+  text-decoration: none !important;
 }
