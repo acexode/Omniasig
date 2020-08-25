@@ -205,7 +205,7 @@
     class="ion-no-padding"
   >
     <ion-row
-      [hidden]="formType === locuinteFormType.PLACE"
+      [hidden]="formType !== locuinteFormType.ADDRESS"
       class="px-32 pt-40 pb-48 alt-bg"
     >
       <ion-col class="ion-no-padding">
@@ -227,7 +227,7 @@
     <ion-row class="bg-white">
       <ion-col class="ion-no-padding">
         <ion-row
-          [hidden]="formType === locuinteFormType.PLACE"
+          [hidden]="formType !== locuinteFormType.ADDRESS"
           class="mt-n24 w-auto mx-42 ion-justify-content-center ion-nowrap ion-align-self-center"
         >
           <ion-button
@@ -274,7 +274,10 @@
 
   <ion-grid *ngIf="locuinta.locuintaState === locuintaState.INVALID">
     <ion-row class="mx-32 mb-32">
-      <ion-text class="text-center text-normal">
+      <ion-text
+        [hidden]="formType !== locuinteFormType.ADDRESS"
+        class="text-center text-normal"
+      >
         Te rugăm să confirmi că datele de mai jos sunt corecte.
       </ion-text>
     </ion-row>

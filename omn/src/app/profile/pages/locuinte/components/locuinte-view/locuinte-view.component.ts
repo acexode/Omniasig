@@ -288,6 +288,7 @@ export class LocuinteViewComponent implements OnInit {
 
   nextStep() {
     this.headerConfig = subPageHeaderPrimary('Informații  locuință');
+    this.color = 'ion-color-white-page';
     this.buttonVisible = true;
     this.buttonText = 'Salvează';
     this.formInstance = {
