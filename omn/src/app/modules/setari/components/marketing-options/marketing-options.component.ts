@@ -25,7 +25,7 @@ export class MarketingOptionsComponent implements OnInit {
 
   radioOptions: Array<IonRadioInputOption> = [
     { label: 'DA, sunt de acord', id: 1 },
-    { label: 'NU, nu sunt de acord', id: 0 },
+    { label: '*NU, nu sunt de acord', id: 0 },
   ];
 
   constructor() { }

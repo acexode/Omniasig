@@ -11,8 +11,6 @@ import { SharedModule } from 'src/app/shared/shared.module';
 import { AutentificareComponent } from './components/autentificare/autentificare.component';
 import { MarketingOptionsComponent } from './components/marketing-options/marketing-options.component';
 import { OmnInputsModule } from 'src/app/shared/modules/omn-inputs/omn-inputs.module';
-import { ChangeAccessCodeComponent } from './components/autentificare/change-access-code/change-access-code.component';
-import { ChangePhoneNumberComponent } from './components/autentificare/change-phone-number/change-phone-number.component';
 
 @NgModule({
   imports: [
@@ -27,8 +25,6 @@ import { ChangePhoneNumberComponent } from './components/autentificare/change-ph
     SetariPage,
     AutentificareComponent,
     MarketingOptionsComponent,
-    ChangeAccessCodeComponent,
-    ChangePhoneNumberComponent,
   ],
 })
 export class SetariPageModule {}
