@@ -8,24 +8,24 @@ import { RouterModule, Routes } from '@angular/router';
 
 const routes: Routes = [
   {
-    path:'',
-    component:CnpDigitsComponent
+    path: '',
+    component: CnpDigitsComponent,
   },
   {
-    path:'verify-passcode',
-    component:RecuperarePasscodeCodComponent
+    path: 'verify-passcode',
+    component: RecuperarePasscodeCodComponent,
   },
   {
-    path:'new-pin',
-    component:NewPinComponent
+    path: 'new-pin',
+    component: NewPinComponent,
   },
   {
-    path:'confirm-pin/:pin',
-    component:ConfirmPinComponent
+    path: 'confirm-pin/:pin',
+    component: ConfirmPinComponent,
   },
   {
-    path:'reset-successful',
-    component:PinChangeSuccessfulComponent
+    path: 'reset-successful',
+    component: PinChangeSuccessfulComponent,
   },
 ];
 
@@ -33,4 +33,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
 })
-export class PinCodeResetPageRoutingModule { }
+export class PinCodeResetPageRoutingModule {}
