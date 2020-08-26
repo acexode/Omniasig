@@ -4,4 +4,5 @@ export interface DntConfig {
   items: Array<DntItemConfig>;
   success: DntItemConfig;
   cancel: DntItemConfig;
+  initialStep?: 'cancel' | 'success' | number;
 }
