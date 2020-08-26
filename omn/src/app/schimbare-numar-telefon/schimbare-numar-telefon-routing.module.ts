@@ -7,20 +7,20 @@ import { RouterModule, Routes } from '@angular/router';
 const routes: Routes = [
   {
     path: '',
-    component: ChangePhoneNumberComponent
+    component: ChangePhoneNumberComponent,
   },
-    {
+  {
     path: 'confirm-number/:phone',
-    component: VerifyPhoneNumberComponent
+    component: VerifyPhoneNumberComponent,
   },
   {
     path: 'change-successful',
-    component: ChangeSuccessfulComponent
-  }
+    component: ChangeSuccessfulComponent,
+  },
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
 })
-export class SchimbareNumarTelefonPageRoutingModule { }
+export class SchimbareNumarTelefonPageRoutingModule {}

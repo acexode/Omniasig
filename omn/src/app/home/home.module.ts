@@ -6,7 +6,7 @@ import { SharedModule } from '../shared/shared.module';
 import { HomePageRoutingModule } from './home-routing.module';
 import { HomePage } from './home.page';
 import { PolicySharedModule } from '../modules/policy/policy-shared.module';
-import { FaqComponent } from './faq/faq.component'
+import { FaqComponent } from './faq/faq.component';
 
 @NgModule({
   imports: [
@@ -16,9 +16,8 @@ import { FaqComponent } from './faq/faq.component'
     IonicModule,
     HomePageRoutingModule,
     SharedModule,
-    PolicySharedModule
+    PolicySharedModule,
   ],
   declarations: [HomePage, FaqComponent],
 })
-
 export class HomePageModule {}

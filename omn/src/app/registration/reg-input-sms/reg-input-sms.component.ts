@@ -1,9 +1,10 @@
 import {
+  AfterViewInit,
   Component,
+  HostBinding,
+  OnDestroy,
   OnInit,
   ViewChild,
-  AfterViewInit,
-  OnDestroy, HostBinding
 } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -19,9 +20,9 @@ import { IonInputConfig } from 'src/app/shared/models/component/ion-input-config
 })
 export class RegInputSmsComponent implements OnInit, AfterViewInit, OnDestroy {
   @HostBinding('class') color = 'ion-color-white-page';
-  min: string = '00';
+  min = '00';
   sec: any = 59;
-  digitsLength: number = 0;
+  digitsLength = 0;
   @ViewChild('inputField') inputField: IonInput;
   sub: Subscription;
   phoneNumber = null;
@@ -59,9 +60,8 @@ export class RegInputSmsComponent implements OnInit, AfterViewInit, OnDestroy {
   changeInput(digit: number) {
     if (digit) {
       this.digitsLength = digit.toString().length;
-    }
-    else{
-      this.digitsLength = 0
+    } else {
+      this.digitsLength = 0;
     }
     if (this.digitsLength > 5) {
       this.verifyDigit();

@@ -1,6 +1,4 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { subPageHeaderDefault } from '../../data/sub-page-header-default';
-import { SubPageHeader } from '../../models/component/sub-page-header';
 
 @Component({
   selector: 'app-loading-placeholder',
@@ -10,11 +8,6 @@ import { SubPageHeader } from '../../models/component/sub-page-header';
 export class LoadingPlaceholderComponent implements OnInit {
   @Input()
   title = 'Verificăm datele în portalul PAID…';
-
-  headerConfig: SubPageHeader = {
-    ...subPageHeaderDefault('Verificare'),
-    leadingIcon: null,
-  };
 
   constructor() {}
 

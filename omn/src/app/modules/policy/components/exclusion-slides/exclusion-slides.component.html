@@ -15,7 +15,7 @@
     </ion-row>
     <ion-row
       *ngIf="cancelItem && visibleItem === cancelItem"
-      class="ion-no-padding flex flex-1 flex-column position-relative mx-32 mt-32"
+      class="ion-no-padding flex flex-1 flex-column position-relative mx-32 mt-80"
     >
       <ng-container *ngFor="let cItem of cancelItem?.content">
         <ng-container *ngIf="cItem?.type === 'text'">
