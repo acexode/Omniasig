@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, HostBinding, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { IonInput, NavController } from '@ionic/angular';
 
@@ -9,6 +9,7 @@ import { IonInput, NavController } from '@ionic/angular';
 })
 export class RegPasscodeComponent implements OnInit {
   digitsLength: number = 0;
+  @HostBinding('class') color = 'ion-color-white-page';
   @ViewChild('inputField') inputField: IonInput;
   passForm: FormGroup;
   constructor(

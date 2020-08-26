@@ -1,5 +1,5 @@
 import { ImageCard } from 'src/app/shared/models/component/image-card';
-import { Component, OnInit } from '@angular/core';
+import { Component, HostBinding, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-cont-creat',
@@ -7,6 +7,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./cont-creat.component.scss'],
 })
 export class ContCreatComponent implements OnInit {
+  @HostBinding('class') color = 'ion-color-white-page';
   cards: Array<ImageCard> = [
     {
       mainIcon: {

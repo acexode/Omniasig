@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, HostBinding, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { radiosConfigHelper } from 'src/app/shared/data/radios-config-helper';
@@ -12,6 +12,7 @@ import { IonRadiosConfig } from 'src/app/shared/models/component/ion-radios-conf
   styleUrls: ['./date-personale.component.scss'],
 })
 export class DatePersonaleComponent implements OnInit {
+  @HostBinding('class') color = 'ion-color-white-page';
   headerConfig = subPageHeaderTertiary('');
   detailsForm: FormGroup;
   config: any = {

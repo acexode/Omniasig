@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, HostBinding, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 
@@ -9,7 +9,7 @@ import { Router } from '@angular/router';
 })
 export class NotaDeInformareComponent implements OnInit {
   termsForm: FormGroup;
-
+  @HostBinding('class') color = 'ion-color-white-page';
   constructor(private router: Router, private formBuilder: FormBuilder) {}
 
   ngOnInit() {
