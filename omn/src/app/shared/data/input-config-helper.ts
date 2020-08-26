@@ -5,6 +5,7 @@ export const inputConfigHelper = (conf: {
   label: string;
   type: string;
   placeholder: string;
+  disabled?: boolean;
   custom?: IonInputConfig;
 }): IonInputConfig => {
   const config: IonInputConfig = {
@@ -13,6 +14,7 @@ export const inputConfigHelper = (conf: {
     inputLabel: {
       text: get(conf, 'label', ''),
     },
+    disabled: conf.disabled || false,
   };
   if (has(conf, 'custom')) {
     return assignIn(config, get(conf, 'custom', {}));

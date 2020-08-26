@@ -1,9 +1,11 @@
 import {
   ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
+  EventEmitter,
   Input,
   OnInit,
-  ChangeDetectorRef,
+  Output,
 } from '@angular/core';
 import {
   AbstractControl,
@@ -29,39 +31,7 @@ import { CesiuneItem } from './../models/cesiune-item';
 })
 export class CesiuneFormComponent implements OnInit {
   @Input() config: IonInputConfig;
-  // config: IonInputConfig = {
-  //     inputLabel: {
-  //       // slot?: string;
-  //       // classes?: string;
-  //       // routerLink?: any;
-  //       text: "Procent",
-  //       // prefix?: string;
-  //       // suffix?: string;
-  //       // color?: string;
-  //     },
-  //     placeholder: "Completează",
-  //     inputName: "procent",
-  //     type: "text",
-  //     // size?: number;
-  //     min: 1,
-  //     max: 2,
-  //     inputClasses: "s18-h21",
-  //     spinnerConfig: {
-  //       // Number input.
-  //       step: 1,
-  //     },
-
-  //     // Text types.
-  //     // clearable?: boolean;
-
-  //     // General properties.
-  //     // maxLength?: number;
-  //     // minLength?: number;
-  //     autoComplete: true,
-  //     autoCorrect: true,
-  //     // inputMode?: string;
-  // }
-
+  @Input() cesiuneData = null;
 
   enableCesiune = false;
   cesuineItems: CesiuneItem[];
@@ -103,6 +73,7 @@ export class CesiuneFormComponent implements OnInit {
   cesiuneNumS;
   formValidS;
 
+  @Output() emitForm: EventEmitter<any> = new EventEmitter();
   public cesiuneForm: FormGroup;
   censionar: FormArray;
 
@@ -127,6 +98,9 @@ export class CesiuneFormComponent implements OnInit {
       cesionar: this.fb.array([]),
     });
     this.handleFormEvents();
+    if (this.cesiuneData) {
+      this.cesiuneForm.setValue(this.cesiuneData);
+    }
     this.cesiuneForm.updateValueAndValidity();
     this.cdRef.markForCheck();
   }
@@ -135,15 +109,16 @@ export class CesiuneFormComponent implements OnInit {
     unsubscriberHelper(this.cesiuneNumS);
     unsubscriberHelper(this.hasCesiuneS);
     unsubscriberHelper(this.formValidS);
+
     if (this.hasCesiune instanceof AbstractControl) {
       this.hasCesiuneS = this.hasCesiune.valueChanges.subscribe((val) => {
         this.enableCesiune = val === 1;
-        console.log(val);
         if (!val) {
           this.cesiuneNumS = 0;
           this.cesiuneNum.clearValidators();
           this.cesiuneNum.reset();
         } else {
+          this.cesiuneNum.setValue(1);
           this.cesiuneNum.setValidators([
             Validators.required,
             Validators.min(1),
@@ -153,6 +128,7 @@ export class CesiuneFormComponent implements OnInit {
         this.cesiuneNum.updateValueAndValidity({ emitEvent: true });
       });
     }
+
     if (this.cesiuneNum instanceof AbstractControl) {
       this.cesiuneNumS = this.cesiuneNum.valueChanges
         .pipe(distinctUntilChanged())
@@ -163,11 +139,11 @@ export class CesiuneFormComponent implements OnInit {
         });
       this.cesiuneForm.updateValueAndValidity({ emitEvent: true });
     }
+
     this.formValidS = this.cesiuneForm.statusChanges
       .pipe(distinctUntilChanged())
       .subscribe((v) => {
         this.cdRef.markForCheck();
-        console.log(this.cesiuneForm.valid);
       });
   }
 
@@ -212,6 +188,11 @@ export class CesiuneFormComponent implements OnInit {
   }
 
   onSubmit() {
-    this.cesuineItems = this.cesiuneForm.value;
+    if (this.cesiuneForm.valid) {
+      this.emitForm.emit(this.cesiuneForm.value);
+    } else {
+      this.cesiuneForm.updateValueAndValidity();
+      this.cdRef.markForCheck();
+    }
   }
 }

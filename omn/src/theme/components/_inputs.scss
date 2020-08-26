@@ -1,69 +1,69 @@
 @import '../variables.scss';
 @import '../mixins/mixins';
 .omn {
-    ion-input {
-        --placeholder-color: var(--app-input-placeholder-color);
-        --placeholder-opacity: 1;
-        input,
-        input.native-input {
-            @extend .text-normal;
-            --border-radius: 4px 4px 0 0;
-            --background: var(--app-input-bg);
-            background: var(--app-input-bg);
-            --padding-start: 8px;
-            --padding-end: 8px;
-            --padding-bottom: 8px;
-            --padding-top: 9px;
-            --highlight-height: 1px;
-            &:-webkit-autofill {
-                background: var(--background) !important;
-                background-color: var(--background) !important;
-            }
-        }
-        &.bg-white {
-            input,
-            input.native-input {
-                --background: var(--app-color-white);
-                background: var(--app-color-white);
-            }
-        }
-        /* Chrome, Safari, Edge, Opera */
-        input::-webkit-outer-spin-button,
-        input::-webkit-inner-spin-button {
-            -webkit-appearance: none;
-            margin: 0;
-        }
-        /* Firefox */
-        input[type='number'] {
-            -moz-appearance: textfield;
-        }
-        .input-clear-icon {
-            position: absolute;
-            height: rem(14);
-            width: rem(14);
-            right: 0;
-            margin-right: 15px;
-        }
-        &.has-spinners {
-            input,
-            input.native-input {
-                --padding-start: 46px;
-                --padding-end: 46px;
-            }
-        }
+  ion-input {
+    --placeholder-color: var(--app-input-placeholder-color);
+    --placeholder-opacity: 1;
+    input,
+    input.native-input {
+      @extend .text-normal;
+      --border-radius: 4px 4px 0 0;
+      --background: var(--app-input-bg);
+      background: var(--app-input-bg);
+      --padding-start: 8px;
+      --padding-end: 8px;
+      --padding-bottom: 8px;
+      --padding-top: 9px;
+      --highlight-height: 1px;
+      &:-webkit-autofill {
+        background: var(--background) !important;
+        background-color: var(--background) !important;
+      }
     }
-    .input-label {
-        --color: var(--app-input-label-color);
-        color: var(--color);
+    &.bg-white {
+      input,
+      input.native-input {
+        --background: var(--app-color-white);
+        background: var(--app-color-white);
+      }
     }
-    .input-spinner {
-        z-index: 2;
+    /* Chrome, Safari, Edge, Opera */
+    input::-webkit-outer-spin-button,
+    input::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
     }
-    .radio-btn {
-        --border-radius: 20px;
-        --color-checked: var(--ion-color-success);
-        --inner-border-radius: 16px;
+    /* Firefox */
+    input[type='number'] {
+      -moz-appearance: textfield;
     }
+    .input-clear-icon {
+      position: absolute;
+      height: rem(14);
+      width: rem(14);
+      right: 0;
+      margin-right: 15px;
+    }
+    &.has-spinners {
+      input,
+      input.native-input {
+        --padding-start: 46px;
+        --padding-end: 46px;
+      }
+    }
+  }
+  .input-label {
+    --color: var(--app-input-label-color);
+    color: var(--color);
+  }
+  .input-spinner {
+    z-index: 2;
+  }
+  .radio-btn {
+    --border-radius: 20px;
+    --color-checked: var(--ion-color-success);
+    --inner-border-radius: 16px;
+  }
 }
 
 .checkbox {

@@ -24,13 +24,11 @@ export class PolicyViewComponent implements OnInit {
   ngOnInit(): void {}
 
   getPolicyById(id) {
-    console.log(id);
     this.policyDataService.getSinglePolicyById(id).subscribe((policy) => {
       if (policy) {
       } else {
         this.navCtrl.navigateBack('policy');
       }
-      // console.log(policy);
     });
   }
 }

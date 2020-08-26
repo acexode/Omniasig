@@ -1,17 +1,16 @@
-import { CustomTimersService } from './../../core/services/custom-timers/custom-timers.service';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { IonInputConfig } from './../../shared/models/component/ion-input-config';
-import { Subscription } from 'rxjs';
-import { ActivatedRoute, Router } from '@angular/router';
 import {
-  Component,
-  OnInit,
   AfterViewInit,
-  ElementRef,
-  ViewChild,
+  Component,
   OnDestroy,
+  OnInit,
+  ViewChild,
 } from '@angular/core';
-import { IonInput, NavController } from '@ionic/angular';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
+import { IonInput } from '@ionic/angular';
+import { Subscription } from 'rxjs';
+import { CustomTimersService } from './../../core/services/custom-timers/custom-timers.service';
+import { IonInputConfig } from './../../shared/models/component/ion-input-config';
 
 @Component({
   selector: 'app-input-sms',
@@ -19,9 +18,9 @@ import { IonInput, NavController } from '@ionic/angular';
   styleUrls: ['./input-sms.component.scss'],
 })
 export class InputSmsComponent implements OnInit, AfterViewInit, OnDestroy {
-  min: string = '00';
+  min = '00';
   sec: any = 59;
-  digitsLength: number = 0;
+  digitsLength = 0;
   @ViewChild('inputField') inputField: IonInput;
   sub: Subscription;
   phoneNumber = null;
