@@ -16,20 +16,14 @@ export class RequestService {
     this.storeS.getItem('token').subscribe((token: string) => {
     if (token) {
       this.headers = new HttpHeaders({
-        "Content-Type": "application/json",
-        Accept: "application/json",
         Authorization: token,
       });
     } else {
       this.headers = new HttpHeaders({
-        "Content-Type": "application/json",
-        Accept: "application/json",
-        Authorization: null,
+        Authorization: '',
       });
     }
-    });
-    console.log(this.headers);
-    
+    });    
   }
 
 

@@ -19,6 +19,7 @@ export class PasscodeComponent implements OnInit,OnDestroy {
   phoneNumber:string =null
   sub:Subscription;
   busy:boolean = false
+  errorLogin:string =null
   constructor(private navCtrl: NavController,private formBuilder: FormBuilder,private route:ActivatedRoute,private authService:AuthService) {
     this.getPhoneNumber()
    }
@@ -51,6 +52,8 @@ this.initForm()
    changeInput(passcode) {
     if (passcode) {
       this.digitsLength = passcode.toString().length
+    }else{
+      this.digitsLength = 0
     }
     if (this.digitsLength > 5) {
       this.verifyPasscode()
@@ -63,9 +66,20 @@ this.initForm()
       password:this.passForm.controls["passcode"].value,
       aRoute:"/home"
     }
-    this.authService.login(data).subscribe((obs)=>{
-      // console.log(obs);
-    })
+    this.authService.login(data).subscribe(
+        data => data,
+        error => this.errLogin(error)
+        );
+  }
+
+  errLogin(err){
+    this.errorLogin = "Cod Invalid!"
+    this.busy =true
+  setTimeout(() => {
+    this.passForm.reset()
+   this.errorLogin = null;
+   this.busy =false;
+  }, 2000);
   }
 
   spawnInput(){

@@ -105,9 +105,8 @@ export class AuthService {
     };
     return this.reqS.post<LoginResponse>(authEndpoints.login, reqData).pipe(
       switchMap((res) => {
-        console.log(res.token);
-        this.saveToken(res.token.token)
-        return this.getProfile(res.token.token);
+        this.saveToken(res.token)
+        return this.getProfile(res.token);
       }),
       tap((value) => {
         console.log(value);
@@ -117,7 +116,6 @@ export class AuthService {
   }
 
   saveToken(token:string){
-console.log(    "saved token");
     return this.storeS.setItem('token',token)
   }
 
@@ -127,16 +125,13 @@ getProfile(token){
   //     return this.processAuthResponse({account:res,token});
   //   })
   // )
-  console.log("got profile");
-  
+
   return this.processAuthResponse({account:this.demoAccount,token});
 }
 
   processAuthResponse(data: LoginResponse) {
-    console.log(data);
-    
     const account = data.account ? data.account : null;
-    const authToken = data.token.token ? data.token.token : null;
+    const authToken = data.token ? data.token : null;
     return this.storeS.setItem('account', account).pipe(
       tap(() => {
         this.authState.next({
