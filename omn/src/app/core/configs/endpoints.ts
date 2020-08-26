@@ -22,6 +22,6 @@ export const locuinteEndpoints = {
 };
 
 export const phoneNumberEndPoints = {
-    RequestNewPhoneNumberChange: `${ baseEndpoints.userProfile }/RequestNewPhoneNumberChange`,
-    ConfirmNewPhoneNumber: `${ baseEndpoints.userProfile }/ConfirmNewPhoneNumber`,
+    RequestNewPhoneNumberChange: baseEndpoints.userProfile + '/RequestNewPhoneNumberChange',
+    ConfirmNewPhoneNumber: baseEndpoints.userProfile + '/ConfirmNewPhoneNumber',
 };
