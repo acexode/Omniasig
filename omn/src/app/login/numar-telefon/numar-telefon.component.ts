@@ -23,6 +23,8 @@ export class NumarTelefonComponent implements OnInit {
     inputLabel: this.label,
     clearable: true,
     inputClasses: 'ion-item-right',
+    minLength:10,
+    maxLength:10
   };
   teleForm: FormGroup;
   constructor(private router: Router, private formBuilder: FormBuilder) {}
@@ -38,7 +40,7 @@ export class NumarTelefonComponent implements OnInit {
         [
           Validators.required,
           Validators.pattern(/^07[0-9].*$/),
-          Validators.minLength(9),
+          Validators.minLength(10),
         ],
       ],
     });

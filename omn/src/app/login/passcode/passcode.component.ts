@@ -1,5 +1,8 @@
+import { AuthService } from 'src/app/core/services/auth/auth.service';
+import { Subscription } from 'rxjs';
+import { ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { IonInput, NavController } from '@ionic/angular';
 
 @Component({
@@ -7,17 +10,34 @@ import { IonInput, NavController } from '@ionic/angular';
   templateUrl: './passcode.component.html',
   styleUrls: ['./passcode.component.scss'],
 })
-export class PasscodeComponent implements OnInit {
+export class PasscodeComponent implements OnInit,OnDestroy {
   min: string = '00'
   sec: any = 59;
    digitsLength: number = 0;
   @ViewChild('inputField') inputField: IonInput;
   passForm: FormGroup;
-  constructor(private navCtrl: NavController,private formBuilder: FormBuilder) { }
+  phoneNumber:string =null
+  sub:Subscription;
+  busy:boolean = false
+  constructor(private navCtrl: NavController,private formBuilder: FormBuilder,private route:ActivatedRoute,private authService:AuthService) {
+    this.getPhoneNumber()
+   }
 
   ngOnInit() {
 this.initForm()
   }
+
+
+  getPhoneNumber() {
+    this.sub = this.route.params.subscribe((params) => {
+      if (params.number) {
+        this.phoneNumber = params.number;
+      } else {
+        this.navCtrl.navigateForward(['/login']);
+      }
+    });
+  }
+
   initForm(){
     this.passForm = this.formBuilder.group({
       passcode: ['', [Validators.required,Validators.minLength(6),Validators.maxLength(6)]],
@@ -38,7 +58,14 @@ this.initForm()
   }
 
   verifyPasscode() {
-    this.navCtrl.navigateRoot("/home")
+    const data ={
+      phone:this.phoneNumber,
+      password:this.passForm.controls["passcode"].value,
+      aRoute:"/home"
+    }
+    this.authService.login(data).subscribe((obs)=>{
+      // console.log(obs);
+    })
   }
 
   spawnInput(){
@@ -48,4 +75,9 @@ this.initForm()
    })
   }
 
+  ngOnDestroy(): void {
+    //Called once, before the instance is destroyed.
+    //Add 'implements OnDestroy' to the class.
+    this.sub.unsubscribe()
+  }
 }

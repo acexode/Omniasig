@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import {
   ActivatedRoute,
   ActivatedRouteSnapshot,
+  Route,
   Router,
   UrlTree,
 } from '@angular/router';
@@ -40,7 +41,7 @@ export class AuthService {
     // userStates: [AccountStates.INACTIVE, AccountStates.EMAIL_INVALIDATED],
     userStates: [],
   };
-  // TODO: DEMO - reset auth state to default one login is implemented.
+  // TODO: DEMO - reset auth state to default once login is implemented.
   initialState: AuthState = {
     init: false,
     account: null,
@@ -94,49 +95,58 @@ export class AuthService {
   }
 
   login(loginData: {
-    email: string;
-    password: string;
-    aRoute: ActivatedRoute;
+    phone: string;
+    password: any;
+    aRoute: string;
   }) {
     const reqData: Login = {
-      email: loginData.email,
+      userName: loginData.phone,
       password: loginData.password,
     };
     return this.reqS.post<LoginResponse>(authEndpoints.login, reqData).pipe(
-      switchMap((val) => {
-        return this.processAuthResponse(val);
+      switchMap((res) => {
+        console.log(res.token);
+        this.saveToken(res.token.token)
+        return this.getProfile(res.token.token);
       }),
       tap((value) => {
-        const redirectUrl = this.redirectUrlTree(
-          loginData.aRoute ? loginData.aRoute.snapshot : null
-        );
-        Promise.resolve(this.routerS.navigateByUrl(redirectUrl));
+        console.log(value);
+        Promise.resolve(this.routerS.navigateByUrl("/home"));
       })
     );
   }
 
+  saveToken(token:string){
+console.log(    "saved token");
+    return this.storeS.setItem('token',token)
+  }
+
+getProfile(token){
+  // return this.reqS.get<Account>('').pipe(
+  //   switchMap((res)=>{
+  //     return this.processAuthResponse({account:res,token});
+  //   })
+  // )
+  console.log("got profile");
+  
+  return this.processAuthResponse({account:this.demoAccount,token});
+}
+
   processAuthResponse(data: LoginResponse) {
+    console.log(data);
+    
     const account = data.account ? data.account : null;
+    const authToken = data.token.token ? data.token.token : null;
     return this.storeS.setItem('account', account).pipe(
       tap(() => {
         this.authState.next({
           init: true,
           account,
+          authToken
         });
       }),
       map((v) => data)
     );
-  }
-
-  redirectUrlTree(snapshot: ActivatedRouteSnapshot): UrlTree {
-    if (snapshot) {
-      const qP = snapshot.queryParams;
-      const rUk = 'returnUrl';
-      if (qP.hasOwnProperty(rUk) && qP[rUk]) {
-        return this.routerS.createUrlTree([qP[rUk]]);
-      }
-    }
-    return this.routerS.createUrlTree(['/']);
   }
 
   accountActivated(acc: Account) {
