@@ -130,31 +130,38 @@ export class LocuinteFormService {
     return group;
   }
 
-  buildFormConfig(formType, policyType?: string) {
+  buildFormConfig(formType, policyType?: string, isDisabled?: boolean) {
     let configModel = null;
     switch (formType) {
       case LocuinteFormType.ADDRESS:
         configModel = {
-          county: selectConfigHelper({ label: 'Județ' }),
-          city: selectConfigHelper({ label: 'Localitate' }),
+          county: selectConfigHelper({ label: 'Județ', disabled: isDisabled }),
+          city: selectConfigHelper({
+            label: 'Localitate',
+            disabled: isDisabled,
+          }),
           street: autoCompleteConfigHelper({
             label: 'Strada',
+            disabled: isDisabled,
             dataServiceCb: this.streetLookup,
           }),
           number: inputConfigHelper({
             label: 'Număr',
             type: 'text',
             placeholder: '',
+            disabled: isDisabled,
           }),
           entrance: inputConfigHelper({
             label: 'Scara (opțional)',
             type: 'text',
             placeholder: '',
+            disabled: isDisabled,
           }),
           apartment: inputConfigHelper({
             label: 'Apartament',
             type: 'text',
             placeholder: '',
+            disabled: isDisabled,
           }),
           postalCode: inputConfigHelper({
             label: 'Cod poștal',
@@ -164,11 +171,13 @@ export class LocuinteFormService {
               maxLength: 6,
               minLength: 6,
             },
+            disabled: isDisabled,
           }),
           name: inputConfigHelper({
             label: 'Vrei să dai o denumire acestui profil? (opțional)',
             type: 'text',
             placeholder: 'Ex: Casa de vacanță',
+            disabled: isDisabled,
           }),
         };
 
@@ -200,11 +209,13 @@ export class LocuinteFormService {
           }),
           resistenceStructure: selectConfigHelper({
             label: 'Structură de rezistență',
+            disabled: isDisabled,
           }),
           buildYear: dateTimeConfigHelper({
             label: 'Anul construcției',
             displayFormat: 'YYYY',
             pickerFormat: 'YYYY',
+            disabled: isDisabled,
           }),
           valueCurrency: radiosConfigHelper({
             label: 'Monedă',
@@ -214,6 +225,7 @@ export class LocuinteFormService {
             label: 'Suma',
             type: 'number',
             placeholder: 'Completează',
+            disabled: isDisabled,
           }),
           occupancy: radiosConfigHelper({
             label: 'Ocupare',
@@ -223,16 +235,19 @@ export class LocuinteFormService {
             label: 'Suprafața utilă în metri pătrați',
             type: 'number',
             placeholder: 'Completează',
+            disabled: isDisabled,
           }),
           heightRegime: inputConfigHelper({
             label: 'Regim de înălțime',
             type: 'number',
             placeholder: '',
+            disabled: isDisabled,
           }),
           roomCount: inputConfigHelper({
             label: 'Număr de camere',
             type: 'number',
             placeholder: '',
+            disabled: isDisabled,
           }),
 
           alarm: radiosConfigHelper({
@@ -243,6 +258,7 @@ export class LocuinteFormService {
             label: 'Vrei să dai o denumire acestui profil? (opțional)',
             type: 'text',
             placeholder: 'Ex: Casa de vacanță',
+            disabled: isDisabled,
           }),
         };
 
@@ -290,6 +306,7 @@ export class LocuinteFormService {
           policyData: [],
           tipLocuinta: null,
           pad: null,
+          locuintaState: null,
         };
 
     forOwn(formGroupValue, (val, key) => {

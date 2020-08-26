@@ -29,7 +29,6 @@ export class PolicyViewComponent implements OnInit {
       } else {
         this.navCtrl.navigateBack('policy');
       }
-      // console.log(policy);
     });
   }
 }

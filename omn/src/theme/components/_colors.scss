@@ -186,10 +186,16 @@
 
 .color-red {
   color: $red;
+  --color: $red;
 }
 
 .color-disabled {
   color: $grey3;
+}
+
+.disabled-bg {
+  background-color: $medium-grey-2;
+  --background: $medium-grey-2;
 }
 
 .color-grey-6 {
@@ -232,7 +238,7 @@
 
 .bg-white {
   background-color: $white;
-  --background: $white;
+  --background: #fff;
 }
 
 .bg-light-green-2 {
@@ -287,6 +293,16 @@
 
 .bg-ultra-light-green {
   background: $ultra-light-green;
+}
+
+.bg-dark-green {
+  background: $dark-green;
+  --background: var(--app-dark-green);
+}
+
+.text-color {
+  color: var(--app-text-color);
+  --color: var(--app-text-color);
 }
 .bg-default {
   background-color: $alt-bg;

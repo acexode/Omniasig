@@ -8,9 +8,9 @@ import { IonInput, NavController } from '@ionic/angular';
   styleUrls: ['./passcode.component.scss'],
 })
 export class PasscodeComponent implements OnInit {
-  min: string = '00';
+  min = '00';
   sec: any = 59;
-  digitsLength: number = 0;
+  digitsLength = 0;
   @ViewChild('inputField') inputField: IonInput;
   passForm: FormGroup;
   constructor(

@@ -5,6 +5,12 @@ enum TipLocuinta {
   OTHER = 'Str. Traian Nr.45, Brasov, jud. BV, Cod 321456',
 }
 
+export enum LocuintaState {
+  INVALID,
+  INCOMPLETE,
+  COMPLETE,
+}
+
 export interface Locuinte {
   id: number;
   name: string;
@@ -40,4 +46,5 @@ export interface Locuinte {
     padSerie: boolean | number;
     padNr: boolean | number;
   };
+  locuintaState?: LocuintaState;
 }
