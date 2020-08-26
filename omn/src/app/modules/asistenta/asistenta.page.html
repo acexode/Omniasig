@@ -1,41 +1,46 @@
-<app-sub-page-header 
-    [config]="headerConfig" 
-    [ngClass]="color"> 
+<app-sub-page-header [config]="headerConfig" [ngClass]="color">
 </app-sub-page-header>
 
 <ion-content [ngClass]="color">
-    <ion-list class="py-0 pt-72">
-        <ion-item lines="none" class="mb-12 ml-24">
-            <ion-icon 
-                name="md-call-center" 
-                class="icon-22 mr-28" 
-                color="success"
-            >
-            </ion-icon>
-            <ion-label class="h2 alt-font">Call Center</ion-label>
-        </ion-item>
-        <ion-item lines="none" class="mb-12 ml-24">
-            <ion-icon 
-                name="md-chat"
-                class="icon-22 mr-28"
-                color="medium"
-            >
-            </ion-icon>
-            <ion-label class="h2 alt-font ml-0 flex flex-row ion-justify-content-start ion-align-items-center">
-                Chat
-                <ion-text class="pl-20 link-small" color="danger">
-                    Release 2
-                </ion-text>
-            </ion-label>
-           
-        </ion-item>
-        <ion-item lines="none" class="mb-12 ml-24">
-            <ion-icon name="md-intrebari" class="icon-22 mr-28" color="primary"></ion-icon>
-            <ion-label class="h2 alt-font">Întrebări frecvente</ion-label>
-        </ion-item>
-        <ion-item lines="none" class="mb-12 ml-24" [routerLink]="['petitii']">
-            <ion-icon name="md-petitie" class="icon-22 mr-28"></ion-icon>
-            <ion-label class="h2 alt-font">Petiții</ion-label>
-        </ion-item>
-    </ion-list>
+  <ion-list class="py-0 pt-72">
+    <ion-item lines="none" class="mb-16 ml-24 item-mh-40">
+      <ion-icon name="md-call-center" class="icon-22 mr-28" color="success">
+      </ion-icon>
+      <ion-label class="s18-h24 my-8">Call Center</ion-label>
+    </ion-item>
+    <ion-item lines="none" class="mb-16 ml-24 item-mh-40">
+      <ion-icon name="md-chat" class="icon-22 mr-28" color="omn-medium">
+      </ion-icon>
+      <ion-label
+        *ngIf="release === 2"
+        class="s18-h24 ml-0 flex flex-row ion-justify-content-start ion-align-items-center my-8"
+      >
+        Chat
+      </ion-label>
+    </ion-item>
+    <ion-item
+      lines="none"
+      class="mb-16 ml-24 item-mh-40"
+      [routerLink]="['/home','intrebari-frecvente']"
+    >
+      <ion-icon
+        name="md-intrebari"
+        class="icon-22 mr-28"
+        color="primary"
+      ></ion-icon>
+      <ion-label class="s18-h24 my-8">Întrebări frecvente</ion-label>
+    </ion-item>
+    <ion-item
+      lines="none"
+      class="mb-16 ml-24 item-mh-40"
+      [routerLink]="['petitii']"
+    >
+      <ion-icon
+        name="md-petitie"
+        class="icon-22 mr-28"
+        color="omn-medium"
+      ></ion-icon>
+      <ion-label class="s18-h24 my-8">Petiții</ion-label>
+    </ion-item>
+  </ion-list>
 </ion-content>
