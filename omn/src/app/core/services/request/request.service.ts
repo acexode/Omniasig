@@ -13,17 +13,19 @@ export class RequestService {
   }
 
   private setHeaderWithToken() {
-    this.storeS.getItem('token').subscribe((token: string) => {
-    if (token) {
-      this.headers = new HttpHeaders({
-        Authorization: token,
-      });
-    } else {
-      this.headers = new HttpHeaders({
-        Authorization: '',
-      });
-    }
-    });    
+    this.storeS.getItem('token').subscribe(
+      (token:string) => {
+        if (token) {
+          this.headers = new HttpHeaders({
+            Authorization: `Bearer ${token}`,
+          });
+        } else {
+          this.headers = new HttpHeaders({
+            Authorization: '',
+          });
+        }
+      }
+    );    
   }
 
 

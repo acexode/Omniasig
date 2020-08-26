@@ -3,7 +3,8 @@ import { environment } from '../../../environments/environment';
 export const serverBaseUrl = environment.serverUrl;
 export const authEndpoints = {
   login: serverBaseUrl + 'User/LoginAndCreateToken',
-  findUserByPhoneNumber: serverBaseUrl + 'UserProfile/GetUserNameByPhoneNumber'
+  findUserByPhoneNumber: serverBaseUrl + 'UserProfile/GetUserNameByPhoneNumber',
+  getUserProfile: serverBaseUrl + 'UserProfile/GetUserProfile'
 };
 
 export const baseEndpoints = {

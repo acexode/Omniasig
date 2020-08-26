@@ -1,3 +1,4 @@
+import { AuthService } from 'src/app/core/services/auth/auth.service';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -27,7 +28,8 @@ export class NumarTelefonComponent implements OnInit {
     maxLength:10
   };
   teleForm: FormGroup;
-  constructor(private router: Router, private formBuilder: FormBuilder) {}
+  busy:boolean =false
+  constructor(private router: Router, private formBuilder: FormBuilder,private auth:AuthService) {}
 
   ngOnInit() {
     this.initForm();
@@ -47,9 +49,24 @@ export class NumarTelefonComponent implements OnInit {
   }
 
   login() {
-    this.router.navigate([
-      'login/authenticate',
-      this.teleForm.controls['phoneNumber'].value,
-    ]);
+    this.busy=true
+    this.auth.findUserByPhoneNumber(this.teleForm.controls["phoneNumber"].value).subscribe(
+      data => {
+        this.router.navigate([
+          'login/authenticate',
+          this.teleForm.controls['phoneNumber'].value,
+        ]);
+      },
+      error =>{
+        if (error.status == 400) {
+          this.router.navigate([
+            'registration/confirm-number',
+            this.teleForm.controls['phoneNumber'].value,
+          ]);
+        }
+      },
+      ()=> this.busy =false
+    );
   }
+
 }

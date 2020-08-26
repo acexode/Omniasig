@@ -113,7 +113,7 @@ export class AuthService {
     return this.reqS.post<LoginResponse>(authEndpoints.login, reqData).pipe(
       switchMap((res) => {
         this.saveToken(res.token)
-        return this.getProfile(res.token);
+        return this.getProfile(res.token, loginData.phone);
       }),
       tap((value) => {
         console.log(value);
@@ -122,19 +122,23 @@ export class AuthService {
     );
   }
 
+  // check if user exists
+  findUserByPhoneNumber(phoneNumber:Number) {
+    return this.reqS.get<any>(`${authEndpoints.findUserByPhoneNumber}?phoneNumber=${phoneNumber}`)
+  }
+
   // save token to local storage
   saveToken(token:string){
     return this.storeS.setItem('token',token)
   }
 
   // get user profile from ws
-getProfile(token){
-  // return this.reqS.get<Account>('').pipe(
-  //   switchMap((res)=>{
-  //     return this.processAuthResponse({account:res,token});
-  //   })
-  // )
-  return this.processAuthResponse({account:this.demoAccount,token});
+getProfile(token,phoneNumber){
+  return this.reqS.get<Account>(`${authEndpoints.getUserProfile}?userNameOrId=${phoneNumber}`).pipe(
+    switchMap((res)=>{
+      return this.processAuthResponse({account:{...res,userStates: []},token});
+    })
+  )
 }
 
 // svae auth data to storage
