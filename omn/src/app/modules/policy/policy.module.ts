@@ -43,4 +43,4 @@ import { PolicySharedModule } from './policy-shared.module';
     OmnInputsModule
   ],
 })
-export class PolicyModule {}
+export class PolicyModule { }
