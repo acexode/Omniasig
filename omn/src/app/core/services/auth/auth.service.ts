@@ -55,22 +55,28 @@ export class AuthService {
     private reqS: RequestService
   ) {
     // Load account state from local/session/cookie storage.
+    this.storeS.getItem('token').subscribe((token: string) => {
+      if (token) {
+        this.getAccountFromStorage(token)
+      }else{
+        this.authState.next({
+          init: false,
+          account:null,
+          authToken:null
+      })
+      }
+    });
+  }
+
+  // get user data from storage and set account and token to authstate
+  getAccountFromStorage(token) {
     this.storeS.getItem('account').subscribe((account: Account) => {
-      if (account) {
         this.authState.next({
           init: true,
           account,
-        });
-      } else {
-        // TODO: Remove Demo code once logi is implemented.
-        this.storeS.setItem('account', this.demoAccount);
-
-        this.authState.next({
-          init: true,
-          account: this.demoAccount,
-        });
-      }
-    });
+          authToken:token
+      })
+    })
   }
 
   updateState(newState: AuthState) {
@@ -94,6 +100,7 @@ export class AuthService {
     );
   }
 
+  // makes http call to server
   login(loginData: {
     phone: string;
     password: any;
@@ -110,25 +117,27 @@ export class AuthService {
       }),
       tap((value) => {
         console.log(value);
-        Promise.resolve(this.routerS.navigateByUrl("/home"));
+        Promise.resolve(this.routerS.navigateByUrl(loginData.aRoute));
       })
     );
   }
 
+  // save token to local storage
   saveToken(token:string){
     return this.storeS.setItem('token',token)
   }
 
+  // get user profile from ws
 getProfile(token){
   // return this.reqS.get<Account>('').pipe(
   //   switchMap((res)=>{
   //     return this.processAuthResponse({account:res,token});
   //   })
   // )
-
   return this.processAuthResponse({account:this.demoAccount,token});
 }
 
+// svae auth data to storage
   processAuthResponse(data: LoginResponse) {
     const account = data.account ? data.account : null;
     const authToken = data.token ? data.token : null;

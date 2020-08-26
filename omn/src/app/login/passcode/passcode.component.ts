@@ -13,7 +13,7 @@ import { IonInput, NavController } from '@ionic/angular';
 export class PasscodeComponent implements OnInit,OnDestroy {
   min: string = '00'
   sec: any = 59;
-   digitsLength: number = 0;
+  digitsLength = 0;
   @ViewChild('inputField') inputField: IonInput;
   passForm: FormGroup;
   phoneNumber:string =null
@@ -25,7 +25,7 @@ export class PasscodeComponent implements OnInit,OnDestroy {
    }
 
   ngOnInit() {
-this.initForm()
+    this.initForm();
   }
 
 
@@ -41,22 +41,25 @@ this.initForm()
 
   initForm(){
     this.passForm = this.formBuilder.group({
-      passcode: ['', [Validators.required,Validators.minLength(6),Validators.maxLength(6)]],
-  });
+      passcode: [
+        '',
+        [Validators.required, Validators.minLength(6), Validators.maxLength(6)],
+      ],
+    });
 
-  this.passForm.valueChanges.subscribe((value)=>{
-    this.changeInput(value.passcode)   
-  })
+    this.passForm.valueChanges.subscribe((value) => {
+      this.changeInput(value.passcode);
+    });
   }
 
-   changeInput(passcode) {
+  changeInput(passcode) {
     if (passcode) {
       this.digitsLength = passcode.toString().length
     }else{
       this.digitsLength = 0
     }
     if (this.digitsLength > 5) {
-      this.verifyPasscode()
+      this.verifyPasscode();
     }
   }
 
@@ -82,11 +85,11 @@ this.initForm()
   }, 2000);
   }
 
-  spawnInput(){
-   this.inputField.getInputElement().then((input) => {
-     input.focus();
-     input.click()
-   })
+  spawnInput() {
+    this.inputField.getInputElement().then((input) => {
+      input.focus();
+      input.click();
+    });
   }
 
   ngOnDestroy(): void {

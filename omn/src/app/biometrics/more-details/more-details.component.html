@@ -1,0 +1,47 @@
+<ion-content>
+  <ion-grid class="ion-no-padding flex flex-1 w-100 mh-100 flex-column h-100">
+    <ion-row class="ion-justify-content-end mt-52 mx-24">
+      <p class="floating-text ls-02 s13-h16 my-0 mr-8" [routerLink]="['/home']">
+        Mai târziu
+      </p>
+    </ion-row>
+    <ion-row class="ion-justify-content-center mt-28 mx-24">
+      <ion-img
+        src="../../assets/custom-ion-icons/card.svg"
+        alt="verification image"
+      ></ion-img>
+    </ion-row>
+    <ion-row class="ion-justify-content-center mt-30 mx-24">
+      <div class="level s16-h22 ls-01 my-0 color-dark-green">1/2</div>
+    </ion-row>
+    <ion-row class="ion-justify-content-center mt-14 mx-24">
+      <div
+        class="alt-font color-dark-green s24-h32 ls-02 text-weight-bold my-0 pb-6 border-red border-bottom-1"
+      >
+        Carte de identitate
+      </div>
+    </ion-row>
+    <ion-row class="ion-justify-content-center mt-16 mx-24">
+      <div class="text-block s16-h22 ls-01 ion-text-center">
+        Pentru a-ți verifica identitatea, avem nevoie de o fotografie a cărții
+        de identitate. Recomandăm așezarea cărții de identitate pe o suprafață
+        plată și fotografierea de sus fără bliț.
+      </div>
+    </ion-row>
+    <ion-row
+      class="ion-justify-content-end mt-24 mb-24 flex-flex-column ion-align-self-center flex-1 w-100"
+    >
+      <ion-button
+        class="activate-btn"
+        size="large"
+        color="success"
+        fill="solid"
+        expand="block"
+        class="m-0 w-100 flex mt-auto mx-24"
+        routerLink="./capture-docs"
+      >
+        Continuă
+      </ion-button>
+    </ion-row>
+  </ion-grid>
+</ion-content>

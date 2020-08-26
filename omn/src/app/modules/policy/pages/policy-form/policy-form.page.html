@@ -1,5 +1,6 @@
 <app-sub-page-header
-  (close)="back()"
+  (backActionEv)="back()"
+  (trailingActionEv)="exitFlow()"
   [config]="headerConfig"
   [ngClass]="color"
 ></app-sub-page-header>
@@ -8,19 +9,62 @@
   <ng-container [ngSwitch]="currentStep">
     <ng-container *ngSwitchCase="policySteps?.DNT">
       <app-dnt
+        #dntComp
         [config]="typeItem?.dntConfig"
         (dntEvents)="dntEvents($event)"
       ></app-dnt>
     </ng-container>
     <ng-container *ngSwitchCase="policySteps?.EXCLUSION">
       <app-exclusion-slides
+        #exclusionComp
         [config]="typeItem?.exclusionConfig"
         (navEvents)="navEvents($event)"
       ></app-exclusion-slides>
     </ng-container>
     <ng-container *ngSwitchCase="policySteps?.INFO_DOC">
-      <app-info-doc (continue)="next()"> </app-info-doc>
+      <app-info-doc #infoDocComp (continue)="next()"> </app-info-doc>
     </ng-container>
-    <ng-container *ngSwitchDefault></ng-container>
+
+    <ng-container *ngSwitchCase="policySteps?.ADDRESS_SELECT">
+      <app-adresa-locuinta
+        #adresaLocComp
+        (selectionDone)="addressSelect($event)"
+        [initialData]="selectedAddressItem"
+        [locuinteList]="policyLocuintaData$|async"
+      >
+      </app-adresa-locuinta>
+    </ng-container>
+    <ng-container *ngSwitchCase="policySteps?.CESIUNE_FORM">
+      <app-cesiune-form
+        (emitForm)="cesiuneSubmit($event)"
+        [cesiuneData]="cesiuneData"
+        class="flex flex-1 w-100 mh-100p"
+      ></app-cesiune-form>
+    </ng-container>
+    <ng-container *ngSwitchCase="policySteps?.PERIOD_FORM">
+      <app-insurance-period
+        (emitForm)="periodSubmit($event)"
+        [minDate]="minPeriodStartDate"
+        [maxDate]="maxPeriodStartDate"
+        [preselectedStart]="periodStartData"
+      ></app-insurance-period>
+    </ng-container>
+    <ng-container *ngSwitchCase="policySteps?.POLICY_VERIFY">
+      <app-policy-verify [offerData]="offerData"></app-policy-verify>
+    </ng-container>
+    <ng-container *ngSwitchDefault>
+      <ng-container
+        *ngIf="currentStep === policySteps?.ADDRESS_FORM || 
+        currentStep === policySteps?.LOCATION_FORM ||
+         currentStep === policySteps?.PAD_CHECK "
+      >
+        <app-policy-address-form
+          #addressFormComp
+          (dataAdded)="locuintaAdded($event)"
+          [policyType]="typeItem?.id"
+          (stepChange)="addressStepChange($event)"
+        ></app-policy-address-form>
+      </ng-container>
+    </ng-container>
   </ng-container>
 </ion-content>
