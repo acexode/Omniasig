@@ -1,43 +1,47 @@
 import { Injectable } from '@angular/core';
-import { Plugins, CameraResultType, Capacitor, FilesystemDirectory, CameraPhoto, CameraSource } from '@capacitor/core';
+import {
+  Plugins,
+  CameraResultType,
+  Capacitor,
+  FilesystemDirectory,
+  CameraPhoto,
+  CameraSource,
+} from '@capacitor/core';
 const { Camera, Filesystem, Storage } = Plugins;
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class PhotoService {
   public photos: Photo[] = [];
 
-  constructor() { }
+  constructor() {}
 
   public async addNewToGallery() {
     // Take a photo
-    try{
+    try {
       const capturedPhoto = await Camera.getPhoto({
-        resultType: CameraResultType.Uri, 
-        source: CameraSource.Camera, 
-        quality: 100 
+        resultType: CameraResultType.Uri,
+        source: CameraSource.Camera,
+        quality: 100,
       });
-  
-      //add the newly captured photo to our array
+
+      // add the newly captured photo to our array
       this.photos.unshift({
-        filepath: "",
-        webviewPath: capturedPhoto.webPath
+        filepath: '',
+        webviewPath: capturedPhoto.webPath,
       });
 
-      return true
-    }catch(e){
-        return false
+      return true;
+    } catch (e) {
+      return false;
     }
-    
   }
 
-  public getPhotos(){
+  public getPhotos() {}
 
-  }
-
-  public removePhoto(){
-    this.photos.shift()
+  public removePhoto() {
+    this.photos.shift();
   }
 }
 

@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { NavController } from '@ionic/angular';
+import { Component, OnInit, HostBinding } from '@angular/core';
 import { PhotoService } from '../../services/photo.service';
 
 @Component({
@@ -7,14 +8,18 @@ import { PhotoService } from '../../services/photo.service';
   styleUrls: ['./complete-verification.component.scss'],
 })
 export class CompleteVerificationComponent implements OnInit {
+  @HostBinding('class') color = 'ion-color-white-page';
   photo = this.photoService.photos;
 
-  constructor(public photoService: PhotoService) { }
+  constructor(
+    public photoService: PhotoService,
+    private navCtrl: NavController
+  ) {}
 
-  completeVerification(){
-    //Send data to backend
+  completeVerification() {
+    // Send data to backend
+    this.navCtrl.navigateRoot('/home');
   }
 
   ngOnInit() {}
-
 }

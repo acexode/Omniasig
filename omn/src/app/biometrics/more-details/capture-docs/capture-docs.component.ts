@@ -1,7 +1,6 @@
-import { Component, OnInit, HostBinding } from '@angular/core';
-import {Location} from '@angular/common';
-import { PhotoService } from '../../services/photo.service';
+import { Component, HostBinding, OnInit } from '@angular/core';
 import { subPageHeaderDefault } from 'src/app/shared/data/sub-page-header-default';
+import { PhotoService } from '../../services/photo.service';
 
 @Component({
   selector: 'app-capture-docs',
@@ -13,20 +12,20 @@ export class CaptureDocsComponent implements OnInit {
   headerConfig = subPageHeaderDefault('Carte de identitate');
   photo = this.photoService.photos;
   step = 1;
-  captured
+  captured;
 
-  constructor(public photoService: PhotoService, private _location: Location) {}
+  constructor(public photoService: PhotoService) {}
 
   removePhoto() {
     this.photoService.removePhoto();
     this.photoService.addNewToGallery();
   }
 
-  async retake(){
-    this.captured = await this.photoService.addNewToGallery()
+  async retake() {
+    this.captured = await this.photoService.addNewToGallery();
   }
 
   async ngOnInit() {
-    this.captured = await this.photoService.addNewToGallery()
+    this.captured = await this.photoService.addNewToGallery();
   }
 }
