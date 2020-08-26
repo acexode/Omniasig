@@ -1,4 +1,4 @@
-<ion-header [translucent]="false" class="header-element bg-white">
+<ion-header [translucent]="false" class="header-element ">
     <ion-toolbar size="small" color="omn-transparent-white" class="header-toolbar">
         <ion-buttons slot="start" class="header-buttons">
             <ion-button class="header-button">
@@ -7,7 +7,7 @@
         </ion-buttons>
     </ion-toolbar>
 </ion-header>
-<ion-content class="bg-white">
+<ion-content class="">
     <div class="px-32 pb-14">
         <div class="text-center pb-60 ion-text-center">
             <ion-text class="alt-font color-dark-green x-large text-center">
@@ -30,13 +30,13 @@
         </div>
     </div>
     <div class="bg-light-green-5 py-32 px-32 ion-text-center">
-        <ion-text class="text-center ion-text-center text-weight-bold h3">
+        <ion-text class="text-center ion-text-center text-weight-bold h3 alt-font">
             Vă rugăm să citiți această notă de informare cu atenție.
         </ion-text>
     </div>
     <div class="px-32 pt-32 pb-64">
         <div class="pb-16">
-            <ion-text class="h3 text-weight-bold">
+            <ion-text class="h3 text-weight-bold alt-font">
                 Datele personale prelucrate
             </ion-text>
         </div>
@@ -61,7 +61,7 @@
             </ion-text>
         </div>
         <div class="pt-64">
-            <ion-text class="h3 text-weight-bold">
+            <ion-text class="h3 text-weight-bold alt-font">
                 Scopurile prelucrării datelor personale
             </ion-text>
         </div>
@@ -97,7 +97,7 @@
             </ion-text>
         </div>
         <div class="pt-64">
-            <ion-text class="h3 text-weight-bold">
+            <ion-text class="h3 text-weight-bold alt-font">
                 Temeiurile juridice pentru prelucrarea datelor dumneavoastră pentru fiecare din scopurile menționate mai sus sunt:
             </ion-text>
         </div>
@@ -113,7 +113,7 @@
         </div>
     </div>
     <div class="bg-default py-32 px-32 ion-text-center">
-        <ion-text class="text-center ion-text-center text-weight-bold h3">
+        <ion-text class="text-center ion-text-center text-weight-medium h3">
             Punerea la dispoziția OMNIASIG VIG a datelor dumneavoastră personale este necesară în scopurile indicate mai sus la punctele a)-d). În cazul în care nu ne puneți la dispoziție aceste date sau dacă nu ni le comunicați în măsura necesară, suntem în imposibilitate
             de a vă furniza serviciile de asigurare. Vă rugăm să aveți în vedere că acest demers nu ar fi considerat neîndeplinirea obligațiilor contractuale de către OMNIASIG VIG.
         </ion-text>
@@ -130,7 +130,7 @@
 
     <div class="px-32">
         <div class="pt-64">
-            <ion-text class="h3 text-weight-bold">
+            <ion-text class="h3 text-weight-bold alt-font">
                 Destinatarii datelor dumneavoastră
             </ion-text>
         </div>
@@ -153,7 +153,7 @@
         </div>
 
         <div class="pt-64">
-            <ion-text class="h3 text-weight-bold">
+            <ion-text class="h3 text-weight-bold alt-font">
                 Transferul datelor personale într-o țară din afara Zonei Economice Europene
             </ion-text>
         </div>
@@ -166,7 +166,7 @@
         </div>
 
         <div class="pt-64">
-            <ion-text class="h3 text-weight-bold">
+            <ion-text class="h3 text-weight-bold alt-font">
                 Perioada de păstrare a datelor personale
             </ion-text>
         </div>
@@ -181,7 +181,7 @@
         </div>
 
         <div class="pt-64">
-            <ion-text class="h3 text-weight-bold">
+            <ion-text class="h3 text-weight-bold alt-font">
                 Drepturile pe care le aveți în ceea ce privește datele dumneavoastră personale
             </ion-text>
         </div>
@@ -204,7 +204,7 @@
         </div>
 
         <div class="pt-64">
-            <ion-text class="h3 text-weight-bold">
+            <ion-text class="h3 text-weight-bold alt-font">
                 Ne puteți contacta:
             </ion-text>
         </div>
@@ -233,16 +233,15 @@
         </div>
     </div>
 
-
     <form [formGroup]="termsForm">
         <div class="px-16 pt-32">
             <div class="px-12 py-16 bg-grey-2 border-radius-8">
-                <ion-row>
-                    <ion-col ion-align-self-end ion-align-items-end>
+                <ion-row class="ion-no-padding flex ion-justify-content-between">
+                    <ion-col class="flex ion-no-padding flex-0">
                         <!-- <ion-checkbox formControlName="termOne" class="checkbox"></ion-checkbox> -->
-                        <input formControlName="termOne" type="checkbox">
+                        <ion-checkbox formControlName="termOne" type="checkbox"></ion-checkbox>
                     </ion-col>
-                    <ion-col size="11">
+                    <ion-col class="flex ion-no-padding pl-12">
                         <ion-text class="s16-h22">
                             Am luat cunoştinţă de conţinutul Notei de informare privind prelucrarea datelor cu caracter personal (cod 123456)
                         </ion-text>
@@ -252,31 +251,30 @@
         </div>
         <div class="px-16 pt-8">
             <div class="px-12 py-16 bg-grey-2 border-radius-8">
-                <ion-row>
-                    <ion-col ion-align-self-end ion-align-items-end>
-                        <input formControlName="termTwo" type="checkbox">
+                <ion-row class="ion-no-padding flex ion-justify-content-between">
+                    <ion-col class="flex ion-no-padding flex-0">
+                        <ion-checkbox formControlName="termTwo" type="checkbox"></ion-checkbox>
                     </ion-col>
-                    <ion-col size="11">
+                    <ion-col class="flex ion-no-padding pl-12">
                         <ion-text class="s16-h22">
-                            Sunt de acord cu <a routerLink="">Termenii și Condițiile</a> de utilizare a aplicației
+                            Sunt de acord cu <a routerLink="./">Termenii și Condițiile</a> de utilizare a aplicației
                         </ion-text>
                     </ion-col>
                 </ion-row>
             </div>
         </div>
         <div class="ion-align-items-center ion-text-center pt-40 px-32 pb-16">
-            <ion-button [disabled]="termsForm.invalid" (click)="proceed()" class="success-gradient ion-color-success" expand="block" size="md" shape="round" mode="md">
+            <ion-button [disabled]="termsForm.invalid" (click)="proceed()" class="success-gradient ion-color-success" expand="block" size="large" shape="round" mode="md">
                 Creează cont nou
             </ion-button>
         </div>
     </form>
 
-    <div class="px-32 ion-text-center pb-24 ">
-        <div class="ion-text-center py-10">
+    <div class="px-32 ion-text-center pb-24">
+        <div class="ion-text-center pt-10 pb-8">
             <ion-text class="s16-h22 color-dark-green">
                 Am deja un cont
             </ion-text>
         </div>
     </div>
-
 </ion-content>

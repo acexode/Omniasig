@@ -9,6 +9,10 @@ ion-icon {
     height: rem(32);
     width: rem(32);
   }
+  &.icon-60 {
+    height: rem(60);
+    width: rem(60);
+  }
   &.icon-20 {
     font-size: rem(20);
     height: rem(20);
@@ -47,6 +51,10 @@ ion-icon {
   &.check-icon-lg {
     height: rem(166);
     width: rem(160);
+  }
+  &.check-icon-lg {
+    height: rem(112);
+    width: rem(210);
   }
   &.svg-absolute-right {
     > {

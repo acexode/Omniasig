@@ -1,0 +1,38 @@
+<ion-grid class="ion-no-padding">
+  <ion-row class="p-32 ion-justify-content-center">
+    <ion-icon color="omn-green" name="md-pin-ling" class="icon-60"></ion-icon>
+  </ion-row>
+
+  <ion-row class="px-16 mb-64 ion-justify-content-center">
+    <ion-text class="text-center mb-12 text-color">
+      Completează rapid profilul locuinței tale, ca să poți solicita o ofertă de
+      preț pentru asigurarea ei.
+    </ion-text>
+    <ion-text class="text-center text-color">
+      Durează doar un minut!
+    </ion-text>
+  </ion-row>
+
+  <ion-row class="px-16 ion-justify-content-center">
+    <ion-col class="ion-no-padding">
+      <ion-row class="ion-justify-content-center mb-16">
+        <ion-button
+          (click)="navigateBack()"
+          class="transparent color-dark-green text-normal text-weight-normal m-0 mh-40"
+          >Nu acum</ion-button
+        >
+      </ion-row>
+      <ion-row class="ion-justify-content-center mb-16">
+        <ion-button
+          (click)="openVerifyModal()"
+          color="success"
+          fill="solid"
+          expand="block"
+          size="large"
+          class="w-100 no-shadow flat m-0"
+          >De acord</ion-button
+        >
+      </ion-row>
+    </ion-col>
+  </ion-row>
+</ion-grid>

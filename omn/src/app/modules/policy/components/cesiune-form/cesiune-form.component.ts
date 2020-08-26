@@ -29,39 +29,6 @@ import { CesiuneItem } from './../models/cesiune-item';
 })
 export class CesiuneFormComponent implements OnInit {
   @Input() config: IonInputConfig;
-  // config: IonInputConfig = {
-  //     inputLabel: {
-  //       // slot?: string;
-  //       // classes?: string;
-  //       // routerLink?: any;
-  //       text: "Procent",
-  //       // prefix?: string;
-  //       // suffix?: string;
-  //       // color?: string;
-  //     },
-  //     placeholder: "Completează",
-  //     inputName: "procent",
-  //     type: "text",
-  //     // size?: number;
-  //     min: 1,
-  //     max: 2,
-  //     inputClasses: "s18-h21",
-  //     spinnerConfig: {
-  //       // Number input.
-  //       step: 1,
-  //     },
-
-  //     // Text types.
-  //     // clearable?: boolean;
-
-  //     // General properties.
-  //     // maxLength?: number;
-  //     // minLength?: number;
-  //     autoComplete: true,
-  //     autoCorrect: true,
-  //     // inputMode?: string;
-  // }
-
 
   enableCesiune = false;
   cesuineItems: CesiuneItem[];
@@ -135,6 +102,7 @@ export class CesiuneFormComponent implements OnInit {
     unsubscriberHelper(this.cesiuneNumS);
     unsubscriberHelper(this.hasCesiuneS);
     unsubscriberHelper(this.formValidS);
+    
     if (this.hasCesiune instanceof AbstractControl) {
       this.hasCesiuneS = this.hasCesiune.valueChanges.subscribe((val) => {
         this.enableCesiune = val === 1;
@@ -153,6 +121,7 @@ export class CesiuneFormComponent implements OnInit {
         this.cesiuneNum.updateValueAndValidity({ emitEvent: true });
       });
     }
+
     if (this.cesiuneNum instanceof AbstractControl) {
       this.cesiuneNumS = this.cesiuneNum.valueChanges
         .pipe(distinctUntilChanged())
@@ -163,6 +132,7 @@ export class CesiuneFormComponent implements OnInit {
         });
       this.cesiuneForm.updateValueAndValidity({ emitEvent: true });
     }
+
     this.formValidS = this.cesiuneForm.statusChanges
       .pipe(distinctUntilChanged())
       .subscribe((v) => {
