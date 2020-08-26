@@ -3,6 +3,11 @@ import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 
 const routes: Routes = [
   {
+    path: '',
+    redirectTo: 'home',
+    pathMatch: 'full',
+  },
+  {
     path: 'home',
     loadChildren: () =>
       import('./home/home.module').then((m) => m.HomePageModule),
@@ -13,19 +18,9 @@ const routes: Routes = [
       import('./modules/policy/policy.module').then((m) => m.PolicyModule),
   },
   {
-    path: '',
-    redirectTo: 'home',
-    pathMatch: 'full',
-  },
-  {
     path: 'profil',
     loadChildren: () =>
       import('./profile/profile.module').then((m) => m.ProfilePageModule),
-  },
-  {
-    path: 'biometrics',
-    loadChildren: () =>
-      import('./biometrics/biometrics.module').then((m) => m.BiometricsModule),
   },
   {
     path: 'login',
@@ -52,6 +47,18 @@ const routes: Routes = [
       import('./modules/contact/contact.module').then(
         (m) => m.ContactPageModule
       ),
+  },
+  {
+    path: 'asistenta',
+    loadChildren: () =>
+      import('./modules/asistenta/asistenta.module').then(
+        (m) => m.AsistentaPageModule
+      ),
+  },
+  {
+    path: 'biometrics',
+    loadChildren: () =>
+      import('./biometrics/biometrics.module').then((m) => m.BiometricsModule),
   },
   {
     path: 'setari',

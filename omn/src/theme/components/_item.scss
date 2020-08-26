@@ -152,5 +152,8 @@
         margin: 0;
       }
     }
+    &.item-mh-40 {
+      --min-height: 40px;
+    }
   }
 }

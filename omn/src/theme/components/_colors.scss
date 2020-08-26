@@ -153,6 +153,12 @@
   --ion-color-contrast-rgb: var(--app-color-white);
   background: $light-green-2;
 }
+.ion-color-medium-green-page {
+  --background: var(--ion-color-omn-light-green, #e5f2ec);
+  --ion-background-color: var(--ion-color-omn-light-green, #e5f2ec);
+  --ion-background-color-rgb: 229, 242, 236;
+  background: #e5f2ec;
+}
 
 .color-dark-green {
   color: $dark-green !important;
@@ -161,6 +167,10 @@
 .color-green {
   color: $green !important;
   --color: $green !important;
+}
+
+.ion-color-secondary-grey {
+    --color: $secondary-grey !important;
 }
 
 .color-secondary-grey {
