@@ -131,6 +131,7 @@ export class HomePage implements OnInit {
         textContent: [],
         id: 'account',
         itemClass: 'flex-1 mt-n16 p-16 mb-12',
+        routerLink: ['/biometrics'],
       },
       {
         mainIcon: {

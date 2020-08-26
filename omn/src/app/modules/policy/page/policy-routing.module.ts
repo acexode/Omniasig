@@ -9,6 +9,20 @@ import { PolicyPage } from '../page/policy.page';
 
 const routes: Routes = [
   {
+    path: 'form',
+    loadChildren: () =>
+      import('../pages/policy-form/policy-form.module').then(
+        (m) => m.PolicyFormPageModule
+      ),
+  },
+  {
+    path: 'policy-verify',
+    loadChildren: () =>
+      import('../pages/policy-verify/policy-verify.module').then(
+        (m) => m.PolicyVerifyModule
+      ),
+  },
+  {
     path: '',
     component: PolicyPage,
     children: [
