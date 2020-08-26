@@ -4,7 +4,9 @@
 .mw-0 {
   min-width: 0;
 }
-
+.h-auto {
+  height: auto;
+}
 .h-272 {
   height: rem(272);
 }
@@ -77,4 +79,15 @@
 }
 .maxh-200 {
   max-height: rem(200);
+}
+
+.mw-215 {
+  min-width: rem(215);
+}
+.mh-64 {
+  min-height: rem(64);
+}
+
+.mh-40 {
+  min-height: rem(40);
 }

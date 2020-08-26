@@ -16,6 +16,7 @@
       [dataProvider]="autocompleteProvider"
       [options]="config?.autocompleteOptions || {}"
       formControlName="text"
+      [disabled]="config?.disabled"
       class="flex"
       #autoField
     ></ion-auto-complete>

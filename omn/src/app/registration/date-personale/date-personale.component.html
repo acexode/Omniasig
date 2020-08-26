@@ -1,4 +1,4 @@
-<ion-content class="bg-white">
+<ion-content class="">
     <app-sub-page-header [config]="headerConfig"> </app-sub-page-header>
     <div class="px-32">
         <div class="text-center ion-text-center pb-38">
@@ -8,7 +8,7 @@
         </div>
         <div class="mt-30">
             <form [formGroup]="detailsForm" (ngSubmit)="proceed()">
-                <div class="pb-24">
+                <div>
                     <app-input formControlName="nume" [config]="config.nume"></app-input>
                 </div>
                 <div class="pt-24">
@@ -33,16 +33,12 @@
                     </div>
                 </div>
                 <div class="pt-20">
-                    <ion-row>
-                        <ion-col>
-                            <ion-icon class="mr-auto ml-auto text-center icon-20 pt-40" name="informatii"></ion-icon>
-                        </ion-col>
-                        <ion-col size="10">
-                            <ion-text class="text-small">
-                                Persoane fizice care exercită sau au exercitat funcţii publice importante, membrii familiilor acestora, precum şi persoanele cunoscute public ca asociaţi apropiaţi ai persoanelor fizice care exercită funcţii publice importante
-                            </ion-text>
-                        </ion-col>
-                    </ion-row>
+                    <ion-item class="form-description p-0 no-paddings bg-white" lines="none">
+                        <ion-icon slot="start" name="md-info" class="icon-20 position-absolute top-0 m-0 color-secondary-blue"></ion-icon>
+                        <ion-text class="text-small ml-32">
+                            Persoane fizice care exercită sau au exercitat funcţii publice importante, membrii familiilor acestora, precum şi persoanele cunoscute public ca asociaţi apropiaţi ai persoanelor fizice care exercită funcţii publice importante
+                        </ion-text>
+                    </ion-item>
                 </div>
                 <div class="pt-32 pb-24">
                     <ion-button type="submit" (click)="proceed()" [disabled]="!detailsForm.valid" class="success-gradient ion-color-success" expand="full" size="large" shape="round" mode="md">

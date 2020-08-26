@@ -8,6 +8,7 @@ export interface IonInputConfig {
   size?: number;
   min?: number;
   max?: number;
+  disabled?: boolean;
   inputClasses?: string;
   spinnerConfig?: {
     // Number input.

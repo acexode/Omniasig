@@ -23,6 +23,11 @@ const routes: Routes = [
       import('./profile/profile.module').then((m) => m.ProfilePageModule),
   },
   {
+    path: 'biometrics',
+    loadChildren: () =>
+      import('./biometrics/biometrics.module').then((m) => m.BiometricsModule),
+  },
+  {
     path: 'login',
     loadChildren: () =>
       import('./login/login.module').then((m) => m.LoginPageModule),
@@ -30,7 +35,23 @@ const routes: Routes = [
   {
     path: 'registration',
     loadChildren: () =>
-      import('./registration/registration.module').then((m) => m.RegistrationPageModule),
+      import('./registration/registration.module').then(
+        (m) => m.RegistrationPageModule
+      ),
+  },
+  {
+    path: 'phone-number',
+    loadChildren: () =>
+      import('./schimbare-numar-telefon/schimbare-numar-telefon.module').then(
+        (m) => m.SchimbareNumarTelefonPageModule
+      ),
+  },
+  {
+    path: 'contact',
+    loadChildren: () =>
+      import('./modules/contact/contact.module').then(
+        (m) => m.ContactPageModule
+      ),
   },
   {
     path: 'reset-pincode',
