@@ -39,5 +39,12 @@ export interface Locuinte {
   };
   tipLocuinta: TipLocuinta;
   policyData: Array<PolicyItem>;
-  locuintaState: LocuintaState;
+
+  // Temp - prefilled data.
+  pad?: {
+    padAvailable: boolean | number;
+    padSerie: boolean | number;
+    padNr: boolean | number;
+  };
+  locuintaState?: LocuintaState;
 }

@@ -8,7 +8,7 @@ import { IonInput, NavController } from '@ionic/angular';
   styleUrls: ['./reg-passcode.component.scss'],
 })
 export class RegPasscodeComponent implements OnInit {
-  digitsLength: number = 0;
+  digitsLength = 0;
   @HostBinding('class') color = 'ion-color-white-page';
   @ViewChild('inputField') inputField: IonInput;
   passForm: FormGroup;

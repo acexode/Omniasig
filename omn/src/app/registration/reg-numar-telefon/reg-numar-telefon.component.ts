@@ -23,7 +23,7 @@ export class RegNumarTelefonComponent implements OnInit {
     size: 100,
     inputLabel: this.label,
     clearable: true,
-    minLength:10,
+    minLength: 10,
     inputClasses: 'ion-item-right',
   };
   teleForm: FormGroup;
