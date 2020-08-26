@@ -291,6 +291,10 @@
   --background: $light-green-5;
 }
 
+.bg-ultra-light-green {
+  background: $ultra-light-green;
+}
+
 .bg-dark-green {
   background: $dark-green;
   --background: var(--app-dark-green);

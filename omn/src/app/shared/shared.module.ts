@@ -15,6 +15,7 @@ import { LocuinteNamePipe } from './pipes/locuinte-name.pipe';
 import { TimePipe } from './pipes/time.pipe';
 import { LocuinteFieldPipe } from './pipes/locuinte-field.pipe';
 import { LoadingPlaceholderComponent } from './components/loading-placeholder/loading-placeholder.component';
+import { PolicyNamePipe } from './pipes/policy-name.pipe';
 
 @NgModule({
   declarations: [
@@ -30,6 +31,7 @@ import { LoadingPlaceholderComponent } from './components/loading-placeholder/lo
     LocuinteCardComponent,
     LocuinteFieldPipe,
     LoadingPlaceholderComponent,
+    PolicyNamePipe,
   ],
   imports: [CommonModule, FormsModule, IonicModule, RouterModule],
   exports: [
@@ -43,6 +45,7 @@ import { LoadingPlaceholderComponent } from './components/loading-placeholder/lo
     CnpPipe,
     LocuinteFieldPipe,
     LocuinteNamePipe,
+    PolicyNamePipe,
     ArchiveListComponent,
     LocuinteCardComponent,
     LoadingPlaceholderComponent,

@@ -159,6 +159,7 @@ export class LocuinteViewComponent implements OnInit {
             this.nextStep();
           }
         }
+        break;
       case this.locuintaState.INCOMPLETE:
         if (!this.formInstance) {
           if (this.formStep === LocuinteFormType.ADDRESS) {
@@ -182,6 +183,7 @@ export class LocuinteViewComponent implements OnInit {
 
     this.formConfigs.address = this.formS.buildFormConfig(
       LocuinteFormType.ADDRESS,
+      null,
       disabled
     );
     this.formConfigs.place = this.formS.buildFormConfig(LocuinteFormType.PLACE);

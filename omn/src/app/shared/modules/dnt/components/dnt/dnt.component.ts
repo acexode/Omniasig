@@ -33,19 +33,25 @@ export class DntComponent implements OnInit {
     this.contentItems = get(conf, 'items', []);
     this.cancelItem = get(conf, 'cancel', []);
     this.successItem = get(conf, 'success', []);
+    const initialStep = get(conf, 'initialStep', null);
 
     if (this.contentItems.length) {
-      this.navigateInList();
+      if (initialStep !== null) {
+        this.navigateInList('back', initialStep);
+      } else {
+        this.navigateInList();
+      }
     }
     this.cdRef.markForCheck();
   }
+
   constructor(private cdRef: ChangeDetectorRef) {}
 
   ngOnInit() {}
 
   public navigateInList(
     type: 'fwd' | 'back' = 'fwd',
-    start: 'cancel' | 'success' = null
+    start: string | number = null
   ) {
     if (type === 'fwd') {
       // Only handle fwd navigation for now.
@@ -65,23 +71,26 @@ export class DntComponent implements OnInit {
       if (start === 'success' && this.successItem) {
         this.visibleItem = this.successItem;
         newItem = get(this.contentItems, 'length', -1);
+        this.visibleItemIndex = newItem;
       } else if (start === 'cancel' && this.cancelItem) {
         this.visibleItem = this.successItem;
         newItem = get(this.contentItems, 'length', -1);
-      } else {
+      } else if (start === 'success-ev') {
         newItem = get(this.contentItems, 'length', 0) - 1;
+      } else if (start === 'cancel-ev') {
+        newItem = 0;
+      } else {
+        newItem = this.visibleItemIndex - 1;
       }
-
       // don't navigate if no item available.
       if (this.contentItems[newItem]) {
-        this.visibleItem = this.contentItems[newItem];
         this.visibleItemIndex = newItem;
-        if (this.visibleItemIndex < 0) {
-          // Only emit in case multiple steps navigation.
-          this.dntEvents.emit(this.visibleItemIndex);
-        }
-        this.cdRef.markForCheck();
+        this.visibleItem = this.contentItems[newItem];
       }
+
+      this.dntEvents.emit(newItem);
+      this.cdRef.markForCheck();
+      return this.visibleItemIndex;
     }
   }
 
@@ -94,6 +103,7 @@ export class DntComponent implements OnInit {
   buttonClick(type: 'start' | 'end', data = null) {
     if (type === 'end') {
       this.dntEvents.emit(this.visibleItemIndex);
+
       if (this.visibleItemIndex === this.contentItems.length - 1) {
         // Reset visible items and redirect to the success.
         this.visibleItemIndex = -1;
@@ -105,6 +115,7 @@ export class DntComponent implements OnInit {
         }
       } else {
         // In case multiple questions, navigate to next.
+
         this.navigateInList('fwd');
       }
     } else {
@@ -114,7 +125,11 @@ export class DntComponent implements OnInit {
         this.dntEvents.emit('cancel-ev');
         this.visibleItem = this.cancelItem;
       }
-      if (this.visibleItemIndex === -1 && data) {
+      if (
+        (this.visibleItemIndex === -1 ||
+          this.visibleItemIndex === get(this.contentItems, 'length', -1)) &&
+        data
+      ) {
         // Emit cancel/success button.
         this.dntEvents.emit(data);
       }

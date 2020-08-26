@@ -1,15 +1,13 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { BiometricsComponent } from './biometrics.component'
-import { InfoComponent } from './info/info.component'
-
+import { BiometricsComponent } from './biometrics.component';
+import { InfoComponent } from './info/info.component';
 
 const routes: Routes = [
   {
-    path:'',
+    path: '',
     component: BiometricsComponent,
-    children: [
-    ],
+    children: [],
   },
   {
     path: 'info',
@@ -26,6 +24,6 @@ const routes: Routes = [
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class BiometricsRoutingModule { }
+export class BiometricsRoutingModule {}

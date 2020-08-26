@@ -61,7 +61,12 @@ export const dntContentText = (title, content, disclaimer = '') => {
     },
   ];
 };
-export const dntAltText = (title, content, disclaimer = '') => {
+export const dntAltText = (
+  title,
+  content,
+  disclaimer = '',
+  centerLink = ''
+) => {
   return [
     {
       text: title,
@@ -69,7 +74,11 @@ export const dntAltText = (title, content, disclaimer = '') => {
     },
     {
       text: content,
-      classes: 'text-normal mb-16 flex-1',
+      classes: 'text-normal mb-16',
+    },
+    {
+      text: centerLink,
+      classes: 'text-normal mt-24 mb-16 flex-1',
     },
     {
       text: disclaimer,

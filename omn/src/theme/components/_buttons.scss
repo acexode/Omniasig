@@ -101,5 +101,13 @@
       --ion-color-shade: var(--app-secondary-bg) !important;
       --ion-color-tint: var(--app-secondary-bg) !important;
     }
+
+    &.transparent-bg {
+      --background: transparent;
+      --background-focused: transparent;
+      --background-hover: transparent;
+      --background-activated: transparent;
+      --box-shadow: none;
+    }
   }
 }
