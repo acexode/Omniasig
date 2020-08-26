@@ -18,4 +18,9 @@ export const policyEndpoints = {
 
 export const locuinteEndpoints = {
   base: serverBaseUrl + '/locuinte',
+  add: serverBaseUrl + '/Address/AddAddress',
+  makeHomeAddress: serverBaseUrl + '/Address/MakeHomeAddress',
+  AlluserLocation: serverBaseUrl + '/Address/GetAllAddressesForLoggedUser',
+  updateAddress: serverBaseUrl + '/Location/UpdateLocationForAddressId',
+  disAbleLocation: serverBaseUrl + '/Location/DisableLocationForAddressId'
 };

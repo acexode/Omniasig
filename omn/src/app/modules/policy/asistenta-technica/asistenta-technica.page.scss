@@ -1,10 +1,14 @@
 .fond{
-    background: linear-gradient(135deg, #008641 0%, #006330 100%);
+    background: var(--ion-color-green-gradient);
+    color: #ffffff;  
+}   
+.activeIcon{
+    background: #004220;
     color: #ffffff;  
     
 }
 .check-bg{
-    background: #004220;;
+    background: #E5F2EC;
 }
 .btn-rectangle{
     background-color: #EF6D53;

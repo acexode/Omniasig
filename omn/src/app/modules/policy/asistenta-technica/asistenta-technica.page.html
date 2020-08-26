@@ -1,30 +1,26 @@
 <app-sub-page-header [config]="headerConfig"></app-sub-page-header>
 <ion-content>
   <ion-grid class="px-32 pt-0 pb-16" >
-    <ion-row class="mh-64"></ion-row>
-    <ion-row  class="ion-no-padding md hydrated">
+   
+    <ion-row  class="ion-no-padding md hydrated pt-32">
       <ion-text  class="ion-color ion-color-omn-green md hydrated">
         <h4 class="mb-8 ml-8">Reparații urgente la tine acasă</h4>
       </ion-text>
     </ion-row>
     <ion-row  class="ion-no-padding mb-16 md hydrated"  > 
+     
+      <ion-radio-group class="w-100" allow-empty-selection="true" name="radio-group" (ionChange)="radioGroupChange($event)" #radioGroup> 
       <ng-container *ngFor="let plan of plans; let i=index ">
         <ion-card  [ngClass]="{'fond': plan.state === 'active'}"  style="cursor: pointer;"  class={{plan.cardClass}}>
                
-             <ion-row class="position-absolute right-0 top-0 bottom-left-radius-8  px-8 py-8 md ion-color hydrated" [ngStyle]="{'background-color': plan.state ? '#004220':'#E5F2EC' }">   
-              <!-- <ion-radio-group onchange=""  allow-empty-selection="true" #radioGroup>
-                <ion-radio slot="start" name="{{plan.name}}" value="{{plan.value}}" checked="{{plan.checked}}"
-          color="{{plan.color}}" disabled="{{plan.disabled}}"></ion-radio>
-              </ion-radio-group> -->
-               <ion-radio-group allow-empty-selection="true" name="radio-group" (ionChange)="radioGroupChange($event)" #radioGroup>
-                <ng-container  (ionFocus)="radioFocus()" (ionSelect)="radioSelect($event)"
-                (ionBlur)="radioBlur()">
+             <ion-row class="position-absolute right-0 top-0 bottom-left-radius-8  px-8 py-8 md ion-color hydrated" [ngClass]="{'ion-color-white-dark-green-b-bg': plan.state === 'active', 'check-bg': plan.state === ''}">   
+                <ion-label>
                 
-                <ion-radio slot="start" name="{{plan.name}}" value="{{plan.value}}" checked="{{plan.checked}}"
+                <ion-radio  slot="start" name="{{plan.name}}" value="{{plan.value}}" [checked]="plan.checked"
                   color="{{plan.color}}" disabled="{{plan.disabled}}"></ion-radio>
-              </ng-container>
+              </ion-label>
   
-      </ion-radio-group>
+      <!--   -->
              
             </ion-row>
             <ion-icon class="mb-0  flex main-icon mh-100 mw-188 position-absolute bottom-0 right-0 svg-absolute-right md hydrated" src={{plan.image}} ></ion-icon>
@@ -47,6 +43,7 @@
      </ion-card>
 
       </ng-container>
+    </ion-radio-group>
   </ion-row>
    <ion-row class="ion-no-padding flex w-100 flex-1 pb-16">
     

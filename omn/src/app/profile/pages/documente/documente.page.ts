@@ -82,42 +82,17 @@ export class DocumentePage implements OnInit {
            ]
         }
       ];
-    constructor(public navCtrl: NavController) {
- 
-        // this.items = [
-        //     {expanded: false},
-        //     {expanded: false},
-        //     {expanded: false},
-        //     {expanded: false},
-        //     {expanded: false},
-        //     {expanded: false},
-        //     {expanded: false},
-        //     {expanded: false},
-        //     {expanded: false}
-        // ];
+    constructor(public navCtrl: NavController) { 
+   
  
     }
     ngOnInit(): void {
-        // throw new Error("Method not implemented.");
+        
     }
     goTo(doc){
        
         this.navCtrl.navigateForward('document-page')
     }
-    // expandItem(item){
- 
-    //     this.items.map((listItem) => {
- 
-    //         if(item == listItem){
-    //             listItem.expanded = !listItem.expanded;
-    //         } else {
-    //             listItem.expanded = false;
-    //         }
- 
-    //         return listItem;
- 
-    //     });
- 
-    // }
+
  
 }
