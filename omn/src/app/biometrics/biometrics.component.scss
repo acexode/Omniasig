@@ -1,0 +1,14 @@
+@import '../../theme/variables.scss';
+
+.floating-text{
+    color: var(--color);
+}
+
+.text-block{
+    color: var(--color);
+    font-family: var(--ion-font-family);
+}
+
+.button-text{
+    color: var(--app-dark-green);
+}

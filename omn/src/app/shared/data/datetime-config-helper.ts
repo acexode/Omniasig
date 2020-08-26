@@ -4,6 +4,7 @@ export const dateTimeConfigHelper = (conf: {
   label: string;
   displayFormat: string;
   pickerFormat: string;
+  disabled?: boolean;
 }): IonDateTimeConfig => {
   const config: IonDateTimeConfig = {
     inputLabel: {
@@ -13,6 +14,7 @@ export const dateTimeConfigHelper = (conf: {
     displayFormat: conf.displayFormat,
     pickerFormat: conf.pickerFormat,
     placeholder: 'Selectează',
+    disabled: conf?.disabled,
     pickerOptions: {
       cssClass: 'custom-datepicker',
     },

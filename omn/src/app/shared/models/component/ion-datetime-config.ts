@@ -10,4 +10,5 @@ export interface IonDateTimeConfig {
   min?: string;
   max?: string;
   pickerOptions?: any;
+  disabled?: boolean;
 }

@@ -28,6 +28,11 @@ const routes: Routes = [
       import('./profile/profile.module').then((m) => m.ProfilePageModule),
   },
   {
+    path: 'biometrics',
+    loadChildren: () =>
+      import('./biometrics/biometrics.module').then((m) => m.BiometricsModule),
+  },
+  {
     path: 'login',
     loadChildren: () =>
       import('./login/login.module').then((m) => m.LoginPageModule),

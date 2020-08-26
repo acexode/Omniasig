@@ -3,6 +3,7 @@ import { IonAutocompleteConfig } from '../models/component/ion-autocomplete-conf
 
 export const autoCompleteConfigHelper = (conf: {
   label: string;
+  disabled: boolean;
   dataServiceCb: (filter: any) => Observable<Array<any>>;
 }): IonAutocompleteConfig => {
   const config: IonAutocompleteConfig = {
@@ -18,6 +19,7 @@ export const autoCompleteConfigHelper = (conf: {
       searchIcon: null,
       noItems: 'Nu a fost gasit nici un rezultat.',
     },
+    disabled: conf?.disabled,
     dataServiceCb: conf.dataServiceCb,
   };
   return config;
