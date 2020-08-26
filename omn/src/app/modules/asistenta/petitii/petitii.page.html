@@ -1,0 +1,72 @@
+<app-sub-page-header [config]="headerConfig"> </app-sub-page-header>
+<ion-content>
+  <ion-grid class="p-0 m-0 flex flex-1 flex-column mh-100p pb-24">
+    <ion-row class="ion-no-padding mh-100"></ion-row>
+    <ion-row
+      class="ion-no-padding flex flex-1 flex-column bg-white px-32 mb-n20"
+    >
+      <ion-row>
+        <ion-col
+          class="ion-no-padding flex flex-1 w-100 flex-column ion-justify-content-center ion-align-items-center"
+        >
+          <ion-icon
+            name="md-infomation"
+            class="icon-40 mt-n20"
+            color="primary"
+          ></ion-icon>
+        </ion-col>
+      </ion-row>
+      <ion-row class="mt-40">
+        <ion-col
+          class="flex flex-1 w-100 ion-justify-content-center ion-align-items-center"
+        >
+          <ion-text
+            class="h3 alt-font ion-text-center right-padding vertical-spacing"
+          >
+            În cazul în care ai întâmpinat o situație neplăcută în relația ta cu
+            OMNIASIG și dorești să înregistrezi o petiție, ne-o poți trimite
+            rapid, completând
+            <a
+              [href]="acestFormularLink"
+              color="primary"
+              class="no-decoration"
+              target="none"
+            >
+              acest formular.</a
+            >
+          </ion-text>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col
+          class="flex flex-1 w-100 ion-justify-content-center ion-align-items-center"
+        >
+          <ion-text class="h3 alt-font ion-text-center vertical-spacing">
+            De asemenea, pe
+            <a
+              [href]="websiteulNostruLink"
+              color="primary"
+              class="no-decoration"
+              target="none"
+              >website-ul nostru</a
+            >
+            găsești toate celelalte modalități prin care poți depune o petiție
+            (pe e-mail, în scris, la sediu, prin poștă).
+          </ion-text>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col
+          class="flex flex-1 w-100 ion-justify-content-center ion-align-items-center mt-40 mb-24"
+        >
+          <ion-text
+            color="omn-green"
+            class="h3 alt-font ion-text-center right-padding vertical-spacing text-weight-bold"
+          >
+            Îți mulțumim că ești alături de noi!
+          </ion-text>
+        </ion-col>
+      </ion-row>
+    </ion-row>
+  </ion-grid>
+</ion-content>
