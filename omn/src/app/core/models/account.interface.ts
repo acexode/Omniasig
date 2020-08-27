@@ -8,12 +8,16 @@ export interface Account {
   surname: string;
   userIcon?: string;
   addresses?: string[];
-  phoneNumber?:string;
-  userName?:string;
-  isPublicPerson?:boolean;
+  phoneNumber?: string;
+  userName?: string;
+  isPublicPerson?: boolean;
   userStates?: Array<AccountStates>;
-  roles?:string[];
-  pin?:number;
-  dateBirth?:string;
-  marketing?:boolean;
+  roles?: string[];
+  pin?: number;
+  dateBirth?: string;
+  marketing?: boolean;
+
+  // Old model stuff
+  firstName?: string;
+  lastName?: string;
 }

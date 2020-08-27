@@ -1,7 +1,7 @@
-import { AuthService } from 'src/app/core/services/auth/auth.service';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { AuthService } from 'src/app/core/services/auth/auth.service';
 import { IonTextItem } from 'src/app/shared/models/component/ion-text-item';
 import { IonInputConfig } from './../../shared/models/component/ion-input-config';
 
@@ -71,7 +71,7 @@ export class NumarTelefonComponent implements OnInit {
   }
 
   checkHasLoggedIn() {
-    this.auth.getLastLoginNumber().subscribe(
+    this.auth.lastLoginNumber().subscribe(
       phoneNumber => {
         if (phoneNumber) {
           this.router.navigate([
@@ -80,7 +80,7 @@ export class NumarTelefonComponent implements OnInit {
           ]);
         }
       }
-    )
+    );
   }
 
   requestSms() {

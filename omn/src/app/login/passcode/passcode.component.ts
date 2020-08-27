@@ -10,24 +10,28 @@ import { IonInput, NavController } from '@ionic/angular';
   templateUrl: './passcode.component.html',
   styleUrls: ['./passcode.component.scss'],
 })
-export class PasscodeComponent implements OnInit,OnDestroy {
-  min: string = '00'
+export class PasscodeComponent implements OnInit, OnDestroy {
+  min = '00';
   sec: any = 59;
   digitsLength = 0;
   @ViewChild('inputField') inputField: IonInput;
   passForm: FormGroup;
-  phoneNumber:string =null
-  sub:Subscription;
-  busy:boolean = false
-  errorLogin:string =null
-  constructor(private navCtrl: NavController,private formBuilder: FormBuilder,private route:ActivatedRoute,private authService:AuthService) {
-    this.getPhoneNumber()
-   }
+  phoneNumber: string = null;
+  sub: Subscription;
+  busy = false;
+  errorLogin: string = null;
+  constructor(
+    private navCtrl: NavController,
+    private formBuilder: FormBuilder,
+    private route: ActivatedRoute,
+    private authService: AuthService
+  ) {
+    this.getPhoneNumber();
+  }
 
   ngOnInit() {
     this.initForm();
   }
-
 
   getPhoneNumber() {
     this.sub = this.route.params.subscribe((params) => {
@@ -39,7 +43,7 @@ export class PasscodeComponent implements OnInit,OnDestroy {
     });
   }
 
-  initForm(){
+  initForm() {
     this.passForm = this.formBuilder.group({
       passcode: [
         '',
@@ -54,9 +58,9 @@ export class PasscodeComponent implements OnInit,OnDestroy {
 
   changeInput(passcode) {
     if (passcode) {
-      this.digitsLength = passcode.toString().length
-    }else{
-      this.digitsLength = 0
+      this.digitsLength = passcode.toString().length;
+    } else {
+      this.digitsLength = 0;
     }
     if (this.digitsLength > 5) {
       this.verifyPasscode();
@@ -64,29 +68,29 @@ export class PasscodeComponent implements OnInit,OnDestroy {
   }
 
   verifyPasscode() {
-    const data ={
-      phone:this.phoneNumber,
-      password:this.passForm.controls["passcode"].value,
-      aRoute:"/home"
-    }
+    const data = {
+      phone: this.phoneNumber,
+      password: this.passForm.controls.passcode.value,
+      aRoute: '/home',
+    };
     this.authService.login(data).subscribe(
-        data => this.changeCurrentLogin(),
-        error => this.errLogin(error)
-        );
+      (datav) => this.changeCurrentLogin(),
+      (error) => this.errLogin(error)
+    );
   }
 
-  changeCurrentLogin(){
-    this.authService.saveLastLoginNumber(this.phoneNumber)
+  changeCurrentLogin() {
+    this.authService.saveLastLoginNumber(this.phoneNumber);
   }
 
-  errLogin(err){
-    this.errorLogin = "Cod Invalid!"
-    this.busy =true
-  setTimeout(() => {
-    this.passForm.reset()
-   this.errorLogin = null;
-   this.busy =false;
-  }, 2000);
+  errLogin(err) {
+    this.errorLogin = 'Cod Invalid!';
+    this.busy = true;
+    setTimeout(() => {
+      this.passForm.reset();
+      this.errorLogin = null;
+      this.busy = false;
+    }, 2000);
   }
 
   spawnInput() {
@@ -97,8 +101,8 @@ export class PasscodeComponent implements OnInit,OnDestroy {
   }
 
   ngOnDestroy(): void {
-    //Called once, before the instance is destroyed.
-    //Add 'implements OnDestroy' to the class.
-    this.sub.unsubscribe()
+    // Called once, before the instance is destroyed.
+    // Add 'implements OnDestroy' to the class.
+    this.sub.unsubscribe();
   }
 }

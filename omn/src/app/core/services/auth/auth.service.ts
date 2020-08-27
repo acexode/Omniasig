@@ -1,9 +1,9 @@
+import { assignIn } from 'lodash';
 import { Injectable } from '@angular/core';
 import {
+  Router,
   ActivatedRoute,
   ActivatedRouteSnapshot,
-  Route,
-  Router,
   UrlTree,
 } from '@angular/router';
 import { BehaviorSubject } from 'rxjs';
@@ -45,6 +45,8 @@ export class AuthService {
   initialState: AuthState = {
     init: false,
     account: null,
+    authToken: '',
+    expiryDate: null,
   };
   authState: BehaviorSubject<AuthState> = new BehaviorSubject(
     this.initialState
@@ -57,13 +59,13 @@ export class AuthService {
     // Load account state from local/session/cookie storage.
     this.storeS.getItem('token').subscribe((token: string) => {
       if (token) {
-        this.getAccountFromStorage(token)
+        this.getAccountFromStorage(token);
       } else {
         this.authState.next({
           init: false,
           account: null,
-          authToken: null
-        })
+          authToken: null,
+        });
       }
     });
   }
@@ -74,11 +76,90 @@ export class AuthService {
       this.authState.next({
         init: true,
         account,
-        authToken: token
-      })
-    })
+        authToken: token,
+      });
+    });
   }
 
+  // check if user exists
+  findUserByPhoneNumber(phoneNumber: number) {
+    return this.reqS.get<any>(
+      `${authEndpoints.findUserByPhoneNumber}?phoneNumber=${phoneNumber}`
+    );
+  }
+
+  // request sms during login
+  sendPhoneNumberSms(phoneNumber) {
+    const reqData: { phoneNumber: string } = {
+      phoneNumber
+    };
+    return this.reqS.post<any>(authEndpoints.login, reqData)
+  }
+
+  // save token to local storage
+  saveToken(token: string) {
+    return this.storeS.setItem('token', token);
+  }
+
+  // get user profile from ws
+  getProfile(token, phoneNumber) {
+    return this.reqS
+      .get<Account>(
+        `${authEndpoints.getUserProfile}?userNameOrId=${phoneNumber}`
+      )
+      .pipe(
+        switchMap((res) => {
+          return this.processAuthResponse({
+            account: { ...res, userStates: [] },
+            token,
+          });
+        })
+      );
+  }
+
+  // svae auth data to storage
+  processAuthResponse(data: LoginResponse) {
+    const account = data.account ? data.account : null;
+    const authToken = data.token ? data.token : null;
+    return this.storeS.setItem('account', account).pipe(
+      tap(() => {
+        this.authState.next({
+          init: true,
+          account,
+          authToken,
+        });
+      }),
+      map((v) => data)
+    );
+  }
+
+  accountActivated(acc: Account) {
+    return acc
+      ? acc.userStates.findIndex((s) => s === AccountStates.ACTIVE) > -1
+      : false;
+  }
+
+  /**
+   *
+   * @param phoneNumber phoneNumber of the user trying to login
+   */
+  saveLastLoginNumber(phoneNumber?: string) {
+    return this.storeS.setItem('phoneNumber', phoneNumber);
+  }
+
+  lastLoginNumber() {
+    return this.storeS.getItem('phoneNumber');
+  }
+
+  // TODO: DEMO
+  demoLogout() {
+    this.storeS.removeItem('account');
+    this.storeS.setItem('account', this.demoAccount);
+    this.authState.next({
+      init: true,
+      account: this.demoAccount,
+    });
+  }
   updateState(newState: AuthState) {
     this.authState.next(newState);
   }
@@ -100,11 +181,11 @@ export class AuthService {
     );
   }
 
-  // makes login call to server
+  // makes http call to server.
   login(loginData: {
     phone: string;
     password: any;
-    aRoute: string;
+    aRoute: string | ActivatedRoute;
   }) {
     const reqData: Login = {
       userName: loginData.phone,
@@ -112,84 +193,36 @@ export class AuthService {
     };
     return this.reqS.post<LoginResponse>(authEndpoints.login, reqData).pipe(
       switchMap((res) => {
-        this.saveToken(res.token)
-        return this.getProfile(res.token, loginData.phone);
+        return this.saveToken(res.token).pipe(
+          switchMap(() => {
+            return this.getProfile(res.token, loginData.phone);
+          })
+        );
       }),
       tap((value) => {
-        console.log(value);
-        Promise.resolve(this.routerS.navigateByUrl(loginData.aRoute));
+        let redirectUrl: any = '/home';
+        if (loginData.aRoute instanceof ActivatedRoute) {
+          redirectUrl = this.redirectUrlTree(
+            loginData.aRoute ? loginData.aRoute.snapshot : null
+          );
+        } else if (typeof loginData.aRoute === 'string') {
+          redirectUrl = loginData.aRoute;
+        }
+
+        Promise.resolve(this.routerS.navigateByUrl(redirectUrl));
       })
     );
   }
 
-  // check if user exists
-  findUserByPhoneNumber(phoneNumber: Number) {
-    return this.reqS.get<any>(`${authEndpoints.findUserByPhoneNumber}?phoneNumber=${phoneNumber}`)
-  }
-
-  // request sms during login
-  sendPhoneNumberSms(phoneNumber) {
-    const reqData: { phoneNumber: string } = {
-      phoneNumber
-    };
-    return this.reqS.post<any>(authEndpoints.login, reqData)
-  }
-
-  // save token to local storage
-  saveToken(token: string) {
-    return this.storeS.setItem('token', token)
-  }
-
-  // get user profile from ws
-  getProfile(token, phoneNumber) {
-    return this.reqS.get<Account>(`${authEndpoints.getUserProfile}?userNameOrId=${phoneNumber}`).pipe(
-      switchMap((res) => {
-        return this.processAuthResponse({ account: { ...res, userStates: [] }, token });
-      })
-    )
-  }
-
-  // svae auth data to storage
-  processAuthResponse(data: LoginResponse) {
-    const account = data.account ? data.account : null;
-    const authToken = data.token ? data.token : null;
-    return this.storeS.setItem('account', account).pipe(
-      tap(() => {
-        this.authState.next({
-          init: true,
-          account,
-          authToken
-        });
-      }),
-      map((v) => data)
-    );
-  }
-
-  accountActivated(acc: Account) {
-    return acc.userStates.findIndex((s) => s === AccountStates.ACTIVE) > -1;
-  }
-
-  // checks if the user just installed the app or recently logged out
-  /**
-   * 
-   * @param phoneNumber phoneNumber of the user that loggedIn last
-   */
-  saveLastLoginNumber(phoneNumber?: string) {
-    return this.storeS.setItem('phoneNumber', phoneNumber)
-  }
-
-  getLastLoginNumber() {
-    return this.storeS.getItem('phoneNumber')
-  }
-
-  // TODO: DEMO
-  demoLogout() {
-    this.storeS.removeItem('account');
-    this.storeS.setItem('account', this.demoAccount);
-    this.authState.next({
-      init: true,
-      account: this.demoAccount,
-    });
+  redirectUrlTree(snapshot: ActivatedRouteSnapshot): UrlTree {
+    if (snapshot) {
+      const qP = snapshot.queryParams;
+      const rUk = 'returnUrl';
+      if (qP.hasOwnProperty(rUk) && qP[rUk]) {
+        return this.routerS.createUrlTree([qP[rUk]]);
+      }
+    }
+    return this.routerS.createUrlTree(['/']);
   }
 
   demoActivate() {
