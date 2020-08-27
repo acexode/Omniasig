@@ -49,6 +49,13 @@ const routes: Routes = [
       ),
   },
   {
+    path: 'reset-pincode',
+    loadChildren: () =>
+      import('./pin-code-reset/pin-code-reset.module').then(
+        (m) => m.PinCodeResetPageModule
+      ),
+  },
+  {
     path: 'asistenta',
     loadChildren: () =>
       import('./modules/asistenta/asistenta.module').then(
