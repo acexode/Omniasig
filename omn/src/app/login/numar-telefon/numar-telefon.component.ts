@@ -60,9 +60,11 @@ export class NumarTelefonComponent implements OnInit {
         ]);
         // TODO call the request sms function when the api is ready
         // this.requestSms()
+        this.busy = false
       },
-      err => this.newUserReg(),
-      () => this.busy = false
+      err => {
+        this.newUserReg();
+      this.busy = false}
     );
   }
 

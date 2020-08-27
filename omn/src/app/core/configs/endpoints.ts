@@ -2,10 +2,10 @@ import { environment } from '../../../environments/environment';
 
 export const serverBaseUrl = environment.serverUrl;
 export const authEndpoints = {
-  login: serverBaseUrl + 'User/LoginAndCreateToken',
-  findUserByPhoneNumber: serverBaseUrl + 'UserProfile/GetUserNameByPhoneNumber',
-  getUserProfile: serverBaseUrl + 'UserProfile/GetUserProfile',
-  getSmsPhoneNumber:serverBaseUrl + 'idontknow'
+  login: serverBaseUrl + '/User/LoginAndCreateToken',
+  findUserByPhoneNumber: serverBaseUrl + '/UserProfile/GetUserNameByPhoneNumber',
+  getUserProfile: serverBaseUrl + '/UserProfile/GetUserProfile',
+  getSmsPhoneNumber:serverBaseUrl + '/idontknow'
 };
 
 export const baseEndpoints = {
