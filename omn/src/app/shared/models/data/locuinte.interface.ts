@@ -12,10 +12,10 @@ export interface Locuinte {
     county: string;
     city: string;
     street: string;
-    number: number;
+    buildingNumber: number;
     // Scara bloc.
-    entrance: string;
-    apartment: string;
+    floor: string;
+    apart: string;
     postalCode: string;
   };
 

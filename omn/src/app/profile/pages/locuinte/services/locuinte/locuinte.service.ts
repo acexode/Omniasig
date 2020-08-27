@@ -57,8 +57,7 @@ export class LocuinteService {
     );
   }
 
-  getUserLocuinte() {
-   
+  getUserLocuinte() {   
     return this.reqS.get<Array<Locuinte>>(this.endpoints.AlluserLocation).pipe(
       catchError((e) => {
         return of(this.emptyV);
@@ -89,44 +88,47 @@ export class LocuinteService {
         }
       })
     );
+  }  
+  addSingleLocuinte(data: Locuinte) { 
+    console.log(data)   
+      return this.reqS.post<Locuinte>(this.endpoints.add, data)
+    // return of({ ...data, ...{ id: random(10, 100) } }).pipe(
+    //   map((v) => {
+    //     const vals = this.locuinteStore$.value ? this.locuinteStore$.value : [];
+    //     vals.push(v);
+    //     this.locuinteStore$.next(vals);
+    //     return v ? v : null;
+    //   }),
+    //   catchError((err) => of(null))
+    // );
   }
-
-  addSingleLocuinte(data: Locuinte) {
-    
-      // return this.reqS.get(this.endpoints.add)
-    return of({ ...data, ...{ id: random(10, 100) } }).pipe(
-      map((v) => {
-        const vals = this.locuinteStore$.value ? this.locuinteStore$.value : [];
-        vals.push(v);
-        this.locuinteStore$.next(vals);
-        return v ? v : null;
-      }),
-      catchError((err) => of(null))
-    );
+  makeHomeAddress(data) {    
+    return this.reqS.post<Locuinte>(this.endpoints.makeHomeAddress, data)
   }
   updateSingleLocuinte(data: Locuinte) {
-    return of(data).pipe(
-      map((v) => {
-        if (!v) {
-          return null;
-        }
-        const vals = this.locuinteStore$.value ? this.locuinteStore$.value : [];
-        const existingI = vals.findIndex(
-          (val) => val.id.toString() === data.id.toString()
-        );
+    return this.reqS.post<Locuinte>(this.endpoints.updateAddress, data)
+    // return of(data).pipe(
+    //   map((v) => {
+    //     if (!v) {
+    //       return null;
+    //     }
+    //     const vals = this.locuinteStore$.value ? this.locuinteStore$.value : [];
+    //     const existingI = vals.findIndex(
+    //       (val) => val.id.toString() === data.id.toString()
+    //     );
 
-        if (existingI > -1) {
-          vals[existingI] = v;
-        } else {
-          return null;
-        }
-        this.locuinteStore$.next(vals);
-        return data;
-      }),
-      catchError((err) => {
-        return of(null);
-      })
-    );
+    //     if (existingI > -1) {
+    //       vals[existingI] = v;
+    //     } else {
+    //       return null;
+    //     }
+    //     this.locuinteStore$.next(vals);
+    //     return data;
+    //   }),
+    //   catchError((err) => {
+    //     return of(null);
+    //   })
+    // );
   }
 
   getLocuinteWithPolicy(policyTypeID: string) {
@@ -147,4 +149,13 @@ export class LocuinteService {
       })
     );
   }
+ 
+  disableLocationForAddressId(addressId: string) {    
+    return this.reqS.post<Locuinte>(this.endpoints.disAbleLocation, addressId)
+  }
+  UpdateLocationForAddressId(data){
+    return this.reqS.post<Locuinte>(this.endpoints.updateLocationAddressId, data)
+  }
+  
+  
 }

@@ -1,13 +1,19 @@
 
-<ion-content>
+  <app-sub-page-header [config]="headerConfig" ></app-sub-page-header>
+<ion-content class="ion-margin-top bg-white"> 
+  
   <ion-grid color="secondary" class=" pt-0 pb-16">
-    <app-sub-page-header [config]="headerConfig" ></app-sub-page-header>
     <ion-row class="ion-justify-content-center py-32 alt-bg">
-      <div class="radius-50-perc bg-green py-22 px-22">
-        <ion-icon class="mb-0  flex main-icon mh-80 mw-80 md hydrated" src="/assets/custom-ion-icons/File@2x.svg" ></ion-icon>
-
-      </div>
-             
+      <ion-button
+      class="flat no-shadow ion-color-success mt-32 ml-4 text-weight-normal radius-50-perc"
+      flat
+      size="large"
+      
+      mode="md"
+    >
+      
+      <ion-icon class="label-large" name="md-file"></ion-icon>
+    </ion-button>
     </ion-row>
 
     <div class="ion-row px-32">

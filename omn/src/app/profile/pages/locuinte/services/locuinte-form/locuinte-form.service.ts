@@ -10,7 +10,7 @@ import { radiosConfigHelper } from 'src/app/shared/data/radios-config-helper';
 import { selectConfigHelper } from 'src/app/shared/data/select-config-helper';
 import { Locuinte } from 'src/app/shared/models/data/locuinte.interface';
 import { LocuinteFormType } from 'src/app/shared/models/modes/locuinte-form-modes';
-
+  
 @Injectable({
   providedIn: 'root',
 })
@@ -82,7 +82,7 @@ export class LocuinteFormService {
     //   street: string;
     //   number: number;
     //   // Scara bloc.
-    //   entrance: string;
+    //   floor: string;
     // }
     return this.fb.group({
       county: this.fb.control(
@@ -97,13 +97,13 @@ export class LocuinteFormService {
         get(model, 'address.street', ''),
         Validators.required
       ),
-      number: this.fb.control(
-        get(model, 'address.number', ''),
+      buildingNumber: this.fb.control(
+        get(model, 'address.buildingNumber', ''),
         Validators.required
       ),
-      entrance: this.fb.control(get(model, 'address.entrance', '')),
-      apartment: this.fb.control(
-        get(model, 'address.apartment', ''),
+      floor: this.fb.control(get(model, 'address.floor', '')),
+      apart: this.fb.control(
+        get(model, 'address.apart', ''),
         Validators.required
       ),
       postalCode: this.fb.control(get(model, 'address.postalCode', ''), [
@@ -127,17 +127,17 @@ export class LocuinteFormService {
             label: 'Strada',
             dataServiceCb: this.streetLookup,
           }),
-          number: inputConfigHelper({
+          buildingNumber: inputConfigHelper({
             label: 'Număr',
             type: 'text',
             placeholder: '',
           }),
-          entrance: inputConfigHelper({
+          floor: inputConfigHelper({
             label: 'Scara (opțional)',
             type: 'text',
             placeholder: '',
           }),
-          apartment: inputConfigHelper({
+          apart: inputConfigHelper({
             label: 'Apartament',
             type: 'text',
             placeholder: '',
@@ -260,11 +260,11 @@ export class LocuinteFormService {
 
     forOwn(formGroupValue, (val, key) => {
       switch (key) {
-        case 'apartment':
+        case 'apart':
         case 'city':
         case 'county':
-        case 'entrance':
-        case 'number':
+        case 'floor':
+        case 'buildingNumber':
         case 'postalCode':
         case 'street':
           set(newModel, 'address.' + key, val);

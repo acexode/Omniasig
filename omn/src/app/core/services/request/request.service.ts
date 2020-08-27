@@ -14,9 +14,9 @@ export class RequestService {
    * @param endpoint - Full path.
    */
   get<T>(endpoint: string): Observable<T> {
-    let token= "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ0aWJlcml1LmlvbmVzY3VAc29mdGVzY3UuY29tIiwianRpIjoiNTM3NTY3ODYtMWNiMi00MzE0LTkwMWEtNTAxMTRmMDMzZjQ1IiwidW5pcXVlX25hbWUiOiIwNzMzNjg3MzMyIiwiQXBpQ2VudGVyL1Blcm1pc3Npb24iOlsiQ2xpZW50aVJlc2V0YXJlUGFzc2NvZGUiLCJDbGllbnRpUmV2YWxpZGFyZUVtYWlsIiwiQ2xpZW50aVJldmFsaWRhcmVUZWxlZm9uIl0sImh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vd3MvMjAwOC8wNi9pZGVudGl0eS9jbGFpbXMvcm9sZSI6Ik1vYmlsZVVzZXIiLCJleHAiOjE1OTg0MzYzMDYsImlzcyI6ImxvY2FsaG9zdCIsImF1ZCI6Im9tbmlhc2lnLmNvbSJ9.ic66FlW4vuWHu5r_cD1s2GDb8AzxmyNZxiYyBQWovj8"
+    let token= "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJvY2pib3Njb0BnbWFpbC5jb20iLCJqdGkiOiIwODY4MjYwOS1iMjUzLTQ0ZjUtODJiMy1kZGU2ODI3YjNjZjYiLCJ1bmlxdWVfbmFtZSI6IjA3MzM2ODczMzIiLCJBcGlDZW50ZXIvUGVybWlzc2lvbiI6WyJDbGllbnRpUmVzZXRhcmVQYXNzY29kZSIsIkNsaWVudGlSZXZhbGlkYXJlRW1haWwiLCJDbGllbnRpUmV2YWxpZGFyZVRlbGVmb24iXSwiaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS93cy8yMDA4LzA2L2lkZW50aXR5L2NsYWltcy9yb2xlIjoiTW9iaWxlVXNlciIsImV4cCI6MTU5ODUyMDYxMSwiaXNzIjoibG9jYWxob3N0IiwiYXVkIjoib21uaWFzaWcuY29tIn0.rqXQGjL7J99PN8lHWA7byniUyGoUOVuK-eap35bAa10"
     let httpOptions = {
-      headers: new HttpHeaders({ 'Authorization': token })
+      headers: new HttpHeaders({ 'Authorization': 'Bearer ' + token })
     };
     return this.http.get<T>(endpoint,httpOptions );
   }
@@ -37,7 +37,11 @@ export class RequestService {
    * @param data - Post data.
    */
   post<T>(endpoint: string, data: any): Observable<T> {
-    return this.http.post<T>(endpoint, data);
+    let token= "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJvY2pib3Njb0BnbWFpbC5jb20iLCJqdGkiOiIwODY4MjYwOS1iMjUzLTQ0ZjUtODJiMy1kZGU2ODI3YjNjZjYiLCJ1bmlxdWVfbmFtZSI6IjA3MzM2ODczMzIiLCJBcGlDZW50ZXIvUGVybWlzc2lvbiI6WyJDbGllbnRpUmVzZXRhcmVQYXNzY29kZSIsIkNsaWVudGlSZXZhbGlkYXJlRW1haWwiLCJDbGllbnRpUmV2YWxpZGFyZVRlbGVmb24iXSwiaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS93cy8yMDA4LzA2L2lkZW50aXR5L2NsYWltcy9yb2xlIjoiTW9iaWxlVXNlciIsImV4cCI6MTU5ODUyMDYxMSwiaXNzIjoibG9jYWxob3N0IiwiYXVkIjoib21uaWFzaWcuY29tIn0.rqXQGjL7J99PN8lHWA7byniUyGoUOVuK-eap35bAa10"
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Authorization': 'Bearer ' + token })
+    };
+    return this.http.post<T>(endpoint, data,httpOptions);
   }
 
   /**

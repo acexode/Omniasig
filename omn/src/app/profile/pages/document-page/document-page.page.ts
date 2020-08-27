@@ -1,5 +1,5 @@
 import { Component, OnInit, HostBinding } from '@angular/core';
-import { subPageHeaderPrimary } from 'src/app/shared/data/sub-page-header-primary';
+import { subPageHeaderCustom } from 'src/app/shared/data/sub-page-header-custom';
 
 
 @Component({
@@ -8,7 +8,7 @@ import { subPageHeaderPrimary } from 'src/app/shared/data/sub-page-header-primar
   styleUrls: ['./document-page.page.scss'],
 })
 export class DocumentPagePage implements OnInit {
-  headerConfig = subPageHeaderPrimary('OMNIASIG Vânzări');
+  headerConfig = subPageHeaderCustom('OMNIASIG Vânzări', 'bg-state');
  
   constructor() { }
 
