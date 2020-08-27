@@ -41,6 +41,9 @@ export const policyItemHelper = (
       ' ' +
       'position-absolute bottom-0 right-0 svg-absolute-right';
   }
+  if (policy) {
+    baseItem.routerLink = ['/policy', policy.id];
+  }
   if (containerRefItem) {
     baseItem.contentRef = {
       item: containerRefItem,

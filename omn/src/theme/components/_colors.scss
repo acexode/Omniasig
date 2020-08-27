@@ -152,6 +152,12 @@
   --ion-color-contrast-rgb: var(--app-color-white);
   background: $light-green-2;
 }
+.ion-color-medium-green-page {
+  --background: var(--ion-color-omn-light-green, #e5f2ec);
+  --ion-background-color: var(--ion-color-omn-light-green, #e5f2ec);
+  --ion-background-color-rgb: 229, 242, 236;
+  background: #e5f2ec;
+}
 
 .color-dark-green {
   color: $dark-green !important;
@@ -160,6 +166,10 @@
 .color-green {
   color: $green !important;
   --color: $green !important;
+}
+
+.ion-color-secondary-grey {
+    --color: $secondary-grey !important;
 }
 
 .color-secondary-grey {
@@ -175,20 +185,33 @@
   --color: var(--app-color-white);
 }
 
+.text-color {
+  color: var(--app-text-color);
+  --color: var(--app-text-color);
+}
+
 .color-light-red {
   color: $light-red;
 }
 
 .color-red {
   color: $red;
+  --color: $red;
 }
 
 .color-disabled {
   color: $grey3;
 }
+
+.disabled-bg {
+  background-color: $medium-grey-2;
+  --background: $medium-grey-2;
+}
+
 .color-grey-6 {
   color: $grey-6;
 }
+
 .bg-danger {
   background-color: $danger;
 }
@@ -211,7 +234,6 @@
 
 .bg-green {
   background-color: $green;
-
   --background: $green;
 }
 
@@ -226,7 +248,7 @@
 
 .bg-white {
   background-color: $white;
-  --background: $white;
+  --background: #fff;
 }
 
 .bg-light-green-2 {
@@ -267,4 +289,47 @@
 .bg-light-gray {
   background-color: $light-grey-2;
   --background: $light-grey-2;
+}
+
+.bg-light-green-5 {
+  background-color: $light-green-5;
+  --background: $light-green-5;
+}
+
+.bg-light-green-faded {
+  background-color: $light-green-5;
+  --background: $light-green-5;
+}
+
+.bg-ultra-light-green {
+  background: $ultra-light-green;
+}
+
+.bg-dark-green {
+  background: $dark-green;
+  --background: var(--app-dark-green);
+}
+
+.text-color {
+  color: var(--app-text-color);
+  --color: var(--app-text-color);
+}
+.bg-default {
+  background-color: $alt-bg;
+  --background: $alt-bg;
+}
+
+.bg-inherit {
+  --background: inherit;
+  background-color: inherit;
+}
+
+.bg-grey-2 {
+  background-color: $light-grey-2;
+  --background: $light-grey-2;
+}
+
+.bg-red {
+  background-color: $red;
+  --background: $red;
 }

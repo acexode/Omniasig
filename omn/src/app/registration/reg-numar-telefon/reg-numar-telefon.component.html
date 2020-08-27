@@ -1,0 +1,30 @@
+<ion-content class="">
+    <ion-header [translucent]="false" class="header-element">
+        <ion-toolbar size="small" color="omn-transparent-green" class="header-toolbar">
+        </ion-toolbar>
+    </ion-header>
+    <div class="px-32">
+        <ion-col>
+            <div class="text-center mb-8 ion-text-center">
+                <ion-text class="alt-font color-dark-green x-large mb-17 text-center">
+                    Numărul tău de telefon
+                </ion-text>
+            </div>
+            <div class="ion-text-center mb-32">
+                <ion-text class="text-small">
+                    Vom trimite un cod de verificare către acest număr.
+                </ion-text>
+            </div>
+            <div class="mt-30 pb-60">
+                <form [formGroup]="teleForm" (ngSubmit)="reg()">
+                    <app-input formControlName="phoneNumber" [config]="config"></app-input>
+                </form>
+            </div>
+            <div class="ion-align-items-center ion-text-center mt-8">
+                <ion-button type="submit" (click)="reg()" [disabled]="!teleForm.valid" class="success-gradient ion-color-success" expand="full" size="large" shape="round" mode="md">
+                    Continuă
+                </ion-button>
+            </div>
+        </ion-col>
+    </div>
+</ion-content>

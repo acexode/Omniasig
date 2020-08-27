@@ -6,6 +6,8 @@ import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { Deeplinks } from '@ionic-native/deeplinks/ngx';
 import { Router } from '@angular/router';
 import { NgZone } from '@angular/core';
+import { defineCustomElements } from '@ionic/pwa-elements/loader';
+
 
 @Component({
   selector: 'app-root',
@@ -30,6 +32,8 @@ export class AppComponent {
       this.statusBar.styleDefault();
       this.splashScreen.hide();
       this.handleDeepLink();
+      // Call the element loader after the platform has been bootstrapped
+      defineCustomElements(window);
     });
   }
 

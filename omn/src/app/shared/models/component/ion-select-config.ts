@@ -8,4 +8,5 @@ export interface IonSelectConfig {
   alertOptions?: any;
   forceListItems: boolean;
   placeholder?: string;
+  disabled?: boolean;
 }

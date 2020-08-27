@@ -16,6 +16,8 @@ import { PolicySharedModule } from './modules/policy/policy-shared.module';
 import { SharedModule } from './shared/shared.module';
 import { HttpClientModule } from '@angular/common/http';
 import { Deeplinks } from '@ionic-native/deeplinks/ngx';
+
+
 @NgModule({
   declarations: [AppComponent],
   entryComponents: [],

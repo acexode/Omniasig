@@ -14,7 +14,7 @@ import { AuthService } from '../../services/auth/auth.service';
   providedIn: 'root',
 })
 export class LoginGuard implements CanActivate {
-  constructor(private authS: AuthService) {}
+  constructor(private authS: AuthService) { }
   canActivate(
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
@@ -23,10 +23,11 @@ export class LoginGuard implements CanActivate {
     | Promise<boolean | UrlTree>
     | boolean
     | UrlTree {
-    return this.authS.getAccountData().pipe(
-      map((val: Account) => {
-        return val ? this.authS.redirectUrlTree(next) : true;
-      })
-    );
+    // return this.authS.getAccountData().pipe(
+    //   map((val: Account) => {
+    //     return val ? this.authS.redirectUrlTree(next) : true;
+    //   })
+    // );
+    return true
   }
 }

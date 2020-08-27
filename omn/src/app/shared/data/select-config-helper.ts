@@ -4,6 +4,7 @@ export const selectConfigHelper = (conf: {
   label: string;
   force?: boolean;
   multiple?: boolean;
+  disabled?: boolean;
 }): IonSelectConfig => {
   const config: IonSelectConfig = {
     inputLabel: {
@@ -12,6 +13,7 @@ export const selectConfigHelper = (conf: {
     },
     forceListItems: conf.force || false,
     multiple: conf.multiple || false,
+    disabled: conf.disabled || false,
     placeholder: 'Selectează',
     alertOptions: {
       customClass: 'omn-select-alert',

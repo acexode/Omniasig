@@ -21,7 +21,7 @@
                 </form>
             </div>
             <div class="ion-align-items-center ion-text-center mt-8">
-                <ion-button type="submit" (click)="login()" [disabled]="!teleForm.valid" class="success-gradient ion-color-success" expand="full" size="large" shape="round" mode="md">
+                <ion-button type="submit" (click)="login()" [disabled]="!teleForm.valid || busy" class="success-gradient ion-color-success" expand="full" size="large" shape="round" mode="md">
                     Continuă
                 </ion-button>
             </div>

@@ -16,6 +16,7 @@ export interface PolicyItem {
     from: Date | string;
     to: Date | string;
   };
+  cesiune?: Array<{ cui: string; procent: number; denumireCesionar: string }>;
   // Display
   type?: PolicyType;
   listingSubtitle?: string;

@@ -3,6 +3,11 @@ import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 
 const routes: Routes = [
   {
+    path: '',
+    redirectTo: 'home',
+    pathMatch: 'full',
+  },
+  {
     path: 'home',
     loadChildren: () =>
       import('./home/home.module').then((m) => m.HomePageModule),
@@ -11,11 +16,6 @@ const routes: Routes = [
     path: 'policy',
     loadChildren: () =>
       import('./modules/policy/policy.module').then((m) => m.PolicyModule),
-  },
-  {
-    path: '',
-    redirectTo: 'home',
-    pathMatch: 'full',
   },
   {
     path: 'profil',
@@ -28,9 +28,44 @@ const routes: Routes = [
       import('./login/login.module').then((m) => m.LoginPageModule),
   },
   {
+    path: 'registration',
+    loadChildren: () =>
+      import('./registration/registration.module').then(
+        (m) => m.RegistrationPageModule
+      ),
+  },
+  {
+    path: 'phone-number',
+    loadChildren: () =>
+      import('./schimbare-numar-telefon/schimbare-numar-telefon.module').then(
+        (m) => m.SchimbareNumarTelefonPageModule
+      ),
+  },
+  {
     path: 'contact',
     loadChildren: () =>
-      import('./modules/contact/contact.module').then((m) => m.ContactPageModule),
+      import('./modules/contact/contact.module').then(
+        (m) => m.ContactPageModule
+      ),
+  },
+  {
+    path: 'reset-pincode',
+    loadChildren: () =>
+      import('./pin-code-reset/pin-code-reset.module').then(
+        (m) => m.PinCodeResetPageModule
+      ),
+  },
+  {
+    path: 'asistenta',
+    loadChildren: () =>
+      import('./modules/asistenta/asistenta.module').then(
+        (m) => m.AsistentaPageModule
+      ),
+  },
+  {
+    path: 'biometrics',
+    loadChildren: () =>
+      import('./biometrics/biometrics.module').then((m) => m.BiometricsModule),
   },
 ];
 

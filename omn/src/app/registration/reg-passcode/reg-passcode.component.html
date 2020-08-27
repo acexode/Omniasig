@@ -1,0 +1,42 @@
+<ion-content class="">
+    <ion-header [translucent]="false" class="header-element">
+        <ion-toolbar size="small" color="omn-transparent-white" class="header-toolbar">
+            <ion-buttons slot="start" class="header-buttons">
+
+            </ion-buttons>
+        </ion-toolbar>
+    </ion-header>
+    <div class="px-32">
+        <ion-col>
+            <div class="text-center mb-8 ion-text-center">
+                <ion-text class="alt-font color-dark-green x-large mb-17 text-center">
+                    Cod de acces
+                </ion-text>
+            </div>
+            <div class="ion-text-center pb-42">
+                <ion-text class="text-small">
+                    Creează un cod de acces de 6 cifre.
+                </ion-text>
+            </div>
+            <div class="ion-text-center pb-80">
+                <div (click)="spawnInput()" class="">
+                    <ion-icon class="mr-4 password-hide s18-h24" *ngIf="digitsLength < 1" name="ellipse-outline"></ion-icon>
+                    <ion-icon name="ellipse" *ngIf="digitsLength > 0" class="mr-4 password-hide s18-h24"></ion-icon>
+                    <ion-icon class="mr-4 password-hide s18-h24" *ngIf="digitsLength < 2" name="ellipse-outline"></ion-icon>
+                    <ion-icon name="ellipse" class="mr-4 password-hide s18-h24" *ngIf="digitsLength > 1"></ion-icon>
+                    <ion-icon class="mr-4 password-hide s18-h24" *ngIf="digitsLength < 3" name="ellipse-outline"></ion-icon>
+                    <ion-icon name="ellipse" class="mr-4 password-hide s18-h24" *ngIf="digitsLength > 2"></ion-icon>
+                    <ion-icon class="mr-4 password-hide s18-h24" *ngIf="digitsLength < 4" name="ellipse-outline"></ion-icon>
+                    <ion-icon name="ellipse" class="mr-4 password-hide s18-h24" *ngIf="digitsLength > 3"></ion-icon>
+                    <ion-icon class="mr-4 password-hide s18-h24" *ngIf="digitsLength < 5" name="ellipse-outline"></ion-icon>
+                    <ion-icon name="ellipse" class="mr-4 password-hide s18-h24" *ngIf="digitsLength > 4"></ion-icon>
+                    <ion-icon class="s18-h24 password-hide" *ngIf="digitsLength < 6" name="ellipse-outline"></ion-icon>
+                    <ion-icon name="ellipse" class="mr-4 password-hide s18-h24" *ngIf="digitsLength > 5"></ion-icon>
+                </div>
+                <form [formGroup]="passForm">
+                    <ion-input #inputField formControlName="passcode" class="position-absolute bg-white text-center opacity-hide ion-no-border" maxlength="6" required="true" type="number" inputmode="number" autofocus="true"></ion-input>
+                </form>
+            </div>
+        </ion-col>
+    </div>
+</ion-content>

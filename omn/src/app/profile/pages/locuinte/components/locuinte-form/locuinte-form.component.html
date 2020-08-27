@@ -1,16 +1,17 @@
 <ion-grid class="m-0 mh-100p flex flex-column w-100 flex-1 ion-no-padding">
   <ng-container [ngSwitch]="formType">
-    <ion-row class="ion-no-padding flex" *ngSwitchCase="formTypes.ADDRESS"
-      ><ng-container *ngTemplateOutlet="address"></ng-container
-    ></ion-row>
-    <ion-row class="ion-no-padding flex" *ngSwitchCase="formTypes.PLACE"
-      ><ng-container *ngTemplateOutlet="place"></ng-container
-    ></ion-row>
+    <ion-row class="ion-no-padding flex" *ngSwitchCase="formTypes.ADDRESS">
+      <ng-container *ngTemplateOutlet="address"></ng-container>
+    </ion-row>
+    <ion-row class="ion-no-padding flex" *ngSwitchCase="formTypes.PLACE">
+      <ng-container *ngTemplateOutlet="place"></ng-container>
+    </ion-row>
     <ion-row
       class="ion-no-padding flex h-100 pt-24"
       *ngSwitchCase="formTypes.SUCCESS_MSG"
-      ><ng-container *ngTemplateOutlet="successType"></ng-container
-    ></ion-row>
+    >
+      <ng-container *ngTemplateOutlet="successType"></ng-container>
+    </ion-row>
     <p *ngSwitchDefault></p>
   </ng-container>
 
@@ -74,8 +75,8 @@
           class="w-100"
           [config]="fieldConfig?.number"
           formControlName="number"
-        ></app-input
-      ></ion-col>
+        ></app-input>
+      </ion-col>
       <ion-col size="6" class="pl-16">
         <app-input
           class="w-100"
@@ -90,15 +91,15 @@
           class="w-100"
           [config]="fieldConfig?.apartment"
           formControlName="apartment"
-        ></app-input
-      ></ion-col>
+        ></app-input>
+      </ion-col>
       <ion-col size="6" class="pl-16">
         <app-input
           class="w-100"
           [config]="fieldConfig?.postalCode"
           formControlName="postalCode"
-        ></app-input
-      ></ion-col>
+        ></app-input>
+      </ion-col>
     </ion-row>
     <ion-row class="ion-no-padding profile-name mb-24">
       <app-input
@@ -107,6 +108,35 @@
         formControlName="name"
       ></app-input>
     </ion-row>
+    <ng-container *ngIf="policyType === 'PAD'">
+      <ion-row class="ion-no-padding profile-padAvailable mb-24">
+        <app-radios
+          class="w-100"
+          [config]="fieldConfig?.padAvailable"
+          [options]="fieldConfigData?.padAvailable || []"
+          formControlName="padAvailable"
+        ></app-radios>
+      </ion-row>
+      <ion-row
+        class="ion-no-padding apartament-postal-code mb-24"
+        *ngIf="padAvailableV"
+      >
+        <ion-col size="6" class="pr-16">
+          <app-input
+            class="w-100"
+            [config]="fieldConfig?.padSerie"
+            formControlName="padSerie"
+          ></app-input
+        ></ion-col>
+        <ion-col size="6" class="pl-16">
+          <app-input
+            class="w-100"
+            [config]="fieldConfig?.padNr"
+            formControlName="padNr"
+          ></app-input
+        ></ion-col>
+      </ion-row>
+    </ng-container>
   </ion-grid>
 </ng-template>
 
@@ -137,8 +167,8 @@
         class="w-100"
         [config]="fieldConfig?.buildYear"
         formControlName="buildYear"
-      ></app-datepicker
-    ></ion-row>
+      ></app-datepicker>
+    </ion-row>
     <ion-row class="ion-no-padding valoare flex-column mb-24">
       <ion-label class="text-weight-medium mb-16">Valoarea locuinței</ion-label>
       <ion-row class="ion-no-padding valoare-moneda mb-24">
@@ -147,8 +177,8 @@
           [config]="fieldConfig?.valueCurrency"
           formControlName="valueCurrency"
           [options]="fieldConfigData?.valueCurrency || []"
-        ></app-radios
-      ></ion-row>
+        ></app-radios>
+      </ion-row>
       <ion-row class="ion-no-padding valoare-suma">
         <app-input
           class="w-100"
@@ -157,21 +187,39 @@
         ></app-input>
       </ion-row>
     </ion-row>
+
+    <ion-row class="ion-no-padding flex-column pad-description mb-24 mt-n12">
+      <ion-item
+        class="form-description p-0 no-paddings"
+        lines="none"
+        *ngIf="policyType === 'PAD'"
+        (click)="triggerModal('VALOARE_MODAL')"
+      >
+        <ion-icon
+          slot="start"
+          name="md-info"
+          class="icon-20 position-absolute top-0 m-0 color-secondary-blue"
+        ></ion-icon
+        ><ion-text class="text-small ml-32"
+          >Polița PAD acoperă o valoare de 20.000 euro
+        </ion-text>
+      </ion-item>
+    </ion-row>
     <ion-row class="ion-no-padding ocupare mb-24">
       <app-radios
         class="w-100"
         [config]="fieldConfig?.occupancy"
         formControlName="occupancy"
         [options]="fieldConfigData?.occupancy || []"
-      ></app-radios
-    ></ion-row>
+      ></app-radios>
+    </ion-row>
     <ion-row class="ion-no-padding suprafata-utila mb-24">
       <app-input
         class="w-100"
         [config]="fieldConfig?.usableSurface"
         formControlName="usableSurface"
-      ></app-input
-    ></ion-row>
+      ></app-input>
+    </ion-row>
     <ion-row class="ion-no-padding regim-inaltime mb-24">
       <app-input
         class="w-100 mb-12"
@@ -183,8 +231,8 @@
           slot="start"
           name="md-info"
           class="icon-20 position-absolute top-0 m-0 color-secondary-blue"
-        ></ion-icon
-        ><ion-text class="text-small ml-32"
+        ></ion-icon>
+        <ion-text class="text-small ml-32"
           >Câte etaje are clădirea. Pentru clădirile care au doar parter sau
           parter și un etaj, regimul de înălțime este 1.
         </ion-text>
