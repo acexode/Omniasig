@@ -33,7 +33,7 @@ export class RegistrationService {
   // makes http call to server
   login(loginData: { phone: string; password: any; aRoute: string }) {
     const reqData: Login = {
-      email: loginData.phone,
+      userName: loginData.phone,
       password: loginData.password,
     };
     return this.reqS.post<LoginResponse>(authEndpoints.login, reqData);

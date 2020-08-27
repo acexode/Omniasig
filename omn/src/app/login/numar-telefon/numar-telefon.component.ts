@@ -1,7 +1,7 @@
-import { AuthService } from 'src/app/core/services/auth/auth.service';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { AuthService } from 'src/app/core/services/auth/auth.service';
 import { IonTextItem } from 'src/app/shared/models/component/ion-text-item';
 import { IonInputConfig } from './../../shared/models/component/ion-input-config';
 
@@ -28,7 +28,7 @@ export class NumarTelefonComponent implements OnInit {
     maxLength: 10,
   };
   teleForm: FormGroup;
-  busy: boolean = false;
+  busy = false;
   constructor(
     private router: Router,
     private formBuilder: FormBuilder,
@@ -61,7 +61,7 @@ export class NumarTelefonComponent implements OnInit {
           this.checkFirstLogin(this.teleForm.controls['phoneNumber'].value);
         },
         (error) => {
-          if (error.status == 400) {
+          if (error.status === 400) {
             this.router.navigate([
               'registration/confirm-number',
               this.teleForm.controls['phoneNumber'].value,
@@ -74,7 +74,7 @@ export class NumarTelefonComponent implements OnInit {
 
   checkFirstLogin(enterNumber) {
     this.auth.lastLoginNumber().subscribe((phoneNumber) => {
-      if (phoneNumber == enterNumber) {
+      if (phoneNumber === enterNumber) {
         this.router.navigate([
           'login/verify',
           this.teleForm.controls['phoneNumber'].value,

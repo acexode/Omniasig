@@ -11,14 +11,14 @@ import { IonInput, NavController } from '@ionic/angular';
   styleUrls: ['./passcode.component.scss'],
 })
 export class PasscodeComponent implements OnInit, OnDestroy {
-  min: string = '00';
+  min = '00';
   sec: any = 59;
   digitsLength = 0;
   @ViewChild('inputField') inputField: IonInput;
   passForm: FormGroup;
   phoneNumber: string = null;
   sub: Subscription;
-  busy: boolean = false;
+  busy = false;
   errorLogin: string = null;
   constructor(
     private navCtrl: NavController,
@@ -70,11 +70,11 @@ export class PasscodeComponent implements OnInit, OnDestroy {
   verifyPasscode() {
     const data = {
       phone: this.phoneNumber,
-      password: this.passForm.controls['passcode'].value,
+      password: this.passForm.controls.passcode.value,
       aRoute: '/home',
     };
     this.authService.login(data).subscribe(
-      (data) => this.changeCurrentLogin(),
+      (datav) => this.changeCurrentLogin(),
       (error) => this.errLogin(error)
     );
   }
@@ -101,8 +101,8 @@ export class PasscodeComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    //Called once, before the instance is destroyed.
-    //Add 'implements OnDestroy' to the class.
+    // Called once, before the instance is destroyed.
+    // Add 'implements OnDestroy' to the class.
     this.sub.unsubscribe();
   }
 }

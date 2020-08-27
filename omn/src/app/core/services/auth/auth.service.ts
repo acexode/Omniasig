@@ -1,3 +1,4 @@
+import { assignIn } from 'lodash';
 import { Injectable } from '@angular/core';
 import {
   Router,
@@ -44,6 +45,8 @@ export class AuthService {
   initialState: AuthState = {
     init: false,
     account: null,
+    authToken: '',
+    expiryDate: null,
   };
   authState: BehaviorSubject<AuthState> = new BehaviorSubject(
     this.initialState
@@ -123,10 +126,11 @@ export class AuthService {
   }
 
   accountActivated(acc: Account) {
-    return acc.userStates.findIndex((s) => s === AccountStates.ACTIVE) > -1;
+    return acc
+      ? acc.userStates.findIndex((s) => s === AccountStates.ACTIVE) > -1
+      : false;
   }
 
-  // checks if the user just installed the app or recently logged out
   /**
    *
    * @param phoneNumber phoneNumber of the user trying to login
@@ -169,18 +173,23 @@ export class AuthService {
     );
   }
 
+  // makes http call to server.
   login(loginData: {
-    email: string;
-    password: string;
-    aRoute?: ActivatedRoute | string;
+    phone: string;
+    password: any;
+    aRoute: string | ActivatedRoute;
   }) {
     const reqData: Login = {
-      email: loginData.email,
+      userName: loginData.phone,
       password: loginData.password,
     };
     return this.reqS.post<LoginResponse>(authEndpoints.login, reqData).pipe(
-      switchMap((val) => {
-        return this.processAuthResponse(val);
+      switchMap((res) => {
+        return this.saveToken(res.token).pipe(
+          switchMap(() => {
+            return this.getProfile(res.token, loginData.phone);
+          })
+        );
       }),
       tap((value) => {
         let redirectUrl: any = '/home';
@@ -188,7 +197,7 @@ export class AuthService {
           redirectUrl = this.redirectUrlTree(
             loginData.aRoute ? loginData.aRoute.snapshot : null
           );
-        } else if( typeof loginData.aRoute === 'string') {
+        } else if (typeof loginData.aRoute === 'string') {
           redirectUrl = loginData.aRoute;
         }
 
