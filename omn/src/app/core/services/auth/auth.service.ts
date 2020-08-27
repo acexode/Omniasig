@@ -1,8 +1,9 @@
+import { assignIn } from 'lodash';
 import { Injectable } from '@angular/core';
 import {
+  Router,
   ActivatedRoute,
   ActivatedRouteSnapshot,
-  Router,
   UrlTree,
 } from '@angular/router';
 import { BehaviorSubject } from 'rxjs';
@@ -28,7 +29,9 @@ import { RequestService } from '../request/request.service';
 })
 export class AuthService {
   demoAccount: Account = {
-    id: 1,
+    userId: 1,
+    name: 'Ion',
+    surname: 'Ionescu',
     firstName: 'Ion',
     lastName: 'Ionescu',
     cnp: '1234567890123',
@@ -38,12 +41,14 @@ export class AuthService {
       'Strada Dimitrie Bolintineanu 71-73, Scara B, Ap. 21 Turnu Magurele jud.Teleorman, Cod 654321',
     ],
     // userStates: [AccountStates.INACTIVE, AccountStates.EMAIL_INVALIDATED],
-    userStates: [],
+    userStates: [AccountStates.ACTIVE],
   };
-  // TODO: DEMO - reset auth state to default one login is implemented.
+  // TODO: DEMO - reset auth state to default once login is implemented.
   initialState: AuthState = {
     init: false,
     account: null,
+    authToken: '',
+    expiryDate: null,
   };
   authState: BehaviorSubject<AuthState> = new BehaviorSubject(
     this.initialState
@@ -54,24 +59,105 @@ export class AuthService {
     private reqS: RequestService
   ) {
     // Load account state from local/session/cookie storage.
-    this.storeS.getItem('account').subscribe((account: Account) => {
-      if (account) {
-        this.authState.next({
-          init: true,
-          account,
-        });
+    this.storeS.getItem('token').subscribe((token: string) => {
+      if (token) {
+        this.getAccountFromStorage(token);
       } else {
-        // TODO: Remove Demo code once logi is implemented.
-        this.storeS.setItem('account', this.demoAccount);
-
         this.authState.next({
-          init: true,
-          account: this.demoAccount,
+          init: false,
+          account: null,
+          authToken: null,
         });
       }
     });
   }
 
+  // get user data from storage and set account and token to authstate
+  getAccountFromStorage(token) {
+    this.storeS.getItem('account').subscribe((account: Account) => {
+      this.authState.next({
+        init: true,
+        account,
+        authToken: token,
+      });
+    });
+  }
+
+  // check if user exists
+  findUserByPhoneNumber(phoneNumber: number) {
+    return this.reqS.get<any>(
+      `${authEndpoints.findUserByPhoneNumber}?phoneNumber=${phoneNumber}`
+    );
+  }
+
+  // save token to local storage
+  saveToken(token: string) {
+    return this.storeS.setItem('token', token);
+  }
+  // get token to local storage
+  getToken() {
+    return this.storeS.getItem('token');
+  }
+
+  // get user profile from ws
+  getProfile(token, phoneNumber) {
+    return this.reqS
+      .get<Account>(
+        `${authEndpoints.getUserProfile}?userNameOrId=${phoneNumber}`
+      )
+      .pipe(
+        switchMap((res) => {
+          return this.processAuthResponse({
+            account: { ...res, userStates: [AccountStates.ACTIVE] },
+            token,
+          });
+        })
+      );
+  }
+
+  // svae auth data to storage
+  processAuthResponse(data: LoginResponse) {
+    const account = data.account ? data.account : null;
+    const authToken = data.token ? data.token : null;
+    return this.storeS.setItem('account', account).pipe(
+      tap(() => {
+        this.authState.next({
+          init: true,
+          account,
+          authToken,
+        });
+      }),
+      map((v) => data)
+    );
+  }
+
+  accountActivated(acc: Account) {
+    return acc
+      ? acc.userStates.findIndex((s) => s === AccountStates.ACTIVE) > -1
+      : false;
+  }
+
+  /**
+   *
+   * @param phoneNumber phoneNumber of the user trying to login
+   */
+  saveLastLoginNumber(phoneNumber?: string) {
+    return this.storeS.setItem('phoneNumber', phoneNumber);
+  }
+
+  lastLoginNumber() {
+    return this.storeS.getItem('phoneNumber');
+  }
+
+  // TODO: DEMO
+  demoLogout() {
+    this.storeS.removeItem('account');
+    this.storeS.setItem('account', this.demoAccount);
+    this.authState.next({
+      init: true,
+      account: this.demoAccount,
+    });
+  }
   updateState(newState: AuthState) {
     this.authState.next(newState);
   }
@@ -93,38 +179,36 @@ export class AuthService {
     );
   }
 
+  // makes http call to server.
   login(loginData: {
-    email: string;
-    password: string;
-    aRoute: ActivatedRoute;
+    phone: string;
+    password: any;
+    aRoute: string | ActivatedRoute;
   }) {
     const reqData: Login = {
-      email: loginData.email,
+      userName: loginData.phone,
       password: loginData.password,
     };
     return this.reqS.post<LoginResponse>(authEndpoints.login, reqData).pipe(
-      switchMap((val) => {
-        return this.processAuthResponse(val);
+      switchMap((res) => {
+        return this.saveToken(res.token).pipe(
+          switchMap(() => {
+            return this.getProfile(res.token, loginData.phone);
+          })
+        );
       }),
       tap((value) => {
-        const redirectUrl = this.redirectUrlTree(
-          loginData.aRoute ? loginData.aRoute.snapshot : null
-        );
+        let redirectUrl: any = '/home';
+        if (loginData.aRoute instanceof ActivatedRoute) {
+          redirectUrl = this.redirectUrlTree(
+            loginData.aRoute ? loginData.aRoute.snapshot : null
+          );
+        } else if (typeof loginData.aRoute === 'string') {
+          redirectUrl = loginData.aRoute;
+        }
+
         Promise.resolve(this.routerS.navigateByUrl(redirectUrl));
       })
-    );
-  }
-
-  processAuthResponse(data: LoginResponse) {
-    const account = data.account ? data.account : null;
-    return this.storeS.setItem('account', account).pipe(
-      tap(() => {
-        this.authState.next({
-          init: true,
-          account,
-        });
-      }),
-      map((v) => data)
     );
   }
 
@@ -137,20 +221,6 @@ export class AuthService {
       }
     }
     return this.routerS.createUrlTree(['/']);
-  }
-
-  accountActivated(acc: Account) {
-    return acc.userStates.findIndex((s) => s === AccountStates.ACTIVE) > -1;
-  }
-
-  // TODO: DEMO
-  demoLogout() {
-    this.storeS.removeItem('account');
-    this.storeS.setItem('account', this.demoAccount);
-    this.authState.next({
-      init: true,
-      account: this.demoAccount,
-    });
   }
 
   demoActivate() {

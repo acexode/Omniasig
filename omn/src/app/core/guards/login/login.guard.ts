@@ -6,8 +6,6 @@ import {
   UrlTree,
 } from '@angular/router';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
-import { Account } from '../../models/account.interface';
 import { AuthService } from '../../services/auth/auth.service';
 
 @Injectable({
@@ -23,10 +21,11 @@ export class LoginGuard implements CanActivate {
     | Promise<boolean | UrlTree>
     | boolean
     | UrlTree {
-    return this.authS.getAccountData().pipe(
-      map((val: Account) => {
-        return val ? this.authS.redirectUrlTree(next) : true;
-      })
-    );
+    // return this.authS.getAccountData().pipe(
+    //   map((val: Account) => {
+    //     return val ? this.authS.redirectUrlTree(next) : true;
+    //   })
+    // );
+    return true;
   }
 }

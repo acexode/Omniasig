@@ -3,6 +3,11 @@ import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 
 const routes: Routes = [
   {
+    path: '',
+    redirectTo: 'home',
+    pathMatch: 'full',
+  },
+  {
     path: 'home',
     loadChildren: () =>
       import('./home/home.module').then((m) => m.HomePageModule),
@@ -11,16 +16,6 @@ const routes: Routes = [
     path: 'policy',
     loadChildren: () =>
       import('./modules/policy/policy.module').then((m) => m.PolicyModule),
-  },
-  {
-    path: 'asistenta',
-    loadChildren: () =>
-      import('./modules/policy/asistenta-technica/asistenta-technica.module').then((m) => m.AsistentaTechnicaPageModule),
-  },
-  {
-    path: '',
-    redirectTo: 'home',
-    pathMatch: 'full',
   },
   {
     path: 'profil',
@@ -52,6 +47,30 @@ const routes: Routes = [
       import('./modules/contact/contact.module').then(
         (m) => m.ContactPageModule
       ),
+  },
+  {
+    path: 'reset-pincode',
+    loadChildren: () =>
+      import('./pin-code-reset/pin-code-reset.module').then(
+        (m) => m.PinCodeResetPageModule
+      ),
+  },
+  {
+    path: 'asistenta',
+    loadChildren: () =>
+      import('./modules/asistenta/asistenta.module').then(
+        (m) => m.AsistentaPageModule
+      ),
+  },
+  {
+    path: 'biometrics',
+    loadChildren: () =>
+      import('./biometrics/biometrics.module').then((m) => m.BiometricsModule),
+  },
+  {
+    path: 'setari',
+    loadChildren: () =>
+      import('./modules/setari/setari.module').then((m) => m.SetariPageModule),
   },
 ];
 

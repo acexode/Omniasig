@@ -4,7 +4,9 @@
 .mw-0 {
   min-width: 0;
 }
-
+.h-auto {
+  height: auto;
+}
 .h-272 {
   height: rem(272);
 }
@@ -14,6 +16,9 @@
 }
 .mw-120 {
   max-width: rem(120) !important;
+}
+.mw-152 {
+  max-width: rem(152) !important;
 }
 
 .mw-116 {
@@ -69,6 +74,9 @@
 .w-50 {
   width: 50%;
 }
+.w-75 {
+  width: 75%;
+}
 .mw-50-perc {
   max-width: 50%;
 }
@@ -84,4 +92,8 @@
 }
 .mh-64 {
   min-height: rem(64);
+}
+
+.mh-40 {
+  min-height: rem(40);
 }

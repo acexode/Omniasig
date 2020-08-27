@@ -108,6 +108,35 @@
         formControlName="name"
       ></app-input>
     </ion-row>
+    <ng-container *ngIf="policyType === 'PAD'">
+      <ion-row class="ion-no-padding profile-padAvailable mb-24">
+        <app-radios
+          class="w-100"
+          [config]="fieldConfig?.padAvailable"
+          [options]="fieldConfigData?.padAvailable || []"
+          formControlName="padAvailable"
+        ></app-radios>
+      </ion-row>
+      <ion-row
+        class="ion-no-padding apartament-postal-code mb-24"
+        *ngIf="padAvailableV"
+      >
+        <ion-col size="6" class="pr-16">
+          <app-input
+            class="w-100"
+            [config]="fieldConfig?.padSerie"
+            formControlName="padSerie"
+          ></app-input
+        ></ion-col>
+        <ion-col size="6" class="pl-16">
+          <app-input
+            class="w-100"
+            [config]="fieldConfig?.padNr"
+            formControlName="padNr"
+          ></app-input
+        ></ion-col>
+      </ion-row>
+    </ng-container>
   </ion-grid>
 </ng-template>
 
@@ -157,6 +186,24 @@
           formControlName="valueSum"
         ></app-input>
       </ion-row>
+    </ion-row>
+
+    <ion-row class="ion-no-padding flex-column pad-description mb-24 mt-n12">
+      <ion-item
+        class="form-description p-0 no-paddings"
+        lines="none"
+        *ngIf="policyType === 'PAD'"
+        (click)="triggerModal('VALOARE_MODAL')"
+      >
+        <ion-icon
+          slot="start"
+          name="md-info"
+          class="icon-20 position-absolute top-0 m-0 color-secondary-blue"
+        ></ion-icon
+        ><ion-text class="text-small ml-32"
+          >Polița PAD acoperă o valoare de 20.000 euro
+        </ion-text>
+      </ion-item>
     </ion-row>
     <ion-row class="ion-no-padding ocupare mb-24">
       <app-radios

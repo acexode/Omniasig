@@ -10,5 +10,6 @@ export interface IonAutocompleteConfig {
   idKey?: string;
   labelKey?: string;
   placeholder?: string;
+  disabled?: boolean;
   dataServiceCb: (text: string) => Observable<Array<any>>;
 }
