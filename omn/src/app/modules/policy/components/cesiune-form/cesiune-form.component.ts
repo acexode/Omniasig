@@ -1,9 +1,11 @@
 import {
   ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
+  EventEmitter,
   Input,
   OnInit,
-  ChangeDetectorRef,
+  Output,
 } from '@angular/core';
 import {
   AbstractControl,
@@ -29,6 +31,7 @@ import { CesiuneItem } from './../models/cesiune-item';
 })
 export class CesiuneFormComponent implements OnInit {
   @Input() config: IonInputConfig;
+  @Input() cesiuneData = null;
 
   enableCesiune = false;
   cesuineItems: CesiuneItem[];
@@ -70,6 +73,7 @@ export class CesiuneFormComponent implements OnInit {
   cesiuneNumS;
   formValidS;
 
+  @Output() emitForm: EventEmitter<any> = new EventEmitter();
   public cesiuneForm: FormGroup;
   censionar: FormArray;
 
@@ -94,6 +98,9 @@ export class CesiuneFormComponent implements OnInit {
       cesionar: this.fb.array([]),
     });
     this.handleFormEvents();
+    if (this.cesiuneData) {
+      this.cesiuneForm.setValue(this.cesiuneData);
+    }
     this.cesiuneForm.updateValueAndValidity();
     this.cdRef.markForCheck();
   }
@@ -102,16 +109,16 @@ export class CesiuneFormComponent implements OnInit {
     unsubscriberHelper(this.cesiuneNumS);
     unsubscriberHelper(this.hasCesiuneS);
     unsubscriberHelper(this.formValidS);
-    
+
     if (this.hasCesiune instanceof AbstractControl) {
       this.hasCesiuneS = this.hasCesiune.valueChanges.subscribe((val) => {
         this.enableCesiune = val === 1;
-        console.log(val);
         if (!val) {
           this.cesiuneNumS = 0;
           this.cesiuneNum.clearValidators();
           this.cesiuneNum.reset();
         } else {
+          this.cesiuneNum.setValue(1);
           this.cesiuneNum.setValidators([
             Validators.required,
             Validators.min(1),
@@ -137,7 +144,6 @@ export class CesiuneFormComponent implements OnInit {
       .pipe(distinctUntilChanged())
       .subscribe((v) => {
         this.cdRef.markForCheck();
-        console.log(this.cesiuneForm.valid);
       });
   }
 
@@ -182,6 +188,11 @@ export class CesiuneFormComponent implements OnInit {
   }
 
   onSubmit() {
-    this.cesuineItems = this.cesiuneForm.value;
+    if (this.cesiuneForm.valid) {
+      this.emitForm.emit(this.cesiuneForm.value);
+    } else {
+      this.cesiuneForm.updateValueAndValidity();
+      this.cdRef.markForCheck();
+    }
   }
 }

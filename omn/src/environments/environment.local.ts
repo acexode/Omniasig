@@ -1,7 +1,7 @@
 export const environment = {
   production: false,
   hmr: true,
-  serverUrl: 'http://127.0.0.1',
+  serverUrl: 'https://omn-core-dev.azure.softescu.com/api',
   fakeBackend: true,
   recaptchaKey: null,
   activateDelay: 10,

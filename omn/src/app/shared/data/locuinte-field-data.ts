@@ -68,4 +68,8 @@ export const locuinteFieldsData = {
     { id: 'test4', label: 'test3 test3' },
     { id: 'test5', label: 'test4 test3' },
   ],
+  padAvailable: [
+    { id: 1, label: 'Da' },
+    { id: 0, label: 'Nu' },
+  ],
 };

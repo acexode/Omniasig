@@ -1,3 +1,4 @@
+import { IonRadiosConfig } from './../../../../../shared/models/component/ion-radios-config';
 import { Injectable } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { forOwn, get, set } from 'lodash';
@@ -17,7 +18,7 @@ import { LocuinteFormType } from 'src/app/shared/models/modes/locuinte-form-mode
 export class LocuinteFormService {
   constructor(private fb: FormBuilder) {}
 
-  buildLocuinteSubform(model: Locuinte) {
+  buildLocuinteSubform(model: Locuinte, policyType?: string) {
     // info: {
     //   type: string;
     //   resistenceStructure: string;
@@ -75,7 +76,7 @@ export class LocuinteFormService {
     });
   }
 
-  buildAddressSubform(model: Locuinte) {
+  buildAddressSubform(model: Locuinte, policyType?: string) {
     // address: {
     //   county: string;
     //   city: string;
@@ -84,7 +85,7 @@ export class LocuinteFormService {
     //   // Scara bloc.
     //   entrance: string;
     // }
-    return this.fb.group({
+    const group = this.fb.group({
       county: this.fb.control(
         get(model, 'address.county', ''),
         Validators.required
@@ -114,9 +115,22 @@ export class LocuinteFormService {
       // Additional - add validator after build
       name: this.fb.control(get(model, 'name', '')),
     });
+
+    if (policyType === 'PAD') {
+      group.addControl(
+        'padAvailable',
+        this.fb.control(get(model, 'pad.padAvailable', ''), Validators.required)
+      );
+      group.addControl('padNr', this.fb.control(get(model, 'pad.padNr', '')));
+      group.addControl(
+        'padSerie',
+        this.fb.control(get(model, 'pad.padSerie', ''))
+      );
+    }
+    return group;
   }
 
-  buildFormConfig(formType, isDisabled?: boolean) {
+  buildFormConfig(formType, policyType?: string, isDisabled?: boolean) {
     let configModel = null;
     switch (formType) {
       case LocuinteFormType.ADDRESS:
@@ -166,6 +180,25 @@ export class LocuinteFormService {
             disabled: isDisabled,
           }),
         };
+
+        if (policyType === 'PAD') {
+          configModel.padAvailable = radiosConfigHelper({
+            label: 'Ai deja o poliță PAD valabilă pentru această adresă?',
+            mode: 'item',
+          });
+          configModel.padAvailable.itemClasses = 'w-50 inline-flex';
+          configModel.padAvailable.inputLabel.classes = 'mb-16';
+          configModel.padSerie = inputConfigHelper({
+            label: 'Serie',
+            type: 'text',
+            placeholder: '',
+          });
+          configModel.padNr = inputConfigHelper({
+            label: 'Număr',
+            type: 'text',
+            placeholder: '',
+          });
+        }
         break;
 
       case LocuinteFormType.PLACE:
@@ -272,6 +305,7 @@ export class LocuinteFormService {
           address: null,
           policyData: [],
           tipLocuinta: null,
+          pad: null,
           locuintaState: null,
         };
 
@@ -297,6 +331,11 @@ export class LocuinteFormService {
         case 'valueCurrency':
         case 'valueSum':
           set(newModel, 'info.' + key, val);
+          break;
+        case 'padAvailable':
+        case 'padNr':
+        case 'padSerie':
+          set(newModel, 'pad.' + key, val);
           break;
         default:
           set(newModel, key, val);

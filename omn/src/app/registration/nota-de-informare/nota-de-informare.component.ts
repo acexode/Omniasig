@@ -26,5 +26,4 @@ export class NotaDeInformareComponent implements OnInit {
   proceed() {
     this.router.navigate(['registration/create-passcode']);
   }
-  
 }

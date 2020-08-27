@@ -1,5 +1,10 @@
-import { Location } from '@angular/common';
-import { Component, OnInit, ViewChild, AfterViewInit, HostBinding } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  HostBinding,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { IonInput, NavController } from '@ionic/angular';
@@ -10,7 +15,7 @@ import { IonInput, NavController } from '@ionic/angular';
   styleUrls: ['./confirm-cod-de-acces.component.scss'],
 })
 export class ConfirmCodDeAccesComponent implements OnInit, AfterViewInit {
-  digitsLength: number = 0;
+  digitsLength = 0;
   @HostBinding('class') color = 'ion-color-white-page';
   @ViewChild('inputField', { static: true }) inputField: IonInput;
   passForm: FormGroup;

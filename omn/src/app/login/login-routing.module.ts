@@ -14,7 +14,7 @@ const routes: Routes = [
     component: InputSmsComponent,
   },
   {
-    path: 'verify',
+    path: 'verify/:number',
     component: PasscodeComponent,
   },
 ];

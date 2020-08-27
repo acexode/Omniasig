@@ -98,11 +98,11 @@
       --ion-safe-area-left: 0;
     }
     &.form-description {
-      --min-height: rem(20);
+      --min-height: 20px;
     }
     &.archive-item {
-      --inner-padding-top: 11px;
-      --inner-padding-bottom: 7px;
+      --inner-padding-top: 0;
+      --inner-padding-bottom: 0;
       --min-height: 40px;
       --padding-start: 0;
       --inner-padding-end: 0;
@@ -151,6 +151,9 @@
       ion-label {
         margin: 0;
       }
+    }
+    &.item-mh-40 {
+      --min-height: 40px;
     }
   }
 }

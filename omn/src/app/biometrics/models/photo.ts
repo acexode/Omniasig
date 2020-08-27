@@ -1,5 +1,5 @@
 interface Photo {
-    filepath: string;
-    webviewPath: string;
-    base64?: string;
+  filepath: string;
+  webviewPath: string;
+  base64?: string;
 }

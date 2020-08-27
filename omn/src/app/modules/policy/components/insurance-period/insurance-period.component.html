@@ -1,0 +1,45 @@
+<ion-grid
+  class="w-100 flex flex-1 flex-column px-32 pb-24 mh-100p"
+  [formGroup]="formGroup"
+>
+  <div class="mt-96 w-100 flex">
+    <app-datepicker
+      [config]="newProp"
+      class="w-100"
+      formControlName="date"
+    ></app-datepicker>
+  </div>
+
+  <ion-row class="w-100 ion-justify-content-center flex w-100">
+    <ion-label class="mt-64 icon-div">
+      <ion-icon
+        class="info-icon icon-40 color-secondary-blue"
+        name="lg-info"
+      ></ion-icon>
+    </ion-label>
+  </ion-row>
+
+  <ion-row class="w-100 ion-justify-content-center flex w-100 mb-24">
+    <ion-label class="s18-h24 mt-32 ls-0 text-div color-grey-6"
+      >Perioada de asigurare este de un an.</ion-label
+    >
+  </ion-row>
+  <ion-row
+    class="w-100 ion-justify-content-center flex flex-1 flex-column ion-justify-content-end mt-auto"
+  >
+    <ion-button
+      type="submit"
+      class="activate-btn w-100"
+      size="large"
+      type="submit"
+      color="success"
+      fill="solid"
+      (click)="submit()"
+      expand="block"
+      [disabled]="!formGroup?.valid"
+      class="m-0 w-100 flex mt-auto"
+    >
+      Continuă
+    </ion-button>
+  </ion-row>
+</ion-grid>
