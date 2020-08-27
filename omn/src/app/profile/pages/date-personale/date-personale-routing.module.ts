@@ -25,7 +25,7 @@ const routes: Routes = [
     },
   },
   {
-    path: 'validate-email',
+    path: 'validate-email/:validate_params',
     component: DatePersonaleValidateEmailComponent,
   },
   {
