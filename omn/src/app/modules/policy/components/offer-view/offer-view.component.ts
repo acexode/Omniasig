@@ -1,3 +1,4 @@
+import { NavController } from '@ionic/angular';
 import { Component, OnInit, HostBinding } from '@angular/core';
 import { subPageHeaderSecondary } from 'src/app/shared/data/sub-page-header-secondary';
 import { ActivatedRoute } from '@angular/router';
@@ -16,7 +17,8 @@ export class OfferViewComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
-    private policyDataService: PolicyDataService
+    private policyDataService: PolicyDataService,
+    private navCtrl: NavController
   ) {
     this.route.params.subscribe((params: any) => {
       this.getPolicyById(params.id);
@@ -29,6 +31,10 @@ export class OfferViewComponent implements OnInit {
     this.policyDataService.getSingleOfferById(id).subscribe((offer) => {
       this.offer = offer;
     });
+  }
+
+  closeOffer() {
+    this.navCtrl.navigateRoot('/policy');
   }
 
   back() {}

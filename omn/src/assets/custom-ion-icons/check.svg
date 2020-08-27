@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="160px" height="166px" viewBox="0 0 160 166" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>D29456F9-A83B-42EB-B1CE-857EAAC4AE17</title>
+    <defs>
+        <circle id="path-1" cx="76" cy="76" r="60"></circle>
+        <filter x="-29.2%" y="-20.8%" width="158.3%" height="158.3%" filterUnits="objectBoundingBox" id="filter-2">
+            <feOffset dx="0" dy="10" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
+            <feGaussianBlur stdDeviation="10" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur>
+            <feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.12 0" type="matrix" in="shadowBlurOuter1" result="shadowMatrixOuter1"></feColorMatrix>
+            <feOffset dx="0" dy="2" in="SourceAlpha" result="shadowOffsetOuter2"></feOffset>
+            <feGaussianBlur stdDeviation="2.5" in="shadowOffsetOuter2" result="shadowBlurOuter2"></feGaussianBlur>
+            <feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.12 0" type="matrix" in="shadowBlurOuter2" result="shadowMatrixOuter2"></feColorMatrix>
+            <feMerge>
+                <feMergeNode in="shadowMatrixOuter1"></feMergeNode>
+                <feMergeNode in="shadowMatrixOuter2"></feMergeNode>
+            </feMerge>
+        </filter>
+        <linearGradient x1="11.2410262%" y1="11.2410262%" x2="88.5451858%" y2="88.5451858%" id="linearGradient-3">
+            <stop stop-color="#008641" offset="0%"></stop>
+            <stop stop-color="#006330" offset="100%"></stop>
+        </linearGradient>
+        <linearGradient x1="100%" y1="50%" x2="100%" y2="100%" id="linearGradient-4">
+            <stop stop-color="#F2F9F5" offset="0%"></stop>
+            <stop stop-color="#E5F2EC" offset="100%"></stop>
+        </linearGradient>
+    </defs>
+    <g id="Cover" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Icons-and-illustrations" transform="translate(-490.000000, -1982.000000)">
+            <g id="Check" transform="translate(494.000000, 1982.000000)">
+                <circle id="Oval" fill="#F2F9F5" cx="76" cy="76" r="76"></circle>
+                <g id="Fond">
+                    <use fill="black" fill-opacity="1" filter="url(#filter-2)" xlink:href="#path-1"></use>
+                    <use fill="#FFFFFF" fill-rule="evenodd" xlink:href="#path-1"></use>
+                </g>
+                <circle id="Fond" fill="url(#linearGradient-3)" cx="76" cy="76" r="60"></circle>
+                <path d="M101.44446,54.0952518 C103.600993,51.5792967 107.388793,51.2879275 109.904748,53.4444604 C112.227168,55.4351061 112.654083,58.8157072 111.009849,61.3028875 L110.55554,61.9047482 L74.5555396,103.904748 C72.4434528,106.36885 68.7985623,106.679044 66.3099138,104.73206 L65.7573593,104.242641 L41.7573593,80.2426407 C39.4142136,77.8994949 39.4142136,74.1005051 41.7573593,71.7573593 C43.9202631,69.5944555 47.3236494,69.4280783 49.6773967,71.2582277 L50.2426407,71.7573593 L69.658,91.168 L101.44446,54.0952518 Z" fill="url(#linearGradient-4)"></path>
+            </g>
+        </g>
+    </g>
+</svg>

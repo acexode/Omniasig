@@ -33,6 +33,19 @@ export class LocuinteNamePipe implements PipeTransform {
           ].filter((v) => v !== null),
           ', '
         );
+      case 'policy-list':
+        return join(
+          [
+            'Strada ' +
+              get(value, 'address.street', null) +
+              ' ' +
+              get(value, 'address.number', null),
+            get(value, 'address.city', null),
+            'judetul ' + get(value, 'address.county', ''),
+            'Cod ' + get(value, 'address.postalCode', ''),
+          ].filter((v) => v !== null),
+          ', '
+        );
 
       default:
         return '';

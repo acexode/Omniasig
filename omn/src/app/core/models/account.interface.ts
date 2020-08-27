@@ -1,12 +1,23 @@
 import { AccountStates } from './account-states';
 
 export interface Account {
-  id: number | string;
+  userId?: number | string;
   cnp?: string;
   email?: string;
-  firstName: string;
-  lastName: string;
+  name: string;
+  surname: string;
   userIcon?: string;
-  addresses: string[];
-  userStates: Array<AccountStates>;
+  addresses?: string[];
+  phoneNumber?: string;
+  userName?: string;
+  isPublicPerson?: boolean;
+  userStates?: Array<AccountStates>;
+  roles?: string[];
+  pin?: number;
+  dateBirth?: string;
+  marketing?: boolean;
+
+  // Old model stuff
+  firstName?: string;
+  lastName?: string;
 }
