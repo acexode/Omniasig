@@ -1,3 +1,4 @@
+import { random } from 'lodash';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
@@ -26,13 +27,13 @@ export class PolicyDataService {
   initData() {
     this.authS.getAccountData().subscribe((account) => {
       if (this.authS.accountActivated(account)) {
-        this.getUserPolicies(account.id).subscribe((vv) => {
+        this.getUserPolicies(account.userId).subscribe((vv) => {
           this.policyStore$.next(vv ? vv : []);
         });
-        this.getUserPoliciesArchive(account.id).subscribe((vv) => {
+        this.getUserPoliciesArchive(account.userId).subscribe((vv) => {
           this.policyArchiveStore$.next(vv ? vv : []);
         });
-        this.getUserOffers(account.id).subscribe((v) =>
+        this.getUserOffers(account.userId).subscribe((v) =>
           this.offerStore$.next(v ? v : [])
         );
       }
@@ -108,6 +109,7 @@ export class PolicyDataService {
       })
     );
   }
+
   getSinglePolicyById(id) {
     return this.policyStore$.pipe(
       switchMap((vals) => {
@@ -130,6 +132,18 @@ export class PolicyDataService {
       catchError((e) => {
         return of(null);
       })
+    );
+  }
+
+  addOffer(offerData: PolicyOffer): Observable<PolicyOffer> {
+    return of({ ...offerData, ...{ id: random(10, 100) } }).pipe(
+      map((v) => {
+        const vals = this.offerStore$.value ? this.offerStore$.value : [];
+        vals.push(v);
+        this.offerStore$.next(vals);
+        return v ? v : null;
+      }),
+      catchError((err) => of(null))
     );
   }
 }

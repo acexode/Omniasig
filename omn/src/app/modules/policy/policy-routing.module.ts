@@ -25,10 +25,10 @@ const routes: Routes = [
       },
       {
         path: 'policy-verify',
-        loadChildren: () =>
-          import('./pages/policy-verify/policy-verify.module').then(
-            (m) => m.PolicyVerifyModule
-          ),
+        // loadChildren: () =>
+        //   import('./pages/policy-verify/policy-verify.module').then(
+        //     (m) => m.PolicyVerifyModule
+        //   ),
       },
       {
         path: 'cesiune-form',

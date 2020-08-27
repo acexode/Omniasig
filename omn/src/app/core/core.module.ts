@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { fakeBackendProvider } from './interceptors/fake-backend';
 import { ConfigService } from './services/config/config.service';
@@ -12,6 +12,8 @@ import { MenuService } from './services/menu/menu.service';
 import { IonicModule } from '@ionic/angular';
 import { RouterModule } from '@angular/router';
 import { CustomTimersService } from './services/custom-timers/custom-timers.service';
+import { RegistrationService } from './services/auth/registration.service';
+import { JwtInterceptor } from './interceptors/JWTInterceptor';
 
 @NgModule({
   declarations: [SideMenuComponent],
@@ -27,9 +29,11 @@ import { CustomTimersService } from './services/custom-timers/custom-timers.serv
   ],
   providers: [
     fakeBackendProvider,
+    { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
     RequestService,
     ConfigService,
     AuthService,
+    RegistrationService,
     CustomStorageService,
     CustomTimersService,
     MenuService,
