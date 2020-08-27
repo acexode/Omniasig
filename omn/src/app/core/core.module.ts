@@ -12,6 +12,7 @@ import { MenuService } from './services/menu/menu.service';
 import { IonicModule } from '@ionic/angular';
 import { RouterModule } from '@angular/router';
 import { CustomTimersService } from './services/custom-timers/custom-timers.service';
+import { RegistrationService } from './services/auth/registration.service';
 
 @NgModule({
   declarations: [SideMenuComponent],
@@ -30,6 +31,7 @@ import { CustomTimersService } from './services/custom-timers/custom-timers.serv
     RequestService,
     ConfigService,
     AuthService,
+    RegistrationService,
     CustomStorageService,
     CustomTimersService,
     MenuService,
