@@ -24,12 +24,16 @@ export class NumarTelefonComponent implements OnInit {
     inputLabel: this.label,
     clearable: true,
     inputClasses: 'ion-item-right',
-    minLength:10,
-    maxLength:10
+    minLength: 10,
+    maxLength: 10,
   };
   teleForm: FormGroup;
-  busy:boolean =false
-  constructor(private router: Router, private formBuilder: FormBuilder,private auth:AuthService) {}
+  busy: boolean = false;
+  constructor(
+    private router: Router,
+    private formBuilder: FormBuilder,
+    private auth: AuthService
+  ) {}
 
   ngOnInit() {
     this.initForm();
@@ -49,44 +53,42 @@ export class NumarTelefonComponent implements OnInit {
   }
 
   login() {
-    this.busy=true
-    this.auth.findUserByPhoneNumber(this.teleForm.controls["phoneNumber"].value).subscribe(
-      data => {
-       this.checkFirstLogin(this.teleForm.controls["phoneNumber"].value)
-      },
-      error =>{
-        if (error.status == 400) {
-          this.router.navigate([
-            'registration/confirm-number',
-            this.teleForm.controls['phoneNumber'].value,
-          ]);
-        }
-      },
-      ()=> this.busy =false
-    );
+    this.busy = true;
+    this.auth
+      .findUserByPhoneNumber(this.teleForm.controls['phoneNumber'].value)
+      .subscribe(
+        (data) => {
+          this.checkFirstLogin(this.teleForm.controls['phoneNumber'].value);
+        },
+        (error) => {
+          if (error.status == 400) {
+            this.router.navigate([
+              'registration/confirm-number',
+              this.teleForm.controls['phoneNumber'].value,
+            ]);
+          }
+        },
+        () => (this.busy = false)
+      );
   }
 
-  checkFirstLogin(enterNumber){
-    this.auth.lastLoginNumber().subscribe(
-      phoneNumber=>{
-        if (phoneNumber == enterNumber) {
-          this.router.navigate([
-            'login/verify',
-            this.teleForm.controls['phoneNumber'].value,
-          ]);
-        }else{
-        this.requestSms(enterNumber)
-        }
+  checkFirstLogin(enterNumber) {
+    this.auth.lastLoginNumber().subscribe((phoneNumber) => {
+      if (phoneNumber == enterNumber) {
+        this.router.navigate([
+          'login/verify',
+          this.teleForm.controls['phoneNumber'].value,
+        ]);
+      } else {
+        this.requestSms(enterNumber);
       }
-    )
+    });
   }
 
-requestSms(phoneNumber){
-  this.router.navigate([
-    'login/authenticate',
-    this.teleForm.controls['phoneNumber'].value,
-  ]);
-  
-}
-
+  requestSms(phoneNumber) {
+    this.router.navigate([
+      'login/authenticate',
+      this.teleForm.controls['phoneNumber'].value,
+    ]);
+  }
 }

@@ -1,9 +1,8 @@
 import { Injectable } from '@angular/core';
 import {
+  Router,
   ActivatedRoute,
   ActivatedRouteSnapshot,
-  Route,
-  Router,
   UrlTree,
 } from '@angular/router';
 import { BehaviorSubject } from 'rxjs';
@@ -57,13 +56,13 @@ export class AuthService {
     // Load account state from local/session/cookie storage.
     this.storeS.getItem('token').subscribe((token: string) => {
       if (token) {
-        this.getAccountFromStorage(token)
-      }else{
+        this.getAccountFromStorage(token);
+      } else {
         this.authState.next({
           init: false,
-          account:null,
-          authToken:null
-      })
+          account: null,
+          authToken: null,
+        });
       }
     });
   }
@@ -71,14 +70,84 @@ export class AuthService {
   // get user data from storage and set account and token to authstate
   getAccountFromStorage(token) {
     this.storeS.getItem('account').subscribe((account: Account) => {
+      this.authState.next({
+        init: true,
+        account,
+        authToken: token,
+      });
+    });
+  }
+
+  // check if user exists
+  findUserByPhoneNumber(phoneNumber: number) {
+    return this.reqS.get<any>(
+      `${authEndpoints.findUserByPhoneNumber}?phoneNumber=${phoneNumber}`
+    );
+  }
+
+  // save token to local storage
+  saveToken(token: string) {
+    return this.storeS.setItem('token', token);
+  }
+
+  // get user profile from ws
+  getProfile(token, phoneNumber) {
+    return this.reqS
+      .get<Account>(
+        `${authEndpoints.getUserProfile}?userNameOrId=${phoneNumber}`
+      )
+      .pipe(
+        switchMap((res) => {
+          return this.processAuthResponse({
+            account: { ...res, userStates: [] },
+            token,
+          });
+        })
+      );
+  }
+
+  // svae auth data to storage
+  processAuthResponse(data: LoginResponse) {
+    const account = data.account ? data.account : null;
+    const authToken = data.token ? data.token : null;
+    return this.storeS.setItem('account', account).pipe(
+      tap(() => {
         this.authState.next({
           init: true,
           account,
-          authToken:token
-      })
-    })
+          authToken,
+        });
+      }),
+      map((v) => data)
+    );
   }
 
+  accountActivated(acc: Account) {
+    return acc.userStates.findIndex((s) => s === AccountStates.ACTIVE) > -1;
+  }
+
+  // checks if the user just installed the app or recently logged out
+  /**
+   *
+   * @param phoneNumber phoneNumber of the user trying to login
+   */
+  saveLastLoginNumber(phoneNumber?: string) {
+    return this.storeS.setItem('phoneNumber', phoneNumber);
+  }
+
+  lastLoginNumber() {
+    return this.storeS.getItem('phoneNumber');
+  }
+
+  // TODO: DEMO
+  demoLogout() {
+    this.storeS.removeItem('account');
+    this.storeS.setItem('account', this.demoAccount);
+    this.authState.next({
+      init: true,
+      account: this.demoAccount,
+    });
+  }
   updateState(newState: AuthState) {
     this.authState.next(newState);
   }
@@ -100,88 +169,43 @@ export class AuthService {
     );
   }
 
-  // makes http call to server
   login(loginData: {
-    phone: string;
-    password: any;
-    aRoute: string;
+    email: string;
+    password: string;
+    aRoute?: ActivatedRoute | string;
   }) {
     const reqData: Login = {
-      userName: loginData.phone,
+      email: loginData.email,
       password: loginData.password,
     };
     return this.reqS.post<LoginResponse>(authEndpoints.login, reqData).pipe(
-      switchMap((res) => {
-        this.saveToken(res.token)
-        return this.getProfile(res.token, loginData.phone);
+      switchMap((val) => {
+        return this.processAuthResponse(val);
       }),
       tap((value) => {
-        console.log(value);
-        Promise.resolve(this.routerS.navigateByUrl(loginData.aRoute));
+        let redirectUrl: any = '/home';
+        if (loginData.aRoute instanceof ActivatedRoute) {
+          redirectUrl = this.redirectUrlTree(
+            loginData.aRoute ? loginData.aRoute.snapshot : null
+          );
+        } else if( typeof loginData.aRoute === 'string') {
+          redirectUrl = loginData.aRoute;
+        }
+
+        Promise.resolve(this.routerS.navigateByUrl(redirectUrl));
       })
     );
   }
 
-  // check if user exists
-  findUserByPhoneNumber(phoneNumber:Number) {
-    return this.reqS.get<any>(`${authEndpoints.findUserByPhoneNumber}?phoneNumber=${phoneNumber}`)
-  }
-
-  // save token to local storage
-  saveToken(token:string){
-    return this.storeS.setItem('token',token)
-  }
-
-  // get user profile from ws
-getProfile(token,phoneNumber){
-  return this.reqS.get<Account>(`${authEndpoints.getUserProfile}?userNameOrId=${phoneNumber}`).pipe(
-    switchMap((res)=>{
-      return this.processAuthResponse({account:{...res,userStates: []},token});
-    })
-  )
-}
-
-// svae auth data to storage
-  processAuthResponse(data: LoginResponse) {
-    const account = data.account ? data.account : null;
-    const authToken = data.token ? data.token : null;
-    return this.storeS.setItem('account', account).pipe(
-      tap(() => {
-        this.authState.next({
-          init: true,
-          account,
-          authToken
-        });
-      }),
-      map((v) => data)
-    );
-  }
-
-  accountActivated(acc: Account) {
-    return acc.userStates.findIndex((s) => s === AccountStates.ACTIVE) > -1;
-  }
-
-  // checks if the user just installed the app or recently logged out
-  /**
-   * 
-   * @param phoneNumber phoneNumber of the user trying to login
-   */
-  saveLastLoginNumber(phoneNumber?:string){
- return this.storeS.setItem('phoneNumber',phoneNumber)
-  }
-
-  lastLoginNumber(){
-    return this.storeS.getItem('phoneNumber')
-  }
-
-  // TODO: DEMO
-  demoLogout() {
-    this.storeS.removeItem('account');
-    this.storeS.setItem('account', this.demoAccount);
-    this.authState.next({
-      init: true,
-      account: this.demoAccount,
-    });
+  redirectUrlTree(snapshot: ActivatedRouteSnapshot): UrlTree {
+    if (snapshot) {
+      const qP = snapshot.queryParams;
+      const rUk = 'returnUrl';
+      if (qP.hasOwnProperty(rUk) && qP[rUk]) {
+        return this.routerS.createUrlTree([qP[rUk]]);
+      }
+    }
+    return this.routerS.createUrlTree(['/']);
   }
 
   demoActivate() {
