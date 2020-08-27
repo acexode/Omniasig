@@ -27,13 +27,13 @@ export class PolicyDataService {
   initData() {
     this.authS.getAccountData().subscribe((account) => {
       if (this.authS.accountActivated(account)) {
-        this.getUserPolicies(account.id).subscribe((vv) => {
+        this.getUserPolicies(account.userId).subscribe((vv) => {
           this.policyStore$.next(vv ? vv : []);
         });
-        this.getUserPoliciesArchive(account.id).subscribe((vv) => {
+        this.getUserPoliciesArchive(account.userId).subscribe((vv) => {
           this.policyArchiveStore$.next(vv ? vv : []);
         });
-        this.getUserOffers(account.id).subscribe((v) =>
+        this.getUserOffers(account.userId).subscribe((v) =>
           this.offerStore$.next(v ? v : [])
         );
       }

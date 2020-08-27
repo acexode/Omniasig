@@ -29,7 +29,7 @@ import { RequestService } from '../request/request.service';
 })
 export class AuthService {
   demoAccount: Account = {
-    id: 1,
+    userId: 1,
     name: 'Ion',
     surname: 'Ionescu',
     cnp: '1234567890123',
