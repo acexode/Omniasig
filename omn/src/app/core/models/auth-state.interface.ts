@@ -2,6 +2,9 @@ import { Account } from './account.interface';
 
 export interface AuthState {
   init: boolean;
-  account: Account;
+  accountInit?: boolean;
+  account?: Account;
+  UserId?: string;
   authToken?: string;
+  expiryDate?: any;
 }

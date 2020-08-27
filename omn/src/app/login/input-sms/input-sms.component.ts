@@ -89,7 +89,7 @@ export class InputSmsComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   verifyDigit() {
-    this.router.navigate(['login/verify']);
+    this.router.navigate(['login/verify',this.phoneNumber]);
   }
 
   spawnInput() {
