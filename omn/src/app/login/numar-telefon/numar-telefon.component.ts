@@ -67,7 +67,7 @@ export class NumarTelefonComponent implements OnInit {
   }
 
   checkFirstLogin(enterNumber){
-    this.auth.checkFirstLogin().subscribe(
+    this.auth.lastLoginNumber().subscribe(
       phoneNumber=>{
         if (phoneNumber == enterNumber) {
           this.router.navigate([

@@ -166,11 +166,11 @@ getProfile(token,phoneNumber){
    * 
    * @param phoneNumber phoneNumber of the user trying to login
    */
-  saveFirstLogin(phoneNumber?:string){
+  saveLastLoginNumber(phoneNumber?:string){
  return this.storeS.setItem('phoneNumber',phoneNumber)
   }
 
-  checkFirstLogin(){
+  lastLoginNumber(){
     return this.storeS.getItem('phoneNumber')
   }
 

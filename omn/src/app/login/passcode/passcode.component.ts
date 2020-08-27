@@ -76,7 +76,7 @@ export class PasscodeComponent implements OnInit,OnDestroy {
   }
 
   changeCurrentLogin(){
-    this.authService.saveFirstLogin(this.phoneNumber)
+    this.authService.saveLastLoginNumber(this.phoneNumber)
   }
 
   errLogin(err){
