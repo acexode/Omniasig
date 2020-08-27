@@ -10,8 +10,7 @@ import { CustomStorageService } from '../custom-storage/custom-storage.service';
 export class RequestService {
   private headers: HttpHeaders;
   constructor(private http: HttpClient, private storeS: CustomStorageService) {
-console.log(    this.setHeaderWithToken());
-
+    this.setHeaderWithToken()
   }
 
   private setHeaderWithToken() {
@@ -28,8 +27,6 @@ console.log(    this.setHeaderWithToken());
         }
       }
     )
-    console.log(this.headers);
-    
     return this.headers   
   }
 

@@ -58,12 +58,12 @@ export class AuthService {
     this.storeS.getItem('token').subscribe((token: string) => {
       if (token) {
         this.getAccountFromStorage(token)
-      }else{
+      } else {
         this.authState.next({
           init: false,
-          account:null,
-          authToken:null
-      })
+          account: null,
+          authToken: null
+        })
       }
     });
   }
@@ -71,10 +71,10 @@ export class AuthService {
   // get user data from storage and set account and token to authstate
   getAccountFromStorage(token) {
     this.storeS.getItem('account').subscribe((account: Account) => {
-        this.authState.next({
-          init: true,
-          account,
-          authToken:token
+      this.authState.next({
+        init: true,
+        account,
+        authToken: token
       })
     })
   }
@@ -100,7 +100,7 @@ export class AuthService {
     );
   }
 
-  // makes http call to server
+  // makes login call to server
   login(loginData: {
     phone: string;
     password: any;
@@ -123,25 +123,33 @@ export class AuthService {
   }
 
   // check if user exists
-  findUserByPhoneNumber(phoneNumber:Number) {
+  findUserByPhoneNumber(phoneNumber: Number) {
     return this.reqS.get<any>(`${authEndpoints.findUserByPhoneNumber}?phoneNumber=${phoneNumber}`)
   }
 
+  // request sms during login
+  sendPhoneNumberSms(phoneNumber) {
+    const reqData: { phoneNumber: string } = {
+      phoneNumber
+    };
+    return this.reqS.post<any>(authEndpoints.login, reqData)
+  }
+
   // save token to local storage
-  saveToken(token:string){
-    return this.storeS.setItem('token',token)
+  saveToken(token: string) {
+    return this.storeS.setItem('token', token)
   }
 
   // get user profile from ws
-getProfile(token,phoneNumber){
-  return this.reqS.get<Account>(`${authEndpoints.getUserProfile}?userNameOrId=${phoneNumber}`).pipe(
-    switchMap((res)=>{
-      return this.processAuthResponse({account:{...res,userStates: []},token});
-    })
-  )
-}
+  getProfile(token, phoneNumber) {
+    return this.reqS.get<Account>(`${authEndpoints.getUserProfile}?userNameOrId=${phoneNumber}`).pipe(
+      switchMap((res) => {
+        return this.processAuthResponse({ account: { ...res, userStates: [] }, token });
+      })
+    )
+  }
 
-// svae auth data to storage
+  // svae auth data to storage
   processAuthResponse(data: LoginResponse) {
     const account = data.account ? data.account : null;
     const authToken = data.token ? data.token : null;
@@ -164,13 +172,13 @@ getProfile(token,phoneNumber){
   // checks if the user just installed the app or recently logged out
   /**
    * 
-   * @param phoneNumber phoneNumber of the user trying to login
+   * @param phoneNumber phoneNumber of the user that loggedIn last
    */
-  saveLastLoginNumber(phoneNumber?:string){
- return this.storeS.setItem('phoneNumber',phoneNumber)
+  saveLastLoginNumber(phoneNumber?: string) {
+    return this.storeS.setItem('phoneNumber', phoneNumber)
   }
 
-  lastLoginNumber(){
+  getLastLoginNumber() {
     return this.storeS.getItem('phoneNumber')
   }
 

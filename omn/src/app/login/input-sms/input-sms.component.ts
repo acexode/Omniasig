@@ -1,3 +1,4 @@
+import { AuthService } from 'src/app/core/services/auth/auth.service';
 import {
   AfterViewInit,
   Component,
@@ -35,7 +36,8 @@ export class InputSmsComponent implements OnInit, AfterViewInit, OnDestroy {
     private route: ActivatedRoute,
     private router: Router,
     private timers: CustomTimersService,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private auth:AuthService
   ) {}
 
   ngOnInit() {
@@ -85,7 +87,14 @@ export class InputSmsComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   resendSMS() {
-    this.startTimer();
+    this.auth.sendPhoneNumberSms(this.phoneNumber).subscribe(
+      data=>{
+        console.log(data)
+        return
+        this.startTimer();
+      },
+      err => console.log(err)
+    )
   }
 
   verifyDigit() {
