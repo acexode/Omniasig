@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { AuthService } from 'src/app/core/services/auth/auth.service';
 import { IonTextItem } from 'src/app/shared/models/component/ion-text-item';
 import { IonInputConfig } from './../../shared/models/component/ion-input-config';
 
@@ -23,9 +24,16 @@ export class NumarTelefonComponent implements OnInit {
     inputLabel: this.label,
     clearable: true,
     inputClasses: 'ion-item-right',
+    minLength: 10,
+    maxLength: 10,
   };
   teleForm: FormGroup;
-  constructor(private router: Router, private formBuilder: FormBuilder) {}
+  busy = false;
+  constructor(
+    private router: Router,
+    private formBuilder: FormBuilder,
+    private auth: AuthService
+  ) {}
 
   ngOnInit() {
     this.initForm();
@@ -38,13 +46,46 @@ export class NumarTelefonComponent implements OnInit {
         [
           Validators.required,
           Validators.pattern(/^07[0-9].*$/),
-          Validators.minLength(9),
+          Validators.minLength(10),
         ],
       ],
     });
   }
 
   login() {
+    this.busy = true;
+    this.auth
+      .findUserByPhoneNumber(this.teleForm.controls['phoneNumber'].value)
+      .subscribe(
+        (data) => {
+          this.checkFirstLogin(this.teleForm.controls['phoneNumber'].value);
+        },
+        (error) => {
+          if (error.status === 400) {
+            this.router.navigate([
+              'registration/confirm-number',
+              this.teleForm.controls['phoneNumber'].value,
+            ]);
+          }
+        },
+        () => (this.busy = false)
+      );
+  }
+
+  checkFirstLogin(enterNumber) {
+    this.auth.lastLoginNumber().subscribe((phoneNumber) => {
+      if (phoneNumber === enterNumber) {
+        this.router.navigate([
+          'login/verify',
+          this.teleForm.controls['phoneNumber'].value,
+        ]);
+      } else {
+        this.requestSms(enterNumber);
+      }
+    });
+  }
+
+  requestSms(phoneNumber) {
     this.router.navigate([
       'login/authenticate',
       this.teleForm.controls['phoneNumber'].value,

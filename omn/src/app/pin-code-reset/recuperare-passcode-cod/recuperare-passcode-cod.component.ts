@@ -1,26 +1,22 @@
-import {
-  AfterViewInit,
-  Component,
-  OnDestroy,
-  OnInit,
-  ViewChild,
-} from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { IonInput } from '@ionic/angular';
 import { Subscription } from 'rxjs';
-import { CustomTimersService } from './../../core/services/custom-timers/custom-timers.service';
-import { IonInputConfig } from './../../shared/models/component/ion-input-config';
+import { CustomTimersService } from 'src/app/core/services/custom-timers/custom-timers.service';
+import { subPageHeaderDefault } from 'src/app/shared/data/sub-page-header-default';
+import { IonInputConfig } from 'src/app/shared/models/component/ion-input-config';
 
 @Component({
-  selector: 'app-input-sms',
-  templateUrl: './input-sms.component.html',
-  styleUrls: ['./input-sms.component.scss'],
+  selector: 'app-recuperare-passcode-cod',
+  templateUrl: './recuperare-passcode-cod.component.html',
+  styleUrls: ['./recuperare-passcode-cod.component.scss'],
 })
-export class InputSmsComponent implements OnInit, AfterViewInit, OnDestroy {
-  min = '00';
+export class RecuperarePasscodeCodComponent implements OnInit {
+    headerConfig = subPageHeaderDefault('Verificare Email')
+  min: string = '00';
   sec: any = 59;
-  digitsLength = 0;
+  digitsLength: number = 0;
   @ViewChild('inputField') inputField: IonInput;
   sub: Subscription;
   phoneNumber = null;
@@ -30,7 +26,7 @@ export class InputSmsComponent implements OnInit, AfterViewInit, OnDestroy {
     inputMode: 'number',
   };
   passForm: FormGroup;
-
+  InvalidCode:boolean = false
   constructor(
     private route: ActivatedRoute,
     private router: Router,
@@ -40,7 +36,6 @@ export class InputSmsComponent implements OnInit, AfterViewInit, OnDestroy {
 
   ngOnInit() {
     this.initForm();
-    this.getPhoneNumber();
   }
   initForm() {
     this.passForm = this.formBuilder.group({
@@ -50,7 +45,7 @@ export class InputSmsComponent implements OnInit, AfterViewInit, OnDestroy {
       ],
     });
 
-    this.passForm.valueChanges.subscribe((value) => {
+  this.sub=  this.passForm.valueChanges.subscribe((value) => {
       this.changeInput(value.digit);
     });
   }
@@ -58,20 +53,20 @@ export class InputSmsComponent implements OnInit, AfterViewInit, OnDestroy {
   changeInput(digit: number) {
     if (digit) {
       this.digitsLength = digit.toString().length;
-    }
-    if (this.digitsLength > 5) {
-      this.verifyDigit();
+    }else{
+      this.digitsLength = 0
     }
   }
 
-  getPhoneNumber() {
-    this.sub = this.route.params.subscribe((params) => {
-      if (params.number) {
-        this.phoneNumber = params.number;
-      } else {
-        this.router.navigate(['/login']);
-      }
-    });
+  continue(){
+    if(this.passForm.controls["digit"].value == 123456)this.proceed()
+    else{
+      this.InvalidCode = true
+      setTimeout(() => {
+        this.InvalidCode =false
+        this.passForm.reset()
+      }, 2000);
+    }
   }
 
   ngAfterViewInit() {
@@ -88,8 +83,8 @@ export class InputSmsComponent implements OnInit, AfterViewInit, OnDestroy {
     this.startTimer();
   }
 
-  verifyDigit() {
-    this.router.navigate(['login/verify',this.phoneNumber]);
+  proceed() {
+    this.router.navigate(['reset-pincode/new-pin']);
   }
 
   spawnInput() {
