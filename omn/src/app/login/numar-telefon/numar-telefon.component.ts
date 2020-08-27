@@ -52,10 +52,7 @@ export class NumarTelefonComponent implements OnInit {
     this.busy=true
     this.auth.findUserByPhoneNumber(this.teleForm.controls["phoneNumber"].value).subscribe(
       data => {
-        this.router.navigate([
-          'login/authenticate',
-          this.teleForm.controls['phoneNumber'].value,
-        ]);
+       this.checkFirstLogin(this.teleForm.controls["phoneNumber"].value)
       },
       error =>{
         if (error.status == 400) {
@@ -68,5 +65,28 @@ export class NumarTelefonComponent implements OnInit {
       ()=> this.busy =false
     );
   }
+
+  checkFirstLogin(enterNumber){
+    this.auth.checkFirstLogin().subscribe(
+      phoneNumber=>{
+        if (phoneNumber == enterNumber) {
+          this.router.navigate([
+            'login/verify',
+            this.teleForm.controls['phoneNumber'].value,
+          ]);
+        }else{
+        this.requestSms(enterNumber)
+        }
+      }
+    )
+  }
+
+requestSms(phoneNumber){
+  this.router.navigate([
+    'login/authenticate',
+    this.teleForm.controls['phoneNumber'].value,
+  ]);
+  
+}
 
 }

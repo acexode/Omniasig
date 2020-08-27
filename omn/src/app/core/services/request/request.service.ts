@@ -1,3 +1,4 @@
+import { map } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
@@ -9,23 +10,27 @@ import { CustomStorageService } from '../custom-storage/custom-storage.service';
 export class RequestService {
   private headers: HttpHeaders;
   constructor(private http: HttpClient, private storeS: CustomStorageService) {
-    this.setHeaderWithToken();
+console.log(    this.setHeaderWithToken());
+
   }
 
   private setHeaderWithToken() {
-    this.storeS.getItem('token').subscribe(
-      (token:string) => {
+  this.storeS.getItem('token').subscribe(
+     (token:string) => {
         if (token) {
-          this.headers = new HttpHeaders({
+         return this.headers = new HttpHeaders({
             Authorization: `Bearer ${token}`,
           });
         } else {
-          this.headers = new HttpHeaders({
+       return   this.headers = new HttpHeaders({
             Authorization: '',
           });
         }
       }
-    );    
+    )
+    console.log(this.headers);
+    
+    return this.headers   
   }
 
 

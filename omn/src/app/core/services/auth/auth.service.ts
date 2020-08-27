@@ -161,6 +161,19 @@ getProfile(token,phoneNumber){
     return acc.userStates.findIndex((s) => s === AccountStates.ACTIVE) > -1;
   }
 
+  // checks if the user just installed the app or recently logged out
+  /**
+   * 
+   * @param phoneNumber phoneNumber of the user trying to login
+   */
+  saveFirstLogin(phoneNumber?:string){
+ return this.storeS.setItem('phoneNumber',phoneNumber)
+  }
+
+  checkFirstLogin(){
+    return this.storeS.getItem('phoneNumber')
+  }
+
   // TODO: DEMO
   demoLogout() {
     this.storeS.removeItem('account');

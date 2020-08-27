@@ -70,9 +70,13 @@ export class PasscodeComponent implements OnInit,OnDestroy {
       aRoute:"/home"
     }
     this.authService.login(data).subscribe(
-        data => data,
+        data => this.changeCurrentLogin(),
         error => this.errLogin(error)
         );
+  }
+
+  changeCurrentLogin(){
+    this.authService.saveFirstLogin(this.phoneNumber)
   }
 
   errLogin(err){
