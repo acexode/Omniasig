@@ -67,6 +67,11 @@ const routes: Routes = [
         loadChildren: () =>
             import( './biometrics/biometrics.module' ).then( ( m ) => m.BiometricsModule ),
     },
+    {
+        path: 'setari',
+        loadChildren: () =>
+            import( './modules/setari/setari.module' ).then( ( m ) => m.SetariPageModule ),
+    },
 ];
 
 @NgModule( {

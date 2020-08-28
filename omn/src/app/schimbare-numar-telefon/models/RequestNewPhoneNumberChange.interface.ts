@@ -1,6 +1,6 @@
 
 export interface RequestNewPhoneNumberChange {
-    userNameOrId: string;
+    userNameOrId: any;
     newPhoneNumber: string;
 }
 

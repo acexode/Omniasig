@@ -32,6 +32,8 @@ export class AuthService {
     userId: 1,
     name: 'Ion',
     surname: 'Ionescu',
+    firstName: 'Ion',
+    lastName: 'Ionescu',
     cnp: '1234567890123',
     email: 'escuion@email.com',
     addresses: [
@@ -39,7 +41,7 @@ export class AuthService {
       'Strada Dimitrie Bolintineanu 71-73, Scara B, Ap. 21 Turnu Magurele jud.Teleorman, Cod 654321',
     ],
     // userStates: [AccountStates.INACTIVE, AccountStates.EMAIL_INVALIDATED],
-    userStates: [],
+    userStates: [AccountStates.ACTIVE],
   };
   // TODO: DEMO - reset auth state to default once login is implemented.
   initialState: AuthState = {
@@ -92,6 +94,10 @@ export class AuthService {
   saveToken(token: string) {
     return this.storeS.setItem('token', token);
   }
+  // get token to local storage
+  getToken() {
+    return this.storeS.getItem('token');
+  }
 
   // get user profile from ws
   getProfile(token, phoneNumber) {
@@ -102,7 +108,7 @@ export class AuthService {
       .pipe(
         switchMap((res) => {
           return this.processAuthResponse({
-            account: { ...res, userStates: [] },
+            account: { ...res, userStates: [AccountStates.ACTIVE] },
             token,
           });
         })

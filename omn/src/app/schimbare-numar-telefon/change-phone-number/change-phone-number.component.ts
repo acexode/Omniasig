@@ -7,6 +7,7 @@ import { IonTextItem } from 'src/app/shared/models/component/ion-text-item';
 import { PhonenumberService } from '../services/phonenumber.service';
 import { RequestNewPhoneNumberChange } from '../models/RequestNewPhoneNumberChange.interface';
 import { HttpHeaders } from '@angular/common/http';
+import { AuthService } from 'src/app/core/services/auth/auth.service';
 
 @Component( {
     selector: 'app-change-phone-number',
@@ -34,7 +35,8 @@ export class ChangePhoneNumberComponent implements OnInit {
     constructor(
         private router: Router,
         private formBuilder: FormBuilder,
-        private phS: PhonenumberService
+        private phS: PhonenumberService,
+        private authS: AuthService,
     ) { }
 
     ngOnInit() {
@@ -55,37 +57,30 @@ export class ChangePhoneNumberComponent implements OnInit {
     }
 
     proceed() {
-        const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJvY2pib3Njb0BnbWFpbC5jb20iLCJqdGkiOiI2ODE1MTE5My1kNjA0LTRlNTMtODE1My05NmNjZTJiZGVkNzgiLCJ1bmlxdWVfbmFtZSI6IjA3MzM2ODczMzIiLCJBcGlDZW50ZXIvUGVybWlzc2lvbiI6WyJDbGllbnRpUmVzZXRhcmVQYXNzY29kZSIsIkNsaWVudGlSZXZhbGlkYXJlRW1haWwiLCJDbGllbnRpUmV2YWxpZGFyZVRlbGVmb24iXSwiaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS93cy8yMDA4LzA2L2lkZW50aXR5L2NsYWltcy9yb2xlIjoiTW9iaWxlVXNlciIsImV4cCI6MTU5ODUyNDQyMCwiaXNzIjoibG9jYWxob3N0IiwiYXVkIjoib21uaWFzaWcuY29tIn0.6B6sakGrwDJDa2TlNfyIaCqW0semhIgukA0pRQNUR5o';
         const newPhoneNumber = this.teleForm.controls.phoneNumber.value;
-        const requestNewPhoneDetails: RequestNewPhoneNumberChange = {
-            userNameOrId: '7e7f51a1-5f7e-4118-9fee-74fb407400fe',
-            newPhoneNumber: '0733687337',
-        };
 
-        const options = {
-            headers: new HttpHeaders(
-                {
-                    'Content-Type': 'application/json',
-                    Authorization: 'Bearer ' + token
-                }
-            )
-        };
-
-        this.phS.updatePhoneNumber( requestNewPhoneDetails, options )
-            .subscribe(
-                reponse => {
-                    // Will review this
-                    // this.teleForm.controls[ 'phoneNumber' ].value,
-                    console.log( reponse);
-                    this.router.navigate( [
-                        'phone-number/confirm-number',
-                        newPhoneNumber,
-                    ] );
-                },
-                err => {
-                    // error
-                    console.log( err);
-                }
-            );
+        this.authS.getAuthState().subscribe( authData => {
+            const { userId } = authData.account;
+            const requestNewPhoneDetails: RequestNewPhoneNumberChange = {
+                userNameOrId: userId,
+                newPhoneNumber,
+            };
+            console.log( requestNewPhoneDetails );
+            this.phS.updatePhoneNumber( requestNewPhoneDetails )
+                .subscribe(
+                    response => {
+                        // Will review this
+                        console.log( response );
+                        this.router.navigate( [
+                            'phone-number/confirm-number',
+                            newPhoneNumber,
+                        ] );
+                    },
+                    err => {
+                        // error
+                        console.log( err );
+                    }
+                );
+        } );
     }
 }

@@ -117,7 +117,13 @@
         </ion-item-group>
       </ion-list>
     </ion-menu-toggle>
-    <ion-item lines="none" menu-close class="my-12 ml-24" (click)="closeMenu()">
+    <ion-item
+      lines="none"
+      menu-close
+      class="my-12 ml-24"
+      (click)="closeMenu()"
+      [routerLink]="['/setari']"
+    >
       <ion-icon name="sm-setari" class="icon-20 mr-28"></ion-icon>
       <ion-label class="s18-h24 my-8">Setări</ion-label>
     </ion-item>
