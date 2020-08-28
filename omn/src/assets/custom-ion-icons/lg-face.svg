@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="78px" height="78px" viewBox="0 0 78 78" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>🍎 Culoare</title>
+    <defs>
+        <filter id="filter-1">
+            <feColorMatrix in="SourceGraphic" type="matrix" values="0 0 0 0 0.000000 0 0 0 0 0.525490 0 0 0 0 0.254902 0 0 0 1.000000 0"></feColorMatrix>
+        </filter>
+    </defs>
+    <g id="Homepage" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round">
+        <g id="🍎-Culoare" transform="translate(-149.000000, -295.000000)" filter="url(#filter-1)">
+            <g transform="translate(152.000000, 298.000000)">
+                <line x1="52" y1="24" x2="52" y2="28" id="Path-14" stroke="#008641" stroke-width="5"></line>
+                <path d="M16,0 L6,0 C2.6862915,6.08718376e-16 -4.05812251e-16,2.6862915 0,6 L0,16 L0,16" id="Path-3" stroke="#008641" stroke-width="5"></path>
+                <path d="M16,56 L6,56 C2.6862915,56 -4.05812251e-16,58.6862915 0,62 L0,72 L0,72" id="Path-3" stroke="#008641" stroke-width="5" transform="translate(8.000000, 64.000000) scale(1, -1) translate(-8.000000, -64.000000) "></path>
+                <path d="M72,0 L62,0 C58.6862915,6.08718376e-16 56,2.6862915 56,6 L56,16 L56,16" id="Path-3" stroke="#008641" stroke-width="5" transform="translate(64.000000, 8.000000) scale(-1, 1) translate(-64.000000, -8.000000) "></path>
+                <path d="M72,56 L62,56 C58.6862915,56 56,58.6862915 56,62 L56,72 L56,72" id="Path-3" stroke="#008641" stroke-width="5" transform="translate(64.000000, 64.000000) scale(-1, -1) translate(-64.000000, -64.000000) "></path>
+                <path d="M26,52 C28.6666667,54.6666667 32,56 36,56 C40,56 43.3333333,54.6666667 46,52" id="Path-33" stroke="#008641" stroke-width="5"></path>
+                <path d="M32,40 L34,40 C36.209139,40 38,38.209139 38,36 L38,24 L38,24" id="Path-34" stroke="#008641" stroke-width="5"></path>
+                <line x1="20" y1="24" x2="20" y2="28" id="Path-10" stroke="#008641" stroke-width="5"></line>
+            </g>
+        </g>
+    </g>
+</svg>
