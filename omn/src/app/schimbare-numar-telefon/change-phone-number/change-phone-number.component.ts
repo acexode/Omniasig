@@ -6,7 +6,6 @@ import { IonInputConfig } from 'src/app/shared/models/component/ion-input-config
 import { IonTextItem } from 'src/app/shared/models/component/ion-text-item';
 import { PhonenumberService } from '../services/phonenumber.service';
 import { RequestNewPhoneNumberChange } from '../models/RequestNewPhoneNumberChange.interface';
-import { HttpHeaders } from '@angular/common/http';
 import { AuthService } from 'src/app/core/services/auth/auth.service';
 
 @Component( {

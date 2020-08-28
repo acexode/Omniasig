@@ -93,7 +93,7 @@ export class VerifyPhoneNumberComponent
     }
 
     ngAfterViewInit() {
-        this.startTimer();
+       this.startTimer();
     }
 
     startTimer() {
@@ -103,7 +103,7 @@ export class VerifyPhoneNumberComponent
     }
 
     resendSMS() {
-        this.startTimer();
+       this.startTimer();
     }
 
     proceed() {
@@ -118,7 +118,6 @@ export class VerifyPhoneNumberComponent
                 userNameOrId: userId,
                 newPhoneNumber: this.phoneNumber,
             };
-            console.log( requestNewPhoneDetails );
             this.phS.validatePhoneCode( requestNewPhoneDetails )
                 .subscribe(
                     response => {
