@@ -99,7 +99,7 @@ export class InputSmsComponent implements OnInit, AfterViewInit, OnDestroy {
     this.busy =true
     // TODO change the second params to code when the ws is changed to 6 digits
     let code = this.passForm.controls["digit"].value
-    this.auth.confirmPhoneNumberSms(this.phoneNumber, 4336).subscribe(
+    this.auth.confirmPhoneNumberSms(this.phoneNumber, code).subscribe(
       data => {this.busy=false;this.router.navigate(['login/verify', this.phoneNumber])},
       err => {this.busy=false;this.confirmationError(err)}
     )

@@ -4,17 +4,17 @@ import {
   CanActivate,
   RouterStateSnapshot,
   UrlTree,
+  CanActivateChild, Router
 } from '@angular/router';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
-import { Account } from '../../models/account.interface';
+import { map, take } from 'rxjs/operators';
 import { AuthService } from '../../services/auth/auth.service';
 
 @Injectable({
   providedIn: 'root',
 })
-export class LoginGuard implements CanActivate {
-  constructor(private authS: AuthService) { }
+export class LoginGuard implements CanActivate ,CanActivateChild {
+  constructor(private authS: AuthService, private routerS: Router) {}
   canActivate(
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
@@ -23,11 +23,34 @@ export class LoginGuard implements CanActivate {
     | Promise<boolean | UrlTree>
     | boolean
     | UrlTree {
-    // return this.authS.getAccountData().pipe(
-    //   map((val: Account) => {
-    //     return val ? this.authS.redirectUrlTree(next) : true;
-    //   })
-    // );
-    return true
+    return this.authS.getToken()
+    .pipe(
+      take(1),
+      map(isAuthenticated => {
+        if (isAuthenticated) {
+          return this.routerS.createUrlTree(['/home']);
+        }
+        return true;
+      })
+    );
+  }
+  
+  canActivateChild(
+    next: ActivatedRouteSnapshot,
+    state: RouterStateSnapshot
+  ):  | Observable<boolean | UrlTree>
+  | Promise<boolean | UrlTree>
+  | boolean
+  | UrlTree {
+    return this.authS.getToken()
+    .pipe(
+      take(1),
+      map(isAuthenticated => {
+        if (isAuthenticated) {
+          return this.routerS.createUrlTree(['/home']);
+        }
+        return true;
+      })
+    );
   }
 }
