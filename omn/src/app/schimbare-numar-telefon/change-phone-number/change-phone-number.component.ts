@@ -69,8 +69,6 @@ export class ChangePhoneNumberComponent implements OnInit {
             this.phS.updatePhoneNumber( requestNewPhoneDetails )
                 .subscribe(
                     response => {
-                        // Will review this
-                        console.log( response );
                         this.router.navigate( [
                             'phone-number/confirm-number',
                             newPhoneNumber,

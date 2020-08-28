@@ -15,6 +15,7 @@ import { subPageHeaderDefault } from 'src/app/shared/data/sub-page-header-defaul
 import { IonInputConfig } from 'src/app/shared/models/component/ion-input-config';
 import { AuthService } from 'src/app/core/services/auth/auth.service';
 import { PhonenumberService } from '../services/phonenumber.service';
+import { ConfirmNewPhoneNumber } from '../models/ConfirmNewPhoneNumber.interface';
 
 @Component( {
     selector: 'app-verify-phone-number',
@@ -79,7 +80,7 @@ export class VerifyPhoneNumberComponent
         }
     }
 
-    continue() {
+    continueTest() {
         if ( this.passForm.controls.digit.value === 123456 ) {
             this.proceed();
         } else {
@@ -107,6 +108,31 @@ export class VerifyPhoneNumberComponent
 
     proceed() {
         this.router.navigate( [ 'phone-number/change-successful' ] );
+    }
+
+    continue() {
+        this.authS.getAuthState().subscribe( authData => {
+            const { userId } = authData.account;
+            const requestNewPhoneDetails: ConfirmNewPhoneNumber = {
+                confirmationCode: this.passForm.controls.digit.value,
+                userNameOrId: userId,
+                newPhoneNumber: this.phoneNumber,
+            };
+            console.log( requestNewPhoneDetails );
+            this.phS.validatePhoneCode( requestNewPhoneDetails )
+                .subscribe(
+                    response => {
+                        this.proceed();
+                    },
+                    err => {
+                        this.InvalidCode = true;
+                        setTimeout( () => {
+                            this.InvalidCode = false;
+                            this.passForm.reset();
+                        }, 2000 );
+                    }
+                );
+        } );
     }
 
     spawnInput() {
