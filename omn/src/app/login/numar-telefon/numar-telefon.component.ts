@@ -57,7 +57,6 @@ export class NumarTelefonComponent implements OnInit {
         this.requestSms()
       },
       err => {
-        console.log(err);
         this.newUserReg();
         this.busy = false
       }
@@ -65,7 +64,16 @@ export class NumarTelefonComponent implements OnInit {
   }
 
   newUserReg() {
-    // TODO make http request to register number as he is not a member yet
+    //TODO to continue user registeration in omn-83
+    // this.auth.sendPhoneNumberSms(this.teleForm.controls['phoneNumber'].value).subscribe(
+    //   data => {
+    //     this.router.navigate([
+    //       'registration/confirm-number',
+    //       this.teleForm.controls['phoneNumber'].value,
+    //     ]);
+    //   },
+    //   err => { this.busy = false }
+    // )
   }
 
   checkHasLoggedIn() {
@@ -89,7 +97,7 @@ export class NumarTelefonComponent implements OnInit {
           this.teleForm.controls['phoneNumber'].value,
         ]);
       },
-      err => { this.busy = false; console.log(err) }
+      err => { this.busy = false }
     )
   }
 
