@@ -31,10 +31,11 @@
   }
 }
 .assistance-modal {
-  --backdrop-opacity: 0.8 !important;
+  --backdrop-opacity: 0 !important;
   padding-top: rem(40);
   padding-bottom: rem(40);
-
+  overflow-y: auto;
+  background: $backdrop-color;
   .modal-wrapper {
     box-shadow: $alert-shadow-1;
     --max-width: calc(100% - 32px);
