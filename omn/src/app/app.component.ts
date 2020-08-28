@@ -8,7 +8,6 @@ import { Router } from '@angular/router';
 import { NgZone } from '@angular/core';
 import { defineCustomElements } from '@ionic/pwa-elements/loader';
 
-
 @Component({
   selector: 'app-root',
   templateUrl: 'app.component.html',
@@ -41,7 +40,7 @@ export class AppComponent {
     this.deeplinks
       .route({
         '/email/validation-code?code={query_value}':
-          'profile/date-personale/validate-email',
+          'profil/date-personale/validate-email',
       })
       .subscribe(
         (match) => {

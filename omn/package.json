@@ -33,6 +33,7 @@
     "@ngx-translate/core": "^13.0.0",
     "@ngx-translate/http-loader": "^6.0.0",
     "com-darryncampbell-cordova-plugin-intent": "^2.0.0",
+    "cordova-android": "8.1.0",
     "cordova-browser": "6.0.0",
     "cordova-plugin-app-launcher": "^0.4.0",
     "cordova-plugin-splashscreen": "^5.0.4",
@@ -86,11 +87,12 @@
       "ionic-plugin-deeplinks": {
         "URL_SCHEME": "omnapp",
         "DEEPLINK_SCHEME": "https",
-        "DEEPLINK_HOST": "softescu.com"
+        "DEEPLINK_HOST": "samiyke.com"
       }
     },
     "platforms": [
-      "browser"
+      "browser",
+      "android"
     ]
   }
 }
