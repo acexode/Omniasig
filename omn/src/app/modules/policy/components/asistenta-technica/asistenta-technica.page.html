@@ -7,34 +7,40 @@
       </ion-text>
     </ion-row>
     <ion-row class="ion-no-padding">
-      <ion-radio-group class="w-100" formControlName="plan" name="radio-group">
+      <ion-radio-group class="w-100" formControlName="plan">
         <ion-card
           *ngFor="let plan of plans; let i=index"
           [ngClass]="{'omn-background-green-gradient': planField?.value === plan.value}"
-          class="mh-128 mx-0 mb-16 mt-0 flex flex-column"
+          class="mh-128 mx-0 mb-16 mt-0 flex flex-column bs-3"
         >
           <ion-card-content
             class="flex flex-1 w-100 ion-text-center mt-auto px-16 pt-12 pb-16 flex-column"
           >
             <ion-row
-              class="position-absolute right-0 top-0 bottom-left-radius-8"
-              [ngClass]="{'ion-color-white-dark-green-b-bg': planField?.value === plan.value, 'check-bg': plan.state === ''}"
+              class="position-absolute right-0 top-0 bottom-left-radius-8 bg-light-green"
+              [ngClass]="{
+                'bg-dark-green-b': planField?.value === plan.value
+              }"
             >
-              <ion-label class="position-relative">
+              <div class="position-relative flex lh-16 p-8">
                 <ion-icon
-                  [name]="planField?.value === plan.value ? 'check' :'sm-checkbox-off'"
-                  class="icon-22"
+                  name="md-check"
+                  class="icon-20 color-white"
+                  [ngClass]="{
+                    'ion-hide':planField?.value !== plan.value
+                  }"
+                ></ion-icon>
+                <ion-icon
+                  name="sm-checkbox-off"
+                  class="icon-20"
+                  [ngClass]="{'color-white ion-hide': planField?.value === plan.value}"
                 >
                 </ion-icon>
                 <ion-radio
-                  slot="start"
-                  [name]="plan.name"
-                  [value]="plan.value"
-                  [color]="plan.color"
-                  class="opacity-0 position-absolute top-0 left-0"
-                  #radioItem
+                  [value]="plan?.value"
+                  class="opacity-0 position-absolute top-0 left-0 w-100 h-100"
                 ></ion-radio>
-              </ion-label>
+              </div>
             </ion-row>
             <ion-icon
               class="mb-0 flex main-icon mh-100 mw-188 position-absolute bottom-0 right-0 svg-absolute-right"
@@ -52,10 +58,9 @@
                 {{plan.text}}
               </ion-text>
               <ion-text
-                class="w-100 ion-no-padding flex s24-h25 alt-font ls-min-02"
+                class="w-100 ion-no-padding flex s24-h25 alt-font ls-min-02 color-white"
                 [ngClass]="{
-                    'color-dark-green': planField?.value !== plan?.value, 
-                    'color-white': planField?.value === plan?.value
+                  'color-dark-green': planField?.value !== plan?.value
                 }"
                 >{{plan.plan}}</ion-text
               >
@@ -85,7 +90,7 @@
     </ion-row>
     <ion-row class="ion-no-padding flex flex-1 w-100 pb-8 px-16">
       <ion-text
-        class="alt-text ion-text-center w-100 right-padding vertical-spacing mb-22 ls-min-02 label-normal"
+        class="alt-text ion-text-center w-100 right-padding vertical-spacing mb-22 label-normal"
       >
         Serviciile de intervenție de urgență sunt organizate pe baza notificării
         telefonice de către Asigurat la Centrul de Urgență, la numarul de
@@ -102,6 +107,7 @@
             fill="solid"
             expand="block"
             size="large"
+            (click)="submit()"
             [disabled]="!formGroup?.valid"
             >Continuă</ion-button
           >

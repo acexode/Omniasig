@@ -6,7 +6,7 @@
   --backdrop-opacity: 0.8 !important;
 
   .modal-wrapper {
-      box-shadow: $alert-shadow-1;
+    box-shadow: $alert-shadow-1;
     --max-width: calc(100% - 64px);
     --max-height: calc(100% - 64px);
     margin: auto;
@@ -30,10 +30,39 @@
     }
   }
 }
+.assistance-modal {
+  --backdrop-opacity: 0.8 !important;
+  padding-top: rem(40);
+  padding-bottom: rem(40);
+
+  .modal-wrapper {
+    box-shadow: $alert-shadow-1;
+    --max-width: calc(100% - 32px);
+
+    margin: auto;
+    border-radius: rem(8);
+    height: auto;
+    overflow: auto;
+    --overflow: auto;
+    --height: auto;
+    > * {
+      position: relative;
+      --height: auto;
+      height: auto;
+      width: 100%;
+      --min-height: 360px;
+      min-height: rem(360);
+      display: flex;
+      flex: 1;
+      flex-direction: column;
+      contain: content;
+    }
+  }
+}
 
 .disabled-message-modal-class {
   .modal-wrapper {
-      box-shadow: $box-shadow-3;
+    box-shadow: $box-shadow-3;
     --max-width: calc(100% - 32px);
     border-radius: rem(8) rem(8) rem(40) rem(40);
   }

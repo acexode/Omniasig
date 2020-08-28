@@ -12,8 +12,10 @@ export class AsistentaModalPagePage implements OnInit {
 
   ngOnInit() {}
   closeModal() {
-    this.modalCtrl.dismiss({
-      dismissed: true,
-    });
+    Promise.resolve(
+      this.modalCtrl.dismiss({
+        dismissed: true,
+      })
+    );
   }
 }

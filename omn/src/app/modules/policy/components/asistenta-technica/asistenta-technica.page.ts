@@ -1,8 +1,8 @@
 import {
-  Component,
-  OnInit,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
+  Component,
+  OnInit,
 } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ModalController } from '@ionic/angular';
@@ -47,19 +47,28 @@ export class AsistentaTechnicaPage implements OnInit {
     private fb: FormBuilder,
     private cdRef: ChangeDetectorRef
   ) {}
-  ngOnInit() {}
 
-  async openModal(type) {
-    console.log('click');
-    const modal = await this.modalCtrl.create({
-      component: AsistentaModalPagePage,
-      componentProps: { type },
-      cssClass: 'my-custom-modal-class',
-    });
-    return await modal.present();
+  ngOnInit() {
+    this.formGroup.setValue({ plan: this.plans[0].value });
+  }
+
+  openModal(type) {
+    this.modalCtrl
+      .create({
+        component: AsistentaModalPagePage,
+        componentProps: { type },
+        cssClass: 'assistance-modal',
+      })
+      .then((modal) => {
+        Promise.resolve(modal.present());
+      });
   }
 
   get planField() {
     return this.formGroup.get('plan');
+  }
+
+  submit(){
+    // TODO: emit an event from here to the main component.
   }
 }

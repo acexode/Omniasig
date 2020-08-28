@@ -170,7 +170,7 @@
 }
 
 .ion-color-secondary-grey {
-    --color: $secondary-grey !important;
+  --color: $secondary-grey !important;
 }
 
 .color-secondary-grey {
@@ -259,7 +259,11 @@
 
 .bg-light-green {
   background-color: $light-green;
-  --background: $light-green;
+  --background: var(--app-light-green-color);
+}
+.bg-dark-green-b {
+  background-color: $dark-green-b;
+  --background: var(--app-dark-green-b-color);
 }
 
 .bg-white-layer-gradient {
