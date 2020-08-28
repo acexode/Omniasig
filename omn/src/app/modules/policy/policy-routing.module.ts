@@ -1,11 +1,20 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { AsistentaTechnicaPage } from './components/asistenta-technica/asistenta-technica.page';
 import { OfferViewComponent } from './components/offer-view/offer-view.component';
 import { PolicyViewComponent } from './components/policy-view/policy-view.component';
 import { PolicyComponent } from './components/policy/policy.component';
 import { PolicyPage } from './page/policy.page';
 
 const routes: Routes = [
+  {
+    path: 'form',
+    loadChildren: () =>
+      import('./pages/policy-form/policy-form.module').then(
+        (m) => m.PolicyFormPageModule
+      ),
+  },
+
   {
     path: '',
     component: PolicyPage,
@@ -15,18 +24,8 @@ const routes: Routes = [
         component: PolicyComponent,
       },
       {
-        path: 'asistenta-technica',
-        loadChildren: () =>
-          import('./asistenta-technica/asistenta-technica.module').then(
-            (m) => m.AsistentaTechnicaPageModule
-          ),
-      },
-      {
-        path: 'form',
-        loadChildren: () =>
-          import('./pages/policy-form/policy-form.module').then(
-            (m) => m.PolicyFormPageModule
-          ),
+        path: 'asistenta',
+        component: AsistentaTechnicaPage,
       },
       {
         path: 'offer/:id',

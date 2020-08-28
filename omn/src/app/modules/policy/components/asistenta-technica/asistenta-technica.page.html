@@ -1,0 +1,112 @@
+<app-sub-page-header [config]="headerConfig"></app-sub-page-header>
+<ion-content [formGroup]="formGroup">
+  <ion-grid class="px-16 pt-0 pb-16 flex flex-1 flex-column w-100 mh-100p">
+    <ion-row class="ion-no-padding pt-32 pb-16 px-16">
+      <ion-text class="s18-h24 text-weight-medium color-dark-green">
+        Reparații urgente la tine acasă
+      </ion-text>
+    </ion-row>
+    <ion-row class="ion-no-padding">
+      <ion-radio-group class="w-100" formControlName="plan" name="radio-group">
+        <ion-card
+          *ngFor="let plan of plans; let i=index"
+          [ngClass]="{'omn-background-green-gradient': planField?.value === plan.value}"
+          class="mh-128 mx-0 mb-16 mt-0 flex flex-column"
+        >
+          <ion-card-content
+            class="flex flex-1 w-100 ion-text-center mt-auto px-16 pt-12 pb-16 flex-column"
+          >
+            <ion-row
+              class="position-absolute right-0 top-0 bottom-left-radius-8"
+              [ngClass]="{'ion-color-white-dark-green-b-bg': planField?.value === plan.value, 'check-bg': plan.state === ''}"
+            >
+              <ion-label class="position-relative">
+                <ion-icon
+                  [name]="planField?.value === plan.value ? 'check' :'sm-checkbox-off'"
+                  class="icon-22"
+                >
+                </ion-icon>
+                <ion-radio
+                  slot="start"
+                  [name]="plan.name"
+                  [value]="plan.value"
+                  [color]="plan.color"
+                  class="opacity-0 position-absolute top-0 left-0"
+                  #radioItem
+                ></ion-radio>
+              </ion-label>
+            </ion-row>
+            <ion-icon
+              class="mb-0 flex main-icon mh-100 mw-188 position-absolute bottom-0 right-0 svg-absolute-right"
+              [name]="plan?.image"
+            ></ion-icon>
+            <ion-row
+              class="ion-no-padding w-100 ion-align-items-start ion-text-left pr-36 flex flex-1 flex-column"
+            >
+              <ion-text
+                class="w-100 ion-no-padding flex text-weight-bold ls-02 mb-4 s13-h16"
+                [ngClass]="{
+                    'color-white': planField?.value === plan.value
+                }"
+              >
+                {{plan.text}}
+              </ion-text>
+              <ion-text
+                class="w-100 ion-no-padding flex s24-h25 alt-font ls-min-02"
+                [ngClass]="{
+                    'color-dark-green': planField?.value !== plan?.value, 
+                    'color-white': planField?.value === plan?.value
+                }"
+                >{{plan.plan}}</ion-text
+              >
+            </ion-row>
+
+            <ion-row
+              class="ion-no-padding content-ref-wrapper flex flex-column flex-1 ion-justify-content-end w-100"
+            >
+              <ion-row
+                class="ion-no-padding flex ion-justify-content-between w-100"
+              >
+                <ion-col class="ion-no-padding flex flex-0">
+                  <ion-button
+                    (click)="openModal(plan.value)"
+                    class="m-0 no-shadow flat h-24"
+                    shape="round"
+                    color="danger"
+                    size="small"
+                    ><span class="s13-h16">Vezi ce include</span></ion-button
+                  >
+                </ion-col>
+              </ion-row>
+            </ion-row>
+          </ion-card-content>
+        </ion-card>
+      </ion-radio-group>
+    </ion-row>
+    <ion-row class="ion-no-padding flex flex-1 w-100 pb-8 px-16">
+      <ion-text
+        class="alt-text ion-text-center w-100 right-padding vertical-spacing mb-22 ls-min-02 label-normal"
+      >
+        Serviciile de intervenție de urgență sunt organizate pe baza notificării
+        telefonice de către Asigurat la Centrul de Urgență, la numarul de
+        telefon 021.9765, apelabil 24 de ore din 24.</ion-text
+      >
+
+      <ion-col
+        class="ion-no-padding flex flex-column flex-1 text-center p-0 ion-justify-content-end"
+      >
+        <ion-row class="ion-no-padding mt-auto w-100">
+          <ion-button
+            class="activate-btn m-0 w-100"
+            color="success"
+            fill="solid"
+            expand="block"
+            size="large"
+            [disabled]="!formGroup?.valid"
+            >Continuă</ion-button
+          >
+        </ion-row>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>
