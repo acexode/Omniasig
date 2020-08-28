@@ -5,7 +5,8 @@ export const authEndpoints = {
   login: serverBaseUrl + '/User/LoginAndCreateToken',
   findUserByPhoneNumber: serverBaseUrl + '/UserProfile/GetUserNameByPhoneNumber',
   getUserProfile: serverBaseUrl + '/UserProfile/GetUserProfile',
-  getSmsPhoneNumber:serverBaseUrl + '/idontknow'
+  sendPhoneNumberSms:serverBaseUrl + '/UserProfile/SmsPhoneNumberVerification',
+  confirmPhoneNumberSms:serverBaseUrl + '/UserProfile/SmsPhoneNumberConfirm'
 };
 
 export const baseEndpoints = {

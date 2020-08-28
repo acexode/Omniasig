@@ -54,17 +54,13 @@ export class NumarTelefonComponent implements OnInit {
     this.busy = true
     this.auth.findUserByPhoneNumber(this.teleForm.controls["phoneNumber"].value).subscribe(
       data => {
-        this.router.navigate([
-          'login/authenticate',
-          this.teleForm.controls['phoneNumber'].value,
-        ]);
-        // TODO call the request sms function when the api is ready
-        // this.requestSms()
-        this.busy = false
+        this.requestSms()
       },
       err => {
+        console.log(err);
         this.newUserReg();
-      this.busy = false}
+        this.busy = false
+      }
     );
   }
 
@@ -88,14 +84,12 @@ export class NumarTelefonComponent implements OnInit {
   requestSms() {
     this.auth.sendPhoneNumberSms(this.teleForm.controls['phoneNumber'].value).subscribe(
       data => {
-        console.log(data)
-        return
         this.router.navigate([
           'login/authenticate',
           this.teleForm.controls['phoneNumber'].value,
         ]);
       },
-      err => console.log(err)
+      err => { this.busy = false; console.log(err) }
     )
   }
 

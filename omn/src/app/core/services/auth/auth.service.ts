@@ -95,7 +95,15 @@ export class AuthService {
     const reqData: { phoneNumber: string } = {
       phoneNumber
     };
-    return this.reqS.post<any>(authEndpoints.login, reqData)
+    return this.reqS.post<any>(authEndpoints.sendPhoneNumberSms, reqData)
+  }
+
+  confirmPhoneNumberSms(phoneNumber, code) {
+    const reqData: { phoneNumber: string, code: number } = {
+      phoneNumber,
+      code
+    };
+    return this.reqS.post<any>(authEndpoints.sendPhoneNumberSms, reqData)
   }
 
   // save token to local storage

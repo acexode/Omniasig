@@ -22,26 +22,29 @@
             </div>
             <div class="ion-text-center pb-80">
                 <div (click)="spawnInput()" class="">
-                    <ion-icon class="mr-4 password-hide s18-h24" *ngIf="digitsLength < 1" name="ellipse-outline"></ion-icon>
-                    <ion-icon name="ellipse" *ngIf="digitsLength > 0" class="mr-4 password-hide s18-h24"></ion-icon>
-                    <ion-icon class="mr-4 password-hide s18-h24" *ngIf="digitsLength < 2" name="ellipse-outline"></ion-icon>
-                    <ion-icon name="ellipse" class="mr-4 password-hide s18-h24" *ngIf="digitsLength > 1"></ion-icon>
-                    <ion-icon class="mr-4 password-hide s18-h24" *ngIf="digitsLength < 3" name="ellipse-outline"></ion-icon>
-                    <ion-icon name="ellipse" class="mr-4 password-hide s18-h24" *ngIf="digitsLength > 2"></ion-icon>
-                    <ion-icon class="mr-4 password-hide s18-h24" *ngIf="digitsLength < 4" name="ellipse-outline"></ion-icon>
-                    <ion-icon name="ellipse" class="mr-4 password-hide s18-h24" *ngIf="digitsLength > 3"></ion-icon>
-                    <ion-icon class="mr-4 password-hide s18-h24" *ngIf="digitsLength < 5" name="ellipse-outline"></ion-icon>
-                    <ion-icon name="ellipse" class="mr-4 password-hide s18-h24" *ngIf="digitsLength > 4"></ion-icon>
-                    <ion-icon class="s18-h24 password-hide" *ngIf="digitsLength < 6" name="ellipse-outline"></ion-icon>
-                    <ion-icon name="ellipse" class="mr-4 password-hide s18-h24" *ngIf="digitsLength > 5"></ion-icon>
+                    <ion-icon class="mr-4 password-hide s18-h24" *ngIf="digitsLength < 1" [ngClass]="{'color-red': errorLogin}" name="ellipse-outline"></ion-icon>
+                    <ion-icon [ngClass]="{'color-red': errorLogin}" name="ellipse" *ngIf="digitsLength > 0" class="mr-4 password-hide s18-h24"></ion-icon>
+                    <ion-icon class="mr-4 password-hide s18-h24" *ngIf="digitsLength < 2" [ngClass]="{'color-red': errorLogin}" name="ellipse-outline"></ion-icon>
+                    <ion-icon [ngClass]="{'color-red': errorLogin}" name="ellipse" class="mr-4 password-hide s18-h24" *ngIf="digitsLength > 1"></ion-icon>
+                    <ion-icon class="mr-4 password-hide s18-h24" *ngIf="digitsLength < 3" [ngClass]="{'color-red': errorLogin}" name="ellipse-outline"></ion-icon>
+                    <ion-icon [ngClass]="{'color-red': errorLogin}" name="ellipse" class="mr-4 password-hide s18-h24" *ngIf="digitsLength > 2"></ion-icon>
+                    <ion-icon class="mr-4 password-hide s18-h24" *ngIf="digitsLength < 4" [ngClass]="{'color-red': errorLogin}" name="ellipse-outline"></ion-icon>
+                    <ion-icon [ngClass]="{'color-red': errorLogin}" name="ellipse" class="mr-4 password-hide s18-h24" *ngIf="digitsLength > 3"></ion-icon>
+                    <ion-icon class="mr-4 password-hide s18-h24" *ngIf="digitsLength < 5" [ngClass]="{'color-red': errorLogin}" name="ellipse-outline"></ion-icon>
+                    <ion-icon [ngClass]="{'color-red': errorLogin}" name="ellipse" class="mr-4 password-hide s18-h24" *ngIf="digitsLength > 4"></ion-icon>
+                    <ion-icon class="s18-h24 password-hide" *ngIf="digitsLength < 6" [ngClass]="{'color-red': errorLogin}" name="ellipse-outline"></ion-icon>
+                    <ion-icon [ngClass]="{'color-red': errorLogin}" name="ellipse" class="mr-4 password-hide s18-h24" *ngIf="digitsLength > 5"></ion-icon>
                 </div>
                 <form [formGroup]="passForm">
-                    <ion-input #inputField formControlName="digit" class="position-absolute bg-white text-center opacity-hide ion-no-border" maxlength="6" required="true" type="number" inputmode="number" autofocus="true"></ion-input>
+                    <ion-input #inputField formControlName="digit" class="position-absolute bg-white text-center opacity-hide ion-no-border" [readonly]="busy || errorLogin" maxlength="6" required="true" type="number" inputmode="number" autofocus="true"></ion-input>
                 </form>
             </div>
             <div class="ion-text-center pt-80">
-                <ion-text class="text-small">
+                <ion-text *ngIf="!errorLogin" class="text-small">
                     Poți solicita un alt cod în {{ min }}:{{ sec }}
+                </ion-text>
+                <ion-text *ngIf="errorLogin" class="text-small color-red">
+                    {{errorLogin}}
                 </ion-text>
                 <div *ngIf="sec < 1 || sec == 0" class="ion-align-items-center ion-text-center mt-8">
                     <ion-button (click)="resendSMS()" class="success-gradient ion-color-success" expand="block" size="large" shape="round" mode="md">
