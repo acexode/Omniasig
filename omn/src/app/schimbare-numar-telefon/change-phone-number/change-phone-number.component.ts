@@ -75,8 +75,7 @@ export class ChangePhoneNumberComponent implements OnInit {
                         ] );
                     },
                     err => {
-                        // error
-                        console.log( err );
+                        // do nothing error
                     }
                 );
         } );
