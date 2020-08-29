@@ -1,117 +1,104 @@
-
-  <ion-grid class="px-32 pt-0 pb-16"  *ngIf="type ==='gold'">
-    <ion-row class="flex justify-content-end p-5 my-5">
-      <ion-icon
-        (click)="closeModal()"
-        role="button"
-        class="mb-0 flex main-icon position-absolute top-10 right-0 svg-absolute-right pr-20"
-        name="md-close"
-      ></ion-icon>
-    </ion-row>
-    <ion-row class="mb-20">
-      <ion-col>
-        <ion-text
-          class="w-100 ion-no-padding flex s24-h25 alt-font ls-min-02"
-          color="success"
-          >Planul Gold
-        </ion-text>
-        <ion-text
-          class="w-100 ion-no-padding flex text-weight-bold ls-02 mb-4"
-          >Inclus în prețul poliței GARANT AMPLUS
-        </ion-text>
-      </ion-col>
-      <ion-col class="flex justify-content-end pb-20">
-        <ion-row class="">
-          <ion-icon
-            class="mb-20 flex main-icon mh-100 mw-188 position-absolute top-40 right-0 svg-absolute-right"
-            name="md-gold"
-          ></ion-icon>
-        </ion-row>
-      </ion-col>
-    </ion-row>
-    <ion-row class="my-16">
-      <ion-text>
-        Acoperă contravaloarea serviciilor acordate prin intermediul societății
-        de asistență și a materialelor / pieselor de schimb necesare, ca urmare
-        a apariției evenimentelor acoperite.
+<ion-grid class="p-16 bg-white">
+  <ion-row class="flex justify-content-end">
+    <ion-icon
+      (click)="closeModal()"
+      role="button"
+      class="mb-0 flex main-icon position-absolute top-0 mt-16 right-0 svg-absolute-right pr-16 z-index-999"
+      name="md-close"
+    ></ion-icon>
+  </ion-row>
+  <ion-row class="mb-20 flex flex-1" *ngIf="type ==='gold'">
+    <ion-col class="ion-no-padding">
+      <ion-text
+        class="w-100 ion-no-padding flex s24-h32 text-weight-bold alt-font ls-min-02 color-dark-green mb-4"
+        >Planul Gold
       </ion-text>
-      <ion-text class="pt-10">
-        Planul GOLD include evenimentele generate de următoarele cauze:
+      <ion-text
+        class="w-100 ion-no-padding flex text-weight-medium s14-h16 ls-02"
+        >Inclus în prețul poliței GARANT AMPLUS
       </ion-text>
-      <ul class="ion-text-wrap ion-text-justify">
-        <li>
-          Avarii la instalațiile de apă și canalizare (ex: spargerea conductelor
-          de apă, înfundarea conductelor de apă)
-        </li>
-        <li>Avarii la instalația electrică;</li>
-        <li>
-          Avarii la instalația de încălzire (centrală termică, calorifere,
-          conducte);
-        </li>
-        <li>Avarierea acoperișului locuinței clădirii asigurate;</li>
-        <li>
-          Avarierea ușilor exterioare (inclusiv blocarea) și a tâmplăriei /
-          geamurilor;
-        </li>
-        <li>
-          Avarii la instalația de gaze (inclusiv la conducte de transport sau
-          aparate de consum);
-        </li>
-        <li>
-          Deteriorarea, furtul, pierderea sau uitarea în interiorul locuinței a
-          cheilor de acces.
-        </li>
-      </ul>
-    </ion-row>
-  </ion-grid>
-
-  <ion-grid class="px-32 pt-0 pb-16"  *ngIf="type==='vip'">
-    <ion-row class="flex justify-content-end p-5 my-5">
-      <ion-icon
-        (click)="closeModal()"
-        role="button"
-        class="mb-0 flex main-icon position-absolute top-10 right-0 svg-absolute-right pr-20"
-        name="md-close"
-      ></ion-icon>
-    </ion-row>
-    <ion-row class="mb-20">
-      <ion-col>
-        <ion-text
-          class="w-100 ion-no-padding flex s24-h25 alt-font ls-min-02"
-          color="success"
-          >Planul Vip
-        </ion-text>
-        <ion-button
-          class="px-15 mb-8 mt-0 mx-0 no-shadow flat mr-16 ion-color ion-color-warning md button button-small button-solid mt-5"
-          >8 Euro</ion-button
+    </ion-col>
+    <ion-col class="flex justify-content-end ion-no-padding">
+      <ion-row class="flex flex-1 ion-no-padding">
+        <ion-icon
+          class="main-icon mh-78 mw-144 mt-16"
+          name="sm-gold"
+        ></ion-icon>
+      </ion-row>
+    </ion-col>
+  </ion-row>
+  <ion-row class="mb-20 flex flex-1" *ngIf="type ==='vip'">
+    <ion-col class="ion-no-padding">
+      <ion-text
+        class="w-100 ion-no-padding flex s24-h32 text-weight-bold alt-font ls-min-02 color-dark-green mb-4 mt-8"
+        >Planul Vip
+      </ion-text>
+      <ion-row class="ion-no-padding">
+        <ion-label
+          class="px-16 py-8 mb-8 mt-0 mx-0 bg-yellow-2 border-radius-8 text-weight-medium"
+          >8 Euro</ion-label
         >
-      </ion-col>
-      <ion-col class="flex justify-content-end pb-20">
-        <ion-row class="">
-          <ion-icon
-            class="mb-20 flex main-icon mh-100 mw-188 position-absolute top-40 right-0 svg-absolute-right"
-            name="md-vip"
-          ></ion-icon>
-        </ion-row>
-      </ion-col>
-    </ion-row>
-    <ion-row class="pt-4">
-      <ion-text class="pt-10"> Include în plus față de planul GOLD: </ion-text>
-      <ul class="ion-text-wrap ion-text-justify">
-        <li>
-          piese / materiale şi manoperă până la valoarea de 2000 lei (față de
-          1000 lei la planul GOLD);
-        </li>
-        <li>
-          piese pentru centrala termică până la valoarea de 1000 lei (față de
-          500 lei la planul GOLD);
-        </li>
-        <li>
-          refacerea locului avariat, în cazul în care au fost necesare, în
-          scopul efectuării intervenției, spargerea zidului și/sau altă acțiune
-          similară pentru a identifica și ajunge la sursa cauzatoare de
-          prejudicii.
-        </li>
-      </ul>
-    </ion-row>
-  </ion-grid>
+      </ion-row>
+    </ion-col>
+    <ion-col class="flex justify-content-end ion-no-padding">
+      <ion-row
+        class="flex flex-1 ion-no-padding ion-align-items-end ion-justify-content-end pr-12"
+      >
+        <ion-icon class="main-icon mh-72 mw-96 mt-24" name="sm-vip"></ion-icon>
+      </ion-row>
+    </ion-col>
+  </ion-row>
+  <ion-row class="mt-16" *ngIf="type ==='gold'">
+    <ion-text>
+      Acoperă contravaloarea serviciilor acordate prin intermediul societății de
+      asistență și a materialelor / pieselor de schimb necesare, ca urmare a
+      apariției evenimentelor acoperite.
+    </ion-text>
+    <ion-text class="pt-16">
+      Planul GOLD include evenimentele generate de următoarele cauze:
+    </ion-text>
+    <ul class="ion-text-wrap ion-text-justify mb-0">
+      <li>
+        Avarii la instalațiile de apă și canalizare (ex: spargerea conductelor
+        de apă, înfundarea conductelor de apă)
+      </li>
+      <li>Avarii la instalația electrică;</li>
+      <li>
+        Avarii la instalația de încălzire (centrală termică, calorifere,
+        conducte);
+      </li>
+      <li>Avarierea acoperișului locuinței clădirii asigurate;</li>
+      <li>
+        Avarierea ușilor exterioare (inclusiv blocarea) și a tâmplăriei /
+        geamurilor;
+      </li>
+      <li>
+        Avarii la instalația de gaze (inclusiv la conducte de transport sau
+        aparate de consum);
+      </li>
+      <li>
+        Deteriorarea, furtul, pierderea sau uitarea în interiorul locuinței a
+        cheilor de acces.
+      </li>
+    </ul>
+  </ion-row>
+
+  <ion-row class="pt-4" *ngIf="type==='vip'">
+    <ion-text class="pt-10"> Include în plus față de planul GOLD: </ion-text>
+    <ul class="ion-text-wrap ion-text-justify mb-0">
+      <li>
+        piese / materiale şi manoperă până la valoarea de 2000 lei (față de 1000
+        lei la planul GOLD);
+      </li>
+      <li>
+        piese pentru centrala termică până la valoarea de 1000 lei (față de 500
+        lei la planul GOLD);
+      </li>
+      <li>
+        refacerea locului avariat, în cazul în care au fost necesare, în scopul
+        efectuării intervenției, spargerea zidului și/sau altă acțiune similară
+        pentru a identifica și ajunge la sursa cauzatoare de prejudicii.
+      </li>
+    </ul>
+  </ion-row>
+</ion-grid>

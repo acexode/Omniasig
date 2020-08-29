@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, HostBinding } from '@angular/core';
 import { NavController } from '@ionic/angular';
 import { subPageHeaderPrimary } from 'src/app/shared/data/sub-page-header-primary';
 
@@ -8,6 +8,7 @@ import { subPageHeaderPrimary } from 'src/app/shared/data/sub-page-header-primar
   styleUrls: ['./documente.page.scss'],
 })
 export class DocumentePage implements OnInit {
+  @HostBinding('class') color = 'ion-color-white-page';
   headerConfig = subPageHeaderPrimary('Documente');
   items: any = [];
   itemHeight: number = 0;

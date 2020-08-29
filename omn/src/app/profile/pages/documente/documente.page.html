@@ -1,9 +1,9 @@
 <app-sub-page-header [config]="headerConfig"></app-sub-page-header>
 
 <ion-content padding>
-  <ion-grid class="pt-32 pb-16">
-    <ion-row>
-      <ion-col>
+  <ion-grid class="pt-32 pb-16 px-0">
+    <ion-row  class="ion-no-padding">
+      <ion-col class="ion-no-padding">
         <app-expandable
           *ngFor="let doc of documentes"
           name="{{ doc.name }}"

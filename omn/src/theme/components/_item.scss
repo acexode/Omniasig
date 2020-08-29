@@ -155,5 +155,14 @@
     &.item-mh-40 {
       --min-height: 40px;
     }
+
+    &.expandable-item {
+      --padding-start: 0;
+      --padding-left: 0;
+      --inner-padding-left: 0;
+      .triangle-wrp {
+        margin-inline-end: 0;
+      }
+    }
   }
 }
