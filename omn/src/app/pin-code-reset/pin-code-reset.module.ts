@@ -1,3 +1,4 @@
+import { ResetPincodeService } from './services/reset-pincode.service';
 import { PinChangeSuccessfulComponent } from './pin-change-successful/pin-change-successful.component';
 import { ConfirmPinComponent } from './confirm-pin/confirm-pin.component';
 import { NewPinComponent } from './new-pin/new-pin.component';
@@ -22,5 +23,6 @@ import { OmnInputsModule } from '../shared/modules/omn-inputs/omn-inputs.module'
     ConfirmPinComponent,
     PinChangeSuccessfulComponent,
   ],
+  providers:[ResetPincodeService]
 })
 export class PinCodeResetPageModule { }

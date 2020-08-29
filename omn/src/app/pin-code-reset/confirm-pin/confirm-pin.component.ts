@@ -1,3 +1,4 @@
+import { ResetPincodeService } from './../services/reset-pincode.service';
 import { Location } from '@angular/common';
 import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -15,26 +16,30 @@ export class ConfirmPinComponent implements OnInit, AfterViewInit {
   digitsLength: number = 0;
   @ViewChild('inputField') inputField: IonInput;
   pinForm: FormGroup;
+  busy: boolean = false;
+  invalidCode: string = null
   constructor(
     private navCtrl: NavController,
     private formBuilder: FormBuilder,
     private route: ActivatedRoute,
-    private router: Router,
-    private location: Location
-  ) {}
+    private resetPinService: ResetPincodeService
+  ) {
+  }
 
   ngOnInit() {
-    this.route.params.subscribe((params) => {
-      if (params.pin) {
-        this.initForm(params.pin);
-      } else {
-        this.location.back();
-      }
-    });
+    this.checkObjFields()
   }
 
   ngAfterViewInit() {
     this.spawnInput();
+  }
+
+  checkObjFields() {
+    if (!this.resetPinService.getResetObj?.cnp || !this.resetPinService.getResetObj?.code || !this.resetPinService.getResetObj?.newPin) {
+      this.navCtrl.navigateRoot('/reset-pincode')
+    } else {
+      this.initForm(this.resetPinService.getResetObj.newPin);
+    }
   }
 
   initForm(pincode) {
@@ -69,16 +74,24 @@ export class ConfirmPinComponent implements OnInit, AfterViewInit {
       this.pinForm.controls['confirmPin'].value ===
       parseInt(this.pinForm.controls['pincode'].value, 10)
     ) {
-      this.navCtrl.navigateRoot(`reset-pincode/reset-successful`);
+      this.busy = true
+      this.resetPinService.confirmResetPincode().subscribe(
+        (data) => { this.navCtrl.navigateRoot(`reset-pincode/reset-successful`); this.busy = false },
+        err => {
+          this.invalidCode = err.error;
+           setTimeout(() => {
+            this.navCtrl.navigateBack('/reset-pincode/verify-passcode')
+          }, 1500);
+        }
+      )
     } else {
-      this.location.back();
+      this.navCtrl.back();
     }
   }
 
   spawnInput() {
     this.inputField.getInputElement().then((input) => {
       input.focus();
-      // input.click()
     });
   }
 }

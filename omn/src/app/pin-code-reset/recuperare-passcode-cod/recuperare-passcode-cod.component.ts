@@ -1,3 +1,4 @@
+import { ResetPincodeService } from './../services/reset-pincode.service';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -13,7 +14,7 @@ import { IonInputConfig } from 'src/app/shared/models/component/ion-input-config
   styleUrls: ['./recuperare-passcode-cod.component.scss'],
 })
 export class RecuperarePasscodeCodComponent implements OnInit {
-    headerConfig = subPageHeaderDefault('Verificare Email')
+  headerConfig = subPageHeaderDefault('Verificare Email')
   min: string = '00';
   sec: any = 59;
   digitsLength: number = 0;
@@ -26,17 +27,26 @@ export class RecuperarePasscodeCodComponent implements OnInit {
     inputMode: 'number',
   };
   passForm: FormGroup;
-  InvalidCode:boolean = false
+  InvalidCode: boolean = false
   constructor(
-    private route: ActivatedRoute,
+    private resetPinService: ResetPincodeService,
     private router: Router,
     private timers: CustomTimersService,
     private formBuilder: FormBuilder
-  ) {}
+  ) {
+    this.checkCNP()
+  }
 
   ngOnInit() {
     this.initForm();
   }
+
+  checkCNP() {
+    if (!this.resetPinService.getResetObj?.cnp) {
+      this.router.navigate(['/reset-pincode'])
+    }
+  }
+
   initForm() {
     this.passForm = this.formBuilder.group({
       digit: [
@@ -45,7 +55,7 @@ export class RecuperarePasscodeCodComponent implements OnInit {
       ],
     });
 
-  this.sub=  this.passForm.valueChanges.subscribe((value) => {
+    this.sub = this.passForm.valueChanges.subscribe((value) => {
       this.changeInput(value.digit);
     });
   }
@@ -53,20 +63,14 @@ export class RecuperarePasscodeCodComponent implements OnInit {
   changeInput(digit: number) {
     if (digit) {
       this.digitsLength = digit.toString().length;
-    }else{
+    } else {
       this.digitsLength = 0
     }
   }
 
-  continue(){
-    if(this.passForm.controls["digit"].value == 123456)this.proceed()
-    else{
-      this.InvalidCode = true
-      setTimeout(() => {
-        this.InvalidCode =false
-        this.passForm.reset()
-      }, 2000);
-    }
+  continue() {
+    this.resetPinService.setResetObj({ code: this.passForm.controls["digit"].value })
+    this.router.navigate(['reset-pincode/new-pin']);
   }
 
   ngAfterViewInit() {
@@ -80,11 +84,12 @@ export class RecuperarePasscodeCodComponent implements OnInit {
   }
 
   resendSMS() {
-    this.startTimer();
-  }
-
-  proceed() {
-    this.router.navigate(['reset-pincode/new-pin']);
+    this.resetPinService.requestPincodeChange(this.resetPinService.resetObj.cnp).subscribe(
+      (data)=>{
+        this.startTimer();
+      },
+      (err)=>err
+    )
   }
 
   spawnInput() {

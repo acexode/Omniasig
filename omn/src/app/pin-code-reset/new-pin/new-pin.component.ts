@@ -1,3 +1,4 @@
+import { ResetPincodeService } from './../services/reset-pincode.service';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { IonInput, NavController } from '@ionic/angular';
@@ -13,7 +14,15 @@ export class NewPinComponent implements OnInit {
   digitsLength: number = 0;
   @ViewChild('inputField') inputField: IonInput;
   pinForm: FormGroup;
-  constructor(private navCtrl: NavController, private formBuilder: FormBuilder) { }
+  constructor(private navCtrl: NavController, private formBuilder: FormBuilder, private resetPinService: ResetPincodeService) { 
+    this.checkObjFields()
+  }
+
+  checkObjFields() {
+    if (!this.resetPinService.getResetObj?.cnp || !this.resetPinService.getResetObj?.code) {
+      this.navCtrl.navigateRoot('/reset-pincode')
+    }
+  }
 
   ngOnInit() {
     this.initForm()
@@ -38,7 +47,8 @@ export class NewPinComponent implements OnInit {
   }
 
   verifyPincode() {
-    this.navCtrl.navigateRoot(`/reset-pincode/confirm-pin/${this.pinForm.controls["pincode"].value}`)
+    this.resetPinService.setResetObj({ newPin: this.pinForm.controls["pincode"].value })
+    this.navCtrl.navigateRoot(`/reset-pincode/confirm-pin`)
   }
 
   spawnInput() {

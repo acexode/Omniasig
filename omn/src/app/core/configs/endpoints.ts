@@ -4,7 +4,9 @@ export const serverBaseUrl = environment.serverUrl;
 export const authEndpoints = {
   login: serverBaseUrl + '/User/LoginAndCreateToken',
   findUserByPhoneNumber: serverBaseUrl + '/UserProfile/GetUserNameByPhoneNumber',
-  getUserProfile: serverBaseUrl + '/UserProfile/GetUserProfile'
+  getUserProfile: serverBaseUrl + '/UserProfile/GetUserProfile',
+  requestPincodeReset:serverBaseUrl + '/UserProfile/RequestPinChangeWithoutAuthentification',
+  confirmPincodeReset:serverBaseUrl + '/UserProfile/ConfirmPinChangeWithoutAuthentification'
 };
 
 export const baseEndpoints = {
