@@ -163,6 +163,11 @@
       .triangle-wrp {
         margin-inline-end: 0;
       }
+
+      --ion-border-color: var(--light-green-5);
+      --border-color: var(--light-green-5);
+      --inner-padding-top: 12px;
+      --inner-padding-bottom: 7px;
     }
   }
 }

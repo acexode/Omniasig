@@ -1,13 +1,19 @@
 import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
-
+import { RouterModule, Routes } from '@angular/router';
 import { DocumentePage } from './documente.page';
 
 const routes: Routes = [
   {
     path: '',
-    component: DocumentePage
-  }
+    component: DocumentePage,
+  },
+  {
+    path: ':id',
+    loadChildren: () =>
+      import('../document-page/document-page.module').then(
+        (m) => m.DocumentPagePageModule
+      ),
+  },
 ];
 
 @NgModule({

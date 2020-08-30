@@ -298,12 +298,12 @@
 
 .bg-light-green-5 {
   background-color: $light-green-5;
-  --background: $light-green-5;
+  --background: var(--light-green-5);
 }
 
 .bg-light-green-faded {
   background-color: $light-green-5;
-  --background: $light-green-5;
+  --background: var(--light-green-5);
 }
 
 .bg-ultra-light-green {
