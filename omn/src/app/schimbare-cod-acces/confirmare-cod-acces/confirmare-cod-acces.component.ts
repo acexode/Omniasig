@@ -6,7 +6,7 @@ import {
 } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
-import { IonInput } from '@ionic/angular';
+import { IonInput, NavController } from '@ionic/angular';
 import { Subscription } from 'rxjs';
 import { subPageHeaderDefault } from 'src/app/shared/data/sub-page-header-default';
 import { IonInputConfig } from 'src/app/shared/models/component/ion-input-config';
@@ -35,13 +35,13 @@ export class ConfirmareCodAccesComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private formBuilder: FormBuilder,
-    private location: Location,
+    private navCtrl: NavController,
   ) {
     this.route.params.subscribe((params) => {
       if (params.code) {
         this.accessCode = params.code;
       } else {
-        this.location.back();
+        this.navCtrl.back();
       }
     });
   }
@@ -79,7 +79,7 @@ export class ConfirmareCodAccesComponent implements OnInit {
     } else {
       this.InvalidCode = true;
       setTimeout(() => {
-        this.location.back();
+        this.navCtrl.back();
       }, 2000);
     }
   }
