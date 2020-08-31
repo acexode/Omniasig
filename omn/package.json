@@ -82,10 +82,9 @@
       "cordova-plugin-ionic-webview": {},
       "cordova-plugin-ionic-keyboard": {},
       "ionic-plugin-deeplinks": {
-        "URL_SCHEME": "omnApp",
+        "URL_SCHEME": "omnapp",
         "DEEPLINK_SCHEME": "https",
-        "DEEPLINK_HOST": "omniasig.app",
-        "ANDROID_PATH_PREFIX": "/"
+        "DEEPLINK_HOST": "omniasig.app"
       }
     },
     "platforms": [

@@ -44,7 +44,7 @@
             <preference name="AndroidLaunchMode" value="singleTask" />
         </edit-config>
         <resource-file src="resources/android/xml/network_security_config.xml" target="app/src/main/res/xml/network_security_config.xml" />
-        <allow-intent href="omnApp:*" />
+        <allow-intent href="omnapp:*" />
         <icon density="ldpi" src="resources/android/icon/drawable-ldpi-icon.png" />
         <icon density="mdpi" src="resources/android/icon/drawable-mdpi-icon.png" />
         <icon density="hdpi" src="resources/android/icon/drawable-hdpi-icon.png" />
@@ -118,15 +118,4 @@
         <splash height="1792" src="resources/ios/splash/Default-1792h~iphone.png" width="828" />
         <splash height="828" src="resources/ios/splash/Default-Landscape-1792h~iphone.png" width="1792" />
     </platform>
-    <universal-links>
-        <host name="omnapp.com">
-            <path url="/" />
-        </host>
-    </universal-links>
-    <plugin name="ionic-plugin-deeplinks" spec="~1.0.20">
-        <variable name="URL_SCHEME" value="omnApp" />
-        <variable name="DEEPLINK_SCHEME" value="https" />
-        <variable name="DEEPLINK_HOST" value="omniasig.app" />
-        <variable name="ANDROID_PATH_PREFIX" value="/" />
-    </plugin>
 </widget>
