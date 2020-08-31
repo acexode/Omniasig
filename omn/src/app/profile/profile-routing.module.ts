@@ -26,6 +26,13 @@ const routes: Routes = [
             (m) => m.LocuintePageModule
           ),
       },
+      {
+        path: 'documente',
+        loadChildren: () =>
+          import('./pages/documente/documente.module').then(
+            (m) => m.DocumentePageModule
+          ),
+      },
     ],
   },
 ];

@@ -1,3 +1,5 @@
+import { serverBaseUrl } from './../../../../../core/configs/endpoints';
+import { environment } from './../../../../../../environments/environment.test';
 import { AuthService } from 'src/app/core/services/auth/auth.service';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, of, Observable } from 'rxjs';
@@ -6,16 +8,22 @@ import { locuinteEndpoints } from 'src/app/core/configs/endpoints';
 import { RequestService } from 'src/app/core/services/request/request.service';
 import { Locuinte } from 'src/app/shared/models/data/locuinte.interface';
 import { random } from 'lodash';
+import { HttpHeaders } from '@angular/common/http';
+
 
 @Injectable({
   providedIn: 'root',
 })
+//https://omn-core-dev.azure.softescu.com/api/...
+//https://meet.google.com/linkredirect?authuser=2&dest=https%3A%2F%2Fomn-core-dev.azure.softescu.com%2Findex.html
 export class LocuinteService {
   singleLoading: BehaviorSubject<boolean> = new BehaviorSubject(false);
   multipleLoading: BehaviorSubject<boolean> = new BehaviorSubject(false);
   locuinteStore$: BehaviorSubject<Array<Locuinte>> = new BehaviorSubject(null);
   endpoints = locuinteEndpoints;
   emptyV: Array<Locuinte> = [];
+  
+ 
 
   constructor(private reqS: RequestService, private authS: AuthService) {
     this.initData();
@@ -50,7 +58,8 @@ export class LocuinteService {
   }
 
   getUserLocuinte() {
-    return this.reqS.get<Array<Locuinte>>(this.endpoints.base).pipe(
+   
+    return this.reqS.get<Array<Locuinte>>(this.endpoints.AlluserLocation).pipe(
       catchError((e) => {
         return of(this.emptyV);
       })
@@ -83,6 +92,8 @@ export class LocuinteService {
   }
 
   addSingleLocuinte(data: Locuinte) {
+    
+      // return this.reqS.get(this.endpoints.add)
     return of({ ...data, ...{ id: random(10, 100) } }).pipe(
       map((v) => {
         const vals = this.locuinteStore$.value ? this.locuinteStore$.value : [];
