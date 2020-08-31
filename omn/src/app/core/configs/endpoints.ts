@@ -6,6 +6,8 @@ export const authEndpoints = {
   findUserByPhoneNumber:
     serverBaseUrl + '/UserProfile/GetUserNameByPhoneNumber',
   getUserProfile: serverBaseUrl + '/UserProfile/GetUserProfile',
+  sendPhoneNumberSms: serverBaseUrl + '/UserProfile/SmsPhoneNumberVerification',
+  confirmPhoneNumberSms: serverBaseUrl + '/UserProfile/SmsPhoneNumberConfirm',
 };
 
 export const baseEndpoints = {
@@ -27,10 +29,4 @@ export const locuinteEndpoints = {
   AlluserLocation: serverBaseUrl + '/Address/GetAllAddressesForLoggedUser',
   updateAddress: serverBaseUrl + '/Location/UpdateLocationForAddressId',
   disAbleLocation: serverBaseUrl + '/Location/DisableLocationForAddressId',
-};
-
-export const phoneNumberEndPoints = {
-  RequestNewPhoneNumberChange:
-    baseEndpoints.userProfile + '/RequestNewPhoneNumberChange',
-  ConfirmNewPhoneNumber: baseEndpoints.userProfile + '/ConfirmNewPhoneNumber',
 };
