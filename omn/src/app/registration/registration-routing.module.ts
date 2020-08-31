@@ -15,7 +15,7 @@ const routes: Routes = [
     component: RegNumarTelefonComponent,
   },
   {
-    path: 'confirm-number/:number',
+    path: 'confirm-number',
     component: RegInputSmsComponent,
   },
   {
@@ -27,7 +27,7 @@ const routes: Routes = [
     component: RegPasscodeComponent,
   },
   {
-    path: 'confirm-passcode/:passcode',
+    path: 'confirm-passcode',
     component: ConfirmCodDeAccesComponent,
   },
   {

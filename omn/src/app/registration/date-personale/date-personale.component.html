@@ -9,10 +9,10 @@
         <div class="mt-30">
             <form [formGroup]="detailsForm" (ngSubmit)="proceed()">
                 <div>
-                    <app-input formControlName="nume" [config]="config.nume"></app-input>
+                    <app-input formControlName="name" [config]="config.nume"></app-input>
                 </div>
                 <div class="pt-24">
-                    <app-input formControlName="prenume" [config]="config.prenume"></app-input>
+                    <app-input formControlName="surname" [config]="config.prenume"></app-input>
                 </div>
                 <div class="pt-24">
                     <app-input formControlName="cnp" [config]="config.cnp"></app-input>
@@ -28,7 +28,7 @@
                     </ion-text>
                     <div class="pt-20 bg-white">
                         <ion-row class="inline-flex bg-white">
-                            <app-radios class="bg-white" [config]="radiosConfig" [options]="radioOptions" formControlName="option"></app-radios>
+                            <app-radios class="bg-white" [config]="radiosConfig" [options]="radioOptions" formControlName="isPublicPerson"></app-radios>
                         </ion-row>
                     </div>
                 </div>

@@ -1,3 +1,4 @@
+import { RegistrationService } from './../../core/services/auth/registration.service';
 import {
   AfterViewInit,
   Component,
@@ -22,35 +23,32 @@ export class ConfirmCodDeAccesComponent implements OnInit, AfterViewInit {
   constructor(
     private navCtrl: NavController,
     private formBuilder: FormBuilder,
-    private route: ActivatedRoute,
-    private router: Router
-  ) {}
+    private router: Router,
+    private regService:RegistrationService
+  ) {
+    this.checkUserObj()
+  }
   ngAfterViewInit(): void {
     this.spawnInput();
   }
 
   ngOnInit() {
-    this.route.params.subscribe((params) => {
-      if (params.passcode) {
-        this.initForm(params.passcode);
-      } else {
-        this.router.navigate(['registration/create-passcode']);
-      }
-    });
+    this.initForm()
   }
-  initForm(passcode) {
+
+  checkUserObj() {
+    if (!this.regService.getuserObj?.phoneNumber || !this.regService.getuserObj?.userName || !this.regService.getuserObj?.pin) {
+      this.router.navigate(["/registration"])
+    }
+  }
+
+  initForm() {
     this.passForm = this.formBuilder.group({
-      passcode: [
-        '',
-        [Validators.required, Validators.minLength(6), Validators.maxLength(6)],
-      ],
       confirmPass: [
         '',
         [Validators.required, Validators.minLength(6), Validators.maxLength(6)],
       ],
     });
-    this.passForm.controls['passcode'].patchValue(passcode);
-
     this.passForm.valueChanges.subscribe((value) => {
       this.changeInput(value.confirmPass);
     });
@@ -68,7 +66,7 @@ export class ConfirmCodDeAccesComponent implements OnInit, AfterViewInit {
   verifyPasscode() {
     if (
       this.passForm.controls['confirmPass'].value ===
-      parseInt(this.passForm.controls['passcode'].value, 10)
+      this.regService.getuserObj.pin
     ) {
       this.navCtrl.navigateRoot(`registration/personal-details`);
     } else {

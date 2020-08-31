@@ -1,6 +1,7 @@
 import { Component, HostBinding, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { RegistrationService } from 'src/app/core/services/auth/registration.service';
 import { subPageHeaderDefault } from 'src/app/shared/data/sub-page-header-default';
 import { IonInputConfig } from 'src/app/shared/models/component/ion-input-config';
 import { IonTextItem } from 'src/app/shared/models/component/ion-text-item';
@@ -25,10 +26,19 @@ export class AdresaDeEmailComponent implements OnInit {
   };
   emailForm: FormGroup;
   headerConfig = subPageHeaderDefault('');
-  constructor(private router: Router, private formBuilder: FormBuilder) {}
+  busy:boolean =false
+  constructor(private router: Router, private formBuilder: FormBuilder, private regSrvice: RegistrationService) { 
+    this.checkUserObj()
+  }
 
   ngOnInit() {
     this.initForm();
+  }
+
+  checkUserObj() {
+    if (!this.regSrvice.getuserObj?.phoneNumber || !this.regSrvice.getuserObj?.userName || !this.regSrvice.getuserObj?.pin) {
+      this.router.navigate(["/registration"])
+    }
   }
 
   initForm() {
@@ -41,6 +51,14 @@ export class AdresaDeEmailComponent implements OnInit {
   }
 
   proceed() {
-    this.router.navigate(['registration/account-created']);
+    this.busy = true
+    this.regSrvice.setUserObj({ email: this.emailForm.controls["email"].value })
+    this.regSrvice.registerUser().subscribe(
+      data => {
+        this.busy = false
+        this.router.navigate(['registration/account-created']);
+      },
+      err => { this.busy = false }
+    )
   }
 }

@@ -8,6 +8,10 @@ export const authEndpoints = {
   getUserProfile: serverBaseUrl + '/UserProfile/GetUserProfile',
   sendPhoneNumberSms: serverBaseUrl + '/UserProfile/SmsPhoneNumberVerification',
   confirmPhoneNumberSms: serverBaseUrl + '/UserProfile/SmsPhoneNumberConfirm',
+  GetUserNameByPhoneNumber: serverBaseUrl + '/UserProfile/GetUserNameByPhoneNumber',
+  RegisterPhoneNumber: serverBaseUrl + '/UserProfile/RegisterPhoneNumber',
+  ConfirmRegisterPhoneNumber :serverBaseUrl + '/UserProfile/ConfirmPhoneNumber',
+  RegisterUserProfile:serverBaseUrl+ '/UserProfile/RegisterUserProfile'
 };
 
 export const baseEndpoints = {

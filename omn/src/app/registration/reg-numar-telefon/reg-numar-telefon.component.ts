@@ -1,3 +1,4 @@
+import { RegistrationService } from './../../core/services/auth/registration.service';
 import { Component, HostBinding, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -31,7 +32,8 @@ export class RegNumarTelefonComponent implements OnInit {
     inputClasses: 'ion-item-right',
   };
   teleForm: FormGroup;
-  constructor(private router: Router, private formBuilder: FormBuilder) {}
+  busy: boolean = false
+  constructor(private router: Router, private formBuilder: FormBuilder, private regSerivce: RegistrationService) { }
 
   ngOnInit() {
     this.initForm();
@@ -51,9 +53,29 @@ export class RegNumarTelefonComponent implements OnInit {
   }
 
   reg() {
-    this.router.navigate([
-      'registration/confirm-number',
-      this.teleForm.controls['phoneNumber'].value,
-    ]);
+    this.busy = true
+    this.regSerivce.GetUserNameByPhoneNumber(this.teleForm.controls['phoneNumber'].value).subscribe(
+      (data) => {
+        // TODO route to login...
+        console.log("Log user in");
+        this.busy = false
+      },
+      err => {
+        this.proceed();
+      }
+    )
+  }
+
+  proceed() {
+    this.regSerivce.setUserObj({ phoneNumber: this.teleForm.controls['phoneNumber'].value, userName: this.teleForm.controls['phoneNumber'].value})
+    this.regSerivce.RegisterPhoneNumber(this.teleForm.controls['phoneNumber'].value).subscribe(
+      data => {
+        this.busy = false
+        this.router.navigate([
+          'registration/confirm-number'
+        ]);
+      },
+      err => {this.busy = false}
+    )
   }
 }
