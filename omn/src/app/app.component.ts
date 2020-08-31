@@ -1,11 +1,9 @@
-import { Component, ChangeDetectorRef } from '@angular/core';
-
-import { Platform } from '@ionic/angular';
+import { ChangeDetectorRef, Component, NgZone } from '@angular/core';
+import { Router } from '@angular/router';
+import { Deeplinks } from '@ionic-native/deeplinks/ngx';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
-import { Deeplinks } from '@ionic-native/deeplinks/ngx';
-import { Router } from '@angular/router';
-import { NgZone } from '@angular/core';
+import { Platform } from '@ionic/angular';
 import { defineCustomElements } from '@ionic/pwa-elements/loader';
 
 @Component({
@@ -19,9 +17,9 @@ export class AppComponent {
     private splashScreen: SplashScreen,
     private statusBar: StatusBar,
     private cdRef: ChangeDetectorRef,
-    private deeplinks: Deeplinks,
     private router: Router,
-    private zone: NgZone
+    private zone: NgZone,
+    private deeplinks: Deeplinks
   ) {
     this.initializeApp();
   }

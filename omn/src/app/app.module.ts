@@ -1,3 +1,5 @@
+import { Deeplinks } from '@ionic-native/deeplinks/ngx';
+import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouteReuseStrategy } from '@angular/router';
@@ -14,8 +16,6 @@ import { CoreModule } from './core/core.module';
 import { PolicySharedModule } from './modules/policy/policy-shared.module';
 import { LocuinteSharedModule } from './profile/pages/locuinte/locuinte-shared.module';
 import { SharedModule } from './shared/shared.module';
-import { HttpClientModule } from '@angular/common/http';
-import { Deeplinks } from '@ionic-native/deeplinks/ngx';
 
 @NgModule({
   declarations: [AppComponent],
@@ -37,8 +37,8 @@ import { Deeplinks } from '@ionic-native/deeplinks/ngx';
   providers: [
     StatusBar,
     SplashScreen,
-    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     Deeplinks,
+    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
   ],
   bootstrap: [AppComponent],
 })
