@@ -13,12 +13,11 @@ import { DisabledPlaceholderCard } from '../shared/models/component/disabled-pla
 import { ImageCard } from '../shared/models/component/image-card';
 import { IonTextItem } from '../shared/models/component/ion-text-item';
 import { PolicyListItem } from '../shared/models/component/policy-list-item';
-import { dauneDisabled, testDauneData, addDaune } from './data/home-daune-data';
-import { offerHomeItemHelper } from './data/home-offer-item-helper';
-import { policyHomeItemHelper } from './data/home-policy-item-helper';
-import { PolicyItemFooter } from '../modules/policy/components/models/policy-item-footer';
 import { PolicyItem } from '../shared/models/data/policy-item';
 import { PolicyOffer } from '../shared/models/data/policy-offer';
+import { addDaune, dauneDisabled, testDauneData } from './data/home-daune-data';
+import { offerHomeItemHelper } from './data/home-offer-item-helper';
+import { policyHomeItemHelper } from './data/home-policy-item-helper';
 
 @Component({
   selector: 'app-home',
@@ -33,7 +32,7 @@ export class HomePage implements OnInit {
   accountActivated = false;
   offers$: BehaviorSubject<Array<PolicyListItem>> = new BehaviorSubject([]);
   policies$: BehaviorSubject<Array<PolicyListItem>> = new BehaviorSubject([]);
-  account$ = this.authS.getAccountData();
+  account = null;
 
   daune: Array<ImageCard> = null;
 
@@ -174,7 +173,8 @@ export class HomePage implements OnInit {
   }
 
   ngOnInit(): void {
-    this.account$.subscribe((account) => {
+    this.authS.getAccountData().subscribe((account) => {
+      this.account = account;
       if (account) {
         this.accountActivated = this.authS.accountActivated(account);
         if (this.accountActivated) {
@@ -186,6 +186,7 @@ export class HomePage implements OnInit {
           );
         }
       }
+      this.cdRef.markForCheck();
     });
   }
 
