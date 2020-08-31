@@ -64,7 +64,6 @@ export class ChangePhoneNumberComponent implements OnInit {
                 userNameOrId: userId,
                 newPhoneNumber,
             };
-            console.log( requestNewPhoneDetails );
             this.phS.updatePhoneNumber( requestNewPhoneDetails )
                 .subscribe(
                     response => {
