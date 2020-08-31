@@ -1,3 +1,4 @@
+import { RegistrationService } from 'src/app/core/services/auth/registration.service';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -29,7 +30,7 @@ export class NumarTelefonComponent implements OnInit {
   };
   teleForm: FormGroup;
   busy: boolean = false
-  constructor(private router: Router, private formBuilder: FormBuilder, private auth: AuthService) {
+  constructor(private router: Router, private formBuilder: FormBuilder, private auth: AuthService,private regService:RegistrationService) {
     this.checkHasLoggedIn()
   }
 
@@ -64,16 +65,16 @@ export class NumarTelefonComponent implements OnInit {
   }
 
   newUserReg() {
-    //TODO to continue user registeration in omn-83
-    // this.auth.sendPhoneNumberSms(this.teleForm.controls['phoneNumber'].value).subscribe(
-    //   data => {
-    //     this.router.navigate([
-    //       'registration/confirm-number',
-    //       this.teleForm.controls['phoneNumber'].value,
-    //     ]);
-    //   },
-    //   err => { this.busy = false }
-    // )
+    this.regService.setUserObj({ phoneNumber: this.teleForm.controls['phoneNumber'].value, userName: this.teleForm.controls['phoneNumber'].value})
+    this.regService.RegisterPhoneNumber(this.teleForm.controls['phoneNumber'].value).subscribe(
+      data => {
+        this.busy = false
+        this.router.navigate([
+          'registration/confirm-number'
+        ]);
+      },
+      err => {this.busy = false}
+    )
   }
 
   checkHasLoggedIn() {

@@ -57,7 +57,10 @@ export class RegNumarTelefonComponent implements OnInit {
     this.regSerivce.GetUserNameByPhoneNumber(this.teleForm.controls['phoneNumber'].value).subscribe(
       (data) => {
         // TODO route to login...
-        console.log("Log user in");
+        this.router.navigate([
+          'login/authenticate',
+          this.teleForm.controls['phoneNumber'].value,
+        ]);
         this.busy = false
       },
       err => {
