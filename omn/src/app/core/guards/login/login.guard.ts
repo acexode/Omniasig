@@ -2,10 +2,10 @@ import { Injectable } from '@angular/core';
 import {
   ActivatedRouteSnapshot,
   CanActivate,
-  RouterStateSnapshot,
-  UrlTree,
   CanActivateChild,
   Router,
+  RouterStateSnapshot,
+  UrlTree,
 } from '@angular/router';
 import { Observable } from 'rxjs';
 import { map, take } from 'rxjs/operators';
@@ -29,8 +29,9 @@ export class LoginGuard implements CanActivate, CanActivateChild {
       map((isAuthenticated) => {
         if (isAuthenticated) {
           return this.routerS.createUrlTree(['/home']);
+        } else {
+          return true;
         }
-        return true;
       })
     );
   }
@@ -48,8 +49,9 @@ export class LoginGuard implements CanActivate, CanActivateChild {
       map((isAuthenticated) => {
         if (isAuthenticated) {
           return this.routerS.createUrlTree(['/home']);
+        } else {
+          return true;
         }
-        return true;
       })
     );
   }

@@ -3,9 +3,9 @@
     'pb-40': !isAccountActive
   }">
     <ion-item lines="none" class="mt-40 ml-16" [routerLink]="['profil', 'date-personale']" (click)="closeMenu()">
-        <ion-label *ngIf="demoAccount" class="m-0">
+        <ion-label *ngIf="userAccount" class="m-0">
             <ion-text class="alt-font text-weight-bold h2 color-dark-green">
-                {{ demoAccount.surname + ' ' + demoAccount.name }}
+                {{ userAccount.surname + ' ' + userAccount.name }}
             </ion-text>
             <ion-text [hidden]="isAccountActive">
                 <p class="text-small color-light-red">Cont Inactive</p>
@@ -67,7 +67,7 @@
     </ion-list>
 </ion-content>
 <ion-footer class="ion-no-border pl-24">
-    <ion-item menu-close class="mb-14" lines="none" (click)="demoLogout()">
+    <ion-item menu-close class="mb-14" lines="none" (click)="doLogout()">
         <ion-icon name="sm-iesire" class="icon-20 mr-28"></ion-icon>
         <ion-label class="s18-h24 my-8">Ieșire</ion-label>
     </ion-item>

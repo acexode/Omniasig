@@ -11,14 +11,14 @@ import { NavController } from '@ionic/angular';
 export class SideMenuComponent implements OnInit {
   @Input() menuRef;
   subMenuHidden = true;
-  demoAccount: Account;
+  userAccount: Account;
   isAccountActive = true;
 
   constructor(private authService: AuthService, private navC: NavController) {}
 
   ngOnInit() {
     this.authService.getAccountData().subscribe((account: Account) => {
-      this.demoAccount = account;
+      this.userAccount = account;
       this.isAccountActive = this.authService.accountActivated(account);
     });
   }
@@ -33,8 +33,8 @@ export class SideMenuComponent implements OnInit {
     }
   }
 
-  public demoLogout() {
-    this.authService.demoLogout();
+  public doLogout() {
+    this.authService.doLogout();
     this.menuRef.close();
     this.navC.navigateRoot('/home');
   }
