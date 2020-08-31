@@ -75,8 +75,8 @@ ion-toggle {
   height: rem(24);
   --background: var(--ion-color-medium);
   --background-checked: var(--ion-color-success);
-  --handle-background: #fff
-    url('/assets/custom-ion-icons/sm-toggle-off.svg') no-repeat 100% / 100%;
+  --handle-background: #fff url('/assets/custom-ion-icons/sm-toggle-off.svg')
+    no-repeat 100% / 100%;
   --handle-background-checked: #fff
     url('/assets/custom-ion-icons/sm-toggle-icon.svg') no-repeat 100% / 100%;
   --handle-width: 16px;
@@ -84,5 +84,14 @@ ion-toggle {
   --handle-spacing: 4px;
   &.toggle-checked {
     color: $green;
+  }
+}
+
+radio-input {
+  &.opacity-0 {
+    .radio-icon,
+    .radio-inner {
+      display: none;
+    }
   }
 }

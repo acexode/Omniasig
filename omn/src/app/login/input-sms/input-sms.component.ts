@@ -1,3 +1,4 @@
+import { AuthService } from 'src/app/core/services/auth/auth.service';
 import {
   AfterViewInit,
   Component,
@@ -24,19 +25,20 @@ export class InputSmsComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('inputField') inputField: IonInput;
   sub: Subscription;
   phoneNumber = null;
-
+  errorLogin: string = null
   config: IonInputConfig = {
     type: 'number',
     inputMode: 'number',
   };
   passForm: FormGroup;
-
+  busy: boolean = false;
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     private timers: CustomTimersService,
-    private formBuilder: FormBuilder
-  ) {}
+    private formBuilder: FormBuilder,
+    private auth: AuthService
+  ) { }
 
   ngOnInit() {
     this.initForm();
@@ -85,12 +87,35 @@ export class InputSmsComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   resendSMS() {
-    this.startTimer();
+    this.auth.sendPhoneNumberSms(this.phoneNumber).subscribe(
+      data => {
+        this.startTimer();
+      },
+      err => console.log(err)
+    )
   }
 
   verifyDigit() {
-    this.router.navigate(['login/verify',this.phoneNumber]);
+    this.busy =true
+    // TODO change the second params to code when the ws is changed to 6 digits
+    let code = this.passForm.controls["digit"].value
+    this.auth.confirmPhoneNumberSms(this.phoneNumber, code).subscribe(
+      data => {this.busy=false;this.router.navigate(['login/verify', this.phoneNumber])},
+      err => {this.busy=false;this.confirmationError(err)}
+    )
+
   }
+
+  confirmationError(err) {
+    this.errorLogin = 'Cod Invalid!';
+    this.busy = true;
+    setTimeout(() => {
+      this.passForm.reset();
+      this.errorLogin = null;
+      this.busy = false;
+    }, 2000);
+  }
+
 
   spawnInput() {
     this.inputField.getInputElement().then((input) => {

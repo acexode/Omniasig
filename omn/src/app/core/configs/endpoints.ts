@@ -3,8 +3,11 @@ import { environment } from '../../../environments/environment';
 export const serverBaseUrl = environment.serverUrl;
 export const authEndpoints = {
   login: serverBaseUrl + '/User/LoginAndCreateToken',
-  findUserByPhoneNumber: serverBaseUrl + '/UserProfile/GetUserNameByPhoneNumber',
-  getUserProfile: serverBaseUrl + '/UserProfile/GetUserProfile'
+  findUserByPhoneNumber:
+    serverBaseUrl + '/UserProfile/GetUserNameByPhoneNumber',
+  getUserProfile: serverBaseUrl + '/UserProfile/GetUserProfile',
+  sendPhoneNumberSms: serverBaseUrl + '/UserProfile/SmsPhoneNumberVerification',
+  confirmPhoneNumberSms: serverBaseUrl + '/UserProfile/SmsPhoneNumberConfirm',
 };
 
 export const baseEndpoints = {
@@ -20,4 +23,9 @@ export const policyEndpoints = {
 
 export const locuinteEndpoints = {
   base: serverBaseUrl + '/locuinte',
+  add: serverBaseUrl + '/Address/AddAddress',
+  makeHomeAddress: serverBaseUrl + '/Address/MakeHomeAddress',
+  AlluserLocation: serverBaseUrl + '/Address/GetAllAddressesForLoggedUser',
+  updateAddress: serverBaseUrl + '/Location/UpdateLocationForAddressId',
+  disAbleLocation: serverBaseUrl + '/Location/DisableLocationForAddressId',
 };

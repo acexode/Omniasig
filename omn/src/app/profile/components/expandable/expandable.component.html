@@ -1,0 +1,64 @@
+<div
+  (click)="toggleAccordion()"
+  class="px-16 position-relative py-8 flex ion-align-items-center"
+>
+  <ion-label class="px-16 s18-h24 color-dark-green text-weight-medium">{{
+    name
+  }}</ion-label>
+  <ion-icon
+    *ngIf="isMenuOpen"
+    role="button"
+    class="mb-0 top-0 flex main-icon position-absolute right-0 pr-20 color-dark-green icon-20 my-10"
+    name="sm-chevron-up"
+  ></ion-icon>
+  <ion-icon
+    *ngIf="!isMenuOpen"
+    role="button"
+    class="mb-0 top-0 flex main-icon position-absolute right-0 pr-20 color-dark-green icon-20 my-10"
+    name="sm-chevron-down-t"
+  ></ion-icon>
+</div>
+<ion-row
+  [ngClass]="this.isMenuOpen ? 'active' : 'ion-hide'"
+  class="document-details mb-8"
+>
+  <ion-list class="w-100 pt-0">
+    <ion-item
+      *ngFor="let item of doc"
+      class="expandable-item ml-32 position-relative flex"
+      [routerLink]="[item?.id]"
+    >
+      <span
+        class="triangular-bullet position-absolute top-0 left-0 ml-n16"
+        slot="start"
+        >&#8227;</span
+      >
+
+      <ion-col class="w-100 ion-no-padding">
+        <ion-row
+          class="ion-no-padding flex flex-grow-1 flex-shrink-1 ion-justify-content-between mb-4"
+        >
+          <ion-col
+            class="ion-no-padding pr-16 flex ion-nowrap overflow-ellipsis white-space-nowrap"
+          >
+            <ion-label class="text-small text-weight-bold ls-min-02">
+              {{ item?.name }}
+            </ion-label>
+          </ion-col>
+          <ion-col class="flex-0 ion-no-padding ion-justify-content-end">
+            <ion-label class="data ion-text-end text-small color-tertiary-grey">
+              {{ item?.date }}
+            </ion-label>
+          </ion-col>
+        </ion-row>
+        <ion-row class="ion-no-padding">
+          <ion-text
+            class="subiect text-normal overflow-ellipsis ion-nowrap white-space-nowrap"
+          >
+            {{ item?.desc }}
+          </ion-text>
+        </ion-row>
+      </ion-col>
+    </ion-item>
+  </ion-list>
+</ion-row>
