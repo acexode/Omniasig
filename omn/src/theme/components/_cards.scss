@@ -100,8 +100,11 @@ ion-card {
       transition: all 0s;
     }
   }
-  
+
   &.lighter-green-gradient {
-    background: linear-gradient(180deg, #F2F9F5 0%, #E5F2EC 100%);
+    background: linear-gradient(180deg, #f2f9f5 0%, #e5f2ec 100%);
+  }
+  &.bs-3 {
+    box-shadow: $box-shadow-3;
   }
 }

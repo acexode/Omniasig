@@ -1,4 +1,3 @@
-import { LocuinteSharedModule } from './profile/pages/locuinte/locuinte-shared.module';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouteReuseStrategy } from '@angular/router';
@@ -13,10 +12,10 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { CoreModule } from './core/core.module';
 import { PolicySharedModule } from './modules/policy/policy-shared.module';
+import { LocuinteSharedModule } from './profile/pages/locuinte/locuinte-shared.module';
 import { SharedModule } from './shared/shared.module';
 import { HttpClientModule } from '@angular/common/http';
 import { Deeplinks } from '@ionic-native/deeplinks/ngx';
-
 
 @NgModule({
   declarations: [AppComponent],
