@@ -93,7 +93,7 @@ export class VerifyPhoneNumberComponent
     }
 
     ngAfterViewInit() {
-       this.startTimer();
+        this.startTimer();
     }
 
     startTimer() {
@@ -103,7 +103,7 @@ export class VerifyPhoneNumberComponent
     }
 
     resendSMS() {
-       this.startTimer();
+        this.startTimer();
     }
 
     proceed() {
@@ -125,10 +125,6 @@ export class VerifyPhoneNumberComponent
                     },
                     err => {
                         this.InvalidCode = true;
-                        setTimeout( () => {
-                            this.InvalidCode = false;
-                            this.passForm.reset();
-                        }, 2000 );
                     }
                 );
         } );
