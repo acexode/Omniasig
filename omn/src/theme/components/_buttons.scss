@@ -41,11 +41,15 @@
       --padding-bottom: 4px;
       .button {
         min-height: rem(24);
+        --min-height: 24px;
         height: auto;
         padding-top: rem(4);
         padding-bottom: rem(4);
         border-width: 0;
         line-height: rem(16);
+      }
+      &.h-24 {
+        height: rem(24);
       }
     }
     &.button-icon-button {
@@ -53,8 +57,6 @@
       .button {
         min-height: rem(24);
         height: auto;
-      }
-      ion-icon {
       }
     }
     &.no-shadow {

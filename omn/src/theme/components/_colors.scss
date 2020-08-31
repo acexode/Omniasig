@@ -50,6 +50,7 @@
   --ion-color-base: transparent;
   --ion-color-base-rgb: transparent;
   background: $green-gradient;
+  --background: $green-gradient;
 }
 
 .ion-color-white-page {
@@ -169,7 +170,7 @@
 }
 
 .ion-color-secondary-grey {
-    --color: $secondary-grey !important;
+  --color: $secondary-grey !important;
 }
 
 .color-secondary-grey {
@@ -258,7 +259,11 @@
 
 .bg-light-green {
   background-color: $light-green;
-  --background: $light-green;
+  --background: var(--app-light-green-color);
+}
+.bg-dark-green-b {
+  background-color: $dark-green-b;
+  --background: var(--app-dark-green-b-color);
 }
 
 .bg-white-layer-gradient {
@@ -293,12 +298,12 @@
 
 .bg-light-green-5 {
   background-color: $light-green-5;
-  --background: $light-green-5;
+  --background: var(--light-green-5);
 }
 
 .bg-light-green-faded {
   background-color: $light-green-5;
-  --background: $light-green-5;
+  --background: var(--light-green-5);
 }
 
 .bg-ultra-light-green {
@@ -308,6 +313,9 @@
 .bg-dark-green {
   background: $dark-green;
   --background: var(--app-dark-green);
+}
+.bg-yellow-2 {
+  background: $yellow-2;
 }
 
 .text-color {
