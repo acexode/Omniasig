@@ -14,6 +14,7 @@
   *ngIf="item?.routerLink"
   [button]="item?.isButton"
   [routerLink]="item?.routerLink"
+  [queryParams]="{ type: item.id }"
   class="m-0 w-100 flex-column flex"
   [ngClass]="
     item?.itemClass +
