@@ -155,5 +155,19 @@
     &.item-mh-40 {
       --min-height: 40px;
     }
+
+    &.expandable-item {
+      --padding-start: 0;
+      --padding-left: 0;
+      --inner-padding-left: 0;
+      .triangle-wrp {
+        margin-inline-end: 0;
+      }
+
+      --ion-border-color: var(--light-green-5);
+      --border-color: var(--light-green-5);
+      --inner-padding-top: 12px;
+      --inner-padding-bottom: 7px;
+    }
   }
 }
