@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { subPageHeaderDefault } from 'src/app/shared/data/sub-page-header-default';
@@ -7,13 +7,14 @@ import { IonTextItem } from 'src/app/shared/models/component/ion-text-item';
 import { PhonenumberService } from '../services/phonenumber.service';
 import { RequestNewPhoneNumberChange } from '../models/RequestNewPhoneNumberChange.interface';
 import { AuthService } from 'src/app/core/services/auth/auth.service';
+import { Subscription } from 'rxjs';
 
 @Component( {
     selector: 'app-change-phone-number',
     templateUrl: './change-phone-number.component.html',
     styleUrls: [ './change-phone-number.component.scss' ],
 } )
-export class ChangePhoneNumberComponent implements OnInit {
+export class ChangePhoneNumberComponent implements OnInit, OnDestroy {
     headerConfig = subPageHeaderDefault( 'Schimbare număr  telefon' );
     label: IonTextItem = {
         text: 'Introdu noul număr de telefon',
@@ -31,6 +32,10 @@ export class ChangePhoneNumberComponent implements OnInit {
         maxLength: 11,
     };
     teleForm: FormGroup;
+
+    sub: Subscription;
+    error = false;
+
     constructor(
         private router: Router,
         private formBuilder: FormBuilder,
@@ -53,6 +58,20 @@ export class ChangePhoneNumberComponent implements OnInit {
                 ],
             ],
         } );
+
+        this.sub = this.teleForm.valueChanges.subscribe( ( value ) => {
+            this.onUserInput( value.phoneNumber );
+        } );
+    }
+
+    onUserInput( phoneNumber: number ) {
+        if (phoneNumber){
+            if ( phoneNumber.toString().length > 0 ) {
+                this.error = false;
+            } else {
+                this.error = true;
+            }
+        }
     }
 
     proceed() {
@@ -73,9 +92,18 @@ export class ChangePhoneNumberComponent implements OnInit {
                         ] );
                     },
                     err => {
-                        // do nothing error
+                        this.isError();
                     }
                 );
         } );
+    }
+
+    isError() {
+        this.teleForm.reset();
+        this.error = true;
+    }
+
+    ngOnDestroy() {
+        this.sub.unsubscribe();
     }
 }
