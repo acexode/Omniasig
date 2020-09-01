@@ -61,6 +61,7 @@ export class CodActualComponent
   }
 
   changeInput(digit: number) {
+    this.InvalidCode = false;
     if (digit) {
       this.digitsLength = digit.toString().length;
     } else {
@@ -74,10 +75,7 @@ export class CodActualComponent
       this.proceed();
     } else {
       this.InvalidCode = true;
-      setTimeout(() => {
-        this.InvalidCode = false;
-        this.passForm.reset();
-      }, 2000);
+      this.passForm.reset();
     }
   }
 

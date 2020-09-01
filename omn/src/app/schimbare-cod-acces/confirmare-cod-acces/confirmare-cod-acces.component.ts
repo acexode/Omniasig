@@ -81,7 +81,7 @@ export class ConfirmareCodAccesComponent implements OnInit, OnDestroy {
       this.InvalidCode = true;
       setTimeout(() => {
         this.navCtrl.back();
-      }, 2000);
+      }, 3000);
     }
   }
 
