@@ -37,8 +37,8 @@ import { SharedModule } from './shared/shared.module';
   providers: [
     StatusBar,
     SplashScreen,
-    Deeplinks,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
+    Deeplinks,
   ],
   bootstrap: [AppComponent],
 })

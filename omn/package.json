@@ -84,7 +84,7 @@
       "ionic-plugin-deeplinks": {
         "URL_SCHEME": "omnapp",
         "DEEPLINK_SCHEME": "https",
-        "DEEPLINK_HOST": "omniasig.app"
+        "DEEPLINK_HOST": "omn-test.ciceu.io"
       }
     },
     "platforms": [

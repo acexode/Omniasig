@@ -1,3 +1,4 @@
+import { HomePage } from './home/home.page';
 import { ChangeDetectorRef, Component, NgZone } from '@angular/core';
 import { Router } from '@angular/router';
 import { Deeplinks } from '@ionic-native/deeplinks/ngx';
@@ -37,8 +38,7 @@ export class AppComponent {
   handleDeepLink() {
     this.deeplinks
       .route({
-        '/email/validation-code?code={query_value}':
-          'profil/date-personale/validate-email',
+        '/home': HomePage,
       })
       .subscribe(
         (match) => {
