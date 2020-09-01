@@ -10,7 +10,7 @@ const routes: Routes = [
     component: PolicyFormPage,
     data: {
       step: PolicyFormSteps.DNT,
-      policyType: policyTypes.PAD,
+      // policyType: policyTypes.PAD,
     },
   },
 ];

@@ -5,14 +5,17 @@ import {
   ViewChild,
   OnDestroy,
 } from '@angular/core';
-import { MenuController } from '@ionic/angular';
+import { MenuController, NavController } from '@ionic/angular';
 import { BehaviorSubject, Subscription } from 'rxjs';
 import { Account } from 'src/app/core/models/account.interface';
 import { AuthService } from 'src/app/core/services/auth/auth.service';
 import { ImageCard } from 'src/app/shared/models/component/image-card';
 import { policyTypes } from 'src/app/shared/models/data/policy-types';
 import { offerItemHelper } from '../../data/main-offer-item-helper';
-import { policyItemHelper, policyEmptyItemHelper } from '../../data/main-policy-item-helper';
+import {
+  policyItemHelper,
+  policyEmptyItemHelper,
+} from '../../data/main-policy-item-helper';
 import { policySalesItemHelper } from '../../data/main-policy-sales-item';
 import { policyListTitles } from '../../data/policy-list-titles';
 import { PolicyDataService } from '../../services/policy-data.service';
@@ -20,6 +23,7 @@ import { PolicyItem } from 'src/app/shared/models/data/policy-item';
 import { PolicyOffer } from 'src/app/shared/models/data/policy-offer';
 import { mainPolicyArchiveListItem } from '../../data/main-policy-archive-list-item';
 import { ArchiveListItem } from 'src/app/shared/models/component/archive-list-item';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-policy',
@@ -44,8 +48,10 @@ export class PolicyComponent implements OnInit, OnDestroy {
     private menu: MenuController,
     private authS: AuthService,
     private policyS: PolicyDataService,
-    private cdRef: ChangeDetectorRef
-  ) {  }
+    private cdRef: ChangeDetectorRef,
+    private router: Router,
+    private navCtrl: NavController
+  ) {}
 
   ngOnInit(): void {
     this.subsList.push(
@@ -140,5 +146,17 @@ export class PolicyComponent implements OnInit, OnDestroy {
       }
     });
     this.subsList = [];
+  }
+
+  eventHandler(event) {
+    console.log(event);
+    this.router.navigate(['/policy', 'form'], {
+      state: { policyType: policyTypes.PAD },
+    });
+    // this.navCtrl.navigateForward('/policy/form', {
+    //   state: {
+    //     policyType: event.data,
+    //   },
+    // });
   }
 }

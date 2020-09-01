@@ -7,7 +7,7 @@ import {
   OnInit,
   ViewChild,
 } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { NavController } from '@ionic/angular';
 import { cloneDeep, get, has } from 'lodash';
 import { BehaviorSubject, combineLatest } from 'rxjs';
@@ -72,7 +72,8 @@ export class PolicyFormPage implements OnInit, OnDestroy {
     private locS: LocuinteService,
     private policyFs: PolicyFormService,
     private navCtrl: NavController,
-    private cdRef: ChangeDetectorRef
+    private cdRef: ChangeDetectorRef,
+    private router: Router
   ) {}
 
   ngOnInit() {
@@ -88,6 +89,9 @@ export class PolicyFormPage implements OnInit, OnDestroy {
         })
       )
       .subscribe((vals: any) => {
+        console.log(vals);
+        console.log(this.router.getCurrentNavigation().extras.state.policyType);
+
         this.typeItem = cloneDeep(vals[1]);
         this.loadLocuinte();
         this.changeStep(vals[0]);
