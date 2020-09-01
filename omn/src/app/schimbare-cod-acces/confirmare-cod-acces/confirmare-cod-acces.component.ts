@@ -3,6 +3,7 @@ import {
   OnInit,
   ViewChild,
   HostBinding,
+  OnDestroy,
 } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -17,7 +18,7 @@ import { Location } from '@angular/common';
   templateUrl: './confirmare-cod-acces.component.html',
   styleUrls: ['./confirmare-cod-acces.component.scss'],
 })
-export class ConfirmareCodAccesComponent implements OnInit {
+export class ConfirmareCodAccesComponent implements OnInit, OnDestroy {
   @HostBinding('class') color = 'ion-color-white-page';
   headerConfig = subPageHeaderDefault('Confirmare cod de acces');
   digitsLength = 0;

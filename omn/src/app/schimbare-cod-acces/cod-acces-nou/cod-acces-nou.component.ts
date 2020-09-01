@@ -3,6 +3,7 @@ import {
   OnInit,
   ViewChild,
   HostBinding,
+  OnDestroy,
 } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -16,7 +17,7 @@ import { IonInputConfig } from 'src/app/shared/models/component/ion-input-config
   templateUrl: './cod-acces-nou.component.html',
   styleUrls: ['./cod-acces-nou.component.scss'],
 })
-export class CodAccesNouComponent implements OnInit {
+export class CodAccesNouComponent implements OnInit, OnDestroy {
   @HostBinding('class') color = 'ion-color-white-page';
   headerConfig = subPageHeaderDefault('Cod de acces nou');
   digitsLength = 0;
