@@ -72,16 +72,17 @@ export class ConfirmPinComponent implements OnInit, AfterViewInit {
   verifyPin() {
     if (
       this.pinForm.controls['confirmPin'].value ===
-      parseInt(this.pinForm.controls['pincode'].value, 10)
+      parseInt(this.pinForm.get('pincode').value, 10)
     ) {
       this.busy = true
       this.resetPinService.confirmResetPincode().subscribe(
-        (data) => { this.navCtrl.navigateRoot(`reset-pincode/reset-successful`); this.busy = false },
+        (data) => {
+          this.navCtrl.navigateRoot(`reset-pincode/reset-successful`);
+          this.busy = false
+        },
         err => {
           this.invalidCode = err.error;
-           setTimeout(() => {
-            this.navCtrl.navigateBack('/reset-pincode/verify-passcode')
-          }, 1500);
+          this.navCtrl.navigateBack('/reset-pincode/verify-passcode')
         }
       )
     } else {

@@ -50,6 +50,14 @@ export class CnpDigitsComponent implements OnInit {
         ],
       ],
     });
+
+    this.cnpForm.valueChanges.subscribe(
+      (data) => {
+        if (this.invalidCode) {
+          this.invalidCode = null
+        }
+      }
+    )
   }
 
   continue() {
@@ -62,9 +70,6 @@ export class CnpDigitsComponent implements OnInit {
       },
       (err) => {
         this.invalidCode = err.error;
-        setTimeout(() => {
-          this.invalidCode = null
-        }, 3000);
         this.busy = false
       },
     )

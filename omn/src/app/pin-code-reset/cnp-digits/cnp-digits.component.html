@@ -7,15 +7,15 @@
                     <app-input formControlName="cnp" [config]="config"></app-input>
                 </form>
             </div>
+            <div class="pt-28 text-center">
+                <ion-text *ngIf="invalidCode" class="text-small color-red text-center">
+                    {{ invalidCode }}
+                </ion-text>
+            </div>
             <div class="ion-align-items-center ion-text-center mt-24">
                 <ion-button type="submit" (click)="continue()" [disabled]="!cnpForm.valid || busy" class="success-gradient ion-color-success" expand="full" size="large" shape="round" mode="md">
                     Continuă
                 </ion-button>
-            </div>
-            <div class="mt-28 text-center">
-                <ion-text *ngIf="invalidCode" class="text-small color-red text-center">
-                    {{ invalidCode }}
-                </ion-text>
             </div>
         </ion-col>
     </div>
