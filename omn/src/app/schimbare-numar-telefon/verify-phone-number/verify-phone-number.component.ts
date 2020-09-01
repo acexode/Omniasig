@@ -73,6 +73,7 @@ export class VerifyPhoneNumberComponent
     }
 
     changeInput( digit: number ) {
+        this.InvalidCode = false;
         if ( digit ) {
             this.digitsLength = digit.toString().length;
         } else {
@@ -125,6 +126,7 @@ export class VerifyPhoneNumberComponent
                     },
                     err => {
                         this.InvalidCode = true;
+                        this.passForm.reset();
                     }
                 );
         } );
