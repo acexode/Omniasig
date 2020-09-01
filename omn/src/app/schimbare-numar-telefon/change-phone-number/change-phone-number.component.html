@@ -2,13 +2,24 @@
   <app-sub-page-header [config]="headerConfig"> </app-sub-page-header>
   <div class="px-32 pt-60">
     <ion-col>
-      <div class="pt-60 pb-60">
+      <div class="pt-60 pb-10">
         <form [formGroup]="teleForm" (ngSubmit)="proceed()">
           <app-input
             formControlName="phoneNumber"
             [config]="config"
           ></app-input>
         </form>
+      </div>
+      <div class="pb-60">
+        <ion-item lines="none" color="none" class="ion-no-padding">
+            <ion-icon 
+                name="sm-warning" 
+                class="icon-20 mr-20" 
+                color="omn-red"
+                >
+            </ion-icon>
+            <ion-label class="text-small" color="omn-red">Numărul de telefon nu este corect</ion-label>
+        </ion-item>
       </div>
       <div class="ion-align-items-center ion-text-center mt-8">
         <ion-button
