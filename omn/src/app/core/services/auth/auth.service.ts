@@ -28,22 +28,6 @@ import { RequestService } from '../request/request.service';
     providedIn: 'root',
 } )
 export class AuthService {
-    demoAccount: Account = {
-        userId: 1,
-        name: 'Ion',
-        surname: 'Ionescu',
-        firstName: 'Ion',
-        lastName: 'Ionescu',
-        cnp: '1234567890123',
-        email: 'escuion@email.com',
-        addresses: [
-            'Strada Traian 45, Brasov, jud. Brasov, Cod 500332',
-            'Strada Dimitrie Bolintineanu 71-73, Scara B, Ap. 21 Turnu Magurele jud.Teleorman, Cod 654321',
-        ],
-        // userStates: [AccountStates.INACTIVE, AccountStates.EMAIL_INVALIDATED],
-        userStates: [ AccountStates.ACTIVE ],
-    };
-    // TODO: DEMO - reset auth state to default once login is implemented.
     initialState: AuthState = {
         init: false,
         account: null,
@@ -63,23 +47,23 @@ export class AuthService {
             if ( token ) {
                 this.getAccountFromStorage( token );
             } else {
-                this.authState.next( {
-                    init: false,
-                    account: null,
-                    authToken: null,
-                } );
+                this.authState.next( { ...this.initialState, ...{ init: true } } );
             }
         } );
     }
 
     // get user data from storage and set account and token to authstate
-    getAccountFromStorage( token ) {
+    getAccountFromStorage( token = null ) {
         this.storeS.getItem( 'account' ).subscribe( ( account: Account ) => {
-            this.authState.next( {
-                init: true,
-                account,
-                authToken: token,
-            } );
+            if ( account ) {
+                this.authState.next( {
+                    init: true,
+                    account,
+                    authToken: token,
+                } );
+            } else {
+                this.authState.next( { ...this.initialState, ...{ init: true } } );
+            }
         } );
     }
 
@@ -88,6 +72,22 @@ export class AuthService {
         return this.reqS.get<any>(
             `${ authEndpoints.findUserByPhoneNumber }?phoneNumber=${ phoneNumber }`
         );
+    }
+
+    // request sms during login
+    sendPhoneNumberSms( phoneNumber ) {
+        const reqData: { phoneNumber: string; } = {
+            phoneNumber,
+        };
+        return this.reqS.post<any>( authEndpoints.sendPhoneNumberSms, reqData );
+    }
+
+    confirmPhoneNumberSms( phoneNumber, code ) {
+        const reqData: { phoneNumber: string; code: number; } = {
+            phoneNumber,
+            code,
+        };
+        return this.reqS.post<any>( authEndpoints.sendPhoneNumberSms, reqData );
     }
 
     // save token to local storage
@@ -149,15 +149,15 @@ export class AuthService {
         return this.storeS.getItem( 'phoneNumber' );
     }
 
-    // TODO: DEMO
-    demoLogout() {
+    doLogout() {
         this.storeS.removeItem( 'account' );
-        this.storeS.setItem( 'account', this.demoAccount );
+        this.storeS.removeItem( 'token' );
         this.authState.next( {
-            init: true,
-            account: this.demoAccount,
+            ...this.initialState,
         } );
+        this.routerS.navigateByUrl( '/login' );
     }
+
     updateState( newState: AuthState ) {
         this.authState.next( newState );
     }

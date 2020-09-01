@@ -6,7 +6,10 @@ export const authEndpoints = {
     findUserByPhoneNumber:
         serverBaseUrl + '/UserProfile/GetUserNameByPhoneNumber',
     getUserProfile: serverBaseUrl + '/UserProfile/GetUserProfile',
+    sendPhoneNumberSms: serverBaseUrl + '/UserProfile/SmsPhoneNumberVerification',
+    confirmPhoneNumberSms: serverBaseUrl + '/UserProfile/SmsPhoneNumberConfirm',
 };
+
 
 export const baseEndpoints = {
     policy: serverBaseUrl + '/policy',
