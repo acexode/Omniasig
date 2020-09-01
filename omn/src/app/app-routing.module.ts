@@ -57,6 +57,13 @@ const routes: Routes = [
       ),
   },
   {
+    path: 'cod-acces',
+    loadChildren: () =>
+      import('./schimbare-cod-acces/schimbare-cod-acces.module').then(
+        (m) => m.SchimbareCodAccesPageModule,
+      ),
+  },
+  {
     path: 'contact',
     canActivateChild: [AuthGuard],
     canActivate: [AuthGuard],
