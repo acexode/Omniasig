@@ -68,6 +68,9 @@ export class RegInputSmsComponent implements OnInit, AfterViewInit {
   }
 
   changeInput(digit: number) {
+    if (this.InvalidCode) {
+      this.InvalidCode = null;
+    }
     if (digit) {
       this.digitsLength = digit.toString().length;
     } else {
@@ -99,16 +102,13 @@ export class RegInputSmsComponent implements OnInit, AfterViewInit {
   }
 
   verifyDigit() {
-    this.regService.ConfirmPhoneNumber(this.passForm.controls["digit"].value).subscribe(
+    this.regService.ConfirmPhoneNumber(this.passForm.get("digit").value).subscribe(
       data => {
         this.router.navigate(['registration/notice']);
       },
       err => {
+        this.passForm.reset();
         this.InvalidCode = err.error;
-        setTimeout(() => {
-          this.passForm.reset();
-          this.InvalidCode = null;
-        }, 2000);
       }
     )
   }
