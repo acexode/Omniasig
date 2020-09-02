@@ -149,14 +149,23 @@ export class PolicyComponent implements OnInit, OnDestroy {
   }
 
   eventHandler(event) {
-    console.log(event);
+    let policy;
+    switch (event.data.id) {
+      case 'AMPLUS':
+        policy = policyTypes.AMPLUS;
+        break;
+      case 'PAD':
+        policy = policyTypes.PAD;
+        break;
+      case 'Garant AMPLUS+ PAD':
+        policy = policyTypes.AMPLUS_PAD;
+        break;
+      default:
+        break;
+    }
+
     this.router.navigate(['/policy', 'form'], {
-      state: { policyType: policyTypes.PAD },
+      state: { policyType: policy },
     });
-    // this.navCtrl.navigateForward('/policy/form', {
-    //   state: {
-    //     policyType: event.data,
-    //   },
-    // });
   }
 }

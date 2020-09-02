@@ -36,12 +36,7 @@ export class CustomRouterService {
       stateChild.hasOwnProperty('data') &&
       stateChild.data instanceof Subject
     ) {
-      return stateChild.data.pipe(
-        map((value) => {
-          console.log(value);
-          return value[dataKey];
-        })
-      );
+      return stateChild.data.pipe(map((value) => value[dataKey]));
     } else {
       return new BehaviorSubject(null);
     }

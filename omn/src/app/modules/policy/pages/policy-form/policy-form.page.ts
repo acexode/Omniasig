@@ -84,15 +84,13 @@ export class PolicyFormPage implements OnInit, OnDestroy {
         switchMap(() => {
           return combineLatest([
             this.routerS.processChildDataAsync(this.aRoute, 'step'),
-            this.routerS.processChildDataAsync(this.aRoute, 'policyType'),
           ]);
         })
       )
       .subscribe((vals: any) => {
-        console.log(vals);
-        console.log(this.router.getCurrentNavigation().extras.state.policyType);
-
-        this.typeItem = cloneDeep(vals[1]);
+        this.typeItem = cloneDeep(
+          this.router.getCurrentNavigation().extras.state.policyType
+        );
         this.loadLocuinte();
         this.changeStep(vals[0]);
       });
