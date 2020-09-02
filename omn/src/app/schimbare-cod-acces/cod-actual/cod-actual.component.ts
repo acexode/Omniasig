@@ -11,6 +11,9 @@ import { IonInput } from '@ionic/angular';
 import { Subscription } from 'rxjs';
 import { subPageHeaderDefault } from 'src/app/shared/data/sub-page-header-default';
 import { IonInputConfig } from 'src/app/shared/models/component/ion-input-config';
+import { AuthService } from 'src/app/core/services/auth/auth.service';
+import { ChangeCodeService } from '../services/change-code.service';
+import { UpdatePassword } from '../models/UpdatePassword';
 
 @Component({
   selector: 'app-cod-actual',
@@ -31,10 +34,10 @@ export class CodActualComponent
     inputMode: 'number',
   };
   passForm: FormGroup;
-  InvalidCode = false;
   constructor(
     private router: Router,
     private formBuilder: FormBuilder,
+    private changeCodeS: ChangeCodeService,
   ) { }
 
   ngOnInit() {
@@ -60,8 +63,7 @@ export class CodActualComponent
     });
   }
 
-  changeInput(digit: number) {
-    this.InvalidCode = false;
+  changeInput(digit: string) {
     if (digit) {
       this.digitsLength = digit.toString().length;
     } else {
@@ -71,12 +73,13 @@ export class CodActualComponent
 
   continue() {
     const { value } = this.passForm.controls.digit;
-    if (value === 123456) {
-      this.proceed();
-    } else {
-      this.InvalidCode = true;
-      this.passForm.reset();
-    }
+    const resetObj: UpdatePassword = {
+      oldPassword: value,
+      newPassword: '',
+      userName: '',
+    };
+    this.changeCodeS.setUpdatePassObj(resetObj);
+    this.proceed();
   }
 
   proceed() {

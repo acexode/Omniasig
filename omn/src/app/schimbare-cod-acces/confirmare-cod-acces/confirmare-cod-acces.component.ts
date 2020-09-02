@@ -12,6 +12,9 @@ import { Subscription } from 'rxjs';
 import { subPageHeaderDefault } from 'src/app/shared/data/sub-page-header-default';
 import { IonInputConfig } from 'src/app/shared/models/component/ion-input-config';
 import { Location } from '@angular/common';
+import { AuthService } from 'src/app/core/services/auth/auth.service';
+import { ChangeCodeService } from '../services/change-code.service';
+import { UpdatePassword } from '../models/UpdatePassword';
 
 @Component({
   selector: 'app-confirmare-cod-acces',
@@ -32,24 +35,22 @@ export class ConfirmareCodAccesComponent implements OnInit, OnDestroy {
   };
   passForm: FormGroup;
   InvalidCode = false;
+  busy = false;
+
   constructor(
-    private route: ActivatedRoute,
     private router: Router,
     private formBuilder: FormBuilder,
     private navCtrl: NavController,
+    private authS: AuthService,
+    private changeCodeS: ChangeCodeService,
   ) {
-    this.route.params.subscribe((params) => {
-      if (params.code) {
-        this.accessCode = params.code;
-      } else {
-        this.navCtrl.back();
-      }
-    });
+    this.accessCode = this.changeCodeS.getUpdatePassObj.newPassword;
   }
 
   ngOnInit() {
     this.initForm();
   }
+
   initForm() {
     this.passForm = this.formBuilder.group({
       digit: [
@@ -66,23 +67,44 @@ export class ConfirmareCodAccesComponent implements OnInit, OnDestroy {
     });
   }
 
-  changeInput(digit: number) {
+  changeInput(digit: string) {
     if (digit) {
-      this.digitsLength = digit.toString().length;
+      this.digitsLength = digit.length;
     } else {
       this.digitsLength = 0;
     }
   }
 
   continue() {
-    if (this.passForm.controls.digit.value.toString() === this.accessCode) {
-      this.proceed();
+    const { value } = this.passForm.controls.digit;
+    if (value === this.accessCode) {
+      this.busy = true;
+      this.authS.getAccountData().subscribe((account) => {
+        if (account) {
+          const resetObj: UpdatePassword = {
+            ...this.changeCodeS.getUpdatePassObj,
+            userName: account.userName, // Needs userName property to be set
+          };
+          this.changeCodeS.setUpdatePassObj(resetObj);
+          this.changeAccessCode();
+        }
+      });
     } else {
       this.InvalidCode = true;
       setTimeout(() => {
         this.navCtrl.back();
       }, 3000);
     }
+  }
+
+  changeAccessCode() {
+    this.changeCodeS.changeAccessCode().toPromise().then((res) => {
+      if (res) {
+        this.proceed();
+      }
+    }).finally(() => {
+      this.busy = false;
+    });
   }
 
   proceed() {
