@@ -1,6 +1,6 @@
 {
   "appId": "com.omn.app",
-  "appName": "omn",
+  "appName": "Omniasig",
   "bundledWebRuntime": false,
   "npmClient": "npm",
   "webDir": "www",
