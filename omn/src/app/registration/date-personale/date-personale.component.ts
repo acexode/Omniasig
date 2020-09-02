@@ -24,35 +24,36 @@ export class DatePersonaleComponent implements OnInit {
       size: 100,
       inputLabel: {
         text: 'Nume',
-        classes: 'w-100 bg-white pb-8',
+        classes: 'w-100 pb-8',
       },
       clearable: true,
       inputClasses: '',
     },
     prenume: {
-      placeholder: '',
+      placeholder: 'Ion',
       type: 'text',
       inputMode: 'text',
       size: 100,
       inputLabel: {
         text: 'Prenume',
-        classes: 'w-100 bg-white pb-8',
+        classes: 'w-100 pb-8',
       },
       clearable: true,
       inputClasses: '',
     },
     cnp: {
-      placeholder: '',
+      placeholder: '1234567890123',
       type: 'number',
       inputMode: 'number',
       size: 100,
       inputLabel: {
         text: 'CNP',
-        classes: 'w-100 bg-white pb-8',
+        classes: 'w-100 pb-8',
       },
       clearable: true,
       inputClasses: '',
-      minLength: 13
+      minLength: 13,
+      maxLength: 13,
     },
   };
 
@@ -65,9 +66,13 @@ export class DatePersonaleComponent implements OnInit {
     { label: 'Nu', id: false },
   ];
 
-  constructor(private formBuilder: FormBuilder, private router: Router, private regService: RegistrationService) {
-    this.radiosConfig.itemClasses = 'w-40 pr-60 inline-flex bg-white';
-    this.checkUserObj()
+  constructor(
+    private formBuilder: FormBuilder,
+    private router: Router,
+    private regService: RegistrationService
+  ) {
+    this.radiosConfig.itemClasses = 'w-40 pr-60 inline-flex';
+    this.checkUserObj();
   }
 
   ngOnInit() {
@@ -75,13 +80,17 @@ export class DatePersonaleComponent implements OnInit {
   }
 
   checkUserObj() {
-    if (!this.regService.getuserObj?.phoneNumber || !this.regService.getuserObj?.userName || !this.regService.getuserObj?.pin) {
-      this.router.navigate(["/registration"])
+    if (
+      !this.regService.getuserObj?.phoneNumber ||
+      !this.regService.getuserObj?.userName ||
+      !this.regService.getuserObj?.pin
+    ) {
+      this.router.navigate(['/registration']);
     }
   }
 
   proceed() {
-    this.regService.setUserObj({ ...this.detailsForm.value })
+    this.regService.setUserObj({ ...this.detailsForm.value });
     this.router.navigate(['registration/email']);
   }
 
@@ -89,10 +98,17 @@ export class DatePersonaleComponent implements OnInit {
     this.detailsForm = this.formBuilder.group({
       name: ['', [Validators.required, Validators.minLength(2)]],
       surname: ['', [Validators.required, Validators.minLength(2)]],
-      cnp: ['', [Validators.required, Validators.minLength(13)]],
+      cnp: [
+        '',
+        [
+          Validators.required,
+          Validators.minLength(13),
+          Validators.maxLength(13),
+        ],
+      ],
       isPublicPerson: ['', [Validators.required]],
       marketing: [false],
-      roles: [["MobileUser"]]
-    })
+      roles: [['MobileUser']],
+    });
   }
 }
