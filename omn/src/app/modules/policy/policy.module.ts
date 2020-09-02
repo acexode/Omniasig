@@ -43,4 +43,4 @@ import { PolicySharedModule } from './policy-shared.module';
   ],
   exports: [AsistentaModalPagePage],
 })
-export class PolicyModule {}
+export class PolicyModule { }
