@@ -14,12 +14,13 @@ import { HttpHeaders } from '@angular/common/http';
 @Injectable({
   providedIn: 'root',
 })
-//https://omn-core-dev.azure.softescu.com/api/...
-//https://meet.google.com/linkredirect?authuser=2&dest=https%3A%2F%2Fomn-core-dev.azure.softescu.com%2Findex.html
+
 export class LocuinteService {
   singleLoading: BehaviorSubject<boolean> = new BehaviorSubject(false);
   multipleLoading: BehaviorSubject<boolean> = new BehaviorSubject(false);
   locuinteStore$: BehaviorSubject<Array<Locuinte>> = new BehaviorSubject(null);
+  streetStore$: BehaviorSubject<Array<any>> = new BehaviorSubject([]);
+  allStreets = this.streetStore$.asObservable();  
   endpoints = locuinteEndpoints;
   emptyV: Array<Locuinte> = [];
   
@@ -41,7 +42,7 @@ export class LocuinteService {
   loadAllData() {
     this.multipleLoading.next(true);
     this.getUserLocuinte().subscribe(
-      (vals) => {
+      (vals) => {     
         if (vals) {
           this.locuinteStore$.next(vals);
         } else {
@@ -57,7 +58,7 @@ export class LocuinteService {
     );
   }
 
-  getUserLocuinte() {   
+  getUserLocuinte() {       
     return this.reqS.get<Array<Locuinte>>(this.endpoints.AlluserLocation).pipe(
       catchError((e) => {
         return of(this.emptyV);
@@ -66,6 +67,7 @@ export class LocuinteService {
   }
 
   getSingleUserLocuinta(id): Observable<Locuinte> {
+    
     return this.reqS.get<Locuinte>(this.endpoints.base + '/' + id).pipe(
       catchError((e) => {
         return of(null);
@@ -76,22 +78,27 @@ export class LocuinteService {
   getSingleLocuinta(id) {
     return this.locuinteStore$.pipe(
       switchMap((vals) => {
+        
         if (vals instanceof Array) {
-          const existing = vals.find((v) => v.id.toString() === id.toString());
+          const existing = vals.find((v) => v.id.toString() === id.toString());         
           if (existing) {
             return of(existing);
           } else {
             return this.getSingleUserLocuinta(id);
           }
-        } else {
+        } else {         
           return this.getSingleUserLocuinta(id);
         }
       })
     );
   }  
-  addSingleLocuinte(data: Locuinte) { 
-    console.log(data)   
-      return this.reqS.post<Locuinte>(this.endpoints.add, data)
+  addSingleLocuinte(data: Locuinte) {     
+    let adddress = {
+      id : 0,
+      ...data.address
+    }    
+    console.log(adddress)   
+      return this.reqS.post<Locuinte>(this.endpoints.add, adddress)
     // return of({ ...data, ...{ id: random(10, 100) } }).pipe(
     //   map((v) => {
     //     const vals = this.locuinteStore$.value ? this.locuinteStore$.value : [];
@@ -132,6 +139,7 @@ export class LocuinteService {
   }
 
   getLocuinteWithPolicy(policyTypeID: string) {
+    alert(policyTypeID)
     return this.reqS.get<Array<Locuinte>>(this.endpoints.base).pipe(
       map((v) => {
         if (!v) {
@@ -155,6 +163,30 @@ export class LocuinteService {
   }
   UpdateLocationForAddressId(data){
     return this.reqS.post<Locuinte>(this.endpoints.updateLocationAddressId, data)
+  }
+  
+  getCounties(){
+
+    let data =  {
+        "countryId": "RO"
+      }
+    
+    return this.reqS.post<Locuinte>(this.endpoints.getCounties, data)
+  }
+  getCities(countryId){
+
+    let data =  {
+      "countyId": countryId,
+      "countryId": "RO"
+    }
+    
+    return this.reqS.post<Locuinte>(this.endpoints.getCities, data)
+  }
+  getStreets(obj){   
+    return this.reqS.post(this.endpoints.getStreets, obj)
+    .subscribe((val:any) =>{     
+      this.streetStore$.next(val)      
+    })
   }
   
   

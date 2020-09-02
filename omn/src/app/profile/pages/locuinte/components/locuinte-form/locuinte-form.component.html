@@ -104,11 +104,11 @@
     <ion-row class="ion-no-padding profile-name mb-24">
       <app-input
         class="w-100"
-        [config]="fieldConfig?.name"
-        formControlName="name"
+        [config]="fieldConfig?.locationName"
+        formControlName="locationName"
       ></app-input>
     </ion-row>
-    <ng-container *ngIf="policyType === 'PAD'">
+    <ng-container >
       <ion-row class="ion-no-padding profile-padAvailable mb-24">
         <app-radios
           class="w-100"
@@ -119,8 +119,8 @@
       </ion-row>
       <ion-row
         class="ion-no-padding apartament-postal-code mb-24"
-        *ngIf="padAvailableV"
-      >
+        >
+        <!-- *ngIf="padAvailableV" -->
         <ion-col size="6" class="pr-16">
           <app-input
             class="w-100"

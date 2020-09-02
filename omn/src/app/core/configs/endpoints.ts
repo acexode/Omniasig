@@ -22,8 +22,11 @@ export const locuinteEndpoints = {
   base: serverBaseUrl + '/locuinte',
   add: serverBaseUrl + '/Address/AddAddress',
   makeHomeAddress: serverBaseUrl + '/Address/MakeHomeAddress',
-  AlluserLocation: serverBaseUrl + '/Address/GetAllAddressesForLoggedUser',
+  AlluserLocation: serverBaseUrl + '/Location/GetAllLocationsForLoggedUser',
   updateAddress: serverBaseUrl + '/Address/UpdateAddress',
   updateLocationAddressId: serverBaseUrl + '/Location/UpdateLocationForAddressId',
-  disAbleLocation: serverBaseUrl + '/Location/DisableLocationForAddressId'
+  disAbleLocation: serverBaseUrl + '/Location/DisableLocationForAddressId',
+  getCities: serverBaseUrl + '/INSIS/Cities',
+  getCounties: serverBaseUrl + '/INSIS/Counties',
+  getStreets: serverBaseUrl + '/INSIS/Streets',
 };

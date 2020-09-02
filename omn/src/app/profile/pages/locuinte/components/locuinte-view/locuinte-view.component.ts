@@ -76,6 +76,7 @@ export class LocuinteViewComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    console.log(this.aRoute)
     this.routerS
       .getNavigationEndEvent()
       .pipe(
@@ -92,8 +93,10 @@ export class LocuinteViewComponent implements OnInit {
         this.formStep = vals[1];
         this.setTitles();
         const id = vals[2];
-        if (id) {
+        console.log(vals)
+        if (id) {         
           this.locuinteS.getSingleLocuinta(id).subscribe((val: Locuinte) => {
+            console.log(val)
             if (val) {
               this.locuinta$.next(val);
               this.dataModel = val;
@@ -141,7 +144,9 @@ export class LocuinteViewComponent implements OnInit {
         break;
     }
   }
-
+  deleteAddress(id){
+     
+  }
   initForm() {
     switch (this.formMode) {
       case this.locuintaState.INVALID:

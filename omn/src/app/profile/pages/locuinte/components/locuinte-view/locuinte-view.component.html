@@ -1,7 +1,7 @@
 <app-sub-page-header [config]="headerConfig"> </app-sub-page-header>
 <ion-content *ngIf="locuinta$ | async as locuinta">
   <ion-grid
-    *ngIf="locuinta.locuintaState === locuintaState.COMPLETE"
+  *ngIf="locuinta.locuintaState === locuintaState.COMPLETE"
     class="ion-no-padding pb-24 h-100 flex flex-column bg-white"
   >
     <ion-row
@@ -25,6 +25,7 @@
             shape="round"
             size="large"
             fill="clear"
+            (click)="deleteAddress(locuinta.id)"
             class="m-0 w-auto mr-16 fond color-dark-green no-shadow"
           >
             <span class="text-weight-normal pr-16 mr-auto">Șterge</span>

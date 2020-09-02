@@ -4,6 +4,8 @@ import {
   Component,
   Input,
   OnInit,
+  Output,
+  EventEmitter,
 } from '@angular/core';
 import {
   ControlValueAccessor,
@@ -13,6 +15,7 @@ import {
 import { get, has } from 'lodash';
 import { IonSelectConfig } from 'src/app/shared/models/component/ion-select-config';
 import { IonSelectListOption } from 'src/app/shared/models/component/ion-select-list-option';
+import { BehaviorSubject } from 'rxjs';
 
 @Component({
   selector: 'app-select',
@@ -25,15 +28,15 @@ import { IonSelectListOption } from 'src/app/shared/models/component/ion-select-
       useExisting: SelectComponent,
       multi: true,
     },
-  ],
+  ], 
 })
 export class SelectComponent implements OnInit, ControlValueAccessor {
   @Input()
   config: IonSelectConfig;
-  @Input() set options(opts: Array<IonSelectListOption>) {
+  @Input() set options(opts: Array<IonSelectListOption>) {    
     this.opts = opts ? opts : [];
     this.updateItems();
-  }
+  } 
   constructor(private fb: FormBuilder, private cdRef: ChangeDetectorRef) {}
 
   items: Array<{
@@ -60,30 +63,31 @@ export class SelectComponent implements OnInit, ControlValueAccessor {
 
   getFieldValue() {
     const field = this.formGroup.get('select');
+    
     return field ? field.value : null;
   }
 
   ngOnInit() {
     this.formGroup.valueChanges.subscribe((vals) => {
-      if (this.onChange) {
+      if (this.onChange) {            
         this.onChange(this.getFieldValue());
       }
     });
   }
 
   updateItems() {
-    const labelK = get(this.config, 'labelKey', 'label');
+    const labelK = get(this.config, 'labelKey', 'label');    
     const idK = get(this.config, 'idKey', 'id');
     this.items = this.opts
-      .map((v) => {
+      .map((v) => {        
         return {
           id: get(v, idK, null),
-          label: get(v, labelK, null),
+          label: get(v, 'name', null),
         };
       })
       .filter((vv) => {
         return get(vv, 'id', null) !== null;
-      });
+      });      
     this.cdRef.markForCheck();
   }
 
@@ -110,7 +114,7 @@ export class SelectComponent implements OnInit, ControlValueAccessor {
   }
 
   registerOnChange(fn) {
-    this.onChange = fn;
+    this.onChange = fn;    
   }
 
   registerOnTouched(fn: any): void {

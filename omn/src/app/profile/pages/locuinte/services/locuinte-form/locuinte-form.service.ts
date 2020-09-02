@@ -1,3 +1,4 @@
+import { LocuinteService } from 'src/app/profile/pages/locuinte/services/locuinte/locuinte.service';
 import { IonRadiosConfig } from './../../../../../shared/models/component/ion-radios-config';
 import { Injectable } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
@@ -16,7 +17,10 @@ import { LocuinteFormType } from 'src/app/shared/models/modes/locuinte-form-mode
   providedIn: 'root',
 })
 export class LocuinteFormService {
-  constructor(private fb: FormBuilder) {}
+  streets$ = this.locuintS.locuinteStore$;
+  constructor(private fb: FormBuilder, private locuintS: LocuinteService) {
+    
+  }
 
   buildLocuinteSubform(model: Locuinte, policyType?: string) {
     // info: {
@@ -113,10 +117,10 @@ export class LocuinteFormService {
         Validators.maxLength(6),
       ]),
       // Additional - add validator after build
-      name: this.fb.control(get(model, 'name', '')),
+      locationName: this.fb.control(get(model, 'address.locationName', '')),
     });
 
-    if (policyType === 'PAD') {
+    //if (policyType === 'PAD') {
       group.addControl(
         'padAvailable',
         this.fb.control(get(model, 'pad.padAvailable', ''), Validators.required)
@@ -126,7 +130,7 @@ export class LocuinteFormService {
         'padSerie',
         this.fb.control(get(model, 'pad.padSerie', ''))
       );
-    }
+    //}
     return group;
   }
 
@@ -173,7 +177,7 @@ export class LocuinteFormService {
             },
             disabled: isDisabled,
           }),
-          name: inputConfigHelper({
+          locationName: inputConfigHelper({
             label: 'Vrei să dai o denumire acestui profil? (opțional)',
             type: 'text',
             placeholder: 'Ex: Casa de vacanță',
@@ -181,7 +185,7 @@ export class LocuinteFormService {
           }),
         };
 
-        if (policyType === 'PAD') {
+        //if (policyType === 'PAD') {
           configModel.padAvailable = radiosConfigHelper({
             label: 'Ai deja o poliță PAD valabilă pentru această adresă?',
             mode: 'item',
@@ -198,7 +202,7 @@ export class LocuinteFormService {
             type: 'text',
             placeholder: '',
           });
-        }
+       // }
         break;
 
       case LocuinteFormType.PLACE:
@@ -254,7 +258,7 @@ export class LocuinteFormService {
             label: 'Alarmă antiefracție sau pază permanentă',
             mode: 'chip',
           }),
-          name: inputConfigHelper({
+          locationName: inputConfigHelper({
             label: 'Vrei să dai o denumire acestui profil? (opțional)',
             type: 'text',
             placeholder: 'Ex: Casa de vacanță',
@@ -281,17 +285,21 @@ export class LocuinteFormService {
   }
 
   getFormFieldsData(fieldsObj, defaultV: { [key: string]: any } = {}) {
-    const data = {};
+    const data = {};    
     const fData = locuinteFieldsData;
     forOwn(fieldsObj, (v, k) => {
       set(data, k, get(fData, k, get(defaultV, k, null)));
-    });
+    });        
     return data;
   }
 
-  streetLookup(input: any): Observable<Array<any>> {
+  streetLookup(input: any): Observable<Array<any>> {    
     return new Observable((observer) => {
-      observer.next(locuinteFieldsData.street);
+      this.locuintS.allStreets.subscribe(val =>{
+          console.log(val)
+        observer.next(locuinteFieldsData.street);      
+
+      })
     });
   }
 
@@ -300,7 +308,7 @@ export class LocuinteFormService {
       ? { ...existingModel }
       : {
           id: null,
-          name: null,
+          // name: null,
           info: null,
           address: null,
           policyData: [],
@@ -314,6 +322,7 @@ export class LocuinteFormService {
         case 'apart':
         case 'city':
         case 'county':
+        case 'locationName':
         case 'floor':
         case 'buildingNumber':
         case 'postalCode':

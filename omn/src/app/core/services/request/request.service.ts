@@ -15,11 +15,8 @@ export class RequestService {
    * @param endpoint - Full path.
    */
   get<T>(endpoint: string): Observable<T> {
-    let token= "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJvY2pib3Njb0BnbWFpbC5jb20iLCJqdGkiOiIwODY4MjYwOS1iMjUzLTQ0ZjUtODJiMy1kZGU2ODI3YjNjZjYiLCJ1bmlxdWVfbmFtZSI6IjA3MzM2ODczMzIiLCJBcGlDZW50ZXIvUGVybWlzc2lvbiI6WyJDbGllbnRpUmVzZXRhcmVQYXNzY29kZSIsIkNsaWVudGlSZXZhbGlkYXJlRW1haWwiLCJDbGllbnRpUmV2YWxpZGFyZVRlbGVmb24iXSwiaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS93cy8yMDA4LzA2L2lkZW50aXR5L2NsYWltcy9yb2xlIjoiTW9iaWxlVXNlciIsImV4cCI6MTU5ODUyMDYxMSwiaXNzIjoibG9jYWxob3N0IiwiYXVkIjoib21uaWFzaWcuY29tIn0.rqXQGjL7J99PN8lHWA7byniUyGoUOVuK-eap35bAa10"
-    let httpOptions = {
-      headers: new HttpHeaders({ 'Authorization': 'Bearer ' + token })
-    };
-    return this.http.get<T>(endpoint,httpOptions );
+      console.log(endpoint)
+    return this.http.get<T>(endpoint );
   }
 
   /**
@@ -38,11 +35,8 @@ export class RequestService {
    * @param data - Post data.
    */
   post<T>(endpoint: string, data: any): Observable<T> {
-    let token= "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJvY2pib3Njb0BnbWFpbC5jb20iLCJqdGkiOiIwODY4MjYwOS1iMjUzLTQ0ZjUtODJiMy1kZGU2ODI3YjNjZjYiLCJ1bmlxdWVfbmFtZSI6IjA3MzM2ODczMzIiLCJBcGlDZW50ZXIvUGVybWlzc2lvbiI6WyJDbGllbnRpUmVzZXRhcmVQYXNzY29kZSIsIkNsaWVudGlSZXZhbGlkYXJlRW1haWwiLCJDbGllbnRpUmV2YWxpZGFyZVRlbGVmb24iXSwiaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS93cy8yMDA4LzA2L2lkZW50aXR5L2NsYWltcy9yb2xlIjoiTW9iaWxlVXNlciIsImV4cCI6MTU5ODUyMDYxMSwiaXNzIjoibG9jYWxob3N0IiwiYXVkIjoib21uaWFzaWcuY29tIn0.rqXQGjL7J99PN8lHWA7byniUyGoUOVuK-eap35bAa10"
-    let httpOptions = {
-      headers: new HttpHeaders({ 'Authorization': 'Bearer ' + token })
-    };
-    return this.http.post<T>(endpoint, data,httpOptions);
+ 
+    return this.http.post<T>(endpoint, data);
   }
 
   /**
