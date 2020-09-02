@@ -47,9 +47,6 @@ export class ContCreatComponent implements OnInit, AfterViewInit {
   ngOnInit() { }
   ngAfterViewInit() {
     this.regService.clearUserObj()
-    setTimeout(() => {
-      this.router.navigate(["/login"])
-    }, 4000);
   }
 
 }

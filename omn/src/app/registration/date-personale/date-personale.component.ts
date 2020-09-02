@@ -65,7 +65,7 @@ export class DatePersonaleComponent implements OnInit {
     { label: 'Nu', id: false },
   ];
 
-  constructor(private formBuilder: FormBuilder, private router: Router,private regService:RegistrationService) {
+  constructor(private formBuilder: FormBuilder, private router: Router, private regService: RegistrationService) {
     this.radiosConfig.itemClasses = 'w-40 pr-60 inline-flex bg-white';
     this.checkUserObj()
   }
@@ -81,7 +81,7 @@ export class DatePersonaleComponent implements OnInit {
   }
 
   proceed() {
-    this.regService.setUserObj({...this.detailsForm.value})
+    this.regService.setUserObj({ ...this.detailsForm.value })
     this.router.navigate(['registration/email']);
   }
 
@@ -92,7 +92,7 @@ export class DatePersonaleComponent implements OnInit {
       cnp: ['', [Validators.required, Validators.minLength(13)]],
       isPublicPerson: ['', [Validators.required]],
       marketing: [false],
-      roles: [[]]
+      roles: [["MobileUser"]]
     })
   }
 }
