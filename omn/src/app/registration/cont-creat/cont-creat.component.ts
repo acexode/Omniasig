@@ -42,11 +42,13 @@ export class ContCreatComponent implements OnInit, AfterViewInit {
       itemClass: 'mh-104 shadow-page-item',
     },
   ];
-  constructor(private router: Router, private regService: RegistrationService) { }
+  constructor(
+    private router: Router,
+    private regService: RegistrationService
+  ) {}
 
-  ngOnInit() { }
+  ngOnInit() {}
   ngAfterViewInit() {
-    this.regService.clearUserObj()
+    this.regService.clearUserObj();
   }
-
 }

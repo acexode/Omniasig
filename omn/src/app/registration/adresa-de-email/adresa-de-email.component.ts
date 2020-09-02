@@ -26,9 +26,13 @@ export class AdresaDeEmailComponent implements OnInit {
   };
   emailForm: FormGroup;
   headerConfig = subPageHeaderDefault('');
-  busy:boolean =false
-  constructor(private router: Router, private formBuilder: FormBuilder, private regSrvice: RegistrationService) { 
-    this.checkUserObj()
+  busy: boolean = false;
+  constructor(
+    private router: Router,
+    private formBuilder: FormBuilder,
+    private regSrvice: RegistrationService
+  ) {
+    this.checkUserObj();
   }
 
   ngOnInit() {
@@ -36,8 +40,12 @@ export class AdresaDeEmailComponent implements OnInit {
   }
 
   checkUserObj() {
-    if (!this.regSrvice.getuserObj?.phoneNumber || !this.regSrvice.getuserObj?.userName || !this.regSrvice.getuserObj?.pin) {
-      this.router.navigate(["/registration"])
+    if (
+      !this.regSrvice.getuserObj?.phoneNumber ||
+      !this.regSrvice.getuserObj?.userName ||
+      !this.regSrvice.getuserObj?.pin
+    ) {
+      this.router.navigate(['/registration']);
     }
   }
 
@@ -51,14 +59,18 @@ export class AdresaDeEmailComponent implements OnInit {
   }
 
   proceed() {
-    this.busy = true
-    this.regSrvice.setUserObj({ email: this.emailForm.controls["email"].value })
+    this.busy = true;
+    this.regSrvice.setUserObj({
+      email: this.emailForm.controls['email'].value,
+    });
     this.regSrvice.registerUser().subscribe(
-      data => {
-        this.busy = false
+      (data) => {
+        this.busy = false;
         this.router.navigate(['registration/account-created']);
       },
-      err => { this.busy = false }
-    )
+      (err) => {
+        this.busy = false;
+      }
+    );
   }
 }
