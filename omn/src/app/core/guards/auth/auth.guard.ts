@@ -30,6 +30,9 @@ export class AuthGuard implements CanActivate, CanActivateChild {
         if (isAuthenticated) {
           return true;
         } else {
+          console.log('no access');
+          console.log(next);
+          console.log(state);
           return this.routerS.createUrlTree(['/login']);
         }
       })
@@ -50,6 +53,7 @@ export class AuthGuard implements CanActivate, CanActivateChild {
         if (isAuthenticated) {
           return true;
         } else {
+          console.log('no access');
           return this.routerS.createUrlTree(['/login']);
         }
       })

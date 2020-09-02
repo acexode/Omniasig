@@ -1,11 +1,10 @@
-import { HomePage } from './home/home.page';
-import { ChangeDetectorRef, Component, NgZone } from '@angular/core';
-import { Router } from '@angular/router';
+import { ChangeDetectorRef, Component } from '@angular/core';
 import { Deeplinks } from '@ionic-native/deeplinks/ngx';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
-import { Platform } from '@ionic/angular';
+import { NavController, Platform } from '@ionic/angular';
 import { defineCustomElements } from '@ionic/pwa-elements/loader';
+import { DatePersonaleValidateEmailComponent } from './profile/pages/date-personale/components/date-personale-validate-email/date-personale-validate-email.component';
 
 @Component({
   selector: 'app-root',
@@ -18,9 +17,8 @@ export class AppComponent {
     private splashScreen: SplashScreen,
     private statusBar: StatusBar,
     private cdRef: ChangeDetectorRef,
-    private router: Router,
-    private zone: NgZone,
-    private deeplinks: Deeplinks
+    private deeplinks: Deeplinks,
+    protected navController: NavController
   ) {
     this.initializeApp();
   }
@@ -38,18 +36,15 @@ export class AppComponent {
   handleDeepLink() {
     this.deeplinks
       .route({
-        '/home': HomePage,
+        '/api/UserProfile/ConfirmEmailForRegisterUserProfile': '/profil/date-personale/validate-email',
       })
       .subscribe(
         (match) => {
           // match.$route - the route we matched, which is the matched entry from the arguments to route()
           // match.$args - the args passed in the link
-          // match.$link - the full link data
+          // match.$link - the full link dataxxxxxxxx
           console.log('Successfully matched route', match);
-          const internalLink = `/${match.$route}/${match.$args['code']}`;
-          this.zone.run(() => {
-            this.router.navigateByUrl(internalLink);
-          });
+          console.log(match);
         },
         (nomatch) => {
           // nomatch.$link - the full link data
