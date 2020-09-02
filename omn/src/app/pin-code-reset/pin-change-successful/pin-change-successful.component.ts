@@ -9,16 +9,19 @@ import { Component, OnInit, AfterViewInit } from '@angular/core';
   styleUrls: ['./pin-change-successful.component.scss'],
 })
 export class PinChangeSuccessfulComponent implements OnInit, AfterViewInit {
+  constructor(
+    private router: Router,
+    private resetService: ResetPincodeService,
+    private auth: AuthService
+  ) {}
 
-  constructor(private router: Router,private resetService: ResetPincodeService,private auth:AuthService) { }
-
-  ngOnInit() { }
+  ngOnInit() {}
 
   ngAfterViewInit() {
     this.resetService.clearResetObj();
-    this.auth.doLogout()
+    this.auth.doLogout();
     setTimeout(() => {
-      this.router.navigate(["/login"])
-    }, 5000);
+      this.router.navigate(['/login']);
+    }, 3000);
   }
 }

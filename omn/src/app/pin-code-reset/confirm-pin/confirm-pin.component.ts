@@ -1,10 +1,8 @@
-import { ResetPincodeService } from './../services/reset-pincode.service';
-import { Location } from '@angular/common';
 import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
 import { IonInput, NavController } from '@ionic/angular';
 import { subPageHeaderDefault } from 'src/app/shared/data/sub-page-header-default';
+import { ResetPincodeService } from './../services/reset-pincode.service';
 
 @Component({
   selector: 'app-confirm-pin',
@@ -13,21 +11,19 @@ import { subPageHeaderDefault } from 'src/app/shared/data/sub-page-header-defaul
 })
 export class ConfirmPinComponent implements OnInit, AfterViewInit {
   headerConfig = subPageHeaderDefault('Confirmare cod de acces');
-  digitsLength: number = 0;
+  digitsLength = 0;
   @ViewChild('inputField') inputField: IonInput;
   pinForm: FormGroup;
-  busy: boolean = false;
-  invalidCode: string = null
+  busy = false;
+  invalidCode: string = null;
   constructor(
     private navCtrl: NavController,
     private formBuilder: FormBuilder,
-    private route: ActivatedRoute,
     private resetPinService: ResetPincodeService
-  ) {
-  }
+  ) {}
 
   ngOnInit() {
-    this.checkObjFields()
+    this.checkObjFields();
   }
 
   ngAfterViewInit() {
@@ -35,8 +31,12 @@ export class ConfirmPinComponent implements OnInit, AfterViewInit {
   }
 
   checkObjFields() {
-    if (!this.resetPinService.getResetObj?.cnp || !this.resetPinService.getResetObj?.code || !this.resetPinService.getResetObj?.newPin) {
-      this.navCtrl.navigateRoot('/reset-pincode')
+    if (
+      !this.resetPinService.getResetObj?.cnp ||
+      !this.resetPinService.getResetObj?.code ||
+      !this.resetPinService.getResetObj?.newPin
+    ) {
+      this.navCtrl.navigateRoot('/reset-pincode');
     } else {
       this.initForm(this.resetPinService.getResetObj.newPin);
     }
@@ -53,7 +53,7 @@ export class ConfirmPinComponent implements OnInit, AfterViewInit {
         [Validators.required, Validators.minLength(6), Validators.maxLength(6)],
       ],
     });
-    this.pinForm.controls['pincode'].patchValue(pincode);
+    this.pinForm.get('pincode').patchValue(pincode);
 
     this.pinForm.valueChanges.subscribe((value) => {
       this.changeInput(value.confirmPin);
@@ -71,22 +71,22 @@ export class ConfirmPinComponent implements OnInit, AfterViewInit {
 
   verifyPin() {
     if (
-      this.pinForm.controls['confirmPin'].value ===
+      this.pinForm.get('confirmPin').value ===
       parseInt(this.pinForm.get('pincode').value, 10)
     ) {
-      this.busy = true
+      this.busy = true;
       this.resetPinService.confirmResetPincode().subscribe(
         (data) => {
           this.navCtrl.navigateRoot(`reset-pincode/reset-successful`);
-          this.busy = false
+          this.busy = false;
         },
-        err => {
+        (err) => {
           this.invalidCode = err.error;
-          this.navCtrl.navigateBack('/reset-pincode/verify-passcode')
+          this.navCtrl.navigateBack('/reset-pincode/verify-passcode');
         }
-      )
+      );
     } else {
-      this.navCtrl.back();
+      this.navCtrl.navigateBack('/reset-pincode/new-pin');
     }
   }
 

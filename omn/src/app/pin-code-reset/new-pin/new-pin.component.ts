@@ -10,52 +10,63 @@ import { subPageHeaderDefault } from 'src/app/shared/data/sub-page-header-defaul
   styleUrls: ['./new-pin.component.scss'],
 })
 export class NewPinComponent implements OnInit {
-  headerConfig = subPageHeaderDefault('Cod de acces nou')
-  digitsLength: number = 0;
+  headerConfig = subPageHeaderDefault('Cod de acces nou');
+  digitsLength = 0;
   @ViewChild('inputField') inputField: IonInput;
   pinForm: FormGroup;
-  constructor(private navCtrl: NavController, private formBuilder: FormBuilder, private resetPinService: ResetPincodeService) { 
-    this.checkObjFields()
+  constructor(
+    private navCtrl: NavController,
+    private formBuilder: FormBuilder,
+    private resetPinService: ResetPincodeService
+  ) {
+    this.checkObjFields();
   }
 
   checkObjFields() {
-    if (!this.resetPinService.getResetObj?.cnp || !this.resetPinService.getResetObj?.code) {
-      this.navCtrl.navigateRoot('/reset-pincode')
+    if (
+      !this.resetPinService.getResetObj?.cnp ||
+      !this.resetPinService.getResetObj?.code
+    ) {
+      this.navCtrl.navigateRoot('/reset-pincode');
     }
   }
 
   ngOnInit() {
-    this.initForm()
+    this.initForm();
   }
   initForm() {
     this.pinForm = this.formBuilder.group({
-      pincode: ['', [Validators.required, Validators.minLength(6), Validators.maxLength(6)]],
+      pincode: [
+        '',
+        [Validators.required, Validators.minLength(6), Validators.maxLength(6)],
+      ],
     });
 
     this.pinForm.valueChanges.subscribe((value) => {
-      this.changeInput(value.pincode)
-    })
+      this.changeInput(value.pincode);
+    });
   }
 
   changeInput(pincode) {
     if (pincode) {
-      this.digitsLength = pincode.toString().length
+      this.digitsLength = pincode.toString().length;
     }
     if (this.digitsLength > 5) {
-      this.verifyPincode()
+      this.verifyPincode();
     }
   }
 
   verifyPincode() {
-    this.resetPinService.setResetObj({ newPin: this.pinForm.controls["pincode"].value })
-    this.navCtrl.navigateRoot(`/reset-pincode/confirm-pin`)
+    this.resetPinService.setResetObj({
+      newPin: this.pinForm.get('pincode').value,
+    });
+    this.navCtrl.navigateRoot(`/reset-pincode/confirm-pin`);
   }
 
   spawnInput() {
     this.inputField.getInputElement().then((input) => {
       input.focus();
-      input.click()
-    })
+      input.click();
+    });
   }
-
 }
