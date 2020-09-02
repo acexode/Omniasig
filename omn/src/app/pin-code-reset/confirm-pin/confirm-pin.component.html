@@ -75,6 +75,7 @@
             formControlName="confirmPin"
             class="position-absolute bg-white text-center opacity-hide ion-no-border"
             maxlength="6"
+            [readonly]="busy"
             required="true"
             type="number"
             inputmode="number"
@@ -83,5 +84,12 @@
         </form>
       </div>
     </ion-col>
+    <div
+      class="ion-text-center pt-80 flex flex-column flex-1 ion-justify-content-end ion-align-items-center"
+    >
+      <ion-text *ngIf="invalidCode" class="text-small color-red">
+        {{ invalidCode }}
+      </ion-text>
+    </div>
   </div>
 </ion-content>
