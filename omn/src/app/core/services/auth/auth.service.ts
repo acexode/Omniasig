@@ -144,7 +144,7 @@ export class AuthService {
      *
      * @param phoneNumber phoneNumber of the user trying to login
      */
-    saveLastLoginNumber( phoneNumber?: string ) {
+    saveLastLoginNumber( phoneNumber: string ) {
         return this.storeS.setItem( 'phoneNumber', phoneNumber );
     }
 

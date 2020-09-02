@@ -1,3 +1,4 @@
+import { AuthService } from 'src/app/core/services/auth/auth.service';
 import { Component, HostBinding, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -30,7 +31,8 @@ export class AdresaDeEmailComponent implements OnInit {
   constructor(
     private router: Router,
     private formBuilder: FormBuilder,
-    private regSrvice: RegistrationService
+    private regSrvice: RegistrationService,
+    private auth: AuthService
   ) {
     this.checkUserObj();
   }
@@ -61,16 +63,27 @@ export class AdresaDeEmailComponent implements OnInit {
   proceed() {
     this.busy = true;
     this.regSrvice.setUserObj({
-      email: this.emailForm.controls['email'].value,
+      email: this.emailForm.get('email').value,
     });
     this.regSrvice.registerUser().subscribe(
       (data) => {
-        this.busy = false;
-        this.router.navigate(['registration/account-created']);
+        this.logUserIn()
       },
       (err) => {
         this.busy = false;
       }
     );
+  }
+
+  logUserIn() {
+    this.auth.login({
+      phone: this.regSrvice.getuserObj.phoneNumber, password: this.regSrvice.getuserObj.pin, aRoute: '/registration/account-created'
+    }).subscribe(
+      (data) => {this.auth.saveLastLoginNumber(this.regSrvice.getuserObj.phoneNumber)},
+      (err) => {
+        this.busy = false;
+        this.router.navigate(["/login"])
+      }
+    )
   }
 }

@@ -24,8 +24,8 @@ export class ContCreatComponent implements OnInit, AfterViewInit {
       ],
       id: 'account',
       itemClass: 'mh-104 shadow-page-item',
-      isButton: false,
-      // routerLink: ['date-personale'],
+      isButton: true,
+      routerLink: ['/biometrics'],
     },
     {
       mainIcon: {
@@ -40,6 +40,8 @@ export class ContCreatComponent implements OnInit, AfterViewInit {
       ],
       id: 'msg',
       itemClass: 'mh-104 shadow-page-item',
+      isButton: true,
+      routerLink: ['/profil/date-personale/validate'],
     },
   ];
   constructor(

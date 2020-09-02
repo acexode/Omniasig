@@ -1,3 +1,5 @@
+import { LoginGuard } from './../core/guards/login/login.guard';
+import { AuthGuard } from './../core/guards/auth/auth.guard';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AdresaDeEmailComponent } from './adresa-de-email/adresa-de-email.component';
@@ -12,34 +14,42 @@ import { RegPasscodeComponent } from './reg-passcode/reg-passcode.component';
 const routes: Routes = [
   {
     path: '',
+    canActivate: [LoginGuard],
     component: RegNumarTelefonComponent,
   },
   {
     path: 'confirm-number',
+    canActivate: [LoginGuard],
     component: RegInputSmsComponent,
   },
   {
     path: 'notice',
+    canActivate: [LoginGuard],
     component: NotaDeInformareComponent,
   },
   {
     path: 'create-passcode',
+    canActivate: [LoginGuard],
     component: RegPasscodeComponent,
   },
   {
     path: 'confirm-passcode',
+    canActivate: [LoginGuard],
     component: ConfirmCodDeAccesComponent,
   },
   {
     path: 'personal-details',
+    canActivate: [LoginGuard],
     component: DatePersonaleComponent,
   },
   {
     path: 'email',
+    canActivate: [LoginGuard],
     component: AdresaDeEmailComponent,
   },
   {
     path: 'account-created',
+    canActivate: [AuthGuard],
     component: ContCreatComponent,
   },
 ];
