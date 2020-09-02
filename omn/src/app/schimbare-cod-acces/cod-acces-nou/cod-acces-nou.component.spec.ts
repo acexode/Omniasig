@@ -1,19 +1,19 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 
-import { AsistentaModalPagePage } from './asistenta-modal-page.page';
+import { CodAccesNouComponent } from './cod-acces-nou.component';
 
-describe('AsistentaModalPagePage', () => {
-  let component: AsistentaModalPagePage;
-  let fixture: ComponentFixture<AsistentaModalPagePage>;
+describe('CodAccesNouComponent', () => {
+  let component: CodAccesNouComponent;
+  let fixture: ComponentFixture<CodAccesNouComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ AsistentaModalPagePage ],
+      declarations: [ CodAccesNouComponent ],
       imports: [IonicModule.forRoot()]
     }).compileComponents();
 
-    fixture = TestBed.createComponent(AsistentaModalPagePage);
+    fixture = TestBed.createComponent(CodAccesNouComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   }));

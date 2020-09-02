@@ -69,7 +69,7 @@ h3,
   line-height: rem(16) !important;
 }
 
-.s14-h16{
+.s14-h16 {
   font-size: rem(14) !important;
   line-height: rem(16) !important;
 }
@@ -78,7 +78,7 @@ h3,
   font-size: rem(20) !important;
   line-height: rem(24) !important;
 }
-.s24-h32{
+.s24-h32 {
   font-size: rem(24) !important;
   line-height: rem(32) !important;
 }
@@ -96,6 +96,11 @@ h3,
 .s32-h38 {
   font-size: rem(32) !important;
   line-height: rem(38) !important;
+}
+
+.s13-h16 {
+  font-size: rem(13) !important;
+  line-height: rem(16) !important;
 }
 
 .s16-h22 {
@@ -120,6 +125,10 @@ h3,
 
 .white-space-normal {
   white-space: normal;
+}
+
+.white-space-nowrap {
+  white-space: nowrap;
 }
 
 .text-normal {
@@ -164,7 +173,9 @@ ion-label.input-label,
   transform: none !important;
   font-weight: normal;
 }
-
+.lh-16 {
+  line-height: rem(16);
+}
 .ls-min-02 {
   letter-spacing: -0.2px;
 }
@@ -198,12 +209,7 @@ ion-label.input-label,
 }
 
 .bottom-border {
-    border-bottom: rem(1) solid $red;
-}
-
-.border-danger {
-    padding-bottom: rem(7);
-    border-bottom: rem(1) solid $red;
+  border-bottom: rem(1) solid $red;
 }
 
 .text-nowrap {
@@ -245,7 +251,6 @@ ion-label.input-label,
     }
   }
 }
-
 
 .font-reset {
   font: inherit !important;

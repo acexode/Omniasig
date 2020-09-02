@@ -88,6 +88,7 @@
   --ion-color-omn-medium-contrast-rgb: 0, 0, 0;
   --ion-color-omn-medium-shade: #a7aca9;
   --ion-color-omn-medium-tint: #b0b4b2;
+  --ion-color-omn-red: #e1261c;
   --ion-color-dark-green-b: #004220;
   --ion-color-dark-green-b-rgb: 0, 66, 32;
   --ion-color-dark-green-b-contrast: #ffffff;
@@ -113,6 +114,7 @@
   --app-color-white: #ffffff;
   --danger-gradient-1: #ef6d53;
   --danger-gradient-2: #e63c2d;
+  --light-green-5:#BFE2D0;
   --danger-gradient: linear-gradient(
     135deg,
     var(--danger-gradient-1) 0%,
@@ -205,6 +207,7 @@ $spacers: map-merge(
     72: 72px,
     73: 73px,
     80: 80px,
+    90: 90px,
     93: 93px,
     96: 96px,
     149: 149px,
@@ -259,6 +262,7 @@ $alt-bg: #f5f9fc;
 $deep-blue: #1c5393;
 $light-blue: #236faa;
 $yellow: #f7ce23;
+$yellow-2: #F5D800;
 $bg-dark: #1a1919;
 $light-green-2: #5fb63d;
 $light-green-5: #BFE2D0;

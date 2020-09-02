@@ -8,14 +8,14 @@ import { ModalController } from '@ionic/angular';
 })
 export class AsistentaModalPagePage implements OnInit {
   @Input() type: string;
-  constructor(public modalCtrl: ModalController) { }
+  constructor(public modalCtrl: ModalController) {}
 
-  ngOnInit() {
-  }
+  ngOnInit() {}
   closeModal() {
-   
-    this.modalCtrl.dismiss({
-      'dismissed': true
-    });
+    Promise.resolve(
+      this.modalCtrl.dismiss({
+        dismissed: true,
+      })
+    );
   }
 }

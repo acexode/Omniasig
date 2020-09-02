@@ -23,9 +23,9 @@
           ></ion-icon>
         </ion-button>
       </ion-buttons>
-      <ion-title class="ion-text-left header-title"
-        ><h2 class="alt-font" *ngIf="account$ | async as account">
-          {{account?.firstName + ' '+ account?.lastName}}
+      <ion-title class="ion-text-left header-title">
+        <h2 class="alt-font" *ngIf="account">
+          {{account?.surname + ' '+ account?.name}}
         </h2>
       </ion-title>
     </ion-toolbar>
@@ -107,8 +107,11 @@
                 'mr-8': !(i%2)
             }"
             >
-              <app-image-card [item]="cardI" class="flex w-100"></app-image-card
-            ></ion-col>
+              <app-image-card
+                [item]="cardI"
+                class="flex w-100"
+              ></app-image-card>
+            </ion-col>
           </ng-container>
         </ion-row>
       </ion-col>

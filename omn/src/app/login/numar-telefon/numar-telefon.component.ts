@@ -25,15 +25,13 @@ export class NumarTelefonComponent implements OnInit {
     clearable: true,
     inputClasses: 'ion-item-right',
     minLength: 10,
-    maxLength: 10,
+    maxLength: 10
   };
   teleForm: FormGroup;
-  busy = false;
-  constructor(
-    private router: Router,
-    private formBuilder: FormBuilder,
-    private auth: AuthService
-  ) {}
+    busy = false;
+  constructor(private router: Router, private formBuilder: FormBuilder, private auth: AuthService) {
+      this.checkHasLoggedIn();
+  }
 
   ngOnInit() {
     this.initForm();
@@ -54,41 +52,53 @@ export class NumarTelefonComponent implements OnInit {
 
   login() {
     this.busy = true;
-    this.auth
-      .findUserByPhoneNumber(this.teleForm.controls['phoneNumber'].value)
-      .subscribe(
-        (data) => {
-          this.checkFirstLogin(this.teleForm.controls['phoneNumber'].value);
-        },
-        (error) => {
-          if (error.status === 400) {
-            this.router.navigate([
-              'registration/confirm-number',
-              this.teleForm.controls['phoneNumber'].value,
-            ]);
-          }
-        },
-        () => (this.busy = false)
-      );
-  }
-
-  checkFirstLogin(enterNumber) {
-    this.auth.lastLoginNumber().subscribe((phoneNumber) => {
-      if (phoneNumber === enterNumber) {
-        this.router.navigate([
-          'login/verify',
-          this.teleForm.controls['phoneNumber'].value,
-        ]);
-      } else {
-        this.requestSms(enterNumber);
+    this.auth.findUserByPhoneNumber(this.teleForm.controls.phoneNumber.value).subscribe(
+      data => {
+        this.requestSms();
+      },
+      err => {
+        this.newUserReg();
+        this.busy = false;
       }
-    });
+    );
   }
 
-  requestSms(phoneNumber) {
-    this.router.navigate([
-      'login/authenticate',
-      this.teleForm.controls['phoneNumber'].value,
-    ]);
+  newUserReg() {
+    // TODO to continue user registeration in omn-83
+    // this.auth.sendPhoneNumberSms(this.teleForm.controls['phoneNumber'].value).subscribe(
+    //   data => {
+    //     this.router.navigate([
+    //       'registration/confirm-number',
+    //       this.teleForm.controls['phoneNumber'].value,
+    //     ]);
+    //   },
+    //   err => { this.busy = false }
+    // )
   }
+
+  checkHasLoggedIn() {
+    this.auth.lastLoginNumber().subscribe(
+      phoneNumber => {
+        if (phoneNumber) {
+          this.router.navigate([
+            'login/verify',
+            phoneNumber,
+          ]);
+        }
+      }
+    );
+  }
+
+  requestSms() {
+    this.auth.sendPhoneNumberSms(this.teleForm.controls.phoneNumber.value).subscribe(
+      data => {
+        this.router.navigate([
+          'login/authenticate',
+          this.teleForm.controls.phoneNumber.value,
+        ]);
+      },
+      err => { this.busy = false; }
+    );
+  }
+
 }

@@ -8,6 +8,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { serverBaseUrl } from '../configs/endpoints';
 import { AuthService } from '../services/auth/auth.service';
+import { switchMap } from 'rxjs/operators';
 
 @Injectable()
 export class JwtInterceptor implements HttpInterceptor {
@@ -19,8 +20,9 @@ export class JwtInterceptor implements HttpInterceptor {
   ): Observable<HttpEvent<any>> {
     // add authorization header with jwt token if available
     const externalUrl = request.url.startsWith(serverBaseUrl);
-    const currentUser = this.authenticationService.getAuthState();
+    const currentToken = this.authenticationService.getToken();
     // We can probably add extra data in here to clock auth check on requests that don't need them.
+<<<<<<< HEAD
     if (currentUser && externalUrl) {
       let token = '';
       currentUser.subscribe((user) => (token = user.authToken));
@@ -30,8 +32,21 @@ export class JwtInterceptor implements HttpInterceptor {
           Authorization: `Bearer ${token}`,
         },
       });
+=======
+    if (currentToken && externalUrl) {
+      return currentToken.pipe(
+        switchMap((token: string) => {
+          request = request.clone({
+            setHeaders: {
+              Authorization: `Bearer ${token}`,
+            },
+          });
+          return next.handle(request);
+        })
+      );
+    } else {
+      return next.handle(request);
+>>>>>>> 457587f2bfc467451a6bcab27fc790a9baa33c3d
     }
-
-    return next.handle(request);
   }
 }
