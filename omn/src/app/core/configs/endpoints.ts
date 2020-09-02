@@ -3,9 +3,10 @@ import { environment } from '../../../environments/environment';
 export const serverBaseUrl = environment.serverUrl;
 export const authEndpoints = {
   login: serverBaseUrl + '/User/LoginAndCreateToken',
-  findUserByPhoneNumber:
-    serverBaseUrl + '/UserProfile/GetUserNameByPhoneNumber',
+  findUserByPhoneNumber: serverBaseUrl + '/UserProfile/GetUserNameByPhoneNumber',
   getUserProfile: serverBaseUrl + '/UserProfile/GetUserProfile',
+  requestPincodeReset:serverBaseUrl + '/UserProfile/RequestPinChangeWithoutAuthentification',
+  confirmPincodeReset:serverBaseUrl + '/UserProfile/ConfirmPinChangeWithoutAuthentification',
   sendPhoneNumberSms: serverBaseUrl + '/UserProfile/SmsPhoneNumberVerification',
   confirmPhoneNumberSms: serverBaseUrl + '/UserProfile/SmsPhoneNumberConfirm',
   GetUserNameByPhoneNumber: serverBaseUrl + '/UserProfile/GetUserNameByPhoneNumber',

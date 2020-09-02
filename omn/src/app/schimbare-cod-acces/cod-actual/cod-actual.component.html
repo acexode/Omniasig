@@ -1,19 +1,23 @@
-<ion-content class="bg-white">
-  <app-sub-page-header [config]="headerConfig"> </app-sub-page-header>
+<app-sub-page-header [config]="headerConfig"> </app-sub-page-header>
 
-  <div class="px-32">
-    <ion-col>
-      <div class="ion-text-center pt-16 pb-42">
-        <ion-text class="text-small"> Introdu noul tău cod de acces. </ion-text>
+<ion-content>
+  <ion-row class="px-24 h-100">
+    <ion-col size="12">
+      <div class="ion-text-center pb-32">
+        <ion-text class="text-small">
+          Introdu codul actual de acces
+        </ion-text>
       </div>
-      <div class="ion-text-center pb-80">
+      <div class="ion-text-center pt-32">
         <div (click)="spawnInput()" class="">
           <ion-icon
             class="mr-4 password-hide s18-h24"
             *ngIf="digitsLength < 1"
+            [ngClass]="{ 'color-red': InvalidCode }"
             name="ellipse-outline"
           ></ion-icon>
           <ion-icon
+            [ngClass]="{ 'color-red': InvalidCode }"
             name="ellipse"
             *ngIf="digitsLength > 0"
             class="mr-4 password-hide s18-h24"
@@ -21,9 +25,11 @@
           <ion-icon
             class="mr-4 password-hide s18-h24"
             *ngIf="digitsLength < 2"
+            [ngClass]="{ 'color-red': InvalidCode }"
             name="ellipse-outline"
           ></ion-icon>
           <ion-icon
+            [ngClass]="{ 'color-red': InvalidCode }"
             name="ellipse"
             class="mr-4 password-hide s18-h24"
             *ngIf="digitsLength > 1"
@@ -31,9 +37,11 @@
           <ion-icon
             class="mr-4 password-hide s18-h24"
             *ngIf="digitsLength < 3"
+            [ngClass]="{ 'color-red': InvalidCode }"
             name="ellipse-outline"
           ></ion-icon>
           <ion-icon
+            [ngClass]="{ 'color-red': InvalidCode }"
             name="ellipse"
             class="mr-4 password-hide s18-h24"
             *ngIf="digitsLength > 2"
@@ -41,9 +49,11 @@
           <ion-icon
             class="mr-4 password-hide s18-h24"
             *ngIf="digitsLength < 4"
+            [ngClass]="{ 'color-red': InvalidCode }"
             name="ellipse-outline"
           ></ion-icon>
           <ion-icon
+            [ngClass]="{ 'color-red': InvalidCode }"
             name="ellipse"
             class="mr-4 password-hide s18-h24"
             *ngIf="digitsLength > 3"
@@ -51,9 +61,11 @@
           <ion-icon
             class="mr-4 password-hide s18-h24"
             *ngIf="digitsLength < 5"
+            [ngClass]="{ 'color-red': InvalidCode }"
             name="ellipse-outline"
           ></ion-icon>
           <ion-icon
+            [ngClass]="{ 'color-red': InvalidCode }"
             name="ellipse"
             class="mr-4 password-hide s18-h24"
             *ngIf="digitsLength > 4"
@@ -61,21 +73,22 @@
           <ion-icon
             class="s18-h24 password-hide"
             *ngIf="digitsLength < 6"
+            [ngClass]="{ 'color-red': InvalidCode }"
             name="ellipse-outline"
           ></ion-icon>
           <ion-icon
+            [ngClass]="{ 'color-red': InvalidCode }"
             name="ellipse"
             class="mr-4 password-hide s18-h24"
             *ngIf="digitsLength > 5"
           ></ion-icon>
         </div>
-        <form [formGroup]="pinForm">
+        <form [formGroup]="passForm">
           <ion-input
             #inputField
-            formControlName="confirmPin"
+            formControlName="digit"
             class="position-absolute bg-white text-center opacity-hide ion-no-border"
             maxlength="6"
-            [readonly]="busy"
             required="true"
             type="number"
             inputmode="number"
@@ -84,12 +97,17 @@
         </form>
       </div>
     </ion-col>
-    <div
-      class="ion-text-center pt-80 flex flex-column flex-1 ion-justify-content-end ion-align-items-center"
-    >
-      <ion-text *ngIf="invalidCode" class="text-small color-red">
-        {{ invalidCode }}
-      </ion-text>
-    </div>
-  </div>
+    <ion-col size="12" class="mt-auto">
+      <ion-button
+        expand="block"
+        fill="clear"
+        color="omn-green"
+        [routerLink]="['/reset-pincode']"
+      >
+        <ion-text
+          class="s16-h22 ls-01 text-weight-normal"
+        >Am uitat codul de acces</ion-text>
+      </ion-button>
+    </ion-col>
+  </ion-row>
 </ion-content>

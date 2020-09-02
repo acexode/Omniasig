@@ -57,6 +57,13 @@ const routes: Routes = [
       ),
   },
   {
+    path: 'cod-acces',
+    loadChildren: () =>
+      import('./schimbare-cod-acces/schimbare-cod-acces.module').then(
+        (m) => m.SchimbareCodAccesPageModule
+      ),
+  },
+  {
     path: 'contact',
     canActivateChild: [AuthGuard],
     canActivate: [AuthGuard],
@@ -67,8 +74,6 @@ const routes: Routes = [
   },
   {
     path: 'reset-pincode',
-    // canActivateChild: [AuthGuard],
-    // canActivate: [AuthGuard],
     loadChildren: () =>
       import('./pin-code-reset/pin-code-reset.module').then(
         (m) => m.PinCodeResetPageModule
