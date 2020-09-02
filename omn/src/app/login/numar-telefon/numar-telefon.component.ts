@@ -28,9 +28,9 @@ export class NumarTelefonComponent implements OnInit {
     maxLength: 10
   };
   teleForm: FormGroup;
-  busy: boolean = false
+    busy = false;
   constructor(private router: Router, private formBuilder: FormBuilder, private auth: AuthService) {
-    this.checkHasLoggedIn()
+      this.checkHasLoggedIn();
   }
 
   ngOnInit() {
@@ -51,20 +51,20 @@ export class NumarTelefonComponent implements OnInit {
   }
 
   login() {
-    this.busy = true
-    this.auth.findUserByPhoneNumber(this.teleForm.controls["phoneNumber"].value).subscribe(
+    this.busy = true;
+    this.auth.findUserByPhoneNumber(this.teleForm.controls.phoneNumber.value).subscribe(
       data => {
-        this.requestSms()
+        this.requestSms();
       },
       err => {
         this.newUserReg();
-        this.busy = false
+        this.busy = false;
       }
     );
   }
 
   newUserReg() {
-    //TODO to continue user registeration in omn-83
+    // TODO to continue user registeration in omn-83
     // this.auth.sendPhoneNumberSms(this.teleForm.controls['phoneNumber'].value).subscribe(
     //   data => {
     //     this.router.navigate([
@@ -90,15 +90,15 @@ export class NumarTelefonComponent implements OnInit {
   }
 
   requestSms() {
-    this.auth.sendPhoneNumberSms(this.teleForm.controls['phoneNumber'].value).subscribe(
+    this.auth.sendPhoneNumberSms(this.teleForm.controls.phoneNumber.value).subscribe(
       data => {
         this.router.navigate([
           'login/authenticate',
-          this.teleForm.controls['phoneNumber'].value,
+          this.teleForm.controls.phoneNumber.value,
         ]);
       },
-      err => { this.busy = false }
-    )
+      err => { this.busy = false; }
+    );
   }
 
 }

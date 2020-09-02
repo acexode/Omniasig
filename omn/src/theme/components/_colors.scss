@@ -196,8 +196,8 @@
 }
 
 .color-red {
-  color: $red;
-  --color: $red;
+  --color: var(--app-red-color);
+  color: $red !important;
 }
 
 .color-disabled {
