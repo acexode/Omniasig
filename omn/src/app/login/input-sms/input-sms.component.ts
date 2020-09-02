@@ -31,7 +31,7 @@ export class InputSmsComponent implements OnInit, AfterViewInit, OnDestroy {
     inputMode: 'number',
   };
   passForm: FormGroup;
-  busy: boolean = false;
+  busy = false;
   constructor(
     private route: ActivatedRoute,
     private router: Router,
