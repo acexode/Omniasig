@@ -3,20 +3,25 @@ import { environment } from '../../../environments/environment';
 export const serverBaseUrl = environment.serverUrl;
 export const authEndpoints = {
   login: serverBaseUrl + '/User/LoginAndCreateToken',
-  findUserByPhoneNumber: serverBaseUrl + '/UserProfile/GetUserNameByPhoneNumber',
+  findUserByPhoneNumber:
+    serverBaseUrl + '/UserProfile/GetUserNameByPhoneNumber',
   getUserProfile: serverBaseUrl + '/UserProfile/GetUserProfile',
-  requestPincodeReset:serverBaseUrl + '/UserProfile/RequestPinChangeWithoutAuthentification',
-  confirmPincodeReset:serverBaseUrl + '/UserProfile/ConfirmPinChangeWithoutAuthentification',
   sendPhoneNumberSms: serverBaseUrl + '/UserProfile/SmsPhoneNumberVerification',
   confirmPhoneNumberSms: serverBaseUrl + '/UserProfile/SmsPhoneNumberConfirm',
-  GetUserNameByPhoneNumber: serverBaseUrl + '/UserProfile/GetUserNameByPhoneNumber',
+  GetUserNameByPhoneNumber:
+    serverBaseUrl + '/UserProfile/GetUserNameByPhoneNumber',
   RegisterPhoneNumber: serverBaseUrl + '/UserProfile/RegisterPhoneNumber',
-  ConfirmRegisterPhoneNumber :serverBaseUrl + '/UserProfile/ConfirmPhoneNumber',
-  RegisterUserProfile:serverBaseUrl+ '/UserProfile/RegisterUserProfile'
+  ConfirmRegisterPhoneNumber: serverBaseUrl + '/UserProfile/ConfirmPhoneNumber',
+  RegisterUserProfile: serverBaseUrl + '/UserProfile/RegisterUserProfile',
+  requestPincodeReset:
+    serverBaseUrl + '/UserProfile/RequestPinChangeWithoutAuthentification',
+  confirmPincodeReset:
+    serverBaseUrl + '/UserProfile/ConfirmPinChangeWithoutAuthentification',
 };
 
 export const baseEndpoints = {
   policy: serverBaseUrl + '/policy',
+  userProfile: serverBaseUrl + '/UserProfile',
 };
 
 export const policyEndpoints = {
@@ -33,4 +38,10 @@ export const locuinteEndpoints = {
   AlluserLocation: serverBaseUrl + '/Address/GetAllAddressesForLoggedUser',
   updateAddress: serverBaseUrl + '/Location/UpdateLocationForAddressId',
   disAbleLocation: serverBaseUrl + '/Location/DisableLocationForAddressId',
+};
+
+export const phoneNumberEndPoints = {
+  RequestNewPhoneNumberChange:
+    baseEndpoints.userProfile + '/RequestNewPhoneNumberChange',
+  ConfirmNewPhoneNumber: baseEndpoints.userProfile + '/ConfirmNewPhoneNumber',
 };

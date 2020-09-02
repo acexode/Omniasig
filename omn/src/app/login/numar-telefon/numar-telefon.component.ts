@@ -1,5 +1,5 @@
 import { RegistrationService } from 'src/app/core/services/auth/registration.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, HostBinding } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/core/services/auth/auth.service';
@@ -12,9 +12,10 @@ import { IonInputConfig } from './../../shared/models/component/ion-input-config
   styleUrls: ['./numar-telefon.component.scss'],
 })
 export class NumarTelefonComponent implements OnInit {
+  @HostBinding('class') color = 'ion-color-white-page';
   label: IonTextItem = {
     text: 'Numărul tău de telefon',
-    classes: 'link-small color-tertiary-grey w-100 bg-white pb-8',
+    classes: 'w-100 pb-8',
     slot: 'end',
   };
   config: IonInputConfig = {
@@ -26,12 +27,17 @@ export class NumarTelefonComponent implements OnInit {
     clearable: true,
     inputClasses: 'ion-item-right',
     minLength: 10,
-    maxLength: 10
+    maxLength: 10,
   };
   teleForm: FormGroup;
-  busy: boolean = false
-  constructor(private router: Router, private formBuilder: FormBuilder, private auth: AuthService,private regService:RegistrationService) {
-    this.checkHasLoggedIn()
+  busy = false;
+  constructor(
+    private router: Router,
+    private formBuilder: FormBuilder,
+    private auth: AuthService,
+    private regService: RegistrationService
+  ) {
+    this.checkHasLoggedIn();
   }
 
   ngOnInit() {
@@ -52,54 +58,53 @@ export class NumarTelefonComponent implements OnInit {
   }
 
   login() {
-    this.busy = true
-    this.auth.findUserByPhoneNumber(this.teleForm.controls["phoneNumber"].value).subscribe(
-      data => {
-        this.requestSms()
+    this.busy = true;
+    this.auth.findUserByPhoneNumber(this.phoneNumber.value).subscribe(
+      (data) => {
+        this.requestSms();
       },
-      err => {
+      (err) => {
         this.newUserReg();
-        this.busy = false
+        this.busy = false;
       }
     );
   }
 
+  get phoneNumber() {
+    return this.teleForm.get('phoneNumber');
+  }
   newUserReg() {
-    this.regService.setUserObj({ phoneNumber: this.teleForm.controls['phoneNumber'].value, userName: this.teleForm.controls['phoneNumber'].value})
-    this.regService.RegisterPhoneNumber(this.teleForm.controls['phoneNumber'].value).subscribe(
-      data => {
-        this.busy = false
-        this.router.navigate([
-          'registration/confirm-number'
-        ]);
+    this.regService.setUserObj({
+      phoneNumber: this.phoneNumber.value,
+      userName: this.phoneNumber.value,
+    });
+    this.regService.RegisterPhoneNumber(this.phoneNumber.value).subscribe(
+      (data) => {
+        this.busy = false;
+        this.router.navigate(['registration/confirm-number']);
       },
-      err => {this.busy = false}
-    )
+      (err) => {
+        this.busy = false;
+      }
+    );
   }
 
   checkHasLoggedIn() {
-    this.auth.lastLoginNumber().subscribe(
-      phoneNumber => {
-        if (phoneNumber) {
-          this.router.navigate([
-            'login/verify',
-            phoneNumber,
-          ]);
-        }
+    this.auth.lastLoginNumber().subscribe((phoneNumber) => {
+      if (phoneNumber) {
+        this.router.navigate(['login/verify', phoneNumber]);
       }
-    );
+    });
   }
 
   requestSms() {
-    this.auth.sendPhoneNumberSms(this.teleForm.controls['phoneNumber'].value).subscribe(
-      data => {
-        this.router.navigate([
-          'login/authenticate',
-          this.teleForm.controls['phoneNumber'].value,
-        ]);
+    this.auth.sendPhoneNumberSms(this.phoneNumber.value).subscribe(
+      (data) => {
+        this.router.navigate(['login/authenticate', this.phoneNumber.value]);
       },
-      err => { this.busy = false }
-    )
+      (err) => {
+        this.busy = false;
+      }
+    );
   }
-
 }

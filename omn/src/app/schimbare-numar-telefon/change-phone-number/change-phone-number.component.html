@@ -1,4 +1,4 @@
-<ion-content class="bg-white">
+<ion-content>
   <app-sub-page-header [config]="headerConfig"> </app-sub-page-header>
   <div class="px-32 pt-60">
     <ion-col>
@@ -9,7 +9,21 @@
             [config]="config"
           ></app-input>
         </form>
+
+        <div class="pt-5" [ngStyle]="{'visibility': error ? 'visible' : 'hidden'}">
+
+            <ion-item lines="none" color="none" class="ion-no-padding">
+                <ion-icon name="sm-warning" class="icon-20 mr-20 color-red">
+                </ion-icon>
+                <ion-label class="text-small color-red">
+                    Numărul de telefon nu este corect
+                </ion-label>
+            </ion-item>
+
+        </div>
+
       </div>
+      
       <div class="ion-align-items-center ion-text-center mt-8">
         <ion-button
           type="submit"
