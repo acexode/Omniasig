@@ -161,9 +161,7 @@ export class LocuinteService {
   disableLocationForAddressId(addressId: string) {    
     return this.reqS.post<Locuinte>(this.endpoints.disAbleLocation, addressId)
   }
-  UpdateLocationForAddressId(data){
-    return this.reqS.post<Locuinte>(this.endpoints.updateLocationAddressId, data)
-  }
+  
   
   getCounties(){
 

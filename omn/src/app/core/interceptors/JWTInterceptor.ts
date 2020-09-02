@@ -22,17 +22,6 @@ export class JwtInterceptor implements HttpInterceptor {
     const externalUrl = request.url.startsWith(serverBaseUrl);
     const currentToken = this.authenticationService.getToken();
     // We can probably add extra data in here to clock auth check on requests that don't need them.
-<<<<<<< HEAD
-    if (currentUser && externalUrl) {
-      let token = '';
-      currentUser.subscribe((user) => (token = user.authToken));
-      console.log(token)
-      request = request.clone({
-        setHeaders: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-=======
     if (currentToken && externalUrl) {
       return currentToken.pipe(
         switchMap((token: string) => {
@@ -46,7 +35,6 @@ export class JwtInterceptor implements HttpInterceptor {
       );
     } else {
       return next.handle(request);
->>>>>>> 457587f2bfc467451a6bcab27fc790a9baa33c3d
     }
   }
 }

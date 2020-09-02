@@ -1,10 +1,5 @@
-<<<<<<< HEAD
-import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-=======
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
->>>>>>> 457587f2bfc467451a6bcab27fc790a9baa33c3d
 import { Observable } from 'rxjs';
 import { CustomStorageService } from '../custom-storage/custom-storage.service';
 
@@ -20,12 +15,7 @@ export class RequestService {
    * @param endpoint - Full path.
    */
   get<T>(endpoint: string): Observable<T> {
-<<<<<<< HEAD
-      console.log(endpoint)
-    return this.http.get<T>(endpoint );
-=======
     return this.http.get<T>(endpoint);
->>>>>>> 457587f2bfc467451a6bcab27fc790a9baa33c3d
   }
 
   /**

@@ -28,25 +28,18 @@ export const policyEndpoints = {
 
 export const locuinteEndpoints = {
   base: serverBaseUrl + '/locuinte',
-  add: serverBaseUrl + '/Address/AddAddress',
+  add: serverBaseUrl + '/Location/AddAddressLocation',
   makeHomeAddress: serverBaseUrl + '/Address/MakeHomeAddress',
-<<<<<<< HEAD
-  AlluserLocation: serverBaseUrl + '/Location/GetAllLocationsForLoggedUser',
-  updateAddress: serverBaseUrl + '/Address/UpdateAddress',
-  updateLocationAddressId: serverBaseUrl + '/Location/UpdateLocationForAddressId',
-  disAbleLocation: serverBaseUrl + '/Location/DisableLocationForAddressId',
+  AlluserLocation: serverBaseUrl + '/Location/GetAllLocationsForLoggedUser',    
+  disAbleLocation: serverBaseUrl + '/Location/DisableLocation',
   getCities: serverBaseUrl + '/INSIS/Cities',
   getCounties: serverBaseUrl + '/INSIS/Counties',
-  getStreets: serverBaseUrl + '/INSIS/Streets',
-=======
-  AlluserLocation: serverBaseUrl + '/Address/GetAllAddressesForLoggedUser',
-  updateAddress: serverBaseUrl + '/Location/UpdateLocationForAddressId',
-  disAbleLocation: serverBaseUrl + '/Location/DisableLocationForAddressId',
+  getStreets: serverBaseUrl + '/INSIS/Streets', 
+  updateAddress: serverBaseUrl + '/Location/UpdateLocation',  
 };
 
 export const phoneNumberEndPoints = {
   RequestNewPhoneNumberChange:
     baseEndpoints.userProfile + '/RequestNewPhoneNumberChange',
   ConfirmNewPhoneNumber: baseEndpoints.userProfile + '/ConfirmNewPhoneNumber',
->>>>>>> 457587f2bfc467451a6bcab27fc790a9baa33c3d
 };
