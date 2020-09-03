@@ -583,9 +583,7 @@ export class InfoDocComponent implements OnInit {
 
   constructor(public modalController: ModalController) {}
 
-  ngOnInit() {
-    console.log(this.policyID);
-  }
+  ngOnInit() {}
 
   back() {}
 

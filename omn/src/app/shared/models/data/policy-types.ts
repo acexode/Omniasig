@@ -80,11 +80,114 @@ export const policyTypes: { [key: string]: PolicyType } = {
           content: exclusionItemHelper({
             text: {
               text:
-                'Locuința pe care dorești să o asiguri se află într-o clădire ' +
-                'expertizată tehnic și încadrată în clasa I-a de risc seismic? ',
+                'Locuința pe care dorești să o asiguri este construită înainte de anul 1940?',
+            },
+            icon: {
+              name: 'lg-exclusion-1',
+              classes: 'maxh-200 flex w-100 h-100 maxw-280',
+            },
+          }),
+          buttons: exclusionContentButtons,
+        },
+        {
+          content: exclusionItemHelper({
+            text: {
+              text:
+                'Locuința pe care dorești să o asiguri are o valoare mai mică de 21.000 Euro sau mai mare de 200.000 Euro?',
+            },
+            icon: {
+              name: 'lg-exclusion-2',
+              classes: 'maxh-200 flex w-100 h-100 maxw-280',
+            },
+          }),
+          buttons: exclusionContentButtons,
+        },
+        {
+          content: exclusionItemHelper({
+            text: {
+              text:
+                'Locuința pe care dorești să o asiguri este încă în construcție sau folosită în alt scop decât pentru locuit?',
+            },
+            icon: {
+              name: 'lg-exclusion-3',
+              classes: 'maxh-200 flex w-100 h-100 maxw-280',
+            },
+          }),
+          buttons: exclusionContentButtons,
+        },
+        {
+          content: exclusionItemHelper({
+            text: {
+              text:
+                'Locuința pe care dorești să o asiguri este din lemn, metal sau paiantă?',
+            },
+            icon: {
+              name: 'lg-exclusion-4',
+              classes: 'maxh-200 flex w-100 h-100 maxw-280',
+            },
+          }),
+          buttons: exclusionContentButtons,
+        },
+        {
+          content: exclusionItemHelper({
+            text: {
+              text:
+                'Locuința pe care dorești să o asiguri se află la mai puțin de 100m de ape neregularizate (neîndiguite/neconsolidate)?',
+            },
+            icon: {
+              name: 'lg-exclusion-5',
+              classes: 'maxh-200 flex w-100 h-100 maxw-280',
+            },
+          }),
+          buttons: exclusionContentButtons,
+        },
+        {
+          content: exclusionItemHelper({
+            text: {
+              text:
+                'Locuința pe care dorești să o asiguri se află într-o clădire expertizată tehnic pentru riscul de cutremur?',
             },
             icon: {
               name: 'lg-exclusion-6',
+              classes: 'maxh-200 flex w-100 h-100 maxw-280',
+            },
+          }),
+          buttons: exclusionContentButtons,
+        },
+        {
+          content: exclusionItemHelper({
+            text: {
+              text:
+                'Locuința pe care dorești să o asiguri se află într-o zonă expusă alunecărilor de teren?',
+            },
+            icon: {
+              name: 'lg-exclusion-7',
+              classes: 'maxh-200 flex w-100 h-100 maxw-280',
+            },
+          }),
+          buttons: exclusionContentButtons,
+        },
+        {
+          content: exclusionItemHelper({
+            text: {
+              text:
+                'Locuința pe care dorești să o asiguri este clădire de patrimoniu?',
+            },
+            icon: {
+              name: 'lg-exclusion-8',
+              classes: 'maxh-200 flex w-100 h-100 maxw-280',
+            },
+          }),
+          buttons: exclusionContentButtons,
+        },
+        {
+          content: exclusionItemHelper({
+            text: {
+              text:
+                'Locuința pe care dorești să o asiguri se află într-o zonă în care construcția e interzisă?',
+            },
+            icon: {
+              name: 'lg-exclusion-9',
               classes: 'maxh-200 flex w-100 h-100 maxw-280',
             },
           }),
