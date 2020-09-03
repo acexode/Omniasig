@@ -92,10 +92,9 @@ export class LocuinteFormPageComponent implements OnInit {
           this.cdRef.markForCheck();
         });
       });
-      // this.formInstance.group.valueChanges.subscribe(val =>{
+    // this.formInstance.group.valueChanges.subscribe(val =>{
 
-      // })
-     
+    // })
   }
 
   setTitles() {
@@ -112,7 +111,7 @@ export class LocuinteFormPageComponent implements OnInit {
     }
   }
 
-  initConfigs(id) {    
+  initConfigs(id) {
     return new Observable((observer) => {
       switch (this.formMode) {
         case this.formModes.ADD_NEW_FULL:
@@ -142,7 +141,7 @@ export class LocuinteFormPageComponent implements OnInit {
       }
     });
   }
-  initForm() {  
+  initForm() {
     switch (this.formMode) {
       case this.formModes.ADD_NEW_FULL:
       case this.formModes.EDIT_FULL:
@@ -153,31 +152,49 @@ export class LocuinteFormPageComponent implements OnInit {
             data: this.formData.address,
           };
         }
-       
+
         this.formType = LocuinteFormType.ADDRESS;
         break;
     }
-    this.locuinteS.getCounties().subscribe(val =>{           
-       this.formData.address.county = val
-    })  
-    this.formInstance.group.get('county').valueChanges.subscribe(val =>{
-        
-      this.locuinteS.getCities(val).subscribe(data =>{         
-          this.formInstance.data.city = data
-      })
-    })
-    this.formInstance.group.get('city').valueChanges.subscribe(val =>{
-      let city = this.formInstance.data.city.filter(v => v.id == val)[0]      
-      let obj = {
-        countryId: city.countryId,
-        countyId: city.countyId,
-        cityId: city.id,
-        postCode: null,
-        statedId: city.statedId,
-      }
-      this.locuinteS.getStreets(obj)      
-    })    
+    this.locuinteS.getCounties().subscribe((val) => {
+      this.formData.address.county = val;
+      this.cdRef.markForCheck();
+    });
+    if (this.county) {
+      this.county.valueChanges.subscribe((val) => {
+        this.locuinteS.getCities(val).subscribe((data) => {
+          this.formInstance.data.city = data;
+        });
+      });
+    }
+    if (this.city) {
+      this.formInstance.group.get('city').valueChanges.subscribe((val) => {
+        const city = this.formInstance.data.city.filter((v) => v.id === val)[0];
+        const obj = {
+          countryId: city.countryId,
+          countyId: city.countyId,
+          cityId: city.id,
+          postCode: null,
+          statedId: city.statedId,
+        };
+        this.locuinteS.getStreets(obj).subscribe((v) => {
+          this.cdRef.markForCheck();
+        });
+      });
+    }
   }
+
+  get county() {
+    return this.formInstance && this.formInstance.group
+      ? this.formInstance.group.get('county')
+      : null;
+  }
+  get city() {
+    return this.formInstance && this.formInstance.group
+      ? this.formInstance.group.get('city')
+      : null;
+  }
+
   buildFormAdd() {
     this.formConfigs.address = this.formS.buildFormConfig(
       LocuinteFormType.ADDRESS
@@ -185,7 +202,7 @@ export class LocuinteFormPageComponent implements OnInit {
     this.formConfigs.place = this.formS.buildFormConfig(LocuinteFormType.PLACE);
     this.formData.address = this.formS.getFormFieldsData(
       this.formConfigs.address
-    );      
+    );
     this.formData.place = this.formS.getFormFieldsData(this.formConfigs.place);
     this.formGroups.address = this.formS.buildAddressSubform(this.dataModel);
     this.formGroups.place = this.formS.buildLocuinteSubform(this.dataModel);

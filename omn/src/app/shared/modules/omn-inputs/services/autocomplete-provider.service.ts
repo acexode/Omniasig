@@ -1,23 +1,28 @@
 import { Injectable } from '@angular/core';
 import { AutoCompleteService } from 'ionic4-auto-complete';
 import { has, get } from 'lodash';
-import { Observable, of } from 'rxjs';
+import { Observable, of, BehaviorSubject } from 'rxjs';
 
 @Injectable()
 export class AutocompleteProviderService implements AutoCompleteService {
+  constructor() {}
   labelAttribute = 'label';
   formValueAttribute?: any;
   currentData: any[] = [];
-  dataServiceCb: (filter: any) => Observable<Array<any>> = () => {
+  dataServiceSource = new BehaviorSubject([]);
+  dataServiceCb: (
+    filter: any,
+    source?: BehaviorSubject<any>
+  ) => Observable<Array<any>> = () => {
     return of([]);
-  }
-  constructor() {}
+  };
 
   updateConfig(conf: {
     labelAttribute: string;
     formValueAttribute?: any;
     currentData?: any[];
     dataServiceCb?: (filter: any) => Observable<Array<any>>;
+    dataServiceSource: BehaviorSubject<any>;
   }) {
     if (has(conf, 'labelAttribute')) {
       this.labelAttribute = conf.labelAttribute;
@@ -31,10 +36,13 @@ export class AutocompleteProviderService implements AutoCompleteService {
     if (has(conf, 'dataServiceCb')) {
       this.dataServiceCb = conf.dataServiceCb;
     }
+    if (has(conf, 'dataServiceSource')) {
+      this.dataServiceSource = conf.dataServiceSource;
+    }
   }
 
   getResults(term: any) {
-    return this.dataServiceCb(term);
+    return this.dataServiceCb(term, this.dataServiceSource);
   }
   getItemLabel?(item: any) {
     return get(item, this.labelAttribute, '');

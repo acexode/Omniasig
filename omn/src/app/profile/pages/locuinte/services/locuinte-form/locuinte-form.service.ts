@@ -1,9 +1,8 @@
-import { LocuinteService } from 'src/app/profile/pages/locuinte/services/locuinte/locuinte.service';
-import { IonRadiosConfig } from './../../../../../shared/models/component/ion-radios-config';
 import { Injectable } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { forOwn, get, set } from 'lodash';
-import { Observable } from 'rxjs';
+import { Observable, BehaviorSubject, of } from 'rxjs';
+import { LocuinteService } from 'src/app/profile/pages/locuinte/services/locuinte/locuinte.service';
 import { autoCompleteConfigHelper } from 'src/app/shared/data/autocomplete-config-helper';
 import { dateTimeConfigHelper } from 'src/app/shared/data/datetime-config-helper';
 import { inputConfigHelper } from 'src/app/shared/data/input-config-helper';
@@ -12,15 +11,14 @@ import { radiosConfigHelper } from 'src/app/shared/data/radios-config-helper';
 import { selectConfigHelper } from 'src/app/shared/data/select-config-helper';
 import { Locuinte } from 'src/app/shared/models/data/locuinte.interface';
 import { LocuinteFormType } from 'src/app/shared/models/modes/locuinte-form-modes';
-  
+import { map } from 'rxjs/operators';
+
 @Injectable({
   providedIn: 'root',
 })
 export class LocuinteFormService {
-  streets$ = this.locuintS.locuinteStore$;
-  constructor(private fb: FormBuilder, private locuintS: LocuinteService) {
-    
-  }
+  streets$ = this.locuintS.streetStore$;
+  constructor(private fb: FormBuilder, protected locuintS: LocuinteService) {}
 
   buildLocuinteSubform(model: Locuinte, policyType?: string) {
     // info: {
@@ -121,15 +119,15 @@ export class LocuinteFormService {
     });
 
     //if (policyType === 'PAD') {
-      group.addControl(
-        'padAvailable',
-        this.fb.control(get(model, 'pad.padAvailable', ''), Validators.required)
-      );
-      group.addControl('padNr', this.fb.control(get(model, 'pad.padNr', '')));
-      group.addControl(
-        'padSerie',
-        this.fb.control(get(model, 'pad.padSerie', ''))
-      );
+    group.addControl(
+      'padAvailable',
+      this.fb.control(get(model, 'pad.padAvailable', ''), Validators.required)
+    );
+    group.addControl('padNr', this.fb.control(get(model, 'pad.padNr', '')));
+    group.addControl(
+      'padSerie',
+      this.fb.control(get(model, 'pad.padSerie', ''))
+    );
     //}
     return group;
   }
@@ -148,6 +146,7 @@ export class LocuinteFormService {
             label: 'Strada',
             disabled: isDisabled,
             dataServiceCb: this.streetLookup,
+            dataServiceSource: this.streets$,
           }),
           buildingNumber: inputConfigHelper({
             label: 'Număr',
@@ -186,23 +185,23 @@ export class LocuinteFormService {
         };
 
         //if (policyType === 'PAD') {
-          configModel.padAvailable = radiosConfigHelper({
-            label: 'Ai deja o poliță PAD valabilă pentru această adresă?',
-            mode: 'item',
-          });
-          configModel.padAvailable.itemClasses = 'w-50 inline-flex';
-          configModel.padAvailable.inputLabel.classes = 'mb-16';
-          configModel.padSerie = inputConfigHelper({
-            label: 'Serie',
-            type: 'text',
-            placeholder: '',
-          });
-          configModel.padNr = inputConfigHelper({
-            label: 'Număr',
-            type: 'text',
-            placeholder: '',
-          });
-       // }
+        configModel.padAvailable = radiosConfigHelper({
+          label: 'Ai deja o poliță PAD valabilă pentru această adresă?',
+          mode: 'item',
+        });
+        configModel.padAvailable.itemClasses = 'w-50 inline-flex';
+        configModel.padAvailable.inputLabel.classes = 'mb-16';
+        configModel.padSerie = inputConfigHelper({
+          label: 'Serie',
+          type: 'text',
+          placeholder: '',
+        });
+        configModel.padNr = inputConfigHelper({
+          label: 'Număr',
+          type: 'text',
+          placeholder: '',
+        });
+        // }
         break;
 
       case LocuinteFormType.PLACE:
@@ -285,22 +284,28 @@ export class LocuinteFormService {
   }
 
   getFormFieldsData(fieldsObj, defaultV: { [key: string]: any } = {}) {
-    const data = {};    
+    const data = {};
     const fData = locuinteFieldsData;
     forOwn(fieldsObj, (v, k) => {
       set(data, k, get(fData, k, get(defaultV, k, null)));
-    });        
+    });
     return data;
   }
 
-  streetLookup(input: any): Observable<Array<any>> {    
-    return new Observable((observer) => {
-      this.locuintS.allStreets.subscribe(val =>{
-          console.log(val)
-        observer.next(locuinteFieldsData.street);      
-
-      })
-    });
+  streetLookup(
+    input: any,
+    source?: BehaviorSubject<any>
+  ): Observable<Array<any>> {
+    if (source && source instanceof BehaviorSubject) {
+      return source.pipe(
+        map((data) => {
+          // Filter whole list in here based on text input.
+          return data;
+        })
+      );
+    } else {
+      return of([]);
+    }
   }
 
   processFormModel(formGroupValue, existingModel?: Locuinte): Locuinte {
