@@ -295,7 +295,7 @@
         </ul>
       </ion-row>
 
-      <ion-row class="mx-n8">
+      <ion-row class="mx-n8 mb-32">
         <ion-card class="ion-no-margin">
           <ion-card-content class="p-16">
             <ion-row class="pb-16">
@@ -312,6 +312,9 @@
                 >
               </ion-col>
             </ion-row>
+            <ion-row
+              class="border-bottom-1 border-light-green mx-n16"
+            ></ion-row>
             <ion-row class="pt-16">
               <ion-col class="ion-no-padding mr-20" size="auto">
                 <ion-icon class="icon-60" name="cazare"></ion-icon>
@@ -331,6 +334,25 @@
         </ion-card>
       </ion-row>
 
+      <ion-row class="ml-52 mr-32 mb-32">
+        <ion-col class="ion-no-padding mr-28" size="auto">
+          <ion-icon class="icon-40" name="md-infomation"></ion-icon>
+        </ion-col>
+        <ion-col class="ion-no-padding flex flex-column">
+          <ion-text color="omn-green" class="text-normal mb-8"
+            >Pentru moment, nu pot fi incluse în asigurare și anexele.</ion-text
+          >
+          <ion-text class="link-small color-tertiary-grey mb-16"
+            >Pentru cazurile în care clădirea asigurată a devenit nelocuibilă ca
+            urmare a producerii daunelor din riscuri acoperite;</ion-text
+          >
+
+          <ion-text class="text-normal"
+            >Asigurarea se încheie fără inspecție de risc.</ion-text
+          >
+        </ion-col>
+      </ion-row>
+
       <ion-row class="py-16 note">
         <ion-text color="omn-green"> Acesta este un sumar. </ion-text>
         <ion-text color="omn-green">
@@ -342,21 +364,17 @@
 
   <ion-row class="mx-24 mb-40">
     <ion-col class="ion-no-padding">
-      <ion-row class="mb-32">
+      <ion-row class="mb-32 mx-8">
         <ion-text class="mb-32 text-normal">
-          PAD este creată și reglementată de lege, gestionarea acesteia fiind
-          acordată PAID SA, constituită potrivit legilor din România,
-          înregistrată în registrul asigurătorilor păstrat de Autoritatea de
-          Supraveghere Financiară (ASF) sub numărul RA-065/ 14.10.2009.
+          Acest document servește doar unui scop de informare și vă oferă o
+          perspectivă a principalelor caracteristici ale produsului de asigurare
+          propus, nefiind personalizat în funcție de nevoile dumneavoastră
+          specifice. Informațiile complete pre-contractuale și contractuale sunt
+          furnizate în alte documente.
         </ion-text>
         <ion-text class="text-normal">
-          Informațiile (termenii și condițiile asigurării) complete referitoare
-          la produs se regăsesc în Legea nr.260/2008 privind asigurarea
-          obligatorie a locuințelor împotriva cutremurelor, alunecărilor de
-          teren și inundațiilor, în Ordinul nr. 6/87/21.04.2011 pentru aprobarea
-          normelor de aplicare ale legii, precum și în legislația secundară a
-          ASF: Norma nr. 7/2013, Ordinul nr. 7/2009. Acestea pot fi consultate
-          pe site-ul PAID (www.paidromania.ro).
+          Pentru a fi informați cu claritate, vă rugăm citiți toate aceste
+          documente care vă permit să luați o decizie în cunoștință de cauză.
         </ion-text>
       </ion-row>
 
@@ -368,13 +386,13 @@
 
       <ion-row>
         <ion-text class="mb-32 text-normal"
-          >Asigurarea obligatorie a locuințelor împotriva cutremurelor,
-          alunecărilor de teren și inundațiilor, ca fenomene naturale.</ion-text
+          >Este o asigurare facultativă de bunuri, specifică
+          locuinței.</ion-text
         >
       </ion-row>
 
       <ng-container
-        *ngFor="let cardI of cardInfo; let last = last; let i = index"
+        *ngFor="let cardI of amplusCardInfo; let last = last; let i = index"
       >
         <ion-row [ngClass]="{ 'mb-32': !last }">
           <app-info-card [item]="cardI"></app-info-card>
