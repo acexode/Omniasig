@@ -25,13 +25,13 @@ export class InputSmsComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('inputField') inputField: IonInput;
   sub: Subscription;
   phoneNumber = null;
-  errorLogin: string = null
+  errorLogin: string = null;
   config: IonInputConfig = {
     type: 'number',
     inputMode: 'number',
   };
   passForm: FormGroup;
-  busy: boolean = false;
+  busy = false;
   constructor(
     private route: ActivatedRoute,
     private router: Router,
@@ -92,18 +92,23 @@ export class InputSmsComponent implements OnInit, AfterViewInit, OnDestroy {
         this.startTimer();
       },
       err => console.log(err)
-    )
+    );
   }
 
   verifyDigit() {
-    this.busy =true
+    this.busy = true;
     // TODO change the second params to code when the ws is changed to 6 digits
-    let code = this.passForm.controls["digit"].value
+    const code = this.passForm.controls['digit'].value;
     this.auth.confirmPhoneNumberSms(this.phoneNumber, code).subscribe(
-      data => {this.busy=false;this.router.navigate(['login/verify', this.phoneNumber])},
-      err => {this.busy=false;this.confirmationError(err)}
-    )
-
+      data => {
+        this.busy = false;
+        this.router.navigate(['login/verify', this.phoneNumber]);
+      },
+      err => {
+        this.busy = false;
+        this.confirmationError(err);
+      }
+    );
   }
 
   confirmationError(err) {

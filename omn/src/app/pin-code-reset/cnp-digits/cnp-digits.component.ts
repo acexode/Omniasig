@@ -31,7 +31,7 @@ export class CnpDigitsComponent implements OnInit {
     clearable: true,
   };
   cnpForm: FormGroup;
-  busy: boolean = false;
+  busy = false;
   invalidCode: string = null;
   constructor(private router: Router, private formBuilder: FormBuilder, private resetService: ResetPincodeService) { }
 
@@ -54,24 +54,24 @@ export class CnpDigitsComponent implements OnInit {
     this.cnpForm.valueChanges.subscribe(
       (data) => {
         if (this.invalidCode) {
-          this.invalidCode = null
+          this.invalidCode = null;
         }
       }
-    )
+    );
   }
 
   continue() {
-    this.busy = true
+    this.busy = true;
     this.resetService.requestPincodeChange(this.cnpForm.controls['cnp'].value).subscribe(
       (data) => {
-        this.resetService.setResetObj({ cnp: this.cnpForm.controls['cnp'].value })
-        this.router.navigate(['reset-pincode/verify-passcode'])
-        this.busy = false
+        this.resetService.setResetObj({ cnp: this.cnpForm.controls['cnp'].value });
+        this.router.navigate(['reset-pincode/verify-passcode']);
+        this.busy = false;
       },
       (err) => {
         this.invalidCode = err.error;
-        this.busy = false
+        this.busy = false;
       },
-    )
+    );
   }
 }
