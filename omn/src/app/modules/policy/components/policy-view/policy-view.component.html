@@ -214,7 +214,7 @@
         </ion-text>
       </div>
 
-      <div class="mb-36">
+      <div class="mb-22">
         <div class="">
           <ion-text class="input-label text-weight-medium">
             Cesiune
@@ -227,22 +227,51 @@
         </ion-text>
       </div>
 
-      <ion-item
-        fill="block"
-        size="icon-button"
-        class="download-btn bg-green color-white btn-sep icon-info position-relative text-normal border-radius-8 mx-n8"
-      >
-        <ion-icon
-          slot="start"
-          name="descarca"
-          class="icon-20 p-16 bg-dark-green"
-        ></ion-icon>
-
-        <ion-label class="text-weight-medium text-normal overflow-visible m-0"
-          >Acesta este un sumar. Descarcă Polița completă în format
-          PDF.</ion-label
-        >
-      </ion-item>
+      <!--  -->
+     
     </ion-col>
+    
   </div>
+  <ion-grid class="ion-no-padding">
+    <ion-row class="pt-10 pb-32 bg-grey-medium">
+        <ion-col class="ion-no-padding flex flex-1 w-100 pt-20 pb-32 px-32">
+            <ion-item fill="block" size="icon-button"
+                class="download-btn bg-green color-white btn-sep icon-info position-relative text-normal border-radius-8 mx-n8">
+                <ion-icon slot="start" name="descarca" class="icon-20 p-16 bg-dark-green"></ion-icon>
+    
+                <ion-label class="text-weight-medium text-normal overflow-visible m-0">Acesta este un sumar. Descarcă Polița
+                    completă în format
+                    PDF.</ion-label>
+            </ion-item>
+        </ion-col>
+    </ion-row>
+    <ion-row>
+        <ion-col class="ion-no-padding flex flex-1 w-100 flex-column ion-justify-content-center ion-align-items-center">
+            <ion-icon name="md-intrebari" class="icon-40 mt-n20" color="primary"></ion-icon>
+        </ion-col>
+    </ion-row>
+    <ion-row>
+        <ion-col class="mt-16 px-32">
+            <div class="mb-20">
+                <div class="">
+                    <ion-text class="input-label text-weight-medium">
+                        Notificări
+                    </ion-text>
+                </div>
+                <ion-text class="s18-h24 ion-inherit-color">
+                    Vrei să primești notificări când trebuie <br>
+                    să reînnoiești polița sau când trebuie <br>
+                    să plătești o rată?..
+                </ion-text>
+            </div>
+        </ion-col>
+    </ion-row>
+    <ion-row>
+        <ion-col class="ion-align-items-center ion-text-center mb-32">
+            <ion-button class="flat no-shadow color-white ion-color-success text-weight-normal px-5" size="large" shape="round" mode="md">
+                Activează notificările
+            </ion-button>
+        </ion-col>
+    </ion-row>
+  </ion-grid>
 </ion-content>
