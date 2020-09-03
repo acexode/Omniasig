@@ -24,21 +24,25 @@ export class ConfirmCodDeAccesComponent implements OnInit, AfterViewInit {
     private navCtrl: NavController,
     private formBuilder: FormBuilder,
     private router: Router,
-    private regService:RegistrationService
+    private regService: RegistrationService
   ) {
-    this.checkUserObj()
+    this.checkUserObj();
   }
   ngAfterViewInit(): void {
     this.spawnInput();
   }
 
   ngOnInit() {
-    this.initForm()
+    this.initForm();
   }
 
   checkUserObj() {
-    if (!this.regService.getuserObj?.phoneNumber || !this.regService.getuserObj?.userName || !this.regService.getuserObj?.pin) {
-      this.router.navigate(["/registration"])
+    if (
+      !this.regService.getuserObj?.phoneNumber ||
+      !this.regService.getuserObj?.userName ||
+      !this.regService.getuserObj?.pin
+    ) {
+      this.router.navigate(['/registration']);
     }
   }
 

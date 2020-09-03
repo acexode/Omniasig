@@ -1,7 +1,7 @@
-import { RegistrationService } from './../../core/services/auth/registration.service';
-import { ImageCard } from 'src/app/shared/models/component/image-card';
-import { Component, HostBinding, OnInit, AfterViewInit } from '@angular/core';
+import { AfterViewInit, Component, HostBinding, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { ImageCard } from 'src/app/shared/models/component/image-card';
+import { RegistrationService } from './../../core/services/auth/registration.service';
 
 @Component({
   selector: 'app-cont-creat',
@@ -41,7 +41,7 @@ export class ContCreatComponent implements OnInit, AfterViewInit {
       id: 'msg',
       itemClass: 'mh-104 shadow-page-item',
       isButton: true,
-      routerLink: ['/profil/date-personale/validate'],
+      routerLink: ['/profil/date-personale/validate-email'],
     },
   ];
   constructor(

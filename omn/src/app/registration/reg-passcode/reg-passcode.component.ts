@@ -18,18 +18,21 @@ export class RegPasscodeComponent implements OnInit {
     private navCtrl: NavController,
     private formBuilder: FormBuilder,
     private regService: RegistrationService,
-    private router:Router
+    private router: Router
   ) {
-    this.checkUserObj()
-   }
+    this.checkUserObj();
+  }
 
   ngOnInit() {
     this.initForm();
   }
 
   checkUserObj() {
-    if (!this.regService.getuserObj?.phoneNumber || !this.regService.getuserObj?.userName) {
-      this.router.navigate(["/registration"])
+    if (
+      !this.regService.getuserObj?.phoneNumber ||
+      !this.regService.getuserObj?.userName
+    ) {
+      this.router.navigate(['/registration']);
     }
   }
 
@@ -56,10 +59,10 @@ export class RegPasscodeComponent implements OnInit {
   }
 
   verifyPasscode() {
-    this.regService.setUserObj({ pin: this.passForm.controls['passcode'].value })
-    this.navCtrl.navigateRoot(
-      `registration/confirm-passcode`
-    );
+    this.regService.setUserObj({
+      pin: this.passForm.get('passcode').value,
+    });
+    this.navCtrl.navigateRoot(`registration/confirm-passcode`);
   }
 
   spawnInput() {

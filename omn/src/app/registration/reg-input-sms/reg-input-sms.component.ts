@@ -1,18 +1,16 @@
-import { RegistrationService } from './../../core/services/auth/registration.service';
 import {
   AfterViewInit,
   Component,
   HostBinding,
-  OnDestroy,
   OnInit,
   ViewChild,
 } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { IonInput } from '@ionic/angular';
-import { Subscription } from 'rxjs';
 import { CustomTimersService } from 'src/app/core/services/custom-timers/custom-timers.service';
 import { IonInputConfig } from 'src/app/shared/models/component/ion-input-config';
+import { RegistrationService } from './../../core/services/auth/registration.service';
 
 @Component({
   selector: 'app-reg-input-sms',
@@ -32,7 +30,7 @@ export class RegInputSmsComponent implements OnInit, AfterViewInit {
     inputMode: 'number',
   };
   passForm: FormGroup;
-  InvalidCode:string = null;
+  InvalidCode: string = null;
   constructor(
     private route: ActivatedRoute,
     private router: Router,
@@ -40,17 +38,20 @@ export class RegInputSmsComponent implements OnInit, AfterViewInit {
     private formBuilder: FormBuilder,
     private regService: RegistrationService
   ) {
-    this.checkUserObj()
+    this.checkUserObj();
   }
 
   ngOnInit() {
     this.initForm();
-    this.phoneNumber = this.regService.getuserObj.phoneNumber
+    this.phoneNumber = this.regService.getuserObj.phoneNumber;
   }
 
   checkUserObj() {
-    if (!this.regService.getuserObj?.phoneNumber || !this.regService.getuserObj?.userName) {
-      this.router.navigate(["/registration"])
+    if (
+      !this.regService.getuserObj?.phoneNumber ||
+      !this.regService.getuserObj?.userName
+    ) {
+      this.router.navigate(['/registration']);
     }
   }
 
@@ -93,24 +94,28 @@ export class RegInputSmsComponent implements OnInit, AfterViewInit {
   }
 
   resendSMS() {
-    this.regService.RegisterPhoneNumber(this.regService.getuserObj.phoneNumber).subscribe(
-      data => {
-        this.startTimer()
-      },
-      err =>err
-    )
+    this.regService
+      .RegisterPhoneNumber(this.regService.getuserObj.phoneNumber)
+      .subscribe(
+        (data) => {
+          this.startTimer();
+        },
+        (err) => err
+      );
   }
 
   verifyDigit() {
-    this.regService.ConfirmPhoneNumber(this.passForm.get("digit").value).subscribe(
-      data => {
-        this.router.navigate(['registration/notice']);
-      },
-      err => {
-        this.passForm.reset();
-        this.InvalidCode = err.error;
-      }
-    )
+    this.regService
+      .ConfirmPhoneNumber(this.passForm.get('digit').value)
+      .subscribe(
+        (data) => {
+          this.router.navigate(['registration/notice']);
+        },
+        (err) => {
+          this.passForm.reset();
+          this.InvalidCode = err.error;
+        }
+      );
   }
 
   spawnInput() {
@@ -119,5 +124,4 @@ export class RegInputSmsComponent implements OnInit, AfterViewInit {
       input.focus();
     });
   }
-
 }

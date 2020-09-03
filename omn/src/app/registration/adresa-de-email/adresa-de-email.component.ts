@@ -27,7 +27,7 @@ export class AdresaDeEmailComponent implements OnInit {
   };
   emailForm: FormGroup;
   headerConfig = subPageHeaderDefault('');
-  busy: boolean = false;
+  busy = false;
   constructor(
     private router: Router,
     private formBuilder: FormBuilder,
@@ -67,7 +67,7 @@ export class AdresaDeEmailComponent implements OnInit {
     });
     this.regSrvice.registerUser().subscribe(
       (data) => {
-        this.logUserIn()
+        this.logUserIn();
       },
       (err) => {
         this.busy = false;
@@ -76,14 +76,20 @@ export class AdresaDeEmailComponent implements OnInit {
   }
 
   logUserIn() {
-    this.auth.login({
-      phone: this.regSrvice.getuserObj.phoneNumber, password: this.regSrvice.getuserObj.pin, aRoute: '/registration/account-created'
-    }).subscribe(
-      (data) => {this.auth.saveLastLoginNumber(this.regSrvice.getuserObj.phoneNumber)},
-      (err) => {
-        this.busy = false;
-        this.router.navigate(["/login"])
-      }
-    )
+    this.auth
+      .login({
+        phone: this.regSrvice.getuserObj.phoneNumber,
+        password: this.regSrvice.getuserObj.pin,
+        aRoute: '/registration/account-created',
+      })
+      .subscribe(
+        (data) => {
+          this.auth.saveLastLoginNumber(this.regSrvice.getuserObj.phoneNumber);
+        },
+        (err) => {
+          this.busy = false;
+          this.router.navigate(['/login']);
+        }
+      );
   }
 }
