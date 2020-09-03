@@ -7,8 +7,8 @@ import {
   RouterStateSnapshot,
   UrlTree,
 } from '@angular/router';
-import { Observable } from 'rxjs';
-import { map, take } from 'rxjs/operators';
+import { Observable, of } from 'rxjs';
+import { map, take, switchMap } from 'rxjs/operators';
 import { AuthService } from '../../services/auth/auth.service';
 
 @Injectable({
@@ -26,11 +26,11 @@ export class LoginGuard implements CanActivate, CanActivateChild {
     | UrlTree {
     return this.authS.getToken().pipe(
       take(1),
-      map((isAuthenticated) => {
+      switchMap((isAuthenticated) => {
         if (isAuthenticated) {
-          return this.routerS.createUrlTree(['/home']);
+          return of(this.routerS.createUrlTree(['/home']));
         } else {
-          return true;
+          return of(true);
         }
       })
     );
