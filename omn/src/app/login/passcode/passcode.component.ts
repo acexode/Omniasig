@@ -65,6 +65,9 @@ export class PasscodeComponent implements OnInit, OnDestroy {
     if (this.digitsLength > 5) {
       this.verifyPasscode();
     }
+
+    this.errorLogin = null;
+    this.busy = false;
   }
 
   verifyPasscode() {
@@ -84,13 +87,9 @@ export class PasscodeComponent implements OnInit, OnDestroy {
   }
 
   errLogin(err) {
+    this.passForm.reset();
     this.errorLogin = 'Cod Invalid!';
     this.busy = true;
-    setTimeout(() => {
-      this.passForm.reset();
-      this.errorLogin = null;
-      this.busy = false;
-    }, 2000);
   }
 
   spawnInput() {

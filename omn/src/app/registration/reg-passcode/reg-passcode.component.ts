@@ -1,3 +1,5 @@
+import { Router } from '@angular/router';
+import { RegistrationService } from './../../core/services/auth/registration.service';
 import { Component, HostBinding, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { IonInput, NavController } from '@ionic/angular';
@@ -14,12 +16,26 @@ export class RegPasscodeComponent implements OnInit {
   passForm: FormGroup;
   constructor(
     private navCtrl: NavController,
-    private formBuilder: FormBuilder
-  ) {}
+    private formBuilder: FormBuilder,
+    private regService: RegistrationService,
+    private router: Router
+  ) {
+    this.checkUserObj();
+  }
 
   ngOnInit() {
     this.initForm();
   }
+
+  checkUserObj() {
+    if (
+      !this.regService.getuserObj?.phoneNumber ||
+      !this.regService.getuserObj?.userName
+    ) {
+      this.router.navigate(['/registration']);
+    }
+  }
+
   initForm() {
     this.passForm = this.formBuilder.group({
       passcode: [
@@ -43,9 +59,10 @@ export class RegPasscodeComponent implements OnInit {
   }
 
   verifyPasscode() {
-    this.navCtrl.navigateRoot(
-      `registration/confirm-passcode/${this.passForm.controls['passcode'].value}`
-    );
+    this.regService.setUserObj({
+      pin: this.passForm.get('passcode').value,
+    });
+    this.navCtrl.navigateRoot(`registration/confirm-passcode`);
   }
 
   spawnInput() {

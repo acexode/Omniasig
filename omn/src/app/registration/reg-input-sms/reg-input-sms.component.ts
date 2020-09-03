@@ -2,29 +2,27 @@ import {
   AfterViewInit,
   Component,
   HostBinding,
-  OnDestroy,
   OnInit,
   ViewChild,
 } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { IonInput } from '@ionic/angular';
-import { Subscription } from 'rxjs';
 import { CustomTimersService } from 'src/app/core/services/custom-timers/custom-timers.service';
 import { IonInputConfig } from 'src/app/shared/models/component/ion-input-config';
+import { RegistrationService } from './../../core/services/auth/registration.service';
 
 @Component({
   selector: 'app-reg-input-sms',
   templateUrl: './reg-input-sms.component.html',
   styleUrls: ['./reg-input-sms.component.scss'],
 })
-export class RegInputSmsComponent implements OnInit, AfterViewInit, OnDestroy {
+export class RegInputSmsComponent implements OnInit, AfterViewInit {
   @HostBinding('class') color = 'ion-color-white-page';
   min = '00';
   sec: any = 59;
   digitsLength = 0;
   @ViewChild('inputField') inputField: IonInput;
-  sub: Subscription;
   phoneNumber = null;
 
   config: IonInputConfig = {
@@ -32,18 +30,31 @@ export class RegInputSmsComponent implements OnInit, AfterViewInit, OnDestroy {
     inputMode: 'number',
   };
   passForm: FormGroup;
-  InvalidCode = false;
+  InvalidCode: string = null;
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     private timers: CustomTimersService,
-    private formBuilder: FormBuilder
-  ) {}
+    private formBuilder: FormBuilder,
+    private regService: RegistrationService
+  ) {
+    this.checkUserObj();
+  }
 
   ngOnInit() {
     this.initForm();
-    this.getPhoneNumber();
+    this.phoneNumber = this.regService.getuserObj.phoneNumber;
   }
+
+  checkUserObj() {
+    if (
+      !this.regService.getuserObj?.phoneNumber ||
+      !this.regService.getuserObj?.userName
+    ) {
+      this.router.navigate(['/registration']);
+    }
+  }
+
   initForm() {
     this.passForm = this.formBuilder.group({
       digit: [
@@ -58,6 +69,9 @@ export class RegInputSmsComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   changeInput(digit: number) {
+    if (this.InvalidCode) {
+      this.InvalidCode = null;
+    }
     if (digit) {
       this.digitsLength = digit.toString().length;
     } else {
@@ -66,16 +80,6 @@ export class RegInputSmsComponent implements OnInit, AfterViewInit, OnDestroy {
     if (this.digitsLength > 5) {
       this.verifyDigit();
     }
-  }
-
-  getPhoneNumber() {
-    this.sub = this.route.params.subscribe((params) => {
-      if (params.number) {
-        this.phoneNumber = params.number;
-      } else {
-        this.router.navigate(['/registration']);
-      }
-    });
   }
 
   ngAfterViewInit() {
@@ -90,19 +94,28 @@ export class RegInputSmsComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   resendSMS() {
-    this.startTimer();
+    this.regService
+      .RegisterPhoneNumber(this.regService.getuserObj.phoneNumber)
+      .subscribe(
+        (data) => {
+          this.startTimer();
+        },
+        (err) => err
+      );
   }
 
   verifyDigit() {
-    if (this.passForm.controls.digit.value === 123456) {
-      this.router.navigate(['registration/notice']);
-    } else {
-      this.InvalidCode = true;
-      setTimeout(() => {
-        this.passForm.reset();
-        this.InvalidCode = false;
-      }, 2000);
-    }
+    this.regService
+      .ConfirmPhoneNumber(this.passForm.get('digit').value)
+      .subscribe(
+        (data) => {
+          this.router.navigate(['registration/notice']);
+        },
+        (err) => {
+          this.passForm.reset();
+          this.InvalidCode = err.error;
+        }
+      );
   }
 
   spawnInput() {
@@ -110,9 +123,5 @@ export class RegInputSmsComponent implements OnInit, AfterViewInit, OnDestroy {
       input.click();
       input.focus();
     });
-  }
-
-  ngOnDestroy() {
-    this.sub.unsubscribe();
   }
 }
