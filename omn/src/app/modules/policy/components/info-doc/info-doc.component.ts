@@ -4,6 +4,7 @@ import {
   HostBinding,
   Output,
   EventEmitter,
+  Input,
 } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { TipModalComponent } from '../modals/tip-modal/tip-modal.component';
@@ -19,7 +20,8 @@ export class InfoDocComponent implements OnInit {
   headerConfig = subPageHeaderSecondary('Document de Informare');
   @HostBinding('class') color = 'ion-color-white-page';
   @Output() continue = new EventEmitter();
-  helpItems: Array<ImageCard> = [
+  @Input() policyID;
+  padHelpItems: Array<ImageCard> = [
     {
       mainIcon: {
         name: 'cutremur',
@@ -62,6 +64,180 @@ export class InfoDocComponent implements OnInit {
       id: '0',
       itemClass: 'mh-104',
     },
+  ];
+
+  amplusHelpItems: Array<ImageCard> = [
+    {
+      mainIcon: {
+        name: 'casa',
+        color: 'green-gradient',
+        classes: 'icon-40 mt-16 ion-align-self-start mb-0',
+      },
+      textContent: [
+        {
+          text: 'Locuința',
+        },
+      ],
+      id: '0',
+      itemClass: 'mh-104',
+    },
+    {
+      mainIcon: {
+        name: 'bunuri',
+        color: 'green-gradient',
+        classes: 'icon-40 mt-16 mb-0 ion-align-self-start',
+      },
+      textContent: [
+        {
+          text: 'Bunurile',
+        },
+      ],
+      id: '0',
+      itemClass: 'mh-104',
+    },
+    {
+      mainIcon: {
+        name: 'md-petitie',
+        color: 'green-gradient',
+        classes: 'icon-40 mt-16 mb-0 ion-align-self-start',
+      },
+      textContent: [
+        {
+          text: 'Daune terți',
+        },
+      ],
+      id: '0',
+      itemClass: 'mh-104',
+    },
+  ];
+
+  amplusCoveredRisks: Array<Array<ImageCard>> = [
+    [
+      {
+        mainIcon: {
+          name: 'incendiu',
+          color: 'green-gradient',
+          classes: 'icon-40 mt-16 ion-align-self-start mb-0',
+        },
+        id: '0',
+        itemClass: 'h-100',
+        riskText: 'Incendiu',
+      },
+      {
+        mainIcon: {
+          name: 'trasnet',
+          color: 'green-gradient',
+          classes: 'icon-40 mt-16 mb-0 ion-align-self-start',
+        },
+        id: '0',
+        itemClass: 'h-100',
+        riskText: 'Trăsnet',
+      },
+      {
+        mainIcon: {
+          name: 'explozie',
+          color: 'green-gradient',
+          classes: 'icon-40 mt-16 mb-0 ion-align-self-start',
+        },
+        id: '0',
+        itemClass: 'h-100',
+        riskText: 'Explozie',
+      },
+      {
+        mainIcon: {
+          name: 'cutremur',
+          color: 'green-gradient',
+          classes: 'icon-40 mt-16 mb-0 ion-align-self-start',
+        },
+        id: '0',
+        itemClass: 'h-100',
+        riskText: 'Cutremur',
+      },
+    ],
+    [
+      {
+        mainIcon: {
+          name: 'md-inundatie',
+          color: 'green-gradient',
+          classes: 'icon-40 mt-16 ion-align-self-start mb-0',
+        },
+        id: '0',
+        itemClass: 'h-100',
+        riskText: 'Inundație',
+      },
+      {
+        mainIcon: {
+          name: 'alunecari',
+          color: 'green-gradient',
+          classes: 'icon-40 mt-16 mb-0 ion-align-self-start',
+        },
+        id: '0',
+        itemClass: 'h-100',
+        riskText: 'Alunecări',
+      },
+      {
+        mainIcon: {
+          name: 'grindina',
+          color: 'green-gradient',
+          classes: 'icon-40 mt-16 mb-0 ion-align-self-start',
+        },
+        id: '0',
+        itemClass: 'h-100',
+        riskText: 'Grindină',
+      },
+      {
+        mainIcon: {
+          name: 'furtuna',
+          color: 'green-gradient',
+          classes: 'icon-40 mt-16 mb-0 ion-align-self-start',
+        },
+        id: '0',
+        itemClass: 'h-100',
+        riskText: 'Furtună',
+      },
+    ],
+    [
+      {
+        mainIcon: {
+          name: 'apa-de-conducta',
+          color: 'green-gradient',
+          classes: 'icon-40 mt-16 ion-align-self-start mb-0',
+        },
+        id: '0',
+        itemClass: 'h-100',
+        riskText: 'Apa de conductă',
+      },
+      {
+        mainIcon: {
+          name: 'furt',
+          color: 'green-gradient',
+          classes: 'icon-40 mt-16 mb-0 ion-align-self-start',
+        },
+        id: '0',
+        itemClass: 'h-100',
+        riskText: 'Furt',
+      },
+      {
+        mainIcon: {
+          name: 'centrala-termica',
+          color: 'green-gradient',
+          classes: 'icon-40 mt-16 mb-0 ion-align-self-start',
+        },
+        id: '0',
+        itemClass: 'h-100',
+        riskText: 'Avarii',
+      },
+      {
+        mainIcon: {
+          name: 'fenomene-electrice',
+          color: 'green-gradient',
+          classes: 'icon-40 mt-16 mb-0 ion-align-self-start',
+        },
+        id: '0',
+        itemClass: 'h-100',
+        riskText: 'Fenomene electrice',
+      },
+    ],
   ];
 
   tipItems: Array<ImageCard> = [
@@ -256,7 +432,9 @@ export class InfoDocComponent implements OnInit {
 
   constructor(public modalController: ModalController) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    console.log(this.policyID);
+  }
 
   back() {}
 

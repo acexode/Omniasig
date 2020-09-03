@@ -25,6 +25,7 @@ import { PolicyOffer } from './../../../../shared/models/data/policy-offer';
 import { PolicyFormSteps } from './../../../../shared/models/modes/policy-form-steps';
 import { PolicyDataService } from './../../services/policy-data.service';
 import { PolicyFormService } from './../../services/policy-form.service';
+import { policyTypes } from 'src/app/shared/models/data/policy-types';
 
 @Component({
   selector: 'app-policy-form',
@@ -64,6 +65,7 @@ export class PolicyFormPage implements OnInit, OnDestroy {
   maxPeriodStartDate;
   // This will contain all data needed for an offer.
   offerData: PolicyOffer = null;
+  policyID;
   constructor(
     private routerS: CustomRouterService,
     private aRoute: ActivatedRoute,
@@ -88,9 +90,21 @@ export class PolicyFormPage implements OnInit, OnDestroy {
         })
       )
       .subscribe((vals: any) => {
-        this.typeItem = cloneDeep(
-          this.router.getCurrentNavigation().extras.state.policyType
-        );
+        this.policyID = this.aRoute.snapshot.queryParamMap.get('policyID');
+        switch (this.policyID) {
+          case 'AMPLUS':
+            this.typeItem = policyTypes.AMPLUS;
+            break;
+          case 'PAD':
+            this.typeItem = policyTypes.PAD;
+            break;
+          case 'Garant AMPLUS+ PAD':
+            this.typeItem = policyTypes.AMPLUS_PAD;
+            break;
+          default:
+            break;
+        }
+
         this.loadLocuinte();
         this.changeStep(vals[0]);
       });

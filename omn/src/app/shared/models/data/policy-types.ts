@@ -24,7 +24,7 @@ export const policyTypes: { [key: string]: PolicyType } = {
     dntConfig: {
       success: dntItemHelper({
         topIcon: {
-          name: 'lg-casa-2',
+          name: 'lg-casa-1',
           classes: 'mh-94',
         },
         topText: dntTopTexts(
@@ -35,12 +35,12 @@ export const policyTypes: { [key: string]: PolicyType } = {
         textContent: dntAltText(
           'Soluție financiară propusă',
           'OMNIASIG îți propune produsul de asigurare Garant AMPLUS, adecvat necesităţilor dumneavoastră potrivit voinței exprimate conform celor de mai sus.',
-          'Nu putem acorda consultanță prin intermediul aplicației. Dacă dorești consultanță, te rugăm să te adresezi unui reprezentant OMNIASIG.'
+          ''
         ),
       }),
       cancel: dntItemHelper({
         topIcon: {
-          name: 'lg-casa-2',
+          name: 'lg-casa-1',
           classes: 'mh-94',
         },
         topText: dntTopTexts(
@@ -58,7 +58,7 @@ export const policyTypes: { [key: string]: PolicyType } = {
       items: [
         dntItemHelper({
           topIcon: {
-            name: 'lg-casa-2',
+            name: 'lg-casa-1',
             classes: 'mh-94',
           },
           topText: dntTopTexts(

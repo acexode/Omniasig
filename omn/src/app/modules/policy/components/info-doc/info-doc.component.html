@@ -1,4 +1,4 @@
-<ion-grid class="pt-80 px-0">
+<ion-grid *ngIf="policyID === 'PAD'" class="pt-80 px-0">
   <ion-row class="mx-32 mb-32">
     <ion-col class="ion-no-padding">
       <ion-row>
@@ -32,19 +32,19 @@
       <ion-row class="mb-16">
         <ion-col class="py-0 pl-0">
           <app-image-card
-            [item]="helpItems[0]"
+            [item]="padHelpItems[0]"
             class="flex w-100 h-100"
           ></app-image-card>
         </ion-col>
         <ion-col class="py-0">
           <app-image-card
-            [item]="helpItems[1]"
+            [item]="padHelpItems[1]"
             class="flex w-100 h-100"
           ></app-image-card>
         </ion-col>
         <ion-col class="py-0 pr-0">
           <app-image-card
-            [item]="helpItems[2]"
+            [item]="padHelpItems[2]"
             class="flex w-100 h-100"
           ></app-image-card>
         </ion-col>
@@ -96,9 +96,243 @@
       </ion-row>
 
       <ion-row class="py-16 note">
+        <ion-text color="omn-green"> Acesta este un sumar. </ion-text>
         <ion-text color="omn-green">
-          Acesta este un sumar.
+          Vezi mai jos întreg documentul de informare.
         </ion-text>
+      </ion-row>
+    </ion-col>
+  </ion-row>
+
+  <ion-row class="mx-24 mb-40">
+    <ion-col class="ion-no-padding">
+      <ion-row class="mb-32">
+        <ion-text class="mb-32 text-normal">
+          PAD este creată și reglementată de lege, gestionarea acesteia fiind
+          acordată PAID SA, constituită potrivit legilor din România,
+          înregistrată în registrul asigurătorilor păstrat de Autoritatea de
+          Supraveghere Financiară (ASF) sub numărul RA-065/ 14.10.2009.
+        </ion-text>
+        <ion-text class="text-normal">
+          Informațiile (termenii și condițiile asigurării) complete referitoare
+          la produs se regăsesc în Legea nr.260/2008 privind asigurarea
+          obligatorie a locuințelor împotriva cutremurelor, alunecărilor de
+          teren și inundațiilor, în Ordinul nr. 6/87/21.04.2011 pentru aprobarea
+          normelor de aplicare ale legii, precum și în legislația secundară a
+          ASF: Norma nr. 7/2013, Ordinul nr. 7/2009. Acestea pot fi consultate
+          pe site-ul PAID (www.paidromania.ro).
+        </ion-text>
+      </ion-row>
+
+      <ion-row>
+        <ion-label class="mb-13 s18-h24 text-weight-medium"
+          >Despre ce tip de asigurare este vorba?</ion-label
+        >
+      </ion-row>
+
+      <ion-row>
+        <ion-text class="mb-32 text-normal"
+          >Asigurarea obligatorie a locuințelor împotriva cutremurelor,
+          alunecărilor de teren și inundațiilor, ca fenomene naturale.</ion-text
+        >
+      </ion-row>
+
+      <ng-container
+        *ngFor="let cardI of cardInfo; let last = last; let i = index"
+      >
+        <ion-row [ngClass]="{ 'mb-32': !last }">
+          <app-info-card [item]="cardI"></app-info-card>
+        </ion-row>
+      </ng-container>
+    </ion-col>
+  </ion-row>
+
+  <ion-row class="mx-24 mb-24">
+    <ion-button
+      type="submit"
+      color="success"
+      fill="solid"
+      expand="block"
+      size="large"
+      class="m-0 w-100"
+      (click)="next()"
+      >Continuă
+    </ion-button>
+  </ion-row>
+</ion-grid>
+
+<ion-grid *ngIf="policyID === 'AMPLUS'" class="pt-80 px-0">
+  <ion-row class="mx-32 mb-32">
+    <ion-col class="ion-no-padding">
+      <ion-row>
+        <ion-label class="text-small"
+          >Asigurarea facultativă a locuinței</ion-label
+        >
+      </ion-row>
+      <ion-row class="mb-16">
+        <ion-text color="omn-green" class="alt-font x-large">
+          Garant Amplus
+        </ion-text>
+      </ion-row>
+
+      <ion-row class="mb-16">
+        <ion-text class="text-normal">
+          Document de informare privind produsul de asigurare cod:
+          08.04.09.F.005.0.A
+        </ion-text>
+        <ion-label class="text-small">PID - cod: 08.04.09.F.005.0.A</ion-label>
+      </ion-row>
+
+      <ion-row class="flex-column">
+        <ion-label class="text-small">Societatea:</ion-label>
+        <ion-text class="text-normal">
+          OMNIASIG Vienna Insurance Group
+        </ion-text>
+      </ion-row>
+    </ion-col>
+  </ion-row>
+
+  <ion-row class="pt-32 px-32 mb-64 alt-bg">
+    <ion-col class="ion-no-padding">
+      <ion-row>
+        <ion-label class="s18-h24 text-weight-medium mb-32"
+          >Ce asigură</ion-label
+        >
+      </ion-row>
+
+      <ion-row class="mb-32">
+        <ion-col class="py-0 pl-0">
+          <app-image-card
+            [item]="amplusHelpItems[0]"
+            class="flex w-100 h-100"
+          ></app-image-card>
+        </ion-col>
+        <ion-col class="py-0">
+          <app-image-card
+            [item]="amplusHelpItems[1]"
+            class="flex w-100 h-100"
+          ></app-image-card>
+        </ion-col>
+        <ion-col class="py-0 pr-0">
+          <app-image-card
+            [item]="amplusHelpItems[2]"
+            class="flex w-100 h-100"
+          ></app-image-card>
+        </ion-col>
+      </ion-row>
+
+      <ion-row class="mb-32">
+        <ion-text class="text-normal">
+          Garant AMPLUS asigura locuința, bunurile conținute și daunele
+          provocate terților din culpa dumneavoastră (răspunderea civilă).
+        </ion-text>
+      </ion-row>
+
+      <ion-row>
+        <ion-label class="s18-h24 text-weight-medium mb-32"
+          >Riscuri acoperite</ion-label
+        >
+      </ion-row>
+
+      <ion-row
+        *ngFor="let coverdRisks of amplusCoveredRisks; let last = last"
+        class="ion-nowrap mb-16"
+        [ngClass]="{ 'mb-48': last }"
+      >
+        <ion-col class="py-0 pl-0 text-center mb-15">
+          <app-image-card
+            [item]="coverdRisks[0]"
+            class="flex w-100 h-100"
+          ></app-image-card>
+          <ion-text class="text-small text-weight-medium">{{
+            coverdRisks[0]?.riskText
+          }}</ion-text>
+        </ion-col>
+        <ion-col class="py-0 text-center mb-15">
+          <app-image-card
+            [item]="coverdRisks[1]"
+            class="flex w-100 h-100"
+          ></app-image-card>
+          <ion-text class="text-small text-weight-medium">{{
+            coverdRisks[1]?.riskText
+          }}</ion-text>
+        </ion-col>
+        <ion-col class="py-0 text-center mb-15">
+          <app-image-card
+            [item]="coverdRisks[2]"
+            class="flex w-100 h-100"
+          ></app-image-card>
+          <ion-text class="text-small text-weight-medium">{{
+            coverdRisks[2]?.riskText
+          }}</ion-text>
+        </ion-col>
+        <ion-col class="py-0 pr-0 text-center mb-15">
+          <app-image-card
+            [item]="coverdRisks[3]"
+            class="flex w-100 h-100"
+          ></app-image-card>
+          <ion-text class="text-small text-weight-medium">{{
+            coverdRisks[3]?.riskText
+          }}</ion-text>
+        </ion-col>
+      </ion-row>
+
+      <ion-row class="mb-32">
+        <ul class="text-small pl-32">
+          <li class="pl-10 text-normal">
+            Avarii accidentale la centrala termică - 1.000 Euro
+          </li>
+          <li class="pl-10 text-normal">
+            Fenomene electrice pentru echipamente / instalații electrocasnice,
+            electronice sau electrice din locuință - 1.000 Euro
+          </li>
+          <li class="pl-10 text-normal">
+            Furtul bunurilor conţinute - Valoarea bunurilor
+          </li>
+          <li class="pl-10 text-normal">
+            Răspunderea civilă faţă de terţi - 1.000 Euro
+          </li>
+        </ul>
+      </ion-row>
+
+      <ion-row class="mx-n8">
+        <ion-card class="ion-no-margin">
+          <ion-card-content class="p-16">
+            <ion-row class="pb-16">
+              <ion-col class="ion-no-padding mr-20" size="auto">
+                <ion-icon class="icon-60" name="asistenta-tehnica"></ion-icon>
+              </ion-col>
+              <ion-col class="ion-no-padding flex flex-column">
+                <ion-text color="omn-green" class="alt-font s20-h24 mb-8"
+                  >Asistență tehnică</ion-text
+                >
+                <ion-text class="link-small color-tertiary-grey"
+                  >Servicii de reparații de urgență prestate de persoane
+                  autorizate (instalatori, electricieni etc.)</ion-text
+                >
+              </ion-col>
+            </ion-row>
+            <ion-row class="pt-16">
+              <ion-col class="ion-no-padding mr-20" size="auto">
+                <ion-icon class="icon-60" name="cazare"></ion-icon>
+              </ion-col>
+              <ion-col class="ion-no-padding flex flex-column">
+                <ion-text color="omn-green" class="alt-font s20-h24 mb-8"
+                  >Închirierea / cazarea temporară la o altă locație</ion-text
+                >
+                <ion-text class="link-small color-tertiary-grey"
+                  >Pentru cazurile în care clădirea asigurată a devenit
+                  nelocuibilă ca urmare a producerii daunelor din riscuri
+                  acoperite;</ion-text
+                >
+              </ion-col>
+            </ion-row>
+          </ion-card-content>
+        </ion-card>
+      </ion-row>
+
+      <ion-row class="py-16 note">
+        <ion-text color="omn-green"> Acesta este un sumar. </ion-text>
         <ion-text color="omn-green">
           Vezi mai jos întreg documentul de informare.
         </ion-text>

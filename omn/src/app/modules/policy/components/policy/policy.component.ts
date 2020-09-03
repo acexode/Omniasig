@@ -5,7 +5,7 @@ import {
   ViewChild,
   OnDestroy,
 } from '@angular/core';
-import { MenuController, NavController } from '@ionic/angular';
+import { MenuController } from '@ionic/angular';
 import { BehaviorSubject, Subscription } from 'rxjs';
 import { Account } from 'src/app/core/models/account.interface';
 import { AuthService } from 'src/app/core/services/auth/auth.service';
@@ -49,8 +49,7 @@ export class PolicyComponent implements OnInit, OnDestroy {
     private authS: AuthService,
     private policyS: PolicyDataService,
     private cdRef: ChangeDetectorRef,
-    private router: Router,
-    private navCtrl: NavController
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -149,23 +148,26 @@ export class PolicyComponent implements OnInit, OnDestroy {
   }
 
   eventHandler(event) {
-    let policy;
-    switch (event.data.id) {
-      case 'AMPLUS':
-        policy = policyTypes.AMPLUS;
-        break;
-      case 'PAD':
-        policy = policyTypes.PAD;
-        break;
-      case 'Garant AMPLUS+ PAD':
-        policy = policyTypes.AMPLUS_PAD;
-        break;
-      default:
-        break;
-    }
+    // let policy;
+    // switch (event.data.id) {
+    //   case 'AMPLUS':
+    //     policy = policyTypes.AMPLUS;
+    //     break;
+    //   case 'PAD':
+    //     policy = policyTypes.PAD;
+    //     break;
+    //   case 'Garant AMPLUS+ PAD':
+    //     policy = policyTypes.AMPLUS_PAD;
+    //     break;
+    //   default:
+    //     break;
+    // }
 
+    // this.router.navigate(['/policy', 'form'], {
+    //   state: { policyType: policy },
+    // });
     this.router.navigate(['/policy', 'form'], {
-      state: { policyType: policy },
+      queryParams: { policyID: event.data.id },
     });
   }
 }

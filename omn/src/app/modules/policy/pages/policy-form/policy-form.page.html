@@ -22,7 +22,8 @@
       ></app-exclusion-slides>
     </ng-container>
     <ng-container *ngSwitchCase="policySteps?.INFO_DOC">
-      <app-info-doc #infoDocComp (continue)="next()"> </app-info-doc>
+      <app-info-doc [policyID]="policyID" #infoDocComp (continue)="next()">
+      </app-info-doc>
     </ng-container>
 
     <ng-container *ngSwitchCase="policySteps?.ADDRESS_SELECT">
