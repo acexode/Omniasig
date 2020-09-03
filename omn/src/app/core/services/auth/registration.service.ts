@@ -2,8 +2,6 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { authEndpoints } from '../../configs/endpoints';
 import { Account } from '../../models/account.interface';
-import { LoginResponse } from '../../models/login-response.interface';
-import { Login } from '../../models/login.interface';
 import { CustomStorageService } from '../custom-storage/custom-storage.service';
 import { RequestService } from '../request/request.service';
 
@@ -11,40 +9,51 @@ import { RequestService } from '../request/request.service';
   providedIn: 'root',
 })
 export class RegistrationService {
-  userObj: Account = {
-    name: 'string',
-    surname: 'string',
-    cnp: 'string',
-    isPublicPerson: true,
-    userName: 'string',
-    email: 'user@example.com',
-    phoneNumber: 'string',
-    dateBirth: '2020-08-26T16:40:21.196Z',
-    marketing: true,
-    pin: 0,
-    roles: [],
-  };
+  private userObj: Account
   constructor(
     private storeS: CustomStorageService,
     private routerS: Router,
     private reqS: RequestService
-  ) {}
-
-  // makes http call to server
-  login(loginData: { phone: string; password: any; aRoute: string }) {
-    const reqData: Login = {
-      userName: loginData.phone,
-      password: loginData.password,
-    };
-    return this.reqS.post<LoginResponse>(authEndpoints.login, reqData);
+  ) {
   }
 
-  // get user profile from ws
-  // getProfile(token,phoneNumber){
-  //   return this.reqS.get<Account>(`${authEndpoints.getUserProfile}?userNameOrId=${phoneNumber}`).pipe(
-  //     switchMap((res)=>{
-  //       return this.processAuthResponse({account:{...res,userStates: []},token});
-  //     })
-  //   )
+  // confirmResetPincode() {
+  //   return this.reqS.post<any>(authEndpoints.confirmPincodeReset, this.userObj)
   // }
+
+  setUserObj(obj: Object) {
+    this.userObj = { ...this.userObj, ...obj }
+  }
+
+  clearUserObj() {
+    this.userObj = null
+  }
+
+  get getuserObj() {
+    return this.userObj
+  }
+
+  GetUserNameByPhoneNumber(phoneNumber: string) {
+    return this.reqS.get<any>(`${authEndpoints.GetUserNameByPhoneNumber}?phoneNumber=${phoneNumber}`)
+  }
+
+  RegisterPhoneNumber(phoneNumber: string) {
+    const reqBody = {
+      phoneNumber
+    }
+    return this.reqS.post<any>(authEndpoints.RegisterPhoneNumber, reqBody)
+  }
+
+  ConfirmPhoneNumber(code: number) {
+    const reqBody = {
+      phoneNumber: this.userObj.phoneNumber,
+      code
+    }
+    return this.reqS.post<any>(authEndpoints.ConfirmRegisterPhoneNumber, reqBody)
+  }
+
+  registerUser() {
+    return this.reqS.post<any>(authEndpoints.RegisterUserProfile, this.userObj)
+
+  }
 }
