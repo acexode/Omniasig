@@ -150,6 +150,7 @@ export class PolicyAddressFormComponent implements OnInit {
                 data: this.formData.place,
               };
               this.stepChange.emit(this.formType);
+              console.log("THIS PLACEALL THE DATA IN ", this.dataModel)
               // TODO: Remove when real service;
               this.refTimer = setTimeout(() => {
                 this.handleFormSubmit();
