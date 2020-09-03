@@ -306,7 +306,8 @@ export class LocuinteViewComponent implements OnInit {
       cssClass: 'disabled-message-modal-class',
     });
     modal.onDidDismiss().then((data) => {
-      const next = data['data'];
+      const value = 'data';
+      const next = data[value];
       if (next) {
         this.dataModel = v;
         this.formType = LocuinteFormType.PLACE;

@@ -62,9 +62,9 @@ export class CnpDigitsComponent implements OnInit {
 
   continue() {
     this.busy = true;
-    this.resetService.requestPincodeChange(this.cnpForm.controls['cnp'].value).subscribe(
+    this.resetService.requestPincodeChange(this.cnpForm.get('cnp').value).subscribe(
       (data) => {
-        this.resetService.setResetObj({ cnp: this.cnpForm.controls['cnp'].value });
+        this.resetService.setResetObj({ cnp: this.cnpForm.get('cnp').value });
         this.router.navigate(['reset-pincode/verify-passcode']);
         this.busy = false;
       },

@@ -44,7 +44,7 @@ export class RegPasscodeComponent implements OnInit {
 
   verifyPasscode() {
     this.navCtrl.navigateRoot(
-      `registration/confirm-passcode/${this.passForm.controls['passcode'].value}`
+      `registration/confirm-passcode/${this.passForm.get('passcode').value}`
     );
   }
 

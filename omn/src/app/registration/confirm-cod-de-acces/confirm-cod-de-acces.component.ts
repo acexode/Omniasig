@@ -49,7 +49,8 @@ export class ConfirmCodDeAccesComponent implements OnInit, AfterViewInit {
         [Validators.required, Validators.minLength(6), Validators.maxLength(6)],
       ],
     });
-    this.passForm.controls['passcode'].patchValue(passcode);
+
+    this.passForm.get('passcode').patchValue(passcode);
 
     this.passForm.valueChanges.subscribe((value) => {
       this.changeInput(value.confirmPass);
@@ -67,8 +68,8 @@ export class ConfirmCodDeAccesComponent implements OnInit, AfterViewInit {
 
   verifyPasscode() {
     if (
-      this.passForm.controls['confirmPass'].value ===
-      parseInt(this.passForm.controls['passcode'].value, 10)
+      this.passForm.get('confirmPass').value ===
+      parseInt(this.passForm.get('passcode').value, 10)
     ) {
       this.navCtrl.navigateRoot(`registration/personal-details`);
     } else {

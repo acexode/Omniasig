@@ -98,7 +98,7 @@ export class InputSmsComponent implements OnInit, AfterViewInit, OnDestroy {
   verifyDigit() {
     this.busy = true;
     // TODO change the second params to code when the ws is changed to 6 digits
-    const code = this.passForm.controls['digit'].value;
+    const code = this.passForm.get('digit').value;
     this.auth.confirmPhoneNumberSms(this.phoneNumber, code).subscribe(
       data => {
         this.busy = false;

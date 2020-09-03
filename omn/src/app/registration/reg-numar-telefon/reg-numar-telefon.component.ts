@@ -53,7 +53,7 @@ export class RegNumarTelefonComponent implements OnInit {
   reg() {
     this.router.navigate([
       'registration/confirm-number',
-      this.teleForm.controls['phoneNumber'].value,
+      this.teleForm.get('phoneNumber').value,
     ]);
   }
 }
