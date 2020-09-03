@@ -11,10 +11,9 @@ import { IonInput, NavController } from '@ionic/angular';
 import { Subscription } from 'rxjs';
 import { subPageHeaderDefault } from 'src/app/shared/data/sub-page-header-default';
 import { IonInputConfig } from 'src/app/shared/models/component/ion-input-config';
-import { Location } from '@angular/common';
-import { AuthService } from 'src/app/core/services/auth/auth.service';
 import { ChangeCodeService } from '../services/change-code.service';
 import { UpdatePassword } from '../models/UpdatePassword';
+import { CustomStorageService } from 'src/app/core/services/custom-storage/custom-storage.service';
 
 @Component({
   selector: 'app-confirmare-cod-acces',
@@ -41,7 +40,7 @@ export class ConfirmareCodAccesComponent implements OnInit, OnDestroy {
     private router: Router,
     private formBuilder: FormBuilder,
     private navCtrl: NavController,
-    private authS: AuthService,
+    private storeS: CustomStorageService,
     private changeCodeS: ChangeCodeService,
   ) {
     this.accessCode = this.changeCodeS.getUpdatePassObj.newPassword;
@@ -79,11 +78,11 @@ export class ConfirmareCodAccesComponent implements OnInit, OnDestroy {
     const { value } = this.passForm.controls.digit;
     if (value === this.accessCode) {
       this.busy = true;
-      this.authS.getAccountData().subscribe((account) => {
-        if (account) {
+      this.storeS.getItem<string>('phoneNumber').subscribe((phoneNumber) => {
+        if (phoneNumber) {
           const resetObj: UpdatePassword = {
             ...this.changeCodeS.getUpdatePassObj,
-            userName: account.userName, // Needs userName property to be set
+            userName: phoneNumber,
           };
           this.changeCodeS.setUpdatePassObj(resetObj);
           this.changeAccessCode();
