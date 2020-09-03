@@ -8,8 +8,8 @@ import {
 } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ActionSheetController, NavController } from '@ionic/angular';
-import { get } from 'lodash';
-import { BehaviorSubject, Subscription, zip, forkJoin } from 'rxjs';
+import { get, has } from 'lodash';
+import { BehaviorSubject, combineLatest, Subscription } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import { AuthService } from 'src/app/core/services/auth/auth.service';
 import { CustomRouterService } from 'src/app/core/services/custom-router/custom-router.service';
@@ -26,11 +26,13 @@ import { OmnAppLauncherService } from 'src/app/shared/modules/omn-app-launcher/s
 export class DatePersonaleValidateEmailComponent implements OnInit, OnDestroy {
   @HostBinding('class') color = 'ion-color-white-page';
   validateEmailModes = EmailValidateModes;
-  displayMode: EmailValidateModes = this.validateEmailModes.EMAIL_NEW_VALIDATE;
+  defaultDisplayMode = this.validateEmailModes.EMAIL_NEW_VALIDATE;
+  displayMode: EmailValidateModes = null;
   email = '';
   loaded = false;
   timerSubs: Subscription;
   timer$ = new BehaviorSubject(0);
+  queryParams = null;
 
   constructor(
     public actionSheetController: ActionSheetController,
@@ -61,19 +63,27 @@ export class DatePersonaleValidateEmailComponent implements OnInit, OnDestroy {
     this.routerS
       .getNavigationEndEvent()
       .pipe(
-        switchMap(() => {
-          return zip(
+        switchMap((val) => {
+          console.log(this.aRoute);
+          return combineLatest([
             this.routerS.processChildDataAsync(this.aRoute, 'validateMode'),
-            this.authS.getAccountData()
-          );
+            this.authS.getAccountData(),
+            this.routerS.processChildQParamsAsync(this.aRoute, [
+              'UserNameOrId',
+              'ConfirmationToken',
+            ]),
+          ]);
         })
       )
       .subscribe((vM) => {
         if (vM) {
-          this.displayMode = get(vM, '0.validateMode', this.displayMode);
+          this.displayMode = get(vM, '0', this.defaultDisplayMode);
           this.email = get(vM, '1.email', this.email);
+          this.queryParams = get(vM, '2', null);
         }
+        console.log(vM);
         this.cdRef.markForCheck();
+        this.handleEventData();
       });
   }
 
@@ -110,7 +120,7 @@ export class DatePersonaleValidateEmailComponent implements OnInit, OnDestroy {
 
   tryApp(type = 0) {
     if (type) {
-      this.toggleSuccess();
+      this.cancelValidate();
     } else {
       this.appS.tryEmailRead().subscribe((v) => console.log(v));
     }
@@ -148,6 +158,48 @@ export class DatePersonaleValidateEmailComponent implements OnInit, OnDestroy {
     }
   }
 
+  handleEventData() {
+    switch (this.displayMode) {
+      case this.validateEmailModes.EMAIL_CODE_PROCESSING:
+        if (
+          this.queryParams &&
+          has(this.queryParams, 'ConfirmationToken') &&
+          has(this.queryParams, 'UserNameOrId')
+        ) {
+          this.validateEmailToken(true);
+        } else {
+        }
+        break;
+      case this.validateEmailModes.EMAIL_CODE_CHANGE_PROCESSING:
+        if (
+          this.queryParams &&
+          has(this.queryParams, 'ConfirmationToken') &&
+          has(this.queryParams, 'UserNameOrId')
+        ) {
+          this.validateEmailToken(false);
+        } else {
+        }
+        break;
+
+      default:
+        break;
+    }
+  }
+
+  validateEmailToken(newE = false) {
+    this.authS
+      .validateEmail(
+        get(this.queryParams, 'UserNameOrId', ''),
+        get(this.queryParams, 'ConfirmationToken', ''),
+        newE
+      )
+      .subscribe(
+        (sData) => {
+          this.displayMode = this.validateEmailModes.EMAIL_NEW_VALIDATE_SUCCESS;
+        },
+        (err) => {}
+      );
+  }
   ngOnDestroy() {
     if (this.timerSubs) {
       this.timerSubs.unsubscribe();

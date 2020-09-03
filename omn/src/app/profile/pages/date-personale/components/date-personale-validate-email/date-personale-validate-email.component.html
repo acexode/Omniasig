@@ -15,6 +15,14 @@
   >
     <ng-container *ngTemplateOutlet="formType"></ng-container>
   </ng-container>
+  <ng-container
+    *ngIf="
+      displayMode === validateEmailModes.EMAIL_CODE_PROCESSING ||
+      displayMode === validateEmailModes.EMAIL_CODE_CHANGE_PROCESSING
+    "
+  >
+    <ng-container *ngTemplateOutlet="loadingCheck"></ng-container>
+  </ng-container>
 </ion-content>
 
 <ng-template #successType>
@@ -102,17 +110,20 @@
           <ion-row
             class="ion-no-padding ion-justify-content-center flex-column ion-align-content-center flex flex-1 w-100"
           >
-            <ion-button
-              *ngIf="(timer$ | async) === 0"
-              type="submit"
-              color="danger"
-              fill="solid"
-              expand="block"
-              size="large"
-              (click)="getEmail()"
-              class="m-0 w-100"
-              >Retrimite e-mail
-            </ion-button>
+            <ng-container>
+              <ion-text
+                *ngIf="(timer$ | async) === 0"
+                class="text-small ion-text-center"
+              >
+                Nu ai primit codul?
+                <a
+                  class="color-dark-green no-decoration"
+                  type="button"
+                  (click)="getEmail()"
+                  >Retrimite email</a
+                >
+              </ion-text>
+            </ng-container>
             <ion-label *ngIf="timer$ | async" class="text-small ion-text-center"
               >Poți solicita un alt e-mail în {{ timer$ | async | time }}
             </ion-label>
@@ -133,4 +144,10 @@
       </ion-row>
     </ion-col>
   </ion-grid>
+</ng-template>
+
+<ng-template #loadingCheck>
+  <app-loading-placeholder
+    [title]="'Verificam informatiile...'"
+  ></app-loading-placeholder>
 </ng-template>

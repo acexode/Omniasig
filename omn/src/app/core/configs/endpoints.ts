@@ -17,6 +17,9 @@ export const authEndpoints = {
     serverBaseUrl + '/UserProfile/RequestPinChangeWithoutAuthentification',
   confirmPincodeReset:
     serverBaseUrl + '/UserProfile/ConfirmPinChangeWithoutAuthentification',
+  confirmNewEmail:
+    serverBaseUrl + '/UserProfile/ConfirmEmailForRegisterUserProfile',
+  confirmEmailChange: serverBaseUrl + '/UserProfile/ConfirmationNewEmailChange',
 };
 
 export const baseEndpoints = {

@@ -1,10 +1,11 @@
+import { Router } from '@angular/router';
+import { EmailValidateModes } from 'src/app/shared/models/modes/email-validate-modes';
 import { ChangeDetectorRef, Component } from '@angular/core';
 import { Deeplinks } from '@ionic-native/deeplinks/ngx';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { NavController, Platform } from '@ionic/angular';
 import { defineCustomElements } from '@ionic/pwa-elements/loader';
-import { DatePersonaleValidateEmailComponent } from './profile/pages/date-personale/components/date-personale-validate-email/date-personale-validate-email.component';
 
 @Component({
   selector: 'app-root',
@@ -18,7 +19,7 @@ export class AppComponent {
     private statusBar: StatusBar,
     private cdRef: ChangeDetectorRef,
     private deeplinks: Deeplinks,
-    protected navController: NavController
+    protected router: Router
   ) {
     this.initializeApp();
   }
@@ -36,14 +37,27 @@ export class AppComponent {
   handleDeepLink() {
     this.deeplinks
       .route({
-        '/api/UserProfile/ConfirmEmailForRegisterUserProfile': '/profil/date-personale/validate-email',
+        '/api/UserProfile/ConfirmEmailForRegisterUserProfile':
+          '/profil/date-personale/validate-email-check',
+        '/api/UserProfile//api/UserProfile/ConfirmationNewEmailChange':
+          '/profil/date-personale/validate-email-change-check',
       })
       .subscribe(
         (match) => {
-          // match.$route - the route we matched, which is the matched entry from the arguments to route()
-          // match.$args - the args passed in the link
-          // match.$link - the full link dataxxxxxxxx
-          console.log('Successfully matched route', match);
+          if (match.$route) {
+            const props = match.$args;
+            if (props) {
+              this.router.navigateByUrl(
+                this.router.createUrlTree([match.$route], {
+                  queryParams: props,
+                })
+              );
+            } else {
+              this.router.navigateByUrl(match.$route);
+            }
+          }
+
+          console.log('Successfully matched route', match.$route);
           console.log(match);
         },
         (nomatch) => {

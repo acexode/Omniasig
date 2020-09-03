@@ -86,7 +86,9 @@
         "DEEPLINK_SCHEME": "https",
         "DEEPLINK_HOST": "omn-test.ciceu.io",
         "ANDROID_PATH_PREFIX": "/api/UserProfile/ConfirmEmailForRegisterUserProfile"
-      }
+      },
+      "cordova-plugin-app-launcher": {},
+      "com-darryncampbell-cordova-plugin-intent": {}
     },
     "platforms": [
       "browser",
