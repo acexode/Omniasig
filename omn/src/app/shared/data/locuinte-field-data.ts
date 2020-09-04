@@ -5,22 +5,22 @@ export enum LocuinteStructureType {
   LEMN,
 }
 export const locuinteFieldsData = {
-  resistenceStructure: [
+  structure: [
     {
       id: LocuinteStructureType.BETON_ARMAT,
-      label: 'Beton armat (cadre, diafragme, prefabricate)',
+      name: 'Beton armat (cadre, diafragme, prefabricate)',
     },
     {
       id: LocuinteStructureType.ZIDARIE_PORTANTA,
-      label: 'Zidărie portantă (zidarie, piatra)',
+      name: 'Zidărie portantă (zidarie, piatra)',
     },
     {
       id: LocuinteStructureType.METAL,
-      label: 'Metal',
+      name: 'Metal',
     },
     {
       id: LocuinteStructureType.LEMN,
-      label: 'Lemn',
+      name: 'Lemn',
     },
     // {
     //   id: 'lemnSub60',

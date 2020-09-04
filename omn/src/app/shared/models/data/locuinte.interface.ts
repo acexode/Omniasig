@@ -14,28 +14,28 @@ export enum LocuintaState {
 export interface Locuinte {
   id: number;
   address: {
-    locationName: string;
-    county: string;
-    city: string;
-    street: string;
-    buildingNumber: number;
+    name: string;
+    addressCounty: string;
+    addressCity: string;
+    addressStreet: string;
+    addressBuildingNumber: number;
     // Scara bloc.
-    floor: string;
-    apart: string;
-    postalCode: string;
+    addressFloor: string;
+    addressApart: string;
+    addressPostalCode: string;
   };
 
   info: {
     type: string;
-    resistenceStructure: string;
-    buildYear: number;
+    structure: string;
+    yearConstruction: number;
     valueCurrency: string;
     valueSum: string;
     occupancy: string;
     usableSurface: number;
     heightRegime: number;
-    roomCount: number;
-    alarm: boolean;
+    rooms: number;
+    hasAlarmSystem: boolean;
   };
   tipLocuinta: TipLocuinta;
   policyData: Array<PolicyItem>;

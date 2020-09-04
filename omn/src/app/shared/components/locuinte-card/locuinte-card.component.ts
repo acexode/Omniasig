@@ -15,7 +15,7 @@ import { Locuinte, LocuintaState } from '../../models/data/locuinte.interface';
 export class LocuinteCardComponent implements OnInit {
   locuintaState = LocuintaState;
   link: string;
-  @Input() item: Locuinte;
+  @Input() item: Locuinte; 
   constructor() {}
 
   ngOnInit() {

@@ -23,8 +23,8 @@ export class LocuinteFormService {
   buildLocuinteSubform(model: Locuinte, policyType?: string) {
     // info: {
     //   type: string;
-    //   resistenceStructure: string;
-    //   buildYear: number;
+    //   structure: string;
+    //   yearConstruction: number;
     //   value: {
     //     currency: string;
     //     sum: string;
@@ -32,17 +32,17 @@ export class LocuinteFormService {
     //   occupancy: string;
     //   usablesurface: number;
     //   heightRegime: number;
-    //   roomCount: number;
+    //   rooms: number;
     //   alarm: boolean;
     // }
     return this.fb.group({
       type: this.fb.control(get(model, 'info.type', ''), Validators.required),
-      resistenceStructure: this.fb.control(
-        get(model, 'info.resistenceStructure', ''),
+      structure: this.fb.control(
+        get(model, 'info.structure', ''),
         Validators.required
       ),
-      buildYear: this.fb.control(
-        get(model, 'info.buildYear', ''),
+      yearConstruction: this.fb.control(
+        get(model, 'info.yearConstruction', 0),
         Validators.required
       ),
       valueCurrency: this.fb.control(
@@ -65,12 +65,12 @@ export class LocuinteFormService {
         Number(get(model, 'info.heightRegime', 1)),
         [Validators.required, Validators.min(1)]
       ),
-      roomCount: this.fb.control(Number(get(model, 'info.roomCount', 1)), [
+      rooms: this.fb.control(Number(get(model, 'info.rooms', 1)), [
         Validators.required,
         Validators.min(1),
       ]),
-      alarm: this.fb.control(
-        get(model, 'info.alarm', false),
+      hasAlarmSystem: this.fb.control(
+        get(model, 'info.hasAlarmSystem', false),
         Validators.required
       ),
       // Additional - add validator after build
@@ -80,42 +80,42 @@ export class LocuinteFormService {
 
   buildAddressSubform(model: Locuinte, policyType?: string) {
     // address: {
-    //   county: string;
-    //   city: string;
-    //   street: string;
+    //   addressCounty: string;
+    //   addressCity: string;
+    //   addressStreet: string;
     //   number: number;
     //   // Scara bloc.
-    //   floor: string;
+    //   addressFloor: string;
     // }
     const group = this.fb.group({
-      county: this.fb.control(
-        get(model, 'address.county', ''),
+      addressCounty: this.fb.control(
+        get(model, 'address.addressCounty', ''),
         Validators.required
       ),
-      city: this.fb.control(
-        get(model, 'address.city', ''),
+      addressCity: this.fb.control(
+        get(model, 'address.addressCity', ''),
         Validators.required
       ),
-      street: this.fb.control(
-        get(model, 'address.street', ''),
+      addressStreet: this.fb.control(
+        get(model, 'address.addressStreet', ''),
         Validators.required
       ),
-      buildingNumber: this.fb.control(
-        get(model, 'address.buildingNumber', ''),
+      addressBuildingNumber: this.fb.control(
+        get(model, 'address.addressBuildingNumber', ''),
         Validators.required
       ),
-      floor: this.fb.control(get(model, 'address.floor', '')),
-      apart: this.fb.control(
-        get(model, 'address.apart', ''),
+      addressFloor: this.fb.control(get(model, 'address.addressFloor', '')),
+      addressApart: this.fb.control(
+        get(model, 'address.addressApart', ''),
         Validators.required
       ),
-      postalCode: this.fb.control(get(model, 'address.postalCode', ''), [
+      addressPostalCode: this.fb.control(get(model, 'address.addressPostalCode', ''), [
         Validators.required,
         Validators.minLength(6),
         Validators.maxLength(6),
       ]),
       // Additional - add validator after build
-      locationName: this.fb.control(get(model, 'address.locationName', '')),
+      name: this.fb.control(get(model, 'address.name', '')),
     });
 
     //if (policyType === 'PAD') {
@@ -137,36 +137,36 @@ export class LocuinteFormService {
     switch (formType) {
       case LocuinteFormType.ADDRESS:
         configModel = {
-          county: selectConfigHelper({ label: 'Județ', disabled: isDisabled }),
-          city: selectConfigHelper({
+          addressCounty: selectConfigHelper({ label: 'Județ', disabled: isDisabled }),
+          addressCity: selectConfigHelper({
             label: 'Localitate',
             disabled: isDisabled,
           }),
-          street: autoCompleteConfigHelper({
+          addressStreet: autoCompleteConfigHelper({
             label: 'Strada',
             disabled: isDisabled,
             dataServiceCb: this.streetLookup,
             dataServiceSource: this.streets$,
           }),
-          buildingNumber: inputConfigHelper({
+          addressBuildingNumber: inputConfigHelper({
             label: 'Număr',
             type: 'text',
             placeholder: '',
             disabled: isDisabled,
           }),
-          floor: inputConfigHelper({
+          addressFloor: inputConfigHelper({
             label: 'Scara (opțional)',
             type: 'text',
             placeholder: '',
             disabled: isDisabled,
           }),
-          apart: inputConfigHelper({
+          addressApart: inputConfigHelper({
             label: 'Apartament',
             type: 'text',
             placeholder: '',
             disabled: isDisabled,
           }),
-          postalCode: inputConfigHelper({
+          addressPostalCode: inputConfigHelper({
             label: 'Cod poștal',
             type: 'number',
             placeholder: '',
@@ -176,7 +176,7 @@ export class LocuinteFormService {
             },
             disabled: isDisabled,
           }),
-          locationName: inputConfigHelper({
+          name: inputConfigHelper({
             label: 'Vrei să dai o denumire acestui profil? (opțional)',
             type: 'text',
             placeholder: 'Ex: Casa de vacanță',
@@ -210,11 +210,11 @@ export class LocuinteFormService {
             label: 'Tip',
             mode: 'chip',
           }),
-          resistenceStructure: selectConfigHelper({
+          structure: selectConfigHelper({
             label: 'Structură de rezistență',
             disabled: isDisabled,
           }),
-          buildYear: dateTimeConfigHelper({
+          yearConstruction: dateTimeConfigHelper({
             label: 'Anul construcției',
             displayFormat: 'YYYY',
             pickerFormat: 'YYYY',
@@ -246,18 +246,18 @@ export class LocuinteFormService {
             placeholder: '',
             disabled: isDisabled,
           }),
-          roomCount: inputConfigHelper({
+          rooms: inputConfigHelper({
             label: 'Număr de camere',
             type: 'number',
             placeholder: '',
             disabled: isDisabled,
           }),
 
-          alarm: radiosConfigHelper({
+          hasAlarmSystem: radiosConfigHelper({
             label: 'Alarmă antiefracție sau pază permanentă',
             mode: 'chip',
           }),
-          locationName: inputConfigHelper({
+          name: inputConfigHelper({
             label: 'Vrei să dai o denumire acestui profil? (opțional)',
             type: 'text',
             placeholder: 'Ex: Casa de vacanță',
@@ -269,12 +269,12 @@ export class LocuinteFormService {
         configModel.usableSurface.min = 0;
         configModel.heightRegime.spinnerConfig = { step: 1 };
         configModel.heightRegime.min = 1;
-        configModel.roomCount.spinnerConfig = { step: 1 };
+        configModel.rooms.spinnerConfig = { step: 1 };
         configModel.valueSum.spinnerConfig = { step: 1 };
         configModel.valueSum.min = 1;
-        configModel.roomCount.min = 1;
-        configModel.buildYear.min = 1800;
-        configModel.buildYear.max = new Date().getFullYear();
+        configModel.rooms.min = 1;
+        configModel.yearConstruction.min = 1800;
+        configModel.yearConstruction.max = new Date().getFullYear();
         break;
 
       default:
@@ -321,25 +321,26 @@ export class LocuinteFormService {
           pad: null,
           locuintaState: null,
         };
-
+    console.log(newModel)
     forOwn(formGroupValue, (val, key) => {
+      console.log(key) 
       switch (key) {
-        case 'apart':
-        case 'city':
-        case 'county':
-        case 'locationName':
-        case 'floor':
-        case 'buildingNumber':
-        case 'postalCode':
-        case 'street':
+        case 'addressApart':
+        case 'addressCity':
+        case 'addressCounty':
+        case 'name':
+        case 'addressFloor':
+        case 'addressBuildingNumber':
+        case 'addressPostalCode':
+        case 'addressStreet':
           set(newModel, 'address.' + key, val);
           break;
-        case 'alarm':
-        case 'buildYear':
+        case 'hasAlarmSystem':
+        case 'yearConstruction':
         case 'heightRegime':
         case 'occupancy':
-        case 'resistenceStructure':
-        case 'roomCount':
+        case 'structure':
+        case 'rooms':
         case 'type':
         case 'usableSurface':
         case 'valueCurrency':
@@ -356,6 +357,7 @@ export class LocuinteFormService {
           break;
       }
     });
+    console.log(newModel)
     return newModel;
   }
 }
