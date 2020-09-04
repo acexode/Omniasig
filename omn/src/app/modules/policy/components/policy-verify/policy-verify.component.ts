@@ -26,6 +26,8 @@ export class PolicyVerifyComponent implements OnInit {
   ngOnInit() {}
   addOffer() {
     this.policyS.addOffer(this.offerData).subscribe((v) => {
+      //call PAD Create Insurance service here
+      console.log("INSURANCE OFFER DATA", this.offerData)
       if (v) {
         const id = get(v, 'id', null);
         if (id) {

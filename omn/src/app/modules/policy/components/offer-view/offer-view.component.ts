@@ -22,6 +22,7 @@ export class OfferViewComponent implements OnInit {
   ) {
     this.route.params.subscribe((params: any) => {
       this.getPolicyById(params.id);
+      console.log('OFFER RECEIVED', this.offer)
     });
   }
 
@@ -38,4 +39,9 @@ export class OfferViewComponent implements OnInit {
   }
 
   back() {}
+  
+  //created method called when the pay(plateste) button is clicked
+  pay(){
+    //create PAD Insurance offer/policy???
+  }
 }
