@@ -32,9 +32,9 @@ export class PadService {
         );
     }
     
-    CreatePADInsuranceOffer( padAddressId: number, homeAddressId: number ) {
+    CreatePADInsuranceOffer( padAddressId: number, homeAddressId: number, startDate ) {
         return this.reqS.get<any>(
-            `${ padEndpoints.VerifyPADInsuranceOffer }?padAddressId=${ padAddressId }&homeAddressId=${ homeAddressId }`
+            `${ padEndpoints.VerifyPADInsuranceOffer }?padAddressId=${ padAddressId }&homeAddressId=${ homeAddressId }&startDate=${startDate}`
         );
     }
     

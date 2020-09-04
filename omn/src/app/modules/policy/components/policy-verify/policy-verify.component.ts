@@ -27,7 +27,7 @@ export class PolicyVerifyComponent implements OnInit {
 
   ngOnInit() {}
   addOffer() {
-    this.padS.CreatePADInsuranceOffer(4, 4).subscribe(
+    this.padS.CreatePADInsuranceOffer(4, 4, '2020-09-10').subscribe(
       (result)=>{
         console.log("CREATING INSURANCE OFFER WAS SUCCESSFUL", result)
         this.policyS.addOffer(this.offerData).subscribe((v) => {
