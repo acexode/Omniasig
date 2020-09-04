@@ -8,6 +8,7 @@ import { RequestService } from 'src/app/core/services/request/request.service';
 import { PolicyItem } from 'src/app/shared/models/data/policy-item';
 import { PolicyOffer } from 'src/app/shared/models/data/policy-offer';
 import { policyTypes } from 'src/app/shared/models/data/policy-types';
+import { stringify } from 'querystring';
 
 @Injectable({
   providedIn: 'root',
@@ -33,7 +34,7 @@ export class PolicyDataService {
         this.getUserPoliciesArchive(account.userId).subscribe((vv) => {
           this.policyArchiveStore$.next(vv ? vv : []);
         });
-        this.getUserOffers(account.userId).subscribe((v) =>
+        this.getUserOffers().subscribe((v) =>
           this.offerStore$.next(v ? v : [])
         );
       }
@@ -52,27 +53,6 @@ export class PolicyDataService {
       );
   }
 
-  // ceate offer obj 
-  //  TODO policy_type = pad
-  // TODO add a name property to the offerObj = "123456"
-  // addressStreet,addressStreetNumber,addressCity 
-  offerObj(offers:any[]){
-return offers.map((offer)=>{
-//   {
-//     "id": "1",
-//     "policy": {
-//         "id": 2,
-//         "name": "offercode",
-//         "typeId": "PAD",
-//         "state": 1,
-//         "listingSubtitle": "Strada Traian 45, Brasov",
-//          "policy_type": "PAD",
-//     },
-//     "expiry": "2022-07-23T12:00:00Z"
-// }
-})
-  }
-
   getUserPoliciesArchive(id: number | string) {
     const emptyV: Array<PolicyItem> = [];
     return this.reqS
@@ -85,15 +65,18 @@ return offers.map((offer)=>{
       );
   }
 
-  getUserOffers(id: number | string) {
+  // get user offers
+  getUserOffers() {
     const emptyV: Array<PolicyOffer> = [];
     return this.reqS
-      .get<Array<PolicyOffer>>(this.endpoints.userOffersBase + '/' + id)
+      .get<Array<PolicyOffer>>(this.endpoints.GetActivePADOffers)
       .pipe(
         catchError((e) => {
           return of(emptyV);
         }),
-        map((ov) => (ov ? ov.map((ovi) => this.mapOfferPolicyType(ovi)) : []))
+        map((ov) =>
+          (ov ? ov.map((ovi) => this.mapOfferPolicyType(this.createOffersObj(ovi))) : [])
+        )
       );
   }
 
@@ -110,6 +93,55 @@ return offers.map((offer)=>{
     return p;
   }
 
+  // ceate offer obj 
+  createOffersObj(offer: any) {
+    return {
+      "id": offer.id,
+      "policy": {
+        "id": offer.id,
+        "name": offer.offerCode,
+        "typeId": "PAD",
+        "state": 1,
+        "listingSubtitle": `${offer.addressStreet}, ${offer.addressStreetNumber} ${offer.addressCity}`,
+        "dates": {
+          "from": offer.emisionDate,
+          "to": offer.expireDate,
+        },
+        "locuintaData": {
+          id: offer.id,
+          name: offer.locationName,
+          info:{
+            type:offer.locationType,
+            resistenceStructure:offer.locationStructure,
+            buildYear: offer.locationYearConstruction,
+            valueCurrency: offer.locationValueCurrency,
+            valueSum: offer.locationValue,
+            occupancy: offer.locationArea,
+            usableSurface: offer.locationArea,
+            heightRegime: offer.locationFloors,
+            roomCount: offer.locationRooms,
+            alarm: offer.locationHasAlarmSystem,
+          },
+          address: {
+            county: offer.addressCounty,
+            city: offer.addressCity,
+            street: offer.addressStreet,
+            number: offer.addressStreetNumber,
+            // Scara bloc.
+            entrance: offer.addressScara,
+            apartment: offer.addressApart,
+            postalCode: offer.addressPostalCode,
+          }
+        },
+        "userId": null,
+        "locuintaId": null
+      },
+      "nume":`${offer.userName} ${offer.userSurname}`,
+      "cnp":offer.userCnp,
+      "expiry": offer.expireDate
+    }
+  }
+
   getSingleOfferById(id: number | string) {
     return this.offerStore$.pipe(
       switchMap((vals) => {
@@ -118,12 +150,12 @@ return offers.map((offer)=>{
           if (existing) {
             return of(existing);
           } else {
-            return this.getUserOffers(id).pipe(
+            return this.getUserOffers().pipe(
               map((o) => o.filter((off) => off.id === id))
             );
           }
         } else {
-          return this.getUserOffers(id).pipe(
+          return this.getUserOffers().pipe(
             map((o) => o.filter((off) => off.id === id))
           );
         }
