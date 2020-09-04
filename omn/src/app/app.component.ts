@@ -1,3 +1,4 @@
+import { get } from 'lodash';
 import { Router } from '@angular/router';
 import { EmailValidateModes } from 'src/app/shared/models/modes/email-validate-modes';
 import { ChangeDetectorRef, Component } from '@angular/core';
@@ -45,11 +46,17 @@ export class AppComponent {
       .subscribe(
         (match) => {
           if (match.$route) {
-            const props = match.$args;
+            const props = get(match, '$args', {});
+            const queryString = get(match, '$link.queryString', '');
+            const qso = {};
+            new URLSearchParams(queryString).forEach((value, key) => {
+              qso[key] = value;
+            });
             if (props) {
               this.router.navigateByUrl(
                 this.router.createUrlTree([match.$route], {
-                  queryParams: props,
+                  queryParams: { ...props, ...qso },
+                  queryParamsHandling: 'merge',
                 })
               );
             } else {

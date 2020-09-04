@@ -249,7 +249,7 @@ export class AuthService {
     this.storeS.setItem('account', account);
     this.authState.next({
       init: true,
-      account,
+      account: { ...account },
     });
   }
 
@@ -257,8 +257,12 @@ export class AuthService {
     const endpointV = newEmail
       ? authEndpoints.confirmNewEmail
       : authEndpoints.confirmEmailChange;
+    console.log(token);
     return this.reqS.get(endpointV, {
-      params: { UserNameOrId: userName, ConfirmationToken: token },
+      params: {
+        UserNameOrId: userName,
+        ConfirmationToken: token,
+      },
     });
   }
 
@@ -274,8 +278,10 @@ export class AuthService {
       })
     );
   }
+
   doChangeEmail(newEmail: string) {
     return this.getPhoneNumber().pipe(
+      take(1),
       switchMap((phoneNum) => {
         if (phoneNum) {
           return this.reqS.post(authEndpoints.changeEmail, {
@@ -285,9 +291,6 @@ export class AuthService {
         } else {
           throw throwError('NO_NUMBER');
         }
-      }),
-      tap((val) => {
-        this.doUpdateAccount({ email: newEmail });
       })
     );
   }

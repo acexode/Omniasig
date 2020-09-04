@@ -1,3 +1,4 @@
+import { unsubscriberHelper } from './../../../../../core/helpers/unsubscriber.helper';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -10,7 +11,7 @@ import { ActivatedRoute } from '@angular/router';
 import { ActionSheetController, NavController } from '@ionic/angular';
 import { get, has } from 'lodash';
 import { BehaviorSubject, combineLatest, Subscription } from 'rxjs';
-import { switchMap } from 'rxjs/operators';
+import { switchMap, take } from 'rxjs/operators';
 import { AuthService } from 'src/app/core/services/auth/auth.service';
 import { CustomRouterService } from 'src/app/core/services/custom-router/custom-router.service';
 import { CustomTimersService } from 'src/app/core/services/custom-timers/custom-timers.service';
@@ -33,6 +34,8 @@ export class DatePersonaleValidateEmailComponent implements OnInit, OnDestroy {
   timerSubs: Subscription;
   timer$ = new BehaviorSubject(0);
   queryParams = null;
+  init = false;
+  navS;
 
   constructor(
     public actionSheetController: ActionSheetController,
@@ -60,7 +63,7 @@ export class DatePersonaleValidateEmailComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.routerS
+    this.navS = this.routerS
       .getNavigationEndEvent()
       .pipe(
         switchMap((val) => {
@@ -81,7 +84,10 @@ export class DatePersonaleValidateEmailComponent implements OnInit, OnDestroy {
           this.queryParams = get(vM, '2', null);
         }
         this.cdRef.markForCheck();
-        this.handleEventData();
+        if (!this.init) {
+          this.handleEventData();
+          this.init = true;
+        }
       });
   }
 
@@ -151,7 +157,7 @@ export class DatePersonaleValidateEmailComponent implements OnInit, OnDestroy {
       this.displayMode === this.validateEmailModes.EMAIL_CHANGE_VALIDATE ||
       this.displayMode === this.validateEmailModes.EMAIL_CHANGE_VALIDATE_SUCCESS
     ) {
-      this.navCtrl.navigateBack('/profil/date-personale/validate-email');
+      this.navCtrl.navigateBack('/profil/date-personale');
     } else {
       this.navCtrl.navigateBack('/home');
     }
@@ -217,12 +223,13 @@ export class DatePersonaleValidateEmailComponent implements OnInit, OnDestroy {
         (err) => {
           this.displayMode = this.validateEmailModes.EMAIL_VALIDATE_ERROR;
           this.cdRef.markForCheck();
+          this.cdRef.detectChanges();
         }
       );
   }
   ngOnDestroy() {
-    if (this.timerSubs) {
-      this.timerSubs.unsubscribe();
-    }
+    this.init = false;
+    unsubscriberHelper(this.timerSubs)
+    unsubscriberHelper(this.navS);
   }
 }
