@@ -32,6 +32,7 @@ export class DatePersonaleFormComponent implements OnInit {
   headerConfig = null;
   timerSubs: Subscription;
   timer$ = new BehaviorSubject(0);
+  formSubmitting = false;
 
   constructor(
     private fb: FormBuilder,
@@ -97,17 +98,28 @@ export class DatePersonaleFormComponent implements OnInit {
   submitForm() {
     if (this.formGroup.valid) {
       if (this.formMode === this.formModes.EDIT_EMAIL) {
-        this.authS.demoUpdate({ email: this.email.value });
-        this.navCtrl.navigateForward('/profil/date-personale/validate-email', {
-          state: {
-            validateMode:
+        this.formSubmitting = true;
+        this.navCtrl.navigateForward(
+          this.formMode === this.formModes.EDIT_EMAIL
+            ? '/profil/date-personale/validate-email-change'
+            : '/profil/date-personale/validate-email'
+        );
+        this.formSubmitting = false;
+        this.authS.doChangeEmail(this.email.value).subscribe(
+          (v) => {
+            this.formSubmitting = false;
+            this.navCtrl.navigateForward(
               this.formMode === this.formModes.EDIT_EMAIL
-                ? EmailValidateModes.EMAIL_CHANGE_VALIDATE
-                : EmailValidateModes.EMAIL_NEW_VALIDATE,
+                ? '/profil/date-personale/validate-email-change'
+                : '/profil/date-personale/validate-email'
+            );
           },
-        });
+          () => {
+            this.formSubmitting = true;
+          }
+        );
       } else if (this.formMode === this.formModes.EDIT_CNP) {
-        this.authS.demoUpdate({ cnp: this.cnp.value });
+        this.authS.doUpdateAccount({ cnp: this.cnp.value });
         this.navCtrl.navigateBack('/profil/date-personale');
       }
     } else {

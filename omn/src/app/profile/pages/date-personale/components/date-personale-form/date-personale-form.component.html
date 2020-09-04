@@ -56,7 +56,7 @@
             expand="block"
             size="large"
             class="m-0 w-100 flex mt-auto"
-            [disabled]="!formGroup?.valid"
+            [disabled]="!formGroup?.valid || formSubmitting"
             (click)="submitForm()"
             >Salveaza
           </ion-button>

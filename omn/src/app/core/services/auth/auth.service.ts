@@ -6,7 +6,7 @@ import {
   ActivatedRouteSnapshot,
   UrlTree,
 } from '@angular/router';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, throwError } from 'rxjs';
 import {
   distinctUntilChanged,
   filter,
@@ -14,6 +14,7 @@ import {
   share,
   switchMap,
   tap,
+  take,
 } from 'rxjs/operators';
 import { authEndpoints } from '../../configs/endpoints';
 import { AccountStates } from '../../models/account-states';
@@ -145,8 +146,8 @@ export class AuthService {
     return this.storeS.setItem('phoneNumber', phoneNumber);
   }
 
-  lastLoginNumber() {
-    return this.storeS.getItem('phoneNumber');
+  getPhoneNumber() {
+    return this.storeS.getItem('phoneNumber').pipe(take(1));
   }
 
   doLogout() {
@@ -236,7 +237,7 @@ export class AuthService {
     this.storeS.setItem('account', state.account);
   }
 
-  demoUpdate(data: { cnp?: string; email?: string }) {
+  doUpdateAccount(data: { cnp?: string; email?: string }) {
     const account = this.authState.value.account;
     if (data.cnp) {
       account.cnp = data.cnp;
@@ -244,6 +245,7 @@ export class AuthService {
     if (data.email) {
       account.email = data.email;
     }
+
     this.storeS.setItem('account', account);
     this.authState.next({
       init: true,
@@ -252,10 +254,41 @@ export class AuthService {
   }
 
   validateEmail(userName: string, token: string, newEmail?: boolean) {
-    const endpointV = newEmail ? authEndpoints.confirmNewEmail
+    const endpointV = newEmail
+      ? authEndpoints.confirmNewEmail
       : authEndpoints.confirmEmailChange;
     return this.reqS.get(endpointV, {
       params: { UserNameOrId: userName, ConfirmationToken: token },
     });
+  }
+
+  doReqNewEmailCode() {
+    return this.getAccountData().pipe(
+      take(1),
+      switchMap((value: Account) => {
+        if (value && value.email) {
+          return this.doChangeEmail(value.email);
+        } else {
+          throw throwError('NO_ACCOUNT_EMAIL');
+        }
+      })
+    );
+  }
+  doChangeEmail(newEmail: string) {
+    return this.getPhoneNumber().pipe(
+      switchMap((phoneNum) => {
+        if (phoneNum) {
+          return this.reqS.post(authEndpoints.changeEmail, {
+            userNameOrId: phoneNum,
+            newEmail,
+          });
+        } else {
+          throw throwError('NO_NUMBER');
+        }
+      }),
+      tap((val) => {
+        this.doUpdateAccount({ email: newEmail });
+      })
+    );
   }
 }

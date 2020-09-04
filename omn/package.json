@@ -72,7 +72,7 @@
     "tslint": "~6.1.0",
     "typescript": "~3.8.3"
   },
-  "description": "An Ionic project",
+  "description": "Omniasig",
   "cordova": {
     "plugins": {
       "cordova-plugin-whitelist": {},
@@ -85,7 +85,10 @@
         "URL_SCHEME": "omnapp",
         "DEEPLINK_SCHEME": "https",
         "DEEPLINK_HOST": "omn-test.ciceu.io",
-        "ANDROID_PATH_PREFIX": "/api/UserProfile/ConfirmEmailForRegisterUserProfile"
+        "ANDROID_PATH_PREFIX": "/api/UserProfile/ConfirmEmailForRegisterUserProfile",
+        "DEEPLINK_2_SCHEME": "https",
+        "DEEPLINK_2_HOST": "omn-test.ciceu.io",
+        "ANDROID_2_PATH_PREFIX": "/api/UserProfile/ConfirmationNewEmailChange"
       },
       "cordova-plugin-app-launcher": {},
       "com-darryncampbell-cordova-plugin-intent": {}

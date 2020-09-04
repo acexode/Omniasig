@@ -39,7 +39,7 @@ export class AppComponent {
       .route({
         '/api/UserProfile/ConfirmEmailForRegisterUserProfile':
           '/profil/date-personale/validate-email-check',
-        '/api/UserProfile//api/UserProfile/ConfirmationNewEmailChange':
+        '/api/UserProfile/ConfirmationNewEmailChange':
           '/profil/date-personale/validate-email-change-check',
       })
       .subscribe(

@@ -20,6 +20,7 @@ export const authEndpoints = {
   confirmNewEmail:
     serverBaseUrl + '/UserProfile/ConfirmEmailForRegisterUserProfile',
   confirmEmailChange: serverBaseUrl + '/UserProfile/ConfirmationNewEmailChange',
+  changeEmail: serverBaseUrl + '/UserProfile/RequestNewEmailChange',
 };
 
 export const baseEndpoints = {

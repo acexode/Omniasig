@@ -64,7 +64,6 @@ export class DatePersonaleValidateEmailComponent implements OnInit, OnDestroy {
       .getNavigationEndEvent()
       .pipe(
         switchMap((val) => {
-          console.log(this.aRoute);
           return combineLatest([
             this.routerS.processChildDataAsync(this.aRoute, 'validateMode'),
             this.authS.getAccountData(),
@@ -81,7 +80,6 @@ export class DatePersonaleValidateEmailComponent implements OnInit, OnDestroy {
           this.email = get(vM, '1.email', this.email);
           this.queryParams = get(vM, '2', null);
         }
-        console.log(vM);
         this.cdRef.markForCheck();
         this.handleEventData();
       });
@@ -137,9 +135,10 @@ export class DatePersonaleValidateEmailComponent implements OnInit, OnDestroy {
     this.authS.demoActivate();
   }
 
-  getEmail() {
+  resendEmail() {
     this.timerS.startEmailValidateTimer();
     this.subscribeTimer();
+    this.authS.doChangeEmail(this.email).subscribe();
     this.cdRef.markForCheck();
   }
 
@@ -161,6 +160,7 @@ export class DatePersonaleValidateEmailComponent implements OnInit, OnDestroy {
   handleEventData() {
     switch (this.displayMode) {
       case this.validateEmailModes.EMAIL_CODE_PROCESSING:
+        // We trigger the token validation process.
         if (
           this.queryParams &&
           has(this.queryParams, 'ConfirmationToken') &&
@@ -168,9 +168,12 @@ export class DatePersonaleValidateEmailComponent implements OnInit, OnDestroy {
         ) {
           this.validateEmailToken(true);
         } else {
+          this.displayMode = this.validateEmailModes.EMAIL_NEW_VALIDATE;
+          this.cdRef.markForCheck();
         }
         break;
       case this.validateEmailModes.EMAIL_CODE_CHANGE_PROCESSING:
+        // We trigger the token validation process.
         if (
           this.queryParams &&
           has(this.queryParams, 'ConfirmationToken') &&
@@ -178,7 +181,14 @@ export class DatePersonaleValidateEmailComponent implements OnInit, OnDestroy {
         ) {
           this.validateEmailToken(false);
         } else {
+          this.displayMode = this.validateEmailModes.EMAIL_CHANGE_VALIDATE;
+          this.cdRef.markForCheck();
         }
+        break;
+
+      case this.validateEmailModes.EMAIL_NEW_VALIDATE:
+        // We trigger resending the token.
+        this.authS.doReqNewEmailCode().subscribe();
         break;
 
       default:
@@ -186,6 +196,10 @@ export class DatePersonaleValidateEmailComponent implements OnInit, OnDestroy {
     }
   }
 
+  /**
+   * This passes the token and user id data to the validation WS.
+   * @param newE - Required to decide which WS to use to validate.
+   */
   validateEmailToken(newE = false) {
     this.authS
       .validateEmail(
@@ -195,7 +209,10 @@ export class DatePersonaleValidateEmailComponent implements OnInit, OnDestroy {
       )
       .subscribe(
         (sData) => {
-          this.displayMode = this.validateEmailModes.EMAIL_NEW_VALIDATE_SUCCESS;
+          this.displayMode =
+            this.displayMode === this.validateEmailModes.EMAIL_CODE_PROCESSING
+              ? this.validateEmailModes.EMAIL_NEW_VALIDATE_SUCCESS
+              : this.validateEmailModes.EMAIL_CHANGE_VALIDATE_SUCCESS;
         },
         (err) => {}
       );

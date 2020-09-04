@@ -30,6 +30,13 @@ const routes: Routes = [
     component: DatePersonaleValidateEmailComponent,
   },
   {
+    path: 'validate-email-change',
+    component: DatePersonaleValidateEmailComponent,
+    data: {
+      validateMode: EmailValidateModes.EMAIL_CHANGE_VALIDATE,
+    },
+  },
+  {
     path: 'validate-email-check',
     component: DatePersonaleValidateEmailComponent,
     data: {
