@@ -1,5 +1,6 @@
 import { get } from 'lodash';
 import { PolicyDataService } from './../../services/policy-data.service';
+import { PadService } from '../../services/pad.service'
 import {
   ChangeDetectionStrategy,
   Component,
@@ -20,24 +21,33 @@ export class PolicyVerifyComponent implements OnInit {
 
   constructor(
     private policyS: PolicyDataService,
+    private padS: PadService,
     private navCtrl: NavController
   ) {}
 
   ngOnInit() {}
   addOffer() {
-    this.policyS.addOffer(this.offerData).subscribe((v) => {
-      //call PAD Create Insurance service here
-      console.log("INSURANCE OFFER DATA", this.offerData)
-      if (v) {
-        const id = get(v, 'id', null);
-        if (id) {
-          this.navCtrl.navigateForward(['/policy', 'offer', id]);
-        } else {
-          this.navCtrl.navigateRoot(['/policy']);
-        }
-      } else {
-        // We'll probably only show an error in here.
+    this.padS.CreatePADInsuranceOffer(4, 4).subscribe(
+      (result)=>{
+        console.log("CREATING INSURANCE OFFER WAS SUCCESSFUL", result)
+        this.policyS.addOffer(this.offerData).subscribe((v) => {
+          //call PAD Create Insurance service here
+          console.log("INSURANCE OFFER DATA", this.offerData)
+          if (v) {
+            const id = get(v, 'id', null);
+            if (id) {
+              this.navCtrl.navigateForward(['/policy', 'offer', id]);
+            } else {
+              this.navCtrl.navigateRoot(['/policy']);
+            }
+          } else {
+            // We'll probably only show an error in here.
+          }
+        });
+      },
+      (error)=>{
+        console.log("CREATING INSURANCE OFFER FAILED", error)
       }
-    });
+    )
   }
 }
