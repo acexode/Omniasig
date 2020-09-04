@@ -168,7 +168,7 @@ export class DatePersonaleValidateEmailComponent implements OnInit, OnDestroy {
         ) {
           this.validateEmailToken(true);
         } else {
-          this.displayMode = this.validateEmailModes.EMAIL_NEW_VALIDATE;
+          this.displayMode = this.validateEmailModes.EMAIL_VALIDATE_ERROR;
           this.cdRef.markForCheck();
         }
         break;
@@ -181,7 +181,7 @@ export class DatePersonaleValidateEmailComponent implements OnInit, OnDestroy {
         ) {
           this.validateEmailToken(false);
         } else {
-          this.displayMode = this.validateEmailModes.EMAIL_CHANGE_VALIDATE;
+          this.displayMode = this.validateEmailModes.EMAIL_VALIDATE_ERROR;
           this.cdRef.markForCheck();
         }
         break;
@@ -214,7 +214,10 @@ export class DatePersonaleValidateEmailComponent implements OnInit, OnDestroy {
               ? this.validateEmailModes.EMAIL_NEW_VALIDATE_SUCCESS
               : this.validateEmailModes.EMAIL_CHANGE_VALIDATE_SUCCESS;
         },
-        (err) => {}
+        (err) => {
+          this.displayMode = this.validateEmailModes.EMAIL_VALIDATE_ERROR;
+          this.cdRef.markForCheck();
+        }
       );
   }
   ngOnDestroy() {

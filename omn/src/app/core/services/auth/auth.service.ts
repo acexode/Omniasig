@@ -156,7 +156,7 @@ export class AuthService {
     this.authState.next({
       ...this.initialState,
     });
-    this.routerS.navigateByUrl('/login');
+    this.routerS.navigate(['/login']);
   }
 
   updateState(newState: AuthState) {
