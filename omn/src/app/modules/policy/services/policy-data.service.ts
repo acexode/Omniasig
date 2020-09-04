@@ -52,6 +52,27 @@ export class PolicyDataService {
       );
   }
 
+  // ceate offer obj 
+  //  TODO policy_type = pad
+  // TODO add a name property to the offerObj = "123456"
+  // addressStreet,addressStreetNumber,addressCity 
+  offerObj(offers:any[]){
+return offers.map((offer)=>{
+//   {
+//     "id": "1",
+//     "policy": {
+//         "id": 2,
+//         "name": "offercode",
+//         "typeId": "PAD",
+//         "state": 1,
+//         "listingSubtitle": "Strada Traian 45, Brasov",
+//          "policy_type": "PAD",
+//     },
+//     "expiry": "2022-07-23T12:00:00Z"
+// }
+})
+  }
+
   getUserPoliciesArchive(id: number | string) {
     const emptyV: Array<PolicyItem> = [];
     return this.reqS
