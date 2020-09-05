@@ -87,7 +87,10 @@ export class AuthService {
             phoneNumber,
             code,
         };
-        return this.reqS.post<any>( authEndpoints.sendPhoneNumberSms, reqData );
+        return this.reqS.post<any>(
+          authEndpoints.confirmPhoneNumberSms,
+          reqData
+        );
     }
 
     // save token to local storage
@@ -141,7 +144,7 @@ export class AuthService {
      *
      * @param phoneNumber phoneNumber of the user trying to login
      */
-    saveLastLoginNumber( phoneNumber?: string ) {
+    saveLastLoginNumber( phoneNumber: string ) {
         return this.storeS.setItem( 'phoneNumber', phoneNumber );
     }
 
