@@ -81,5 +81,7 @@
       "cordova-plugin-ionic-webview": {},
       "cordova-plugin-ionic-keyboard": {}
     }
-  }
+  },
+  "main": "karma.conf.js",
+  "license": "ISC"
 }
