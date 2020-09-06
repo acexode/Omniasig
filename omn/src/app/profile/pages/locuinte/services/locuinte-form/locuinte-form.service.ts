@@ -320,10 +320,8 @@ export class LocuinteFormService {
           tipLocuinta: null,
           pad: null,
           locuintaState: null,
-        };
-    console.log(newModel)
-    forOwn(formGroupValue, (val, key) => {
-      console.log(key) 
+        };   
+    forOwn(formGroupValue, (val, key) => {       
       switch (key) {
         case 'addressApart':
         case 'addressCity':
@@ -356,8 +354,7 @@ export class LocuinteFormService {
           set(newModel, key, val);
           break;
       }
-    });
-    console.log(newModel)
+    });   
     return newModel;
   }
 }

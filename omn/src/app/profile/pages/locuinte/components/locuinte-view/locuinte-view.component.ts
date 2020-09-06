@@ -75,8 +75,7 @@ export class LocuinteViewComponent implements OnInit {
     public modalController: ModalController
   ) {}
 
-  ngOnInit() {
-    console.log(this.aRoute)
+  ngOnInit() {    
     this.routerS
       .getNavigationEndEvent()
       .pipe(
@@ -92,11 +91,9 @@ export class LocuinteViewComponent implements OnInit {
         this.formMode = vals[0];
         this.formStep = vals[1];
         this.setTitles();
-        const id = vals[2];
-        console.log(vals)
+        const id = vals[2];        
         if (id) {         
-          this.locuinteS.getSingleLocuinta(id).subscribe((val: Locuinte) => {
-            console.log(val)
+          this.locuinteS.getSingleLocuinta(id).subscribe((val: Locuinte) => {            
             if (val) {
               this.locuinta$.next(val);
               this.dataModel = val;

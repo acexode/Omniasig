@@ -91,7 +91,7 @@ export class LocuinteService {
       id: 0,
       ...data,
     };
-    console.log(adddress);
+    
     return this.reqS.post<Locuinte>(this.endpoints.add, adddress);
     // return of({ ...data, ...{ id: random(10, 100) } }).pipe(
     //   map((v) => {
@@ -171,8 +171,7 @@ export class LocuinteService {
 
     return this.reqS.post<Locuinte>(this.endpoints.getCities, data);
   }
-  getStreets(obj) {
-    console.log(obj) 
+  getStreets(obj) {     
     return this.reqS.post(this.endpoints.getStreets, obj).pipe(
       map((val: any) => {
         let withLabel = val.map(v => {
@@ -180,8 +179,7 @@ export class LocuinteService {
               ...v,
               label: v.name
             }
-        })
-        console.log(withLabel)
+        })        
         this.streetStore$.next(withLabel);
         return withLabel;
       })

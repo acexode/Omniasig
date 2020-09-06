@@ -32,8 +32,7 @@ export class LocuintePage implements OnInit {
         this.accountActivated = true;
         this.cdRef.markForCheck();
         this.reQLocuintes();
-        this.cards$.subscribe((cards) => {
-          console.log(cards)
+        this.cards$.subscribe((cards) => {          
           this.cards = cards;
         });
       }

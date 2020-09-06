@@ -162,8 +162,7 @@ export class LocuinteFormPageComponent implements OnInit {
     });
     if (this.addressCounty) {
       this.addressCounty.valueChanges.subscribe((val) => {
-        this.locuinteS.getCities(val).subscribe((data) => {
-          console.log(data)
+        this.locuinteS.getCities(val).subscribe((data) => {          
           this.formInstance.data.addressCity = data;
         });
       });
@@ -280,23 +279,19 @@ export class LocuinteFormPageComponent implements OnInit {
 
   submitData(): Observable<Locuinte> {
     switch (this.formMode) {
-      case this.formModes.EDIT_FULL:
-        console.log(this.formInstance.group.value)
-        console.log(this.dataModel['response'])
+      case this.formModes.EDIT_FULL:   
         // const model = this.formS.processFormModel(
         //   this.formInstance.group.value,
         //   this.dataModel
         // );
         let model;
         if(this.dataModel.hasOwnProperty('response')){
-          let year = parseInt(this.formInstance.group.get('yearConstruction').value)
-          console.log(year)
+          let year = parseInt(this.formInstance.group.get('yearConstruction').value)          
           this.formInstance.group.get('yearConstruction').setValue(year)
            model = {...this.dataModel['response'], ...this.formInstance.group.value}
         }else{
           model = {...this.dataModel, ...this.formInstance.group.value}
-        }
-        console.log(model)
+        }        
         this.formSubmitting = true;
         this.cdRef.markForCheck();
         return this.locuinteS.updateSingleLocuinte(model).pipe(
@@ -311,9 +306,9 @@ export class LocuinteFormPageComponent implements OnInit {
         //   this.formInstance.group.value,
         //   this.dataModel
         // );
-        console.log(this.dataModel)
+       
         const model2 = {...this.dataModel, ...this.formInstance.group.value}
-        console.log(model2)
+        
         this.formSubmitting = true;
         this.cdRef.markForCheck();
         if (this.dataModel) {
@@ -339,8 +334,7 @@ export class LocuinteFormPageComponent implements OnInit {
   }
   processForm(existing, newValue){        
     let model = {...existing['response'], ...newValue}   
-    model.yearConstruction = parseInt(model.yearConstruction)
-    console.log(model)
+    model.yearConstruction = parseInt(model.yearConstruction)    
     return model
   }
   trailingAction() {}
