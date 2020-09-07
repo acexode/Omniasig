@@ -44,8 +44,15 @@
     </ng-container>
     <ng-container *ngSwitchCase="policySteps?.TECHNICAL_SUPPORT">
       <app-asistenta-technica
+        (emitForm)="techSupportSubmit($event)"
         class="flex flex-1 w-100 mh-100p"
       ></app-asistenta-technica>
+    </ng-container>
+    <ng-container *ngSwitchCase="policySteps?.WAY_TO_PAY">
+      <app-way-to-pay
+        (eventSubmit)="paySubmit($event)"
+        class="flex flex-1 w-100 mh-100p"
+      ></app-way-to-pay>
     </ng-container>
     <ng-container *ngSwitchCase="policySteps?.PERIOD_FORM">
       <app-insurance-period

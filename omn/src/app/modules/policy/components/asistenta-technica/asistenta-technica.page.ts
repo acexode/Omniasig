@@ -3,6 +3,8 @@ import {
   ChangeDetectorRef,
   Component,
   OnInit,
+  Output,
+  EventEmitter,
 } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ModalController } from '@ionic/angular';
@@ -40,6 +42,8 @@ export class AsistentaTechnicaPage implements OnInit {
     plan: this.fb.control(false, Validators.required),
   });
 
+  @Output() emitForm: EventEmitter<any> = new EventEmitter();
+
   constructor(
     public modalCtrl: ModalController,
     private fb: FormBuilder,
@@ -67,6 +71,6 @@ export class AsistentaTechnicaPage implements OnInit {
   }
 
   submit() {
-    // TODO: emit an event from here to the main component.
+    this.emitForm.emit();
   }
 }

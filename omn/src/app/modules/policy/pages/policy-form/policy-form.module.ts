@@ -12,6 +12,7 @@ import { ExclusionSlidesComponent } from '../../components/exclusion-slides/excl
 import { InfoCardComponent } from '../../components/info-card/info-card.component';
 import { InfoDocComponent } from '../../components/info-doc/info-doc.component';
 import { AsistentaTechnicaPage } from '../../components/asistenta-technica/asistenta-technica.page';
+import { WayToPayComponent } from '../../components/way-to-pay/way-to-pay.component';
 import { InsurancePeriodComponent } from '../../components/insurance-period/insurance-period.component';
 import { PolicySharedModule } from '../../policy-shared.module';
 import { LocuinteSharedModule } from './../../../../profile/pages/locuinte/locuinte-shared.module';
@@ -47,6 +48,7 @@ import { PolicyFormPage } from './policy-form.page';
     PolicyVerifyComponent,
     PolicyValoareModalComponent,
     AsistentaTechnicaPage,
+    WayToPayComponent,
   ],
 })
 export class PolicyFormPageModule {}

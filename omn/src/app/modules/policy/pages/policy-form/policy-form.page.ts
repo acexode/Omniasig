@@ -228,6 +228,14 @@ export class PolicyFormPage implements OnInit, OnDestroy {
           backLink: false,
         });
         break;
+      case this.policySteps.WAY_TO_PAY:
+        this.headerConfig = policySubpageHeader({
+          title: 'Modalitate de plată',
+          hasTrailingIcon: true,
+          hasLeadingIcon: true,
+          backLink: false,
+        });
+        break;
       default:
         this.headerConfig = policySubpageHeader({
           title: 'Polita',
@@ -537,6 +545,14 @@ export class PolicyFormPage implements OnInit, OnDestroy {
         new Date().setFullYear(new Date().getFullYear() + 1)
       ).toISOString();
     }
+  }
+
+  techSupportSubmit(supportData) {
+    this.changeStep(this.policySteps.WAY_TO_PAY);
+  }
+
+  paySubmit(payData) {
+    this.changeStep(this.policySteps.POLICY_VERIFY);
   }
 
   exitFlow() {
