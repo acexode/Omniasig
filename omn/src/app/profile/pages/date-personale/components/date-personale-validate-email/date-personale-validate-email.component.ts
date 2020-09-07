@@ -1,4 +1,3 @@
-import { unsubscriberHelper } from './../../../../../core/helpers/unsubscriber.helper';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -11,12 +10,13 @@ import { ActivatedRoute } from '@angular/router';
 import { ActionSheetController, NavController } from '@ionic/angular';
 import { get, has } from 'lodash';
 import { BehaviorSubject, combineLatest, Subscription } from 'rxjs';
-import { switchMap, take } from 'rxjs/operators';
+import { switchMap } from 'rxjs/operators';
 import { AuthService } from 'src/app/core/services/auth/auth.service';
 import { CustomRouterService } from 'src/app/core/services/custom-router/custom-router.service';
 import { CustomTimersService } from 'src/app/core/services/custom-timers/custom-timers.service';
 import { EmailValidateModes } from 'src/app/shared/models/modes/email-validate-modes';
 import { OmnAppLauncherService } from 'src/app/shared/modules/omn-app-launcher/services/omn-app-launcher.service';
+import { unsubscriberHelper } from './../../../../../core/helpers/unsubscriber.helper';
 
 @Component({
   selector: 'app-date-personale-validate-email',
@@ -73,6 +73,7 @@ export class DatePersonaleValidateEmailComponent implements OnInit, OnDestroy {
             this.routerS.processChildQParamsAsync(this.aRoute, [
               'UserNameOrId',
               'ConfirmationToken',
+              'RawProperties',
             ]),
           ]);
         })
@@ -167,11 +168,7 @@ export class DatePersonaleValidateEmailComponent implements OnInit, OnDestroy {
     switch (this.displayMode) {
       case this.validateEmailModes.EMAIL_CODE_PROCESSING:
         // We trigger the token validation process.
-        if (
-          this.queryParams &&
-          has(this.queryParams, 'ConfirmationToken') &&
-          has(this.queryParams, 'UserNameOrId')
-        ) {
+        if (this.queryParams && has(this.queryParams, 'RawProperties')) {
           this.validateEmailToken(true);
         } else {
           this.displayMode = this.validateEmailModes.EMAIL_VALIDATE_ERROR;
@@ -180,11 +177,7 @@ export class DatePersonaleValidateEmailComponent implements OnInit, OnDestroy {
         break;
       case this.validateEmailModes.EMAIL_CODE_CHANGE_PROCESSING:
         // We trigger the token validation process.
-        if (
-          this.queryParams &&
-          has(this.queryParams, 'ConfirmationToken') &&
-          has(this.queryParams, 'UserNameOrId')
-        ) {
+        if (this.queryParams && has(this.queryParams, 'RawProperties')) {
           this.validateEmailToken(false);
         } else {
           this.displayMode = this.validateEmailModes.EMAIL_VALIDATE_ERROR;
@@ -207,29 +200,33 @@ export class DatePersonaleValidateEmailComponent implements OnInit, OnDestroy {
    * @param newE - Required to decide which WS to use to validate.
    */
   validateEmailToken(newE = false) {
-    this.authS
-      .validateEmail(
-        get(this.queryParams, 'UserNameOrId', ''),
-        get(this.queryParams, 'ConfirmationToken', ''),
-        newE
-      )
-      .subscribe(
-        (sData) => {
-          this.displayMode =
-            this.displayMode === this.validateEmailModes.EMAIL_CODE_PROCESSING
-              ? this.validateEmailModes.EMAIL_NEW_VALIDATE_SUCCESS
-              : this.validateEmailModes.EMAIL_CHANGE_VALIDATE_SUCCESS;
-        },
-        (err) => {
-          this.displayMode = this.validateEmailModes.EMAIL_VALIDATE_ERROR;
-          this.cdRef.markForCheck();
-          this.cdRef.detectChanges();
-        }
-      );
+    const RawProperties = get(this.queryParams, 'RawProperties', null);
+
+    let jsonObj = {};
+    try {
+      jsonObj = JSON.parse(atob(RawProperties));
+    } catch (err) {
+      jsonObj = {};
+    }
+    this.authS.validateEmail(jsonObj, newE).subscribe(
+      (sData) => {
+        this.displayMode =
+          this.displayMode === this.validateEmailModes.EMAIL_CODE_PROCESSING
+            ? this.validateEmailModes.EMAIL_NEW_VALIDATE_SUCCESS
+            : this.validateEmailModes.EMAIL_CHANGE_VALIDATE_SUCCESS;
+        this.cdRef.markForCheck();
+        this.cdRef.detectChanges();
+      },
+      (err) => {
+        this.displayMode = this.validateEmailModes.EMAIL_VALIDATE_ERROR;
+        this.cdRef.markForCheck();
+        this.cdRef.detectChanges();
+      }
+    );
   }
   ngOnDestroy() {
     this.init = false;
-    unsubscriberHelper(this.timerSubs)
+    unsubscriberHelper(this.timerSubs);
     unsubscriberHelper(this.navS);
   }
 }

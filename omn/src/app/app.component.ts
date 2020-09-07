@@ -1,12 +1,12 @@
-import { get } from 'lodash';
-import { Router } from '@angular/router';
-import { EmailValidateModes } from 'src/app/shared/models/modes/email-validate-modes';
 import { ChangeDetectorRef, Component } from '@angular/core';
+import { Router } from '@angular/router';
 import { Deeplinks } from '@ionic-native/deeplinks/ngx';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
-import { NavController, Platform } from '@ionic/angular';
+import { Platform } from '@ionic/angular';
 import { defineCustomElements } from '@ionic/pwa-elements/loader';
+import { get } from 'lodash';
+import * as qs from 'qs';
 
 @Component({
   selector: 'app-root',
@@ -48,28 +48,28 @@ export class AppComponent {
           if (match.$route) {
             const props = get(match, '$args', {});
             const queryString = get(match, '$link.queryString', '');
-            const qso = {};
-            new URLSearchParams(queryString).forEach((value, key) => {
-              qso[key] = value;
+            // Use a separate query string parser so that we don't break tokens.
+            // Existing Bug: https://github.com/angular/angular/issues/18261
+            const qso = qs.parse(queryString, {
+              decoder: (str) => {
+                return decodeURIComponent(str);
+              },
             });
+            const convertedProps = btoa(JSON.stringify(qso));
             if (props) {
+              props.RawProperties = convertedProps;
               this.router.navigateByUrl(
                 this.router.createUrlTree([match.$route], {
-                  queryParams: { ...props, ...qso },
-                  queryParamsHandling: 'merge',
+                  queryParams: props,
                 })
               );
             } else {
               this.router.navigateByUrl(match.$route);
             }
           }
-
-          console.log('Successfully matched route', match.$route);
-          console.log(match);
         },
         (nomatch) => {
           // nomatch.$link - the full link data
-          console.error("Got a deeplink that didn't match", nomatch);
         }
       );
   }

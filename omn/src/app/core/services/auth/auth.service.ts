@@ -1,9 +1,9 @@
-import { assignIn } from 'lodash';
+import { HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import {
-  Router,
   ActivatedRoute,
   ActivatedRouteSnapshot,
+  Router,
   UrlTree,
 } from '@angular/router';
 import { BehaviorSubject, throwError } from 'rxjs';
@@ -13,8 +13,8 @@ import {
   map,
   share,
   switchMap,
-  tap,
   take,
+  tap,
 } from 'rxjs/operators';
 import { authEndpoints } from '../../configs/endpoints';
 import { AccountStates } from '../../models/account-states';
@@ -24,6 +24,7 @@ import { LoginResponse } from '../../models/login-response.interface';
 import { Login } from '../../models/login.interface';
 import { CustomStorageService } from '../custom-storage/custom-storage.service';
 import { RequestService } from '../request/request.service';
+import * as qs from 'qs';
 
 @Injectable({
   providedIn: 'root',
@@ -253,17 +254,17 @@ export class AuthService {
     });
   }
 
-  validateEmail(userName: string, token: string, newEmail?: boolean) {
+  validateEmail(dataObj, newEmail?: boolean) {
     const endpointV = newEmail
       ? authEndpoints.confirmNewEmail
       : authEndpoints.confirmEmailChange;
-    console.log(token);
-    return this.reqS.get(endpointV, {
-      params: {
-        UserNameOrId: userName,
-        ConfirmationToken: token,
+    // Use custom query encode so that Angular will not remove token chars.
+    const encodedQs = qs.stringify(dataObj, {
+      encoder: (str) => {
+        return encodeURIComponent(str);
       },
     });
+    return this.reqS.get(endpointV + '?' + encodedQs);
   }
 
   doReqNewEmailCode() {
