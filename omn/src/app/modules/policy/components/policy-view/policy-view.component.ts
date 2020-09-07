@@ -13,7 +13,8 @@ import { CalendarOptions, CalendarEntry } from '../models/calendar-entry';
 export class PolicyViewComponent implements OnInit {
     headerConfig = subPageHeaderCustom( 'Polița PAD', 'bg-state' );
     isAmplus = false;
-    date: Date = new Date();
+
+    date = '2020.09.30';
 
     calanderEntryOptions: CalendarOptions = {
         firstReminderMinutes: 15,
@@ -26,8 +27,8 @@ export class PolicyViewComponent implements OnInit {
         title: 'policy Expiry Date',
         location: 'Romania',
         notes: 'Testing',
-        startDate: this.date,
-        endDate: this.date,
+        startDate: this.getEightDayBeforeExpiryDate(this.date),
+        endDate: new Date( this.date),
         options: this.calanderEntryOptions
     };
 
@@ -55,7 +56,7 @@ export class PolicyViewComponent implements OnInit {
     }
 
 /* for Notification */
-    getEightDayBeforeExpiryDate(date: Date) {
+    getEightDayBeforeExpiryDate(date: string) {
         const expiryDate = new Date( date );
         const eightDaysFromExpiryDate = new Date( expiryDate.getTime() - 8 * 24 * 60 * 60 * 1000 );
         return eightDaysFromExpiryDate;
