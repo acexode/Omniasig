@@ -63,7 +63,17 @@
       ></app-insurance-period>
     </ng-container>
     <ng-container *ngSwitchCase="policySteps?.POLICY_VERIFY">
-      <app-policy-verify [offerData]="offerData"></app-policy-verify>
+      <app-policy-verify
+        (calculateEvent)="calculationSubmit($event)"
+        [offerData]="offerData"
+      ></app-policy-verify>
+    </ng-container>
+    <ng-container *ngSwitchCase="policySteps?.CALCULATION_LOADER">
+      <app-loading-placeholder
+        [title]="loaderTitle"
+        class="flex flex-1 mh-100p w-100"
+      >
+      </app-loading-placeholder>
     </ng-container>
     <ng-container *ngSwitchDefault>
       <ng-container

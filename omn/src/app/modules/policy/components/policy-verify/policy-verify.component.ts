@@ -5,9 +5,12 @@ import {
   Component,
   Input,
   OnInit,
+  Output,
+  EventEmitter,
 } from '@angular/core';
 import { PolicyOffer } from 'src/app/shared/models/data/policy-offer';
 import { NavController } from '@ionic/angular';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-policy-verify',
@@ -16,14 +19,19 @@ import { NavController } from '@ionic/angular';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PolicyVerifyComponent implements OnInit {
+  policyID;
   @Input() offerData: PolicyOffer;
+  @Output() calculateEvent: EventEmitter<any> = new EventEmitter();
 
   constructor(
     private policyS: PolicyDataService,
-    private navCtrl: NavController
+    private navCtrl: NavController,
+    private aRoute: ActivatedRoute
   ) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.policyID = this.aRoute.snapshot.queryParamMap.get('policyID');
+  }
   addOffer() {
     this.policyS.addOffer(this.offerData).subscribe((v) => {
       if (v) {
@@ -37,5 +45,9 @@ export class PolicyVerifyComponent implements OnInit {
         // We'll probably only show an error in here.
       }
     });
+  }
+
+  calculatePrice() {
+    this.calculateEvent.emit();
   }
 }

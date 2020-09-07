@@ -48,6 +48,7 @@ export class PolicyFormPage implements OnInit, OnDestroy {
   policySteps = PolicyFormSteps;
   currentStep = PolicyFormSteps.DNT;
   typeItem;
+  loaderTitle = 'Calculăm costul poliței de asigurare…';
 
   policyLocuintaData$: BehaviorSubject<
     Array<PolicyLocuintaListItem>
@@ -235,6 +236,9 @@ export class PolicyFormPage implements OnInit, OnDestroy {
           hasLeadingIcon: true,
           backLink: false,
         });
+        break;
+      case this.policySteps.CALCULATION_LOADER:
+        this.headerConfig = null;
         break;
       default:
         this.headerConfig = policySubpageHeader({
@@ -552,7 +556,21 @@ export class PolicyFormPage implements OnInit, OnDestroy {
   }
 
   paySubmit(payData) {
+    this.offerData = this.policyFs.buildOfferItem({
+      locuintaItem: this.selectedAddressItem,
+      account: this.userAccount,
+      pType: this.typeItem as PolicyType,
+      cesiune: get(this.cesiuneData, 'cesionar', []),
+      fromDate: this.periodStartData,
+    });
     this.changeStep(this.policySteps.POLICY_VERIFY);
+  }
+
+  calculationSubmit() {
+    this.changeStep(this.policySteps.CALCULATION_LOADER);
+    // this.refTimer = setTimeout(() => {
+    //  this.changeStep(this.policySteps.CALCULATION_LOADER);
+    // }, 3000);
   }
 
   exitFlow() {
