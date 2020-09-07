@@ -12,7 +12,7 @@ import { CalendarOptions, CalendarEntry } from '../models/calendar-entry';
 } )
 export class PolicyViewComponent implements OnInit {
     headerConfig = subPageHeaderCustom( 'Polița PAD', 'bg-state' );
-
+    isAmplus = false;
     date: Date = new Date();
 
     calanderEntryOptions: CalendarOptions = {
