@@ -53,6 +53,7 @@ export class CodAccesNouComponent implements OnInit, OnDestroy {
 
     this.sub = this.passForm.valueChanges.subscribe((value) => {
       this.changeInput(value.digit);
+      this.InvalidCode = false;
       if (this.digitsLength === 6) {
         this.continue();
       }
@@ -70,11 +71,8 @@ export class CodAccesNouComponent implements OnInit, OnDestroy {
   continue() {
     const { value } = this.passForm.controls.digit;
     if (value === '000000') {
+      this.passForm.reset();
       this.InvalidCode = true;
-      setTimeout(() => {
-        this.InvalidCode = false;
-        this.passForm.reset();
-      }, 3000);
     } else {
       const resetObj: UpdatePassword = {
         ...this.changeCodeS.getUpdatePassObj,
@@ -87,7 +85,7 @@ export class CodAccesNouComponent implements OnInit, OnDestroy {
 
   proceed() {
     this.router.navigate([
-      'cod-acces/confirmare',
+      '/cod-acces/confirmare',
     ]);
   }
 

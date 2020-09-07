@@ -119,6 +119,10 @@ const routes: Routes = [
         (m) => m.PinCodeResetPageModule
       ),
   },
+  {
+    path: '**',
+    redirectTo: 'home',
+  },
 ];
 
 @NgModule({
