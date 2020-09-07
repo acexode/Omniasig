@@ -32,6 +32,7 @@
         <ng-container *ngFor="let cardI of cards; let first=first; let i=index">
           <ion-col
             class="ion-no-padding m-0 mb-24"
+            *ngIf="cardI?.isDisabled == false"
             size="6"
             [ngClass]="{
                   'pl-8': i%2,

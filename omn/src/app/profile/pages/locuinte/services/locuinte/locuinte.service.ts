@@ -152,7 +152,7 @@ export class LocuinteService {
     );
   }
 
-  disableLocationForAddressId(addressId: string) {
+  disableLocationForAddressId(addressId) {
     return this.reqS.post<Locuinte>(this.endpoints.disAbleLocation, addressId);
   }
 
