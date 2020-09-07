@@ -220,6 +220,14 @@ export class PolicyFormPage implements OnInit, OnDestroy {
           backLink: false,
         });
         break;
+      case this.policySteps.TECHNICAL_SUPPORT:
+        this.headerConfig = policySubpageHeader({
+          title: 'Asistență tehnică',
+          hasTrailingIcon: true,
+          hasLeadingIcon: true,
+          backLink: false,
+        });
+        break;
       default:
         this.headerConfig = policySubpageHeader({
           title: 'Polita',
@@ -406,7 +414,18 @@ export class PolicyFormPage implements OnInit, OnDestroy {
    */
   addressSelect(type: string | PolicyLocuintaListItem) {
     if (type === 'ADD_NEW') {
-      this.changeStep(this.policySteps.ADDRESS_FORM);
+      switch (this.policyID) {
+        case 'AMPLUS':
+          this.changeStep(this.policySteps.CESIUNE_FORM);
+          break;
+        case 'PAD':
+          this.changeStep(this.policySteps.ADDRESS_FORM);
+          break;
+        case 'Garant AMPLUS+ PAD':
+          break;
+        default:
+          break;
+      }
 
       this.cdRef.markForCheck();
     } else if (type) {
@@ -448,6 +467,9 @@ export class PolicyFormPage implements OnInit, OnDestroy {
 
   cesiuneSubmit(cesiuneData) {
     this.cesiuneData = cesiuneData;
+    if (this.policyID == 'AMPLUS') {
+      this.changeStep(this.policySteps.TECHNICAL_SUPPORT);
+    }
     this.next();
   }
 

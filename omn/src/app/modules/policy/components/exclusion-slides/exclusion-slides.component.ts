@@ -29,7 +29,6 @@ export class ExclusionSlidesComponent implements OnInit {
   cancelItem: ExclusionItemConfig = null;
 
   @Input() set config(conf: ExclusionConfig) {
-    console.log(conf);
     this.vConfig = conf;
     this.contentItems = get(conf, 'items', []);
     this.cancelItem = get(conf, 'cancel', []);

@@ -9,4 +9,5 @@ export enum PolicyFormSteps {
   CESIUNE_FORM,
   PERIOD_FORM,
   POLICY_VERIFY,
+  TECHNICAL_SUPPORT,
 }

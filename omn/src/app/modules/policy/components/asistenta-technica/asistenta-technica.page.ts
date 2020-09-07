@@ -6,7 +6,6 @@ import {
 } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ModalController } from '@ionic/angular';
-import { subPageHeaderPrimary } from 'src/app/shared/data/sub-page-header-primary';
 import { AsistentaModalPagePage } from '../asistenta-modal-page/asistenta-modal-page.page';
 
 @Component({
@@ -16,7 +15,6 @@ import { AsistentaModalPagePage } from '../asistenta-modal-page/asistenta-modal-
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AsistentaTechnicaPage implements OnInit {
-  headerConfig = subPageHeaderPrimary('Asistență tehnică');
   plans = [
     {
       text: 'Inclus în prețul poliței',
@@ -68,7 +66,7 @@ export class AsistentaTechnicaPage implements OnInit {
     return this.formGroup.get('plan');
   }
 
-  submit(){
+  submit() {
     // TODO: emit an event from here to the main component.
   }
 }

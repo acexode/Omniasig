@@ -6,7 +6,6 @@ import { IonicModule } from '@ionic/angular';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { OmnInputsModule } from './../../shared/modules/omn-inputs/omn-inputs.module';
 import { AsistentaModalPagePage } from './components/asistenta-modal-page/asistenta-modal-page.page';
-import { AsistentaTechnicaPage } from './components/asistenta-technica/asistenta-technica.page';
 import { DisabledMessageModalComponent } from './components/modals/disabled-message-modal/disabled-message-modal.component';
 import { OfferViewComponent } from './components/offer-view/offer-view.component';
 import { PolicyArchiveListComponent } from './components/policy-archive-list/policy-archive-list.component';
@@ -27,7 +26,6 @@ import { PolicySharedModule } from './policy-shared.module';
     OfferViewComponent,
     PolicyViewComponent,
     AsistentaModalPagePage,
-    AsistentaTechnicaPage,
   ],
   imports: [
     CommonModule,

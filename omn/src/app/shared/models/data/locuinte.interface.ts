@@ -12,7 +12,7 @@ export enum LocuintaState {
 }
 
 export interface Locuinte {
-  id: number;
+  id: number | string;
   name: string;
   address: {
     county: string;
@@ -22,7 +22,7 @@ export interface Locuinte {
     // Scara bloc.
     entrance: string;
     apartment: string;
-    postalCode: string;
+    postalCode: string | number;
   };
 
   info: {
