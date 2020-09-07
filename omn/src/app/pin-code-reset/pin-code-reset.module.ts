@@ -14,7 +14,7 @@ import { OmnInputsModule } from '../shared/modules/omn-inputs/omn-inputs.module'
 
 @NgModule({
   imports: [CommonModule, FormsModule, IonicModule, SharedModule,
-    ReactiveFormsModule, PinCodeResetPageRoutingModule,OmnInputsModule
+    ReactiveFormsModule, PinCodeResetPageRoutingModule, OmnInputsModule
   ],
   declarations: [
     CnpDigitsComponent,
@@ -23,6 +23,6 @@ import { OmnInputsModule } from '../shared/modules/omn-inputs/omn-inputs.module'
     ConfirmPinComponent,
     PinChangeSuccessfulComponent,
   ],
-  providers:[ResetPincodeService]
+  providers: [ResetPincodeService]
 })
 export class PinCodeResetPageModule { }

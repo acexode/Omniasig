@@ -9,7 +9,7 @@ import { RequestService } from '../request/request.service';
   providedIn: 'root',
 })
 export class RegistrationService {
-  private userObj: Account
+  private userObj: Account;
   constructor(
     private storeS: CustomStorageService,
     private routerS: Router,
@@ -21,39 +21,39 @@ export class RegistrationService {
   //   return this.reqS.post<any>(authEndpoints.confirmPincodeReset, this.userObj)
   // }
 
-  setUserObj(obj: Object) {
-    this.userObj = { ...this.userObj, ...obj }
+  setUserObj(obj: object) {
+    this.userObj = { ...this.userObj, ...obj };
   }
 
   clearUserObj() {
-    this.userObj = null
+    this.userObj = null;
   }
 
   get getuserObj() {
-    return this.userObj
+    return this.userObj;
   }
 
   GetUserNameByPhoneNumber(phoneNumber: string) {
-    return this.reqS.get<any>(`${authEndpoints.GetUserNameByPhoneNumber}?phoneNumber=${phoneNumber}`)
+    return this.reqS.get<any>(`${authEndpoints.GetUserNameByPhoneNumber}?phoneNumber=${phoneNumber}`);
   }
 
   RegisterPhoneNumber(phoneNumber: string) {
     const reqBody = {
       phoneNumber
-    }
-    return this.reqS.post<any>(authEndpoints.RegisterPhoneNumber, reqBody)
+    };
+    return this.reqS.post<any>(authEndpoints.RegisterPhoneNumber, reqBody);
   }
 
   ConfirmPhoneNumber(code: number) {
     const reqBody = {
       phoneNumber: this.userObj.phoneNumber,
       code
-    }
-    return this.reqS.post<any>(authEndpoints.ConfirmRegisterPhoneNumber, reqBody)
+    };
+    return this.reqS.post<any>(authEndpoints.ConfirmRegisterPhoneNumber, reqBody);
   }
 
   registerUser() {
-    return this.reqS.post<any>(authEndpoints.RegisterUserProfile, this.userObj)
+    return this.reqS.post<any>(authEndpoints.RegisterUserProfile, this.userObj);
 
   }
 }

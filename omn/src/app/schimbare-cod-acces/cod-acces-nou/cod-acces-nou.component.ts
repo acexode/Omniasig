@@ -66,7 +66,7 @@ export class CodAccesNouComponent implements OnInit, OnDestroy {
   proceed() {
     this.router.navigate([
       'cod-acces/confirmare',
-      this.passForm.controls['digit'].value,
+      this.passForm.get('digit').value,
     ]);
   }
 
