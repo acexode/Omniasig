@@ -4,6 +4,7 @@ import { subPageHeaderSecondary } from 'src/app/shared/data/sub-page-header-seco
 import { ActivatedRoute } from '@angular/router';
 import { PolicyDataService } from '../../services/policy-data.service';
 import { PolicyOffer } from 'src/app/shared/models/data/policy-offer';
+import { PadService } from '../../services/pad.service'
 
 @Component({
   selector: 'app-offer-view',
@@ -18,6 +19,7 @@ export class OfferViewComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private policyDataService: PolicyDataService,
+    private padS: PadService,
     private navCtrl: NavController
   ) {
     this.route.params.subscribe((params: any) => {
@@ -40,8 +42,21 @@ export class OfferViewComponent implements OnInit {
 
   back() {}
   
-  //created method called when the pay(plateste) button is clicked
+ 
   pay(){
-    //create PAD Insurance offer/policy???
+     /* 
+      method to call payment web service when the pay(plateste) button is clicked,
+      which also calls create PAD Insurance policy web service
+    */
+    
+    this.padS.CreatePADInsurancePolicy(1)
+            .subscribe(
+              (result)=>{
+                console.log("INSURANCE POLICY CREATED", result)
+              },
+              (error)=>{
+                console.log("FAILED TO CREATE INSURANCE POLICY", error)
+              }
+            )
   }
 }

@@ -1,20 +1,4 @@
-import { assignIn } from 'lodash';
 import { Injectable } from '@angular/core';
-import {
-    Router,
-    ActivatedRoute,
-    ActivatedRouteSnapshot,
-    UrlTree,
-} from '@angular/router';
-import { BehaviorSubject } from 'rxjs';
-import {
-    distinctUntilChanged,
-    filter,
-    map,
-    share,
-    switchMap,
-    tap,
-} from 'rxjs/operators';
 import { padEndpoints } from '../../../core/configs/endpoints';
 import { RequestService } from '../../../core/services/request/request.service';
 

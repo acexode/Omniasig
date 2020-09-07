@@ -69,7 +69,7 @@ export class ConfirmCodDeAccesComponent implements OnInit, AfterViewInit {
 
   verifyPasscode() {
     if (
-      this.passForm.controls['confirmPass'].value ===
+      this.passForm.get('confirmPass').value ===
       this.regService.getuserObj.pin
     ) {
       this.navCtrl.navigateRoot(`registration/personal-details`);

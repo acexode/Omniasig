@@ -26,13 +26,13 @@ export class PolicyVerifyComponent implements OnInit {
   ) {}
 
   ngOnInit() {}
+  
   addOffer() {
+    //call PAD Create Insurance service here
     this.padS.CreatePADInsuranceOffer(4, 4, '2020-09-10').subscribe(
       (result)=>{
-        console.log("CREATING INSURANCE OFFER WAS SUCCESSFUL", result)
+        console.log("CREATING INSURANCE OFFER WAS SUCCESSFUL", result, "OFFER DAT", this.offerData)
         this.policyS.addOffer(this.offerData).subscribe((v) => {
-          //call PAD Create Insurance service here
-          console.log("INSURANCE OFFER DATA", this.offerData)
           if (v) {
             const id = get(v, 'id', null);
             if (id) {
@@ -46,7 +46,7 @@ export class PolicyVerifyComponent implements OnInit {
         });
       },
       (error)=>{
-        console.log("CREATING INSURANCE OFFER FAILED", error)
+        console.log("FAILED TO CREATE INSURANCE OFFER", error)
       }
     )
   }

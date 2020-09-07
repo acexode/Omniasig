@@ -153,9 +153,7 @@ export class PolicyAddressFormComponent implements OnInit {
               };
               this.stepChange.emit(this.formType);
               console.log("ALL THE DATA IN THIS PLACE FOR VERIFYING OFFER", this.dataModel)
-              // this.locuinteS.getUserLocuinte().subscribe((v)=>{
-              //   console.log("USER LOCUINTE DETAILS", v)
-              // })
+
               this.padS.VerifyPADInsuranceOffer(4).subscribe((result)=>{
                 console.log("SUCCESS", result)
                 this.refTimer = setTimeout(() => {
