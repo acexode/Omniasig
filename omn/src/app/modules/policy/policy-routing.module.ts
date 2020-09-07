@@ -21,8 +21,7 @@ const routes: Routes = [
     children: [
       {
         path: '',
-        // component: PolicyComponent,
-        component: PolicyViewComponent,
+        component: PolicyComponent,
       },
       {
         path: 'asistenta',

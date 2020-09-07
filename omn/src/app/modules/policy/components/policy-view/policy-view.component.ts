@@ -39,8 +39,7 @@ export class PolicyViewComponent implements OnInit {
         private calendar: Calendar
     ) {
         this.route.params.subscribe( ( params: any ) => {
-            // this.getPolicyById( params.id );
-            this.getPolicyById( 1 );
+            this.getPolicyById( params.id );
         } );
     }
 
@@ -50,7 +49,7 @@ export class PolicyViewComponent implements OnInit {
         this.policyDataService.getSinglePolicyById( id ).subscribe( ( policy ) => {
             if ( policy ) {
             } else {
-                // this.navCtrl.navigateBack( 'policy' );
+                this.navCtrl.navigateBack( 'policy' );
             }
         } );
     }

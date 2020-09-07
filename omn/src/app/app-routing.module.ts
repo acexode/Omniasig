@@ -6,7 +6,7 @@ import { LoginGuard } from './core/guards/login/login.guard';
 const routes: Routes = [
   {
     path: '',
-        redirectTo: 'policy',
+    redirectTo: 'home',
     pathMatch: 'full',
   },
   {
@@ -18,8 +18,8 @@ const routes: Routes = [
   },
   {
     path: 'policy',
-    // canActivateChild: [AuthGuard],
-    // canActivate: [AuthGuard],
+    canActivateChild: [AuthGuard],
+    canActivate: [AuthGuard],
     loadChildren: () =>
       import('./modules/policy/policy.module').then((m) => m.PolicyModule),
   },
