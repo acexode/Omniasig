@@ -138,11 +138,11 @@ export class LocuinteService {
 
     return this.reqS.post<Locuinte>(this.endpoints.getCities, data);
   }
-  
+
   getStreets(obj) {
     return this.reqS.post(this.endpoints.getStreets, obj).pipe(
       map((val: any) => {
-        let withLabel = val.map((v) => {
+        const withLabel = val.map((v) => {
           return {
             ...v,
             label: v.name,

@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { forOwn, get, set } from 'lodash';
-import { Observable, BehaviorSubject, of } from 'rxjs';
+import { BehaviorSubject, Observable, of } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { LocuinteService } from 'src/app/profile/pages/locuinte/services/locuinte/locuinte.service';
 import { autoCompleteConfigHelper } from 'src/app/shared/data/autocomplete-config-helper';
 import { dateTimeConfigHelper } from 'src/app/shared/data/datetime-config-helper';
@@ -11,7 +12,6 @@ import { radiosConfigHelper } from 'src/app/shared/data/radios-config-helper';
 import { selectConfigHelper } from 'src/app/shared/data/select-config-helper';
 import { Locuinte } from 'src/app/shared/models/data/locuinte.interface';
 import { LocuinteFormType } from 'src/app/shared/models/modes/locuinte-form-modes';
-import { map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
@@ -109,11 +109,10 @@ export class LocuinteFormService {
         get(model, 'address.addressApart', ''),
         Validators.required
       ),
-      addressPostalCode: this.fb.control(get(model, 'address.addressPostalCode', ''), [
-        Validators.required,
-        Validators.minLength(6),
-        Validators.maxLength(6),
-      ]),
+      addressPostalCode: this.fb.control(
+        get(model, 'address.addressPostalCode', ''),
+        [Validators.required, Validators.minLength(6), Validators.maxLength(6)]
+      ),
       // Additional - add validator after build
       name: this.fb.control(get(model, 'address.name', '')),
     });
@@ -137,7 +136,10 @@ export class LocuinteFormService {
     switch (formType) {
       case LocuinteFormType.ADDRESS:
         configModel = {
-          addressCounty: selectConfigHelper({ label: 'Județ', disabled: isDisabled }),
+          addressCounty: selectConfigHelper({
+            label: 'Județ',
+            disabled: isDisabled,
+          }),
           addressCity: selectConfigHelper({
             label: 'Localitate',
             disabled: isDisabled,
@@ -296,11 +298,19 @@ export class LocuinteFormService {
     input: any,
     source?: BehaviorSubject<any>
   ): Observable<Array<any>> {
+    const keywords = input ? input.toString() : null;
     if (source && source instanceof BehaviorSubject) {
       return source.pipe(
         map((data) => {
           // Filter whole list in here based on text input.
-          return data;
+          if (keywords) {
+            return data.filter((dV) => {
+              const name = get(dV, 'name', '').toLowerCase();
+              return name.includes(keywords.toLowerCase());
+            });
+          } else {
+            return data;
+          }
         })
       );
     } else {
@@ -320,8 +330,8 @@ export class LocuinteFormService {
           tipLocuinta: null,
           pad: null,
           locuintaState: null,
-        };   
-    forOwn(formGroupValue, (val, key) => {       
+        };
+    forOwn(formGroupValue, (val, key) => {
       switch (key) {
         case 'addressApart':
         case 'addressCity':
@@ -354,7 +364,7 @@ export class LocuinteFormService {
           set(newModel, key, val);
           break;
       }
-    });   
+    });
     return newModel;
   }
 }
