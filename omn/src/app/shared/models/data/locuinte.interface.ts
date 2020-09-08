@@ -1,8 +1,8 @@
 import { PolicyItem } from './policy-item';
 
 enum TipLocuinta {
-  MAIN = 'Strada Traian 45, Brasov, judetul Brasov, Cod 321456',
-  OTHER = 'Str. Traian Nr.45, Brasov, jud. BV, Cod 321456',
+  MAIN,
+  OTHER,
 }
 
 export enum LocuintaState {
@@ -47,4 +47,5 @@ export interface Locuinte {
     padNr: boolean | number;
   };
   locuintaState?: LocuintaState;
+  isDisabled?: boolean;
 }

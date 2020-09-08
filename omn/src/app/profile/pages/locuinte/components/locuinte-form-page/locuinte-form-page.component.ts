@@ -162,25 +162,29 @@ export class LocuinteFormPageComponent implements OnInit {
     });
     if (this.addressCounty) {
       this.addressCounty.valueChanges.subscribe((val) => {
-        this.locuinteS.getCities(val).subscribe((data) => {          
+        this.locuinteS.getCities(val).subscribe((data) => {
           this.formInstance.data.addressCity = data;
         });
       });
     }
     if (this.addressCity) {
-      this.formInstance.group.get('addressCity').valueChanges.subscribe((val) => {
-        const addressCity = this.formInstance.data.addressCity.filter((v) => v.id === val)[0];
-        const obj = {
-          countryId: addressCity.countryId,
-          countyId: addressCity.countyId,
-          cityId: addressCity.id,
-          postCode: null,
-          statedId: addressCity.statedId,
-        };
-        this.locuinteS.getStreets(obj).subscribe((v) => {
-          this.cdRef.markForCheck();
+      this.formInstance.group
+        .get('addressCity')
+        .valueChanges.subscribe((val) => {
+          const addressCity = this.formInstance.data.addressCity.filter(
+            (v) => v.id === val
+          )[0];
+          const obj = {
+            countryId: addressCity.countryId,
+            countyId: addressCity.countyId,
+            cityId: addressCity.id,
+            postCode: null,
+            statedId: addressCity.statedId,
+          };
+          this.locuinteS.getStreets(obj).subscribe((v) => {
+            this.cdRef.markForCheck();
+          });
         });
-      });
     }
   }
 
@@ -279,19 +283,25 @@ export class LocuinteFormPageComponent implements OnInit {
 
   submitData(): Observable<Locuinte> {
     switch (this.formMode) {
-      case this.formModes.EDIT_FULL:   
+      case this.formModes.EDIT_FULL:
         // const model = this.formS.processFormModel(
         //   this.formInstance.group.value,
         //   this.dataModel
         // );
         let model;
-        if(this.dataModel.hasOwnProperty('response')){
-          let year = parseInt(this.formInstance.group.get('yearConstruction').value)          
-          this.formInstance.group.get('yearConstruction').setValue(year)
-           model = {...this.dataModel['response'], ...this.formInstance.group.value}
-        }else{
-          model = {...this.dataModel, ...this.formInstance.group.value}
-        }        
+        if (this.dataModel.hasOwnProperty('response')) {
+          const year = parseInt(
+            this.formInstance.group.get('yearConstruction').value,
+            10
+          );
+          this.formInstance.group.get('yearConstruction').setValue(year);
+          model = {
+            ...this.dataModel.response,
+            ...this.formInstance.group.value,
+          };
+        } else {
+          model = { ...this.dataModel, ...this.formInstance.group.value };
+        }
         this.formSubmitting = true;
         this.cdRef.markForCheck();
         return this.locuinteS.updateSingleLocuinte(model).pipe(
@@ -306,13 +316,16 @@ export class LocuinteFormPageComponent implements OnInit {
         //   this.formInstance.group.value,
         //   this.dataModel
         // );
-       
-        const model2 = {...this.dataModel, ...this.formInstance.group.value}
-        
+
+        const model2 = { ...this.dataModel, ...this.formInstance.group.value };
+
         this.formSubmitting = true;
         this.cdRef.markForCheck();
         if (this.dataModel) {
-          let newUpdates = this.processForm(this.dataModel,this.formInstance.group.value)
+          const newUpdates = this.processForm(
+            this.dataModel,
+            this.formInstance.group.value
+          );
           return this.locuinteS.updateSingleLocuinte(newUpdates).pipe(
             finalize(() => {
               this.formSubmitting = false;
@@ -332,10 +345,10 @@ export class LocuinteFormPageComponent implements OnInit {
         return of(null);
     }
   }
-  processForm(existing, newValue){        
-    let model = {...existing['response'], ...newValue}   
-    model.yearConstruction = parseInt(model.yearConstruction)    
-    return model
+  processForm(existing, newValue) {
+    const model = { ...existing.response, ...newValue };
+    model.yearConstruction = parseInt(model.yearConstruction, 10);
+    return model;
   }
   trailingAction() {}
   scrollTop() {

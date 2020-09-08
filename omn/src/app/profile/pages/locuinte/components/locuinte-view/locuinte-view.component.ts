@@ -75,7 +75,7 @@ export class LocuinteViewComponent implements OnInit {
     public modalController: ModalController
   ) {}
 
-  ngOnInit() {    
+  ngOnInit() {
     this.routerS
       .getNavigationEndEvent()
       .pipe(
@@ -91,9 +91,9 @@ export class LocuinteViewComponent implements OnInit {
         this.formMode = vals[0];
         this.formStep = vals[1];
         this.setTitles();
-        const id = vals[2];        
-        if (id) {         
-          this.locuinteS.getSingleLocuinta(id).subscribe((val: Locuinte) => {            
+        const id = vals[2];
+        if (id) {
+          this.locuinteS.getSingleLocuinta(id).subscribe((val: Locuinte) => {
             if (val) {
               this.locuinta$.next(val);
               this.dataModel = val;
@@ -141,14 +141,14 @@ export class LocuinteViewComponent implements OnInit {
         break;
     }
   }
-  deleteAddress(id){
-     let obj = {
-      "id": id,
-      "disabledReason": "Disabled by user"
-    }
-    this.locuinteS.disableLocationForAddressId(obj).subscribe(v =>{
+  deleteAddress(id) {
+    const obj = {
+      id,
+      disabledReason: 'Disabled by user',
+    };
+    this.locuinteS.disableLocationForAddressId(obj).subscribe((v) => {
       this.navCtrl.navigateRoot(['/profil', 'locuinte']);
-    })
+    });
   }
   initForm() {
     switch (this.formMode) {
