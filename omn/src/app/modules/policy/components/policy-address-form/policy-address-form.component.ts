@@ -152,16 +152,14 @@ export class PolicyAddressFormComponent implements OnInit {
                 data: this.formData.place,
               };
               this.stepChange.emit(this.formType);
-              console.log("ALL THE DATA IN THIS PLACE FOR VERIFYING OFFER", this.dataModel)
 
-              this.padS.VerifyPADInsuranceOffer(4).subscribe((result)=>{
-                console.log("SUCCESS", result)
+              this.padS.VerifyPADInsuranceOffer(this.dataModel.id).subscribe((result)=>{
                 this.refTimer = setTimeout(() => {
                   this.handleFormSubmit();
                 }, 3000);
               },
               (error)=>{
-                console.log("ERROR",error)
+                //handle error
               })
 
               // TODO: Remove when real service;

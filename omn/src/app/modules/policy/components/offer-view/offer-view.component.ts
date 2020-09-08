@@ -49,14 +49,14 @@ export class OfferViewComponent implements OnInit {
       which also calls create PAD Insurance policy web service
     */
     
-    this.padS.CreatePADInsurancePolicy(1)
-            .subscribe(
-              (result)=>{
-                console.log("INSURANCE POLICY CREATED", result)
-              },
-              (error)=>{
-                console.log("FAILED TO CREATE INSURANCE POLICY", error)
-              }
-            )
+    this.padS.CreatePADInsurancePolicy(this.offer.id)
+        .subscribe(
+          (result)=>{
+            //next thing to do after creating PAD Insurance policy
+          },
+          (error)=>{
+            //handle error
+          }
+        )
   }
 }

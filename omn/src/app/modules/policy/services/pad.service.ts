@@ -18,7 +18,7 @@ export class PadService {
     
     CreatePADInsuranceOffer( padAddressId: number, homeAddressId: number, startDate ) {
         return this.reqS.get<any>(
-            `${ padEndpoints.VerifyPADInsuranceOffer }?padAddressId=${ padAddressId }&homeAddressId=${ homeAddressId }&startDate=${startDate}`
+            `${ padEndpoints.CreatePADInsuranceOffer }?padAddressId=${ padAddressId }&homeAddressId=${ homeAddressId }&startDate=${startDate}`
         );
     }
     
