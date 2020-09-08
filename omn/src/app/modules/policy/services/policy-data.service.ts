@@ -40,6 +40,7 @@ export class PolicyDataService {
     });
   }
 
+  // get user policy offer
   getUserPolicies(id: number | string) {
     const emptyV: Array<PolicyItem> = [];
     return this.reqS
@@ -48,8 +49,12 @@ export class PolicyDataService {
         catchError((e) => {
           return of(emptyV);
         }),
-        map((pv) => (pv ? pv.map((pvi) => this.mapPolicyType(pvi)) : []))
+        map((pv) => (pv ? pv.map((pvi) => this.mapPolicyType(this.createPolicyObj(pvi))) : []))
       );
+  }
+
+  createPolicyObj(policy: any) {
+    return { ...policy, ...{ typeId: "PAD" } }
   }
 
   getUserPoliciesArchive(id: number | string) {
@@ -82,7 +87,7 @@ export class PolicyDataService {
   }
 
   mapPolicyType(p: PolicyItem) {
-    console.log(p);
+    console.log(p.typeId);
     const typeV = policyTypes[p.typeId] ? policyTypes[p.typeId] : null;
     if (typeV) {
       p.type = { ...typeV };
