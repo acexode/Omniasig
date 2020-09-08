@@ -33,7 +33,7 @@
     "@ngx-translate/core": "^13.0.0",
     "@ngx-translate/http-loader": "^6.0.0",
     "com-darryncampbell-cordova-plugin-intent": "^2.0.0",
-    "cordova-android": "8.1.0",
+    "cordova-android": "9.0.0",
     "cordova-browser": "6.0.0",
     "cordova-plugin-app-launcher": "^0.4.0",
     "cordova-plugin-ionic-keyboard": "^2.2.0",
@@ -83,7 +83,6 @@
       "cordova-plugin-statusbar": {},
       "cordova-plugin-device": {},
       "cordova-plugin-splashscreen": {},
-      "cordova-plugin-ionic-webview": {},
       "cordova-plugin-ionic-keyboard": {},
       "ionic-plugin-deeplinks": {
         "URL_SCHEME": "omniasig-app",
@@ -104,7 +103,8 @@
         "DEEPLINK_5_HOST": " "
       },
       "cordova-plugin-app-launcher": {},
-      "com-darryncampbell-cordova-plugin-intent": {}
+      "com-darryncampbell-cordova-plugin-intent": {},
+      "cordova-plugin-ionic-webview": {}
     },
     "platforms": [
       "browser",
