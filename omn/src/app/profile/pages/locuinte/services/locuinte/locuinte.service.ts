@@ -1,14 +1,10 @@
-import { serverBaseUrl } from './../../../../../core/configs/endpoints';
-import { environment } from './../../../../../../environments/environment.test';
-import { AuthService } from 'src/app/core/services/auth/auth.service';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, of, Observable } from 'rxjs';
-import { catchError, switchMap, map, tap } from 'rxjs/operators';
+import { BehaviorSubject, Observable, of } from 'rxjs';
+import { catchError, map, switchMap } from 'rxjs/operators';
 import { locuinteEndpoints } from 'src/app/core/configs/endpoints';
+import { AuthService } from 'src/app/core/services/auth/auth.service';
 import { RequestService } from 'src/app/core/services/request/request.service';
 import { Locuinte } from 'src/app/shared/models/data/locuinte.interface';
-import { random } from 'lodash';
-import { HttpHeaders } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root',
@@ -91,7 +87,7 @@ export class LocuinteService {
       id: 0,
       ...data,
     };
-    
+
     return this.reqS.post<Locuinte>(this.endpoints.add, adddress);
     // return of({ ...data, ...{ id: random(10, 100) } }).pipe(
     //   map((v) => {
@@ -103,9 +99,11 @@ export class LocuinteService {
     //   catchError((err) => of(null))
     // );
   }
+
   makeHomeAddress(data) {
     return this.reqS.post<Locuinte>(this.endpoints.makeHomeAddress, data);
   }
+
   updateSingleLocuinte(data: Locuinte) {
     return this.reqS.post<Locuinte>(this.endpoints.updateAddress, data);
     // return of(data).pipe(
@@ -171,15 +169,15 @@ export class LocuinteService {
 
     return this.reqS.post<Locuinte>(this.endpoints.getCities, data);
   }
-  getStreets(obj) {     
+  getStreets(obj) {
     return this.reqS.post(this.endpoints.getStreets, obj).pipe(
       map((val: any) => {
-        let withLabel = val.map(v => {
-            return {
-              ...v,
-              label: v.name
-            }
-        })        
+        let withLabel = val.map((v) => {
+          return {
+            ...v,
+            label: v.name,
+          };
+        });
         this.streetStore$.next(withLabel);
         return withLabel;
       })
