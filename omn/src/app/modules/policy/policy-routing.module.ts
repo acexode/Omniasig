@@ -4,6 +4,7 @@ import { AsistentaTechnicaPage } from './components/asistenta-technica/asistenta
 import { OfferViewComponent } from './components/offer-view/offer-view.component';
 import { PolicyViewComponent } from './components/policy-view/policy-view.component';
 import { PolicyComponent } from './components/policy/policy.component';
+import { InsuranceConditionsComponent } from './components/insurance-conditions/insurance-conditions.component';
 import { PolicyPage } from './page/policy.page';
 
 const routes: Routes = [
@@ -34,6 +35,10 @@ const routes: Routes = [
       {
         path: ':id',
         component: PolicyViewComponent,
+      },
+      {
+        path: 'conditions',
+        component: InsuranceConditionsComponent,
       },
     ],
   },

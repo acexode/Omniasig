@@ -13,6 +13,7 @@ import { PolicyCardListComponent } from './components/policy-card-list/policy-ca
 import { PolicyViewComponent } from './components/policy-view/policy-view.component';
 import { PolicyComponent } from './components/policy/policy.component';
 import { PolicyPage } from './page/policy.page';
+import { InsuranceConditionsComponent } from './components/insurance-conditions/insurance-conditions.component';
 import { PolicyRoutingModule } from './policy-routing.module';
 import { PolicySharedModule } from './policy-shared.module';
 
@@ -26,6 +27,7 @@ import { PolicySharedModule } from './policy-shared.module';
     OfferViewComponent,
     PolicyViewComponent,
     AsistentaModalPagePage,
+    InsuranceConditionsComponent,
   ],
   imports: [
     CommonModule,

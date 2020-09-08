@@ -65,5 +65,9 @@ export class OfferViewComponent implements OnInit {
     this.navCtrl.navigateRoot('/policy');
   }
 
+  gotoConditions() {
+    this.navCtrl.navigateForward(['/policy', 'conditions']);
+  }
+
   back() {}
 }

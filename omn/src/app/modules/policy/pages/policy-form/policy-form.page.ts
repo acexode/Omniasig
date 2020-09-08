@@ -67,6 +67,7 @@ export class PolicyFormPage implements OnInit, OnDestroy {
   // This will contain all data needed for an offer.
   offerData: PolicyOffer = null;
   policyID;
+  reftime;
   constructor(
     private routerS: CustomRouterService,
     private aRoute: ActivatedRoute,
@@ -578,7 +579,7 @@ export class PolicyFormPage implements OnInit, OnDestroy {
         policyType: this.policyID,
       },
     };
-    setTimeout(() => {
+    this.reftime = setTimeout(() => {
       this.navCtrl.navigateForward(['/policy', 'offer', 2], navigationExtras);
     }, 3000);
   }
@@ -589,5 +590,6 @@ export class PolicyFormPage implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.dntItem = null;
+    clearTimeout(this.reftime);
   }
 }
