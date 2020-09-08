@@ -43,7 +43,7 @@ export class PolicyDataService {
   getUserPolicies(id: number | string) {
     const emptyV: Array<PolicyItem> = [];
     return this.reqS
-      .get<Array<PolicyItem>>(this.endpoints.userPoliciesBase + '/' + id)
+      .get<Array<PolicyItem>>(this.endpoints.GetActivePADPolicies)
       .pipe(
         catchError((e) => {
           return of(emptyV);
@@ -82,6 +82,7 @@ export class PolicyDataService {
   }
 
   mapPolicyType(p: PolicyItem) {
+    console.log(p);
     const typeV = policyTypes[p.typeId] ? policyTypes[p.typeId] : null;
     if (typeV) {
       p.type = { ...typeV };
