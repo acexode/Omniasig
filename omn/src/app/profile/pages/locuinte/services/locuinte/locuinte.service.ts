@@ -31,6 +31,7 @@ export class LocuinteService {
       }
     });
   }
+
   loadAllData() {
     this.multipleLoading.next(true);
     this.getUserLocuinte().subscribe(
@@ -87,17 +88,7 @@ export class LocuinteService {
       id: 0,
       ...data,
     };
-
     return this.reqS.post<Locuinte>(this.endpoints.add, adddress);
-    // return of({ ...data, ...{ id: random(10, 100) } }).pipe(
-    //   map((v) => {
-    //     const vals = this.locuinteStore$.value ? this.locuinteStore$.value : [];
-    //     vals.push(v);
-    //     this.locuinteStore$.next(vals);
-    //     return v ? v : null;
-    //   }),
-    //   catchError((err) => of(null))
-    // );
   }
 
   makeHomeAddress(data) {
@@ -106,28 +97,6 @@ export class LocuinteService {
 
   updateSingleLocuinte(data: Locuinte) {
     return this.reqS.post<Locuinte>(this.endpoints.updateAddress, data);
-    // return of(data).pipe(
-    //   map((v) => {
-    //     if (!v) {
-    //       return null;
-    //     }
-    //     const vals = this.locuinteStore$.value ? this.locuinteStore$.value : [];
-    //     const existingI = vals.findIndex(
-    //       (val) => val.id.toString() === data.id.toString()
-    //     );
-
-    //     if (existingI > -1) {
-    //       vals[existingI] = v;
-    //     } else {
-    //       return null;
-    //     }
-    //     this.locuinteStore$.next(vals);
-    //     return data;
-    //   }),
-    //   catchError((err) => {
-    //     return of(null);
-    //   })
-    // );
   }
 
   getLocuinteWithPolicy(policyTypeID: string) {
@@ -169,6 +138,7 @@ export class LocuinteService {
 
     return this.reqS.post<Locuinte>(this.endpoints.getCities, data);
   }
+  
   getStreets(obj) {
     return this.reqS.post(this.endpoints.getStreets, obj).pipe(
       map((val: any) => {
