@@ -8,11 +8,13 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { SharedModule } from '../shared/shared.module';
 import { BiometricsComponent } from './biometrics.component';
 import { InfoComponent } from './info/info.component';
+import { ConfirmareIdentitateComponent } from './confirmare-identitate/confirmare-identitate.component';
 
 @NgModule({
   declarations: [
     BiometricsComponent,
     InfoComponent,
+    ConfirmareIdentitateComponent
   ],
   imports: [
     CommonModule,

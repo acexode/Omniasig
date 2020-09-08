@@ -44,7 +44,7 @@ export class LocuinteFormComponent implements OnInit {
   constructor(private cdRef: ChangeDetectorRef) {}
 
   ngOnInit() {
-    
+    console.log(this.fieldConfig)
   }
 
   doSubmit() {

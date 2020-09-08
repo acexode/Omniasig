@@ -44,7 +44,7 @@ export class RadiosComponent implements OnInit, ControlValueAccessor {
 
   onChange: (_: any) => void;
   onTouched: () => void;
-  value: any;
+  value: any; 
 
   constructor(private fb: FormBuilder, private cdRef: ChangeDetectorRef) {}
 

@@ -11,7 +11,9 @@ import { FormBuilder, Validators } from '@angular/forms';
 })
 export class BiometricsComponent implements OnInit {
   @HostBinding('class') color = 'ion-color-white-page';
-
+  enabled : boolean =false
+  buttonText = 'Verifică'
+  pathAcord = "./more-details"
   formGroup = this.fb.group({
     selection: this.fb.control(null, Validators.requiredTrue),
   });
@@ -32,5 +34,16 @@ export class BiometricsComponent implements OnInit {
     this.radiosConfig.inputLabel.classes = 'mb-16';
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.formGroup.valueChanges.subscribe(val =>{
+      this.enabled = true
+      if(this.formGroup.valid){
+        this.buttonText = 'Verifică'
+        this.pathAcord = "./more-details"
+      }else{
+        this.buttonText = 'Confirmare identitate'
+        this.pathAcord = "./confirmare-identitate"
+      }      
+    })
+  }
 }

@@ -29,7 +29,7 @@
         [config]="radiosConfig"
         [options]="radioOptions"
         formControlName="selection"
-        class="w-100"
+        class="w-100" 
       >
       </app-radios>
     </ion-row>
@@ -41,6 +41,7 @@
       >
     </ion-row>
     <ion-row class="ion-justify-content-center mt-16 mb-24 mx-24">
+      <!-- [disabled]="!formGroup?.valid" -->
       <ion-button
         class="activate-btn"
         size="large"
@@ -48,10 +49,10 @@
         fill="solid"
         expand="block"
         class="m-0 w-100 flex mt-auto mx-8"
-        routerLink="./more-details"
-        [disabled]="!formGroup?.valid"
+        routerLink={{pathAcord}}
+        [disabled]="!enabled"
       >
-        Verifică
+        {{buttonText}}
       </ion-button>
     </ion-row>
   </ion-grid>
