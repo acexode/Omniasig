@@ -42,9 +42,7 @@ import { Calendar } from '@ionic-native/calendar/ngx';
     ReactiveFormsModule,
     OmnInputsModule,
   ],
-    exports: [ AsistentaModalPagePage ],
-    providers: [
-        Calendar,
-  ]
+  exports: [AsistentaModalPagePage],
+  providers: [Calendar],
 })
-export class PolicyModule { }
+export class PolicyModule {}

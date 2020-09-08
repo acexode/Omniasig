@@ -259,7 +259,6 @@
   background-color: $light-grey-2 !important;
 }
 
-
 .bg-light-green-2 {
   background-color: $light-green-2;
   --background: $light-green-2;
@@ -290,7 +289,9 @@
 .bg-light-blue {
   background-color: $light-blue;
 }
-
+.bg-secondary-blue {
+  background: $secondary-blue;
+}
 .bg-yellow {
   background-color: $yellow;
 }
