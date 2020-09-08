@@ -19,7 +19,6 @@ export class PolicyViewComponent implements OnInit {
     calanderEntryOptions: CalendarOptions = {
         firstReminderMinutes: 15,
         calendarName: 'policy',
-        // calendarId: 1, // this should auto recrement after WS (web service is added)
     };
 
     calEntry: CalendarEntry = {
