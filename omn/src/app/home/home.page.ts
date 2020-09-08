@@ -205,8 +205,6 @@ export class HomePage implements OnInit {
    * Preprocess user Offers data.
    */
   mapOffers(offers: Array<PolicyOffer>) {
-    console.log(offers);
-    
     let newOff = [];
     if (offers && offers.length > 0) {
       newOff = offers.map((o) => offerHomeItemHelper(o));

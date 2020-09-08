@@ -75,7 +75,11 @@ export class PolicyDataService {
           return of(emptyV);
         }),
         map((ov) =>
-          (ov ? ov.map((ovi) => this.mapOfferPolicyType(this.createOffersObj(ovi))) : [])
+          ov
+            ? ov.map((ovi) =>
+                this.mapOfferPolicyType(this.createOffersObj(ovi))
+              )
+            : []
         )
       );
   }
@@ -93,26 +97,26 @@ export class PolicyDataService {
     return p;
   }
 
-  // ceate offer obj 
+  // ceate offer obj
   createOffersObj(offer: any) {
     return {
-      "id": offer.id,
-      "policy": {
-        "id": offer.id,
-        "name": offer.offerCode,
-        "typeId": "PAD",
-        "state": 1,
-        "listingSubtitle": `${offer.addressStreet}, ${offer.addressStreetNumber} ${offer.addressCity}`,
-        "dates": {
-          "from": offer.emisionDate,
-          "to": offer.expireDate,
+      id: offer.id,
+      policy: {
+        id: offer.id,
+        name: offer.offerCode,
+        typeId: 'PAD',
+        state: 1,
+        listingSubtitle: `${offer.addressStreet}, ${offer.addressStreetNumber} ${offer.addressCity}`,
+        dates: {
+          from: offer.emisionDate,
+          to: offer.expireDate,
         },
-        "locuintaData": {
+        locuintaData: {
           id: offer.id,
           name: offer.locationName,
-          info:{
-            type:offer.locationType,
-            resistenceStructure:offer.locationStructure,
+          info: {
+            type: offer.locationType,
+            resistenceStructure: offer.locationStructure,
             buildYear: offer.locationYearConstruction,
             valueCurrency: offer.locationValueCurrency,
             valueSum: offer.locationValue,
@@ -131,15 +135,15 @@ export class PolicyDataService {
             entrance: offer.addressScara,
             apartment: offer.addressApart,
             postalCode: offer.addressPostalCode,
-          }
+          },
         },
-        "userId": null,
-        "locuintaId": null
+        userId: null,
+        locuintaId: null,
       },
-      "nume":`${offer.userName} ${offer.userSurname}`,
-      "cnp":offer.userCnp,
-      "expiry": offer.expireDate
-    }
+      nume: `${offer.userName} ${offer.userSurname}`,
+      cnp: offer.userCnp,
+      expiry: offer.expireDate,
+    };
   }
 
   getSingleOfferById(id: number | string) {

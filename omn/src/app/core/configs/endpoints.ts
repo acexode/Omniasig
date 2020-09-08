@@ -31,8 +31,8 @@ export const policyEndpoints = {
   userOffersBase: baseEndpoints.policy + '/offers',
 
   // real endpoints
-  GetActivePADOffers:serverBaseUrl+ '/PADInsurance/GetActivePADOffers',
-  GetActivePADPolicies:serverBaseUrl + '/PADInsurance/GetActivePADPolicies'
+  GetActivePADOffers: serverBaseUrl + '/PADInsurance/GetActivePADOffers',
+  GetActivePADPolicies: serverBaseUrl + '/PADInsurance/GetActivePADPolicies',
 };
 
 export const locuinteEndpoints = {

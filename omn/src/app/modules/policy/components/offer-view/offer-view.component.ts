@@ -11,7 +11,7 @@ import { PolicyOffer } from 'src/app/shared/models/data/policy-offer';
   styleUrls: ['./offer-view.component.scss'],
 })
 export class OfferViewComponent implements OnInit {
-  offer: PolicyOffer= null;
+  offer: PolicyOffer = null;
   headerConfig = subPageHeaderSecondary('Oferta de asigurare');
   @HostBinding('class') color = 'ion-color-white-page';
 
@@ -28,10 +28,11 @@ export class OfferViewComponent implements OnInit {
   ngOnInit(): void {}
 
   getPolicyById(id) {
-    this.policyDataService.getSingleOfferById(id).subscribe((offer:PolicyOffer) => {
-      this.offer = offer;
-      console.log(offer)      
-    });
+    this.policyDataService
+      .getSingleOfferById(id)
+      .subscribe((offer: PolicyOffer) => {
+        this.offer = offer;
+      });
   }
 
   closeOffer() {

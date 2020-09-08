@@ -7,8 +7,6 @@ import { locuinteFieldsData } from '../data/locuinte-field-data';
 })
 export class LocuinteFieldPipe implements PipeTransform {
   transform(value: unknown, fieldName: string): unknown {
-    console.log(value,fieldName);
-    
     let data = [];
     switch (fieldName) {
       case 'resistenceStructure':
