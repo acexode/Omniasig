@@ -85,7 +85,7 @@ export class CodAccesNouComponent implements OnInit, OnDestroy {
 
   proceed() {
     this.router.navigate([
-      '/cod-acces/confirmare',
+      'cod-acces/confirmare'
     ]);
   }
 
