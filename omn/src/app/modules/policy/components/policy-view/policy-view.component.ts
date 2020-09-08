@@ -19,14 +19,13 @@ export class PolicyViewComponent implements OnInit {
     calanderEntryOptions: CalendarOptions = {
         firstReminderMinutes: 15,
         calendarName: 'policy',
-        calendarId: 1,
-        url: 'test.com',
+        // calendarId: 1, // this should auto recrement after WS (web service is added)
     };
 
     calEntry: CalendarEntry = {
         title: 'policy Expiry Date',
         location: 'Romania',
-        notes: 'Testing',
+        notes: `Oferta 123456 expira ${this.date}`,
         startDate: this.policyDataService.getEightDayBeforeExpiryDate( this.date ),
         endDate: new Date( this.date ),
         options: this.calanderEntryOptions
