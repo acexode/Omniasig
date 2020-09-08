@@ -125,7 +125,7 @@ export class DatePersonaleValidateEmailComponent implements OnInit, OnDestroy {
 
   tryApp(type = 0) {
     if (type) {
-      this.cancelValidate();
+      // Do nothing in this case.
     } else {
       this.appS.tryEmailRead().subscribe((v) => console.log(v));
     }
