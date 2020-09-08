@@ -7,7 +7,7 @@ import {
   OnInit,
   ViewChild,
 } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, NavigationExtras } from '@angular/router';
 import { NavController } from '@ionic/angular';
 import { cloneDeep, get, has } from 'lodash';
 import { BehaviorSubject, combineLatest } from 'rxjs';
@@ -480,13 +480,18 @@ export class PolicyFormPage implements OnInit, OnDestroy {
   cesiuneSubmit(cesiuneData) {
     this.cesiuneData = cesiuneData;
     if (this.policyID == 'AMPLUS') {
-      this.changeStep(this.policySteps.TECHNICAL_SUPPORT);
+      this.changeStep(this.policySteps.PERIOD_FORM);
+      return;
     }
     this.next();
   }
 
   periodSubmit(startDate) {
     this.periodStartData = startDate;
+    if (this.policyID == 'AMPLUS') {
+      this.changeStep(this.policySteps.TECHNICAL_SUPPORT);
+      return;
+    }
     this.next();
   }
 
@@ -568,9 +573,14 @@ export class PolicyFormPage implements OnInit, OnDestroy {
 
   calculationSubmit() {
     this.changeStep(this.policySteps.CALCULATION_LOADER);
-    // this.refTimer = setTimeout(() => {
-    //  this.changeStep(this.policySteps.CALCULATION_LOADER);
-    // }, 3000);
+    let navigationExtras: NavigationExtras = {
+      queryParams: {
+        policyType: this.policyID,
+      },
+    };
+    setTimeout(() => {
+      this.navCtrl.navigateForward(['/policy', 'offer', 2], navigationExtras);
+    }, 3000);
   }
 
   exitFlow() {
