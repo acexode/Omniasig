@@ -27,8 +27,8 @@ export class PolicyViewComponent implements OnInit {
         title: 'policy Expiry Date',
         location: 'Romania',
         notes: 'Testing',
-        startDate: this.getEightDayBeforeExpiryDate(this.date),
-        endDate: new Date( this.date),
+        startDate: this.getEightDayBeforeExpiryDate( this.date ),
+        endDate: new Date( this.date ),
         options: this.calanderEntryOptions
     };
 
@@ -55,15 +55,14 @@ export class PolicyViewComponent implements OnInit {
         } );
     }
 
-/* for Notification */
-    getEightDayBeforeExpiryDate(date: string) {
+    /* for Notification */
+    getEightDayBeforeExpiryDate( date: string ) {
         const expiryDate = new Date( date );
         const eightDaysFromExpiryDate = new Date( expiryDate.getTime() - 8 * 24 * 60 * 60 * 1000 );
         return eightDaysFromExpiryDate;
     }
 
     addCalenderEntry() {
-        console.log( 'clicked', this.calEntry );
         this.calendar.createEventWithOptions(
             this.calEntry.title,
             this.calEntry.location,
@@ -72,8 +71,8 @@ export class PolicyViewComponent implements OnInit {
             this.calEntry.endDate,
             this.calanderEntryOptions
         ).then(
-            ( msg ) => { console.log( msg ); },
-            ( err ) => { console.log( err ); }
+            ( msg ) => { },
+            ( err ) => { }
         );
     }
 
