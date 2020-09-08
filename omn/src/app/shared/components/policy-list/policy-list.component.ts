@@ -19,7 +19,7 @@ export class PolicyListComponent implements OnInit {
   @Input() title?: IonTextItem;
   @Input() list: Array<PolicyListItem>;
   @Input() emptyItem: PolicyListItem;
-
+  @Input() type: 'offer' | 'policy'= null;
   @Output() itemEvent: EventEmitter<{
     type: string;
     data: any;

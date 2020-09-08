@@ -21,25 +21,14 @@
     <ion-grid class="p-32">
         <ion-row class="ion-no-padding h-272 mt-n112 mx-n32 omn-background-green-gradient omn-gradient-image"></ion-row>
         <ion-row class="ion-no-padding mx-n8 mt-n128" *ngIf="(offers$|async)?.length">
-            <app-policy-list [title]="oferteTitle" class="flex w-100" [list]="offers$|async" [emptyItem]="emptyItem">
-                <!-- <div class="pt-8 pb-16 px-16 list-button">
-          <ion-button
-            routerLink="/policy"
-            color="success"
-            fill="solid"
-            expand="block"
-            size="large"
-            class="m-0 w-100"
-            >Vezi ofertă
-          </ion-button>
-        </div> -->
+            <app-policy-list [title]="oferteTitle" class="flex w-100" [type]="'offer'" [list]="offers$|async" [emptyItem]="emptyItem">
             </app-policy-list>
         </ion-row>
         <ion-row class="ion-no-padding mx-n8" [ngClass]="{
         ' mt-32': hasOffers,
         'mt-n128': !hasOffers
       }">
-            <app-policy-list [title]="asigTitle" class="flex w-100" [list]="policies$|async" [emptyItem]="emptyItem">
+            <app-policy-list [title]="asigTitle" class="flex w-100" [type]="'policy'" [list]="policies$|async" [emptyItem]="emptyItem">
                 <div class="pt-8 pb-16 px-16">
                     <ion-button routerLink="/policy" color="danger" fill="solid" expand="block" size="large" class="m-0 w-100">Cumpără asigurare
                     </ion-button>
