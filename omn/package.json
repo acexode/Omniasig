@@ -90,8 +90,7 @@
   },
   "main": "karma.conf.js",
   "license": "ISC",
-    "platforms": [
-      "android"
-    ]
-  }
-
+  "platforms": [
+    "android"
+  ]
+}

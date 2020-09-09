@@ -4,7 +4,7 @@ import { Locuinte } from './locuinte.interface';
 
 export interface PolicyItem {
   // Data
-  id: string | number;
+  id: number;
   name: string;
   typeId: string;
   state: PolicyStates;

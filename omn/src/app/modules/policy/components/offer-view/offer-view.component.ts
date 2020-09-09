@@ -7,7 +7,8 @@ import { dateHelperDMY } from 'src/app/core/helpers/date.helper';
 import { subPageHeaderSecondary } from 'src/app/shared/data/sub-page-header-secondary';
 import { PolicyOffer } from 'src/app/shared/models/data/policy-offer';
 import { PolicyDataService } from '../../services/policy-data.service';
-import { CalendarEntry } from './../models/calendar-entry';
+import { CalendarEntry } from '../models/calendar-entry';
+import { PadService } from '../../services/pad.service';
 
 @Component({
   selector: 'app-offer-view',
@@ -22,6 +23,7 @@ export class OfferViewComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private policyDataService: PolicyDataService,
+    private padS: PadService,
     private navCtrl: NavController
   ) {}
 
@@ -68,5 +70,24 @@ export class OfferViewComponent implements OnInit {
 
   addCalendarEntry() {
     this.policyDataService.addExpiryCalendarEntry(this.calEntry);
+  }
+
+  pay() {
+    /*
+      method to call payment web service when the pay(plateste) button is clicked,
+      which also calls create PAD Insurance policy web service
+    */
+    let offer_id = parseInt(this.offer.id);
+    this.padS.CreatePADInsurancePolicy(offer_id).subscribe(
+      (result) => {
+        this.policyDataService.initData();
+        this.navCtrl.navigateRoot('/policy');
+        // next thing to do after creating PAD Insurance policy
+      },
+      (error) => {
+        // handle error
+        this.navCtrl.navigateRoot('/policy');
+      }
+    );
   }
 }

@@ -14,6 +14,7 @@ import { Observable, of } from 'rxjs';
 import { finalize } from 'rxjs/operators';
 import { LocuinteFormService } from 'src/app/profile/pages/locuinte/services/locuinte-form/locuinte-form.service';
 import { LocuinteService } from 'src/app/profile/pages/locuinte/services/locuinte/locuinte.service';
+import { PadService } from '../../services/pad.service';
 import { subPageHeaderDefault } from 'src/app/shared/data/sub-page-header-default';
 import { Locuinte } from 'src/app/shared/models/data/locuinte.interface';
 import {
@@ -73,6 +74,7 @@ export class PolicyAddressFormComponent implements OnInit {
     private cdRef: ChangeDetectorRef,
     private formS: LocuinteFormService,
     private locuinteS: LocuinteService,
+    private padS: PadService,
     public modalController: ModalController
   ) {}
 
@@ -150,10 +152,15 @@ export class PolicyAddressFormComponent implements OnInit {
                 data: this.formData.place,
               };
               this.stepChange.emit(this.formType);
-              // TODO: Remove when real service;
-              this.refTimer = setTimeout(() => {
-                this.handleFormSubmit();
-              }, 3000);
+
+              this.padS.VerifyPADInsuranceOffer(this.dataModel.id).subscribe(
+                (result) => {
+                  this.handleFormSubmit();
+                },
+                (error) => {
+                  this.handleFormSubmit();
+                }
+              );
             }
           });
         } else if (this.formType === LocuinteFormType.PAD_CHECK) {
