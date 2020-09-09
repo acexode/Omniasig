@@ -33,12 +33,12 @@ const routes: Routes = [
         component: OfferViewComponent,
       },
       {
-        path: ':id',
-        component: PolicyViewComponent,
-      },
-      {
         path: 'conditions',
         component: InsuranceConditionsComponent,
+      },
+      {
+        path: ':id',
+        component: PolicyViewComponent,
       },
     ],
   },
