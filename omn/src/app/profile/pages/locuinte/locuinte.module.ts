@@ -10,6 +10,7 @@ import { LocuinteViewComponent } from './components/locuinte-view/locuinte-view.
 import { LocuintePageRoutingModule } from './locuinte-routing.module';
 import { LocuinteSharedModule } from './locuinte-shared.module';
 import { LocuintePage } from './locuinte.page';
+import { ConfirmationModalComponent } from './components/modals/confirmation-modal/confirmation-modal.component';
 
 @NgModule({
   imports: [
@@ -26,6 +27,7 @@ import { LocuintePage } from './locuinte.page';
     LocuinteViewComponent,
     LocuinteViewCardComponent,
     LocuinteFormPageComponent,
+    ConfirmationModalComponent
   ],
 })
 export class LocuintePageModule {}

@@ -94,7 +94,7 @@ export class InputSmsComponent implements OnInit, AfterViewInit, OnDestroy {
       (data) => {
         this.startTimer();
       },
-      (err) => console.log(err)
+      (err) => {}
     );
   }
 
