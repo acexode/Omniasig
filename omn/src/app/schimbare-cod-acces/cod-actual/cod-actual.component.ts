@@ -1,16 +1,16 @@
-import { switchMap, take } from 'rxjs/operators';
-import { AuthService } from 'src/app/core/services/auth/auth.service';
 import {
   Component,
   HostBinding,
   OnDestroy,
   OnInit,
-  ViewChild,
+  ViewChild
 } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { IonInput } from '@ionic/angular';
 import { Subscription, throwError } from 'rxjs';
+import { switchMap, take } from 'rxjs/operators';
+import { AuthService } from 'src/app/core/services/auth/auth.service';
 import { subPageHeaderDefault } from 'src/app/shared/data/sub-page-header-default';
 import { IonInputConfig } from 'src/app/shared/models/component/ion-input-config';
 import { UpdatePassword } from '../models/UpdatePassword';
