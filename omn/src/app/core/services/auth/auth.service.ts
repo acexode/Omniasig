@@ -1,11 +1,14 @@
-import { HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import {
   ActivatedRoute,
   ActivatedRouteSnapshot,
   Router,
-  UrlTree,
+
+
+
+  UrlTree
 } from '@angular/router';
+import * as qs from 'qs';
 import { BehaviorSubject, throwError } from 'rxjs';
 import {
   distinctUntilChanged,
@@ -14,7 +17,7 @@ import {
   share,
   switchMap,
   take,
-  tap,
+  tap
 } from 'rxjs/operators';
 import { authEndpoints } from '../../configs/endpoints';
 import { AccountStates } from '../../models/account-states';
@@ -24,7 +27,6 @@ import { LoginResponse } from '../../models/login-response.interface';
 import { Login } from '../../models/login.interface';
 import { CustomStorageService } from '../custom-storage/custom-storage.service';
 import { RequestService } from '../request/request.service';
-import * as qs from 'qs';
 
 @Injectable({
   providedIn: 'root',
@@ -157,7 +159,7 @@ export class AuthService {
     this.authState.next({
       ...this.initialState,
     });
-    this.routerS.navigate(['/login']);
+    this.routerS.navigateByUrl('/login');
   }
 
   updateState(newState: AuthState) {
@@ -191,7 +193,7 @@ export class AuthService {
       userName: loginData.phone,
       password: loginData.password,
     };
-    return this.reqS.post<LoginResponse>(authEndpoints.login, reqData).pipe(
+    return this.doLogin(reqData).pipe(
       switchMap((res) => {
         return this.saveToken(res.token).pipe(
           switchMap(() => {
@@ -207,11 +209,20 @@ export class AuthService {
           );
         } else if (typeof loginData.aRoute === 'string') {
           redirectUrl = loginData.aRoute;
+        } else if (loginData.aRoute === null) {
+          redirectUrl = null;
         }
-
-        Promise.resolve(this.routerS.navigateByUrl(redirectUrl));
+        if (redirectUrl) {
+          Promise.resolve(this.routerS.navigateByUrl(redirectUrl));
+        }
       })
     );
+  }
+
+  doLogin(reqData: Login) {
+    return this.reqS
+      .post<LoginResponse>(authEndpoints.login, reqData)
+      .pipe(take(1));
   }
 
   redirectUrlTree(snapshot: ActivatedRouteSnapshot): UrlTree {
@@ -294,5 +305,24 @@ export class AuthService {
         }
       })
     );
+  }
+
+  lastLoginNumber() {
+    return this.storeS.getItem('phoneNumber');
+  }
+
+  demoUpdate(data: { cnp?: string; email?: string }) {
+    const account = this.authState.value.account;
+    if (data.cnp) {
+      account.cnp = data.cnp;
+    }
+    if (data.email) {
+      account.email = data.email;
+    }
+    this.storeS.setItem('account', account);
+    this.authState.next({
+      init: true,
+      account,
+    });
   }
 }

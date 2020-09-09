@@ -1,3 +1,4 @@
+import { Calendar } from '@ionic-native/calendar/ngx';
 import { random } from 'lodash';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, of } from 'rxjs';
@@ -20,7 +21,11 @@ export class PolicyDataService {
   );
   offerStore$: BehaviorSubject<Array<PolicyOffer>> = new BehaviorSubject([]);
 
-  constructor(private reqS: RequestService, private authS: AuthService) {
+  constructor(
+    private reqS: RequestService,
+    private authS: AuthService,
+    private calendar: Calendar
+  ) {
     this.initData();
   }
 
@@ -145,5 +150,30 @@ export class PolicyDataService {
       }),
       catchError((err) => of(null))
     );
+  }
+
+  /* for Notification */
+  getEightDayBeforeExpiryDate(date: string) {
+    const expiryDate = new Date(date);
+    const eightDaysFromExpiryDate = new Date(
+      expiryDate.getTime() - 8 * 24 * 60 * 60 * 1000
+    );
+    return eightDaysFromExpiryDate;
+  }
+
+  addExpiryCalendarEntry(calEntry) {
+    this.calendar
+      .createEventInteractivelyWithOptions(
+        calEntry.title,
+        calEntry.location,
+        calEntry.notes,
+        calEntry.startDate,
+        calEntry.endDate,
+        calEntry.options
+      )
+      .then(
+        (msg) => {},
+        (err) => {}
+      );
   }
 }

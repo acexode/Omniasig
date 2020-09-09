@@ -4,9 +4,7 @@
   <ion-row class="px-24 h-100">
     <ion-col size="12">
       <div class="ion-text-center pb-32">
-        <ion-text class="text-small">
-          Introdu codul actual de acces
-        </ion-text>
+        <ion-text class="text-small"> Introdu codul actual de acces </ion-text>
       </div>
       <div class="ion-text-center pt-32">
         <div (click)="spawnInput()" class="">
@@ -90,11 +88,14 @@
             class="position-absolute bg-white text-center opacity-hide ion-no-border"
             maxlength="6"
             required="true"
-            type="number"
+            type="text"
             inputmode="number"
             autofocus="true"
           ></ion-input>
         </form>
+      </div>
+      <div *ngIf="InvalidCode" class="ion-text-center mt-32">
+        <ion-label class="text-small color-red">Codul introdus este invalid</ion-label>
       </div>
     </ion-col>
     <ion-col size="12" class="mt-auto">
@@ -104,9 +105,9 @@
         color="omn-green"
         [routerLink]="['/reset-pincode']"
       >
-        <ion-text
-          class="s16-h22 ls-01 text-weight-normal"
-        >Am uitat codul de acces</ion-text>
+        <ion-text class="s16-h22 ls-01 text-weight-normal"
+          >Am uitat codul de acces</ion-text
+        >
       </ion-button>
     </ion-col>
   </ion-row>
