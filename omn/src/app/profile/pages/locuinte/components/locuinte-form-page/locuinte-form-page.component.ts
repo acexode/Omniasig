@@ -92,9 +92,7 @@ export class LocuinteFormPageComponent implements OnInit {
           this.cdRef.markForCheck();
         });
       });
-    // this.formInstance.group.valueChanges.subscribe(val =>{
-
-    // })
+    
   }
 
   setTitles() {
