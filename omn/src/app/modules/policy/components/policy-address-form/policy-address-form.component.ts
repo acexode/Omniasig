@@ -153,19 +153,14 @@ export class PolicyAddressFormComponent implements OnInit {
               };
               this.stepChange.emit(this.formType);
 
-              this.padS.VerifyPADInsuranceOffer(this.dataModel.id).subscribe((result)=>{
-                this.refTimer = setTimeout(() => {
+              this.padS.VerifyPADInsuranceOffer(this.dataModel.id).subscribe(
+                (result) => {
                   this.handleFormSubmit();
-                }, 3000);
-              },
-              (error)=>{
-                //handle error
-              })
-
-              // TODO: Remove when real service;
-              // this.refTimer = setTimeout(() => {
-              //   this.handleFormSubmit();
-              // }, 3000);
+                },
+                (error) => {
+                  // handle error
+                }
+              );
             }
           });
         } else if (this.formType === LocuinteFormType.PAD_CHECK) {

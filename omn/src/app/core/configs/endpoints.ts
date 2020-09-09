@@ -22,7 +22,7 @@ export const authEndpoints = {
 export const baseEndpoints = {
   policy: serverBaseUrl + '/policy',
   userProfile: serverBaseUrl + '/UserProfile',
-  pad: serverBaseUrl + '/PADInsurance'
+  pad: serverBaseUrl + '/PADInsurance',
 };
 
 export const policyEndpoints = {
@@ -49,7 +49,7 @@ export const phoneNumberEndPoints = {
 
 export const padEndpoints = {
   base: baseEndpoints.pad,
-  VerifyPADInsuranceOffer: baseEndpoints.pad + '/VerifyPADInsuranceOffer', 
+  VerifyPADInsuranceOffer: baseEndpoints.pad + '/VerifyPADInsuranceOffer',
   CreatePADInsuranceOffer: baseEndpoints.pad + '/CreatePADInsuranceOffer',
   CreatePADInsurancePolicy: baseEndpoints.pad + '/CreatePADInsurancePolicy',
 };

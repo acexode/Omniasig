@@ -5,67 +5,66 @@ import { subPageHeaderCustom } from './../../../../shared/data/sub-page-header-c
 import { PolicyDataService } from './../../services/policy-data.service';
 import { Calendar } from '@ionic-native/calendar/ngx';
 import { CalendarOptions, CalendarEntry } from '../models/calendar-entry';
-@Component( {
-    selector: 'app-policy-view',
-    templateUrl: './policy-view.component.html',
-    styleUrls: [ './policy-view.component.scss' ],
-} )
+@Component({
+  selector: 'app-policy-view',
+  templateUrl: './policy-view.component.html',
+  styleUrls: ['./policy-view.component.scss'],
+})
 export class PolicyViewComponent implements OnInit {
-    headerConfig = subPageHeaderCustom( 'Polița PAD', 'bg-state' );
-    isAmplus = false;
+  headerConfig = subPageHeaderCustom('Polița PAD', 'bg-state');
+  isAmplus = false;
 
-    date = '2020.09.30';
+  date = '2020.09.30';
 
-    calanderEntryOptions: CalendarOptions = {
-        firstReminderMinutes: 15,
-        calendarName: 'policy',
-    };
+  calanderEntryOptions: CalendarOptions = {
+    firstReminderMinutes: 15,
+    calendarName: 'policy',
+  };
 
-    calEntry: CalendarEntry = {
-        title: 'policy Expiry Date',
-        location: 'Romania',
-        notes: `Oferta 123456 expira ${this.date}`,
-        startDate: this.policyDataService.getEightDayBeforeExpiryDate( this.date ),
-        endDate: new Date( this.date ),
-        options: this.calanderEntryOptions
-    };
+  calEntry: CalendarEntry = {
+    title: 'policy Expiry Date',
+    location: 'Romania',
+    notes: `Oferta 123456 expira ${this.date}`,
+    startDate: this.policyDataService.getEightDayBeforeExpiryDate(this.date),
+    endDate: new Date(this.date),
+    options: this.calanderEntryOptions,
+  };
 
+  constructor(
+    private route: ActivatedRoute,
+    private policyDataService: PolicyDataService,
+    private navCtrl: NavController,
+    private calendar: Calendar
+  ) {
+    this.route.params.subscribe((params: any) => {
+      this.getPolicyById(params.id);
+    });
+  }
 
-    constructor(
-        private route: ActivatedRoute,
-        private policyDataService: PolicyDataService,
-        private navCtrl: NavController,
-        private calendar: Calendar
-    ) {
-        this.route.params.subscribe( ( params: any ) => {
-            this.getPolicyById( params.id );
-        } );
-    }
+  ngOnInit(): void {}
 
-    ngOnInit(): void { }
+  getPolicyById(id) {
+    this.policyDataService.getSinglePolicyById(id).subscribe((policy) => {
+      if (policy) {
+      } else {
+        this.navCtrl.navigateBack('policy');
+      }
+    });
+  }
 
-    getPolicyById( id ) {
-        this.policyDataService.getSinglePolicyById( id ).subscribe( ( policy ) => {
-            if ( policy ) {
-            } else {
-                this.navCtrl.navigateBack( 'policy' );
-            }
-        } );
-    }
-
-    addCalenderEntry() {
-        this.calendar.createEventWithOptions(
-            this.calEntry.title,
-            this.calEntry.location,
-            this.calEntry.notes,
-            this.calEntry.startDate,
-            this.calEntry.endDate,
-            this.calanderEntryOptions
-        ).then(
-            ( msg ) => { },
-            ( err ) => { }
-        );
-    }
-
-
+  addCalenderEntry() {
+    this.calendar
+      .createEventWithOptions(
+        this.calEntry.title,
+        this.calEntry.location,
+        this.calEntry.notes,
+        this.calEntry.startDate,
+        this.calEntry.endDate,
+        this.calanderEntryOptions
+      )
+      .then(
+        (msg) => {},
+        (err) => {}
+      );
+  }
 }

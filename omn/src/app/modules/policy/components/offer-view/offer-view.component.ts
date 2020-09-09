@@ -1,10 +1,10 @@
-import { NavController } from '@ionic/angular';
-import { Component, OnInit, HostBinding } from '@angular/core';
-import { subPageHeaderSecondary } from 'src/app/shared/data/sub-page-header-secondary';
+import { Component, HostBinding, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { NavController } from '@ionic/angular';
+import { take } from 'rxjs/operators';
+import { subPageHeaderSecondary } from 'src/app/shared/data/sub-page-header-secondary';
+import { PadService } from '../../services/pad.service';
 import { PolicyDataService } from '../../services/policy-data.service';
-import { PolicyOffer } from 'src/app/shared/models/data/policy-offer';
-import { PadService } from '../../services/pad.service'
 
 @Component({
   selector: 'app-offer-view',
@@ -21,14 +21,13 @@ export class OfferViewComponent implements OnInit {
     private policyDataService: PolicyDataService,
     private padS: PadService,
     private navCtrl: NavController
-  ) {
-    this.route.params.subscribe((params: any) => {
+  ) {}
+
+  ngOnInit(): void {
+    this.route.params.pipe(take(1)).subscribe((params: any) => {
       this.getPolicyById(params.id);
-      console.log('OFFER RECEIVED', this.offer)
     });
   }
-
-  ngOnInit(): void {}
 
   getPolicyById(id) {
     this.policyDataService.getSingleOfferById(id).subscribe((offer) => {
@@ -41,22 +40,23 @@ export class OfferViewComponent implements OnInit {
   }
 
   back() {}
-  
- 
-  pay(){
-     /* 
+
+  pay() {
+    /*
       method to call payment web service when the pay(plateste) button is clicked,
       which also calls create PAD Insurance policy web service
     */
-    
-    this.padS.CreatePADInsurancePolicy(this.offer.id)
-        .subscribe(
-          (result)=>{
-            //next thing to do after creating PAD Insurance policy
-          },
-          (error)=>{
-            //handle error
-          }
-        )
+
+    this.padS.CreatePADInsurancePolicy(this.offer.id).subscribe(
+      (result) => {
+        this.policyDataService.initData();
+        this.navCtrl.navigateRoot('/policy');
+        // next thing to do after creating PAD Insurance policy
+      },
+      (error) => {
+        // handle error
+        this.navCtrl.navigateRoot('/policy');
+      }
+    );
   }
 }
