@@ -38,15 +38,11 @@
     <ion-row class="pt-40 px-32">
       <ion-col class="ion-no-padding">
         <ion-row class="flex-column mb-24">
-          <ion-label class="s18-h24 text-weight-medium mb-4">
-            PAD
-          </ion-label>
+          <ion-label class="s18-h24 text-weight-medium mb-4"> PAD </ion-label>
           <ion-label class="x-large alt-font mb-4">
             Ofertă de asigurare
           </ion-label>
-          <ion-label class="text-small mb-24">
-            Nr: 001234566789
-          </ion-label>
+          <ion-label class="text-small mb-24"> Nr: 001234566789 </ion-label>
           <ion-label class="text-small">
             Emisa la data de 12.05.2020 în baza datelor declarate de ASIGURAT
           </ion-label>
@@ -58,12 +54,8 @@
           >
             Reînnoiește PAD
           </ion-label>
-          <ion-label class="s18-h24 alt-font mb-4">
-            Seria: AB-123
-          </ion-label>
-          <ion-label class="s18-h24 mb-21">
-            Numarul: 00010203456
-          </ion-label>
+          <ion-label class="s18-h24 alt-font mb-4"> Seria: AB-123 </ion-label>
+          <ion-label class="s18-h24 mb-21"> Numarul: 00010203456 </ion-label>
           <ion-label class="s18-h24">
             Riscuri acoperite prin contract: cutremure de pământ, alunecări de
             teren şi inundaţii, ca fenomene naturale
@@ -218,12 +210,8 @@
             </ion-radio-group>
           </ion-col>
           <ion-col class="ion-no-padding flex flex-column link-small">
-            <ion-text class="link-small">
-              Confirm că:
-            </ion-text>
-            <ion-text>
-              - am împlinit 18 ani;
-            </ion-text>
+            <ion-text class="link-small"> Confirm că: </ion-text>
+            <ion-text> - am împlinit 18 ani; </ion-text>
             <ion-text>
               - am completat și înțeles Formularul de analiză a cerințelor și
               necesităților clienților;
@@ -246,6 +234,50 @@
         shape="round"
         >Plătește</ion-button
       >
+    </ion-row>
+    <ion-row
+      class="flex flex-column ion-no-padding w-100 shadow-3 mt-32"
+      *ngIf="calEntry"
+    >
+      <ion-row>
+        <ion-col
+          class="ion-no-padding flex flex-1 w-100 flex-column ion-justify-content-center ion-align-items-center"
+        >
+          <ion-icon
+            name="notificare"
+            class="radius-50-perc p-10 bg-secondary-blue color-white icon-20 mt-n20"
+          ></ion-icon>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col class="mt-8 px-32">
+          <div class="mb-20">
+            <div class="">
+              <ion-text class="input-label text-weight-medium">
+                Notificări
+              </ion-text>
+            </div>
+            <ion-text class="s18-h24 ion-inherit-color">
+              Vrei să primești notificări când trebuie <br />
+              să reînnoiești polița sau când trebuie <br />
+              să plătești o rată?..
+            </ion-text>
+          </div>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col class="ion-align-items-center ion-text-center mb-24">
+          <ion-button
+            class="flat no-shadow color-white ion-color-success text-weight-medium px-5"
+            size="large"
+            shape="round"
+            mode="md"
+            (click)="addCalendarEntry()"
+          >
+            Activează notificările
+          </ion-button>
+        </ion-col>
+      </ion-row>
     </ion-row>
   </ion-grid>
 </ion-content>

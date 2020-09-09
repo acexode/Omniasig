@@ -1,10 +1,12 @@
+import { dateHelperDMY } from 'src/app/core/helpers/date.helper';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { NavController } from '@ionic/angular';
+import { get } from 'lodash';
+import { PolicyItem } from 'src/app/shared/models/data/policy-item';
+import { CalendarEntry } from '../models/calendar-entry';
 import { subPageHeaderCustom } from './../../../../shared/data/sub-page-header-custom';
 import { PolicyDataService } from './../../services/policy-data.service';
-import { Calendar } from '@ionic-native/calendar/ngx';
-import { CalendarOptions, CalendarEntry } from '../models/calendar-entry';
 @Component({
   selector: 'app-policy-view',
   templateUrl: './policy-view.component.html',
@@ -13,29 +15,11 @@ import { CalendarOptions, CalendarEntry } from '../models/calendar-entry';
 export class PolicyViewComponent implements OnInit {
   headerConfig = subPageHeaderCustom('Polița PAD', 'bg-state');
   isAmplus = false;
-
-  date = '2020.09.30';
-
-  calanderEntryOptions: CalendarOptions = {
-    firstReminderMinutes: 15,
-    calendarName: 'policy',
-    // calendarId: 1, // this should auto recrement after WS (web service is added)
-  };
-
-  calEntry: CalendarEntry = {
-    title: 'policy Expiry Date',
-    location: 'Romania',
-    notes: `Oferta 123456 expira ${this.date}`,
-    startDate: this.policyDataService.getEightDayBeforeExpiryDate(this.date),
-    endDate: new Date(this.date),
-    options: this.calanderEntryOptions,
-  };
-
+  calEntry: CalendarEntry;
   constructor(
     private route: ActivatedRoute,
     private policyDataService: PolicyDataService,
-    private navCtrl: NavController,
-    private calendar: Calendar
+    private navCtrl: NavController
   ) {
     this.route.params.subscribe((params: any) => {
       this.getPolicyById(params.id);
@@ -47,25 +31,36 @@ export class PolicyViewComponent implements OnInit {
   getPolicyById(id) {
     this.policyDataService.getSinglePolicyById(id).subscribe((policy) => {
       if (policy) {
+        this.setCalEntry(policy);
       } else {
         this.navCtrl.navigateBack('policy');
       }
     });
   }
 
-  addCalenderEntry() {
-    this.calendar
-      .createEventInteractivelyWithOptions(
-        this.calEntry.title,
-        this.calEntry.location,
-        this.calEntry.notes,
-        this.calEntry.startDate,
-        this.calEntry.endDate,
-        this.calanderEntryOptions
-      )
-      .then(
-        (msg) => {},
-        (err) => {}
-      );
+  setCalEntry(policy: PolicyItem) {
+    const date = get(policy, 'dates.to', null);
+    let processedDate;
+    try {
+      processedDate = Date.parse(date);
+      this.calEntry = {
+        title: 'Expirare polita ' + get(policy, 'name', ''),
+        location: 'Romania',
+        notes:
+          'Polita ' + policy.id + ' expira la ' + dateHelperDMY(processedDate),
+        startDate: this.policyDataService.getEightDayBeforeExpiryDate(
+          processedDate
+        ),
+        endDate: new Date(processedDate),
+        options: {
+          firstReminderMinutes: 15,
+          calendarName: 'policy',
+        },
+      };
+    } catch (e) {}
+  }
+
+  addCalendarEntry() {
+    this.policyDataService.addExpiryCalendarEntry(this.calEntry);
   }
 }

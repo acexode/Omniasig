@@ -17,7 +17,6 @@ import { PolicyPage } from './page/policy.page';
 import { PolicyRoutingModule } from './policy-routing.module';
 import { PolicySharedModule } from './policy-shared.module';
 
-import { Calendar } from '@ionic-native/calendar/ngx';
 @NgModule({
   declarations: [
     PolicyPage,
@@ -43,6 +42,6 @@ import { Calendar } from '@ionic-native/calendar/ngx';
     OmnInputsModule,
   ],
   exports: [AsistentaModalPagePage],
-  providers: [Calendar],
+  providers: [],
 })
 export class PolicyModule {}
