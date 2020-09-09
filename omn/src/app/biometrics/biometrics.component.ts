@@ -10,12 +10,11 @@ import { FormBuilder, Validators } from '@angular/forms';
   styleUrls: ['./biometrics.component.scss'],
 })
 export class BiometricsComponent implements OnInit {
-  @HostBinding('class') color = 'ion-color-white-page';
-  enabled : boolean =false
+  @HostBinding('class') color = 'ion-color-white-page';  
   buttonText = 'Verifică'
   pathAcord = "./more-details"
   formGroup = this.fb.group({
-    selection: this.fb.control(null, Validators.requiredTrue),
+    selection: this.fb.control(null, Validators.required),
   });
   radiosConfig: IonRadiosConfig = radiosConfigHelper({
     label: '',
@@ -35,9 +34,8 @@ export class BiometricsComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.formGroup.valueChanges.subscribe(val =>{
-      this.enabled = true
-      if(this.formGroup.valid){
+    this.formGroup.valueChanges.subscribe(val =>{      
+      if(val.selection){
         this.buttonText = 'Verifică'
         this.pathAcord = "./more-details"
       }else{

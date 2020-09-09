@@ -40,8 +40,7 @@
         ></ion-button
       >
     </ion-row>
-    <ion-row class="ion-justify-content-center mt-16 mb-24 mx-24">
-      <!-- [disabled]="!formGroup?.valid" -->
+    <ion-row class="ion-justify-content-center mt-16 mb-24 mx-24">      
       <ion-button
         class="activate-btn"
         size="large"
@@ -50,7 +49,7 @@
         expand="block"
         class="m-0 w-100 flex mt-auto mx-8"
         routerLink={{pathAcord}}
-        [disabled]="!enabled"
+        [disabled]="!formGroup?.valid"
       >
         {{buttonText}}
       </ion-button>

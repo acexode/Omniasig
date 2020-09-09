@@ -21,14 +21,14 @@ export function ValidateCNP(control: AbstractControl): {[key: string]: any} | nu
       }
       if (ctrlDigit !== parseInt(control.value[12], 10)) {
         console.log(false)
-        return { 'cnpValid': false };
+        return { 'valid': false };
         
       } else {
         console.log(true)
-        return { 'cnpValid': true };
+        return { 'valid': true };
       }
     }
-    return { 'cnpValid': false };
+    return { 'valid': false };
     }
     return null;
 }

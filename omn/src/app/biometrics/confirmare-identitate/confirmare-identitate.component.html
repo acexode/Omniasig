@@ -25,8 +25,8 @@
     <ion-row class="ion-no-padding localitate mb-24"> 
         <app-input
           class="w-100"
-          [config]="confirmModel?.lastname"
-          formControlName="lastname"
+          [config]="confirmModel?.surname"
+          formControlName="surname"
         ></app-input>
     </ion-row>
     <ion-row class="ion-no-padding numar-scara mb-24"> 
@@ -37,11 +37,11 @@
     ></app-input>
     </ion-row>
     <ion-row class="ion-no-padding apartament-postal-code mb-24">      
-        <app-input
+        <app-datepicker
           class="w-100"
-          [config]="confirmModel?.date"
-          formControlName="date"
-        ></app-input>
+          [config]="confirmModel?.dateOfBirth"
+          formControlName="dateOfBirth"
+        ></app-datepicker>
       
     </ion-row>
     <ion-row class="ion-no-padding judet mb-24">
@@ -124,7 +124,7 @@
         fill="solid"
         expand="block"  
         (click)="submitForm()"      
-        [disabled]="!confirmareForm.valid"
+        [disabled]="!confirmareForm?.valid"
         size="large"
         class="m-0 w-100 flex mt-auto"
       >
