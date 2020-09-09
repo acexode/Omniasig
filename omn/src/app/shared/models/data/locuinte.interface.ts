@@ -37,8 +37,8 @@ export interface Locuinte {
     roomCount: number;
     alarm: boolean;
   };
-  tipLocuinta: TipLocuinta;
-  policyData: Array<PolicyItem>;
+  tipLocuinta?: TipLocuinta;
+  policyData?: Array<PolicyItem>;
 
   // Temp - prefilled data.
   pad?: {

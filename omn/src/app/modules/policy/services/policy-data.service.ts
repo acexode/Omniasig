@@ -53,8 +53,58 @@ export class PolicyDataService {
       );
   }
 
+  // create policy object to suit display data
   createPolicyObj(policy: any) {
-    return { ...policy, ...{ typeId: "PAD" } }
+    console.log(policy);
+    
+    return {
+      id: policy.id,
+      typeId: "PAD",
+      state: 1,
+      name: policy.policyNrChitanta,
+      serial:policy.policySeriePolita,
+      policyNrPolita:policy.policyNrPolita,
+      policyNrChitanta:policy.policyNrChitanta,
+      policyIdIncasareOMN:policy.policyIdIncasareOMN,
+      userId: null,
+      locuintaId: null,
+      userData: {
+        fullName: `${policy.userName} ${policy.userSurname}`,
+        cnp: policy.userCnp,
+      },
+      dates: {
+        from: policy.emisionDate,
+        to: policy.expireDate,
+      },
+      listingSubtitle: `${policy.addressStreet}, ${policy.addressStreetNumber} ${policy.addressCity}`,
+      locuintaData: {
+        id: policy.id,
+        name: policy.locationName,
+        info: {
+          type: policy.locationType,
+          resistenceStructure: policy.locationStructure,
+          buildYear: policy.locationYearConstruction,
+          valueCurrency: policy.locationValueCurrency,
+          valueSum: policy.locationValue,
+          occupancy: policy.locationArea,
+          usableSurface: policy.locationArea,
+          heightRegime: policy.locationFloors,
+          roomCount: policy.locationRooms,
+          alarm: policy.locationHasAlarmSystem,
+        },
+        address: {
+          county: policy.addressCounty,
+          city: policy.addressCity,
+          street: policy.addressStreet,
+          number: policy.addressStreetNumber,
+          // Scara bloc.
+          entrance: policy.addressScara,
+          apartment: policy.addressApart,
+          postalCode: policy.addressPostalCode,
+        },
+      },
+      expiry: policy.expireDate
+    }
   }
 
   getUserPoliciesArchive(id: number | string) {
@@ -87,7 +137,6 @@ export class PolicyDataService {
   }
 
   mapPolicyType(p: PolicyItem) {
-    console.log(p.typeId);
     const typeV = policyTypes[p.typeId] ? policyTypes[p.typeId] : null;
     if (typeV) {
       p.type = { ...typeV };
