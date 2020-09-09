@@ -1,5 +1,6 @@
-import { random } from 'lodash';
 import { Injectable } from '@angular/core';
+import { Calendar } from '@ionic-native/calendar/ngx';
+import { random } from 'lodash';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
 import { policyEndpoints } from 'src/app/core/configs/endpoints';
@@ -8,7 +9,6 @@ import { RequestService } from 'src/app/core/services/request/request.service';
 import { PolicyItem } from 'src/app/shared/models/data/policy-item';
 import { PolicyOffer } from 'src/app/shared/models/data/policy-offer';
 import { policyTypes } from 'src/app/shared/models/data/policy-types';
-import { stringify } from 'querystring';
 
 @Injectable({
   providedIn: 'root',
@@ -21,7 +21,11 @@ export class PolicyDataService {
   );
   offerStore$: BehaviorSubject<Array<PolicyOffer>> = new BehaviorSubject([]);
 
-  constructor(private reqS: RequestService, private authS: AuthService) {
+  constructor(
+    private reqS: RequestService,
+    private authS: AuthService,
+    private calendar: Calendar
+  ) {
     this.initData();
   }
 
@@ -65,7 +69,7 @@ export class PolicyDataService {
         map((ov) =>
           ov
             ? ov.map((ovi) =>
-                this.mapOfferPolicyType(this.createOffersObj(ovi))
+                this.mapOfferPolicyType(this.createOffersObj(ovi, 'PAD'))
               )
             : []
         )
@@ -88,13 +92,13 @@ export class PolicyDataService {
     return o;
   }
   // ceate offer obj
-  createOffersObj(offer: any) {
+  createOffersObj(offer: any, typeId: string) {
     return {
       id: offer.id,
       policy: {
         id: offer.id,
         name: offer.offerCode,
-        typeId: 'PAD',
+        typeId,
         state: 1,
         listingSubtitle: `${offer.addressStreet}, ${offer.addressStreetNumber} ${offer.addressCity}`,
         dates: {
@@ -209,5 +213,21 @@ export class PolicyDataService {
       expiryDate.getTime() - 8 * 24 * 60 * 60 * 1000
     );
     return eightDaysFromExpiryDate;
+  }
+
+  addExpiryCalendarEntry(calEntry) {
+    this.calendar
+      .createEventInteractivelyWithOptions(
+        calEntry.title,
+        calEntry.location,
+        calEntry.notes,
+        calEntry.startDate,
+        calEntry.endDate,
+        calEntry.options
+      )
+      .then(
+        (msg) => {},
+        (err) => {}
+      );
   }
 }

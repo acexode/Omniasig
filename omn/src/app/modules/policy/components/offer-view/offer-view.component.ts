@@ -1,9 +1,13 @@
-import { NavController } from '@ionic/angular';
-import { Component, OnInit, HostBinding } from '@angular/core';
-import { subPageHeaderSecondary } from 'src/app/shared/data/sub-page-header-secondary';
+import { Component, HostBinding, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { PolicyDataService } from '../../services/policy-data.service';
+import { NavController } from '@ionic/angular';
+import { get } from 'lodash';
+import { take } from 'rxjs/operators';
+import { dateHelperDMY } from 'src/app/core/helpers/date.helper';
+import { subPageHeaderSecondary } from 'src/app/shared/data/sub-page-header-secondary';
 import { PolicyOffer } from 'src/app/shared/models/data/policy-offer';
+import { PolicyDataService } from '../../services/policy-data.service';
+import { CalendarEntry } from './../models/calendar-entry';
 
 @Component({
   selector: 'app-offer-view',
@@ -14,25 +18,24 @@ export class OfferViewComponent implements OnInit {
   offer: PolicyOffer = null;
   headerConfig = subPageHeaderSecondary('Oferta de asigurare');
   @HostBinding('class') color = 'ion-color-white-page';
-
+  calEntry: CalendarEntry;
   constructor(
     private route: ActivatedRoute,
     private policyDataService: PolicyDataService,
     private navCtrl: NavController
-  ) {
-    this.route.params.subscribe((params: any) => {
+  ) {}
+
+  ngOnInit(): void {
+    this.route.params.pipe(take(1)).subscribe((params: any) => {
       this.getPolicyById(params.id);
     });
   }
 
-  ngOnInit(): void {}
-
   getPolicyById(id) {
-    this.policyDataService
-      .getSingleOfferById(id)
-      .subscribe((offer: PolicyOffer) => {
-        this.offer = offer;
-      });
+    this.policyDataService.getSingleOfferById(id).subscribe((offer) => {
+      this.offer = offer instanceof Array ? offer[0] : offer;
+      this.setCalEntry(this.offer);
+    });
   }
 
   closeOffer() {
@@ -40,4 +43,30 @@ export class OfferViewComponent implements OnInit {
   }
 
   back() {}
+
+  setCalEntry(offer: PolicyOffer) {
+    const date = get(offer, 'expiry', null);
+    let processedDate;
+    try {
+      processedDate = Date.parse(date);
+      this.calEntry = {
+        title: 'Expirare oferta ' + get(offer, 'policy.name', ''),
+        location: 'Romania',
+        notes:
+          'Oferta ' + offer.id + ' expira la ' + dateHelperDMY(processedDate),
+        startDate: this.policyDataService.getEightDayBeforeExpiryDate(
+          processedDate
+        ),
+        endDate: new Date(processedDate),
+        options: {
+          firstReminderMinutes: 15,
+          calendarName: 'offer',
+        },
+      };
+    } catch (e) {}
+  }
+
+  addCalendarEntry() {
+    this.policyDataService.addExpiryCalendarEntry(this.calEntry);
+  }
 }

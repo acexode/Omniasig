@@ -1,3 +1,4 @@
+import { ConfirmationModalComponent } from './components/modals/confirmation-modal/confirmation-modal.component';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
@@ -26,6 +27,7 @@ import { LocuintePage } from './locuinte.page';
     LocuinteViewComponent,
     LocuinteViewCardComponent,
     LocuinteFormPageComponent,
+    ConfirmationModalComponent,
   ],
 })
 export class LocuintePageModule {}
