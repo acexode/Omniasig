@@ -252,6 +252,14 @@
   --background: #fff;
 }
 
+.bg-grey-medium {
+  --background: var(--ion-color-omn-grey-medium-2);
+  --ion-item-background: var(--ion-color-omn-grey-medium-2);
+  --ion-background-color: var(--ion-color-omn-grey-medium-2);
+  background-color: $light-grey-2 !important;
+}
+
+
 .bg-light-green-2 {
   background-color: $light-green-2;
   --background: $light-green-2;
