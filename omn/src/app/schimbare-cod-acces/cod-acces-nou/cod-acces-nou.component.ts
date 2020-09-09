@@ -11,6 +11,8 @@ import { IonInput } from '@ionic/angular';
 import { Subscription } from 'rxjs';
 import { subPageHeaderDefault } from 'src/app/shared/data/sub-page-header-default';
 import { IonInputConfig } from 'src/app/shared/models/component/ion-input-config';
+import { ChangeCodeService } from '../services/change-code.service';
+import { UpdatePassword } from '../models/UpdatePassword';
 
 @Component({
   selector: 'app-cod-acces-nou',
@@ -30,14 +32,17 @@ export class CodAccesNouComponent implements OnInit, OnDestroy {
   };
   passForm: FormGroup;
   InvalidCode = false;
+
   constructor(
     private router: Router,
     private formBuilder: FormBuilder,
+    private changeCodeS: ChangeCodeService,
   ) { }
 
   ngOnInit() {
     this.initForm();
   }
+
   initForm() {
     this.passForm = this.formBuilder.group({
       digit: [
@@ -48,25 +53,39 @@ export class CodAccesNouComponent implements OnInit, OnDestroy {
 
     this.sub = this.passForm.valueChanges.subscribe((value) => {
       this.changeInput(value.digit);
+      this.InvalidCode = false;
       if (this.digitsLength === 6) {
-        this.proceed();
-        this.passForm.reset();
+        this.continue();
       }
     });
   }
 
-  changeInput(digit: number) {
+  changeInput(digit: string) {
     if (digit) {
-      this.digitsLength = digit.toString().length;
+      this.digitsLength = digit.length;
     } else {
       this.digitsLength = 0;
     }
   }
 
+  continue() {
+    const { value } = this.passForm.controls.digit;
+    if (value === '000000') {
+      this.passForm.reset();
+      this.InvalidCode = true;
+    } else {
+      const resetObj: UpdatePassword = {
+        ...this.changeCodeS.getUpdatePassObj,
+        newPassword: value,
+      };
+      this.changeCodeS.setUpdatePassObj(resetObj);
+      this.proceed();
+    }
+  }
+
   proceed() {
     this.router.navigate([
-      'cod-acces/confirmare',
-      this.passForm.get('digit').value,
+      'cod-acces/confirmare'
     ]);
   }
 
