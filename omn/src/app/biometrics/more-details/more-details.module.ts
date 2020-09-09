@@ -1,3 +1,4 @@
+import { CompleteVerificationComponent } from './complete-verification/complete-verification.component';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { IonicModule } from '@ionic/angular';

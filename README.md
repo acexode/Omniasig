@@ -8,7 +8,7 @@
 https://ion.link/docs
 
 
-### How to compile and deploy on your Android device
+### Steps to compile and deploy on your Android device
 - First of all, ensure that you have Java version 1.8, Android SDK and Gradle installed on your machine as well as the environmental variables set.
 
 - Ensure you install `native-run` and `cordova` by running
@@ -23,7 +23,7 @@ https://ion.link/docs
 This will request you type in the platform (Android/ios) that you are building for. You type in Android on the console, since that is the platform we are building for. Wait for the app to fully build and automatically get transferred to your mobile device and then you can open the app on your device just the usual way you open applications downladed from thee playstore
 
 
-### How to build for Google play store
+### Steps to build Android APK for Google play store
 - Run a Production Build
 First, we need to bundle our web code and prepare the assets as a native package.
 `ionic cordova build android --prod --release`

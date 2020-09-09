@@ -27,7 +27,7 @@ import { ConfirmationModalComponent } from './components/modals/confirmation-mod
     LocuinteViewComponent,
     LocuinteViewCardComponent,
     LocuinteFormPageComponent,
-    ConfirmationModalComponent
+    ConfirmationModalComponent,
   ],
 })
 export class LocuintePageModule {}
