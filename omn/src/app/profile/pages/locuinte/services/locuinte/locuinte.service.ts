@@ -14,16 +14,14 @@ import { HttpHeaders } from '@angular/common/http';
 @Injectable({
   providedIn: 'root',
 })
-//https://omn-core-dev.azure.softescu.com/api/...
-//https://meet.google.com/linkredirect?authuser=2&dest=https%3A%2F%2Fomn-core-dev.azure.softescu.com%2Findex.html
+ // https://omn-core-dev.azure.softescu.com/api/...
+ // https://meet.google.com/linkredirect?authuser=2&dest=https%3A%2F%2Fomn-core-dev.azure.softescu.com%2Findex.html
 export class LocuinteService {
   singleLoading: BehaviorSubject<boolean> = new BehaviorSubject(false);
   multipleLoading: BehaviorSubject<boolean> = new BehaviorSubject(false);
   locuinteStore$: BehaviorSubject<Array<Locuinte>> = new BehaviorSubject(null);
   endpoints = locuinteEndpoints;
   emptyV: Array<Locuinte> = [];
-  
- 
 
   constructor(private reqS: RequestService, private authS: AuthService) {
     this.initData();
@@ -58,7 +56,6 @@ export class LocuinteService {
   }
 
   getUserLocuinte() {
-   
     return this.reqS.get<Array<Locuinte>>(this.endpoints.AlluserLocation).pipe(
       catchError((e) => {
         return of(this.emptyV);
@@ -92,7 +89,6 @@ export class LocuinteService {
   }
 
   addSingleLocuinte(data: Locuinte) {
-    
       // return this.reqS.get(this.endpoints.add)
     return of({ ...data, ...{ id: random(10, 100) } }).pipe(
       map((v) => {
