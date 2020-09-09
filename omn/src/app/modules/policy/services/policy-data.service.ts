@@ -9,141 +9,149 @@ import { PolicyItem } from 'src/app/shared/models/data/policy-item';
 import { PolicyOffer } from 'src/app/shared/models/data/policy-offer';
 import { policyTypes } from 'src/app/shared/models/data/policy-types';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable( {
+    providedIn: 'root',
+} )
 export class PolicyDataService {
-  endpoints = policyEndpoints;
-  policyStore$: BehaviorSubject<Array<PolicyItem>> = new BehaviorSubject([]);
-  policyArchiveStore$: BehaviorSubject<Array<PolicyItem>> = new BehaviorSubject(
-    []
-  );
-  offerStore$: BehaviorSubject<Array<PolicyOffer>> = new BehaviorSubject([]);
+    endpoints = policyEndpoints;
+    policyStore$: BehaviorSubject<Array<PolicyItem>> = new BehaviorSubject( [] );
+    policyArchiveStore$: BehaviorSubject<Array<PolicyItem>> = new BehaviorSubject(
+        []
+    );
+    offerStore$: BehaviorSubject<Array<PolicyOffer>> = new BehaviorSubject( [] );
 
-  constructor(private reqS: RequestService, private authS: AuthService) {
-    this.initData();
-  }
-
-  initData() {
-    this.authS.getAccountData().subscribe((account) => {
-      if (this.authS.accountActivated(account)) {
-        this.getUserPolicies(account.userId).subscribe((vv) => {
-          this.policyStore$.next(vv ? vv : []);
-        });
-        this.getUserPoliciesArchive(account.userId).subscribe((vv) => {
-          this.policyArchiveStore$.next(vv ? vv : []);
-        });
-        this.getUserOffers(account.userId).subscribe((v) =>
-          this.offerStore$.next(v ? v : [])
-        );
-      }
-    });
-  }
-
-  getUserPolicies(id: number | string) {
-    const emptyV: Array<PolicyItem> = [];
-    return this.reqS
-      .get<Array<PolicyItem>>(this.endpoints.userPoliciesBase + '/' + id)
-      .pipe(
-        catchError((e) => {
-          return of(emptyV);
-        }),
-        map((pv) => (pv ? pv.map((pvi) => this.mapPolicyType(pvi)) : []))
-      );
-  }
-
-  getUserPoliciesArchive(id: number | string) {
-    const emptyV: Array<PolicyItem> = [];
-    return this.reqS
-      .get<Array<PolicyItem>>(this.endpoints.userPoliciesArchive + '/' + id)
-      .pipe(
-        catchError((e) => {
-          return of(emptyV);
-        }),
-        map((pv) => (pv ? pv.map((pvi) => this.mapPolicyType(pvi)) : []))
-      );
-  }
-
-  getUserOffers(id: number | string) {
-    const emptyV: Array<PolicyOffer> = [];
-    return this.reqS
-      .get<Array<PolicyOffer>>(this.endpoints.userOffersBase + '/' + id)
-      .pipe(
-        catchError((e) => {
-          return of(emptyV);
-        }),
-        map((ov) => (ov ? ov.map((ovi) => this.mapOfferPolicyType(ovi)) : []))
-      );
-  }
-
-  mapOfferPolicyType(o: PolicyOffer) {
-    o.policy = this.mapPolicyType(o.policy);
-    return o;
-  }
-
-  mapPolicyType(p: PolicyItem) {
-    const typeV = policyTypes[p.typeId] ? policyTypes[p.typeId] : null;
-    if (typeV) {
-      p.type = { ...typeV };
+    constructor( private reqS: RequestService, private authS: AuthService ) {
+        this.initData();
     }
-    return p;
-  }
 
-  getSingleOfferById(id: number | string) {
-    return this.offerStore$.pipe(
-      switchMap((vals) => {
-        if (vals instanceof Array) {
-          const existing = vals.find((v) => v.id.toString() === id.toString());
-          if (existing) {
-            return of(existing);
-          } else {
-            return this.getUserOffers(id).pipe(
-              map((o) => o.filter((off) => off.id === id))
+    initData() {
+        this.authS.getAccountData().subscribe( ( account ) => {
+            if ( this.authS.accountActivated( account ) ) {
+                this.getUserPolicies( account.userId ).subscribe( ( vv ) => {
+                    this.policyStore$.next( vv ? vv : [] );
+                } );
+                this.getUserPoliciesArchive( account.userId ).subscribe( ( vv ) => {
+                    this.policyArchiveStore$.next( vv ? vv : [] );
+                } );
+                this.getUserOffers( account.userId ).subscribe( ( v ) =>
+                    this.offerStore$.next( v ? v : [] )
+                );
+            }
+        } );
+    }
+
+    getUserPolicies( id: number | string ) {
+        const emptyV: Array<PolicyItem> = [];
+        return this.reqS
+            .get<Array<PolicyItem>>( this.endpoints.userPoliciesBase + '/' + id )
+            .pipe(
+                catchError( ( e ) => {
+                    return of( emptyV );
+                } ),
+                map( ( pv ) => ( pv ? pv.map( ( pvi ) => this.mapPolicyType( pvi ) ) : [] ) )
             );
-          }
-        } else {
-          return this.getUserOffers(id).pipe(
-            map((o) => o.filter((off) => off.id === id))
-          );
+    }
+
+    getUserPoliciesArchive( id: number | string ) {
+        const emptyV: Array<PolicyItem> = [];
+        return this.reqS
+            .get<Array<PolicyItem>>( this.endpoints.userPoliciesArchive + '/' + id )
+            .pipe(
+                catchError( ( e ) => {
+                    return of( emptyV );
+                } ),
+                map( ( pv ) => ( pv ? pv.map( ( pvi ) => this.mapPolicyType( pvi ) ) : [] ) )
+            );
+    }
+
+    getUserOffers( id: number | string ) {
+        const emptyV: Array<PolicyOffer> = [];
+        return this.reqS
+            .get<Array<PolicyOffer>>( this.endpoints.userOffersBase + '/' + id )
+            .pipe(
+                catchError( ( e ) => {
+                    return of( emptyV );
+                } ),
+                map( ( ov ) => ( ov ? ov.map( ( ovi ) => this.mapOfferPolicyType( ovi ) ) : [] ) )
+            );
+    }
+
+    mapOfferPolicyType( o: PolicyOffer ) {
+        o.policy = this.mapPolicyType( o.policy );
+        return o;
+    }
+
+    mapPolicyType( p: PolicyItem ) {
+        const typeV = policyTypes[ p.typeId ] ? policyTypes[ p.typeId ] : null;
+        if ( typeV ) {
+            p.type = { ...typeV };
         }
-      })
-    );
-  }
+        return p;
+    }
 
-  getSinglePolicyById(id) {
-    return this.policyStore$.pipe(
-      switchMap((vals) => {
-        if (vals instanceof Array) {
-          const existing = vals.find((v) => v.id.toString() === id.toString());
-          if (existing) {
-            return of(existing);
-          } else {
-            return this.getSinglePolicy(id);
-          }
-        } else {
-          return this.getSinglePolicy(id);
-        }
-      })
-    );
-  }
+    getSingleOfferById( id: number | string ) {
+        return this.offerStore$.pipe(
+            switchMap( ( vals ) => {
+                if ( vals instanceof Array ) {
+                    const existing = vals.find( ( v ) => v.id.toString() === id.toString() );
+                    if ( existing ) {
+                        return of( existing );
+                    } else {
+                        return this.getUserOffers( id ).pipe(
+                            map( ( o ) => o.filter( ( off ) => off.id === id ) )
+                        );
+                    }
+                } else {
+                    return this.getUserOffers( id ).pipe(
+                        map( ( o ) => o.filter( ( off ) => off.id === id ) )
+                    );
+                }
+            } )
+        );
+    }
 
-  private getSinglePolicy(id): Observable<PolicyItem> {
-    return this.reqS.get<PolicyItem>(this.endpoints.base + '/' + id).pipe(
-      catchError((e) => {
-        return of(null);
-      })
-    );
-  }
+    getSinglePolicyById( id ) {
+        return this.policyStore$.pipe(
+            switchMap( ( vals ) => {
+                if ( vals instanceof Array ) {
+                    const existing = vals.find( ( v ) => v.id.toString() === id.toString() );
+                    if ( existing ) {
+                        return of( existing );
+                    } else {
+                        return this.getSinglePolicy( id );
+                    }
+                } else {
+                    return this.getSinglePolicy( id );
+                }
+            } )
+        );
+    }
 
-  addOffer(offerData: PolicyOffer): Observable<PolicyOffer> {
-    return of({ ...offerData, ...{ id: random(10, 100) } }).pipe(
-      map((v) => {
-        const vals = this.offerStore$.value ? this.offerStore$.value : [];
-        vals.push(v);
-        this.offerStore$.next(vals);
-        return v ? v : null;
-      }),
-      catchError((err) => of(null))
-    );
-  }
+    private getSinglePolicy( id ): Observable<PolicyItem> {
+        return this.reqS.get<PolicyItem>( this.endpoints.base + '/' + id ).pipe(
+            catchError( ( e ) => {
+                return of( null );
+            } )
+        );
+    }
+
+    addOffer( offerData: PolicyOffer ): Observable<PolicyOffer> {
+        return of( { ...offerData, ...{ id: random( 10, 100 ) } } ).pipe(
+            map( ( v ) => {
+                const vals = this.offerStore$.value ? this.offerStore$.value : [];
+                vals.push( v );
+                this.offerStore$.next( vals );
+                return v ? v : null;
+            } ),
+            catchError( ( err ) => of( null ) )
+        );
+    }
+
+    /* for Notification */
+    getEightDayBeforeExpiryDate( date: string ) {
+        const expiryDate = new Date( date );
+        const eightDaysFromExpiryDate = new Date( expiryDate.getTime() - 8 * 24 * 60 * 60 * 1000 );
+        return eightDaysFromExpiryDate;
+    }
+
 }
