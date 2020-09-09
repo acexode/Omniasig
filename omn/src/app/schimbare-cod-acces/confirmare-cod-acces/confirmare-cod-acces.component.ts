@@ -1,17 +1,19 @@
 import {
   Component,
-  OnInit,
-  ViewChild,
   HostBinding,
   OnDestroy,
+  OnInit,
+  ViewChild,
 } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { Router, ActivatedRoute } from '@angular/router';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { IonInput, NavController } from '@ionic/angular';
 import { Subscription } from 'rxjs';
+import { CustomStorageService } from 'src/app/core/services/custom-storage/custom-storage.service';
 import { subPageHeaderDefault } from 'src/app/shared/data/sub-page-header-default';
 import { IonInputConfig } from 'src/app/shared/models/component/ion-input-config';
-import { Location } from '@angular/common';
+import { UpdatePassword } from '../models/UpdatePassword';
+import { ChangeCodeService } from '../services/change-code.service';
 
 @Component({
   selector: 'app-confirmare-cod-acces',
@@ -32,24 +34,22 @@ export class ConfirmareCodAccesComponent implements OnInit, OnDestroy {
   };
   passForm: FormGroup;
   InvalidCode = false;
+  busy = false;
+
   constructor(
-    private route: ActivatedRoute,
     private router: Router,
     private formBuilder: FormBuilder,
     private navCtrl: NavController,
+    private storeS: CustomStorageService,
+    private changeCodeS: ChangeCodeService
   ) {
-    this.route.params.subscribe((params) => {
-      if (params.code) {
-        this.accessCode = params.code;
-      } else {
-        this.navCtrl.back();
-      }
-    });
+    this.accessCode = this.changeCodeS.getUpdatePassObj.newPassword;
   }
 
   ngOnInit() {
     this.initForm();
   }
+
   initForm() {
     this.passForm = this.formBuilder.group({
       digit: [
@@ -60,35 +60,56 @@ export class ConfirmareCodAccesComponent implements OnInit, OnDestroy {
 
     this.sub = this.passForm.valueChanges.subscribe((value) => {
       this.changeInput(value.digit);
-      if (this.digitsLength === 6) {
+      if (this.digitsLength === 6 && !this.busy) {
         this.continue();
       }
     });
   }
 
-  changeInput(digit: number) {
+  changeInput(digit: string) {
     if (digit) {
-      this.digitsLength = digit.toString().length;
+      this.digitsLength = digit.length;
     } else {
       this.digitsLength = 0;
     }
   }
 
   continue() {
-    if (this.passForm.controls.digit.value.toString() === this.accessCode) {
-      this.proceed();
+    const { value } = this.passForm.controls.digit;
+    if (value === this.accessCode) {
+      this.busy = true;
+      this.storeS.getItem<string>('phoneNumber').subscribe((phoneNumber) => {
+        if (phoneNumber) {
+          const resetObj: UpdatePassword = {
+            ...this.changeCodeS.getUpdatePassObj,
+            userName: phoneNumber,
+          };
+          this.changeCodeS.setUpdatePassObj(resetObj);
+          this.changeAccessCode();
+        }
+      });
     } else {
       this.InvalidCode = true;
-      setTimeout(() => {
-        this.navCtrl.back();
-      }, 3000);
+      this.navCtrl.navigateBack('/cod-acces/nou');
     }
   }
 
+  changeAccessCode() {
+    this.changeCodeS
+      .changeAccessCode()
+      .toPromise()
+      .then((res) => {
+        if (res) {
+          this.proceed();
+        }
+      })
+      .finally(() => {
+        this.busy = false;
+      });
+  }
+
   proceed() {
-    this.router.navigate([
-      'cod-acces/change-success',
-    ]);
+    this.navCtrl.navigateForward(['/cod-acces/change-success']);
   }
 
   spawnInput() {

@@ -53,18 +53,6 @@ export class PolicyDataService {
       );
   }
 
-  getUserPoliciesArchive(id: number | string) {
-    const emptyV: Array<PolicyItem> = [];
-    return this.reqS
-      .get<Array<PolicyItem>>(this.endpoints.userPoliciesArchive + '/' + id)
-      .pipe(
-        catchError((e) => {
-          return of(emptyV);
-        }),
-        map((pv) => (pv ? pv.map((pvi) => this.mapPolicyType(pvi)) : []))
-      );
-  }
-
   // get user offers
   getUserOffers() {
     const emptyV: Array<PolicyOffer> = [];
@@ -83,20 +71,22 @@ export class PolicyDataService {
         )
       );
   }
+  getUserPoliciesArchive(id: number | string) {
+    const emptyV: Array<PolicyItem> = [];
+    return this.reqS
+      .get<Array<PolicyItem>>(this.endpoints.userPoliciesArchive + '/' + id)
+      .pipe(
+        catchError((e) => {
+          return of(emptyV);
+        }),
+        map((pv) => (pv ? pv.map((pvi) => this.mapPolicyType(pvi)) : []))
+      );
+  }
 
   mapOfferPolicyType(o: PolicyOffer) {
     o.policy = this.mapPolicyType(o.policy);
     return o;
   }
-
-  mapPolicyType(p: PolicyItem) {
-    const typeV = policyTypes[p.typeId] ? policyTypes[p.typeId] : null;
-    if (typeV) {
-      p.type = { ...typeV };
-    }
-    return p;
-  }
-
   // ceate offer obj
   createOffersObj(offer: any) {
     return {
@@ -167,6 +157,14 @@ export class PolicyDataService {
     );
   }
 
+  mapPolicyType(p: PolicyItem) {
+    const typeV = policyTypes[p.typeId] ? policyTypes[p.typeId] : null;
+    if (typeV) {
+      p.type = { ...typeV };
+    }
+    return p;
+  }
+
   getSinglePolicyById(id) {
     return this.policyStore$.pipe(
       switchMap((vals) => {
@@ -202,5 +200,14 @@ export class PolicyDataService {
       }),
       catchError((err) => of(null))
     );
+  }
+
+  /* for Notification */
+  getEightDayBeforeExpiryDate(date: string) {
+    const expiryDate = new Date(date);
+    const eightDaysFromExpiryDate = new Date(
+      expiryDate.getTime() - 8 * 24 * 60 * 60 * 1000
+    );
+    return eightDaysFromExpiryDate;
   }
 }
