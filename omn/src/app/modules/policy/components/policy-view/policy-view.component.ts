@@ -13,9 +13,6 @@ import { PolicyDataService } from './../../services/policy-data.service';
   styleUrls: ['./policy-view.component.scss'],
 })
 export class PolicyViewComponent implements OnInit {
-  headerConfig = subPageHeaderCustom('Polița PAD', 'bg-state');
-  isAmplus = false;
-  calEntry: CalendarEntry;
   constructor(
     private route: ActivatedRoute,
     private policyDataService: PolicyDataService,
@@ -25,6 +22,9 @@ export class PolicyViewComponent implements OnInit {
       this.getPolicyById(params.id);
     });
   }
+  headerConfig = subPageHeaderCustom('Polița PAD', 'bg-state');
+  isAmplus = false;
+  calEntry: CalendarEntry;
 
   ngOnInit(): void {}
 
