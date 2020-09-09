@@ -1,8 +1,8 @@
 export enum LocuinteStructureType {
-  BETON_ARMAT,
-  ZIDARIE_PORTANTA,
-  METAL,
-  LEMN,
+  BETON_ARMAT = 'beton',
+  ZIDARIE_PORTANTA = 'zidarie',
+  METAL = 'metal',
+  LEMN = 'lemn',
 }
 export const locuinteFieldsData = {
   resistenceStructure: [
@@ -50,6 +50,7 @@ export const locuinteFieldsData = {
   type: [
     { id: 'casaVila', label: 'Casă / vilă' },
     { id: 'apartament', label: 'Apartament' },
+    { id: 'bloc', label: 'Bloc' },
   ],
   county: [
     { id: 'Brasov', label: 'Brasov' },
