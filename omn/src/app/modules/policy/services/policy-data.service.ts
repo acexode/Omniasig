@@ -95,6 +95,7 @@ export class PolicyDataService {
   createOffersObj(offer: any, typeId: string) {
     return {
       id: offer.id,
+      offerCode: offer.offerCode,
       policy: {
         id: offer.id,
         name: offer.offerCode,
