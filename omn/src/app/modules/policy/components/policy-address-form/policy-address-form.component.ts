@@ -158,7 +158,7 @@ export class PolicyAddressFormComponent implements OnInit {
                   this.handleFormSubmit();
                 },
                 (error) => {
-                  // handle error
+                  this.handleFormSubmit();
                 }
               );
             }
