@@ -1,9 +1,11 @@
+import { ResetPincodeService } from './../services/reset-pincode.service';
 import { Component, OnInit, HostBinding } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { subPageHeaderDefault } from 'src/app/shared/data/sub-page-header-default';
 import { IonInputConfig } from 'src/app/shared/models/component/ion-input-config';
 import { IonTextItem } from 'src/app/shared/models/component/ion-text-item';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-cnp-digits',
@@ -29,7 +31,9 @@ export class CnpDigitsComponent implements OnInit {
     clearable: true,
   };
   cnpForm: FormGroup;
-  constructor(private router: Router, private formBuilder: FormBuilder) {}
+  busy = false;
+  invalidCode: string = null;
+  constructor(private router: Router, private formBuilder: FormBuilder, private resetService: ResetPincodeService) { }
 
   ngOnInit() {
     this.initForm();
@@ -46,9 +50,28 @@ export class CnpDigitsComponent implements OnInit {
         ],
       ],
     });
+
+    this.cnpForm.valueChanges.subscribe(
+      (data) => {
+        if (this.invalidCode) {
+          this.invalidCode = null;
+        }
+      }
+    );
   }
 
   continue() {
-    this.router.navigate(['reset-pincode/verify-passcode']);
+    this.busy = true;
+    this.resetService.requestPincodeChange(this.cnpForm.get('cnp').value).subscribe(
+      (data) => {
+        this.resetService.setResetObj({ cnp: this.cnpForm.get('cnp').value });
+        this.router.navigate(['reset-pincode/verify-passcode']);
+        this.busy = false;
+      },
+      (err) => {
+        this.invalidCode = err.error;
+        this.busy = false;
+      },
+    );
   }
 }

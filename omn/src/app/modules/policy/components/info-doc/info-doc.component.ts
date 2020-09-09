@@ -374,7 +374,8 @@ export class InfoDocComponent implements OnInit {
       },
       listClass: 'green-2',
       textContents: [
-        `Să încheiați câte un PAD pentru fiecare locuință deținută în proprietate și, la expirarea valabilității acestora, sa le reînnoiți;`,
+        `Să încheiați câte un PAD pentru fiecare locuință deținută în proprietate și, la expirarea valabilității acestora,
+        sa le reînnoiți;`,
         `Să predați, în cazul înstrăinării locuinței, PAD dobânditorului, noul proprietar având obligația de a notifica achiziția în 5 zile asigurătorului care a eliberat PAD;`,
         `Să întrețineți corespunzător locuința asigurată, în scopul prevenirii producerii ori apariției oricărui eveniment asigurat;`,
         `Să răspundeți în scris la solicitările PAID cu privire la împrejurările producerii evenimentului asigurat și să vă conformați recomandărilor PAID;`,

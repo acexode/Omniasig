@@ -3,13 +3,13 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false,
-  hmr: false,
-  serverUrl: 'https://omn-core-dev.azure.softescu.com/api',
-  fakeBackend: false,
-  recaptchaKey: null,
-  activateDelay: 30,
-  release: 2,
+    production: false,
+    hmr: false,
+    serverUrl: 'https://omn-core-dev.azure.softescu.com/api',
+    fakeBackend: true,
+    recaptchaKey: null,
+    activateDelay: 30,
+    release: 2,
 };
 
 /*

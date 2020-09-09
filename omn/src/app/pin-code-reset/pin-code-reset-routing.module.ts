@@ -20,7 +20,7 @@ const routes: Routes = [
     component: NewPinComponent,
   },
   {
-    path: 'confirm-pin/:pin',
+    path: 'confirm-pin',
     component: ConfirmPinComponent,
   },
   {

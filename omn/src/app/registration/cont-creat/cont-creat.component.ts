@@ -1,12 +1,14 @@
+import { AfterViewInit, Component, HostBinding, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { ImageCard } from 'src/app/shared/models/component/image-card';
-import { Component, HostBinding, OnInit } from '@angular/core';
+import { RegistrationService } from './../../core/services/auth/registration.service';
 
 @Component({
   selector: 'app-cont-creat',
   templateUrl: './cont-creat.component.html',
   styleUrls: ['./cont-creat.component.scss'],
 })
-export class ContCreatComponent implements OnInit {
+export class ContCreatComponent implements OnInit, AfterViewInit {
   @HostBinding('class') color = 'ion-color-white-page';
   cards: Array<ImageCard> = [
     {
@@ -22,8 +24,8 @@ export class ContCreatComponent implements OnInit {
       ],
       id: 'account',
       itemClass: 'mh-104 shadow-page-item',
-      isButton: false,
-      // routerLink: ['date-personale'],
+      isButton: true,
+      routerLink: ['/biometrics'],
     },
     {
       mainIcon: {
@@ -38,10 +40,17 @@ export class ContCreatComponent implements OnInit {
       ],
       id: 'msg',
       itemClass: 'mh-104 shadow-page-item',
+      isButton: true,
+      routerLink: ['/profil/date-personale/validate-email'],
     },
   ];
-  constructor() { }
+  constructor(
+    private router: Router,
+    private regService: RegistrationService
+  ) {}
 
   ngOnInit() {}
-
+  ngAfterViewInit() {
+    this.regService.clearUserObj();
+  }
 }
