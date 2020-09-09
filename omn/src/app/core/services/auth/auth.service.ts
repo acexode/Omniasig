@@ -253,4 +253,7 @@ export class AuthService {
             account,
         } );
     }
+    updateUserProfile(obj){
+        return this.reqS.post(authEndpoints.updateUserProfile, obj);
+      }
 }

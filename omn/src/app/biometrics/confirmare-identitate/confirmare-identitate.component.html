@@ -35,6 +35,7 @@
       [config]="confirmModel?.cnp"
       formControlName="cnp"
     ></app-input>
+    <ion-label *ngIf="cnpInvalid" color="danger">Codul Numeric Personal este invalid!</ion-label>
     </ion-row>
     <ion-row class="ion-no-padding apartament-postal-code mb-24">      
         <app-datepicker

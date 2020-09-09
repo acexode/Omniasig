@@ -6,7 +6,7 @@ export const authEndpoints = {
   findUserByPhoneNumber:
     serverBaseUrl + '/UserProfile/GetUserNameByPhoneNumber',
   getUserProfile: serverBaseUrl + '/UserProfile/GetUserProfile',
-  updateUserProfile: serverBaseUrl + '/api/UserProfile/UpdateUserProfile',
+  updateUserProfile: serverBaseUrl + '/UserProfile/UpdateUserProfile',
   sendPhoneNumberSms: serverBaseUrl + '/UserProfile/SmsPhoneNumberVerification',
   confirmPhoneNumberSms: serverBaseUrl + '/UserProfile/SmsPhoneNumberConfirm',
   GetUserNameByPhoneNumber:

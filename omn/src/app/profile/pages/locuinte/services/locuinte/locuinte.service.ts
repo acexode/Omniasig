@@ -4,11 +4,11 @@ import { AuthService } from 'src/app/core/services/auth/auth.service';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, of, Observable } from 'rxjs';
 import { catchError, switchMap, map, tap } from 'rxjs/operators';
-import { locuinteEndpoints,authEndpoints } from 'src/app/core/configs/endpoints';
+import { locuinteEndpoints } from 'src/app/core/configs/endpoints';
 import { RequestService } from 'src/app/core/services/request/request.service';
 import { Locuinte } from 'src/app/shared/models/data/locuinte.interface';
 import { random } from 'lodash';
-import { HttpHeaders } from '@angular/common/http';
+
 
 @Injectable({
   providedIn: 'root',
@@ -159,9 +159,7 @@ export class LocuinteService {
   disableLocationForAddressId(addressId) {
     return this.reqS.post<Locuinte>(this.endpoints.disAbleLocation, addressId);
   }
-  updateUserProfile(obj){
-    return this.reqS.post(authEndpoints.updateUserProfile, obj);
-  }
+ 
   getCounties() {
     const data = {
       countryId: 'RO',
