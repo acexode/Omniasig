@@ -34,14 +34,11 @@ const routes: Routes = [
     path: 'login',
     canActivateChild: [LoginGuard],
     canActivate: [LoginGuard],
-
     loadChildren: () =>
       import('./login/login.module').then((m) => m.LoginPageModule),
   },
   {
     path: 'registration',
-    canActivateChild: [LoginGuard],
-    canActivate: [LoginGuard],
     loadChildren: () =>
       import('./registration/registration.module').then(
         (m) => m.RegistrationPageModule
@@ -60,7 +57,7 @@ const routes: Routes = [
     path: 'cod-acces',
     loadChildren: () =>
       import('./schimbare-cod-acces/schimbare-cod-acces.module').then(
-        (m) => m.SchimbareCodAccesPageModule,
+        (m) => m.SchimbareCodAccesPageModule
       ),
   },
   {
@@ -103,6 +100,22 @@ const routes: Routes = [
     canActivate: [AuthGuard],
     loadChildren: () =>
       import('./modules/setari/setari.module').then((m) => m.SetariPageModule),
+  },
+  {
+    path: 'phone-number',
+    canActivateChild: [AuthGuard],
+    canActivate: [AuthGuard],
+    loadChildren: () =>
+      import('./schimbare-numar-telefon/schimbare-numar-telefon.module').then(
+        (m) => m.SchimbareNumarTelefonPageModule
+      ),
+  },
+  {
+    path: 'reset-pincode',
+    loadChildren: () =>
+      import('./pin-code-reset/pin-code-reset.module').then(
+        (m) => m.PinCodeResetPageModule
+      ),
   },
 ];
 

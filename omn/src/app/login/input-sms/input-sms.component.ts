@@ -1,4 +1,3 @@
-import { AuthService } from 'src/app/core/services/auth/auth.service';
 import {
   AfterViewInit,
   Component,
@@ -10,6 +9,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { IonInput } from '@ionic/angular';
 import { Subscription } from 'rxjs';
+import { AuthService } from 'src/app/core/services/auth/auth.service';
 import { CustomTimersService } from './../../core/services/custom-timers/custom-timers.service';
 import { IonInputConfig } from './../../shared/models/component/ion-input-config';
 
@@ -25,20 +25,20 @@ export class InputSmsComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('inputField') inputField: IonInput;
   sub: Subscription;
   phoneNumber = null;
-  errorLogin: string = null
+  errorLogin: string = null;
   config: IonInputConfig = {
     type: 'number',
     inputMode: 'number',
   };
   passForm: FormGroup;
-  busy: boolean = false;
+  busy = false;
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     private timers: CustomTimersService,
     private formBuilder: FormBuilder,
     private auth: AuthService
-  ) { }
+  ) {}
 
   ngOnInit() {
     this.initForm();
@@ -64,6 +64,9 @@ export class InputSmsComponent implements OnInit, AfterViewInit, OnDestroy {
     if (this.digitsLength > 5) {
       this.verifyDigit();
     }
+
+    this.errorLogin = null;
+    this.busy = false;
   }
 
   getPhoneNumber() {
@@ -88,34 +91,32 @@ export class InputSmsComponent implements OnInit, AfterViewInit, OnDestroy {
 
   resendSMS() {
     this.auth.sendPhoneNumberSms(this.phoneNumber).subscribe(
-      data => {
+      (data) => {
         this.startTimer();
       },
-      err => console.log(err)
-    )
+      (err) => {}
+    );
   }
 
   verifyDigit() {
-    this.busy =true
-    // TODO change the second params to code when the ws is changed to 6 digits
-    let code = this.passForm.controls["digit"].value
+    this.busy = true;
+    const code = this.passForm.get('digit').value;
     this.auth.confirmPhoneNumberSms(this.phoneNumber, code).subscribe(
-      data => {this.busy=false;this.router.navigate(['login/verify', this.phoneNumber])},
-      err => {this.busy=false;this.confirmationError(err)}
-    )
-
+      (data) => {
+        this.busy = false;
+        this.router.navigate(['login/verify', this.phoneNumber]);
+      },
+      (err) => {
+        this.confirmationError(err);
+      }
+    );
   }
 
   confirmationError(err) {
+    this.passForm.reset();
     this.errorLogin = 'Cod Invalid!';
     this.busy = true;
-    setTimeout(() => {
-      this.passForm.reset();
-      this.errorLogin = null;
-      this.busy = false;
-    }, 2000);
   }
-
 
   spawnInput() {
     this.inputField.getInputElement().then((input) => {

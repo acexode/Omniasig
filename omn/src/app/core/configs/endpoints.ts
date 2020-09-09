@@ -8,10 +8,20 @@ export const authEndpoints = {
   getUserProfile: serverBaseUrl + '/UserProfile/GetUserProfile',
   sendPhoneNumberSms: serverBaseUrl + '/UserProfile/SmsPhoneNumberVerification',
   confirmPhoneNumberSms: serverBaseUrl + '/UserProfile/SmsPhoneNumberConfirm',
+  GetUserNameByPhoneNumber:
+    serverBaseUrl + '/UserProfile/GetUserNameByPhoneNumber',
+  RegisterPhoneNumber: serverBaseUrl + '/UserProfile/RegisterPhoneNumber',
+  ConfirmRegisterPhoneNumber: serverBaseUrl + '/UserProfile/ConfirmPhoneNumber',
+  RegisterUserProfile: serverBaseUrl + '/UserProfile/RegisterUserProfile',
+  requestPincodeReset:
+    serverBaseUrl + '/UserProfile/RequestPinChangeWithoutAuthentification',
+  confirmPincodeReset:
+    serverBaseUrl + '/UserProfile/ConfirmPinChangeWithoutAuthentification',
 };
 
 export const baseEndpoints = {
   policy: serverBaseUrl + '/policy',
+  userProfile: serverBaseUrl + '/UserProfile',
 };
 
 export const policyEndpoints = {
@@ -28,4 +38,10 @@ export const locuinteEndpoints = {
   AlluserLocation: serverBaseUrl + '/Address/GetAllAddressesForLoggedUser',
   updateAddress: serverBaseUrl + '/Location/UpdateLocationForAddressId',
   disAbleLocation: serverBaseUrl + '/Location/DisableLocationForAddressId',
+};
+
+export const phoneNumberEndPoints = {
+  RequestNewPhoneNumberChange:
+    baseEndpoints.userProfile + '/RequestNewPhoneNumberChange',
+  ConfirmNewPhoneNumber: baseEndpoints.userProfile + '/ConfirmNewPhoneNumber',
 };
