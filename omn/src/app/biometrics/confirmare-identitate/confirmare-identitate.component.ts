@@ -1,6 +1,6 @@
 import { AuthService } from './../../core/services/auth/auth.service';
 import { LocuinteService } from './../../profile/pages/locuinte/services/locuinte/locuinte.service';
-import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef, ViewChild } from '@angular/core';
 import {Validators, FormBuilder, FormGroup, AbstractControl } from '@angular/forms';
 import { selectConfigHelper } from 'src/app/shared/data/select-config-helper';
 import { autoCompleteConfigHelper } from 'src/app/shared/data/autocomplete-config-helper';
@@ -9,7 +9,7 @@ import { BehaviorSubject, Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { CnpPipe } from 'src/app/shared/pipes/cnp.pipe';
 import { ValidateCNP } from './cnp-validator';
-import { NavController } from '@ionic/angular';
+import { NavController, IonContent } from '@ionic/angular';
 import { dateTimeConfigHelper } from 'src/app/shared/data/datetime-config-helper';
 @Component({
   selector: 'app-confirmare-identitate',
@@ -27,6 +27,7 @@ export class ConfirmareIdentitateComponent implements OnInit {
   cities=[]
   streets= []
   formSubmitting = false
+  @ViewChild('cnpRef', { static: true }) cnpRef: IonContent;
   confirmModel = {    
     name: inputConfigHelper({
       label: 'Nume',
@@ -154,10 +155,8 @@ export class ConfirmareIdentitateComponent implements OnInit {
     }
   }
   
-  submitForm(){
-    console.log(this.confirmareForm.value)
-    let {value}= this.confirmareForm 
-   
+  submitForm(){    
+    let {value}= this.confirmareForm    
     if(this.verificaCNP(value.cnp)){
       this.formSubmitting = true
       this.auth.lastLoginNumber().subscribe(e =>{
@@ -178,7 +177,7 @@ export class ConfirmareIdentitateComponent implements OnInit {
           addressFloor: value.addressFloor,
           addressPostalCode: value.addressPostalCode,
           addressStreet: value.addressStreet,
-        }
+        }        
         this.auth.updateUserProfile(user).subscribe(e =>{
           this.locuintS.addSingleLocuinte(locuinte).subscribe(e =>{
             this.navCtrl.navigateRoot('/home');
@@ -188,8 +187,16 @@ export class ConfirmareIdentitateComponent implements OnInit {
       })
     }else{
       this.cnpInvalid = true
-        
+      setTimeout(()=>{
+        this.cnpInvalid = false        
+      },3000)
+      this.scrollTop()  
     }  
+  }
+  scrollTop() {
+    if (this.cnpRef) {      
+      this.cnpRef.scrollToTop(500);
+    }
   }
   
   verificaCNP(control) {

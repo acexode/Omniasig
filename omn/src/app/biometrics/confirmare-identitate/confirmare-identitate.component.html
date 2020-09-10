@@ -1,4 +1,4 @@
-<ion-content>
+<ion-content #cnpRef>
  
   <ion-grid  class="ion-no-padding w-100 mh-100 h-100 flex flex-1 flex-column">
     <ion-row class="ion-justify-content-end mt-52 mx-24">
@@ -29,7 +29,7 @@
           formControlName="surname"
         ></app-input>
     </ion-row>
-    <ion-row class="ion-no-padding numar-scara mb-24"> 
+    <ion-row  class="ion-no-padding numar-scara mb-24"> 
       <app-input
       class="w-100"
       [config]="confirmModel?.cnp"
