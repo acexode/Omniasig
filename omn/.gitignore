@@ -33,3 +33,5 @@ npm-debug.log*
 # custom
 *.vscode
 android
+Omniasig.apk
+my-release-key.jks
