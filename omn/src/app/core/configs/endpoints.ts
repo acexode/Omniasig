@@ -40,12 +40,12 @@ export const locuinteEndpoints = {
   base: serverBaseUrl + '/locuinte',
   add: serverBaseUrl + '/Location/AddAddressLocation',
   makeHomeAddress: serverBaseUrl + '/Address/MakeHomeAddress',
-  AlluserLocation: serverBaseUrl + '/Location/GetAllLocationsForLoggedUser',    
+  AlluserLocation: serverBaseUrl + '/Location/GetAllLocationsForLoggedUser',
   disAbleLocation: serverBaseUrl + '/Location/DisableLocation',
   getCities: serverBaseUrl + '/INSIS/Cities',
   getCounties: serverBaseUrl + '/INSIS/Counties',
-  getStreets: serverBaseUrl + '/INSIS/Streets', 
-  updateAddress: serverBaseUrl + '/Location/UpdateLocation',  
+  getStreets: serverBaseUrl + '/INSIS/Streets',
+  updateAddress: serverBaseUrl + '/Location/UpdateLocation',
 };
 
 export const phoneNumberEndPoints = {

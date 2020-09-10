@@ -178,19 +178,23 @@ export class LocuinteFormPageComponent implements OnInit {
       });
     }
     if (this.addressCity) {
-      this.formInstance.group.get('addressCity').valueChanges.subscribe((val) => {
-        const addressCity = this.formInstance.data.addressCity.filter((v) => v.id === val)[0];
-        const obj = {
-          countryId: addressCity.countryId,
-          countyId: addressCity.countyId,
-          cityId: addressCity.id,
-          postCode: null,
-          statedId: addressCity.statedId,
-        };
-        this.locuinteS.getStreets(obj).subscribe((v) => {
-          this.cdRef.markForCheck();
+      this.formInstance.group
+        .get('addressCity')
+        .valueChanges.subscribe((val) => {
+          const addressCity = this.formInstance.data.addressCity.filter(
+            (v) => v.id === val
+          )[0];
+          const obj = {
+            countryId: addressCity.countryId,
+            countyId: addressCity.countyId,
+            cityId: addressCity.id,
+            postCode: null,
+            statedId: addressCity.statedId,
+          };
+          this.locuinteS.getStreets(obj).subscribe((v) => {
+            this.cdRef.markForCheck();
+          });
         });
-      });
     }
   }
 
@@ -331,10 +335,10 @@ export class LocuinteFormPageComponent implements OnInit {
         return of(null);
     }
   }
-  processForm(existing, newValue){        
-    let model = {...existing['response'], ...newValue}   
-    model.yearConstruction = parseInt(model.yearConstruction)    
-    return model
+  processForm(existing, newValue) {
+    const model = { ...existing.response, ...newValue };
+    model.yearConstruction = parseInt(model.yearConstruction, 10);
+    return model;
   }
   trailingAction() {}
   scrollTop() {

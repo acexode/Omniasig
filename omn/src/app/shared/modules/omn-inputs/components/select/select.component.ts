@@ -28,15 +28,15 @@ import { BehaviorSubject } from 'rxjs';
       useExisting: SelectComponent,
       multi: true,
     },
-  ], 
+  ],
 })
 export class SelectComponent implements OnInit, ControlValueAccessor {
   @Input()
   config: IonSelectConfig;
-  @Input() set options(opts: Array<IonSelectListOption>) {    
+  @Input() set options(opts: Array<IonSelectListOption>) {
     this.opts = opts ? opts : [];
     this.updateItems();
-  } 
+  }
   constructor(private fb: FormBuilder, private cdRef: ChangeDetectorRef) {}
 
   items: Array<{
@@ -59,17 +59,17 @@ export class SelectComponent implements OnInit, ControlValueAccessor {
     } else {
       return o1 === o2;
     }
-  }
+  };
 
   getFieldValue() {
     const field = this.formGroup.get('select');
-    
+
     return field ? field.value : null;
   }
 
   ngOnInit() {
     this.formGroup.valueChanges.subscribe((vals) => {
-      if (this.onChange) {            
+      if (this.onChange) {
         this.onChange(this.getFieldValue());
       }
     });
@@ -114,7 +114,7 @@ export class SelectComponent implements OnInit, ControlValueAccessor {
   }
 
   registerOnChange(fn) {
-    this.onChange = fn;    
+    this.onChange = fn;
   }
 
   registerOnTouched(fn: any): void {

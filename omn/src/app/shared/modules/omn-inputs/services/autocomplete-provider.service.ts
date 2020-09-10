@@ -15,7 +15,7 @@ export class AutocompleteProviderService implements AutoCompleteService {
     source?: BehaviorSubject<any>
   ) => Observable<Array<any>> = () => {
     return of([]);
-  };
+  }
 
   updateConfig(conf: {
     labelAttribute: string;
