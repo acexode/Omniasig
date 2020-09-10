@@ -64,7 +64,7 @@
     </ng-container>
     <ng-container *ngSwitchCase="policySteps?.POLICY_VERIFY">
       <app-policy-verify
-        (calculateEvent)="calculationSubmit($event)"
+        (calculateEvent)="calculationSubmit()"
         [offerData]="offerData"
       ></app-policy-verify>
     </ng-container>

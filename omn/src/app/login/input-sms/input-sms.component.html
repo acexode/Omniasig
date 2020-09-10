@@ -1,129 +1,57 @@
 <ion-content class="bg-white">
-  <ion-header [translucent]="false" class="header-element">
-    <ion-toolbar
-      size="small"
-      color="omn-transparent-white"
-      class="header-toolbar"
-    >
-      <ion-buttons slot="start" class="header-buttons">
-        <ion-button class="header-button">
-          <ion-icon
-            slot="icon-only"
-            name="md-close-2"
-            class="icon-20 header-button-icon"
-          ></ion-icon>
-        </ion-button>
-      </ion-buttons>
-    </ion-toolbar>
-  </ion-header>
-  <div class="px-32">
-    <ion-col>
-      <div class="text-center mb-8 ion-text-center">
-        <ion-text class="alt-font color-dark-green x-large mb-17 text-center">
-          Cod de verificare
-        </ion-text>
-      </div>
-      <div class="ion-text-center pb-42">
-        <ion-text class="text-small">
-          Am trimis un cod de verificare la {{ phoneNumber }}
-        </ion-text>
-      </div>
-      <div class="ion-text-center pb-80">
-        <div (click)="spawnInput()" class="">
-          <ion-icon
-            class="mr-4 password-hide s18-h24"
-            *ngIf="digitsLength < 1"
-            name="ellipse-outline"
-          ></ion-icon>
-          <ion-icon
-            name="ellipse"
-            *ngIf="digitsLength > 0"
-            class="mr-4 password-hide s18-h24"
-          ></ion-icon>
-          <ion-icon
-            class="mr-4 password-hide s18-h24"
-            *ngIf="digitsLength < 2"
-            name="ellipse-outline"
-          ></ion-icon>
-          <ion-icon
-            name="ellipse"
-            class="mr-4 password-hide s18-h24"
-            *ngIf="digitsLength > 1"
-          ></ion-icon>
-          <ion-icon
-            class="mr-4 password-hide s18-h24"
-            *ngIf="digitsLength < 3"
-            name="ellipse-outline"
-          ></ion-icon>
-          <ion-icon
-            name="ellipse"
-            class="mr-4 password-hide s18-h24"
-            *ngIf="digitsLength > 2"
-          ></ion-icon>
-          <ion-icon
-            class="mr-4 password-hide s18-h24"
-            *ngIf="digitsLength < 4"
-            name="ellipse-outline"
-          ></ion-icon>
-          <ion-icon
-            name="ellipse"
-            class="mr-4 password-hide s18-h24"
-            *ngIf="digitsLength > 3"
-          ></ion-icon>
-          <ion-icon
-            class="mr-4 password-hide s18-h24"
-            *ngIf="digitsLength < 5"
-            name="ellipse-outline"
-          ></ion-icon>
-          <ion-icon
-            name="ellipse"
-            class="mr-4 password-hide s18-h24"
-            *ngIf="digitsLength > 4"
-          ></ion-icon>
-          <ion-icon
-            class="s18-h24 password-hide"
-            *ngIf="digitsLength < 6"
-            name="ellipse-outline"
-          ></ion-icon>
-          <ion-icon
-            name="ellipse"
-            class="mr-4 password-hide s18-h24"
-            *ngIf="digitsLength > 5"
-          ></ion-icon>
-        </div>
-        <form [formGroup]="passForm">
-          <ion-input
-            #inputField
-            formControlName="digit"
-            class="position-absolute bg-white text-center opacity-hide ion-no-border"
-            maxlength="6"
-            required="true"
-            type="number"
-            inputmode="number"
-            autofocus="true"
-          ></ion-input>
-        </form>
-      </div>
-      <div class="ion-text-center pt-80">
-        <ion-text class="text-small">
-          Poți solicita un alt cod în {{ min }}:{{ sec }}
-        </ion-text>
-        <div
-          *ngIf="sec < 1 || sec == 0"
-          class="ion-align-items-center ion-text-center mt-8"
-        >
-          <ion-button
-            (click)="resendSMS()"
-            class="success-gradient ion-color-success"
-            expand="block"
-            size="large"
-            shape="round"
-            mode="md"
-          >
-            Retrimite cod
-          </ion-button>
-        </div>
-      </div>
-    </ion-col>
-  </div>
+    <ion-header [translucent]="false" class="header-element">
+        <ion-toolbar size="small" color="omn-transparent-white" class="header-toolbar">
+            <ion-buttons slot="start" class="header-buttons">
+                <ion-button class="header-button">
+                    <ion-icon slot="icon-only" name="md-close-2" class="icon-20 header-button-icon"></ion-icon>
+                </ion-button>
+            </ion-buttons>
+        </ion-toolbar>
+    </ion-header>
+    <div class="px-32">
+        <ion-col>
+            <div class="text-center mb-8 ion-text-center">
+                <ion-text class="alt-font color-dark-green x-large mb-17 text-center">
+                    Cod de verificare
+                </ion-text>
+            </div>
+            <div class="ion-text-center pb-42">
+                <ion-text class="text-small">
+                    Am trimis un cod de verificare la {{ phoneNumber }}
+                </ion-text>
+            </div>
+            <div class="ion-text-center pb-80">
+                <div (click)="spawnInput()" class="">
+                    <ion-icon class="mr-4 password-hide s18-h24" *ngIf="digitsLength < 1" name="ellipse-outline"></ion-icon>
+                    <ion-icon name="ellipse" *ngIf="digitsLength > 0" class="mr-4 password-hide s18-h24"></ion-icon>
+                    <ion-icon class="mr-4 password-hide s18-h24" *ngIf="digitsLength < 2" name="ellipse-outline"></ion-icon>
+                    <ion-icon name="ellipse" class="mr-4 password-hide s18-h24" *ngIf="digitsLength > 1"></ion-icon>
+                    <ion-icon class="mr-4 password-hide s18-h24" *ngIf="digitsLength < 3" name="ellipse-outline"></ion-icon>
+                    <ion-icon name="ellipse" class="mr-4 password-hide s18-h24" *ngIf="digitsLength > 2"></ion-icon>
+                    <ion-icon class="mr-4 password-hide s18-h24" *ngIf="digitsLength < 4" name="ellipse-outline"></ion-icon>
+                    <ion-icon name="ellipse" class="mr-4 password-hide s18-h24" *ngIf="digitsLength > 3"></ion-icon>
+                    <ion-icon class="mr-4 password-hide s18-h24" *ngIf="digitsLength < 5" name="ellipse-outline"></ion-icon>
+                    <ion-icon name="ellipse" class="mr-4 password-hide s18-h24" *ngIf="digitsLength > 4"></ion-icon>
+                    <ion-icon class="s18-h24 password-hide" *ngIf="digitsLength < 6" name="ellipse-outline"></ion-icon>
+                    <ion-icon name="ellipse" class="mr-4 password-hide s18-h24" *ngIf="digitsLength > 5"></ion-icon>
+                </div>
+                <form [formGroup]="passForm">
+                    <ion-input #inputField formControlName="digit" class="position-absolute bg-white text-center opacity-hide ion-no-border" maxlength="6" required="true" type="number" inputmode="number" autofocus="true"></ion-input>
+                </form>
+            </div>
+            <div class="ion-text-center pt-80">
+                <ion-text *ngIf="errorLogin" class="color-red text-small">
+                    {{errorLogin}}
+                </ion-text>
+                <ion-text *ngIf="!errorLogin" class="text-small">
+                    Poți solicita un alt cod în {{ min }}:{{ sec }}
+                </ion-text>
+                <div *ngIf="sec < 1 || sec == 0" class="ion-align-items-center ion-text-center mt-8">
+                    <ion-button (click)="resendSMS()" class="success-gradient ion-color-success" expand="block" size="large" shape="round" mode="md">
+                        Retrimite cod
+                    </ion-button>
+                </div>
+            </div>
+        </ion-col>
+    </div>
 </ion-content>
