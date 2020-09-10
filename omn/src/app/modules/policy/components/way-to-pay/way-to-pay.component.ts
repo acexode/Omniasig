@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 
 @Component({
@@ -7,9 +7,10 @@ import { FormBuilder, Validators } from '@angular/forms';
   styleUrls: ['./way-to-pay.component.scss'],
 })
 export class WayToPayComponent implements OnInit {
+  @Input() payFormData;
   formGroup = this.fb.group({
-    valueSum: this.fb.control(false, Validators.required),
-    type: this.fb.control(false, Validators.required),
+    valueSum: this.fb.control(1, Validators.required),
+    type: this.fb.control(null, Validators.required),
   });
 
   fieldConfig = {
@@ -39,11 +40,15 @@ export class WayToPayComponent implements OnInit {
 
   constructor(private fb: FormBuilder) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    if (this.payFormData && this.formGroup) {
+      this.formGroup.setValue(this.payFormData);
+    }
+  }
 
   submit() {
     if (this.formGroup.valid) {
-      this.eventSubmit.emit(true);
+      this.eventSubmit.emit(this.formGroup.value);
     }
   }
 }

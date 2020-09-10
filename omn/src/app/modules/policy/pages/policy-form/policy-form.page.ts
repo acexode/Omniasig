@@ -62,6 +62,8 @@ export class PolicyFormPage implements OnInit, OnDestroy {
   cesiuneData;
   periodStartData;
   userAccount: Account;
+  wayPayFormData;
+  assistFormData;
   minPeriodStartDate;
   maxPeriodStartDate;
   // This will contain all data needed for an offer.
@@ -357,6 +359,7 @@ export class PolicyFormPage implements OnInit, OnDestroy {
     this.bgWhite = false;
     switch (this.currentStep) {
       case this.policySteps.DNT:
+      case this.policySteps.TECHNICAL_SUPPORT:
         this.bgWhite = false;
         break;
       case this.policySteps.INFO_DOC:
@@ -367,6 +370,7 @@ export class PolicyFormPage implements OnInit, OnDestroy {
       case this.policySteps.CESIUNE_FORM:
       case this.policySteps.PERIOD_FORM:
       case this.policySteps.POLICY_VERIFY:
+      case this.policySteps.WAY_TO_PAY:
         this.bgWhite = true;
         break;
       default:
@@ -480,7 +484,7 @@ export class PolicyFormPage implements OnInit, OnDestroy {
 
   cesiuneSubmit(cesiuneData) {
     this.cesiuneData = cesiuneData;
-    if (this.policyID == 'AMPLUS') {
+    if (this.policyID === 'AMPLUS') {
       this.changeStep(this.policySteps.PERIOD_FORM);
       return;
     }
@@ -489,7 +493,7 @@ export class PolicyFormPage implements OnInit, OnDestroy {
 
   periodSubmit(startDate) {
     this.periodStartData = startDate;
-    if (this.policyID == 'AMPLUS') {
+    if (this.policyID === 'AMPLUS') {
       this.changeStep(this.policySteps.TECHNICAL_SUPPORT);
       return;
     }
@@ -558,10 +562,12 @@ export class PolicyFormPage implements OnInit, OnDestroy {
   }
 
   techSupportSubmit(supportData) {
+    this.assistFormData = supportData;
     this.changeStep(this.policySteps.WAY_TO_PAY);
   }
 
   paySubmit(payData) {
+    this.wayPayFormData = payData;
     this.offerData = this.policyFs.buildOfferItem({
       locuintaItem: this.selectedAddressItem,
       account: this.userAccount,

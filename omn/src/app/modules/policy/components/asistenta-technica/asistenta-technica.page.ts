@@ -5,6 +5,7 @@ import {
   OnInit,
   Output,
   EventEmitter,
+  Input,
 } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ModalController } from '@ionic/angular';
@@ -17,6 +18,7 @@ import { AsistentaModalPagePage } from '../asistenta-modal-page/asistenta-modal-
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AsistentaTechnicaPage implements OnInit {
+  @Input() assisFormData;
   plans = [
     {
       text: 'Inclus în prețul poliței',
@@ -51,7 +53,11 @@ export class AsistentaTechnicaPage implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.formGroup.setValue({ plan: this.plans[0].value });
+    if (this.assisFormData) {
+      this.formGroup.setValue(this.assisFormData);
+    } else {
+      this.formGroup.setValue({ plan: this.plans[0].value });
+    }
   }
 
   openModal(type) {
@@ -71,6 +77,6 @@ export class AsistentaTechnicaPage implements OnInit {
   }
 
   submit() {
-    this.emitForm.emit();
+    this.emitForm.emit(this.formGroup.value);
   }
 }
