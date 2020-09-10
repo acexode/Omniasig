@@ -31,19 +31,26 @@ export class SetariPage implements OnInit, OnDestroy {
   getSettings() {
     this.settingsS.settings$.subscribe(
       data => {
-        this.formGroup.get('notifications').patchValue(data.notification)
+        this.formGroup.get('notifications').patchValue(data.notifications)
       }
     )
   }
 
   // Try to attach this after data loading for the toggles.
   handleSubmission() {
-    unsubscriberHelper(this.notificationS);
     this.notificationS = this.formGroup
       .get('notifications')
-      .valueChanges.subscribe((v) => {
-        // TODO: implement data push.
+      .valueChanges.subscribe((v: boolean) => {
+        this.saveSettings(v)
       });
+  }
+
+  saveSettings(v: boolean) {
+    this.settingsS.updateSettings({ notifications: v }).subscribe(
+      data => {
+        //TODO
+      }
+    )
   }
 
   ngOnDestroy() {

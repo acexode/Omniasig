@@ -49,8 +49,12 @@ export class MarketingOptionsComponent implements OnInit {
   }
 
   submitForm() {
-    if (this.formGroup.valid) {
-      this.navCtrl.navigateRoot('/home');
-    }
+    this.settingsS.updateSettings({ marketing: this.formGroup.get('accept').value }).subscribe(
+      data => {
+        //TODO
+        return;
+        this.navCtrl.navigateRoot('/home')
+      }
+    )
   }
 }

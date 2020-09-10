@@ -32,7 +32,6 @@ export class AutentificareComponent implements OnInit, OnDestroy {
 
   // Try to attach this after data loading for the toggles.
   handleSubmission() {
-    unsubscriberHelper(this.faceIdS);
     this.faceIdS = this.formGroup.get('faceId').valueChanges.subscribe((v: boolean) => {
       this.settingsS.toggleFaceId(v)
     });

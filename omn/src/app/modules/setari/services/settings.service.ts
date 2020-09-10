@@ -10,7 +10,7 @@ import { RequestService } from 'src/app/core/services/request/request.service';
 })
 export class SettingsService {
     private settings: any = {
-        notification: false,
+        notifications: false,
         marketing:true,
     };
     settings$: BehaviorSubject<any> = new BehaviorSubject(
@@ -34,10 +34,11 @@ export class SettingsService {
         return this.storeS.getItem('useFaceId')
     }
 
-    updateSettings(value: any): Observable<any> {
+    updateSettings(value: Object): Observable<any> {
         const data = {
-            value
-        }
+            ...value
+        }     
+        return of(data);
         return this.reqS.post('/', data)
     }
 
