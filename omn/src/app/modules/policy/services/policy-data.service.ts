@@ -45,21 +45,77 @@ export class PolicyDataService {
     });
   }
 
+  // get user policy offer
   getUserPolicies(id: number | string) {
     const emptyV: Array<PolicyItem> = [];
     return this.reqS
-      .get<Array<PolicyItem>>(this.endpoints.userPoliciesBase + '/' + id)
+      .get<Array<PolicyItem>>(this.endpoints.GetActivePADPolicies)
       .pipe(
         catchError((e) => {
           return of(emptyV);
         }),
-        map((pv) => (pv ? pv.map((pvi) => this.mapPolicyType(pvi)) : []))
+        map((pv) =>
+          pv
+            ? pv.map((pvi) => this.mapPolicyType(this.createPolicyObj(pvi)))
+            : []
+        )
       );
   }
-
+  // create policy object to suit display data
+  createPolicyObj(policy: any) {
+    return {
+      id: policy.id,
+      typeId: 'PAD',
+      state: 1,
+      name: policy.policyNrChitanta,
+      serial: policy.policySeriePolita,
+      policyNrPolita: policy.policyNrPolita,
+      policyNrChitanta: policy.policyNrChitanta,
+      policyIdIncasareOMN: policy.policyIdIncasareOMN,
+      userId: null,
+      locuintaId: null,
+      userData: {
+        fullName: `${policy.userName} ${policy.userSurname}`,
+        cnp: policy.userCnp,
+      },
+      dates: {
+        from: policy.emisionDate,
+        to: policy.expireDate,
+      },
+      listingSubtitle: `${policy.addressStreet}, ${policy.addressStreetNumber} ${policy.addressCity}`,
+      locuintaData: {
+        id: policy.id,
+        name: policy.locationName,
+        info: {
+          type: policy.locationType,
+          resistenceStructure: policy.locationStructure,
+          buildYear: policy.locationYearConstruction,
+          valueCurrency: policy.locationValueCurrency,
+          valueSum: policy.locationValue,
+          occupancy: policy.locationArea,
+          usableSurface: policy.locationArea,
+          heightRegime: policy.locationFloors,
+          roomCount: policy.locationRooms,
+          alarm: policy.locationHasAlarmSystem,
+        },
+        address: {
+          county: policy.addressCounty,
+          city: policy.addressCity,
+          street: policy.addressStreet,
+          number: policy.addressStreetNumber,
+          // Scara bloc.
+          entrance: policy.addressScara,
+          apartment: policy.addressApart,
+          postalCode: policy.addressPostalCode,
+        },
+      },
+      expiry: policy.expireDate,
+    };
+  }
   // get user offers
   getUserOffers() {
     const emptyV: Array<PolicyOffer> = [];
+
     return this.reqS
       .get<Array<PolicyOffer>>(this.endpoints.GetActivePADOffers)
       .pipe(

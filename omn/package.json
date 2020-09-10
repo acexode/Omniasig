@@ -1,8 +1,8 @@
 {
   "name": "omn",
   "version": "0.0.1",
-  "author": "Ionic Framework",
-  "homepage": "https://ionicframework.com/",
+  "author": "Omniasig",
+  "homepage": "https://www.omniasig.ro/",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
@@ -75,7 +75,7 @@
     "tslint": "~6.1.0",
     "typescript": "~3.8.3"
   },
-  "description": "An Ionic project",
+  "description": "Omniasig app",
   "cordova": {
     "plugins": {
       "cordova-plugin-whitelist": {},
@@ -92,9 +92,8 @@
       "android"
     ]
   },
-  "main": "karma.conf.js",
-  "license": "ISC",
+  "license": "Commercial",
   "platforms": [
     "android"
   ]
-  }
+}
