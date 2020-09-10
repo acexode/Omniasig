@@ -33,22 +33,23 @@
       <ion-text class="s18-h24" color="dark">
         <h3 class="s18-h24">Sumar</h3>
       </ion-text>
-      <!-- <div class=""> -->
       <div class="">
         <ion-text class="alt-font color-dark-green x-large">
-          Poliță de asigurare împotriva dezastrelor naturale (PAD)
+          {{ policy?.type?.name }}
         </ion-text>
       </div>
 
       <div class="mt-24">
         <ion-text class="s18-h24 ion-color-dark">
-          Pool-ul de aigurare împotriva dezastrelor naturale S.A.
+          {{ policy?.type?.shortDescription }}
         </ion-text>
       </div>
 
       <div class="mt-24">
         <div class="">
-          <ion-text class="input-label text-weight-medium label-normal text-weight-bold">
+          <ion-text
+            class="input-label text-weight-medium label-normal text-weight-bold"
+          >
             Asigurator autorizat
           </ion-text>
         </div>
@@ -59,27 +60,23 @@
 
       <div class="mt-21 mb-13">
         <div class="">
-          <ion-text class="input-label text-weight-medium">
-            Seria
-          </ion-text>
+          <ion-text class="input-label text-weight-medium"> Seria </ion-text>
         </div>
         <ion-text class="s18-h24 ion-inherit-color">
-          AB-123
+          {{ policy?.serial }}
         </ion-text>
       </div>
 
       <div class="mt-21 mb-36">
-        <div class="">
-          <ion-text class="input-label text-weight-medium">
-            Numărul:
-          </ion-text>
+        <div>
+          <ion-text class="input-label text-weight-medium"> Numărul: </ion-text>
         </div>
         <ion-text class="s18-h24 ion-inherit-color">
-          00010203456
+          {{ policy?.policyNrPolita }}
         </ion-text>
       </div>
 
-      <div class="">
+      <div>
         <div>
           <ion-text class="alt-font color-dark-green text-weight-bold h3">
             Reînnoiește PAD
@@ -89,24 +86,16 @@
 
       <div class="mb-13">
         <div class="">
-          <ion-text class="input-label text-weight-medium">
-            Seria
-          </ion-text>
+          <ion-text class="input-label text-weight-medium"> Seria </ion-text>
         </div>
-        <ion-text class="s18-h24 ion-inherit-color">
-          AB-123
-        </ion-text>
+        <ion-text class="s18-h24 ion-inherit-color"> MISSING_DATA </ion-text>
       </div>
 
       <div class="mt-13 mb-36">
         <div class="">
-          <ion-text class="input-label text-weight-medium">
-            Numărul:
-          </ion-text>
+          <ion-text class="input-label text-weight-medium"> Numărul: </ion-text>
         </div>
-        <ion-text class="s18-h24 ion-inherit-color">
-          00010203456
-        </ion-text>
+        <ion-text class="s18-h24 ion-inherit-color"> MISSING_DATA </ion-text>
       </div>
 
       <div class="mb-16">
@@ -117,37 +106,21 @@
 
       <div class="mb-13">
         <div class="">
-          <ion-text class="input-label text-weight-medium">
-            Nume
-          </ion-text>
+          <ion-text class="input-label text-weight-medium"> Nume </ion-text>
         </div>
         <ion-text class="s18-h24 ion-inherit-color">
-          Ion Ionescu
+          {{ policy?.userData?.fullName }}
         </ion-text>
       </div>
 
       <div class="mb-36">
         <div class="">
-          <ion-text class="input-label text-weight-medium">
-            CNP
-          </ion-text>
+          <ion-text class="input-label text-weight-medium"> CNP </ion-text>
         </div>
         <ion-text class="s18-h24 ion-inherit-color">
-          89******7634
+          {{ policy?.userData?.cnp | cnp }}
         </ion-text>
       </div>
-
-      <div class="mb-36">
-        <div class="">
-          <ion-text class="input-label text-weight-medium">
-            CNP
-          </ion-text>
-        </div>
-        <ion-text class="s18-h24 ion-inherit-color">
-          89******7634
-        </ion-text>
-      </div>
-
       <div class="mb-36">
         <div class="">
           <ion-text class="input-label text-weight-medium">
@@ -155,7 +128,8 @@
           </ion-text>
         </div>
         <ion-text class="s18-h24 ion-inherit-color">
-          2.05.2020 - 11.05.2021
+          {{ policy?.dates?.from | date: 'MM.dd.yyyy' }} -
+          {{ policy?.dates?.to | date: 'MM.dd.yyyy' }}
         </ion-text>
       </div>
 
@@ -166,7 +140,7 @@
           </ion-text>
         </div>
         <ion-text class="s18-h24 ion-inherit-color">
-          0.000 Euro
+          {{ policy?.locuintaData?.info?.valueSum }} Euro
         </ion-text>
       </div>
 
@@ -177,7 +151,8 @@
           </ion-text>
         </div>
         <ion-text class="s18-h24 ion-inherit-color">
-          8,00 Lei
+          <!-- {{ (policy?.locuintaData?.info?.valueSum || 0) * 4.9 }} Lei -->
+          MISSING_DATA Lei
         </ion-text>
       </div>
 
@@ -188,7 +163,7 @@
           </ion-text>
         </div>
         <ion-text class="s18-h24 ion-inherit-color">
-          YZW 123456
+          {{ policy?.policyNrChitanta }}
         </ion-text>
       </div>
 
@@ -199,7 +174,7 @@
           </ion-text>
         </div>
         <ion-text class="s18-h24 ion-inherit-color">
-          5.05.2020
+          {{ policy?.dates?.from | date: 'MM.dd.yyyy' }}
         </ion-text>
       </div>
 
@@ -210,39 +185,85 @@
           </ion-text>
         </div>
         <ion-text class="s18-h24 ion-inherit-color">
-          trada Traian 45, Brasov, jud. Brasov, Cod. 654321
+          {{ policy?.locuintaData?.address?.street }}
+          {{ policy?.locuintaData?.address?.number }}
+          {{ policy?.locuintaData?.address?.city }} jud.
+          {{ policy?.locuintaData?.address?.county }}
+          {{ policy?.locuintaData?.address?.postalCode }}
         </ion-text>
       </div>
 
       <div class="mb-36">
         <div class="">
-          <ion-text class="input-label text-weight-medium">
-            Cesiune
-          </ion-text>
+          <ion-text class="input-label text-weight-medium"> Cesiune </ion-text>
         </div>
         <ion-text class="s18-h24 ion-inherit-color">
-          Denumire cesionar: Banca Cutarescu <br />
-          CUI: 321654 <br />
-          Procent: 99%
+          Denumire cesionar: MISSING_DATA <br />
+          CUI: MISSING_DATA <br />
+          Procent: MISSING_DATA%
         </ion-text>
       </div>
-
-      <ion-item
-        fill="block"
-        size="icon-button"
-        class="download-btn bg-green color-white btn-sep icon-info position-relative text-normal border-radius-8 mx-n8"
-      >
-        <ion-icon
-          slot="start"
-          name="descarca"
-          class="icon-20 p-16 bg-dark-green"
-        ></ion-icon>
-
-        <ion-label class="text-weight-medium text-normal overflow-visible m-0"
-          >Acesta este un sumar. Descarcă Polița completă în format
-          PDF.</ion-label
+      <div class="bg-grey-2 mx-n32 px-32 pb-60 pt-20 flex">
+        <ion-item
+          fill="block"
+          size="icon-button"
+          class="download-btn bg-green color-white btn-sep icon-info position-relative text-normal border-radius-8 mx-n8"
         >
-      </ion-item>
+          <ion-icon
+            slot="start"
+            name="descarca"
+            class="icon-20 p-16 bg-dark-green"
+          ></ion-icon>
+
+          <ion-label class="text-weight-medium text-normal overflow-visible m-0"
+            >Acesta este un sumar. Descarcă Polița completă în format PDF.
+          </ion-label>
+        </ion-item>
+      </div>
     </ion-col>
   </div>
+  <ion-row
+    class="flex flex-column ion-no-padding w-100 shadow-3 mt-n20"
+    *ngIf="calEntry"
+  >
+    <ion-row>
+      <ion-col
+        class="ion-no-padding flex flex-1 w-100 flex-column ion-justify-content-center ion-align-items-center"
+      >
+        <ion-icon
+          name="notificare"
+          class="radius-50-perc p-10 bg-secondary-blue color-white icon-20 mt-n20"
+        ></ion-icon>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col class="mt-8 px-32">
+        <div class="mb-20">
+          <div class="">
+            <ion-text class="input-label text-weight-medium">
+              Notificări
+            </ion-text>
+          </div>
+          <ion-text class="s18-h24 ion-inherit-color">
+            Vrei să primești notificări când trebuie <br />
+            să reînnoiești polița sau când trebuie <br />
+            să plătești o rată?..
+          </ion-text>
+        </div>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col class="ion-align-items-center ion-text-center mb-24">
+        <ion-button
+          class="flat no-shadow color-white ion-color-success text-weight-medium px-5"
+          size="large"
+          shape="round"
+          mode="md"
+          (click)="addCalendarEntry()"
+        >
+          Activează notificările
+        </ion-button>
+      </ion-col>
+    </ion-row>
+  </ion-row>
 </ion-content>

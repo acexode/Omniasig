@@ -30,15 +30,15 @@ export interface Locuinte {
     structure: string;
     yearConstruction: number;
     valueCurrency: string;
-    valueSum: string;
+    valueSum: number;
     occupancy: string;
     usableSurface: number;
     heightRegime: number;
     rooms: number;
     hasAlarmSystem: boolean;
   };
-  tipLocuinta: TipLocuinta;
-  policyData: Array<PolicyItem>;
+  tipLocuinta?: TipLocuinta;
+  policyData?: Array<PolicyItem>;
 
   // Temp - prefilled data.
   pad?: {

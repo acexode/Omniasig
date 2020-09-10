@@ -1,3 +1,4 @@
+import { CompleteVerificationComponent } from './complete-verification/complete-verification.component';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { IonicModule } from '@ionic/angular';
@@ -14,6 +15,7 @@ import { CapturePhotoComponent } from './capture-photo/capture-photo.component';
     MoreDetailsComponent,
     CaptureDocsComponent,
     CapturePhotoComponent,
+    CompleteVerificationComponent
   ],
   imports: [
     CommonModule,
