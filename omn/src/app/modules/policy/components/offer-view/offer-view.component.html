@@ -124,11 +124,11 @@
                 Adresa
               </div>
               <ion-text class="s18-h24"
-                >{{ offer?.policy?.locuintaData?.address?.street }}
-                {{ offer?.policy?.locuintaData?.address?.number }}
-                {{ offer?.policy?.locuintaData?.address?.city }} jud
-                {{ offer?.policy?.locuintaData?.address?.postalCode }}
-                {{ offer?.policy?.locuintaData?.address?.county }}</ion-text
+                >{{ offer?.policy?.locuintaData?.address?.addressStreet }}
+                {{ offer?.policy?.locuintaData?.address?.addressBuildingNumber }}
+                {{ offer?.policy?.locuintaData?.address?.addressCity }} jud
+                {{ offer?.policy?.locuintaData?.address?.addressPostalCode }}
+                {{ offer?.policy?.locuintaData?.address?.addressCounty }}</ion-text
               >
             </ion-label>
           </ion-item>
@@ -148,8 +148,8 @@
                 Structură de rezistență
               </div>
               <ion-text class="s18-h24">{{
-                offer?.policy?.locuintaData?.info?.resistenceStructure
-                  | locuinteField: 'resistenceStructure'
+                offer?.policy?.locuintaData?.info?.structure
+                  | locuinteField: 'structure'
               }}</ion-text>
             </ion-label>
           </ion-item>
@@ -159,7 +159,7 @@
                 Anul construcției
               </div>
               <ion-text class="s18-h24">{{
-                offer?.policy.locuintaData?.info?.buildYear
+                offer?.policy.locuintaData?.info?.yearConstruction
               }}</ion-text>
             </ion-label>
           </ion-item>
@@ -179,7 +179,7 @@
           <ion-item class="ion-no-padding mb-13" lines="none">
             <ion-label class="ion-text-wrap ion-no-margin">
               <div class="link-small text-weight-medium color-tertiary-grey">
-                egim de înălțime
+                Regim de înălțime
               </div>
               <ion-text class="s18-h24"
                 >{{
@@ -195,7 +195,7 @@
                 Număr de camere
               </div>
               <ion-text class="s18-h24">{{
-                offer?.policy?.locuintaData?.info?.roomCount
+                offer?.policy?.locuintaData?.info?.rooms
               }}</ion-text>
             </ion-label>
           </ion-item>

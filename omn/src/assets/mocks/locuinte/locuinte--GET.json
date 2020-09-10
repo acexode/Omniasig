@@ -7,7 +7,7 @@
       "city": "Brasov",
       "street": "Traian",
       "number": 45,
-      "entrance": "1A",
+      "addressScara": "1A",
       "apartment": "string",
       "postalCode": 123123
     },
@@ -33,7 +33,7 @@
       "city": "Bacau",
       "street": "Republicii",
       "number": 30,
-      "entrance": "1A",
+      "addressScara": "1A",
       "apartment": "string",
       "postalCode": 123123
     },
@@ -59,7 +59,7 @@
       "city": "Bacau",
       "street": "Republicii",
       "number": 30,
-      "entrance": "1A",
+      "addressScara": "1A",
       "apartment": "string",
       "postalCode": 123123
     },

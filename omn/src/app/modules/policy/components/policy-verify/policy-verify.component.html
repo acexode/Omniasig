@@ -55,7 +55,7 @@
                             <div class="input-label text-weight-medium mb-3">
                                 Anul construcției
                             </div>
-                            <ion-text class="input-detail s18-h24">{{ offerData?.policy?.locuintaData?.info?.buildYear }}
+                            <ion-text class="input-detail s18-h24">{{ offerData?.policy?.locuintaData?.info?.yearConstruction }}
                             </ion-text>
                         </div>
                         <div class="mb-8">
@@ -92,14 +92,14 @@
                                 Număr de camere
                             </div>
                             <ion-text class="input-detail s18-h24">
-                                {{ offerData?.policy?.locuintaData?.info?.roomCount }}</ion-text>
+                                {{ offerData?.policy?.locuintaData?.info?.rooms }}</ion-text>
                         </div>
                         <div>
                             <div class="input-label text-weight-medium">
                                 Alarmă antiefracție
                             </div>
                             <ion-text class="input-detail s18-h24">
-                                {{ offerData?.policy?.locuintaData?.info?.alarm | locuinteField: 'alarm' }}
+                                {{ offerData?.policy?.locuintaData?.info?.hasAlarmSystem | locuinteField: 'alarm' }}
                             </ion-text>
                         </div>
                     </ion-label>

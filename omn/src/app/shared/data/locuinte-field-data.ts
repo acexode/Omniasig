@@ -8,8 +8,13 @@ export const locuinteFieldsData = {
   structure: [
     {
       id: LocuinteStructureType.BETON_ARMAT,
+      label: 'Beton armat (cadre, diafragme, prefabricate)',
+    },
+    {
+      id: LocuinteStructureType.ZIDARIE_PORTANTA,
       label: 'Zidărie portantă (zidarie, piatra)',
     },
+
     {
       id: LocuinteStructureType.METAL,
       label: 'Metal',

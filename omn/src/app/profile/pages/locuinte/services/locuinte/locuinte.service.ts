@@ -101,7 +101,6 @@ export class LocuinteService {
   }
 
   getLocuinteWithPolicy(policyTypeID: string) {
-    alert(policyTypeID);
     return this.reqS.get<Array<Locuinte>>(this.endpoints.base).pipe(
       map((v) => {
         if (!v) {
