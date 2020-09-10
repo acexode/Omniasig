@@ -30,7 +30,7 @@ export interface Locuinte {
     resistenceStructure: string;
     buildYear: number;
     valueCurrency: string;
-    valueSum: string;
+    valueSum: number;
     occupancy: string;
     usableSurface: number;
     heightRegime: number;

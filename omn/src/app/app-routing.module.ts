@@ -55,6 +55,8 @@ const routes: Routes = [
   },
   {
     path: 'cod-acces',
+    canActivate: [AuthGuard],
+    canActivateChild: [AuthGuard],
     loadChildren: () =>
       import('./schimbare-cod-acces/schimbare-cod-acces.module').then(
         (m) => m.SchimbareCodAccesPageModule
@@ -116,6 +118,10 @@ const routes: Routes = [
       import('./pin-code-reset/pin-code-reset.module').then(
         (m) => m.PinCodeResetPageModule
       ),
+  },
+  {
+    path: '**',
+    redirectTo: 'home',
   },
 ];
 

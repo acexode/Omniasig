@@ -18,7 +18,7 @@ export interface PolicyItem {
   };
   cesiune?: Array<{ cui: string; procent: number; denumireCesionar: string }>;
   // additional fields from the BE
-  serial?: string
+  serial?: string;
   policyNrPolita?: string;
   policyNrChitanta?: string;
   policyIdIncasareOMN?: string;
