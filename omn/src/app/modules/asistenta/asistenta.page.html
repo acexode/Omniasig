@@ -42,17 +42,29 @@
       ></ion-icon>
       <ion-label class="s18-h24 my-8">Petiții</ion-label>
     </ion-item>
+
+    <ion-item
+      lines="none"
+      class="mb-16 ml-24 item-mh-40"
+      [routerLink]="['petitii']"
+    >
+      <ion-icon
+        name="md-suggestion"
+        class="icon-22 mr-28"
+        color="success"
+      ></ion-icon>
+      <ion-label class="s18-h24 my-8">Sugestii</ion-label>
+    </ion-item>
+
   </ion-list>
 
-  <ion-grid class="position-absolute bottom-0">
-      <ion-row class="pt-10">
-        <ion-col class=" pr-32 pl-32 pb-10">
-            <div class="flex flex-1 ion-align-items-center ion-text-center">
-                <ion-text class="s16-h22 color-dark-green">
-                    Pentru asistență tehnică la domiciliu, detalii 
-                    despre asigurări sau daune te rugăm să apelezi
-                </ion-text>
-            </div>
+  <ion-grid class="position-absolute bottom-0 w-100">
+      <ion-row class="pt-10 ion-align-items-center">
+        <ion-col class="ion-align-items-center ion-text-center pr-32 pl-32 pb-10">
+            <ion-text class="s16-h22 color-dark-green">
+                Pentru asistență tehnică la domiciliu, detalii 
+                despre asigurări sau daune te rugăm să apelezi
+            </ion-text>
         </ion-col>
     </ion-row>
     <ion-row>
@@ -62,7 +74,7 @@
             </ion-text>
         </ion-col>
     </ion-row>
-    <ion-row>
+    <ion-row class="ion-align-items-start">
         <ion-col class="ion-align-items-center ion-text-center pr-32 pl-32 pb-20">
             <ion-button 
             class="flex flex-1 w-100 flat no-shadow color-white ion-color-success text-weight-medium px-5" 
@@ -74,5 +86,5 @@
         </ion-col>
     </ion-row>
   </ion-grid>
-  
+
 </ion-content>
