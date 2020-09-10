@@ -20,7 +20,6 @@ export class PadService {
     startDate
   ) {
     let formattedStartDate = startDate.toISOString().slice(0, 10);
-
     return this.reqS.get<any>(
       `${padEndpoints.CreatePADInsuranceOffer}?padAddressId=${padAddressId}&homeAddressId=${homeAddressId}&startDate=${formattedStartDate}`
     );
