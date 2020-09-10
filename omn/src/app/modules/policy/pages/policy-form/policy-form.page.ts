@@ -574,7 +574,7 @@ export class PolicyFormPage implements OnInit, OnDestroy {
 
   calculationSubmit() {
     this.changeStep(this.policySteps.CALCULATION_LOADER);
-    let navigationExtras: NavigationExtras = {
+    const navigationExtras: NavigationExtras = {
       queryParams: {
         policyType: this.policyID,
       },
