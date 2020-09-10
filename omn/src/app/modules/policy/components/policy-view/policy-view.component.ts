@@ -1,8 +1,8 @@
-import { dateHelperDMY } from 'src/app/core/helpers/date.helper';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { NavController } from '@ionic/angular';
 import { get } from 'lodash';
+import { dateHelperDMY } from 'src/app/core/helpers/date.helper';
 import { PolicyItem } from 'src/app/shared/models/data/policy-item';
 import { subPageHeaderCustom } from './../../../../shared/data/sub-page-header-custom';
 import { PolicyDataService } from './../../services/policy-data.service';
