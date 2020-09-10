@@ -39,7 +39,7 @@ export class InputSmsComponent implements OnInit, AfterViewInit, OnDestroy {
     private timers: CustomTimersService,
     private formBuilder: FormBuilder,
     private auth: AuthService
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.initForm();
@@ -67,9 +67,10 @@ export class InputSmsComponent implements OnInit, AfterViewInit, OnDestroy {
     if (this.digitsLength > 5 && this.busy === false) {
       this.verifyDigit();
     }
-
-    this.errorLogin = null;
-    this.busy = false;
+    if (this.errorLogin) {
+      this.errorLogin = null;
+      this.busy = false;
+    }
   }
 
   getPhoneNumber() {
@@ -117,8 +118,10 @@ export class InputSmsComponent implements OnInit, AfterViewInit, OnDestroy {
 
   confirmationError(err) {
     this.passForm.reset();
+    this.digitsLength = 0;
     this.errorLogin = 'Cod Invalid!';
     this.busy = false;
+
   }
 
   spawnInput() {

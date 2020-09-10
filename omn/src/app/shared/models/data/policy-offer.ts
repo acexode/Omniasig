@@ -4,4 +4,7 @@ export interface PolicyOffer {
   id: string | number;
   policy: PolicyItem;
   expiry: Date | string;
+  cnp?: string;
+  nume?: string;
+  offerCode?: string;
 }
