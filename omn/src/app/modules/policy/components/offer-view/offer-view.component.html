@@ -50,8 +50,8 @@
           </ion-label>
           <ion-label class="text-small">
             Emisa la data de
-            {{ offer?.policy?.dates?.from | date: 'MM.dd.yyyy' }} în baza datelor
-            declarate de ASIGURAT
+            {{ offer?.policy?.dates?.from | date: 'MM.dd.yyyy' }} în baza
+            datelor declarate de ASIGURAT
           </ion-label>
         </ion-row>
 
@@ -598,7 +598,16 @@
                 let i = index
               "
             >
-              <li class="text-normal" [innerHTML]="insurance"></li>
+              <li class="text-normal">
+                <p class="m-0">
+                  <span class="text-weight-bold" *ngIf="insurance?.header">{{
+                    insurance?.header
+                  }}</span>
+                  <ng-container *ngIf="insurance?.description">{{
+                    insurance?.description
+                  }}</ng-container>
+                </p>
+              </li>
             </ng-container>
           </ul>
         </ion-row>

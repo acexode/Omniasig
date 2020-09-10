@@ -307,8 +307,12 @@ export class PolicyFormPage implements OnInit, OnDestroy {
         } else {
           this.navigateBackForm();
         }
-
         break;
+      /* TODO: Add missing back actions for WAY_TO_PAY,
+        TECHNICAL_SUPPORT,
+        WAY_TO_PAY,
+        CALCULATION_LOADER,
+        */
       default:
         break;
     }
@@ -568,6 +572,9 @@ export class PolicyFormPage implements OnInit, OnDestroy {
 
   paySubmit(payData) {
     this.wayPayFormData = payData;
+
+    // TODO: You may need to also add the new AMPLUS data in here,
+    // so that we can have it available in the offers.
     this.offerData = this.policyFs.buildOfferItem({
       locuintaItem: this.selectedAddressItem,
       account: this.userAccount,
@@ -585,6 +592,7 @@ export class PolicyFormPage implements OnInit, OnDestroy {
         policyType: this.policyID,
       },
     };
+    // TODO: When linking to the BE WS, we may also need an error page for this.
     this.reftime = setTimeout(() => {
       this.navCtrl.navigateForward(['/policy', 'offer', 2], navigationExtras);
     }, 3000);

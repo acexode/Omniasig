@@ -36,14 +36,46 @@ export class OfferViewComponent implements OnInit {
   ];
 
   insuranceOffer = [
-    `600 EUR sau echivalent RON pentru închirierea unui spaţiu de locuit, situație generată de lipsa de folosinţă a locuinţei asigurate din cauza producerii unui eveniment asigurat (perioada maximă de despăgubire 6 luni);`,
-    `<p class="m-0"><span class="text-weight-bold">Cheltuieli cu prevenirea daunelor –</span> sublimita 10% din suma asigurată a bunurilor amenintate de evenimentul respectiv;</p>`,
-    `<p class="m-0"><span class="text-weight-bold">Cheltuieli pentru stingerea oricarui incendiu –</span> sublimita 10% din suma asigurată a bunurilor afectate de incendiu;</p>`,
-    `<p class="m-0"><span class="text-weight-bold">Cheltuieli pentru limitarea daunelor –</span> sublimită de 10% din suma asigurată a bunurilor afectate de evenimentul asigurat respectiv;</p>`,
-    `<p class="m-0"><span class="text-weight-bold">Cheltuieli pentru efectuarea lucrarilor de curațare in urma unui eveniment asigurat –</span> sublimita 10% din suma asigurată a bunurilor afectate;</p>`,
-    `<p class="m-0"><span class="text-weight-bold">Cheltuieli cu expertizarea daunelor –</span> sublimita 10% din suma asigurată a bunurilor afectate, max 1.000 EUR/ eveniment;</p>`,
-    `<p class="m-0"><span class="text-weight-bold">În cazul asigurării riscului de furt, costuri / cheltuieli ocazionate de:</span> daune produse prin spargerea sau deteriorarea cu prilejul furtului sau tentativei de furt prin efracţie, curăţarea sau înlocuirea încuietorilor avariate pentru o sublimită a 10% din suma asigurată a bunurilor conţinute asigurate max 1.000 EUR / eveniment;</p>`,
-    `<p class="m-0"><span class="text-weight-bold">În cazul asigurării răspunderii civile, cheltuielile</span> efectuate de către Asigurat în procesul civil, dacă a fost obligat la plata unor despăgubiri, decurgând din evenimente asigurate produse în perioada de asigurare.</p>`,
+    {
+      header: null,
+      description: `600 EUR sau echivalent RON pentru închirierea unui spaţiu de locuit, situație generată de lipsa de folosinţă a locuinţei asigurate din cauza producerii unui eveniment asigurat (perioada maximă de despăgubire 6 luni);`,
+    },
+    {
+      header: 'Cheltuieli cu prevenirea daunelor – ',
+      description:
+        'sublimita 10% din suma asigurată a bunurilor amenintate de evenimentul respectiv;',
+    },
+    {
+      header: 'Cheltuieli pentru stingerea oricarui incendiu – ',
+      description:
+        'sublimita 10% din suma asigurată a bunurilor afectate de incendiu;',
+    },
+    {
+      header: 'Cheltuieli pentru limitarea daunelor – ',
+      description:
+        'sublimită de 10% din suma asigurată a bunurilor afectate de evenimentul asigurat respectiv;',
+    },
+    {
+      header:
+        'Cheltuieli pentru efectuarea lucrarilor de curațare in urma unui eveniment asigurat – ',
+      description: 'sublimita 10% din suma asigurată a bunurilor afectate;',
+    },
+    {
+      header: 'Cheltuieli cu expertizarea daunelor – ',
+      description:
+        'sublimita 10% din suma asigurată a bunurilor afectate, max 1.000 EUR/ eveniment;',
+    },
+    {
+      header:
+        'În cazul asigurării riscului de furt, costuri / cheltuieli ocazionate de: ',
+      description:
+        'daune produse prin spargerea sau deteriorarea cu prilejul furtului sau tentativei de furt prin efracţie, curăţarea sau înlocuirea încuietorilor avariate pentru o sublimită a 10% din suma asigurată a bunurilor conţinute asigurate max 1.000 EUR / eveniment;',
+    },
+    {
+      header: 'În cazul asigurării răspunderii civile, cheltuielile ',
+      description:
+        'efectuate de către Asigurat în procesul civil, dacă a fost obligat la plata unor despăgubiri, decurgând din evenimente asigurate produse în perioada de asigurare.',
+    },
   ];
 
   calEntry: CalendarEntry;
