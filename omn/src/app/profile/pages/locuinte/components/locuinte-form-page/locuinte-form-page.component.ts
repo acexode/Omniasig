@@ -91,7 +91,6 @@ export class LocuinteFormPageComponent implements OnInit {
           this.cdRef.markForCheck();
         });
       });
-    
   }
 
   setTitles() {
@@ -153,27 +152,27 @@ export class LocuinteFormPageComponent implements OnInit {
         this.formType = LocuinteFormType.ADDRESS;
         break;
     }
-    this.locuinteS.getCounties().subscribe((val:any) => {
-      let withLabel = val.map(v => { 
+    this.locuinteS.getCounties().subscribe((val: any) => {
+      const withLabel = val.map((v) => {
         return {
           id: v.id,
-          label: v.name
-        }
-      })         
+          label: v.name,
+        };
+      });
       this.formData.address.addressCounty = withLabel;
       this.cdRef.markForCheck();
     });
-   
-    if (this.addressCounty) {      
+
+    if (this.addressCounty) {
       this.addressCounty.valueChanges.subscribe((val) => {
-        this.locuinteS.getCities(val).subscribe((data:any) => {
-          let withLabel = data.map(v => { 
+        this.locuinteS.getCities(val).subscribe((data: any) => {
+          const withLabel = data.map((v) => {
             return {
               id: v.id,
-              label: v.name
-            }     
-          })               
-          this.formInstance.data.addressCity = withLabel;          
+              label: v.name,
+            };
+          });
+          this.formInstance.data.addressCity = withLabel;
         });
       });
     }
@@ -293,11 +292,11 @@ export class LocuinteFormPageComponent implements OnInit {
 
   submitData(): Observable<Locuinte> {
     switch (this.formMode) {
-      case this.formModes.EDIT_FULL:   
+      case this.formModes.EDIT_FULL:
         const model = this.formS.processFormModel(
           this.formInstance.group.value,
           this.dataModel
-        );             
+        );
         this.formSubmitting = true;
         this.cdRef.markForCheck();
         return this.locuinteS.updateSingleLocuinte(model).pipe(
@@ -310,12 +309,14 @@ export class LocuinteFormPageComponent implements OnInit {
         const model2 = this.formS.processFormModel(
           this.formInstance.group.value,
           this.dataModel
-        );      
+        );
         this.formSubmitting = true;
         this.cdRef.markForCheck();
         if (this.dataModel) {
-          let newUpdates = this.processForm(this.dataModel,this.formInstance.group.value)
-          console.log(newUpdates)
+          const newUpdates = this.processForm(
+            this.dataModel,
+            this.formInstance.group.value
+          );
           return this.locuinteS.updateSingleLocuinte(newUpdates).pipe(
             finalize(() => {
               this.formSubmitting = false;
