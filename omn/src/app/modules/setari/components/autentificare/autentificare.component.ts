@@ -1,3 +1,4 @@
+import { SettingsService } from './../../services/settings.service';
 import { Component, HostBinding, OnInit, OnDestroy } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { Subscription } from 'rxjs';
@@ -22,7 +23,9 @@ export class AutentificareComponent implements OnInit, OnDestroy {
   });
   faceIdS: Subscription;
 
-  constructor(private fb: FormBuilder) {}
+  constructor(private fb: FormBuilder, private settingsS: SettingsService) {
+    this.getFaceIdstatus()
+  }
   ngOnInit() {
     this.handleSubmission();
   }
@@ -30,9 +33,17 @@ export class AutentificareComponent implements OnInit, OnDestroy {
   // Try to attach this after data loading for the toggles.
   handleSubmission() {
     unsubscriberHelper(this.faceIdS);
-    this.faceIdS = this.formGroup.get('faceId').valueChanges.subscribe((v) => {
-      // TODO: implement data push.
+    this.faceIdS = this.formGroup.get('faceId').valueChanges.subscribe((v: boolean) => {
+      this.settingsS.toggleFaceId(v)
     });
+  }
+
+  getFaceIdstatus() {
+    this.settingsS.getFaceIdState().subscribe(
+      (data:boolean) => {
+        this.formGroup.get('faceId').patchValue(data)
+      }
+    )
   }
 
   ngOnDestroy() {
