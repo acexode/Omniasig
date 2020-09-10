@@ -76,18 +76,18 @@ export class SelectComponent implements OnInit, ControlValueAccessor {
   }
 
   updateItems() {
-    const labelK = get(this.config, 'labelKey', 'label');    
+    const labelK = get(this.config, 'labelKey', 'label');       
     const idK = get(this.config, 'idKey', 'id');
     this.items = this.opts
-      .map((v) => {        
+      .map((v) => {             
         return {
           id: get(v, idK, null),
-          label: get(v, 'name', null),
+          label: get(v, labelK, null),
         };
       })
       .filter((vv) => {
         return get(vv, 'id', null) !== null;
-      });      
+      });           
     this.cdRef.markForCheck();
   }
 

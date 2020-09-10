@@ -62,7 +62,6 @@ export class LocuinteFormPageComponent implements OnInit {
 
   formSubmitting = false;
   formInstance: { group: FormGroup; config: any; data: any } = null;
-
   constructor(
     private routerS: CustomRouterService,
     private aRoute: ActivatedRoute,
@@ -154,14 +153,27 @@ export class LocuinteFormPageComponent implements OnInit {
         this.formType = LocuinteFormType.ADDRESS;
         break;
     }
-    this.locuinteS.getCounties().subscribe((val) => {
-      this.formData.address.addressCounty = val;
+    this.locuinteS.getCounties().subscribe((val:any) => {
+      let withLabel = val.map(v => { 
+        return {
+          id: v.id,
+          label: v.name
+        }
+      })         
+      this.formData.address.addressCounty = withLabel;
       this.cdRef.markForCheck();
     });
-    if (this.addressCounty) {
+   
+    if (this.addressCounty) {      
       this.addressCounty.valueChanges.subscribe((val) => {
-        this.locuinteS.getCities(val).subscribe((data) => {          
-          this.formInstance.data.addressCity = data;
+        this.locuinteS.getCities(val).subscribe((data:any) => {
+          let withLabel = data.map(v => { 
+            return {
+              id: v.id,
+              label: v.name
+            }     
+          })               
+          this.formInstance.data.addressCity = withLabel;          
         });
       });
     }
@@ -278,18 +290,10 @@ export class LocuinteFormPageComponent implements OnInit {
   submitData(): Observable<Locuinte> {
     switch (this.formMode) {
       case this.formModes.EDIT_FULL:   
-        // const model = this.formS.processFormModel(
-        //   this.formInstance.group.value,
-        //   this.dataModel
-        // );
-        let model;
-        if(this.dataModel.hasOwnProperty('response')){
-          let year = parseInt(this.formInstance.group.get('yearConstruction').value)          
-          this.formInstance.group.get('yearConstruction').setValue(year)
-           model = {...this.dataModel['response'], ...this.formInstance.group.value}
-        }else{
-          model = {...this.dataModel, ...this.formInstance.group.value}
-        }        
+        const model = this.formS.processFormModel(
+          this.formInstance.group.value,
+          this.dataModel
+        );             
         this.formSubmitting = true;
         this.cdRef.markForCheck();
         return this.locuinteS.updateSingleLocuinte(model).pipe(
@@ -298,19 +302,16 @@ export class LocuinteFormPageComponent implements OnInit {
             this.cdRef.markForCheck();
           })
         );
-
       case this.formModes.ADD_NEW_FULL:
-        // const model2 = this.formS.processFormModel(
-        //   this.formInstance.group.value,
-        //   this.dataModel
-        // );
-       
-        const model2 = {...this.dataModel, ...this.formInstance.group.value}
-        
+        const model2 = this.formS.processFormModel(
+          this.formInstance.group.value,
+          this.dataModel
+        );      
         this.formSubmitting = true;
         this.cdRef.markForCheck();
         if (this.dataModel) {
           let newUpdates = this.processForm(this.dataModel,this.formInstance.group.value)
+          console.log(newUpdates)
           return this.locuinteS.updateSingleLocuinte(newUpdates).pipe(
             finalize(() => {
               this.formSubmitting = false;

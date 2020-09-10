@@ -17,7 +17,7 @@ export class LocuinteService {
   singleLoading: BehaviorSubject<boolean> = new BehaviorSubject(false);
   multipleLoading: BehaviorSubject<boolean> = new BehaviorSubject(false);
   locuinteStore$: BehaviorSubject<Array<Locuinte>> = new BehaviorSubject(null);
-  streetStore$: BehaviorSubject<Array<any>> = new BehaviorSubject([]);
+  streetStore$: BehaviorSubject<Array<any>> = new BehaviorSubject([]);  
   allStreets = this.streetStore$.asObservable();
   endpoints = locuinteEndpoints;
   emptyV: Array<Locuinte> = [];
@@ -92,7 +92,7 @@ export class LocuinteService {
       ...data,
     };
     
-    return this.reqS.post<Locuinte>(this.endpoints.add, adddress);
+    return this.reqS.post<any>(this.endpoints.add, adddress);
     // return of({ ...data, ...{ id: random(10, 100) } }).pipe(
     //   map((v) => {
     //     const vals = this.locuinteStore$.value ? this.locuinteStore$.value : [];

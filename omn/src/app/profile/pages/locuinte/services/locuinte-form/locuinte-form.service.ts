@@ -309,8 +309,9 @@ export class LocuinteFormService {
   }
 
   processFormModel(formGroupValue, existingModel?: Locuinte): Locuinte {
+    console.log(existingModel)
     const newModel: Locuinte = existingModel
-      ? { ...existingModel }
+      ? existingModel.hasOwnProperty('response') ? {...existingModel['response'] } : {...existingModel}
       : {
           id: null,
           // name: null,
@@ -320,7 +321,8 @@ export class LocuinteFormService {
           tipLocuinta: null,
           pad: null,
           locuintaState: null,
-        };   
+        };  
+      console.log(newModel) 
     forOwn(formGroupValue, (val, key) => {       
       switch (key) {
         case 'addressApart':
@@ -331,11 +333,14 @@ export class LocuinteFormService {
         case 'addressBuildingNumber':
         case 'addressPostalCode':
         case 'addressStreet':
-          set(newModel, 'address.' + key, val);
+          set(newModel,  key, val);
+          break;
+        case 'yearConstruction':
+          console.log(val)
+            val ? set(newModel,  key, parseInt(val)) : set(newModel,  key, val) 
           break;
         case 'hasAlarmSystem':
-        case 'yearConstruction':
-        case 'heightRegime':
+          case 'heightRegime':
         case 'occupancy':
         case 'structure':
         case 'rooms':
@@ -343,12 +348,12 @@ export class LocuinteFormService {
         case 'usableSurface':
         case 'valueCurrency':
         case 'valueSum':
-          set(newModel, 'info.' + key, val);
+          set(newModel, key, val);
           break;
         case 'padAvailable':
         case 'padNr':
         case 'padSerie':
-          set(newModel, 'pad.' + key, val);
+          set(newModel,  key, val);
           break;
         default:
           set(newModel, key, val);
