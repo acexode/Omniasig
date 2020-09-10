@@ -17,6 +17,7 @@ export const authEndpoints = {
     serverBaseUrl + '/UserProfile/RequestPinChangeWithoutAuthentification',
   confirmPincodeReset:
     serverBaseUrl + '/UserProfile/ConfirmPinChangeWithoutAuthentification',
+  updatePassword: serverBaseUrl + '/User/UpdatePassword',
 };
 
 export const baseEndpoints = {
@@ -29,6 +30,10 @@ export const policyEndpoints = {
   userPoliciesBase: baseEndpoints.policy,
   userPoliciesArchive: baseEndpoints.policy + '/archive',
   userOffersBase: baseEndpoints.policy + '/offers',
+
+  // real endpoints
+  GetActivePADOffers: serverBaseUrl + '/PADInsurance/GetActivePADOffers',
+  GetActivePADPolicies: serverBaseUrl + '/PADInsurance/GetActivePADPolicies',
 };
 
 export const locuinteEndpoints = {

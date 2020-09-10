@@ -13,6 +13,8 @@ import { HttpHeaders } from '@angular/common/http';
 @Injectable({
   providedIn: 'root',
 })
+ // https://omn-core-dev.azure.softescu.com/api/...
+ // https://meet.google.com/linkredirect?authuser=2&dest=https%3A%2F%2Fomn-core-dev.azure.softescu.com%2Findex.html
 export class LocuinteService {
   singleLoading: BehaviorSubject<boolean> = new BehaviorSubject(false);
   multipleLoading: BehaviorSubject<boolean> = new BehaviorSubject(false);
@@ -90,21 +92,12 @@ export class LocuinteService {
     const adddress = {
       id: 0,
       ...data,
-    };
-    
-    return this.reqS.post<any>(this.endpoints.add, adddress);
-    // return of({ ...data, ...{ id: random(10, 100) } }).pipe(
-    //   map((v) => {
-    //     const vals = this.locuinteStore$.value ? this.locuinteStore$.value : [];
-    //     vals.push(v);
-    //     this.locuinteStore$.next(vals);
-    //     return v ? v : null;
-    //   }),
-    //   catchError((err) => of(null))
-    // );
+    };    
+    return this.reqS.post<any>(this.endpoints.add, adddress);   
   }
   makeHomeAddress(data) {
     return this.reqS.post<Locuinte>(this.endpoints.makeHomeAddress, data);
+    
   }
   updateSingleLocuinte(data: Locuinte) {
     return this.reqS.post<Locuinte>(this.endpoints.updateAddress, data);
