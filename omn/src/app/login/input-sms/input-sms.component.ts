@@ -105,7 +105,6 @@ export class InputSmsComponent implements OnInit, AfterViewInit, OnDestroy {
   verifyDigit() {
     this.busy = true;
     const code = this.passForm.get('digit').value;
-    console.log(this.phoneNumber, code);
     this.auth.confirmPhoneNumberSms(this.phoneNumber, code).subscribe(
       (data) => {
         this.busy = false;

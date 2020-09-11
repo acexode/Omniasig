@@ -117,7 +117,6 @@ export class LocuinteFormService {
       name: this.fb.control(get(model, 'address.name', '')),
     });
 
-    //if (policyType === 'PAD') {
     group.addControl(
       'padAvailable',
       this.fb.control(get(model, 'pad.padAvailable', ''), Validators.required)
@@ -127,7 +126,6 @@ export class LocuinteFormService {
       'padSerie',
       this.fb.control(get(model, 'pad.padSerie', ''))
     );
-    //}
     return group;
   }
 
@@ -185,8 +183,6 @@ export class LocuinteFormService {
             disabled: isDisabled,
           }),
         };
-
-        //if (policyType === 'PAD') {
         configModel.padAvailable = radiosConfigHelper({
           label: 'Ai deja o poliță PAD valabilă pentru această adresă?',
           mode: 'item',
@@ -203,7 +199,6 @@ export class LocuinteFormService {
           type: 'text',
           placeholder: '',
         });
-        // }
         break;
 
       case LocuinteFormType.PLACE:
@@ -319,9 +314,10 @@ export class LocuinteFormService {
   }
 
   processFormModel(formGroupValue, existingModel?: Locuinte): Locuinte {
-    console.log(existingModel)
     const newModel: Locuinte = existingModel
-      ? existingModel.hasOwnProperty('response') ? {...existingModel['response'] } : {...existingModel}
+      ? existingModel.hasOwnProperty('response')
+        ? { ...get(existingModel, 'response', {}) }
+        : { ...existingModel }
       : {
           id: null,
           // name: null,
@@ -331,9 +327,9 @@ export class LocuinteFormService {
           tipLocuinta: null,
           pad: null,
           locuintaState: null,
-        };  
-      
-    forOwn(formGroupValue, (val, key) => {       
+        };
+
+    forOwn(formGroupValue, (val, key) => {
       switch (key) {
         case 'addressApart':
         case 'addressCity':
@@ -343,13 +339,13 @@ export class LocuinteFormService {
         case 'addressBuildingNumber':
         case 'addressPostalCode':
         case 'addressStreet':
-          set(newModel,  key, val);
+          set(newModel, key, val);
           break;
-        case 'yearConstruction':         
-            val ? set(newModel,  key, parseInt(val)) : set(newModel,  key, val) 
+        case 'yearConstruction':
+          val ? set(newModel, key, parseInt(val, 10)) : set(newModel, key, val);
           break;
         case 'hasAlarmSystem':
-          case 'heightRegime':
+        case 'heightRegime':
         case 'occupancy':
         case 'structure':
         case 'rooms':
@@ -362,7 +358,7 @@ export class LocuinteFormService {
         case 'padAvailable':
         case 'padNr':
         case 'padSerie':
-          set(newModel,  key, val);
+          set(newModel, key, val);
           break;
         default:
           set(newModel, key, val);

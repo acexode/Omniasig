@@ -59,7 +59,7 @@ export class SelectComponent implements OnInit, ControlValueAccessor {
     } else {
       return o1 === o2;
     }
-  };
+  }
 
   getFieldValue() {
     const field = this.formGroup.get('select');
@@ -76,10 +76,10 @@ export class SelectComponent implements OnInit, ControlValueAccessor {
   }
 
   updateItems() {
-    const labelK = get(this.config, 'labelKey', 'label');       
+    const labelK = get(this.config, 'labelKey', 'label');
     const idK = get(this.config, 'idKey', 'id');
     this.items = this.opts
-      .map((v) => {             
+      .map((v) => {
         return {
           id: get(v, idK, null),
           label: get(v, labelK, null),
@@ -87,7 +87,7 @@ export class SelectComponent implements OnInit, ControlValueAccessor {
       })
       .filter((vv) => {
         return get(vv, 'id', null) !== null;
-      });           
+      });
     this.cdRef.markForCheck();
   }
 
