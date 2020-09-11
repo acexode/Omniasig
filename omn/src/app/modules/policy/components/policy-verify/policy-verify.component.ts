@@ -1,6 +1,6 @@
 import { get } from 'lodash';
 import { PolicyDataService } from './../../services/policy-data.service';
-import { PadService } from '../../services/pad.service'
+import { PadService } from '../../services/pad.service';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -23,31 +23,36 @@ export class PolicyVerifyComponent implements OnInit {
     private policyS: PolicyDataService,
     private padS: PadService,
     private navCtrl: NavController
-  ) {
-  }
+  ) {}
 
   ngOnInit() {}
-  
+
   addOffer() {
-    this.padS.CreatePADInsuranceOffer(this.offerData.policy.id, this.offerData.policy.locuintaData.id, this.offerData.policy.dates.from)
-    .subscribe(
-      (result)=>{
-        this.policyS.addOffer(this.offerData).subscribe((v) => {
-          if (v) {
-            const id = get(v, 'id', null);
-            if (id) {
-              this.navCtrl.navigateForward(['/policy', 'offer', id]);
+    this.padS
+      .CreatePADInsuranceOffer(
+        this.offerData.policy.locuintaData.id,
+        this.offerData.policy.locuintaData.id,
+        this.offerData.policy.dates.from
+      )
+      .subscribe(
+        (result) => {
+          this.policyS.addOffer(this.offerData).subscribe((v) => {
+            if (v) {
+              const id = get(v, 'id', null);
+              if (id) {
+                this.navCtrl.navigateForward(['/policy', 'offer', id]);
+              } else {
+                this.navCtrl.navigateRoot(['/policy']);
+              }
             } else {
-              this.navCtrl.navigateRoot(['/policy']);
+              // We'll probably only show an error in here.
             }
-          } else {
-            // We'll probably only show an error in here.
-          }
-        });
-      },
-      (error)=>{
-        //handle error
-      }
-    )
+          });
+        },
+        (error) => {
+          console.log("ERROR------------------------>", error)
+          // handle error
+        }
+      );
   }
 }
