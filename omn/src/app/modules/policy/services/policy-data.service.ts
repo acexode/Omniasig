@@ -93,7 +93,7 @@ export class PolicyDataService {
           yearConstruction: policy.locationYearConstruction,
           valueCurrency: policy.locationValueCurrency,
           value: policy.locationValue,
-          occupancy: policy.locationArea,
+          typeUse: policy.locationArea,
           area: policy.locationArea,
           floors: policy.locationFloors,
           rooms: policy.locationRooms,
@@ -108,7 +108,6 @@ export class PolicyDataService {
           // Scara bloc.
           addressScara: policy.addressScara,
           addressApart: policy.addressApart,
-          addressFloor: policy.addressFloor,
           addressPostalCode: policy.addressPostalCode,
         },
       },
@@ -175,7 +174,7 @@ export class PolicyDataService {
             yearConstruction: offer.locationYearConstruction,
             valueCurrency: offer.locationValueCurrency,
             value: offer.locationValue,
-            occupancy: offer.locationArea,
+            typeUse: offer.locationArea,
             area: offer.locationArea,
             floors: offer.locationFloors,
             rooms: offer.locationRooms,
@@ -190,7 +189,6 @@ export class PolicyDataService {
             // Scara bloc.
             addressScara: offer.addressScara,
             addressApart: offer.addressApart,
-            addressFloor: offer.addressFloor,
             addressPostalCode: offer.addressPostalCode,
           },
         },
