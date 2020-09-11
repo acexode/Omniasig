@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { forOwn, get, set } from 'lodash';
 import { BehaviorSubject, Observable, of } from 'rxjs';
-import { map, tap } from 'rxjs/operators';
+import { map, tap, switchMap } from 'rxjs/operators';
 import { LocuinteService } from 'src/app/profile/pages/locuinte/services/locuinte/locuinte.service';
 import { autoCompleteConfigHelper } from 'src/app/shared/data/autocomplete-config-helper';
 import { dateTimeConfigHelper } from 'src/app/shared/data/datetime-config-helper';
@@ -286,6 +286,25 @@ export class LocuinteFormService {
     return data;
   }
 
+  handleInitialCityAndStreets(countyField, cityField, fieldData) {
+    const countyValue = countyField.value;
+    if (countyValue) {
+      return new Observable((observer) => {
+        this.updateCounty(countyValue, fieldData).subscribe((vals) => {
+          const cityValue = cityField.value;
+          if (cityValue) {
+            this.updateCity(cityField, fieldData).subscribe((v) =>
+              observer.next(true)
+            );
+          }
+          observer.next(true);
+        });
+      });
+    } else {
+      return of(true);
+    }
+  }
+
   handleInitialCounty(field, fieldsData) {
     return this.locuinteS.getCounties().pipe(
       map((val: any) => {
@@ -330,6 +349,7 @@ export class LocuinteFormService {
         return false;
       }
     });
+
     if (addressCity) {
       const obj = {
         countryId: addressCity.countryId,
