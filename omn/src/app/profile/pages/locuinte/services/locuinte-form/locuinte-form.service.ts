@@ -29,45 +29,42 @@ export class LocuinteFormService {
     //     currency: string;
     //     sum: string;
     //   }
-    //   occupancy: string;
-    //   usablesurface: number;
-    //   heightRegime: number;
+    //   typeUse: string;
+    //   area: number;
+    //   floors: number;
     //   rooms: number;
-    //   alarm: boolean;
+    //   hasAlarmSystem: boolean;
     // }
     return this.fb.group({
-      type: this.fb.control(get(model, 'info.type', ''), Validators.required),
+      type: this.fb.control(get(model, 'type', ''), Validators.required),
       structure: this.fb.control(
-        get(model, 'info.structure', ''),
+        get(model, 'structure', ''),
         Validators.required
       ),
       yearConstruction: this.fb.control(
-        get(model, 'info.yearConstruction', 0),
+        get(model, 'yearConstruction', 0),
         Validators.required
       ),
       valueCurrency: this.fb.control(
-        get(model, 'info.valueCurrency', ''),
+        get(model, 'valueCurrency', ''),
         Validators.required
       ),
-      value: this.fb.control(get(model, 'info.value', 0), Validators.required),
-      occupancy: this.fb.control(
-        get(model, 'info.occupancy', null),
+      value: this.fb.control(get(model, 'value', 0), Validators.required),
+      typeUse: this.fb.control(
+        get(model, 'typeUse', null),
         Validators.required
       ),
-      usableSurface: this.fb.control(
-        Number(get(model, 'info.usableSurface', 0)),
-        Validators.required
-      ),
-      heightRegime: this.fb.control(
-        Number(get(model, 'info.heightRegime', 1)),
-        [Validators.required, Validators.min(1)]
-      ),
-      rooms: this.fb.control(Number(get(model, 'info.rooms', 1)), [
+      area: this.fb.control(Number(get(model, 'area', 0)), Validators.required),
+      floors: this.fb.control(Number(get(model, 'floors', 1)), [
+        Validators.required,
+        Validators.min(1),
+      ]),
+      rooms: this.fb.control(Number(get(model, 'rooms', 1)), [
         Validators.required,
         Validators.min(1),
       ]),
       hasAlarmSystem: this.fb.control(
-        get(model, 'info.hasAlarmSystem', false),
+        get(model, 'hasAlarmSystem', false),
         Validators.required
       ),
       // Additional - add validator after build
@@ -82,19 +79,19 @@ export class LocuinteFormService {
     //   addressStreet: string;
     //   number: number;
     //   // Scara bloc.
-    //   addressFloor: string;
+    //   addressScara: string;
     // }
     const group = this.fb.group({
       addressCounty: this.fb.control(
-        get(model, 'address.addressCounty', ''),
+        get(model, 'addressCounty', ''),
         Validators.required
       ),
       addressCity: this.fb.control(
-        get(model, 'address.addressCity', ''),
+        get(model, 'addressCity', ''),
         Validators.required
       ),
       addressStreet: this.fb.control(
-        get(model, 'address.addressStreet', ''),
+        get(model, 'addressStreet', ''),
         Validators.required
       ),
       addressStreetType: this.fb.control(
@@ -102,20 +99,21 @@ export class LocuinteFormService {
         Validators.required
       ),
       addressBuildingNumber: this.fb.control(
-        get(model, 'address.addressBuildingNumber', ''),
+        get(model, 'addressBuildingNumber', ''),
         Validators.required
       ),
-      addressFloor: this.fb.control(get(model, 'address.addressFloor', '')),
+      addressScara: this.fb.control(get(model, 'addressScara', '')),
       addressApart: this.fb.control(
-        get(model, 'address.addressApart', ''),
+        get(model, 'addressApart', ''),
         Validators.required
       ),
-      addressPostalCode: this.fb.control(
-        get(model, 'address.addressPostalCode', ''),
-        [Validators.required, Validators.minLength(6), Validators.maxLength(6)]
-      ),
+      addressPostalCode: this.fb.control(get(model, 'addressPostalCode', ''), [
+        Validators.required,
+        Validators.minLength(6),
+        Validators.maxLength(6),
+      ]),
       // Additional - add validator after build
-      name: this.fb.control(get(model, 'address.name', '')),
+      name: this.fb.control(get(model, 'name', '')),
     });
 
     group.addControl(
@@ -159,7 +157,7 @@ export class LocuinteFormService {
             placeholder: '',
             disabled: isDisabled,
           }),
-          addressFloor: inputConfigHelper({
+          addressScara: inputConfigHelper({
             label: 'Scara (opțional)',
             type: 'text',
             placeholder: '',
@@ -232,17 +230,17 @@ export class LocuinteFormService {
             placeholder: 'Completează',
             disabled: isDisabled,
           }),
-          occupancy: radiosConfigHelper({
+          typeUse: radiosConfigHelper({
             label: 'Ocupare',
             mode: 'chip',
           }),
-          usableSurface: inputConfigHelper({
+          area: inputConfigHelper({
             label: 'Suprafața utilă în metri pătrați',
             type: 'number',
             placeholder: 'Completează',
             disabled: isDisabled,
           }),
-          heightRegime: inputConfigHelper({
+          floors: inputConfigHelper({
             label: 'Regim de înălțime',
             type: 'number',
             placeholder: '',
@@ -267,10 +265,10 @@ export class LocuinteFormService {
           }),
         };
 
-        configModel.usableSurface.spinnerConfig = { step: 1 };
-        configModel.usableSurface.min = 0;
-        configModel.heightRegime.spinnerConfig = { step: 1 };
-        configModel.heightRegime.min = 1;
+        configModel.area.spinnerConfig = { step: 1 };
+        configModel.area.min = 0;
+        configModel.floors.spinnerConfig = { step: 1 };
+        configModel.floors.min = 1;
         configModel.rooms.spinnerConfig = { step: 1 };
         configModel.value.spinnerConfig = { step: 1 };
         configModel.value.min = 1;
@@ -298,7 +296,7 @@ export class LocuinteFormService {
     const countyValue = countyField.value;
     if (countyValue) {
       return new Observable((observer) => {
-        this.updateCounty(countyValue, fieldData).subscribe((vals) => {
+        this.updateCounty(countyField, fieldData).subscribe((vals) => {
           const cityValue = cityField.value;
           if (cityValue) {
             this.updateCity(cityField, fieldData).subscribe((v) =>
@@ -447,8 +445,8 @@ export class LocuinteFormService {
         case 'addressCity':
         case 'addressCounty':
         case 'name':
-        case 'addressFloor':
         case 'addressBuildingNumber':
+        case 'addressScara':
         case 'addressPostalCode':
         case 'addressStreet':
         case 'addressStreetType':
@@ -458,14 +456,22 @@ export class LocuinteFormService {
           val ? set(newModel, key, parseInt(val, 10)) : set(newModel, key, val);
           break;
         case 'hasAlarmSystem':
-        case 'heightRegime':
-        case 'occupancy':
-        case 'structure':
+        case 'floors':
+        case 'typeUse':
         case 'rooms':
-        case 'type':
-        case 'usableSurface':
+        case 'area':
         case 'valueCurrency':
         case 'value':
+          set(newModel, key, val);
+          break;
+        case 'structure':
+          set(newModel, key, val);
+          break;
+        case 'type':
+          set(newModel, key, val);
+          break;
+
+        case 'valueCurrency':
           set(newModel, key, val);
           break;
         case 'padAvailable':
@@ -478,6 +484,7 @@ export class LocuinteFormService {
           break;
       }
     });
+    debugger;
     return newModel;
   }
 }

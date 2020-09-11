@@ -17,11 +17,11 @@
       "buildYear": 1930,
       "valueCurrency": "EUR",
       "value": 111111,
-      "occupancy": "temporar",
-      "usableSurface": 10,
-      "heightRegime": 1,
+      "typeUse": "temporar",
+      "area": 10,
+      "floors": 1,
       "roomCount": 2,
-      "alarm": 0
+      "hasAlarmSystem": 0
     },
     "locuintaState": 1
   },
@@ -43,11 +43,11 @@
       "buildYear": 2020,
       "valueCurrency": "EUR",
       "value": 111111,
-      "occupancy": "permanent",
-      "usableSurface": 10,
-      "heightRegime": 1,
+      "typeUse": "permanent",
+      "area": 10,
+      "floors": 1,
       "roomCount": 2,
-      "alarm": 1
+      "hasAlarmSystem": 1
     },
     "locuintaState": 0
   },
@@ -69,11 +69,11 @@
       "buildYear": 2020,
       "valueCurrency": "EUR",
       "value": 111111,
-      "occupancy": "permanent",
-      "usableSurface": 10,
-      "heightRegime": 1,
+      "typeUse": "permanent",
+      "area": 10,
+      "floors": 1,
       "roomCount": 2,
-      "alarm": 1
+      "hasAlarmSystem": 1
     },
     "locuintaState": 2
   }

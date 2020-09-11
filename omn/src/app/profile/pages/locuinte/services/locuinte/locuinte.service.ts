@@ -1,12 +1,11 @@
-import { get } from 'lodash';
 import { Injectable } from '@angular/core';
+import { get } from 'lodash';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { catchError, map, switchMap, take } from 'rxjs/operators';
 import { locuinteEndpoints } from 'src/app/core/configs/endpoints';
 import { AuthService } from 'src/app/core/services/auth/auth.service';
 import { RequestService } from 'src/app/core/services/request/request.service';
 import { Locuinte } from 'src/app/shared/models/data/locuinte.interface';
-import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root',
@@ -203,32 +202,25 @@ export class LocuinteService {
     return {
       id: get(entry, 'id', null),
       name: get(entry, 'name', ''),
-      address: {
-        name: get(entry, 'name', ''),
-        addressCounty: get(entry, 'addressCounty', ''),
-        addressCity: get(entry, 'addressCity', ''),
-        addressStreet: get(entry, 'addressStreet', ''),
-        addressStreetType: get(entry, 'addressStreet', ''),
-        addressBuildingNumber: get(entry, 'addressBuildingNumber', ''),
-        // Scara bloc.
-        addressScara: get(entry, 'addressScara', ''),
-        addressFloor: get(entry, 'addressFloor', ''),
-        addressApart: get(entry, 'addressApart', ''),
-        addressPostalCode: get(entry, 'addressPostalCode', ''),
-      },
-
-      info: {
-        type: get(entry, 'type', ''),
-        structure: get(entry, 'structure', ''),
-        yearConstruction: get(entry, 'yearConstruction', ''),
-        valueCurrency: get(entry, 'valueCurrency', ''),
-        value: get(entry, 'value', ''),
-        occupancy: get(entry, 'occupancy', ''),
-        usableSurface: get(entry, 'usableSurface', ''),
-        heightRegime: get(entry, 'heightRegime', ''),
-        rooms: get(entry, 'rooms', ''),
-        hasAlarmSystem: get(entry, 'hasAlarmSystem', ''),
-      },
+      addressCounty: get(entry, 'addressCounty', ''),
+      addressCity: get(entry, 'addressCity', ''),
+      addressStreet: get(entry, 'addressStreet', ''),
+      addressStreetType: get(entry, 'addressStreetType', ''),
+      addressBuildingNumber: get(entry, 'addressBuildingNumber', ''),
+      // Scara bloc.
+      addressScara: get(entry, 'addressScara', ''),
+      addressApart: get(entry, 'addressApart', ''),
+      addressPostalCode: get(entry, 'addressPostalCode', ''),
+      type: get(entry, 'type', ''),
+      structure: get(entry, 'structure', ''),
+      yearConstruction: get(entry, 'yearConstruction', ''),
+      valueCurrency: get(entry, 'valueCurrency', ''),
+      value: get(entry, 'value', ''),
+      typeUse: get(entry, 'typeUse', ''),
+      area: get(entry, 'area', ''),
+      floors: get(entry, 'floors', ''),
+      rooms: get(entry, 'rooms', ''),
+      hasAlarmSystem: get(entry, 'hasAlarmSystem', ''),
       isDisabled: get(entry, 'isDisabled', ''),
     };
   }
