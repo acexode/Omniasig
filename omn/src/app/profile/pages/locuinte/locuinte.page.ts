@@ -34,12 +34,13 @@ export class LocuintePage implements OnInit {
         this.reQLocuintes();
         this.cards$.subscribe((cards) => {
           this.cards = cards;
+          // this.getLocationInfo()
           this.cdRef.markForCheck();
         });
       }
     });
   }
-
+ 
   reQLocuintes() {
     this.locuinteS.loadAllData();
   }

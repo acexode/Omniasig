@@ -6,9 +6,7 @@ import { get, join } from 'lodash';
   name: 'locuinteName',
 })
 export class LocuinteNamePipe implements PipeTransform {
-  transform(value: Partial<Locuinte>, type?: string): unknown {
-    console.log(value)
-    console.log(type)
+  transform(value: Partial<Locuinte>, type?: string): unknown {    
     if (!value) {
       return '';
     }

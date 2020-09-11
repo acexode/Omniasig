@@ -98,7 +98,6 @@ export class LocuinteViewComponent implements OnInit {
             if (val) {
               console.log(val)
               this.getLocationInfo(val)
-              this.locuinta$.next(val);
               this.dataModel = val;
               this.buildFormAdd();
               this.initForm();
@@ -145,12 +144,24 @@ export class LocuinteViewComponent implements OnInit {
     }
   }
   getLocationInfo(val){
-    let city= {
-      countryId: "RO",
-      countyId:val.addressCounty
-    }
-    this.locuinteS.getCities(city).subscribe(city =>{
-
+    let allValues = val
+    this.locuinteS.getCities(val.addressCounty).subscribe(city =>{
+      console.log(city[0])
+      const obj = {
+        countryId: "RO",
+        countyId: val.addressCountyId,
+        cityId: val.addressCity,
+        postCode: null,        
+      };
+      this.locuinteS.getStreets(obj).subscribe(streets =>{
+        let currStreets = streets.filter(e => e.id == val.addressStreet)[0]   
+        console.log(currStreets)    
+        allValues.addressCity = city[0].name
+        allValues.addressStreet = currStreets.name
+        this.locuinta$.next(allValues);
+        this.cdRef.markForCheck()
+        console.log(allValues)
+      })
     })
   }
   deleteAddress(id) {
