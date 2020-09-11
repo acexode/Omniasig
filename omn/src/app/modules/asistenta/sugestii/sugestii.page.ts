@@ -17,28 +17,26 @@ export class SugestiiPage implements OnInit, OnDestroy {
     sub: Subscription;
     disableBtn = true;
     ionIconRatingData = [
-
         {
-            name: 'angry',
+            name: 'md-angry',
             rate: 1
         },
         {
-            name: 'disappointed',
+            name: 'md-disappointed',
             rate: 2
         },
         {
-            name: 'indifferent',
+            name: 'md-indifferent',
             rate: 3
         },
         {
-            name: 'pleased',
+            name: 'md-pleased',
             rate: 4
         },
         {
-            name: 'happy',
+            name: 'md-happy',
             rate: 5
         },
-
     ];
     constructor(
         private formBuilder: FormBuilder,
