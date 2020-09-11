@@ -42,5 +42,6 @@ import { PolicySharedModule } from './policy-shared.module';
     OmnInputsModule,
   ],
   exports: [AsistentaModalPagePage],
+  providers: [],
 })
-export class PolicyModule { }
+export class PolicyModule {}

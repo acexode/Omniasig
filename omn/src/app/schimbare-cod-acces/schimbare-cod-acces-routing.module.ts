@@ -15,7 +15,7 @@ const routes: Routes = [
     component: CodAccesNouComponent,
   },
   {
-    path: 'confirmare/:code',
+    path: 'confirmare',
     component: ConfirmareCodAccesComponent,
   },
   {
