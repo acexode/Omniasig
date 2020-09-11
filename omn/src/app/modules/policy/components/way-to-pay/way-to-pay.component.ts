@@ -9,7 +9,7 @@ import { FormBuilder, Validators } from '@angular/forms';
 export class WayToPayComponent implements OnInit {
   @Input() payFormData;
   formGroup = this.fb.group({
-    valueSum: this.fb.control(1, Validators.required),
+    rate: this.fb.control(1, Validators.required),
     type: this.fb.control(null, Validators.required),
   });
 
@@ -18,13 +18,9 @@ export class WayToPayComponent implements OnInit {
       inputLabel: { text: 'Moneda' },
       mode: 'chip',
     },
-    valueSum: {
-      disabled: false,
-      inputLabel: { text: 'Numar de rate' },
-      min: 1,
-      placeholder: '1',
-      spinnerConfig: { step: 1 },
-      type: 'number',
+    rates: {
+      inputLabel: { text: 'Număr de rate' },
+      mode: 'chip',
     },
   };
 
@@ -33,7 +29,11 @@ export class WayToPayComponent implements OnInit {
       { id: 'EUR', label: 'Euro' },
       { id: 'RON', label: 'Lei' },
     ],
-    valueSum: null,
+    rates: [
+      { id: '1', label: '1 rată' },
+      { id: '2', label: '2 rate' },
+      { id: '4', label: '4 rate' },
+    ],
   };
 
   @Output() eventSubmit: EventEmitter<any> = new EventEmitter();

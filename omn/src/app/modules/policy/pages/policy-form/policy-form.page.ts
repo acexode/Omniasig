@@ -308,11 +308,18 @@ export class PolicyFormPage implements OnInit, OnDestroy {
           this.navigateBackForm();
         }
         break;
-      /* TODO: Add missing back actions for WAY_TO_PAY,
-        TECHNICAL_SUPPORT,
-        WAY_TO_PAY,
-        CALCULATION_LOADER,
-        */
+      case this.policySteps.ADDRESS_FORM:
+        this.changeStep(this.policySteps.ADDRESS_SELECT);
+        break;
+      case this.policySteps.TECHNICAL_SUPPORT:
+        this.changeStep(this.policySteps.PERIOD_FORM);
+        break;
+      case this.policySteps.WAY_TO_PAY:
+        this.changeStep(this.policySteps.TECHNICAL_SUPPORT);
+        break;
+      case this.policySteps.CALCULATION_LOADER:
+        this.changeStep(this.policySteps.POLICY_VERIFY);
+        break;
       default:
         break;
     }
@@ -435,25 +442,24 @@ export class PolicyFormPage implements OnInit, OnDestroy {
    */
   addressSelect(type: string | PolicyLocuintaListItem) {
     if (type === 'ADD_NEW') {
+      this.changeStep(this.policySteps.ADDRESS_FORM);
+      this.cdRef.markForCheck();
+    } else if (type) {
+      this.refreshPostAddressSelect(type as PolicyLocuintaListItem);
+      this.selectedAddressItem = type as PolicyLocuintaListItem;
+      this.setMinDate(get(this.selectedAddressItem, 'policy', null));
       switch (this.policyID) {
         case 'AMPLUS':
           this.changeStep(this.policySteps.CESIUNE_FORM);
           break;
         case 'PAD':
-          this.changeStep(this.policySteps.ADDRESS_FORM);
+          this.next();
           break;
         case 'Garant AMPLUS+ PAD':
           break;
         default:
           break;
       }
-
-      this.cdRef.markForCheck();
-    } else if (type) {
-      this.refreshPostAddressSelect(type as PolicyLocuintaListItem);
-      this.selectedAddressItem = type as PolicyLocuintaListItem;
-      this.setMinDate(get(this.selectedAddressItem, 'policy', null));
-      this.next();
     }
   }
 
@@ -472,7 +478,14 @@ export class PolicyFormPage implements OnInit, OnDestroy {
         this.changeStep(this.policySteps.PAD_CHECK);
         break;
       case LocuinteFormType.PLACE:
-        this.changeStep(this.policySteps.LOCATION_FORM);
+        if (this.policyID === 'PAD') {
+          this.changeStep(this.policySteps.LOCATION_FORM);
+        } else if (this.policyID === 'AMPLUS') {
+          this.changeStep(this.policySteps.CESIUNE_FORM);
+        } else {
+          //TODO: handle PAD + AMPLUS here
+        }
+
         break;
       case 'NEXT':
         this.next();

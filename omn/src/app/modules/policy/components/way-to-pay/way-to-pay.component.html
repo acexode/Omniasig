@@ -1,10 +1,12 @@
 <ion-grid class="flex flex-column px-32 pt-112" [formGroup]="formGroup">
   <ion-row class="ion-no-padding valoare-suma mb-32">
-    <app-input
+    <app-radios
       class="w-100"
-      [config]="fieldConfig?.valueSum"
-      formControlName="valueSum"
-    ></app-input>
+      [config]="fieldConfig?.rates"
+      formControlName="rate"
+      [options]="fieldConfigData?.rates || []"
+    >
+    </app-radios>
   </ion-row>
   <ion-row class="ion-no-padding tip-casa">
     <app-radios
