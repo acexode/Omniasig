@@ -282,8 +282,8 @@ export class LocuinteFormPageComponent implements OnInit {
           this.dataModel
         );
         this.formSubmitting = true;
-        this.cdRef.markForCheck();
-        console.log(model)
+        this.cdRef.markForCheck();    
+        console.log(model)   
         return this.locuinteS.updateSingleLocuinte(model).pipe(
           finalize(() => {
             this.formSubmitting = false;
@@ -295,13 +295,14 @@ export class LocuinteFormPageComponent implements OnInit {
           this.formInstance.group.value,
           this.dataModel
         );
+        
         this.formSubmitting = true;
         this.cdRef.markForCheck();
         if (this.dataModel) {
           const newUpdates = this.processForm(
             this.dataModel,
             this.formInstance.group.value
-          );
+          );         
           return this.locuinteS.updateSingleLocuinte(newUpdates).pipe(
             finalize(() => {
               this.formSubmitting = false;

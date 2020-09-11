@@ -89,14 +89,13 @@ export class LocuinteViewComponent implements OnInit {
       )
       .subscribe((vals: any) => {
         this.formMode = vals[0];
-        this.formStep = vals[1];
-        console.log(vals)
+        this.formStep = vals[1];        
         this.setTitles();
         const id = vals[2];
         if (id) {
           this.locuinteS.getSingleLocuinta(id).subscribe((val: Locuinte) => {
             if (val) {
-              console.log(val)
+             console.log(val)
               this.getLocationInfo(val)
               this.dataModel = val;
               this.buildFormAdd();
@@ -145,22 +144,22 @@ export class LocuinteViewComponent implements OnInit {
   }
   getLocationInfo(val){
     let allValues = val
-    console.log(val)
+    
     const obj = {
       countryId: "RO",
       countyId: val.address.addressCounty,
       cityId: val.address.addressCity,
       postCode: null,        
     };
-    console.log(obj)
+   
       this.locuinteS.getStreets(obj).subscribe(streets =>{
         let currStreets = streets.filter(e => e.id == val.address.addressStreet)[0]   
-        console.log(currStreets)    
+          
         allValues.addressCity = val.addressCity
         allValues.addressStreet = currStreets.name
         this.locuinta$.next(allValues);
         this.cdRef.markForCheck()
-        console.log(allValues)
+        
       })
    
   }
