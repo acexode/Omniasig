@@ -19,6 +19,7 @@ export interface Locuinte {
     addressCounty: string;
     addressCity: string;
     addressStreet: string;
+    addressStreetType?: string;
     addressBuildingNumber: number;
     // Scara bloc.
     addressScara: string;
@@ -34,8 +35,8 @@ export interface Locuinte {
     valueCurrency: string;
     value: number;
     occupancy: string;
-    usableSurface: number;
-    heightRegime: number;
+    area: number;
+    floors: number;
     rooms: number;
     hasAlarmSystem: boolean;
   };

@@ -30,10 +30,10 @@ export class LocuinteFormService {
     //     sum: string;
     //   }
     //   occupancy: string;
-    //   usablesurface: number;
-    //   heightRegime: number;
+    //   area: number;
+    //   floors: number;
     //   rooms: number;
-    //   alarm: boolean;
+    //   hasAlarmSystem: boolean;
     // }
     return this.fb.group({
       type: this.fb.control(get(model, 'info.type', ''), Validators.required),
@@ -54,12 +54,12 @@ export class LocuinteFormService {
         get(model, 'info.occupancy', null),
         Validators.required
       ),
-      usableSurface: this.fb.control(
-        Number(get(model, 'info.usableSurface', 0)),
+      area: this.fb.control(
+        Number(get(model, 'info.area', 0)),
         Validators.required
       ),
-      heightRegime: this.fb.control(
-        Number(get(model, 'info.heightRegime', 1)),
+      floors: this.fb.control(
+        Number(get(model, 'info.floors', 1)),
         [Validators.required, Validators.min(1)]
       ),
       rooms: this.fb.control(Number(get(model, 'info.rooms', 1)), [
@@ -228,13 +228,13 @@ export class LocuinteFormService {
             label: 'Ocupare',
             mode: 'chip',
           }),
-          usableSurface: inputConfigHelper({
+          area: inputConfigHelper({
             label: 'Suprafața utilă în metri pătrați',
             type: 'number',
             placeholder: 'Completează',
             disabled: isDisabled,
           }),
-          heightRegime: inputConfigHelper({
+          floors: inputConfigHelper({
             label: 'Regim de înălțime',
             type: 'number',
             placeholder: '',
@@ -259,10 +259,10 @@ export class LocuinteFormService {
           }),
         };
 
-        configModel.usableSurface.spinnerConfig = { step: 1 };
-        configModel.usableSurface.min = 0;
-        configModel.heightRegime.spinnerConfig = { step: 1 };
-        configModel.heightRegime.min = 1;
+        configModel.area.spinnerConfig = { step: 1 };
+        configModel.area.min = 0;
+        configModel.floors.spinnerConfig = { step: 1 };
+        configModel.floors.min = 1;
         configModel.rooms.spinnerConfig = { step: 1 };
         configModel.value.spinnerConfig = { step: 1 };
         configModel.value.min = 1;
@@ -434,12 +434,12 @@ export class LocuinteFormService {
           val ? set(newModel, key, parseInt(val, 10)) : set(newModel, key, val);
           break;
         case 'hasAlarmSystem':
-        case 'heightRegime':
+        case 'floors':
         case 'occupancy':
         case 'structure':
         case 'rooms':
         case 'type':
-        case 'usableSurface':
+        case 'area':
         case 'valueCurrency':
         case 'value':
           set(newModel, key, val);

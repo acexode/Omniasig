@@ -1,12 +1,11 @@
-import { get } from 'lodash';
 import { Injectable } from '@angular/core';
+import { get } from 'lodash';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { catchError, map, switchMap, take } from 'rxjs/operators';
 import { locuinteEndpoints } from 'src/app/core/configs/endpoints';
 import { AuthService } from 'src/app/core/services/auth/auth.service';
 import { RequestService } from 'src/app/core/services/request/request.service';
 import { Locuinte } from 'src/app/shared/models/data/locuinte.interface';
-import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root',
@@ -196,6 +195,7 @@ export class LocuinteService {
         addressCounty: get(entry, 'addressCounty', ''),
         addressCity: get(entry, 'addressCity', ''),
         addressStreet: get(entry, 'addressStreet', ''),
+        addressStreetType: get(entry, 'addressStreetType', ''),
         addressBuildingNumber: get(entry, 'addressBuildingNumber', ''),
         // Scara bloc.
         addressScara: get(entry, 'addressScara', ''),
@@ -211,8 +211,8 @@ export class LocuinteService {
         valueCurrency: get(entry, 'valueCurrency', ''),
         value: get(entry, 'value', ''),
         occupancy: get(entry, 'occupancy', ''),
-        usableSurface: get(entry, 'usableSurface', ''),
-        heightRegime: get(entry, 'heightRegime', ''),
+        area: get(entry, 'area', ''),
+        floors: get(entry, 'floors', ''),
         rooms: get(entry, 'rooms', ''),
         hasAlarmSystem: get(entry, 'hasAlarmSystem', ''),
       },

@@ -109,7 +109,7 @@
                 Suprafața utilă
               </div>
               <ion-text class="input-detail s18-h24">
-                {{ offerData?.policy?.locuintaData?.info?.usableSurface }} mp
+                {{ offerData?.policy?.locuintaData?.info?.area }} mp
               </ion-text>
             </div>
             <div class="mb-8">
@@ -117,7 +117,7 @@
                 Regim de înălțime
               </div>
               <ion-text class="input-detail s18-h24">
-                {{ offerData?.policy?.locuintaData?.info?.heightRegime }} etaje
+                {{ offerData?.policy?.locuintaData?.info?.floors }} etaje
               </ion-text>
             </div>
             <div class="mb-8">
@@ -135,7 +135,7 @@
               <ion-text class="input-detail s18-h24">
                 {{
                   offerData?.policy?.locuintaData?.info?.hasAlarmSystem
-                    | locuinteField: 'alarm'
+                    | locuinteField: 'hasAlarmSystem'
                 }}
               </ion-text>
             </div>

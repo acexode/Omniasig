@@ -113,7 +113,7 @@
             >Suprafața utilă</ion-label
           >
           <ion-text class="s18-h24"
-            >{{ locuinta?.usableSurface || '-' }} mp</ion-text
+            >{{ locuinta?.area || '-' }} mp</ion-text
           >
         </ion-row>
 
@@ -122,7 +122,7 @@
             >Regim de înălțime</ion-label
           >
           <ion-text class="s18-h24"
-            >{{ locuinta?.info.heightRegime || '-' }} etaje</ion-text
+            >{{ locuinta?.info.floors || '-' }} etaje</ion-text
           >
         </ion-row>
 
@@ -140,7 +140,7 @@
             >Alarmă antiefracție</ion-label
           >
           <ion-text class="s18-h24">{{
-            locuinta?.info.hasAlarmSystem | locuinteField: 'alarm' || '-'
+            locuinta?.info.hasAlarmSystem | locuinteField: 'hasAlarmSystem' || '-'
           }}</ion-text>
         </ion-row>
 

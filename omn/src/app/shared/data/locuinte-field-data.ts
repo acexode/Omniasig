@@ -44,7 +44,7 @@ export const locuinteFieldsData = {
     { id: 'permanent', label: 'Permanentă' },
     { id: 'temporar', label: 'Temporară' },
   ],
-  alarm: [
+  hasAlarmSystem: [
     { id: 1, label: 'Da' },
     { id: 0, label: 'Nu' },
   ],
