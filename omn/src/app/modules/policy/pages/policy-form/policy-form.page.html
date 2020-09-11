@@ -50,7 +50,10 @@
       ></app-insurance-period>
     </ng-container>
     <ng-container *ngSwitchCase="policySteps?.POLICY_VERIFY">
-      <app-policy-verify [offerData]="offerData"></app-policy-verify>
+      <app-policy-verify 
+      [offerData]="offerData"
+      (goBack)="back()"
+      ></app-policy-verify>
     </ng-container>
     <ng-container *ngSwitchDefault>
       <ng-container
@@ -60,7 +63,7 @@
       >
         <app-policy-address-form
           #addressFormComp
-          (dataAdded)="locuintaAdded($event)"
+          (dataAdded)="locuintaAdded()"
           [policyType]="typeItem?.id"
           (stepChange)="addressStepChange($event)"
         ></app-policy-address-form>

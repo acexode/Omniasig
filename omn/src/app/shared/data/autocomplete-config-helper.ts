@@ -1,10 +1,11 @@
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { IonAutocompleteConfig } from '../models/component/ion-autocomplete-config';
 
 export const autoCompleteConfigHelper = (conf: {
   label: string;
   disabled: boolean;
   dataServiceCb: (filter: any) => Observable<Array<any>>;
+  dataServiceSource: BehaviorSubject<any>;
 }): IonAutocompleteConfig => {
   const config: IonAutocompleteConfig = {
     inputLabel: {
@@ -21,6 +22,7 @@ export const autoCompleteConfigHelper = (conf: {
     },
     disabled: conf?.disabled,
     dataServiceCb: conf.dataServiceCb,
+    dataServiceSource: conf.dataServiceSource,
   };
   return config;
 };

@@ -4,6 +4,8 @@ import {
   Component,
   Input,
   OnInit,
+  Output,
+  EventEmitter,
 } from '@angular/core';
 import {
   ControlValueAccessor,
@@ -13,6 +15,7 @@ import {
 import { get, has } from 'lodash';
 import { IonSelectConfig } from 'src/app/shared/models/component/ion-select-config';
 import { IonSelectListOption } from 'src/app/shared/models/component/ion-select-list-option';
+import { BehaviorSubject } from 'rxjs';
 
 @Component({
   selector: 'app-select',
@@ -56,10 +59,11 @@ export class SelectComponent implements OnInit, ControlValueAccessor {
     } else {
       return o1 === o2;
     }
-  }
+  };
 
   getFieldValue() {
     const field = this.formGroup.get('select');
+
     return field ? field.value : null;
   }
 

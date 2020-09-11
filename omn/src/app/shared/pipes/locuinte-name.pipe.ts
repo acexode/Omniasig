@@ -15,9 +15,9 @@ export class LocuinteNamePipe implements PipeTransform {
         return join(
           [
             get(value, 'name', null),
-            get(value, 'address.street', null),
-            get(value, 'address.city', null),
-            get(value, 'address.county', ''),
+            get(value, 'address.addressStreet', null),
+            get(value, 'address.addressCity', null),
+            get(value, 'address.addressCounty', ''),
           ].filter((v) => v !== null),
           ', '
         );
@@ -25,11 +25,11 @@ export class LocuinteNamePipe implements PipeTransform {
         return join(
           [
             'Strada ' +
-              get(value, 'address.street', null) +
+              get(value, 'address.addressStreet', null) +
               ' ' +
-              get(value, 'address.number', null),
-            get(value, 'address.city', null),
-            'jud. ' + get(value, 'address.county', ''),
+              get(value, 'address.addressBuildingNumber', null),
+            get(value, 'address.addressCity', null),
+            'jud. ' + get(value, 'address.addressCounty', ''),
           ].filter((v) => v !== null),
           ', '
         );
@@ -37,11 +37,11 @@ export class LocuinteNamePipe implements PipeTransform {
         return join(
           [
             'Strada ' +
-              get(value, 'address.street', null) +
+              get(value, 'address.addressStreet', null) +
               ' ' +
-              get(value, 'address.number', null),
-            get(value, 'address.city', null),
-            'judetul ' + get(value, 'address.county', ''),
+              get(value, 'address.addressBuildingNumber', null),
+            get(value, 'address.addressCity', null),
+            'judetul ' + get(value, 'address.addressCounty', ''),
             'Cod ' + get(value, 'address.postalCode', ''),
           ].filter((v) => v !== null),
           ', '

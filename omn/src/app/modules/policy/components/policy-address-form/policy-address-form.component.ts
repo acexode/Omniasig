@@ -152,7 +152,7 @@ export class PolicyAddressFormComponent implements OnInit {
                 data: this.formData.place,
               };
               this.stepChange.emit(this.formType);
-
+              console.log("MODEL ID",this.dataModel.id)
               this.padS.VerifyPADInsuranceOffer(this.dataModel.id).subscribe(
                 (result) => {
                   this.handleFormSubmit();

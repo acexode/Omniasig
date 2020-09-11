@@ -9,8 +9,8 @@ export class LocuinteFieldPipe implements PipeTransform {
   transform(value: unknown, fieldName: string): unknown {
     let data = [];
     switch (fieldName) {
-      case 'resistenceStructure':
-        data = locuinteFieldsData.resistenceStructure;
+      case 'structure':
+        data = locuinteFieldsData.structure;
         return get(find(data, { id: value }), 'label', '');
       case 'valueCurrency':
         data = locuinteFieldsData.valueCurrency;

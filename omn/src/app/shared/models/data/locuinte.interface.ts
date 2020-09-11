@@ -1,8 +1,8 @@
 import { PolicyItem } from './policy-item';
 
 enum TipLocuinta {
-  MAIN = 'Strada Traian 45, Brasov, judetul Brasov, Cod 321456',
-  OTHER = 'Str. Traian Nr.45, Brasov, jud. BV, Cod 321456',
+  MAIN,
+  OTHER,
 }
 
 export enum LocuintaState {
@@ -13,29 +13,31 @@ export enum LocuintaState {
 
 export interface Locuinte {
   id: number;
-  name: string;
+  name?: string;
   address: {
-    county: string;
-    city: string;
-    street: string;
-    number: number;
+    name: string;
+    addressCounty: string;
+    addressCity: string;
+    addressStreet: string;
+    addressBuildingNumber: number;
     // Scara bloc.
-    entrance: string;
-    apartment: string;
-    postalCode: string;
+    addressScara: string;
+    addressFloor: string;
+    addressApart: string;
+    addressPostalCode: string;
   };
 
   info: {
     type: string;
-    resistenceStructure: string;
-    buildYear: number;
+    structure: string;
+    yearConstruction: number;
     valueCurrency: string;
     valueSum: number;
     occupancy: string;
     usableSurface: number;
     heightRegime: number;
-    roomCount: number;
-    alarm: boolean;
+    rooms: number;
+    hasAlarmSystem: boolean;
   };
   tipLocuinta?: TipLocuinta;
   policyData?: Array<PolicyItem>;
@@ -47,4 +49,5 @@ export interface Locuinte {
     padNr: boolean | number;
   };
   locuintaState?: LocuintaState;
+  isDisabled?: boolean;
 }
