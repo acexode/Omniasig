@@ -4,8 +4,6 @@ import {
   Component,
   Input,
   OnInit,
-  Output,
-  EventEmitter,
 } from '@angular/core';
 import {
   ControlValueAccessor,
@@ -39,10 +37,12 @@ export class SelectComponent implements OnInit, ControlValueAccessor {
   }
   constructor(private fb: FormBuilder, private cdRef: ChangeDetectorRef) {}
 
-  items: Array<{
-    id: any;
-    label: string;
-  }> = [];
+  items: BehaviorSubject<
+    Array<{
+      id: any;
+      label: string;
+    }>
+  > = new BehaviorSubject([]);
   private opts: Array<IonSelectListOption> = [];
 
   formGroup = this.fb.group({
@@ -55,15 +55,22 @@ export class SelectComponent implements OnInit, ControlValueAccessor {
 
   compareWithFn = (o1, o2) => {
     if (o1 && o2 && has(o1, 'id') && has(o2, 'id')) {
-      return o1.id === o2.id;
+      try {
+        return o1.id.toString() === o2.id.toString();
+      } catch (err) {
+        return false;
+      }
     } else {
-      return o1 === o2;
+      try {
+        return o1.toString() === o2.toString();
+      } catch (err) {
+        return false;
+      }
     }
-  };
+  }
 
   getFieldValue() {
     const field = this.formGroup.get('select');
-
     return field ? field.value : null;
   }
 
@@ -71,14 +78,21 @@ export class SelectComponent implements OnInit, ControlValueAccessor {
     this.formGroup.valueChanges.subscribe((vals) => {
       if (this.onChange) {
         this.onChange(this.getFieldValue());
+        this.cdRef.markForCheck();
+        this.cdRef.detectChanges();
       }
     });
+  }
+
+  selectChange() {
+    this.cdRef.markForCheck();
+    this.cdRef.detectChanges();
   }
 
   updateItems() {
     const labelK = get(this.config, 'labelKey', 'label');
     const idK = get(this.config, 'idKey', 'id');
-    this.items = this.opts
+    const items = this.opts
       .map((v) => {
         return {
           id: get(v, idK, null),
@@ -88,13 +102,30 @@ export class SelectComponent implements OnInit, ControlValueAccessor {
       .filter((vv) => {
         return get(vv, 'id', null) !== null;
       });
+    this.items.next(items);
+    this.afterOptionsUpdate();
     this.cdRef.markForCheck();
+    this.cdRef.detectChanges();
+  }
+
+  // This fixes a bug in ion-select,
+  // where update doesn't propagate after options are updated.
+  afterOptionsUpdate() {
+    if (this.selectField) {
+      this.selectField.patchValue(null, {
+        onlySelf: true,
+        emitEvent: false,
+      });
+      this.selectField.patchValue(this.value, {
+        onlySelf: true,
+        emitEvent: false,
+      });
+    }
   }
 
   writeValue(obj: any): void {
     let value = this.value;
     this.value = obj;
-
     const force = this.config
       ? get(this.config, 'forceListItems', false)
       : false;
@@ -107,6 +138,7 @@ export class SelectComponent implements OnInit, ControlValueAccessor {
     this.formGroup.setValue({ select: obj });
     this.formGroup.updateValueAndValidity();
     this.cdRef.markForCheck();
+    this.cdRef.detectChanges();
   }
 
   filterValues(obj: any) {
@@ -128,5 +160,9 @@ export class SelectComponent implements OnInit, ControlValueAccessor {
       this.formGroup.enable({ emitEvent: true });
     }
     this.cdRef.markForCheck();
+  }
+
+  get selectField() {
+    return this.formGroup.get('select');
   }
 }

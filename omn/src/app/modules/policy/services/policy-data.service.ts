@@ -38,9 +38,9 @@ export class PolicyDataService {
         this.getUserPoliciesArchive(account.userId).subscribe((vv) => {
           this.policyArchiveStore$.next(vv ? vv : []);
         });
-        this.getUserOffers().subscribe((v) =>
-          this.offerStore$.next(v ? v : [])
-        );
+        // this.getUserOffers().subscribe((v) =>
+        //   this.offerStore$.next(v ? v : [])
+        // );
       }
     });
   }
@@ -54,11 +54,11 @@ export class PolicyDataService {
         catchError((e) => {
           return of(emptyV);
         }),
-        map((pv) =>
-          pv
-            ? pv.map((pvi) => this.mapPolicyType(this.createPolicyObj(pvi)))
-            : []
-        )
+        // map((pv) =>
+        //   pv
+        //     ? pv.map((pvi) => this.mapPolicyType(this.createPolicyObj(pvi)))
+        //     : []
+        // )
       );
   }
 
@@ -92,7 +92,7 @@ export class PolicyDataService {
           structure: policy.locationStructure,
           yearConstruction: policy.locationYearConstruction,
           valueCurrency: policy.locationValueCurrency,
-          valueSum: policy.locationValue,
+          value: policy.locationValue,
           occupancy: policy.locationArea,
           usableSurface: policy.locationArea,
           heightRegime: policy.locationFloors,
@@ -129,7 +129,8 @@ export class PolicyDataService {
         map((ov) =>
           ov
             ? ov.map((ovi) =>
-                this.mapOfferPolicyType(this.createOffersObj(ovi, 'PAD'))
+                // this.mapOfferPolicyType(this.createOffersObj(ovi, 'PAD'))
+                []
               )
             : []
         )
@@ -174,7 +175,7 @@ export class PolicyDataService {
             structure: offer.locationStructure,
             yearConstruction: offer.locationYearConstruction,
             valueCurrency: offer.locationValueCurrency,
-            valueSum: offer.locationValue,
+            value: offer.locationValue,
             occupancy: offer.locationArea,
             usableSurface: offer.locationArea,
             heightRegime: offer.locationFloors,
@@ -211,14 +212,14 @@ export class PolicyDataService {
           if (existing) {
             return of(existing);
           } else {
-            return this.getUserOffers().pipe(
-              map((o) => o.filter((off) => off.id === id))
-            );
+            // return this.getUserOffers().pipe(
+            //   map((o) => o.filter((off) => off.id === id))
+            // );
           }
         } else {
-          return this.getUserOffers().pipe(
-            map((o) => o.filter((off) => off.id === id))
-          );
+          // return this.getUserOffers().pipe(
+          //   map((o) => o.filter((off) => off.id === id))
+          // );
         }
       })
     );

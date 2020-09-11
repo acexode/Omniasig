@@ -99,12 +99,13 @@ export class LocuinteService {
   }
 
   addSingleLocuinte(data: Locuinte) {
-    const adddress = {
+    let ad = this.addField(data)
+    const address = {
       id: 0,
-      ...data,
+      ...ad,
     };
-
-    return this.reqS.post<Locuinte>(this.endpoints.add, adddress);
+    console.log(address)
+    return this.reqS.post<Locuinte>(this.endpoints.add, address);
   }
 
   makeHomeAddress(data) {
@@ -112,6 +113,9 @@ export class LocuinteService {
   }
 
   updateSingleLocuinte(data: Locuinte) {
+    // let ad = this.addField(data)
+    // console.log(ad)
+    console.log(data)
     return this.reqS.post<Locuinte>(this.endpoints.updateAddress, data);
   }
 
@@ -175,7 +179,10 @@ export class LocuinteService {
         const withLabel = val.map((v) => {
           return {
             ...v,
-            label: v.name,
+            ...{
+              id: v.id,
+              label: v.name,
+            },
           };
         });
         this.streetStore$.next(withLabel);
@@ -183,8 +190,16 @@ export class LocuinteService {
       })
     );
   }
-
+  addField(data){
+    return {
+      ...data,
+      area: data.usableSurface,
+      floors:data.heightRegime,
+      typeUse: data.occupancy
+    }
+  }
   mapToUIModel(entry: any): Locuinte {
+    console.log(entry)
     return {
       id: get(entry, 'id', null),
       name: get(entry, 'name', ''),
@@ -193,6 +208,7 @@ export class LocuinteService {
         addressCounty: get(entry, 'addressCounty', ''),
         addressCity: get(entry, 'addressCity', ''),
         addressStreet: get(entry, 'addressStreet', ''),
+        addressStreetType: get(entry, 'addressStreet', ''),
         addressBuildingNumber: get(entry, 'addressBuildingNumber', ''),
         // Scara bloc.
         addressScara: get(entry, 'addressScara', ''),

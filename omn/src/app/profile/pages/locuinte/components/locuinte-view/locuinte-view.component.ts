@@ -154,7 +154,7 @@ export class LocuinteViewComponent implements OnInit {
    
       this.locuinteS.getStreets(obj).subscribe(streets =>{
         let currStreets = streets.filter(e => e.id == val.address.addressStreet)[0]   
-          
+        console.log(currStreets)  
         allValues.addressCity = val.addressCity
         allValues.addressStreet = currStreets.name
         this.locuinta$.next(allValues);

@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { forOwn, get, set } from 'lodash';
 import { BehaviorSubject, Observable, of } from 'rxjs';
-import { map, tap } from 'rxjs/operators';
+import { map, tap, switchMap, filter } from 'rxjs/operators';
 import { LocuinteService } from 'src/app/profile/pages/locuinte/services/locuinte/locuinte.service';
 import { autoCompleteConfigHelper } from 'src/app/shared/data/autocomplete-config-helper';
 import { dateTimeConfigHelper } from 'src/app/shared/data/datetime-config-helper';
@@ -49,10 +49,7 @@ export class LocuinteFormService {
         get(model, 'info.valueCurrency', ''),
         Validators.required
       ),
-      value: this.fb.control(
-        get(model, 'info.value', 0),
-        Validators.required
-      ),
+      value: this.fb.control(get(model, 'info.value', 0), Validators.required),
       occupancy: this.fb.control(
         get(model, 'info.occupancy', null),
         Validators.required
@@ -98,6 +95,10 @@ export class LocuinteFormService {
       ),
       addressStreet: this.fb.control(
         get(model, 'address.addressStreet', ''),
+        Validators.required
+      ),
+      addressStreetType: this.fb.control(
+        get(model, 'address.addressStreetType', ''),
         Validators.required
       ),
       addressBuildingNumber: this.fb.control(
@@ -147,6 +148,10 @@ export class LocuinteFormService {
             disabled: isDisabled,
             dataServiceCb: this.streetLookup,
             dataServiceSource: this.streets$,
+          }),
+          addressStreetType: selectConfigHelper({
+            label: 'Tip Strada',
+            disabled: isDisabled            
           }),
           addressBuildingNumber: inputConfigHelper({
             label: 'Număr',
@@ -289,13 +294,35 @@ export class LocuinteFormService {
     return data;
   }
 
+  handleInitialCityAndStreets(countyField, cityField, fieldData) {
+    const countyValue = countyField.value;
+    if (countyValue) {
+      return new Observable((observer) => {
+        this.updateCounty(countyValue, fieldData).subscribe((vals) => {
+          const cityValue = cityField.value;
+          if (cityValue) {
+            this.updateCity(cityField, fieldData).subscribe((v) =>
+              observer.next(true)
+            );
+          }
+          observer.next(true);
+        });
+      });
+    } else {
+      return of(true);
+    }
+  }
+
   handleInitialCounty(field, fieldsData) {
     return this.locuinteS.getCounties().pipe(
       map((val: any) => {
         const withLabel = val.map((v) => {
           return {
-            id: v.id,
-            label: v.name,
+            ...v,
+            ...{
+              id: v.id,
+              label: v.name,
+            },
           };
         });
         fieldsData.addressCounty = withLabel;
@@ -303,14 +330,29 @@ export class LocuinteFormService {
       })
     );
   }
+  handleStreetType( id,fieldsData) {    
+    console.log(id)
+    this.streets$.subscribe(val =>{
+      let f = val.filter(e => e.id == id).map(x =>{
+          return{
+            id: x.streetType,
+            label: x.streetType
+          }
+      })
+      fieldsData.addressStreetType = f      
+    })
+  }
 
   updateCounty(field, fieldsData) {
     return this.locuinteS.getCities(field.value).pipe(
       map((data: any) => {
         const withLabel = data.map((v) => {
           return {
-            id: v.id,
-            label: v.name,
+            ...v,
+            ...{
+              id: v.id,
+              label: v.name,
+            },
           };
         });
         fieldsData.addressCity = withLabel;
@@ -318,11 +360,16 @@ export class LocuinteFormService {
       })
     );
   }
+
   updateCity(field, fieldsData) {
-    console.log(fieldsData)
-    const addressCity = fieldsData.addressCity.find(
-      (v) => v.id === field.value
-    );
+    const addressCity = fieldsData.addressCity.find((v) => {
+      try {
+        return v.id.toString() === field.value.toString();
+      } catch (err) {
+        return false;
+      }
+    });
+
     if (addressCity) {
       const obj = {
         countryId: addressCity.countryId,
@@ -333,6 +380,7 @@ export class LocuinteFormService {
       };
       return this.locuinteS.getStreets(obj).pipe(
         map((v) => {
+          
           this.locuinteS.streetStore$.next(v);
           return v;
         })
@@ -347,6 +395,7 @@ export class LocuinteFormService {
     source?: BehaviorSubject<any>
   ): Observable<Array<any>> {
     const keywords = input ? input.toString() : null;
+    
     if (source && source instanceof BehaviorSubject) {
       return source.pipe(
         map((data) => {
@@ -354,7 +403,16 @@ export class LocuinteFormService {
           if (keywords) {
             return data.filter((dV) => {
               const name = get(dV, 'name', '').toLowerCase();
-              return name.includes(keywords.toLowerCase());
+              let id = get(dV, 'id', '');
+              try {
+                id = id.toString().toLowerCase();
+              } catch (e) {
+                id = null;
+              }
+              return (
+                name.includes(keywords.toLowerCase()) ||
+                id === keywords.toLowerCase()
+              );
             });
           } else {
             return data;
@@ -365,6 +423,7 @@ export class LocuinteFormService {
       return of([]);
     }
   }
+ 
 
   processFormModel(formGroupValue, existingModel?: Locuinte): Locuinte {
     const newModel: Locuinte = existingModel
@@ -392,6 +451,7 @@ export class LocuinteFormService {
         case 'addressBuildingNumber':
         case 'addressPostalCode':
         case 'addressStreet':
+        case 'addressStreetType':
           set(newModel, key, val);
           break;
         case 'yearConstruction':
