@@ -290,7 +290,7 @@ export class LocuinteFormService {
     const countyValue = countyField.value;
     if (countyValue) {
       return new Observable((observer) => {
-        this.updateCounty(countyValue, fieldData).subscribe((vals) => {
+        this.updateCounty(countyField, fieldData).subscribe((vals) => {
           const cityValue = cityField.value;
           if (cityValue) {
             this.updateCity(cityField, fieldData).subscribe((v) =>
