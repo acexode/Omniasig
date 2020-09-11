@@ -87,16 +87,6 @@
         "ANDROID_SUPPORT_ANNOTATIONS_VERSION": "27.+"
       },
       "cordova-plugin-ionic-keyboard": {}
-<<<<<<< HEAD
-    }
-  },
-  "main": "karma.conf.js",
-  "license": "ISC",
-  "platforms": [
-    "android"
-  ]
-}
-=======
     },
     "platforms": [
       "android"
@@ -107,4 +97,3 @@
     "android"
   ]
 }
->>>>>>> 3b9d8c1c60d7d014560f63d666eefb37a44b871a
