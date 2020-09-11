@@ -35,10 +35,10 @@
                     <ion-button *ngIf="accountActivated" mode="ios" size="small" shape="round" class="active ion-align-self-end" [routerLink]="['edit-email']">Schimba</ion-button>
                 </ion-item>
 
-                <ion-item class="mb-18" *ngIf="accountActivated&& accountData?.addresses?.length>0" lines="none">
+                <ion-item class="mb-18" *ngIf="accountActivated && domiciliu" lines="none">
                     <ion-label class="ion-text-wrap">
                         <div class="input-label">Domiciliu</div>
-                        <ion-text>{{ accountData?.addresses[0] }}</ion-text>
+                        <ion-text>{{domiciliu.county}} {{domiciliu.number}}, {{domiciliu.street}}, {{domiciliu.city}} {{domiciliu.postalCode}}</ion-text>
                     </ion-label>
                 </ion-item>
 

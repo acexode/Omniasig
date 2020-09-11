@@ -1,3 +1,4 @@
+import { SettingsService } from './../../../modules/setari/services/settings.service';
 import { Component, HostBinding, OnInit } from '@angular/core';
 import { Account } from '../../../core/models/account.interface';
 import { AuthService } from '../../../core/services/auth/auth.service';
@@ -16,8 +17,8 @@ export class DatePersonalePage implements OnInit {
   account$ = this.authS.getAccountData();
   accountData: Account;
   headerConfig = subPageHeaderDefault('Date Personale');
-
-  constructor(private authS: AuthService, private configS: ConfigService) {}
+  domiciliu: any = null
+  constructor(private authS: AuthService, private configS: ConfigService, private settingsS: SettingsService) { }
 
   ngOnInit() {
     this.account$.subscribe((account) => {
@@ -26,5 +27,14 @@ export class DatePersonalePage implements OnInit {
         this.accountActivated = this.authS.accountActivated(account);
       }
     });
+    this.getDomiciliu()
+  }
+
+  getDomiciliu() {
+    this.settingsS.domiciliu$.subscribe(
+      (data) => {
+        this.domiciliu = data;
+      }
+    )
   }
 }
