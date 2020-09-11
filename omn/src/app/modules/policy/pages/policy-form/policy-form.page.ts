@@ -354,6 +354,8 @@ export class PolicyFormPage implements OnInit, OnDestroy {
           pType: this.typeItem as PolicyType,
           cesiune: get(this.cesiuneData, 'cesionar', []),
           fromDate: this.periodStartData,
+          payData: this.wayPayFormData,
+          supportData: this.assistFormData,
         });
         this.changeStep(this.policySteps.POLICY_VERIFY);
         break;
@@ -580,6 +582,15 @@ export class PolicyFormPage implements OnInit, OnDestroy {
 
   techSupportSubmit(supportData) {
     this.assistFormData = supportData;
+    this.offerData = this.policyFs.buildOfferItem({
+      locuintaItem: this.selectedAddressItem,
+      account: this.userAccount,
+      pType: this.typeItem as PolicyType,
+      cesiune: get(this.cesiuneData, 'cesionar', []),
+      fromDate: this.periodStartData,
+      payData: this.wayPayFormData,
+      supportData: this.assistFormData,
+    });
     this.changeStep(this.policySteps.WAY_TO_PAY);
   }
 
@@ -594,6 +605,8 @@ export class PolicyFormPage implements OnInit, OnDestroy {
       pType: this.typeItem as PolicyType,
       cesiune: get(this.cesiuneData, 'cesionar', []),
       fromDate: this.periodStartData,
+      payData: this.wayPayFormData,
+      supportData: this.assistFormData,
     });
     this.changeStep(this.policySteps.POLICY_VERIFY);
   }

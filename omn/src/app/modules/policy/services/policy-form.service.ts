@@ -47,6 +47,8 @@ export class PolicyFormService {
     cesiune: Array<any>;
     fromDate: any;
     account: Account;
+    payData: any;
+    supportData: any;
   }): PolicyOffer {
     const fromD = new Date(conf.fromDate);
     const offer: PolicyOffer = {
