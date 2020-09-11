@@ -40,7 +40,7 @@ export const locuinteFieldsData = {
     { id: 'EUR', label: 'Euro' },
     { id: 'RON', label: 'Lei' },
   ],
-  occupancy: [
+  typeUse: [
     { id: 'permanent', label: 'Permanentă' },
     { id: 'temporar', label: 'Temporară' },
   ],

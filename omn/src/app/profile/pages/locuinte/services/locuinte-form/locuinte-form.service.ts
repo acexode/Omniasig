@@ -29,7 +29,7 @@ export class LocuinteFormService {
     //     currency: string;
     //     sum: string;
     //   }
-    //   occupancy: string;
+    //   typeUse: string;
     //   area: number;
     //   floors: number;
     //   rooms: number;
@@ -50,8 +50,8 @@ export class LocuinteFormService {
         Validators.required
       ),
       value: this.fb.control(get(model, 'info.value', 0), Validators.required),
-      occupancy: this.fb.control(
-        get(model, 'info.occupancy', null),
+      typeUse: this.fb.control(
+        get(model, 'info.typeUse', null),
         Validators.required
       ),
       area: this.fb.control(
@@ -82,7 +82,7 @@ export class LocuinteFormService {
     //   addressStreet: string;
     //   number: number;
     //   // Scara bloc.
-    //   addressFloor: string;
+    //   addressScara: string;
     // }
     const group = this.fb.group({
       addressCounty: this.fb.control(
@@ -101,7 +101,7 @@ export class LocuinteFormService {
         get(model, 'address.addressBuildingNumber', ''),
         Validators.required
       ),
-      addressFloor: this.fb.control(get(model, 'address.addressFloor', '')),
+      addressScara: this.fb.control(get(model, 'address.addressScara', '')),
       addressApart: this.fb.control(
         get(model, 'address.addressApart', ''),
         Validators.required
@@ -151,7 +151,7 @@ export class LocuinteFormService {
             placeholder: '',
             disabled: isDisabled,
           }),
-          addressFloor: inputConfigHelper({
+          addressScara: inputConfigHelper({
             label: 'Scara (opțional)',
             type: 'text',
             placeholder: '',
@@ -224,7 +224,7 @@ export class LocuinteFormService {
             placeholder: 'Completează',
             disabled: isDisabled,
           }),
-          occupancy: radiosConfigHelper({
+          typeUse: radiosConfigHelper({
             label: 'Ocupare',
             mode: 'chip',
           }),
@@ -424,8 +424,8 @@ export class LocuinteFormService {
         case 'addressCity':
         case 'addressCounty':
         case 'name':
-        case 'addressFloor':
         case 'addressBuildingNumber':
+        case 'addressScara':
         case 'addressPostalCode':
         case 'addressStreet':
           set(newModel, key, val);
@@ -435,7 +435,7 @@ export class LocuinteFormService {
           break;
         case 'hasAlarmSystem':
         case 'floors':
-        case 'occupancy':
+        case 'typeUse':
         case 'structure':
         case 'rooms':
         case 'type':

@@ -199,7 +199,6 @@ export class LocuinteService {
         addressBuildingNumber: get(entry, 'addressBuildingNumber', ''),
         // Scara bloc.
         addressScara: get(entry, 'addressScara', ''),
-        addressFloor: get(entry, 'addressFloor', ''),
         addressApart: get(entry, 'addressApart', ''),
         addressPostalCode: get(entry, 'addressPostalCode', ''),
       },
@@ -210,7 +209,7 @@ export class LocuinteService {
         yearConstruction: get(entry, 'yearConstruction', ''),
         valueCurrency: get(entry, 'valueCurrency', ''),
         value: get(entry, 'value', ''),
-        occupancy: get(entry, 'occupancy', ''),
+        typeUse: get(entry, 'typeUse', ''),
         area: get(entry, 'area', ''),
         floors: get(entry, 'floors', ''),
         rooms: get(entry, 'rooms', ''),

@@ -15,8 +15,8 @@ export class LocuinteFieldPipe implements PipeTransform {
       case 'valueCurrency':
         data = locuinteFieldsData.valueCurrency;
         return get(find(data, { id: value }), 'label', '');
-      case 'occupancy':
-        data = locuinteFieldsData.occupancy;
+      case 'typeUse':
+        data = locuinteFieldsData.typeUse;
         return get(find(data, { id: value }), 'label', '');
       case 'hasAlarmSystem':
         data = locuinteFieldsData.hasAlarmSystem;

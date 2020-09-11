@@ -104,7 +104,7 @@
             >Ocupare</ion-label
           >
           <ion-text class="s18-h24">{{
-            locuinta?.info.occupancy | locuinteField: 'occupancy' || '-'
+            locuinta?.info.typeUse | locuinteField: 'typeUse' || '-'
           }}</ion-text>
         </ion-row>
 
@@ -113,7 +113,7 @@
             >Suprafața utilă</ion-label
           >
           <ion-text class="s18-h24"
-            >{{ locuinta?.area || '-' }} mp</ion-text
+            >{{ locuinta?.info?.area || '-' }} mp</ion-text
           >
         </ion-row>
 
