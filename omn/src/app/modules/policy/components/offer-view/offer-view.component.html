@@ -411,7 +411,9 @@
               <div class="link-small text-weight-medium color-tertiary-grey">
                 Tip
               </div>
-              <ion-text class="s18-h24">Apartament</ion-text>
+              <ion-text class="s18-h24">{{
+                offer?.policy?.locuintaData?.info?.type | locuinteField: 'type'
+              }}</ion-text>
             </ion-label>
           </ion-item>
           <ion-item class="ion-no-padding mb-13" lines="none">
