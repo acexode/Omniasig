@@ -148,52 +148,36 @@ export class LocuinteFormPageComponent implements OnInit {
             data: this.formData.address,
           };
         }
-
         this.formType = LocuinteFormType.ADDRESS;
         break;
     }
-    this.locuinteS.getCounties().subscribe((val: any) => {
-      const withLabel = val.map((v) => {
-        return {
-          id: v.id,
-          label: v.name,
-        };
-      });
-      this.formData.address.addressCounty = withLabel;
-      this.cdRef.markForCheck();
-    });
 
     if (this.addressCounty) {
       this.addressCounty.valueChanges.subscribe((val) => {
-        this.locuinteS.getCities(val).subscribe((data: any) => {
-          const withLabel = data.map((v) => {
-            return {
-              id: v.id,
-              label: v.name,
-            };
+        this.formS
+          .updateCounty(this.addressCounty, this.formInstance.data)
+          .subscribe((v) => {
+            this.cdRef.markForCheck();
+            this.cdRef.detectChanges();
           });
-          this.formInstance.data.addressCity = withLabel;
-        });
       });
+      console.log(this.addressCounty);
+      this.formS
+        .handleInitialCounty(this.addressCounty, this.formInstance.data)
+        .subscribe((v) => {
+          this.cdRef.markForCheck();
+          this.cdRef.detectChanges();
+        });
     }
     if (this.addressCity) {
-      this.formInstance.group
-        .get('addressCity')
-        .valueChanges.subscribe((val) => {
-          const addressCity = this.formInstance.data.addressCity.filter(
-            (v) => v.id === val
-          )[0];
-          const obj = {
-            countryId: addressCity.countryId,
-            countyId: addressCity.countyId,
-            cityId: addressCity.id,
-            postCode: null,
-            statedId: addressCity.statedId,
-          };
-          this.locuinteS.getStreets(obj).subscribe((v) => {
+      this.addressCity.valueChanges.subscribe((val) => {
+        this.formS
+          .updateCity(this.addressCity, this.formInstance.data)
+          .subscribe((v) => {
             this.cdRef.markForCheck();
+            this.cdRef.detectChanges();
           });
-        });
+      });
     }
   }
 

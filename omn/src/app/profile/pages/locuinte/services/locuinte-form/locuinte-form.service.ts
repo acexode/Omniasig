@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { forOwn, get, set } from 'lodash';
 import { BehaviorSubject, Observable, of } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, tap } from 'rxjs/operators';
 import { LocuinteService } from 'src/app/profile/pages/locuinte/services/locuinte/locuinte.service';
 import { autoCompleteConfigHelper } from 'src/app/shared/data/autocomplete-config-helper';
 import { dateTimeConfigHelper } from 'src/app/shared/data/datetime-config-helper';
@@ -17,8 +17,8 @@ import { LocuinteFormType } from 'src/app/shared/models/modes/locuinte-form-mode
   providedIn: 'root',
 })
 export class LocuinteFormService {
-  streets$ = this.locuintS.streetStore$;
-  constructor(private fb: FormBuilder, protected locuintS: LocuinteService) {}
+  streets$ = this.locuinteS.streetStore$;
+  constructor(private fb: FormBuilder, protected locuinteS: LocuinteService) {}
 
   buildLocuinteSubform(model: Locuinte, policyType?: string) {
     // info: {
@@ -282,11 +282,63 @@ export class LocuinteFormService {
 
   getFormFieldsData(fieldsObj, defaultV: { [key: string]: any } = {}) {
     const data = {};
-    const fData = locuinteFieldsData;
+    const fData = { ...locuinteFieldsData };
     forOwn(fieldsObj, (v, k) => {
       set(data, k, get(fData, k, get(defaultV, k, null)));
     });
     return data;
+  }
+
+  handleInitialCounty(field, fieldsData) {
+    return this.locuinteS.getCounties().pipe(
+      map((val: any) => {
+        const withLabel = val.map((v) => {
+          return {
+            id: v.id,
+            label: v.name,
+          };
+        });
+        fieldsData.addressCounty = withLabel;
+        return val;
+      })
+    );
+  }
+
+  updateCounty(field, fieldsData) {
+    return this.locuinteS.getCities(field.value).pipe(
+      map((data: any) => {
+        const withLabel = data.map((v) => {
+          return {
+            id: v.id,
+            label: v.name,
+          };
+        });
+        fieldsData.addressCity = withLabel;
+        return data;
+      })
+    );
+  }
+  updateCity(field, fieldsData) {
+    const addressCity = fieldsData.addressCity.find(
+      (v) => v.id === field.value
+    );
+    if (addressCity) {
+      const obj = {
+        countryId: addressCity.countryId,
+        countyId: addressCity.countyId,
+        cityId: addressCity.id,
+        postCode: null,
+        statedId: addressCity.statedId,
+      };
+      return this.locuinteS.getStreets(obj).pipe(
+        map((v) => {
+          this.locuinteS.streetStore$.next(v);
+          return v;
+        })
+      );
+    } else {
+      return of(null);
+    }
   }
 
   streetLookup(

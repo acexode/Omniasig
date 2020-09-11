@@ -42,6 +42,7 @@ export const locuinteEndpoints = {
   makeHomeAddress: serverBaseUrl + '/Address/MakeHomeAddress',
   AlluserLocation: serverBaseUrl + '/Location/GetAllLocationsForLoggedUser',
   disAbleLocation: serverBaseUrl + '/Location/DisableLocation',
+  singleLocation: serverBaseUrl + '/Location/GetLocationByIdForLoggedUser',
   getCities: serverBaseUrl + '/INSIS/Cities',
   getCounties: serverBaseUrl + '/INSIS/Counties',
   getStreets: serverBaseUrl + '/INSIS/Streets',
