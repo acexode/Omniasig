@@ -61,6 +61,7 @@ export class PolicyDataService {
         )
       );
   }
+
   // create policy object to suit display data
   createPolicyObj(policy: any) {
     return {
@@ -84,34 +85,37 @@ export class PolicyDataService {
       },
       listingSubtitle: `${policy.addressStreet}, ${policy.addressStreetNumber} ${policy.addressCity}`,
       locuintaData: {
-        id: policy.id,
-        name: policy.locationName,
+        id: policy.locuintaId,
+
         info: {
           type: policy.locationType,
-          resistenceStructure: policy.locationStructure,
-          buildYear: policy.locationYearConstruction,
+          structure: policy.locationStructure,
+          yearConstruction: policy.locationYearConstruction,
           valueCurrency: policy.locationValueCurrency,
           valueSum: policy.locationValue,
           occupancy: policy.locationArea,
           usableSurface: policy.locationArea,
           heightRegime: policy.locationFloors,
-          roomCount: policy.locationRooms,
-          alarm: policy.locationHasAlarmSystem,
+          rooms: policy.locationRooms,
+          hasAlarmSystem: policy.locationHasAlarmSystem,
         },
         address: {
-          county: policy.addressCounty,
-          city: policy.addressCity,
-          street: policy.addressStreet,
-          number: policy.addressStreetNumber,
+          name: policy.locationName,
+          addressCounty: policy.addressCounty,
+          addressCity: policy.addressCity,
+          addressStreet: policy.addressStreet,
+          addressBuildingNumber: policy.addressStreetNumber,
           // Scara bloc.
-          entrance: policy.addressScara,
-          apartment: policy.addressApart,
-          postalCode: policy.addressPostalCode,
+          addressScara: policy.addressScara,
+          addressApart: policy.addressApart,
+          addressFloor: policy.addressFloor,
+          addressPostalCode: policy.addressPostalCode,
         },
       },
       expiry: policy.expireDate,
     };
   }
+
   // get user offers
   getUserOffers() {
     const emptyV: Array<PolicyOffer> = [];
@@ -131,6 +135,7 @@ export class PolicyDataService {
         )
       );
   }
+
   getUserPoliciesArchive(id: number | string) {
     const emptyV: Array<PolicyItem> = [];
     return this.reqS
@@ -163,29 +168,30 @@ export class PolicyDataService {
           to: offer.expireDate,
         },
         locuintaData: {
-          id: offer.id,
-          name: offer.locationName,
+          id: offer.locuintaId,
           info: {
             type: offer.locationType,
-            resistenceStructure: offer.locationStructure,
-            buildYear: offer.locationYearConstruction,
+            structure: offer.locationStructure,
+            yearConstruction: offer.locationYearConstruction,
             valueCurrency: offer.locationValueCurrency,
             valueSum: offer.locationValue,
             occupancy: offer.locationArea,
             usableSurface: offer.locationArea,
             heightRegime: offer.locationFloors,
-            roomCount: offer.locationRooms,
-            alarm: offer.locationHasAlarmSystem,
+            rooms: offer.locationRooms,
+            hasAlarmSystem: offer.locationHasAlarmSystem,
           },
           address: {
-            county: offer.addressCounty,
-            city: offer.addressCity,
-            street: offer.addressStreet,
-            number: offer.addressStreetNumber,
+            name: offer.locationName,
+            addressCounty: offer.addressCounty,
+            addressCity: offer.addressCity,
+            addressStreet: offer.addressStreet,
+            addressBuildingNumber: offer.addressStreetNumber,
             // Scara bloc.
-            entrance: offer.addressScara,
-            apartment: offer.addressApart,
-            postalCode: offer.addressPostalCode,
+            addressScara: offer.addressScara,
+            addressApart: offer.addressApart,
+            addressFloor: offer.addressFloor,
+            addressPostalCode: offer.addressPostalCode,
           },
         },
         userId: null,

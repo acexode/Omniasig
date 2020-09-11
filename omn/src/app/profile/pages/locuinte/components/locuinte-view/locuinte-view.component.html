@@ -1,7 +1,7 @@
 <app-sub-page-header [config]="headerConfig"> </app-sub-page-header>
 <ion-content *ngIf="locuinta$ | async as locuinta">
+  <!-- *ngIf="locuinta.locuintaState === locuintaState.COMPLETE" -->
   <ion-grid
-    *ngIf="locuinta.locuintaState === locuintaState.COMPLETE"
     class="ion-no-padding pb-24 h-100 flex flex-column bg-white"
   >
     <ion-row
@@ -25,6 +25,7 @@
             shape="round"
             size="large"
             fill="clear"
+            (click)="deleteAddress(locuinta.id)"
             class="m-0 w-auto mr-16 fond color-dark-green no-shadow"
           >
             <span class="text-weight-normal pr-16 mr-auto">Șterge</span>
@@ -65,7 +66,7 @@
             >Tip</ion-label
           >
           <ion-text class="s18-h24">{{
-            locuinta?.info?.type | locuinteField: 'type' || '-'
+            locuinta?.type | locuinteField: 'type' || '-'
           }}</ion-text>
         </ion-row>
 
@@ -74,8 +75,8 @@
             >Structură de rezistență</ion-label
           >
           <ion-text class="s18-h24">{{
-            locuinta?.info?.resistenceStructure
-              | locuinteField: 'resistenceStructure' || '-'
+            locuinta?.structure
+              | locuinteField: 'structure' || '-'
           }}</ion-text>
         </ion-row>
 
@@ -84,7 +85,7 @@
             >Anul construcției</ion-label
           >
           <ion-text class="s18-h24">{{
-            locuinta?.info?.buildYear || '-'
+            locuinta?.yearConstruction || '-'
           }}</ion-text>
         </ion-row>
 
@@ -93,8 +94,8 @@
             >Valoarea locuinței</ion-label
           >
           <ion-text class="s18-h24"
-            >{{ locuinta?.info?.valueSum || '-' }}
-            {{ locuinta?.info?.valueCurrency || '-' }}</ion-text
+            >{{ locuinta?.value || '-' }}
+            {{ locuinta?.valueCurrency || '-' }}</ion-text
           >
         </ion-row>
 
@@ -103,7 +104,7 @@
             >Ocupare</ion-label
           >
           <ion-text class="s18-h24">{{
-            locuinta?.info?.occupancy | locuinteField: 'occupancy' || '-'
+            locuinta?.occupancy | locuinteField: 'occupancy' || '-'
           }}</ion-text>
         </ion-row>
 
@@ -112,7 +113,7 @@
             >Suprafața utilă</ion-label
           >
           <ion-text class="s18-h24"
-            >{{ locuinta?.info?.usableSurface || '-' }} mp</ion-text
+            >{{ locuinta?.usableSurface || '-' }} mp</ion-text
           >
         </ion-row>
 
@@ -121,7 +122,7 @@
             >Regim de înălțime</ion-label
           >
           <ion-text class="s18-h24"
-            >{{ locuinta?.info?.heightRegime || '-' }} etaje</ion-text
+            >{{ locuinta?.heightRegime || '-' }} etaje</ion-text
           >
         </ion-row>
 
@@ -130,7 +131,7 @@
             >Număr de camere</ion-label
           >
           <ion-text class="s18-h24">{{
-            locuinta?.info?.roomCount || '-'
+            locuinta?.rooms || '-'
           }}</ion-text>
         </ion-row>
 
@@ -139,7 +140,7 @@
             >Alarmă antiefracție</ion-label
           >
           <ion-text class="s18-h24">{{
-            locuinta?.info?.alarm | locuinteField: 'alarm' || '-'
+            locuinta?.hasAlarmSystem | locuinteField: 'alarm' || '-'
           }}</ion-text>
         </ion-row>
 

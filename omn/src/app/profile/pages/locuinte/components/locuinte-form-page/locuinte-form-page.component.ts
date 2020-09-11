@@ -62,7 +62,6 @@ export class LocuinteFormPageComponent implements OnInit {
 
   formSubmitting = false;
   formInstance: { group: FormGroup; config: any; data: any } = null;
-
   constructor(
     private routerS: CustomRouterService,
     private aRoute: ActivatedRoute,
@@ -152,7 +151,47 @@ export class LocuinteFormPageComponent implements OnInit {
         this.formType = LocuinteFormType.ADDRESS;
         break;
     }
+
+    if (this.addressCounty) {
+      this.addressCounty.valueChanges.subscribe((val) => {
+        this.formS
+          .updateCounty(this.addressCounty, this.formInstance.data)
+          .subscribe((v) => {
+            this.cdRef.markForCheck();
+            this.cdRef.detectChanges();
+          });
+      });
+      console.log(this.addressCounty);
+      this.formS
+        .handleInitialCounty(this.addressCounty, this.formInstance.data)
+        .subscribe((v) => {
+          this.cdRef.markForCheck();
+          this.cdRef.detectChanges();
+        });
+    }
+    if (this.addressCity) {
+      this.addressCity.valueChanges.subscribe((val) => {
+        this.formS
+          .updateCity(this.addressCity, this.formInstance.data)
+          .subscribe((v) => {
+            this.cdRef.markForCheck();
+            this.cdRef.detectChanges();
+          });
+      });
+    }
   }
+
+  get addressCounty() {
+    return this.formInstance && this.formInstance.group
+      ? this.formInstance.group.get('addressCounty')
+      : null;
+  }
+  get addressCity() {
+    return this.formInstance && this.formInstance.group
+      ? this.formInstance.group.get('addressCity')
+      : null;
+  }
+
   buildFormAdd() {
     this.formConfigs.address = this.formS.buildFormConfig(
       LocuinteFormType.ADDRESS
@@ -250,7 +289,6 @@ export class LocuinteFormPageComponent implements OnInit {
             this.cdRef.markForCheck();
           })
         );
-
       case this.formModes.ADD_NEW_FULL:
         const model2 = this.formS.processFormModel(
           this.formInstance.group.value,
@@ -259,7 +297,11 @@ export class LocuinteFormPageComponent implements OnInit {
         this.formSubmitting = true;
         this.cdRef.markForCheck();
         if (this.dataModel) {
-          return this.locuinteS.updateSingleLocuinte(model2).pipe(
+          const newUpdates = this.processForm(
+            this.dataModel,
+            this.formInstance.group.value
+          );
+          return this.locuinteS.updateSingleLocuinte(newUpdates).pipe(
             finalize(() => {
               this.formSubmitting = false;
               this.cdRef.markForCheck();
@@ -278,7 +320,11 @@ export class LocuinteFormPageComponent implements OnInit {
         return of(null);
     }
   }
-
+  processForm(existing, newValue) {
+    const model = { ...existing.response, ...newValue };
+    model.yearConstruction = parseInt(model.yearConstruction, 10);
+    return model;
+  }
   trailingAction() {}
   scrollTop() {
     if (this.contentRef) {

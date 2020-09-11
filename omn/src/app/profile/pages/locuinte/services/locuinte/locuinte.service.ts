@@ -1,25 +1,23 @@
-import { serverBaseUrl } from './../../../../../core/configs/endpoints';
-import { environment } from './../../../../../../environments/environment.test';
-import { AuthService } from 'src/app/core/services/auth/auth.service';
+import { get } from 'lodash';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, of, Observable } from 'rxjs';
-import { catchError, switchMap, map } from 'rxjs/operators';
+import { BehaviorSubject, Observable, of } from 'rxjs';
+import { catchError, map, switchMap, take } from 'rxjs/operators';
 import { locuinteEndpoints } from 'src/app/core/configs/endpoints';
+import { AuthService } from 'src/app/core/services/auth/auth.service';
 import { RequestService } from 'src/app/core/services/request/request.service';
 import { Locuinte } from 'src/app/shared/models/data/locuinte.interface';
-import { random } from 'lodash';
-import { HttpHeaders } from '@angular/common/http';
-
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root',
 })
- // https://omn-core-dev.azure.softescu.com/api/...
- // https://meet.google.com/linkredirect?authuser=2&dest=https%3A%2F%2Fomn-core-dev.azure.softescu.com%2Findex.html
 export class LocuinteService {
   singleLoading: BehaviorSubject<boolean> = new BehaviorSubject(false);
   multipleLoading: BehaviorSubject<boolean> = new BehaviorSubject(false);
   locuinteStore$: BehaviorSubject<Array<Locuinte>> = new BehaviorSubject(null);
+  streetStore$: BehaviorSubject<Array<any>> = new BehaviorSubject([]);
+  countyStore$: BehaviorSubject<Array<any>> = new BehaviorSubject(null);
+  cityStore$: BehaviorSubject<Array<any>> = new BehaviorSubject(null);
   endpoints = locuinteEndpoints;
   emptyV: Array<Locuinte> = [];
 
@@ -36,12 +34,13 @@ export class LocuinteService {
       }
     });
   }
+
   loadAllData() {
     this.multipleLoading.next(true);
     this.getUserLocuinte().subscribe(
       (vals) => {
         if (vals) {
-          this.locuinteStore$.next(vals);
+          this.locuinteStore$.next(vals.map((v) => this.mapToUIModel(v)));
         } else {
           this.locuinteStore$.next([]);
         }
@@ -53,6 +52,14 @@ export class LocuinteService {
         this.multipleLoading.next(false);
       }
     );
+
+    this.getCounties().subscribe((vals) => {
+      if (vals instanceof Array && vals.length) {
+        this.countyStore$.next(vals);
+      } else {
+        this.countyStore$.next([]);
+      }
+    });
   }
 
   getUserLocuinte() {
@@ -64,11 +71,14 @@ export class LocuinteService {
   }
 
   getSingleUserLocuinta(id): Observable<Locuinte> {
-    return this.reqS.get<Locuinte>(this.endpoints.base + '/' + id).pipe(
-      catchError((e) => {
-        return of(null);
-      })
-    );
+    return this.reqS
+      .get<Locuinte>(this.endpoints.singleLocation + '?id=' + id)
+      .pipe(
+        map((v) => this.mapToUIModel(v)),
+        catchError((e) => {
+          return of(null);
+        })
+      );
   }
 
   getSingleLocuinta(id) {
@@ -89,40 +99,20 @@ export class LocuinteService {
   }
 
   addSingleLocuinte(data: Locuinte) {
-      // return this.reqS.get(this.endpoints.add)
-    return of({ ...data, ...{ id: random(10, 100) } }).pipe(
-      map((v) => {
-        const vals = this.locuinteStore$.value ? this.locuinteStore$.value : [];
-        vals.push(v);
-        this.locuinteStore$.next(vals);
-        return v ? v : null;
-      }),
-      catchError((err) => of(null))
-    );
-  }
-  updateSingleLocuinte(data: Locuinte) {
-    return of(data).pipe(
-      map((v) => {
-        if (!v) {
-          return null;
-        }
-        const vals = this.locuinteStore$.value ? this.locuinteStore$.value : [];
-        const existingI = vals.findIndex(
-          (val) => val.id.toString() === data.id.toString()
-        );
+    const adddress = {
+      id: 0,
+      ...data,
+    };
 
-        if (existingI > -1) {
-          vals[existingI] = v;
-        } else {
-          return null;
-        }
-        this.locuinteStore$.next(vals);
-        return data;
-      }),
-      catchError((err) => {
-        return of(null);
-      })
-    );
+    return this.reqS.post<Locuinte>(this.endpoints.add, adddress);
+  }
+
+  makeHomeAddress(data) {
+    return this.reqS.post<Locuinte>(this.endpoints.makeHomeAddress, data);
+  }
+
+  updateSingleLocuinte(data: Locuinte) {
+    return this.reqS.post<Locuinte>(this.endpoints.updateAddress, data);
   }
 
   getLocuinteWithPolicy(policyTypeID: string) {
@@ -142,5 +132,88 @@ export class LocuinteService {
         return of(this.emptyV);
       })
     );
+  }
+
+  disableLocationForAddressId(addressId) {
+    return this.reqS.post<Locuinte>(this.endpoints.disAbleLocation, addressId);
+  }
+
+  getCounties() {
+    const data = {
+      countryId: 'RO',
+    };
+    return this.countyStore$.pipe(
+      take(1),
+      switchMap((vals) => {
+        if (vals === null) {
+          return this.reqS
+            .post<Locuinte>(this.endpoints.getCounties, data)
+            .pipe(
+              catchError((err) => {
+                return of(null);
+              })
+            );
+        } else {
+          return of(vals);
+        }
+      })
+    );
+  }
+
+  getCities(countryId) {
+    const data = {
+      countyId: countryId,
+      countryId: 'RO',
+    };
+
+    return this.reqS.post<Locuinte>(this.endpoints.getCities, data);
+  }
+
+  getStreets(obj) {
+    return this.reqS.post(this.endpoints.getStreets, obj).pipe(
+      map((val: any) => {
+        const withLabel = val.map((v) => {
+          return {
+            ...v,
+            label: v.name,
+          };
+        });
+        this.streetStore$.next(withLabel);
+        return withLabel;
+      })
+    );
+  }
+
+  mapToUIModel(entry: any): Locuinte {
+    return {
+      id: get(entry, 'id', null),
+      name: get(entry, 'name', ''),
+      address: {
+        name: get(entry, 'name', ''),
+        addressCounty: get(entry, 'addressCounty', ''),
+        addressCity: get(entry, 'addressCity', ''),
+        addressStreet: get(entry, 'addressStreet', ''),
+        addressBuildingNumber: get(entry, 'addressBuildingNumber', ''),
+        // Scara bloc.
+        addressScara: get(entry, 'addressScara', ''),
+        addressFloor: get(entry, 'addressFloor', ''),
+        addressApart: get(entry, 'addressApart', ''),
+        addressPostalCode: get(entry, 'addressPostalCode', ''),
+      },
+
+      info: {
+        type: get(entry, 'type', ''),
+        structure: get(entry, 'structure', ''),
+        yearConstruction: get(entry, 'yearConstruction', ''),
+        valueCurrency: get(entry, 'valueCurrency', ''),
+        valueSum: get(entry, 'valueSum', ''),
+        occupancy: get(entry, 'occupancy', ''),
+        usableSurface: get(entry, 'usableSurface', ''),
+        heightRegime: get(entry, 'heightRegime', ''),
+        rooms: get(entry, 'rooms', ''),
+        hasAlarmSystem: get(entry, 'hasAlarmSystem', ''),
+      },
+      isDisabled: get(entry, 'isDisabled', ''),
+    };
   }
 }

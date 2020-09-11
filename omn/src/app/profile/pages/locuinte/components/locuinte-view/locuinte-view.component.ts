@@ -141,7 +141,15 @@ export class LocuinteViewComponent implements OnInit {
         break;
     }
   }
-
+  deleteAddress(id) {
+    const obj = {
+      id,
+      disabledReason: 'Disabled by user',
+    };
+    this.locuinteS.disableLocationForAddressId(obj).subscribe((v) => {
+      this.navCtrl.navigateRoot(['/profil', 'locuinte']);
+    });
+  }
   initForm() {
     switch (this.formMode) {
       case this.locuintaState.INVALID:

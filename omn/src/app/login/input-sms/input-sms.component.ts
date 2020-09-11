@@ -12,6 +12,7 @@ import { Subscription } from 'rxjs';
 import { AuthService } from 'src/app/core/services/auth/auth.service';
 import { CustomTimersService } from './../../core/services/custom-timers/custom-timers.service';
 import { IonInputConfig } from './../../shared/models/component/ion-input-config';
+import { take } from 'rxjs/operators';
 
 @Component({
   selector: 'app-input-sms',
@@ -58,10 +59,12 @@ export class InputSmsComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   changeInput(digit: number) {
-    if (digit) {
+    if (digit || digit === 0) {
       this.digitsLength = digit.toString().length;
+    } else {
+      this.digitsLength = 0;
     }
-    if (this.digitsLength > 5) {
+    if (this.digitsLength > 5 && this.busy === false) {
       this.verifyDigit();
     }
     if (this.errorLogin) {
@@ -71,7 +74,7 @@ export class InputSmsComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   getPhoneNumber() {
-    this.sub = this.route.params.subscribe((params) => {
+    this.sub = this.route.params.pipe(take(1)).subscribe((params) => {
       if (params.number) {
         this.phoneNumber = params.number;
       } else {
@@ -117,7 +120,6 @@ export class InputSmsComponent implements OnInit, AfterViewInit, OnDestroy {
     this.passForm.reset();
     this.digitsLength = 0;
     this.errorLogin = 'Cod Invalid!';
-
   }
 
   spawnInput() {
