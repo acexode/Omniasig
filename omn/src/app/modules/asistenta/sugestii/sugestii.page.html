@@ -15,7 +15,7 @@
                 <form [formGroup]="rating" class="w-100">
                     <ion-list class="ion-no-padding">
                         <ion-item lines="none" class="ion-no-padding">
-                            <ion-textarea formControlName="comment" rows="3" cols="20"
+                            <ion-textarea formControlName="userComment" rows="3" cols="20"
                                 class="bg-grey-medium bottom-1px-solid px-5 w-100 top-radius-8" placeholder="Completează" inputmode="text">
                             </ion-textarea>
                         </ion-item>
@@ -35,8 +35,13 @@
         </ion-row>
         <ion-row class="ion-align-items-start">
             <ion-col class="ion-align-items-center ion-text-center py-32 px-32">
-                <ion-button class="flex flex-1 w-100 flat color-white ion-color-success text-weight-medium px-5"
-                    size="large" shape="round" mode="md">
+                <ion-button 
+                    class="flex flex-1 w-100 flat color-white ion-color-success text-weight-medium px-5"
+                    size="large" 
+                    shape="round" 
+                    mode="md"
+                    [disabled]="disableBtn"
+                    (click)="process()">
                     Trimite
                 </ion-button>
             </ion-col>
