@@ -319,6 +319,7 @@ export class LocuinteFormService {
     );
   }
   updateCity(field, fieldsData) {
+    console.log(fieldsData)
     const addressCity = fieldsData.addressCity.find(
       (v) => v.id === field.value
     );

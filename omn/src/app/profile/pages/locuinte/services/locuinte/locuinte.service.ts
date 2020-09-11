@@ -206,7 +206,7 @@ export class LocuinteService {
         structure: get(entry, 'structure', ''),
         yearConstruction: get(entry, 'yearConstruction', ''),
         valueCurrency: get(entry, 'valueCurrency', ''),
-        valueSum: get(entry, 'valueSum', ''),
+        value: get(entry, 'value', ''),
         occupancy: get(entry, 'occupancy', ''),
         usableSurface: get(entry, 'usableSurface', ''),
         heightRegime: get(entry, 'heightRegime', ''),
