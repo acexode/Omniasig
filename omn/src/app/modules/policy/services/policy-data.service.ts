@@ -61,6 +61,7 @@ export class PolicyDataService {
         )
       );
   }
+
   // create policy object to suit display data
   createPolicyObj(policy: any) {
     return {
@@ -114,6 +115,7 @@ export class PolicyDataService {
       expiry: policy.expireDate,
     };
   }
+
   // get user offers
   getUserOffers() {
     const emptyV: Array<PolicyOffer> = [];
@@ -133,6 +135,7 @@ export class PolicyDataService {
         )
       );
   }
+
   getUserPoliciesArchive(id: number | string) {
     const emptyV: Array<PolicyItem> = [];
     return this.reqS

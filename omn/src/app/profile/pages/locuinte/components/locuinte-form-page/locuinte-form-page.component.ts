@@ -148,7 +148,6 @@ export class LocuinteFormPageComponent implements OnInit {
             data: this.formData.address,
           };
         }
-
         this.formType = LocuinteFormType.ADDRESS;
         break;
     }
@@ -177,23 +176,22 @@ export class LocuinteFormPageComponent implements OnInit {
       });
     }
     if (this.addressCity) {
-      this.formInstance.group
-        .get('addressCity')
-        .valueChanges.subscribe((val) => {
-          const addressCity = this.formInstance.data.addressCity.filter(
-            (v) => v.id === val
-          )[0];
-          const obj = {
-            countryId: addressCity.countryId,
-            countyId: addressCity.countyId,
-            cityId: addressCity.id,
-            postCode: null,
-            statedId: addressCity.statedId,
-          };
-          this.locuinteS.getStreets(obj).subscribe((v) => {
-            this.cdRef.markForCheck();
-          });
+      this.addressCity.valueChanges.subscribe((val) => {
+        const addressCity = this.formInstance.data.addressCity.filter(
+          (v) => v.id === val
+        )[0];
+        const obj = {
+          countryId: addressCity.countryId,
+          countyId: addressCity.countyId,
+          cityId: addressCity.id,
+          postCode: null,
+          statedId: addressCity.statedId,
+        };
+        this.locuinteS.getStreets(obj).subscribe((v) => {
+          this.locuinteS.streetStore$.next(v);
+          this.cdRef.markForCheck();
         });
+      });
     }
   }
 

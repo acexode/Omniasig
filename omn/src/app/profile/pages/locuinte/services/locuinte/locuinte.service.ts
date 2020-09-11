@@ -1,3 +1,4 @@
+import { get } from 'lodash';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
@@ -5,6 +6,7 @@ import { locuinteEndpoints } from 'src/app/core/configs/endpoints';
 import { AuthService } from 'src/app/core/services/auth/auth.service';
 import { RequestService } from 'src/app/core/services/request/request.service';
 import { Locuinte } from 'src/app/shared/models/data/locuinte.interface';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root',
@@ -18,7 +20,11 @@ export class LocuinteService {
   endpoints = locuinteEndpoints;
   emptyV: Array<Locuinte> = [];
 
-  constructor(private reqS: RequestService, private authS: AuthService) {
+  constructor(
+    private reqS: RequestService,
+    private authS: AuthService,
+    private routerS: Router
+  ) {
     this.initData();
   }
 
@@ -37,7 +43,7 @@ export class LocuinteService {
     this.getUserLocuinte().subscribe(
       (vals) => {
         if (vals) {
-          this.locuinteStore$.next(vals);
+          this.locuinteStore$.next(vals.map((v) => this.mapToUIModel(v)));
         } else {
           this.locuinteStore$.next([]);
         }
@@ -60,11 +66,14 @@ export class LocuinteService {
   }
 
   getSingleUserLocuinta(id): Observable<Locuinte> {
-    return this.reqS.get<Locuinte>(this.endpoints.base + '/' + id).pipe(
-      catchError((e) => {
-        return of(null);
-      })
-    );
+    return this.reqS
+      .get<Locuinte>(this.endpoints.singleLocation + '?id=' + id)
+      .pipe(
+        map((v) => this.mapToUIModel(v)),
+        catchError((e) => {
+          return of(null);
+        })
+      );
   }
 
   getSingleLocuinta(id) {
@@ -83,6 +92,7 @@ export class LocuinteService {
       })
     );
   }
+
   addSingleLocuinte(data: Locuinte) {
     const adddress = {
       id: 0,
@@ -130,6 +140,7 @@ export class LocuinteService {
 
     return this.reqS.post<Locuinte>(this.endpoints.getCounties, data);
   }
+
   getCities(countryId) {
     const data = {
       countyId: countryId,
@@ -152,5 +163,38 @@ export class LocuinteService {
         return withLabel;
       })
     );
+  }
+
+  mapToUIModel(entry: any): Locuinte {
+    return {
+      id: get(entry, 'id', null),
+      name: get(entry, 'name', ''),
+      address: {
+        name: get(entry, 'name', ''),
+        addressCounty: get(entry, 'addressCounty', ''),
+        addressCity: get(entry, 'addressCity', ''),
+        addressStreet: get(entry, 'addressStreet', ''),
+        addressBuildingNumber: get(entry, 'addressBuildingNumber', ''),
+        // Scara bloc.
+        addressScara: get(entry, 'addressScara', ''),
+        addressFloor: get(entry, 'addressFloor', ''),
+        addressApart: get(entry, 'addressApart', ''),
+        addressPostalCode: get(entry, 'addressPostalCode', ''),
+      },
+
+      info: {
+        type: get(entry, 'type', ''),
+        structure: get(entry, 'structure', ''),
+        yearConstruction: get(entry, 'yearConstruction', ''),
+        valueCurrency: get(entry, 'valueCurrency', ''),
+        valueSum: get(entry, 'valueSum', ''),
+        occupancy: get(entry, 'occupancy', ''),
+        usableSurface: get(entry, 'usableSurface', ''),
+        heightRegime: get(entry, 'heightRegime', ''),
+        rooms: get(entry, 'rooms', ''),
+        hasAlarmSystem: get(entry, 'hasAlarmSystem', ''),
+      },
+      isDisabled: get(entry, 'isDisabled', ''),
+    };
   }
 }

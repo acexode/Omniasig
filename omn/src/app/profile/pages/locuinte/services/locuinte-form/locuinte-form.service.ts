@@ -126,6 +126,7 @@ export class LocuinteFormService {
       'padSerie',
       this.fb.control(get(model, 'pad.padSerie', ''))
     );
+    console.log(group)
     return group;
   }
 
