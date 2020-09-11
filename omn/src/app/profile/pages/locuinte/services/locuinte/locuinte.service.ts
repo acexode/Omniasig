@@ -1,7 +1,7 @@
 import { get } from 'lodash';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, of } from 'rxjs';
-import { catchError, map, switchMap } from 'rxjs/operators';
+import { catchError, map, switchMap, take } from 'rxjs/operators';
 import { locuinteEndpoints } from 'src/app/core/configs/endpoints';
 import { AuthService } from 'src/app/core/services/auth/auth.service';
 import { RequestService } from 'src/app/core/services/request/request.service';
@@ -16,15 +16,12 @@ export class LocuinteService {
   multipleLoading: BehaviorSubject<boolean> = new BehaviorSubject(false);
   locuinteStore$: BehaviorSubject<Array<Locuinte>> = new BehaviorSubject(null);
   streetStore$: BehaviorSubject<Array<any>> = new BehaviorSubject([]);
-  allStreets = this.streetStore$.asObservable();
+  countyStore$: BehaviorSubject<Array<any>> = new BehaviorSubject(null);
+  cityStore$: BehaviorSubject<Array<any>> = new BehaviorSubject(null);
   endpoints = locuinteEndpoints;
   emptyV: Array<Locuinte> = [];
 
-  constructor(
-    private reqS: RequestService,
-    private authS: AuthService,
-    private routerS: Router
-  ) {
+  constructor(private reqS: RequestService, private authS: AuthService) {
     this.initData();
   }
 
@@ -55,6 +52,14 @@ export class LocuinteService {
         this.multipleLoading.next(false);
       }
     );
+
+    this.getCounties().subscribe((vals) => {
+      if (vals instanceof Array && vals.length) {
+        this.countyStore$.next(vals);
+      } else {
+        this.countyStore$.next([]);
+      }
+    });
   }
 
   getUserLocuinte() {
@@ -137,8 +142,22 @@ export class LocuinteService {
     const data = {
       countryId: 'RO',
     };
-
-    return this.reqS.post<Locuinte>(this.endpoints.getCounties, data);
+    return this.countyStore$.pipe(
+      take(1),
+      switchMap((vals) => {
+        if (vals === null) {
+          return this.reqS
+            .post<Locuinte>(this.endpoints.getCounties, data)
+            .pipe(
+              catchError((err) => {
+                return of(null);
+              })
+            );
+        } else {
+          return of(vals);
+        }
+      })
+    );
   }
 
   getCities(countryId) {
