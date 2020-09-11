@@ -66,7 +66,7 @@
             >Tip</ion-label
           >
           <ion-text class="s18-h24">{{
-            locuinta?.info.type | locuinteField: 'type' || '-'
+            locuinta?.type | locuinteField: 'type' || '-'
           }}</ion-text>
         </ion-row>
 
@@ -75,7 +75,7 @@
             >Structură de rezistență</ion-label
           >
           <ion-text class="s18-h24">{{
-            locuinta?.info.structure
+            locuinta?.structure
               | locuinteField: 'structure' || '-'
           }}</ion-text>
         </ion-row>
@@ -85,7 +85,7 @@
             >Anul construcției</ion-label
           >
           <ion-text class="s18-h24">{{
-            locuinta?.info.yearConstruction || '-'
+            locuinta?.yearConstruction || '-'
           }}</ion-text>
         </ion-row>
 
@@ -94,8 +94,8 @@
             >Valoarea locuinței</ion-label
           >
           <ion-text class="s18-h24"
-            >{{ locuinta?.info.value || '-' }}
-            {{ locuinta?.info.valueCurrency || '-' }}</ion-text
+            >{{ locuinta?.value || '-' }}
+            {{ locuinta?.valueCurrency || '-' }}</ion-text
           >
         </ion-row>
 
@@ -104,7 +104,7 @@
             >Ocupare</ion-label
           >
           <ion-text class="s18-h24">{{
-            locuinta?.info.typeUse | locuinteField: 'typeUse' || '-'
+            locuinta?.typeUse | locuinteField: 'typeUse' || '-'
           }}</ion-text>
         </ion-row>
 
@@ -113,7 +113,7 @@
             >Suprafața utilă</ion-label
           >
           <ion-text class="s18-h24"
-            >{{ locuinta?.info?.area || '-' }} mp</ion-text
+            >{{ locuinta?.area || '-' }} mp</ion-text
           >
         </ion-row>
 
@@ -122,7 +122,7 @@
             >Regim de înălțime</ion-label
           >
           <ion-text class="s18-h24"
-            >{{ locuinta?.info.floors || '-' }} etaje</ion-text
+            >{{ locuinta?.floors || '-' }} etaje</ion-text
           >
         </ion-row>
 
@@ -131,7 +131,7 @@
             >Număr de camere</ion-label
           >
           <ion-text class="s18-h24">{{
-            locuinta?.info.rooms || '-'
+            locuinta?.rooms || '-'
           }}</ion-text>
         </ion-row>
 
@@ -140,7 +140,7 @@
             >Alarmă antiefracție</ion-label
           >
           <ion-text class="s18-h24">{{
-            locuinta?.info.hasAlarmSystem | locuinteField: 'hasAlarmSystem' || '-'
+            locuinta?.hasAlarmSystem | locuinteField: 'hasAlarmSystem' || '-'
           }}</ion-text>
         </ion-row>
 

@@ -45,8 +45,8 @@ export const locuinteFieldsData = {
     { id: 'temporar', label: 'Temporară' },
   ],
   hasAlarmSystem: [
-    { id: 1, label: 'Da' },
-    { id: 0, label: 'Nu' },
+    { id: true, label: 'Da' },
+    { id: false, label: 'Nu' },
   ],
   type: [
     { id: 'casaVila', label: 'Casă / vilă' },

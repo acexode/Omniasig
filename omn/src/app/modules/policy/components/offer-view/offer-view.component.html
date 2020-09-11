@@ -16,10 +16,10 @@
                 Prețul poliței*
               </ion-label>
               <ion-label class="x-large text-weight-bold alt-font mb-8">
-                {{ offer?.policy?.locuintaData?.info?.value * 4.9 }} lei
+                {{ offer?.policy?.locuintaData?.value * 4.9 }} lei
               </ion-label>
               <ion-label class="text-normal text-weight-medium">
-                {{ offer?.policy?.locuintaData?.info?.value }} Euro la cursul
+                {{ offer?.policy?.locuintaData?.value }} Euro la cursul
                 de 4,9 lei/Euro
               </ion-label>
             </ion-card-content>
@@ -124,11 +124,11 @@
                 Adresa
               </div>
               <ion-text class="s18-h24"
-                >{{ offer?.policy?.locuintaData?.address?.addressStreet }}
-                {{ offer?.policy?.locuintaData?.address?.addressBuildingNumber }}
-                {{ offer?.policy?.locuintaData?.address?.addressCity }} jud
-                {{ offer?.policy?.locuintaData?.address?.addressPostalCode }}
-                {{ offer?.policy?.locuintaData?.address?.addressCounty }}</ion-text
+                >{{ offer?.policy?.locuintaData?.addressStreet }}
+                {{ offer?.policy?.locuintaData?.addressBuildingNumber }}
+                {{ offer?.policy?.locuintaData?.addressCity }} jud
+                {{ offer?.policy?.locuintaData?.addressPostalCode }}
+                {{ offer?.policy?.locuintaData?.addressCounty }}</ion-text
               >
             </ion-label>
           </ion-item>
@@ -138,7 +138,7 @@
                 Tip
               </div>
               <ion-text class="s18-h24">{{
-                offer?.policy?.locuintaData?.info?.type | locuinteField: 'type'
+                offer?.policy?.locuintaData?.type | locuinteField: 'type'
               }}</ion-text>
             </ion-label>
           </ion-item>
@@ -148,7 +148,7 @@
                 Structură de rezistență
               </div>
               <ion-text class="s18-h24">{{
-                offer?.policy?.locuintaData?.info?.structure
+                offer?.policy?.locuintaData?.structure
                   | locuinteField: 'structure'
               }}</ion-text>
             </ion-label>
@@ -159,7 +159,7 @@
                 Anul construcției
               </div>
               <ion-text class="s18-h24">{{
-                offer?.policy.locuintaData?.info?.yearConstruction
+                offer?.policy.locuintaData?.yearConstruction
               }}</ion-text>
             </ion-label>
           </ion-item>
@@ -170,7 +170,7 @@
               </div>
               <ion-text class="s18-h24"
                 >{{
-                  offer?.policy?.locuintaData?.info?.area
+                  offer?.policy?.locuintaData?.area
                 }}
                 mp</ion-text
               >
@@ -183,7 +183,7 @@
               </div>
               <ion-text class="s18-h24"
                 >{{
-                  offer?.policy?.locuintaData?.info?.floors
+                  offer?.policy?.locuintaData?.floors
                 }}
                 etaje</ion-text
               >
@@ -195,7 +195,7 @@
                 Număr de camere
               </div>
               <ion-text class="s18-h24">{{
-                offer?.policy?.locuintaData?.info?.rooms
+                offer?.policy?.locuintaData?.rooms
               }}</ion-text>
             </ion-label>
           </ion-item>

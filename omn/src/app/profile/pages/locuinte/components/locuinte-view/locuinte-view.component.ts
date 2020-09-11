@@ -147,13 +147,13 @@ export class LocuinteViewComponent implements OnInit {
     console.log(val);
     const obj = {
       countryId: 'RO',
-      countyId: val.address.addressCounty,
-      cityId: val.address.addressCity,
+      countyId: val.addressCounty,
+      cityId: val.addressCity,
       postCode: null,
     };
     this.locuinteS.getStreets(obj).subscribe((streets) => {
       const currStreets = streets.filter(
-        (e) => e.id === val.address.addressStreet
+        (e) => e.id === val.addressStreet
       )[0];
       allValues.addressCity = val.addressCity;
       allValues.addressStreet = currStreets ? currStreets.name : '';

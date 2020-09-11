@@ -37,11 +37,11 @@ export class LocuinteNamePipe implements PipeTransform {
         return join(
           [
             'Strada ' +
-              get(value, 'address.addressStreet', null) +
+              get(value, 'addressStreet', null) +
               ' ' +
-              get(value, 'address.addressBuildingNumber', null),
-            get(value, 'address.addressCity', null),
-            'judetul ' + get(value, 'address.addressCounty', ''),
+              get(value, 'addressBuildingNumber', null),
+            get(value, 'addressCity', null),
+            'judetul ' + get(value, 'addressCounty', ''),
             'Cod ' + get(value, 'address.postalCode', ''),
           ].filter((v) => v !== null),
           ', '

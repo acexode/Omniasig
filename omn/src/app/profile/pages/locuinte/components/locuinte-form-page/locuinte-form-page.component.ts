@@ -323,11 +323,7 @@ export class LocuinteFormPageComponent implements OnInit {
         this.formSubmitting = true;
         this.cdRef.markForCheck();
         if (this.dataModel) {
-          const newUpdates = this.processForm(
-            this.dataModel,
-            this.formInstance.group.value
-          );
-          return this.locuinteS.updateSingleLocuinte(newUpdates).pipe(
+          return this.locuinteS.updateSingleLocuinte(model2).pipe(
             finalize(() => {
               this.formSubmitting = false;
               this.cdRef.markForCheck();
@@ -345,11 +341,6 @@ export class LocuinteFormPageComponent implements OnInit {
       default:
         return of(null);
     }
-  }
-  processForm(existing, newValue) {
-    const model = { ...existing.response, ...newValue };
-    model.yearConstruction = parseInt(model.yearConstruction, 10);
-    return model;
   }
   trailingAction() {}
   scrollTop() {

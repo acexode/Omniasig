@@ -36,38 +36,35 @@ export class LocuinteFormService {
     //   hasAlarmSystem: boolean;
     // }
     return this.fb.group({
-      type: this.fb.control(get(model, 'info.type', ''), Validators.required),
+      type: this.fb.control(get(model, 'type', ''), Validators.required),
       structure: this.fb.control(
-        get(model, 'info.structure', ''),
+        get(model, 'structure', ''),
         Validators.required
       ),
       yearConstruction: this.fb.control(
-        get(model, 'info.yearConstruction', 0),
+        get(model, 'yearConstruction', 0),
         Validators.required
       ),
       valueCurrency: this.fb.control(
-        get(model, 'info.valueCurrency', ''),
+        get(model, 'valueCurrency', ''),
         Validators.required
       ),
-      value: this.fb.control(get(model, 'info.value', 0), Validators.required),
+      value: this.fb.control(get(model, 'value', 0), Validators.required),
       typeUse: this.fb.control(
-        get(model, 'info.typeUse', null),
+        get(model, 'typeUse', null),
         Validators.required
       ),
-      area: this.fb.control(
-        Number(get(model, 'info.area', 0)),
-        Validators.required
-      ),
-      floors: this.fb.control(
-        Number(get(model, 'info.floors', 1)),
-        [Validators.required, Validators.min(1)]
-      ),
-      rooms: this.fb.control(Number(get(model, 'info.rooms', 1)), [
+      area: this.fb.control(Number(get(model, 'area', 0)), Validators.required),
+      floors: this.fb.control(Number(get(model, 'floors', 1)), [
+        Validators.required,
+        Validators.min(1),
+      ]),
+      rooms: this.fb.control(Number(get(model, 'rooms', 1)), [
         Validators.required,
         Validators.min(1),
       ]),
       hasAlarmSystem: this.fb.control(
-        get(model, 'info.hasAlarmSystem', false),
+        get(model, 'hasAlarmSystem', false),
         Validators.required
       ),
       // Additional - add validator after build
@@ -86,32 +83,33 @@ export class LocuinteFormService {
     // }
     const group = this.fb.group({
       addressCounty: this.fb.control(
-        get(model, 'address.addressCounty', ''),
+        get(model, 'addressCounty', ''),
         Validators.required
       ),
       addressCity: this.fb.control(
-        get(model, 'address.addressCity', ''),
+        get(model, 'addressCity', ''),
         Validators.required
       ),
       addressStreet: this.fb.control(
-        get(model, 'address.addressStreet', ''),
+        get(model, 'addressStreet', ''),
         Validators.required
       ),
       addressBuildingNumber: this.fb.control(
-        get(model, 'address.addressBuildingNumber', ''),
+        get(model, 'addressBuildingNumber', ''),
         Validators.required
       ),
-      addressScara: this.fb.control(get(model, 'address.addressScara', '')),
+      addressScara: this.fb.control(get(model, 'addressScara', '')),
       addressApart: this.fb.control(
-        get(model, 'address.addressApart', ''),
+        get(model, 'addressApart', ''),
         Validators.required
       ),
-      addressPostalCode: this.fb.control(
-        get(model, 'address.addressPostalCode', ''),
-        [Validators.required, Validators.minLength(6), Validators.maxLength(6)]
-      ),
+      addressPostalCode: this.fb.control(get(model, 'addressPostalCode', ''), [
+        Validators.required,
+        Validators.minLength(6),
+        Validators.maxLength(6),
+      ]),
       // Additional - add validator after build
-      name: this.fb.control(get(model, 'address.name', '')),
+      name: this.fb.control(get(model, 'name', '')),
     });
 
     group.addControl(
@@ -436,12 +434,20 @@ export class LocuinteFormService {
         case 'hasAlarmSystem':
         case 'floors':
         case 'typeUse':
-        case 'structure':
         case 'rooms':
-        case 'type':
         case 'area':
         case 'valueCurrency':
         case 'value':
+          set(newModel, key, val);
+          break;
+        case 'structure':
+          set(newModel, key, val);
+          break;
+        case 'type':
+          set(newModel, key, val);
+          break;
+
+        case 'valueCurrency':
           set(newModel, key, val);
           break;
         case 'padAvailable':
@@ -454,6 +460,7 @@ export class LocuinteFormService {
           break;
       }
     });
+    debugger;
     return newModel;
   }
 }
