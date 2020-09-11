@@ -8,16 +8,17 @@
       </ion-icon>
       <ion-label class="s18-h24 my-8">Call Center</ion-label>
     </ion-item>
-    <ion-item lines="none" class="mb-16 ml-24 item-mh-40">
+    <!-- Adrain suggested its made availabel later -->
+    <ion-item lines="none" class="mb-16 ml-24 item-mh-40" *ngIf="release === 2">
       <ion-icon name="md-chat" class="icon-22 mr-28" color="omn-medium">
       </ion-icon>
       <ion-label
-        *ngIf="release === 2"
         class="s18-h24 ml-0 flex flex-row ion-justify-content-start ion-align-items-center my-8"
       >
         Chat
       </ion-label>
     </ion-item>
+    <!--  -->
     <ion-item
       lines="none"
       class="mb-16 ml-24 item-mh-40"
