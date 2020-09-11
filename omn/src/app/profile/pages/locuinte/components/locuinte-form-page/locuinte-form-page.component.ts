@@ -300,6 +300,7 @@ export class LocuinteFormPageComponent implements OnInit {
         );             
         this.formSubmitting = true;
         this.cdRef.markForCheck();
+        console.log(model)
         return this.locuinteS.updateSingleLocuinte(model).pipe(
           finalize(() => {
             this.formSubmitting = false;

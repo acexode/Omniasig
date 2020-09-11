@@ -90,11 +90,14 @@ export class LocuinteViewComponent implements OnInit {
       .subscribe((vals: any) => {
         this.formMode = vals[0];
         this.formStep = vals[1];
+        console.log(vals)
         this.setTitles();
         const id = vals[2];
         if (id) {
           this.locuinteS.getSingleLocuinta(id).subscribe((val: Locuinte) => {
             if (val) {
+              console.log(val)
+              this.getLocationInfo(val)
               this.locuinta$.next(val);
               this.dataModel = val;
               this.buildFormAdd();
@@ -140,6 +143,15 @@ export class LocuinteViewComponent implements OnInit {
         this.variant = 'not-insured';
         break;
     }
+  }
+  getLocationInfo(val){
+    let city= {
+      countryId: "RO",
+      countyId:val.addressCounty
+    }
+    this.locuinteS.getCities(city).subscribe(city =>{
+
+    })
   }
   deleteAddress(id) {
     const obj = {

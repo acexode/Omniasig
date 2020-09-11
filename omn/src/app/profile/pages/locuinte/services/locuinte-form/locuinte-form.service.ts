@@ -49,8 +49,8 @@ export class LocuinteFormService {
         get(model, 'info.valueCurrency', ''),
         Validators.required
       ),
-      valueSum: this.fb.control(
-        get(model, 'info.valueSum', 0),
+      value: this.fb.control(
+        get(model, 'info.value', 0),
         Validators.required
       ),
       occupancy: this.fb.control(
@@ -226,7 +226,7 @@ export class LocuinteFormService {
             label: 'Monedă',
             mode: 'chip',
           }),
-          valueSum: inputConfigHelper({
+          value: inputConfigHelper({
             label: 'Suma',
             type: 'number',
             placeholder: 'Completează',
@@ -272,8 +272,8 @@ export class LocuinteFormService {
         configModel.heightRegime.spinnerConfig = { step: 1 };
         configModel.heightRegime.min = 1;
         configModel.rooms.spinnerConfig = { step: 1 };
-        configModel.valueSum.spinnerConfig = { step: 1 };
-        configModel.valueSum.min = 1;
+        configModel.value.spinnerConfig = { step: 1 };
+        configModel.value.min = 1;
         configModel.rooms.min = 1;
         configModel.yearConstruction.min = 1800;
         configModel.yearConstruction.max = new Date().getFullYear();
@@ -356,7 +356,7 @@ export class LocuinteFormService {
         case 'type':
         case 'usableSurface':
         case 'valueCurrency':
-        case 'valueSum':
+        case 'value':
           set(newModel, key, val);
           break;
         case 'padAvailable':

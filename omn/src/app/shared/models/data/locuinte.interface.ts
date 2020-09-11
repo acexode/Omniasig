@@ -30,7 +30,7 @@ export interface Locuinte {
     structure: string;
     yearConstruction: number;
     valueCurrency: string;
-    valueSum: number;
+    value: number;
     occupancy: string;
     usableSurface: number;
     heightRegime: number;
