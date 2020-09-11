@@ -175,7 +175,10 @@ export class LocuinteService {
         const withLabel = val.map((v) => {
           return {
             ...v,
-            label: v.name,
+            ...{
+              id: v.id,
+              label: v.name,
+            },
           };
         });
         this.streetStore$.next(withLabel);

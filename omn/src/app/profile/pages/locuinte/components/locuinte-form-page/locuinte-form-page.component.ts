@@ -149,25 +149,32 @@ export class LocuinteFormPageComponent implements OnInit {
           };
         }
         this.formType = LocuinteFormType.ADDRESS;
+        this.cdRef.markForCheck();
+        this.cdRef.detectChanges();
         break;
     }
 
     if (this.addressCounty) {
-      this.addressCounty.valueChanges.subscribe((val) => {
-        this.formS
-          .updateCounty(this.addressCounty, this.formInstance.data)
-          .subscribe((v) => {
-            this.cdRef.markForCheck();
-            this.cdRef.detectChanges();
-          });
-      });
-      console.log(this.addressCounty);
       this.formS
         .handleInitialCounty(this.addressCounty, this.formInstance.data)
         .subscribe((v) => {
           this.cdRef.markForCheck();
           this.cdRef.detectChanges();
         });
+      this.addressCounty.valueChanges.subscribe((val) => {
+        this.formS
+          .updateCounty(this.addressCounty, this.formInstance.data)
+          .subscribe((v) => {
+            this.cdRef.markForCheck();
+            this.cdRef.detectChanges();
+            if (this.addressCity) {
+              this.addressCity.updateValueAndValidity({
+                onlySelf: true,
+              });
+            }
+          });
+      });
+      this.addressCounty.updateValueAndValidity({ onlySelf: true });
     }
     if (this.addressCity) {
       this.addressCity.valueChanges.subscribe((val) => {
@@ -283,7 +290,6 @@ export class LocuinteFormPageComponent implements OnInit {
         );
         this.formSubmitting = true;
         this.cdRef.markForCheck();
-        console.log(model)
         return this.locuinteS.updateSingleLocuinte(model).pipe(
           finalize(() => {
             this.formSubmitting = false;

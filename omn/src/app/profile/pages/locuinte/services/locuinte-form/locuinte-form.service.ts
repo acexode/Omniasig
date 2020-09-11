@@ -49,10 +49,7 @@ export class LocuinteFormService {
         get(model, 'info.valueCurrency', ''),
         Validators.required
       ),
-      value: this.fb.control(
-        get(model, 'info.value', 0),
-        Validators.required
-      ),
+      value: this.fb.control(get(model, 'info.value', 0), Validators.required),
       occupancy: this.fb.control(
         get(model, 'info.occupancy', null),
         Validators.required
@@ -294,8 +291,11 @@ export class LocuinteFormService {
       map((val: any) => {
         const withLabel = val.map((v) => {
           return {
-            id: v.id,
-            label: v.name,
+            ...v,
+            ...{
+              id: v.id,
+              label: v.name,
+            },
           };
         });
         fieldsData.addressCounty = withLabel;
@@ -309,8 +309,11 @@ export class LocuinteFormService {
       map((data: any) => {
         const withLabel = data.map((v) => {
           return {
-            id: v.id,
-            label: v.name,
+            ...v,
+            ...{
+              id: v.id,
+              label: v.name,
+            },
           };
         });
         fieldsData.addressCity = withLabel;
@@ -318,11 +321,15 @@ export class LocuinteFormService {
       })
     );
   }
+
   updateCity(field, fieldsData) {
-    console.log(fieldsData)
-    const addressCity = fieldsData.addressCity.find(
-      (v) => v.id === field.value
-    );
+    const addressCity = fieldsData.addressCity.find((v) => {
+      try {
+        return v.id.toString() === field.value.toString();
+      } catch (err) {
+        return false;
+      }
+    });
     if (addressCity) {
       const obj = {
         countryId: addressCity.countryId,
@@ -354,7 +361,16 @@ export class LocuinteFormService {
           if (keywords) {
             return data.filter((dV) => {
               const name = get(dV, 'name', '').toLowerCase();
-              return name.includes(keywords.toLowerCase());
+              let id = get(dV, 'id', '');
+              try {
+                id = id.toString().toLowerCase();
+              } catch (e) {
+                id = null;
+              }
+              return (
+                name.includes(keywords.toLowerCase()) ||
+                id === keywords.toLowerCase()
+              );
             });
           } else {
             return data;
