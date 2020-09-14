@@ -77,8 +77,8 @@ export class OfferViewComponent implements OnInit {
       method to call payment web service when the pay(plateste) button is clicked,
       which also calls create PAD Insurance policy web service
     */
-    let offer_id = parseInt(this.offer.id);
-    this.padS.CreatePADInsurancePolicy(offer_id).subscribe(
+    const offerId = parseInt(this.offer.id, 10);
+    this.padS.CreatePADInsurancePolicy(offerId).subscribe(
       (result) => {
         this.policyDataService.initData();
         this.navCtrl.navigateRoot('/policy');

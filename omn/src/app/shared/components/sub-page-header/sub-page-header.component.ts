@@ -21,12 +21,9 @@ export class SubPageHeaderComponent implements OnInit {
   backAction(iconConf?: IonIconItem) {
     const rLink = iconConf ? get(iconConf, 'routerLink', null) : null;
     if (rLink === null) {
-      console.log("1")
       this.navCtrl.back();
     } else {
-      console.log("2")
       if (rLink !== false) {
-        console.log("3")
         this.navCtrl.navigateBack(rLink);
       }
     }
