@@ -149,25 +149,46 @@ export class LocuinteFormPageComponent implements OnInit {
           };
         }
         this.formType = LocuinteFormType.ADDRESS;
+        this.cdRef.markForCheck();
+        this.cdRef.detectChanges();
         break;
     }
 
     if (this.addressCounty) {
+      this.formS
+        .handleInitialCounty(this.addressCounty, this.formInstance.data)
+        .pipe(
+          switchMap((vals) => {
+            this.cdRef.markForCheck();
+            this.cdRef.detectChanges();
+            if (this.addressCity) {
+              return this.formS.handleInitialCityAndStreets(
+                this.addressCounty,
+                this.addressCity,
+                this.formInstance.data
+              );
+            } else {
+              return of(true);
+            }
+          })
+        )
+        .subscribe((v) => {
+          this.cdRef.markForCheck();
+          this.cdRef.detectChanges();
+        });
       this.addressCounty.valueChanges.subscribe((val) => {
         this.formS
           .updateCounty(this.addressCounty, this.formInstance.data)
           .subscribe((v) => {
             this.cdRef.markForCheck();
             this.cdRef.detectChanges();
+            if (this.addressCity) {
+              this.addressCity.updateValueAndValidity({
+                onlySelf: true,
+              });
+            }
           });
       });
-      console.log(this.addressCounty);
-      this.formS
-        .handleInitialCounty(this.addressCounty, this.formInstance.data)
-        .subscribe((v) => {
-          this.cdRef.markForCheck();
-          this.cdRef.detectChanges();
-        });
     }
     if (this.addressCity) {
       this.addressCity.valueChanges.subscribe((val) => {
@@ -179,6 +200,11 @@ export class LocuinteFormPageComponent implements OnInit {
           });
       });
     }
+    if (this.addressStreet) {
+      this.addressStreet.valueChanges.subscribe((val) => {
+        this.formS.handleStreetType(val, this.formInstance.data);
+      });
+    }
   }
 
   get addressCounty() {
@@ -186,9 +212,16 @@ export class LocuinteFormPageComponent implements OnInit {
       ? this.formInstance.group.get('addressCounty')
       : null;
   }
+
   get addressCity() {
     return this.formInstance && this.formInstance.group
       ? this.formInstance.group.get('addressCity')
+      : null;
+  }
+
+  get addressStreet() {
+    return this.formInstance && this.formInstance.group
+      ? this.formInstance.group.get('addressStreet')
       : null;
   }
 
@@ -294,14 +327,11 @@ export class LocuinteFormPageComponent implements OnInit {
           this.formInstance.group.value,
           this.dataModel
         );
+
         this.formSubmitting = true;
         this.cdRef.markForCheck();
         if (this.dataModel) {
-          const newUpdates = this.processForm(
-            this.dataModel,
-            this.formInstance.group.value
-          );
-          return this.locuinteS.updateSingleLocuinte(newUpdates).pipe(
+          return this.locuinteS.updateSingleLocuinte(model2).pipe(
             finalize(() => {
               this.formSubmitting = false;
               this.cdRef.markForCheck();
@@ -319,11 +349,6 @@ export class LocuinteFormPageComponent implements OnInit {
       default:
         return of(null);
     }
-  }
-  processForm(existing, newValue) {
-    const model = { ...existing.response, ...newValue };
-    model.yearConstruction = parseInt(model.yearConstruction, 10);
-    return model;
   }
   trailingAction() {}
   scrollTop() {

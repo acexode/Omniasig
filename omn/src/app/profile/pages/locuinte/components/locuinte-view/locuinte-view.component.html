@@ -3,6 +3,10 @@
   <!-- *ngIf="locuinta.locuintaState === locuintaState.COMPLETE" -->
   <ion-grid
     class="ion-no-padding pb-24 h-100 flex flex-column bg-white"
+    *ngIf="
+      locuinta.locuintaState === locuintaState.COMPLETE ||
+      !locuinta?.locuintaState
+    "
   >
     <ion-row
       class="px-64 flex ion-justify-content-center ion-align-items-center flex-column mb-24"
@@ -75,8 +79,7 @@
             >Structură de rezistență</ion-label
           >
           <ion-text class="s18-h24">{{
-            locuinta?.structure
-              | locuinteField: 'structure' || '-'
+            locuinta?.structure | locuinteField: 'structure' || '-'
           }}</ion-text>
         </ion-row>
 
@@ -104,7 +107,7 @@
             >Ocupare</ion-label
           >
           <ion-text class="s18-h24">{{
-            locuinta?.occupancy | locuinteField: 'occupancy' || '-'
+            locuinta?.typeUse | locuinteField: 'typeUse' || '-'
           }}</ion-text>
         </ion-row>
 
@@ -112,9 +115,7 @@
           <ion-label class="link-small text-weight-medium color-tertiary-grey"
             >Suprafața utilă</ion-label
           >
-          <ion-text class="s18-h24"
-            >{{ locuinta?.usableSurface || '-' }} mp</ion-text
-          >
+          <ion-text class="s18-h24">{{ locuinta?.area || '-' }} mp</ion-text>
         </ion-row>
 
         <ion-row class="px-32 mb-13 w-100 flex-column">
@@ -122,7 +123,7 @@
             >Regim de înălțime</ion-label
           >
           <ion-text class="s18-h24"
-            >{{ locuinta?.heightRegime || '-' }} etaje</ion-text
+            >{{ locuinta?.floors || '-' }} etaje</ion-text
           >
         </ion-row>
 
@@ -130,9 +131,7 @@
           <ion-label class="link-small text-weight-medium color-tertiary-grey"
             >Număr de camere</ion-label
           >
-          <ion-text class="s18-h24">{{
-            locuinta?.rooms || '-'
-          }}</ion-text>
+          <ion-text class="s18-h24">{{ locuinta?.rooms || '-' }}</ion-text>
         </ion-row>
 
         <ion-row class="px-32 mb-13 w-100 flex-column">
@@ -140,7 +139,7 @@
             >Alarmă antiefracție</ion-label
           >
           <ion-text class="s18-h24">{{
-            locuinta?.hasAlarmSystem | locuinteField: 'alarm' || '-'
+            locuinta?.hasAlarmSystem | locuinteField: 'hasAlarmSystem' || '-'
           }}</ion-text>
         </ion-row>
 

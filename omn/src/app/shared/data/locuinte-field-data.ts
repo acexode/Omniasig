@@ -40,13 +40,13 @@ export const locuinteFieldsData = {
     { id: 'EUR', label: 'Euro' },
     { id: 'RON', label: 'Lei' },
   ],
-  occupancy: [
+  typeUse: [
     { id: 'permanent', label: 'Permanentă' },
     { id: 'temporar', label: 'Temporară' },
   ],
-  alarm: [
-    { id: 1, label: 'Da' },
-    { id: 0, label: 'Nu' },
+  hasAlarmSystem: [
+    { id: true, label: 'Da' },
+    { id: false, label: 'Nu' },
   ],
   type: [
     { id: 'casaVila', label: 'Casă / vilă' },
