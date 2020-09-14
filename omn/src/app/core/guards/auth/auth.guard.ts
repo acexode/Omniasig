@@ -7,8 +7,8 @@ import {
   RouterStateSnapshot,
   UrlTree,
 } from '@angular/router';
-import { Observable } from 'rxjs';
-import { map, take } from 'rxjs/operators';
+import { Observable, of } from 'rxjs';
+import { map, take, switchMap } from 'rxjs/operators';
 import { AuthService } from '../../services/auth/auth.service';
 
 @Injectable({
@@ -26,11 +26,11 @@ export class AuthGuard implements CanActivate, CanActivateChild {
     | UrlTree {
     return this.authS.getToken().pipe(
       take(1),
-      map((isAuthenticated) => {
+      switchMap((isAuthenticated) => {
         if (isAuthenticated) {
-          return true;
+          return of(true);
         } else {
-          return this.routerS.createUrlTree(['/login']);
+          return this.redirectToLogin();
         }
       })
     );
@@ -46,9 +46,22 @@ export class AuthGuard implements CanActivate, CanActivateChild {
     | UrlTree {
     return this.authS.getToken().pipe(
       take(1),
-      map((isAuthenticated) => {
+      switchMap((isAuthenticated) => {
         if (isAuthenticated) {
-          return true;
+          return of(true);
+        } else {
+          return this.redirectToLogin();
+        }
+      })
+    );
+  }
+
+  redirectToLogin() {
+    return this.authS.getPhoneNumber().pipe(
+      take(1),
+      map((value) => {
+        if (value) {
+          return this.routerS.createUrlTree(['/login', 'verify', value]);
         } else {
           return this.routerS.createUrlTree(['/login']);
         }
