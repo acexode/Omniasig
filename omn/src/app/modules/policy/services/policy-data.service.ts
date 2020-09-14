@@ -124,7 +124,6 @@ export class PolicyDataService {
           ov
             ? ov.map((ovi) =>
                 this.mapOfferPolicyType(this.createOffersObj(ovi, 'PAD'))
-                
               )
             : []
         )

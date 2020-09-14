@@ -94,10 +94,6 @@ export class LocuinteFormService {
         get(model, 'addressStreet', ''),
         Validators.required
       ),
-      addressStreetType: this.fb.control(
-        get(model, 'address.addressStreetType', ''),
-        Validators.required
-      ),
       addressBuildingNumber: this.fb.control(
         get(model, 'addressBuildingNumber', ''),
         Validators.required
@@ -146,10 +142,6 @@ export class LocuinteFormService {
             disabled: isDisabled,
             dataServiceCb: this.streetLookup,
             dataServiceSource: this.streets$,
-          }),
-          addressStreetType: selectConfigHelper({
-            label: 'Tip Strada',
-            disabled: isDisabled            
           }),
           addressBuildingNumber: inputConfigHelper({
             label: 'Număr',
@@ -328,17 +320,19 @@ export class LocuinteFormService {
       })
     );
   }
-  handleStreetType( id,fieldsData) {    
-    console.log(id)
-    this.streets$.subscribe(val =>{
-      let f = val.filter(e => e.id == id).map(x =>{
-          return{
+  handleStreetType(id, fieldsData) {
+    this.streets$.subscribe((val) => {
+      const f = val
+        .filter((e) => e.id === id)
+        .map((x) => {
+          return {
             id: x.streetType,
-            label: x.streetType
-          }
-      })
-      fieldsData.addressStreetType = f      
-    })
+            label: x.streetType,
+          };
+        });
+
+      fieldsData.addressStreetType = get(f ? f[0] : {}, 'id', null);
+    });
   }
 
   updateCounty(field, fieldsData) {
@@ -378,7 +372,6 @@ export class LocuinteFormService {
       };
       return this.locuinteS.getStreets(obj).pipe(
         map((v) => {
-          
           this.locuinteS.streetStore$.next(v);
           return v;
         })
@@ -393,7 +386,7 @@ export class LocuinteFormService {
     source?: BehaviorSubject<any>
   ): Observable<Array<any>> {
     const keywords = input ? input.toString() : null;
-    
+
     if (source && source instanceof BehaviorSubject) {
       return source.pipe(
         map((data) => {
@@ -421,7 +414,6 @@ export class LocuinteFormService {
       return of([]);
     }
   }
- 
 
   processFormModel(formGroupValue, existingModel?: Locuinte): Locuinte {
     const newModel: Locuinte = existingModel
@@ -484,7 +476,6 @@ export class LocuinteFormService {
           break;
       }
     });
-    debugger;
     return newModel;
   }
 }

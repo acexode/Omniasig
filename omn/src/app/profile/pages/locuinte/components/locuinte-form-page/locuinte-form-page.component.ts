@@ -167,9 +167,7 @@ export class LocuinteFormPageComponent implements OnInit {
                 this.addressCity,
                 this.formInstance.data
               );
-            } 
-            
-            else {
+            } else {
               return of(true);
             }
           })
@@ -199,17 +197,12 @@ export class LocuinteFormPageComponent implements OnInit {
           .subscribe((v) => {
             this.cdRef.markForCheck();
             this.cdRef.detectChanges();
-            console.log(v)
-            
           });
       });
     }
     if (this.addressStreet) {
       this.addressStreet.valueChanges.subscribe((val) => {
-        console.log(val)
-        this.formS.handleStreetType(val, this.formInstance.data)
-       
-
+        this.formS.handleStreetType(val, this.formInstance.data);
       });
     }
   }
@@ -219,16 +212,13 @@ export class LocuinteFormPageComponent implements OnInit {
       ? this.formInstance.group.get('addressCounty')
       : null;
   }
-  get addressStreetType() {
-    return this.formInstance && this.formInstance.group
-      ? this.formInstance.group.get('addressStreetType')
-      : null;
-  }
+
   get addressCity() {
     return this.formInstance && this.formInstance.group
       ? this.formInstance.group.get('addressCity')
       : null;
   }
+
   get addressStreet() {
     return this.formInstance && this.formInstance.group
       ? this.formInstance.group.get('addressStreet')
@@ -249,7 +239,6 @@ export class LocuinteFormPageComponent implements OnInit {
   }
 
   handleFormSubmit() {
-    console.log('clicked')
     switch (this.formMode) {
       case this.formModes.ADD_NEW_FULL:
       case this.formModes.EDIT_FULL:
@@ -338,7 +327,7 @@ export class LocuinteFormPageComponent implements OnInit {
           this.formInstance.group.value,
           this.dataModel
         );
-        
+
         this.formSubmitting = true;
         this.cdRef.markForCheck();
         if (this.dataModel) {
