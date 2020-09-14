@@ -36,6 +36,5 @@ export class SideMenuComponent implements OnInit {
   public doLogout() {
     this.authService.doLogout();
     this.menuRef.close();
-    this.navC.navigateRoot('/home');
   }
 }

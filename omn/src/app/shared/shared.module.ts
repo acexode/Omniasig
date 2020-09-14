@@ -5,17 +5,18 @@ import { RouterModule } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
 import { ArchiveListComponent } from './components/archive-list/archive-list.component';
 import { DisabledPlaceholderComponent } from './components/disabled-placeholder/disabled-placeholder.component';
+import { GeneralErrorComponent } from './components/general-error/general-error.component';
 import { ImageCardComponent } from './components/image-card/image-card.component';
+import { LoadingPlaceholderComponent } from './components/loading-placeholder/loading-placeholder.component';
 import { LocuinteCardComponent } from './components/locuinte-card/locuinte-card.component';
 import { PolicyListComponent } from './components/policy-list/policy-list.component';
 import { SubPageHeaderComponent } from './components/sub-page-header/sub-page-header.component';
 import { TabMenuComponent } from './components/tab-menu/tab-menu.component';
 import { CnpPipe } from './pipes/cnp.pipe';
-import { LocuinteNamePipe } from './pipes/locuinte-name.pipe';
-import { TimePipe } from './pipes/time.pipe';
 import { LocuinteFieldPipe } from './pipes/locuinte-field.pipe';
-import { LoadingPlaceholderComponent } from './components/loading-placeholder/loading-placeholder.component';
+import { LocuinteNamePipe } from './pipes/locuinte-name.pipe';
 import { PolicyNamePipe } from './pipes/policy-name.pipe';
+import { TimePipe } from './pipes/time.pipe';
 
 @NgModule({
   declarations: [
@@ -31,6 +32,7 @@ import { PolicyNamePipe } from './pipes/policy-name.pipe';
     LocuinteCardComponent,
     LocuinteFieldPipe,
     LoadingPlaceholderComponent,
+    GeneralErrorComponent,
     PolicyNamePipe,
   ],
   imports: [CommonModule, FormsModule, IonicModule, RouterModule],
@@ -49,6 +51,7 @@ import { PolicyNamePipe } from './pipes/policy-name.pipe';
     ArchiveListComponent,
     LocuinteCardComponent,
     LoadingPlaceholderComponent,
+    GeneralErrorComponent,
   ],
 })
 export class SharedModule {}
