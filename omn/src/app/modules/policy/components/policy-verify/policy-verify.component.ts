@@ -53,7 +53,6 @@ export class PolicyVerifyComponent implements OnInit {
           });
         },
         (error) => {
-          // handle error (until the error screen is available, go back to the previous form page)
           console.log("ERROR------------------------>", error)
           this.goToErrorHandler.emit();
         }
