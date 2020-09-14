@@ -102,6 +102,7 @@ export class LocuinteService {
       id: 0,
       ...data,
     };    
+    console.log(address)
     return this.reqS.post<Locuinte>(this.endpoints.add, address);
   }
 

@@ -250,6 +250,7 @@ export class LocuinteFormPageComponent implements OnInit {
 
   handleFormSubmit() {
     console.log('clicked')
+    console.log(this.formMode)
     switch (this.formMode) {
       case this.formModes.ADD_NEW_FULL:
       case this.formModes.EDIT_FULL:
@@ -338,7 +339,7 @@ export class LocuinteFormPageComponent implements OnInit {
           this.formInstance.group.value,
           this.dataModel
         );
-        
+        console.log(model2)
         this.formSubmitting = true;
         this.cdRef.markForCheck();
         if (this.dataModel) {
