@@ -210,24 +210,20 @@ export class PolicyAddressFormComponent implements OnInit {
       case this.formModes.ADD_NEW_POLICY:
         this.buttonVisible = true;
         if (this.formType === LocuinteFormType.ADDRESS) {
+          this.formType = LocuinteFormType.PAD_CHECK;
           this.submitData().subscribe((v) => {
             if (v) {
               this.dataModel = v;
-              this.formType = LocuinteFormType.PAD_CHECK;
               this.formInstance = {
                 config: this.formConfigs.place,
                 group: this.formGroups.place,
                 data: this.formData.place,
               };
+              this.dataAdded.emit({
+                locuinta: v,
+              });
               this.stepChange.emit(this.formType);
-              this.padS.VerifyPADInsuranceOffer(this.dataModel.id).subscribe(
-                (result) => {
-                  this.handleFormSubmit();
-                },
-                (error) => {
-                  this.handleFormSubmit();
-                }
-              );
+              this.handleFormSubmit();
             }
           });
         } else if (this.formType === LocuinteFormType.PAD_CHECK) {
@@ -294,9 +290,6 @@ export class PolicyAddressFormComponent implements OnInit {
           this.formInstance.group.value,
           this.dataModel
         );
-        if (this.formType === LocuinteFormType.ADDRESS) {
-          return of(model2);
-        }
         this.formSubmitting = true;
         this.cdRef.markForCheck();
         if (this.dataModel && get(this.dataModel, 'id', null)) {
