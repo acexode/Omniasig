@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Calendar } from '@ionic-native/calendar/ngx';
 import { random } from 'lodash';
 import { BehaviorSubject, Observable, of } from 'rxjs';
-import { catchError, map, switchMap } from 'rxjs/operators';
+import { catchError, map, switchMap, take, filter } from 'rxjs/operators';
 import { policyEndpoints } from 'src/app/core/configs/endpoints';
 import { AuthService } from 'src/app/core/services/auth/auth.service';
 import { RequestService } from 'src/app/core/services/request/request.service';
@@ -19,7 +19,7 @@ export class PolicyDataService {
   policyArchiveStore$: BehaviorSubject<Array<PolicyItem>> = new BehaviorSubject(
     []
   );
-  offerStore$: BehaviorSubject<Array<PolicyOffer>> = new BehaviorSubject([]);
+  offerStore$: BehaviorSubject<Array<PolicyOffer>> = new BehaviorSubject(null);
 
   constructor(
     private reqS: RequestService,
@@ -196,20 +196,17 @@ export class PolicyDataService {
 
   getSingleOfferById(id: number | string) {
     return this.offerStore$.pipe(
+      filter((v) => v !== null),
       switchMap((vals) => {
         if (vals instanceof Array) {
           const existing = vals.find((v) => v.id.toString() === id.toString());
           if (existing) {
             return of(existing);
           } else {
-            // return this.getUserOffers().pipe(
-            //   map((o) => o.filter((off) => off.id === id))
-            // );
+            return of(null);
           }
         } else {
-          // return this.getUserOffers().pipe(
-          //   map((o) => o.filter((off) => off.id === id))
-          // );
+          return of(null);
         }
       })
     );

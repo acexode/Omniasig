@@ -136,7 +136,11 @@ export class PolicyAddressFormComponent implements OnInit {
         });
       this.addressCounty.valueChanges.subscribe((val) => {
         this.formS
-          .updateCounty(this.addressCounty, this.formInstance.data)
+          .updateCounty(
+            this.addressCounty,
+            this.formInstance.data,
+            this.dataModel
+          )
           .subscribe((v) => {
             this.cdRef.markForCheck();
             this.cdRef.detectChanges();
@@ -151,7 +155,7 @@ export class PolicyAddressFormComponent implements OnInit {
     if (this.addressCity) {
       this.addressCity.valueChanges.subscribe((val) => {
         this.formS
-          .updateCity(this.addressCity, this.formInstance.data)
+          .updateCity(this.addressCity, this.formInstance.data, this.dataModel)
           .subscribe((v) => {
             this.cdRef.markForCheck();
             this.cdRef.detectChanges();
@@ -160,7 +164,11 @@ export class PolicyAddressFormComponent implements OnInit {
     }
     if (this.addressStreet) {
       this.addressStreet.valueChanges.subscribe((val) => {
-        this.formS.handleStreetType(val, this.formInstance.data);
+        this.formS.handleStreetProcessing(
+          val,
+          this.formInstance.data,
+          this.dataModel
+        );
       });
     }
   }
