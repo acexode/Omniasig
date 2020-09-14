@@ -62,7 +62,6 @@ export class LocuinteFormPageComponent implements OnInit {
 
   formSubmitting = false;
   formInstance: { group: FormGroup; config: any; data: any } = null;
-
   constructor(
     private routerS: CustomRouterService,
     private aRoute: ActivatedRoute,
@@ -150,9 +149,82 @@ export class LocuinteFormPageComponent implements OnInit {
           };
         }
         this.formType = LocuinteFormType.ADDRESS;
+        this.cdRef.markForCheck();
+        this.cdRef.detectChanges();
         break;
     }
+
+    if (this.addressCounty) {
+      this.formS
+        .handleInitialCounty(this.addressCounty, this.formInstance.data)
+        .pipe(
+          switchMap((vals) => {
+            this.cdRef.markForCheck();
+            this.cdRef.detectChanges();
+            if (this.addressCity) {
+              return this.formS.handleInitialCityAndStreets(
+                this.addressCounty,
+                this.addressCity,
+                this.formInstance.data
+              );
+            } else {
+              return of(true);
+            }
+          })
+        )
+        .subscribe((v) => {
+          this.cdRef.markForCheck();
+          this.cdRef.detectChanges();
+        });
+      this.addressCounty.valueChanges.subscribe((val) => {
+        this.formS
+          .updateCounty(this.addressCounty, this.formInstance.data)
+          .subscribe((v) => {
+            this.cdRef.markForCheck();
+            this.cdRef.detectChanges();
+            if (this.addressCity) {
+              this.addressCity.updateValueAndValidity({
+                onlySelf: true,
+              });
+            }
+          });
+      });
+    }
+    if (this.addressCity) {
+      this.addressCity.valueChanges.subscribe((val) => {
+        this.formS
+          .updateCity(this.addressCity, this.formInstance.data)
+          .subscribe((v) => {
+            this.cdRef.markForCheck();
+            this.cdRef.detectChanges();
+          });
+      });
+    }
+    if (this.addressStreet) {
+      this.addressStreet.valueChanges.subscribe((val) => {
+        this.formS.handleStreetType(val, this.formInstance.data);
+      });
+    }
   }
+
+  get addressCounty() {
+    return this.formInstance && this.formInstance.group
+      ? this.formInstance.group.get('addressCounty')
+      : null;
+  }
+
+  get addressCity() {
+    return this.formInstance && this.formInstance.group
+      ? this.formInstance.group.get('addressCity')
+      : null;
+  }
+
+  get addressStreet() {
+    return this.formInstance && this.formInstance.group
+      ? this.formInstance.group.get('addressStreet')
+      : null;
+  }
+
   buildFormAdd() {
     this.formConfigs.address = this.formS.buildFormConfig(
       LocuinteFormType.ADDRESS
@@ -250,12 +322,12 @@ export class LocuinteFormPageComponent implements OnInit {
             this.cdRef.markForCheck();
           })
         );
-
       case this.formModes.ADD_NEW_FULL:
         const model2 = this.formS.processFormModel(
           this.formInstance.group.value,
           this.dataModel
         );
+
         this.formSubmitting = true;
         this.cdRef.markForCheck();
         if (this.dataModel) {
@@ -278,7 +350,6 @@ export class LocuinteFormPageComponent implements OnInit {
         return of(null);
     }
   }
-
   trailingAction() {}
   scrollTop() {
     if (this.contentRef) {

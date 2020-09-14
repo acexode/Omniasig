@@ -1,9 +1,9 @@
 import {
-  Component,
-  OnInit,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
+  Component,
   Input,
+  OnInit,
   ViewChild,
 } from '@angular/core';
 import {
@@ -11,9 +11,9 @@ import {
   FormBuilder,
   NG_VALUE_ACCESSOR,
 } from '@angular/forms';
-import { get, has, set } from 'lodash';
-import { AutocompleteProviderService } from '../../services/autocomplete-provider.service';
+import { get } from 'lodash';
 import { IonAutocompleteConfig } from 'src/app/shared/models/component/ion-autocomplete-config';
+import { AutocompleteProviderService } from '../../services/autocomplete-provider.service';
 
 @Component({
   selector: 'app-autocomplete',
@@ -47,6 +47,7 @@ export class AutocompleteComponent implements OnInit, ControlValueAccessor {
         labelAttribute: get(conf, 'labelKey', 'label'),
         formValueAttribute: get(conf, 'idKey', 'label'),
         dataServiceCb: conf.dataServiceCb,
+        dataServiceSource: conf.dataServiceSource,
       });
     }
     this.cdRef.markForCheck();

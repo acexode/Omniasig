@@ -1,8 +1,9 @@
-import { IonRadiosConfig } from './../../../../../shared/models/component/ion-radios-config';
 import { Injectable } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { forOwn, get, set } from 'lodash';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable, of } from 'rxjs';
+import { map, tap, switchMap, filter } from 'rxjs/operators';
+import { LocuinteService } from 'src/app/profile/pages/locuinte/services/locuinte/locuinte.service';
 import { autoCompleteConfigHelper } from 'src/app/shared/data/autocomplete-config-helper';
 import { dateTimeConfigHelper } from 'src/app/shared/data/datetime-config-helper';
 import { inputConfigHelper } from 'src/app/shared/data/input-config-helper';
@@ -16,59 +17,54 @@ import { LocuinteFormType } from 'src/app/shared/models/modes/locuinte-form-mode
   providedIn: 'root',
 })
 export class LocuinteFormService {
-  constructor(private fb: FormBuilder) {}
+  streets$ = this.locuinteS.streetStore$;
+  constructor(private fb: FormBuilder, protected locuinteS: LocuinteService) {}
 
   buildLocuinteSubform(model: Locuinte, policyType?: string) {
     // info: {
     //   type: string;
-    //   resistenceStructure: string;
-    //   buildYear: number;
+    //   structure: string;
+    //   yearConstruction: number;
     //   value: {
     //     currency: string;
     //     sum: string;
     //   }
-    //   occupancy: string;
-    //   usablesurface: number;
-    //   heightRegime: number;
-    //   roomCount: number;
-    //   alarm: boolean;
+    //   typeUse: string;
+    //   area: number;
+    //   floors: number;
+    //   rooms: number;
+    //   hasAlarmSystem: boolean;
     // }
     return this.fb.group({
-      type: this.fb.control(get(model, 'info.type', ''), Validators.required),
-      resistenceStructure: this.fb.control(
-        get(model, 'info.resistenceStructure', ''),
+      type: this.fb.control(get(model, 'type', ''), Validators.required),
+      structure: this.fb.control(
+        get(model, 'structure', ''),
         Validators.required
       ),
-      buildYear: this.fb.control(
-        get(model, 'info.buildYear', ''),
+      yearConstruction: this.fb.control(
+        get(model, 'yearConstruction', 0),
         Validators.required
       ),
       valueCurrency: this.fb.control(
-        get(model, 'info.valueCurrency', ''),
+        get(model, 'valueCurrency', ''),
         Validators.required
       ),
-      valueSum: this.fb.control(
-        get(model, 'info.valueSum', 0),
+      value: this.fb.control(get(model, 'value', 0), Validators.required),
+      typeUse: this.fb.control(
+        get(model, 'typeUse', null),
         Validators.required
       ),
-      occupancy: this.fb.control(
-        get(model, 'info.occupancy', null),
-        Validators.required
-      ),
-      usableSurface: this.fb.control(
-        Number(get(model, 'info.usableSurface', 0)),
-        Validators.required
-      ),
-      heightRegime: this.fb.control(
-        Number(get(model, 'info.heightRegime', 1)),
-        [Validators.required, Validators.min(1)]
-      ),
-      roomCount: this.fb.control(Number(get(model, 'info.roomCount', 1)), [
+      area: this.fb.control(Number(get(model, 'area', 0)), Validators.required),
+      floors: this.fb.control(Number(get(model, 'floors', 1)), [
         Validators.required,
         Validators.min(1),
       ]),
-      alarm: this.fb.control(
-        get(model, 'info.alarm', false),
+      rooms: this.fb.control(Number(get(model, 'rooms', 1)), [
+        Validators.required,
+        Validators.min(1),
+      ]),
+      hasAlarmSystem: this.fb.control(
+        get(model, 'hasAlarmSystem', false),
         Validators.required
       ),
       // Additional - add validator after build
@@ -78,36 +74,36 @@ export class LocuinteFormService {
 
   buildAddressSubform(model: Locuinte, policyType?: string) {
     // address: {
-    //   county: string;
-    //   city: string;
-    //   street: string;
+    //   addressCounty: string;
+    //   addressCity: string;
+    //   addressStreet: string;
     //   number: number;
     //   // Scara bloc.
-    //   entrance: string;
+    //   addressScara: string;
     // }
     const group = this.fb.group({
-      county: this.fb.control(
-        get(model, 'address.county', ''),
+      addressCounty: this.fb.control(
+        get(model, 'addressCounty', ''),
         Validators.required
       ),
-      city: this.fb.control(
-        get(model, 'address.city', ''),
+      addressCity: this.fb.control(
+        get(model, 'addressCity', ''),
         Validators.required
       ),
-      street: this.fb.control(
-        get(model, 'address.street', ''),
+      addressStreet: this.fb.control(
+        get(model, 'addressStreet', ''),
         Validators.required
       ),
-      number: this.fb.control(
-        get(model, 'address.number', ''),
+      addressBuildingNumber: this.fb.control(
+        get(model, 'addressBuildingNumber', ''),
         Validators.required
       ),
-      entrance: this.fb.control(get(model, 'address.entrance', '')),
-      apartment: this.fb.control(
-        get(model, 'address.apartment', ''),
+      addressScara: this.fb.control(get(model, 'addressScara', '')),
+      addressApart: this.fb.control(
+        get(model, 'addressApart', ''),
         Validators.required
       ),
-      postalCode: this.fb.control(get(model, 'address.postalCode', ''), [
+      addressPostalCode: this.fb.control(get(model, 'addressPostalCode', ''), [
         Validators.required,
         Validators.minLength(6),
         Validators.maxLength(6),
@@ -116,17 +112,15 @@ export class LocuinteFormService {
       name: this.fb.control(get(model, 'name', '')),
     });
 
-    if (policyType === 'PAD') {
-      group.addControl(
-        'padAvailable',
-        this.fb.control(get(model, 'pad.padAvailable', ''), Validators.required)
-      );
-      group.addControl('padNr', this.fb.control(get(model, 'pad.padNr', '')));
-      group.addControl(
-        'padSerie',
-        this.fb.control(get(model, 'pad.padSerie', ''))
-      );
-    }
+    group.addControl(
+      'padAvailable',
+      this.fb.control(get(model, 'pad.padAvailable', ''), Validators.required)
+    );
+    group.addControl('padNr', this.fb.control(get(model, 'pad.padNr', '')));
+    group.addControl(
+      'padSerie',
+      this.fb.control(get(model, 'pad.padSerie', ''))
+    );
     return group;
   }
 
@@ -135,35 +129,39 @@ export class LocuinteFormService {
     switch (formType) {
       case LocuinteFormType.ADDRESS:
         configModel = {
-          county: selectConfigHelper({ label: 'Județ', disabled: isDisabled }),
-          city: selectConfigHelper({
+          addressCounty: selectConfigHelper({
+            label: 'Județ',
+            disabled: isDisabled,
+          }),
+          addressCity: selectConfigHelper({
             label: 'Localitate',
             disabled: isDisabled,
           }),
-          street: autoCompleteConfigHelper({
+          addressStreet: autoCompleteConfigHelper({
             label: 'Strada',
             disabled: isDisabled,
             dataServiceCb: this.streetLookup,
+            dataServiceSource: this.streets$,
           }),
-          number: inputConfigHelper({
+          addressBuildingNumber: inputConfigHelper({
             label: 'Număr',
             type: 'text',
             placeholder: '',
             disabled: isDisabled,
           }),
-          entrance: inputConfigHelper({
+          addressScara: inputConfigHelper({
             label: 'Scara (opțional)',
             type: 'text',
             placeholder: '',
             disabled: isDisabled,
           }),
-          apartment: inputConfigHelper({
+          addressApart: inputConfigHelper({
             label: 'Apartament',
             type: 'text',
             placeholder: '',
             disabled: isDisabled,
           }),
-          postalCode: inputConfigHelper({
+          addressPostalCode: inputConfigHelper({
             label: 'Cod poștal',
             type: 'number',
             placeholder: '',
@@ -180,25 +178,22 @@ export class LocuinteFormService {
             disabled: isDisabled,
           }),
         };
-
-        if (policyType === 'PAD') {
-          configModel.padAvailable = radiosConfigHelper({
-            label: 'Ai deja o poliță PAD valabilă pentru această adresă?',
-            mode: 'item',
-          });
-          configModel.padAvailable.itemClasses = 'w-50 inline-flex';
-          configModel.padAvailable.inputLabel.classes = 'mb-16';
-          configModel.padSerie = inputConfigHelper({
-            label: 'Serie',
-            type: 'text',
-            placeholder: '',
-          });
-          configModel.padNr = inputConfigHelper({
-            label: 'Număr',
-            type: 'text',
-            placeholder: '',
-          });
-        }
+        configModel.padAvailable = radiosConfigHelper({
+          label: 'Ai deja o poliță PAD valabilă pentru această adresă?',
+          mode: 'item',
+        });
+        configModel.padAvailable.itemClasses = 'w-50 inline-flex';
+        configModel.padAvailable.inputLabel.classes = 'mb-16';
+        configModel.padSerie = inputConfigHelper({
+          label: 'Serie',
+          type: 'text',
+          placeholder: '',
+        });
+        configModel.padNr = inputConfigHelper({
+          label: 'Număr',
+          type: 'text',
+          placeholder: '',
+        });
         break;
 
       case LocuinteFormType.PLACE:
@@ -207,11 +202,11 @@ export class LocuinteFormService {
             label: 'Tip',
             mode: 'chip',
           }),
-          resistenceStructure: selectConfigHelper({
+          structure: selectConfigHelper({
             label: 'Structură de rezistență',
             disabled: isDisabled,
           }),
-          buildYear: dateTimeConfigHelper({
+          yearConstruction: dateTimeConfigHelper({
             label: 'Anul construcției',
             displayFormat: 'YYYY',
             pickerFormat: 'YYYY',
@@ -221,36 +216,36 @@ export class LocuinteFormService {
             label: 'Monedă',
             mode: 'chip',
           }),
-          valueSum: inputConfigHelper({
+          value: inputConfigHelper({
             label: 'Suma',
             type: 'number',
             placeholder: 'Completează',
             disabled: isDisabled,
           }),
-          occupancy: radiosConfigHelper({
+          typeUse: radiosConfigHelper({
             label: 'Ocupare',
             mode: 'chip',
           }),
-          usableSurface: inputConfigHelper({
+          area: inputConfigHelper({
             label: 'Suprafața utilă în metri pătrați',
             type: 'number',
             placeholder: 'Completează',
             disabled: isDisabled,
           }),
-          heightRegime: inputConfigHelper({
+          floors: inputConfigHelper({
             label: 'Regim de înălțime',
             type: 'number',
             placeholder: '',
             disabled: isDisabled,
           }),
-          roomCount: inputConfigHelper({
+          rooms: inputConfigHelper({
             label: 'Număr de camere',
             type: 'number',
             placeholder: '',
             disabled: isDisabled,
           }),
 
-          alarm: radiosConfigHelper({
+          hasAlarmSystem: radiosConfigHelper({
             label: 'Alarmă antiefracție sau pază permanentă',
             mode: 'chip',
           }),
@@ -262,16 +257,16 @@ export class LocuinteFormService {
           }),
         };
 
-        configModel.usableSurface.spinnerConfig = { step: 1 };
-        configModel.usableSurface.min = 0;
-        configModel.heightRegime.spinnerConfig = { step: 1 };
-        configModel.heightRegime.min = 1;
-        configModel.roomCount.spinnerConfig = { step: 1 };
-        configModel.valueSum.spinnerConfig = { step: 1 };
-        configModel.valueSum.min = 1;
-        configModel.roomCount.min = 1;
-        configModel.buildYear.min = 1800;
-        configModel.buildYear.max = new Date().getFullYear();
+        configModel.area.spinnerConfig = { step: 1 };
+        configModel.area.min = 0;
+        configModel.floors.spinnerConfig = { step: 1 };
+        configModel.floors.min = 1;
+        configModel.rooms.spinnerConfig = { step: 1 };
+        configModel.value.spinnerConfig = { step: 1 };
+        configModel.value.min = 1;
+        configModel.rooms.min = 1;
+        configModel.yearConstruction.min = 1800;
+        configModel.yearConstruction.max = new Date().getFullYear();
         break;
 
       default:
@@ -282,25 +277,152 @@ export class LocuinteFormService {
 
   getFormFieldsData(fieldsObj, defaultV: { [key: string]: any } = {}) {
     const data = {};
-    const fData = locuinteFieldsData;
+    const fData = { ...locuinteFieldsData };
     forOwn(fieldsObj, (v, k) => {
       set(data, k, get(fData, k, get(defaultV, k, null)));
     });
     return data;
   }
 
-  streetLookup(input: any): Observable<Array<any>> {
-    return new Observable((observer) => {
-      observer.next(locuinteFieldsData.street);
+  handleInitialCityAndStreets(countyField, cityField, fieldData) {
+    const countyValue = countyField.value;
+    if (countyValue) {
+      return new Observable((observer) => {
+        this.updateCounty(countyField, fieldData).subscribe((vals) => {
+          const cityValue = cityField.value;
+          if (cityValue) {
+            this.updateCity(cityField, fieldData).subscribe((v) =>
+              observer.next(true)
+            );
+          }
+          observer.next(true);
+        });
+      });
+    } else {
+      return of(true);
+    }
+  }
+
+  handleInitialCounty(field, fieldsData) {
+    return this.locuinteS.getCounties().pipe(
+      map((val: any) => {
+        const withLabel = val.map((v) => {
+          return {
+            ...v,
+            ...{
+              id: v.id,
+              label: v.name,
+            },
+          };
+        });
+        fieldsData.addressCounty = withLabel;
+        return val;
+      })
+    );
+  }
+  handleStreetType(id, fieldsData) {
+    this.streets$.subscribe((val) => {
+      const f = val
+        .filter((e) => e.id === id)
+        .map((x) => {
+          return {
+            id: x.streetType,
+            label: x.streetType,
+          };
+        });
+
+      fieldsData.addressStreetType = get(f ? f[0] : {}, 'id', null);
     });
+  }
+
+  updateCounty(field, fieldsData) {
+    return this.locuinteS.getCities(field.value).pipe(
+      map((data: any) => {
+        const withLabel = data.map((v) => {
+          return {
+            ...v,
+            ...{
+              id: v.id,
+              label: v.name,
+            },
+          };
+        });
+        fieldsData.addressCity = withLabel;
+        return data;
+      })
+    );
+  }
+
+  updateCity(field, fieldsData) {
+    const addressCity = fieldsData.addressCity.find((v) => {
+      try {
+        return v.id.toString() === field.value.toString();
+      } catch (err) {
+        return false;
+      }
+    });
+
+    if (addressCity) {
+      const obj = {
+        countryId: addressCity.countryId,
+        countyId: addressCity.countyId,
+        cityId: addressCity.id,
+        postCode: null,
+        statedId: addressCity.statedId,
+      };
+      return this.locuinteS.getStreets(obj).pipe(
+        map((v) => {
+          this.locuinteS.streetStore$.next(v);
+          return v;
+        })
+      );
+    } else {
+      return of(null);
+    }
+  }
+
+  streetLookup(
+    input: any,
+    source?: BehaviorSubject<any>
+  ): Observable<Array<any>> {
+    const keywords = input ? input.toString() : null;
+
+    if (source && source instanceof BehaviorSubject) {
+      return source.pipe(
+        map((data) => {
+          // Filter whole list in here based on text input.
+          if (keywords) {
+            return data.filter((dV) => {
+              const name = get(dV, 'name', '').toLowerCase();
+              let id = get(dV, 'id', '');
+              try {
+                id = id.toString().toLowerCase();
+              } catch (e) {
+                id = null;
+              }
+              return (
+                name.includes(keywords.toLowerCase()) ||
+                id === keywords.toLowerCase()
+              );
+            });
+          } else {
+            return data;
+          }
+        })
+      );
+    } else {
+      return of([]);
+    }
   }
 
   processFormModel(formGroupValue, existingModel?: Locuinte): Locuinte {
     const newModel: Locuinte = existingModel
-      ? { ...existingModel }
+      ? existingModel.hasOwnProperty('response')
+        ? { ...get(existingModel, 'response', {}) }
+        : { ...existingModel }
       : {
           id: null,
-          name: null,
+          // name: null,
           info: null,
           address: null,
           policyData: [],
@@ -311,31 +433,43 @@ export class LocuinteFormService {
 
     forOwn(formGroupValue, (val, key) => {
       switch (key) {
-        case 'apartment':
-        case 'city':
-        case 'county':
-        case 'entrance':
-        case 'number':
-        case 'postalCode':
-        case 'street':
-          set(newModel, 'address.' + key, val);
+        case 'addressApart':
+        case 'addressCity':
+        case 'addressCounty':
+        case 'name':
+        case 'addressBuildingNumber':
+        case 'addressScara':
+        case 'addressPostalCode':
+        case 'addressStreet':
+        case 'addressStreetType':
+          set(newModel, key, val);
           break;
-        case 'alarm':
-        case 'buildYear':
-        case 'heightRegime':
-        case 'occupancy':
-        case 'resistenceStructure':
-        case 'roomCount':
-        case 'type':
-        case 'usableSurface':
+        case 'yearConstruction':
+          val ? set(newModel, key, parseInt(val, 10)) : set(newModel, key, val);
+          break;
+        case 'hasAlarmSystem':
+        case 'floors':
+        case 'typeUse':
+        case 'rooms':
+        case 'area':
         case 'valueCurrency':
-        case 'valueSum':
-          set(newModel, 'info.' + key, val);
+        case 'value':
+          set(newModel, key, val);
+          break;
+        case 'structure':
+          set(newModel, key, val);
+          break;
+        case 'type':
+          set(newModel, key, val);
+          break;
+
+        case 'valueCurrency':
+          set(newModel, key, val);
           break;
         case 'padAvailable':
         case 'padNr':
         case 'padSerie':
-          set(newModel, 'pad.' + key, val);
+          set(newModel, key, val);
           break;
         default:
           set(newModel, key, val);

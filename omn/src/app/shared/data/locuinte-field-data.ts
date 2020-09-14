@@ -5,7 +5,7 @@ export enum LocuinteStructureType {
   LEMN = 'lemn',
 }
 export const locuinteFieldsData = {
-  resistenceStructure: [
+  structure: [
     {
       id: LocuinteStructureType.BETON_ARMAT,
       label: 'Beton armat (cadre, diafragme, prefabricate)',
@@ -14,6 +14,7 @@ export const locuinteFieldsData = {
       id: LocuinteStructureType.ZIDARIE_PORTANTA,
       label: 'Zidărie portantă (zidarie, piatra)',
     },
+
     {
       id: LocuinteStructureType.METAL,
       label: 'Metal',
@@ -39,36 +40,22 @@ export const locuinteFieldsData = {
     { id: 'EUR', label: 'Euro' },
     { id: 'RON', label: 'Lei' },
   ],
-  occupancy: [
+  typeUse: [
     { id: 'permanent', label: 'Permanentă' },
     { id: 'temporar', label: 'Temporară' },
   ],
-  alarm: [
-    { id: 1, label: 'Da' },
-    { id: 0, label: 'Nu' },
+  hasAlarmSystem: [
+    { id: true, label: 'Da' },
+    { id: false, label: 'Nu' },
   ],
   type: [
     { id: 'casaVila', label: 'Casă / vilă' },
     { id: 'apartament', label: 'Apartament' },
     { id: 'bloc', label: 'Bloc' },
   ],
-  county: [
-    { id: 'Brasov', label: 'Brasov' },
-    { id: 'Bacau', label: 'Bacau' },
-    { id: 'Bucuresti', label: 'Bucuresti' },
-  ],
-  city: [
-    { id: 'Brasov', label: 'Brasov' },
-    { id: 'Bacau', label: 'Bacau' },
-    { id: 'Bucuresti', label: 'Bucuresti' },
-  ],
-  street: [
-    { id: 'Republicii', label: 'Republicii' },
-    { id: 'Traian', label: 'Traian' },
-    { id: 'test3', label: 'test2 test2' },
-    { id: 'test4', label: 'test3 test3' },
-    { id: 'test5', label: 'test4 test3' },
-  ],
+  county: [],
+  city: [],
+  street: [],
   padAvailable: [
     { id: 1, label: 'Da' },
     { id: 0, label: 'Nu' },

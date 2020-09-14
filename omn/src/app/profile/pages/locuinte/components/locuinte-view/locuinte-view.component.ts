@@ -5,21 +5,21 @@ import {
   OnInit,
   ViewChild,
 } from '@angular/core';
+import { FormGroup } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { NavController, IonContent, ModalController } from '@ionic/angular';
+import { IonContent, ModalController, NavController } from '@ionic/angular';
 import { BehaviorSubject, combineLatest, Observable, of } from 'rxjs';
-import { switchMap, finalize } from 'rxjs/operators';
+import { finalize, switchMap } from 'rxjs/operators';
 import { CustomRouterService } from 'src/app/core/services/custom-router/custom-router.service';
 import { subPageHeaderDefault } from 'src/app/shared/data/sub-page-header-default';
 import { subPageHeaderPrimary } from 'src/app/shared/data/sub-page-header-primary';
 import {
-  Locuinte,
   LocuintaState,
+  Locuinte,
 } from 'src/app/shared/models/data/locuinte.interface';
-import { LocuinteService } from '../../services/locuinte/locuinte.service';
 import { LocuinteFormType } from 'src/app/shared/models/modes/locuinte-form-modes';
-import { FormGroup } from '@angular/forms';
 import { LocuinteFormService } from '../../services/locuinte-form/locuinte-form.service';
+import { LocuinteService } from '../../services/locuinte/locuinte.service';
 import { ConfirmationModalComponent } from '../modals/confirmation-modal/confirmation-modal.component';
 
 @Component({
@@ -95,7 +95,7 @@ export class LocuinteViewComponent implements OnInit {
         if (id) {
           this.locuinteS.getSingleLocuinta(id).subscribe((val: Locuinte) => {
             if (val) {
-              this.locuinta$.next(val);
+              this.getLocationInfo(val);
               this.dataModel = val;
               this.buildFormAdd();
               this.initForm();
@@ -141,7 +141,34 @@ export class LocuinteViewComponent implements OnInit {
         break;
     }
   }
-
+  getLocationInfo(val) {
+    const allValues = val;
+    console.log(val);
+    const obj = {
+      countryId: 'RO',
+      countyId: val.addressCounty,
+      cityId: val.addressCity,
+      postCode: null,
+    };
+    this.locuinteS.getStreets(obj).subscribe((streets) => {
+      const currStreets = streets.filter(
+        (e) => e.id === val.addressStreet
+      )[0];
+      allValues.addressCity = val.addressCity;
+      allValues.addressStreet = currStreets ? currStreets.name : '';
+      this.locuinta$.next(allValues);
+      this.cdRef.markForCheck();
+    });
+  }
+  deleteAddress(id) {
+    const obj = {
+      id,
+      disabledReason: 'Disabled by user',
+    };
+    this.locuinteS.disableLocationForAddressId(obj).subscribe((v) => {
+      this.navCtrl.navigateRoot(['/profil', 'locuinte']);
+    });
+  }
   initForm() {
     switch (this.formMode) {
       case this.locuintaState.INVALID:
