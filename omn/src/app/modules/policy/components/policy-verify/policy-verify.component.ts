@@ -31,6 +31,7 @@ export class PolicyVerifyComponent implements OnInit {
   ngOnInit() {}
 
   addOffer() {
+    console.log(this.offerData)
     this.padS
       .CreatePADInsuranceOffer(
         this.offerData.policy.locuintaData.id,
