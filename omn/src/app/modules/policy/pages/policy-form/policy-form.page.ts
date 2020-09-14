@@ -506,8 +506,8 @@ export class PolicyFormPage implements OnInit, OnDestroy {
     this.showError = true;
     setTimeout(() => {
       this.showError = false;
-      console.log("SHOW ERROR STATUS", this.showError)
-    }, 4000);
+      this.back();
+    }, 3000);
   }
 
   exitFlow() {

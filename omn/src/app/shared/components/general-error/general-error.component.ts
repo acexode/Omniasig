@@ -31,16 +31,11 @@ export class GeneralErrorComponent implements OnInit {
 
   ngOnInit() {
     this.cdRef.markForCheck();
-    console.log("THE CATIVATED ROUTE", this.router.url)
     const url = this.routeRedirect ? this.routeRedirect : '/home';
     setTimeout(() => {
       if(this.router.url !== '/policy/form'){
         this.router.navigateByUrl(url);
       }
-      // else{
-      //           console.log("I RAA---------------------")
-      //   this.router.navigateByUrl('/policy/form');
-      // }
     }, 3000);
   }
 }

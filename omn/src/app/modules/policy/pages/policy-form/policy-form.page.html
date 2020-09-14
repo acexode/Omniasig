@@ -68,7 +68,7 @@
       >
         <app-policy-address-form
           #addressFormComp
-          (dataAdded)="locuintaAdded()"
+          (dataAdded)="locuintaAdded($event)"
           [policyType]="typeItem?.id"
           (stepChange)="addressStepChange($event)"
         ></app-policy-address-form>

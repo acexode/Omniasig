@@ -11,7 +11,7 @@ import {
 import { FormGroup } from '@angular/forms';
 import { IonContent, ModalController } from '@ionic/angular';
 import { Observable, of } from 'rxjs';
-import { finalize } from 'rxjs/operators';
+import { finalize, switchMap } from 'rxjs/operators';
 import { LocuinteFormService } from 'src/app/profile/pages/locuinte/services/locuinte-form/locuinte-form.service';
 import { LocuinteService } from 'src/app/profile/pages/locuinte/services/locuinte/locuinte.service';
 import { PadService } from '../../services/pad.service';
@@ -112,8 +112,76 @@ export class PolicyAddressFormComponent implements OnInit {
         this.formType = LocuinteFormType.ADDRESS;
         break;
     }
+    if (this.addressCounty) {
+      this.formS
+        .handleInitialCounty(this.addressCounty, this.formInstance.data)
+        .pipe(
+          switchMap((vals) => {
+            this.cdRef.markForCheck();
+            this.cdRef.detectChanges();
+            if (this.addressCity) {
+              return this.formS.handleInitialCityAndStreets(
+                this.addressCounty,
+                this.addressCity,
+                this.formInstance.data
+              );
+            } else {
+              return of(true);
+            }
+          })
+        )
+        .subscribe((v) => {
+          this.cdRef.markForCheck();
+          this.cdRef.detectChanges();
+        });
+      this.addressCounty.valueChanges.subscribe((val) => {
+        this.formS
+          .updateCounty(this.addressCounty, this.formInstance.data)
+          .subscribe((v) => {
+            this.cdRef.markForCheck();
+            this.cdRef.detectChanges();
+            if (this.addressCity) {
+              this.addressCity.updateValueAndValidity({
+                onlySelf: true,
+              });
+            }
+          });
+      });
+    }
+    if (this.addressCity) {
+      this.addressCity.valueChanges.subscribe((val) => {
+        this.formS
+          .updateCity(this.addressCity, this.formInstance.data)
+          .subscribe((v) => {
+            this.cdRef.markForCheck();
+            this.cdRef.detectChanges();
+          });
+      });
+    }
+    if (this.addressStreet) {
+      this.addressStreet.valueChanges.subscribe((val) => {
+        this.formS.handleStreetType(val, this.formInstance.data);
+      });
+    }
   }
 
+  get addressCounty() {
+    return this.formInstance && this.formInstance.group
+      ? this.formInstance.group.get('addressCounty')
+      : null;
+  }
+
+  get addressCity() {
+    return this.formInstance && this.formInstance.group
+      ? this.formInstance.group.get('addressCity')
+      : null;
+  }
+
+  get addressStreet() {
+    return this.formInstance && this.formInstance.group
+      ? this.formInstance.group.get('addressStreet')
+      : null;
+  }
   buildFormAdd() {
     this.formConfigs.address = this.formS.buildFormConfig(
       LocuinteFormType.ADDRESS,
@@ -142,25 +210,20 @@ export class PolicyAddressFormComponent implements OnInit {
       case this.formModes.ADD_NEW_POLICY:
         this.buttonVisible = true;
         if (this.formType === LocuinteFormType.ADDRESS) {
+          this.formType = LocuinteFormType.PAD_CHECK;
           this.submitData().subscribe((v) => {
             if (v) {
-              this.dataModel = v;
-              this.formType = LocuinteFormType.PAD_CHECK;
+              this.dataModel = get(v, 'response', {});
               this.formInstance = {
                 config: this.formConfigs.place,
                 group: this.formGroups.place,
                 data: this.formData.place,
               };
+              this.dataAdded.emit({
+                locuinta: get(v, 'response', null),
+              });
               this.stepChange.emit(this.formType);
-              console.log("MODEL ID",this.dataModel.id)
-              this.padS.VerifyPADInsuranceOffer(this.dataModel.id).subscribe(
-                (result) => {
-                  this.handleFormSubmit();
-                },
-                (error) => {
-                  this.handleFormSubmit();
-                }
-              );
+              this.handleFormSubmit();
             }
           });
         } else if (this.formType === LocuinteFormType.PAD_CHECK) {
@@ -227,9 +290,6 @@ export class PolicyAddressFormComponent implements OnInit {
           this.formInstance.group.value,
           this.dataModel
         );
-        if (this.formType === LocuinteFormType.ADDRESS) {
-          return of(model2);
-        }
         this.formSubmitting = true;
         this.cdRef.markForCheck();
         if (this.dataModel && get(this.dataModel, 'id', null)) {
