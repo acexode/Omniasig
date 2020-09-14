@@ -1,3 +1,5 @@
+import { Deeplinks } from '@ionic-native/deeplinks/ngx';
+import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouteReuseStrategy } from '@angular/router';
@@ -26,6 +28,7 @@ import { SharedModule } from './shared/shared.module';
       navAnimation: iosTransitionAnimation,
     }),
     AppRoutingModule,
+    HttpClientModule,
     CoreModule,
     SharedModule,
     PolicySharedModule.forRoot(),
@@ -35,6 +38,7 @@ import { SharedModule } from './shared/shared.module';
     StatusBar,
     SplashScreen,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
+    Deeplinks,
   ],
   bootstrap: [AppComponent],
 })

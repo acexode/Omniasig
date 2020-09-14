@@ -5,8 +5,6 @@ import { RouterModule } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
 import { IonicStorageModule } from '@ionic/storage';
 import { SideMenuComponent } from './components/side-menu/side-menu.component';
-import { AuthGuard } from './guards/auth/auth.guard';
-import { LoginGuard } from './guards/login/login.guard';
 import { fakeBackendProvider } from './interceptors/fake-backend';
 import { JwtInterceptor } from './interceptors/JWTInterceptor';
 import { AuthService } from './services/auth/auth.service';

@@ -120,6 +120,8 @@ export class InputSmsComponent implements OnInit, AfterViewInit, OnDestroy {
     this.passForm.reset();
     this.digitsLength = 0;
     this.errorLogin = 'Cod Invalid!';
+    this.busy = false;
+
   }
 
   spawnInput() {

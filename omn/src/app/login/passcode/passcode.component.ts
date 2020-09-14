@@ -1,9 +1,10 @@
-import { AuthService } from 'src/app/core/services/auth/auth.service';
-import { Subscription } from 'rxjs';
-import { ActivatedRoute } from '@angular/router';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
 import { IonInput, NavController } from '@ionic/angular';
+import { Subscription } from 'rxjs';
+import { take } from 'rxjs/internal/operators/take';
+import { AuthService } from 'src/app/core/services/auth/auth.service';
 
 @Component({
   selector: 'app-passcode',
@@ -34,7 +35,7 @@ export class PasscodeComponent implements OnInit, OnDestroy {
   }
 
   getPhoneNumber() {
-    this.sub = this.route.params.subscribe((params) => {
+    this.sub = this.route.params.pipe(take(1)).subscribe((params) => {
       if (params.number) {
         this.phoneNumber = params.number;
       } else {
@@ -57,20 +58,22 @@ export class PasscodeComponent implements OnInit, OnDestroy {
   }
 
   changeInput(passcode) {
-    if (passcode) {
+    if (passcode || passcode === 0) {
       this.digitsLength = passcode.toString().length;
     } else {
       this.digitsLength = 0;
     }
-    if (this.digitsLength > 5) {
-      this.verifyPasscode();
+    if (this.digitsLength === 6) {
+      if (!this.busy) {
+        this.verifyPasscode();
+      }
     }
 
     this.errorLogin = null;
-    this.busy = false;
   }
 
   verifyPasscode() {
+    this.busy = true;
     const data = {
       phone: this.phoneNumber,
       password: this.passForm.controls.passcode.value,
@@ -84,12 +87,13 @@ export class PasscodeComponent implements OnInit, OnDestroy {
 
   changeCurrentLogin() {
     this.authService.saveLastLoginNumber(this.phoneNumber);
+    this.busy = false;
   }
 
   errLogin(err) {
     this.passForm.reset();
     this.errorLogin = 'Cod Invalid!';
-    this.busy = true;
+    this.busy = false;
   }
 
   spawnInput() {
