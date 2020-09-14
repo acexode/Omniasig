@@ -207,12 +207,11 @@ export class LocuinteFormPageComponent implements OnInit {
     }
     if (this.addressStreet) {
       this.addressStreet.valueChanges.subscribe((val) => {
-        const type = this.formS.handleStreetProcessing(
+        this.formS.handleStreetProcessing(
           val,
           this.formInstance.data,
           this.dataModel
         );
-        
       });
     }
   }
