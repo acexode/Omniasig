@@ -58,7 +58,7 @@ export class LocuinteFormComponent implements OnInit {
   }
 
   handleCustom() {
-    if (this.policyType === 'PAD' && this.fG) {
+    if (this.fG) {
       const fieldC = this.fG.get('padAvailable');
       const fieldS = this.fG.get('padSerie');
       const fieldN = this.fG.get('padNr');

@@ -8,14 +8,15 @@ import {
 } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ActionSheetController, NavController } from '@ionic/angular';
-import { get } from 'lodash';
-import { BehaviorSubject, Subscription, zip, forkJoin } from 'rxjs';
+import { get, has } from 'lodash';
+import { BehaviorSubject, combineLatest, Subscription } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import { AuthService } from 'src/app/core/services/auth/auth.service';
 import { CustomRouterService } from 'src/app/core/services/custom-router/custom-router.service';
 import { CustomTimersService } from 'src/app/core/services/custom-timers/custom-timers.service';
 import { EmailValidateModes } from 'src/app/shared/models/modes/email-validate-modes';
 import { OmnAppLauncherService } from 'src/app/shared/modules/omn-app-launcher/services/omn-app-launcher.service';
+import { unsubscriberHelper } from './../../../../../core/helpers/unsubscriber.helper';
 
 @Component({
   selector: 'app-date-personale-validate-email',
@@ -26,11 +27,15 @@ import { OmnAppLauncherService } from 'src/app/shared/modules/omn-app-launcher/s
 export class DatePersonaleValidateEmailComponent implements OnInit, OnDestroy {
   @HostBinding('class') color = 'ion-color-white-page';
   validateEmailModes = EmailValidateModes;
-  displayMode: EmailValidateModes = this.validateEmailModes.EMAIL_NEW_VALIDATE;
+  defaultDisplayMode = this.validateEmailModes.EMAIL_NEW_VALIDATE;
+  displayMode: EmailValidateModes = null;
   email = '';
   loaded = false;
   timerSubs: Subscription;
   timer$ = new BehaviorSubject(0);
+  queryParams = null;
+  init = false;
+  navS;
 
   constructor(
     public actionSheetController: ActionSheetController,
@@ -58,22 +63,32 @@ export class DatePersonaleValidateEmailComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.routerS
+    this.navS = this.routerS
       .getNavigationEndEvent()
       .pipe(
-        switchMap(() => {
-          return zip(
+        switchMap((val) => {
+          return combineLatest([
             this.routerS.processChildDataAsync(this.aRoute, 'validateMode'),
-            this.authS.getAccountData()
-          );
+            this.authS.getAccountData(),
+            this.routerS.processChildQParamsAsync(this.aRoute, [
+              'UserNameOrId',
+              'ConfirmationToken',
+              'RawProperties',
+            ]),
+          ]);
         })
       )
       .subscribe((vM) => {
         if (vM) {
-          this.displayMode = get(vM, '0.validateMode', this.displayMode);
+          this.displayMode = get(vM, '0', this.defaultDisplayMode);
           this.email = get(vM, '1.email', this.email);
+          this.queryParams = get(vM, '2', null);
         }
         this.cdRef.markForCheck();
+        if (!this.init) {
+          this.handleEventData();
+          this.init = true;
+        }
       });
   }
 
@@ -110,7 +125,7 @@ export class DatePersonaleValidateEmailComponent implements OnInit, OnDestroy {
 
   tryApp(type = 0) {
     if (type) {
-      this.toggleSuccess();
+      // Do nothing in this case.
     } else {
       this.appS.tryEmailRead().subscribe((v) => console.log(v));
     }
@@ -127,9 +142,10 @@ export class DatePersonaleValidateEmailComponent implements OnInit, OnDestroy {
     this.authS.demoActivate();
   }
 
-  getEmail() {
+  resendEmail() {
     this.timerS.startEmailValidateTimer();
     this.subscribeTimer();
+    this.authS.doChangeEmail(this.email).subscribe();
     this.cdRef.markForCheck();
   }
 
@@ -142,15 +158,75 @@ export class DatePersonaleValidateEmailComponent implements OnInit, OnDestroy {
       this.displayMode === this.validateEmailModes.EMAIL_CHANGE_VALIDATE ||
       this.displayMode === this.validateEmailModes.EMAIL_CHANGE_VALIDATE_SUCCESS
     ) {
-      this.navCtrl.navigateBack('/profil/date-personale/validate-email');
+      this.navCtrl.navigateBack('/profil/date-personale');
     } else {
       this.navCtrl.navigateBack('/home');
     }
   }
 
-  ngOnDestroy() {
-    if (this.timerSubs) {
-      this.timerSubs.unsubscribe();
+  handleEventData() {
+    switch (this.displayMode) {
+      case this.validateEmailModes.EMAIL_CODE_PROCESSING:
+        // We trigger the token validation process.
+        if (this.queryParams && has(this.queryParams, 'RawProperties')) {
+          this.validateEmailToken(true);
+        } else {
+          this.displayMode = this.validateEmailModes.EMAIL_VALIDATE_ERROR;
+          this.cdRef.markForCheck();
+        }
+        break;
+      case this.validateEmailModes.EMAIL_CODE_CHANGE_PROCESSING:
+        // We trigger the token validation process.
+        if (this.queryParams && has(this.queryParams, 'RawProperties')) {
+          this.validateEmailToken(false);
+        } else {
+          this.displayMode = this.validateEmailModes.EMAIL_VALIDATE_ERROR;
+          this.cdRef.markForCheck();
+        }
+        break;
+
+      case this.validateEmailModes.EMAIL_NEW_VALIDATE:
+        // We trigger resending the token.
+        this.authS.doReqNewEmailCode().subscribe();
+        break;
+
+      default:
+        break;
     }
+  }
+
+  /**
+   * This passes the token and user id data to the validation WS.
+   * @param newE - Required to decide which WS to use to validate.
+   */
+  validateEmailToken(newE = false) {
+    const RawProperties = get(this.queryParams, 'RawProperties', null);
+
+    let jsonObj = {};
+    try {
+      jsonObj = JSON.parse(atob(RawProperties));
+    } catch (err) {
+      jsonObj = {};
+    }
+    this.authS.validateEmail(jsonObj, newE).subscribe(
+      (sData) => {
+        this.displayMode =
+          this.displayMode === this.validateEmailModes.EMAIL_CODE_PROCESSING
+            ? this.validateEmailModes.EMAIL_NEW_VALIDATE_SUCCESS
+            : this.validateEmailModes.EMAIL_CHANGE_VALIDATE_SUCCESS;
+        this.cdRef.markForCheck();
+        this.cdRef.detectChanges();
+      },
+      (err) => {
+        this.displayMode = this.validateEmailModes.EMAIL_VALIDATE_ERROR;
+        this.cdRef.markForCheck();
+        this.cdRef.detectChanges();
+      }
+    );
+  }
+  ngOnDestroy() {
+    this.init = false;
+    unsubscriberHelper(this.timerSubs);
+    unsubscriberHelper(this.navS);
   }
 }

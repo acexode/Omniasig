@@ -1,0 +1,33 @@
+<ion-grid class="px-32 pt-32 pb-24 flex flex-1 h-100">
+  <ion-col class="ion-no-padding flex flex-1 flex-column">
+    <ion-row
+      class="ion-no-padding flex flex-1 ion-justify-content-center ion-align-items-center"
+    >
+      <ion-row class="radius-50-perc bg-ultra-light-green p-16">
+        <ion-icon
+          name="sm-warning"
+          class="d-flex icon-60 color-red bg-white radius-50-perc shadow-3"
+        ></ion-icon>
+      </ion-row>
+    </ion-row>
+    <ion-row
+      class="flex ion-no-padding ion-align-items-center ion-justify-content-center flex-0"
+    >
+      <ion-label
+        color="omn-green"
+        class="h2 ls-min-02 alt-font border-danger ion-text-center text-weight-bold w-auto"
+        >{{ title }}
+      </ion-label>
+    </ion-row>
+    <ion-row
+      class="ion-no-padding my-16 flex flex-1 flex-column ion-align-items-start"
+    >
+      <ion-label
+        *ngFor="let item of texts"
+        [color]="item?.color"
+        [ngClass]="item?.classes"
+        >{{ item?.text }}</ion-label
+      >
+    </ion-row>
+  </ion-col>
+</ion-grid>

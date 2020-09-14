@@ -18,7 +18,11 @@ export const authEndpoints = {
   confirmPincodeReset:
     serverBaseUrl + '/UserProfile/ConfirmPinChangeWithoutAuthentification',
   updatePassword: serverBaseUrl + '/User/UpdatePassword',
-  ChangeMarketingAndNotificationSettings: serverBaseUrl + '/UserProfile/ChangeMarketingAndNotificationSettings'
+  ChangeMarketingAndNotificationSettings: serverBaseUrl + '/UserProfile/ChangeMarketingAndNotificationSettings',
+  confirmNewEmail:
+    serverBaseUrl + '/UserProfile/ConfirmEmailForRegisterUserProfile',
+  confirmEmailChange: serverBaseUrl + '/UserProfile/ConfirmationNewEmailChange',
+  changeEmail: serverBaseUrl + '/UserProfile/RequestNewEmailChange',
 };
 
 export const baseEndpoints = {
@@ -39,12 +43,16 @@ export const policyEndpoints = {
 
 export const locuinteEndpoints = {
   base: serverBaseUrl + '/locuinte',
-  add: serverBaseUrl + '/Address/AddAddress',
+  add: serverBaseUrl + '/Location/AddAddressLocation',
   makeHomeAddress: serverBaseUrl + '/Address/MakeHomeAddress',
   AlluserLocation: serverBaseUrl + '/Address/GetAllAddressesForLoggedUser',
   updateAddress: serverBaseUrl + '/Location/UpdateLocationForAddressId',
   disAbleLocation: serverBaseUrl + '/Location/DisableLocationForAddressId',
-  GetAllLocationsForLoggedUser: serverBaseUrl +  '/Location/GetAllLocationsForLoggedUser'
+  GetAllLocationsForLoggedUser: serverBaseUrl + '/Location/GetAllLocationsForLoggedUser',
+  singleLocation: serverBaseUrl + '/Location/GetLocationByIdForLoggedUser',
+  getCities: serverBaseUrl + '/INSIS/Cities',
+  getCounties: serverBaseUrl + '/INSIS/Counties',
+  getStreets: serverBaseUrl + '/INSIS/Streets'
 };
 
 export const phoneNumberEndPoints = {

@@ -61,6 +61,7 @@ export class PolicyDataService {
         )
       );
   }
+
   // create policy object to suit display data
   createPolicyObj(policy: any) {
     return {
@@ -84,34 +85,31 @@ export class PolicyDataService {
       },
       listingSubtitle: `${policy.addressStreet}, ${policy.addressStreetNumber} ${policy.addressCity}`,
       locuintaData: {
-        id: policy.id,
+        id: policy.locuintaId,
+        type: policy.locationType,
+        structure: policy.locationStructure,
+        yearConstruction: policy.locationYearConstruction,
+        valueCurrency: policy.locationValueCurrency,
+        value: policy.locationValue,
+        typeUse: policy.locationArea,
+        area: policy.locationArea,
+        floors: policy.locationFloors,
+        rooms: policy.locationRooms,
+        hasAlarmSystem: policy.locationHasAlarmSystem,
         name: policy.locationName,
-        info: {
-          type: policy.locationType,
-          resistenceStructure: policy.locationStructure,
-          buildYear: policy.locationYearConstruction,
-          valueCurrency: policy.locationValueCurrency,
-          valueSum: policy.locationValue,
-          occupancy: policy.locationArea,
-          usableSurface: policy.locationArea,
-          heightRegime: policy.locationFloors,
-          roomCount: policy.locationRooms,
-          alarm: policy.locationHasAlarmSystem,
-        },
-        address: {
-          county: policy.addressCounty,
-          city: policy.addressCity,
-          street: policy.addressStreet,
-          number: policy.addressStreetNumber,
-          // Scara bloc.
-          entrance: policy.addressScara,
-          apartment: policy.addressApart,
-          postalCode: policy.addressPostalCode,
-        },
+        addressCounty: policy.addressCounty,
+        addressCity: policy.addressCity,
+        addressStreet: policy.addressStreet,
+        addressBuildingNumber: policy.addressStreetNumber,
+        // Scara bloc.
+        addressScara: policy.addressScara,
+        addressApart: policy.addressApart,
+        addressPostalCode: policy.addressPostalCode,
       },
       expiry: policy.expireDate,
     };
   }
+
   // get user offers
   getUserOffers() {
     const emptyV: Array<PolicyOffer> = [];
@@ -131,6 +129,7 @@ export class PolicyDataService {
         )
       );
   }
+
   getUserPoliciesArchive(id: number | string) {
     const emptyV: Array<PolicyItem> = [];
     return this.reqS
@@ -163,30 +162,28 @@ export class PolicyDataService {
           to: offer.expireDate,
         },
         locuintaData: {
-          id: offer.id,
+          id: offer.locuintaId,
+
+          type: offer.locationType,
+          structure: offer.locationStructure,
+          yearConstruction: offer.locationYearConstruction,
+          valueCurrency: offer.locationValueCurrency,
+          value: offer.locationValue,
+          typeUse: offer.locationArea,
+          area: offer.locationArea,
+          floors: offer.locationFloors,
+          rooms: offer.locationRooms,
+          hasAlarmSystem: offer.locationHasAlarmSystem,
+
           name: offer.locationName,
-          info: {
-            type: offer.locationType,
-            resistenceStructure: offer.locationStructure,
-            buildYear: offer.locationYearConstruction,
-            valueCurrency: offer.locationValueCurrency,
-            valueSum: offer.locationValue,
-            occupancy: offer.locationArea,
-            usableSurface: offer.locationArea,
-            heightRegime: offer.locationFloors,
-            roomCount: offer.locationRooms,
-            alarm: offer.locationHasAlarmSystem,
-          },
-          address: {
-            county: offer.addressCounty,
-            city: offer.addressCity,
-            street: offer.addressStreet,
-            number: offer.addressStreetNumber,
-            // Scara bloc.
-            entrance: offer.addressScara,
-            apartment: offer.addressApart,
-            postalCode: offer.addressPostalCode,
-          },
+          addressCounty: offer.addressCounty,
+          addressCity: offer.addressCity,
+          addressStreet: offer.addressStreet,
+          addressBuildingNumber: offer.addressStreetNumber,
+          // Scara bloc.
+          addressScara: offer.addressScara,
+          addressApart: offer.addressApart,
+          addressPostalCode: offer.addressPostalCode,
         },
         userId: null,
         locuintaId: null,
@@ -205,14 +202,14 @@ export class PolicyDataService {
           if (existing) {
             return of(existing);
           } else {
-            return this.getUserOffers().pipe(
-              map((o) => o.filter((off) => off.id === id))
-            );
+            // return this.getUserOffers().pipe(
+            //   map((o) => o.filter((off) => off.id === id))
+            // );
           }
         } else {
-          return this.getUserOffers().pipe(
-            map((o) => o.filter((off) => off.id === id))
-          );
+          // return this.getUserOffers().pipe(
+          //   map((o) => o.filter((off) => off.id === id))
+          // );
         }
       })
     );

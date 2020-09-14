@@ -7,7 +7,7 @@
       "city": "Brasov",
       "street": "Traian",
       "number": 45,
-      "entrance": "1A",
+      "addressScara": "1A",
       "apartment": "string",
       "postalCode": 123123
     },
@@ -16,12 +16,12 @@
       "resistenceStructure": 1,
       "buildYear": 1930,
       "valueCurrency": "EUR",
-      "valueSum": 111111,
-      "occupancy": "temporar",
-      "usableSurface": 10,
-      "heightRegime": 1,
+      "value": 111111,
+      "typeUse": "temporar",
+      "area": 10,
+      "floors": 1,
       "roomCount": 2,
-      "alarm": 0
+      "hasAlarmSystem": 0
     },
     "locuintaState": 1
   },
@@ -33,7 +33,7 @@
       "city": "Bacau",
       "street": "Republicii",
       "number": 30,
-      "entrance": "1A",
+      "addressScara": "1A",
       "apartment": "string",
       "postalCode": 123123
     },
@@ -42,12 +42,12 @@
       "resistenceStructure": 0,
       "buildYear": 2020,
       "valueCurrency": "EUR",
-      "valueSum": 111111,
-      "occupancy": "permanent",
-      "usableSurface": 10,
-      "heightRegime": 1,
+      "value": 111111,
+      "typeUse": "permanent",
+      "area": 10,
+      "floors": 1,
       "roomCount": 2,
-      "alarm": 1
+      "hasAlarmSystem": 1
     },
     "locuintaState": 0
   },
@@ -59,7 +59,7 @@
       "city": "Bacau",
       "street": "Republicii",
       "number": 30,
-      "entrance": "1A",
+      "addressScara": "1A",
       "apartment": "string",
       "postalCode": 123123
     },
@@ -68,12 +68,12 @@
       "resistenceStructure": 0,
       "buildYear": 2020,
       "valueCurrency": "EUR",
-      "valueSum": 111111,
-      "occupancy": "permanent",
-      "usableSurface": 10,
-      "heightRegime": 1,
+      "value": 111111,
+      "typeUse": "permanent",
+      "area": 10,
+      "floors": 1,
       "roomCount": 2,
-      "alarm": 1
+      "hasAlarmSystem": 1
     },
     "locuintaState": 2
   }
