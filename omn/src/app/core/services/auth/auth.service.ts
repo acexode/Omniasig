@@ -1,20 +1,23 @@
-import { assignIn } from 'lodash';
 import { Injectable } from '@angular/core';
 import {
-  Router,
   ActivatedRoute,
   ActivatedRouteSnapshot,
-  UrlTree,
+  Router,
+
+
+
+  UrlTree
 } from '@angular/router';
-import { BehaviorSubject } from 'rxjs';
+import * as qs from 'qs';
+import { BehaviorSubject, throwError } from 'rxjs';
 import {
   distinctUntilChanged,
   filter,
   map,
   share,
   switchMap,
-  tap,
   take,
+  tap
 } from 'rxjs/operators';
 import { authEndpoints } from '../../configs/endpoints';
 import { AccountStates } from '../../models/account-states';
@@ -146,8 +149,8 @@ export class AuthService {
     return this.storeS.setItem('phoneNumber', phoneNumber);
   }
 
-  lastLoginNumber() {
-    return this.storeS.getItem('phoneNumber');
+  getPhoneNumber() {
+    return this.storeS.getItem('phoneNumber').pipe(take(1));
   }
 
   doLogout() {
@@ -244,6 +247,68 @@ export class AuthService {
       account: { ...state.account },
     });
     this.storeS.setItem('account', state.account);
+  }
+
+  doUpdateAccount(data: { cnp?: string; email?: string }) {
+    const account = this.authState.value.account;
+    if (data.cnp) {
+      account.cnp = data.cnp;
+    }
+    if (data.email) {
+      account.email = data.email;
+    }
+
+    this.storeS.setItem('account', account);
+    this.authState.next({
+      init: true,
+      account: { ...account },
+    });
+  }
+
+  validateEmail(dataObj, newEmail?: boolean) {
+    const endpointV = newEmail
+      ? authEndpoints.confirmNewEmail
+      : authEndpoints.confirmEmailChange;
+    // Use custom query encode so that Angular will not remove token chars.
+    const encodedQs = qs.stringify(dataObj, {
+      encoder: (str) => {
+        return encodeURIComponent(str);
+      },
+    });
+    return this.reqS.get(endpointV + '?' + encodedQs);
+  }
+
+  doReqNewEmailCode() {
+    return this.getAccountData().pipe(
+      take(1),
+      switchMap((value: Account) => {
+        if (value && value.email) {
+          return this.doChangeEmail(value.email);
+        } else {
+          throw throwError('NO_ACCOUNT_EMAIL');
+        }
+      })
+    );
+  }
+
+  doChangeEmail(newEmail: string) {
+    return this.getPhoneNumber().pipe(
+      take(1),
+      switchMap((phoneNum) => {
+        if (phoneNum) {
+          return this.reqS.post(authEndpoints.changeEmail, {
+            userNameOrId: phoneNum,
+            newEmail,
+          });
+        } else {
+          throw throwError('NO_NUMBER');
+        }
+      })
+    );
+  }
+
+  lastLoginNumber() {
+    return this.storeS.getItem('phoneNumber');
   }
 
   demoUpdate(data: { cnp?: string; email?: string }) {

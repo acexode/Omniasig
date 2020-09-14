@@ -43,9 +43,7 @@ export class LocuinteFormComponent implements OnInit {
   @Output() eventSubmit: EventEmitter<any> = new EventEmitter();
   constructor(private cdRef: ChangeDetectorRef) {}
 
-  ngOnInit() {
-    console.log(this.fieldConfig)
-  }
+  ngOnInit() {}
 
   doSubmit() {
     if (this.fG.valid) {
@@ -58,10 +56,9 @@ export class LocuinteFormComponent implements OnInit {
   emitEvents() {
     this.customEvents.emit();
   }
-  
 
   handleCustom() {
-    if (this.policyType === 'PAD' && this.fG) {
+    if (this.fG) {
       const fieldC = this.fG.get('padAvailable');
       const fieldS = this.fG.get('padSerie');
       const fieldN = this.fG.get('padNr');

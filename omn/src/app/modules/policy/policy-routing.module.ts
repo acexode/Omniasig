@@ -37,14 +37,7 @@ const routes: Routes = [
       },
     ],
   },
-  // {
-  //   path: 'asistenta-technica',
-  //   loadChildren: () => import('./asistenta-technica/asistenta-technica.module').then( m => m.AsistentaTechnicaPageModule)
-  // },
-  // {
-  //   path: 'asistenta-modal-page',
-  //   loadChildren: () => import('./asistenta-modal-page/asistenta-modal-page.module').then( m => m.AsistentaModalPagePageModule)
-  // },
+
 
 ];
 

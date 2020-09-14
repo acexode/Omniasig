@@ -62,7 +62,6 @@ export class LocuinteFormPageComponent implements OnInit {
 
   formSubmitting = false;
   formInstance: { group: FormGroup; config: any; data: any } = null;
-
   constructor(
     private routerS: CustomRouterService,
     private aRoute: ActivatedRoute,
@@ -92,9 +91,6 @@ export class LocuinteFormPageComponent implements OnInit {
           this.cdRef.markForCheck();
         });
       });
-    // this.formInstance.group.valueChanges.subscribe(val =>{
-
-    // })
   }
 
   setTitles() {
@@ -152,34 +148,61 @@ export class LocuinteFormPageComponent implements OnInit {
             data: this.formData.address,
           };
         }
-
         this.formType = LocuinteFormType.ADDRESS;
+        this.cdRef.markForCheck();
+        this.cdRef.detectChanges();
         break;
     }
-    this.locuinteS.getCounties().subscribe((val) => {
-      this.formData.address.addressCounty = val;
-      this.cdRef.markForCheck();
-    });
+
     if (this.addressCounty) {
-      this.addressCounty.valueChanges.subscribe((val) => {
-        this.locuinteS.getCities(val).subscribe((data) => {          
-          this.formInstance.data.addressCity = data;
+      this.formS
+        .handleInitialCounty(this.addressCounty, this.formInstance.data)
+        .pipe(
+          switchMap((vals) => {
+            this.cdRef.markForCheck();
+            this.cdRef.detectChanges();
+            if (this.addressCity) {
+              return this.formS.handleInitialCityAndStreets(
+                this.addressCounty,
+                this.addressCity,
+                this.formInstance.data
+              );
+            } else {
+              return of(true);
+            }
+          })
+        )
+        .subscribe((v) => {
+          this.cdRef.markForCheck();
+          this.cdRef.detectChanges();
         });
+      this.addressCounty.valueChanges.subscribe((val) => {
+        this.formS
+          .updateCounty(this.addressCounty, this.formInstance.data)
+          .subscribe((v) => {
+            this.cdRef.markForCheck();
+            this.cdRef.detectChanges();
+            if (this.addressCity) {
+              this.addressCity.updateValueAndValidity({
+                onlySelf: true,
+              });
+            }
+          });
       });
     }
     if (this.addressCity) {
-      this.formInstance.group.get('addressCity').valueChanges.subscribe((val) => {
-        const addressCity = this.formInstance.data.addressCity.filter((v) => v.id === val)[0];
-        const obj = {
-          countryId: addressCity.countryId,
-          countyId: addressCity.countyId,
-          cityId: addressCity.id,
-          postCode: null,
-          statedId: addressCity.statedId,
-        };
-        this.locuinteS.getStreets(obj).subscribe((v) => {
-          this.cdRef.markForCheck();
-        });
+      this.addressCity.valueChanges.subscribe((val) => {
+        this.formS
+          .updateCity(this.addressCity, this.formInstance.data)
+          .subscribe((v) => {
+            this.cdRef.markForCheck();
+            this.cdRef.detectChanges();
+          });
+      });
+    }
+    if (this.addressStreet) {
+      this.addressStreet.valueChanges.subscribe((val) => {
+        this.formS.handleStreetType(val, this.formInstance.data);
       });
     }
   }
@@ -189,9 +212,16 @@ export class LocuinteFormPageComponent implements OnInit {
       ? this.formInstance.group.get('addressCounty')
       : null;
   }
+
   get addressCity() {
     return this.formInstance && this.formInstance.group
       ? this.formInstance.group.get('addressCity')
+      : null;
+  }
+
+  get addressStreet() {
+    return this.formInstance && this.formInstance.group
+      ? this.formInstance.group.get('addressStreet')
       : null;
   }
 
@@ -279,19 +309,11 @@ export class LocuinteFormPageComponent implements OnInit {
 
   submitData(): Observable<Locuinte> {
     switch (this.formMode) {
-      case this.formModes.EDIT_FULL:   
-        // const model = this.formS.processFormModel(
-        //   this.formInstance.group.value,
-        //   this.dataModel
-        // );
-        let model;
-        if(this.dataModel.hasOwnProperty('response')){
-          let year = parseInt(this.formInstance.group.get('yearConstruction').value)          
-          this.formInstance.group.get('yearConstruction').setValue(year)
-           model = {...this.dataModel['response'], ...this.formInstance.group.value}
-        }else{
-          model = {...this.dataModel, ...this.formInstance.group.value}
-        }        
+      case this.formModes.EDIT_FULL:
+        const model = this.formS.processFormModel(
+          this.formInstance.group.value,
+          this.dataModel
+        );
         this.formSubmitting = true;
         this.cdRef.markForCheck();
         return this.locuinteS.updateSingleLocuinte(model).pipe(
@@ -300,20 +322,16 @@ export class LocuinteFormPageComponent implements OnInit {
             this.cdRef.markForCheck();
           })
         );
-
       case this.formModes.ADD_NEW_FULL:
-        // const model2 = this.formS.processFormModel(
-        //   this.formInstance.group.value,
-        //   this.dataModel
-        // );
-       
-        const model2 = {...this.dataModel, ...this.formInstance.group.value}
-        
+        const model2 = this.formS.processFormModel(
+          this.formInstance.group.value,
+          this.dataModel
+        );
+
         this.formSubmitting = true;
         this.cdRef.markForCheck();
         if (this.dataModel) {
-          let newUpdates = this.processForm(this.dataModel,this.formInstance.group.value)
-          return this.locuinteS.updateSingleLocuinte(newUpdates).pipe(
+          return this.locuinteS.updateSingleLocuinte(model2).pipe(
             finalize(() => {
               this.formSubmitting = false;
               this.cdRef.markForCheck();
@@ -331,11 +349,6 @@ export class LocuinteFormPageComponent implements OnInit {
       default:
         return of(null);
     }
-  }
-  processForm(existing, newValue){        
-    let model = {...existing['response'], ...newValue}   
-    model.yearConstruction = parseInt(model.yearConstruction)    
-    return model
   }
   trailingAction() {}
   scrollTop() {

@@ -1,8 +1,8 @@
 import { PolicyItem } from './policy-item';
 
 enum TipLocuinta {
-  MAIN = 'Strada Traian 45, Brasov, judetul Brasov, Cod 321456',
-  OTHER = 'Str. Traian Nr.45, Brasov, jud. BV, Cod 321456',
+  MAIN,
+  OTHER,
 }
 
 export enum LocuintaState {
@@ -13,33 +13,36 @@ export enum LocuintaState {
 
 export interface Locuinte {
   id: number;
-  address: {
-    name: string;
-    addressCounty: string;
-    addressCity: string;
-    addressStreet: string;
-    addressBuildingNumber: number;
-    // Scara bloc.
-    addressFloor: string;
-    addressApart: string;
-    addressPostalCode: string;
-  };
 
-  info: {
-    type: string;
-    structure: string;
-    yearConstruction: number;
-    valueCurrency: string;
-    valueSum: number;
-    occupancy: string;
-    usableSurface: number;
-    heightRegime: number;
-    rooms: number;
-    hasAlarmSystem: boolean;
-  };
+  name: string;
+  addressCounty: string;
+  addressCity: string;
+  addressStreet: string;
+  addressStreetType?: string;
+  // Scara bloc.
+  addressScara: string;
+  addressBuildingNumber: string;
+  addressApart: string;
+  addressPostalCode: string;
+
+  type: string;
+  structure: string;
+  yearConstruction: number;
+  valueCurrency: string;
+  value: number;
+  typeUse: string;
+  area: number;
+  floors: number;
+  rooms: number;
+  hasAlarmSystem: boolean;
   tipLocuinta?: TipLocuinta;
   policyData?: Array<PolicyItem>;
 
+  // PAID data.
+  paidExternalSeriePolita?: string;
+  paidExternalNumarPolita?: string;
+  paidExternalDataStartValabilitatePolita?: string | Date;
+  paidExternalDataStopValabilitatePolita?: string | Date;
   // Temp - prefilled data.
   pad?: {
     padAvailable: boolean | number;
@@ -47,4 +50,5 @@ export interface Locuinte {
     padNr: boolean | number;
   };
   locuintaState?: LocuintaState;
+  isDisabled?: boolean;
 }
