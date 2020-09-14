@@ -140,7 +140,7 @@
           </ion-text>
         </div>
         <ion-text class="s18-h24 ion-inherit-color">
-          {{ policy?.locuintaData?.info?.valueSum }} Euro
+          {{ policy?.locuintaData?.value }} Euro
         </ion-text>
       </div>
 
@@ -151,7 +151,7 @@
           </ion-text>
         </div>
         <ion-text class="s18-h24 ion-inherit-color">
-          <!-- {{ (policy?.locuintaData?.info?.valueSum || 0) * 4.9 }} Lei -->
+          <!-- {{ (policy?.locuintaData?.value || 0) * 4.9 }} Lei -->
           MISSING_DATA Lei
         </ion-text>
       </div>
@@ -185,11 +185,11 @@
           </ion-text>
         </div>
         <ion-text class="s18-h24 ion-inherit-color">
-          {{ policy?.locuintaData?.address?.addressStreet }}
-          {{ policy?.locuintaData?.address?.addressBuildingNumber }}
-          {{ policy?.locuintaData?.address?.addressCity }} jud.
-          {{ policy?.locuintaData?.address?.addressCounty }}, 
-          {{ policy?.locuintaData?.address?.addressPostalCode }}
+          {{ policy?.locuintaData?.addressStreet }}
+          {{ policy?.locuintaData?.addressBuildingNumber }}
+          {{ policy?.locuintaData?.addressCity }} jud.
+          {{ policy?.locuintaData?.addressCounty }}, 
+          {{ policy?.locuintaData?.addressPostalCode }}
         </ion-text>
       </div>
 

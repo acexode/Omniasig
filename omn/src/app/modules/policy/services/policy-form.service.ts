@@ -23,9 +23,12 @@ export class PolicyFormService {
           return { locuinta: l };
         } else {
           const found = policies.find((p) => {
-            const lId = get(p, 'locuintaId', -2);
+            // const lId = get(p, 'locuintaId', -2);
+            // return (
+            //   get(l, 'id', -1).toString() === (lId ? lId : -2).toString() &&
+            const locP = get(p, 'locuintaId', -2);
             return (
-              get(l, 'id', -1).toString() === (lId ? lId : -2).toString() &&
+              get(l, 'id', -1).toString() === (locP ? locP.toString() : '') &&
               get(p, 'typeId', '-') === type
             );
           });

@@ -86,31 +86,25 @@ export class PolicyDataService {
       listingSubtitle: `${policy.addressStreet}, ${policy.addressStreetNumber} ${policy.addressCity}`,
       locuintaData: {
         id: policy.locuintaId,
-
-        info: {
-          type: policy.locationType,
-          structure: policy.locationStructure,
-          yearConstruction: policy.locationYearConstruction,
-          valueCurrency: policy.locationValueCurrency,
-          valueSum: policy.locationValue,
-          occupancy: policy.locationArea,
-          usableSurface: policy.locationArea,
-          heightRegime: policy.locationFloors,
-          rooms: policy.locationRooms,
-          hasAlarmSystem: policy.locationHasAlarmSystem,
-        },
-        address: {
-          name: policy.locationName,
-          addressCounty: policy.addressCounty,
-          addressCity: policy.addressCity,
-          addressStreet: policy.addressStreet,
-          addressBuildingNumber: policy.addressStreetNumber,
-          // Scara bloc.
-          addressScara: policy.addressScara,
-          addressApart: policy.addressApart,
-          addressFloor: policy.addressFloor,
-          addressPostalCode: policy.addressPostalCode,
-        },
+        type: policy.locationType,
+        structure: policy.locationStructure,
+        yearConstruction: policy.locationYearConstruction,
+        valueCurrency: policy.locationValueCurrency,
+        value: policy.locationValue,
+        typeUse: policy.locationArea,
+        area: policy.locationArea,
+        floors: policy.locationFloors,
+        rooms: policy.locationRooms,
+        hasAlarmSystem: policy.locationHasAlarmSystem,
+        name: policy.locationName,
+        addressCounty: policy.addressCounty,
+        addressCity: policy.addressCity,
+        addressStreet: policy.addressStreet,
+        addressBuildingNumber: policy.addressStreetNumber,
+        // Scara bloc.
+        addressScara: policy.addressScara,
+        addressApart: policy.addressApart,
+        addressPostalCode: policy.addressPostalCode,
       },
       expiry: policy.expireDate,
     };
@@ -169,30 +163,27 @@ export class PolicyDataService {
         },
         locuintaData: {
           id: offer.locuintaId,
-          info: {
-            type: offer.locationType,
-            structure: offer.locationStructure,
-            yearConstruction: offer.locationYearConstruction,
-            valueCurrency: offer.locationValueCurrency,
-            valueSum: offer.locationValue,
-            occupancy: offer.locationArea,
-            usableSurface: offer.locationArea,
-            heightRegime: offer.locationFloors,
-            rooms: offer.locationRooms,
-            hasAlarmSystem: offer.locationHasAlarmSystem,
-          },
-          address: {
-            name: offer.locationName,
-            addressCounty: offer.addressCounty,
-            addressCity: offer.addressCity,
-            addressStreet: offer.addressStreet,
-            addressBuildingNumber: offer.addressStreetNumber,
-            // Scara bloc.
-            addressScara: offer.addressScara,
-            addressApart: offer.addressApart,
-            addressFloor: offer.addressFloor,
-            addressPostalCode: offer.addressPostalCode,
-          },
+
+          type: offer.locationType,
+          structure: offer.locationStructure,
+          yearConstruction: offer.locationYearConstruction,
+          valueCurrency: offer.locationValueCurrency,
+          value: offer.locationValue,
+          typeUse: offer.locationArea,
+          area: offer.locationArea,
+          floors: offer.locationFloors,
+          rooms: offer.locationRooms,
+          hasAlarmSystem: offer.locationHasAlarmSystem,
+
+          name: offer.locationName,
+          addressCounty: offer.addressCounty,
+          addressCity: offer.addressCity,
+          addressStreet: offer.addressStreet,
+          addressBuildingNumber: offer.addressStreetNumber,
+          // Scara bloc.
+          addressScara: offer.addressScara,
+          addressApart: offer.addressApart,
+          addressPostalCode: offer.addressPostalCode,
         },
         userId: null,
         locuintaId: null,
@@ -211,14 +202,14 @@ export class PolicyDataService {
           if (existing) {
             return of(existing);
           } else {
-            return this.getUserOffers().pipe(
-              map((o) => o.filter((off) => off.id === id))
-            );
+            // return this.getUserOffers().pipe(
+            //   map((o) => o.filter((off) => off.id === id))
+            // );
           }
         } else {
-          return this.getUserOffers().pipe(
-            map((o) => o.filter((off) => off.id === id))
-          );
+          // return this.getUserOffers().pipe(
+          //   map((o) => o.filter((off) => off.id === id))
+          // );
         }
       })
     );
