@@ -458,6 +458,7 @@ export class PolicyFormPage implements OnInit, OnDestroy {
           this.next();
           break;
         case 'Garant AMPLUS+ PAD':
+          this.changeStep(this.policySteps.CESIUNE_FORM);
           break;
         default:
           break;
@@ -482,10 +483,8 @@ export class PolicyFormPage implements OnInit, OnDestroy {
       case LocuinteFormType.PLACE:
         if (this.policyID === 'PAD') {
           this.changeStep(this.policySteps.LOCATION_FORM);
-        } else if (this.policyID === 'AMPLUS') {
-          this.changeStep(this.policySteps.CESIUNE_FORM);
         } else {
-          //TODO: handle PAD + AMPLUS here
+          this.changeStep(this.policySteps.CESIUNE_FORM);
         }
 
         break;

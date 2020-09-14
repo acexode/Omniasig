@@ -5,6 +5,7 @@ import {
   Output,
   EventEmitter,
   Input,
+  ViewChild,
 } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { TipModalComponent } from '../modals/tip-modal/tip-modal.component';
@@ -21,6 +22,8 @@ export class InfoDocComponent implements OnInit {
   @HostBinding('class') color = 'ion-color-white-page';
   @Output() continue = new EventEmitter();
   @Input() policyID;
+  currentStep: number = 1;
+  maxSteps: number = 2;
   padHelpItems: Array<ImageCard> = [
     {
       mainIcon: {
@@ -589,6 +592,12 @@ export class InfoDocComponent implements OnInit {
   back() {}
 
   next() {
+    if (this.policyID === 'Garant AMPLUS+ PAD' && this.currentStep === 1) {
+      this.currentStep++;
+      // this.content.scrollToTop(300);
+      // TODO: make page scroll up
+      return;
+    }
     this.continue.emit();
   }
 
