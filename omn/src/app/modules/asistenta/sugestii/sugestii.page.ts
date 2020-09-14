@@ -3,6 +3,7 @@ import { subPageHeaderDefault } from 'src/app/shared/data/sub-page-header-defaul
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { IonIcon } from '@ionic/angular';
+import { SugestiiService } from '../services/sugestii.service';
 
 @Component( {
     selector: 'app-sugestii',
@@ -13,7 +14,7 @@ export class SugestiiPage implements OnInit, OnDestroy {
     @HostBinding( 'class' ) color = 'ion-color-white-page';
     headerConfig = subPageHeaderDefault( 'Sugestii' );
     @ViewChildren( IonIcon ) rateIcons: QueryList<IonIcon>;
-    rating: FormGroup;
+    suggestion: FormGroup;
     sub: Subscription;
     disableBtn = true;
     ionIconRatingData = [
@@ -40,7 +41,8 @@ export class SugestiiPage implements OnInit, OnDestroy {
     ];
     constructor(
         private formBuilder: FormBuilder,
-        private renderer: Renderer2
+        private renderer: Renderer2,
+        private sugestiiS: SugestiiService
     ) { }
 
     ngOnInit() {
@@ -48,19 +50,19 @@ export class SugestiiPage implements OnInit, OnDestroy {
     }
 
     initForm() {
-        this.rating = this.formBuilder.group( {
+        this.suggestion = this.formBuilder.group( {
             userComment: [ '', [ Validators.required ] ],
             userRating: [
                 '',
             ],
         } );
 
-        this.sub = this.rating.valueChanges.subscribe( ( value ) => {
+        this.sub = this.suggestion.valueChanges.subscribe( ( value ) => {
             this.onChangeBtnStatus( value );
         } );
     }
     onChangeBtnStatus( value: { userComment: string, userRating: number; } ) {
-        // this.disableBtn
+        // disable Button
         if ( value.userComment.length > 50 ) {
             this.disableBtn = false;
         } else {
@@ -71,7 +73,7 @@ export class SugestiiPage implements OnInit, OnDestroy {
         this.resetAllIconColor();
         const getRate = this.ionIconRatingData.find( ( data ) => data.name.toLowerCase() === event.target.name.toLowerCase() );
         // patchValue or setValue
-        this.rating.patchValue( {
+        this.suggestion.patchValue( {
             userRating: getRate.rate,
         } );
         this.renderer.setAttribute( event.target, 'color', 'success' );
@@ -82,8 +84,16 @@ export class SugestiiPage implements OnInit, OnDestroy {
     }
     process() {
         // continue other processes
-        // this.rating.controls.userComment.value
-        // this.rating.controls.userRating.value
+        // this.suggestion.controls.userComment.value
+        // this.suggestion.controls.userRating.value
+        const sugestii = {
+            message: this.suggestion.controls.userComment.value,
+            rating: this.suggestion.controls.userRating.value
+        };
+        this.sugestiiS.postSugestii( sugestii ).subscribe(
+            response => { },
+            error => { }
+        );
     }
     ngOnDestroy() {
         this.sub.unsubscribe();
