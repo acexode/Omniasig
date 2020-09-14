@@ -6,7 +6,7 @@ import { Observable, of, BehaviorSubject } from 'rxjs';
 @Injectable()
 export class AutocompleteProviderService implements AutoCompleteService {
   constructor() {}
-  labelAttribute = 'label';
+  labelAttribute;
   formValueAttribute?: any;
   currentData: any[] = [];
   dataServiceSource = new BehaviorSubject([]);
@@ -15,7 +15,7 @@ export class AutocompleteProviderService implements AutoCompleteService {
     source?: BehaviorSubject<any>
   ) => Observable<Array<any>> = () => {
     return of([]);
-  }
+  };
 
   updateConfig(conf: {
     labelAttribute: string;
@@ -45,6 +45,6 @@ export class AutocompleteProviderService implements AutoCompleteService {
     return this.dataServiceCb(term, this.dataServiceSource);
   }
   getItemLabel?(item: any) {
-    return get(item, this.labelAttribute, '');
+    return get(item, this.labelAttribute, get(item, 'label', ''));
   }
 }

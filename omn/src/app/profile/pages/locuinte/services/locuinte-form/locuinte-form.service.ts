@@ -132,16 +132,22 @@ export class LocuinteFormService {
           addressCounty: selectConfigHelper({
             label: 'Județ',
             disabled: isDisabled,
+            idKey: 'name',
+            labelKey: 'name',
           }),
           addressCity: selectConfigHelper({
             label: 'Localitate',
             disabled: isDisabled,
+            idKey: 'name',
+            labelKey: 'name',
           }),
           addressStreet: autoCompleteConfigHelper({
             label: 'Strada',
             disabled: isDisabled,
             dataServiceCb: this.streetLookup,
             dataServiceSource: this.streets$,
+            idKey: 'name',
+            labelKey: 'name',
           }),
           addressBuildingNumber: inputConfigHelper({
             label: 'Număr',
@@ -305,64 +311,65 @@ export class LocuinteFormService {
 
   handleInitialCounty(field, fieldsData) {
     return this.locuinteS.getCounties().pipe(
-      map((val: any) => {
-        const withLabel = val.map((v) => {
-          return {
-            ...v,
-            ...{
-              id: v.id,
-              label: v.name,
-            },
-          };
-        });
-        fieldsData.addressCounty = withLabel;
-        return val;
+      map((vals: any) => {
+        fieldsData.addressCounty = vals;
+        return vals;
       })
     );
   }
-  handleStreetType(id, fieldsData) {
-    this.streets$.subscribe((val) => {
-      const f = val
-        .filter((e) => e.id === id)
-        .map((x) => {
-          return {
-            id: x.streetType,
-            label: x.streetType,
-          };
-        });
-
-      fieldsData.addressStreetType = get(f ? f[0] : {}, 'id', null);
-    });
-  }
-
-  updateCounty(field, fieldsData) {
-    return this.locuinteS.getCities(field.value).pipe(
-      map((data: any) => {
-        const withLabel = data.map((v) => {
-          return {
-            ...v,
-            ...{
-              id: v.id,
-              label: v.name,
-            },
-          };
-        });
-        fieldsData.addressCity = withLabel;
-        return data;
-      })
-    );
-  }
-
-  updateCity(field, fieldsData) {
-    const addressCity = fieldsData.addressCity.find((v) => {
+  handleStreetProcessing(id, fieldsData, dataModel = {}) {
+    const vvv = fieldsData.addressStreet ? fieldsData.addressStreet : [];
+    const f = vvv.find((v) => {
       try {
-        return v.id.toString() === field.value.toString();
+        const vName = v.name.toString();
+        const vId = v.id.toString();
+        const vF = id.toString();
+        return vName === vF || vId === vF;
       } catch (err) {
         return false;
       }
     });
+    set(dataModel, 'addressStreetType', get(f, 'streetType', 'Strada'));
+    set(dataModel, 'addressStreetCode', get(f, 'id', null));
+  }
 
+  updateCounty(field, fieldsData, dataModel = {}) {
+    const vvv = fieldsData.addressCounty ? fieldsData.addressCounty : [];
+    const addressCounty = vvv.find((v) => {
+      try {
+        const vName = v.name.toString();
+        const vId = v.id.toString();
+        const vF = field.value.toString();
+        return vName === vF || vId === vF;
+      } catch (err) {
+        return false;
+      }
+    });
+    if (addressCounty) {
+      set(dataModel, 'addressCountyCode', addressCounty.id);
+      return this.locuinteS.getCities(addressCounty.id).pipe(
+        map((data: any) => {
+          fieldsData.addressCity = data;
+          return data;
+        })
+      );
+    }
+    return of([]);
+  }
+
+  updateCity(field, fieldsData, dataModel = {}) {
+    const addressCity = fieldsData.addressCity.find((v) => {
+      try {
+        const vName = v.name.toString();
+        const vId = v.id.toString();
+        const vF = field.value.toString();
+        return vName === vF || vId === vF;
+      } catch (err) {
+        return false;
+      }
+    });
     if (addressCity) {
+      set(dataModel, 'addressCityCode', addressCity.id);
       const obj = {
         countryId: addressCity.countryId,
         countyId: addressCity.countyId,
@@ -373,10 +380,12 @@ export class LocuinteFormService {
       return this.locuinteS.getStreets(obj).pipe(
         map((v) => {
           this.locuinteS.streetStore$.next(v);
+          fieldsData.addressStreet = v;
           return v;
         })
       );
     } else {
+      fieldsData.addressStreet = [];
       return of(null);
     }
   }
@@ -402,7 +411,7 @@ export class LocuinteFormService {
               }
               return (
                 name.includes(keywords.toLowerCase()) ||
-                id === keywords.toLowerCase()
+                id.includes(keywords.toLowerCase())
               );
             });
           } else {
@@ -470,6 +479,13 @@ export class LocuinteFormService {
         case 'padNr':
         case 'padSerie':
           set(newModel, key, val);
+          break;
+
+        case 'addressStreetType':
+        case 'addressCountyCode':
+        case 'addressStreetCode':
+        case 'addressCityCode':
+          // Ignore.
           break;
         default:
           set(newModel, key, val);

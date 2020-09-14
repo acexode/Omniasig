@@ -1,3 +1,4 @@
+import { get, set } from 'lodash';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -178,7 +179,11 @@ export class LocuinteFormPageComponent implements OnInit {
         });
       this.addressCounty.valueChanges.subscribe((val) => {
         this.formS
-          .updateCounty(this.addressCounty, this.formInstance.data)
+          .updateCounty(
+            this.addressCounty,
+            this.formInstance.data,
+            this.dataModel
+          )
           .subscribe((v) => {
             this.cdRef.markForCheck();
             this.cdRef.detectChanges();
@@ -193,7 +198,7 @@ export class LocuinteFormPageComponent implements OnInit {
     if (this.addressCity) {
       this.addressCity.valueChanges.subscribe((val) => {
         this.formS
-          .updateCity(this.addressCity, this.formInstance.data)
+          .updateCity(this.addressCity, this.formInstance.data, this.dataModel)
           .subscribe((v) => {
             this.cdRef.markForCheck();
             this.cdRef.detectChanges();
@@ -202,7 +207,12 @@ export class LocuinteFormPageComponent implements OnInit {
     }
     if (this.addressStreet) {
       this.addressStreet.valueChanges.subscribe((val) => {
-        this.formS.handleStreetType(val, this.formInstance.data);
+        const type = this.formS.handleStreetProcessing(
+          val,
+          this.formInstance.data,
+          this.dataModel
+        );
+        
       });
     }
   }
@@ -246,7 +256,9 @@ export class LocuinteFormPageComponent implements OnInit {
         if (this.formType === LocuinteFormType.ADDRESS) {
           this.submitData().subscribe((v) => {
             if (v) {
-              this.dataModel = v;
+              this.dataModel = v.hasOwnProperty('response')
+                ? get(v, 'response', {})
+                : v;
               this.formType = LocuinteFormType.PLACE;
               this.buttonText = 'Salvează';
               const header = subPageHeaderDefault('Adresa');
@@ -262,6 +274,9 @@ export class LocuinteFormPageComponent implements OnInit {
         } else if (this.formType === LocuinteFormType.PLACE) {
           this.submitData().subscribe((v) => {
             if (v) {
+              this.dataModel = v.hasOwnProperty('response')
+                ? get(v, 'response', {})
+                : v;
               this.formType = LocuinteFormType.SUCCESS_MSG;
               const header = subPageHeaderDefault('');
               header.leadingIcon = null;
