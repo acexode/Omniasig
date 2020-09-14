@@ -251,7 +251,7 @@ export class PolicyAddressFormComponent implements OnInit {
               this.headerConfig = header;
               this.buttonVisible = false;
               this.dataAdded.emit({
-                locuinta: v,
+                locuinta: get(v, 'response', null),
               });
               this.stepChange.emit('NEXT');
             }
