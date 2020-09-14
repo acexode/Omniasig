@@ -154,6 +154,57 @@ export class LocuinteFormPageComponent implements OnInit {
         break;
     }
 
+    if (this.addressCounty) {
+      this.formS
+        .handleInitialCounty(this.addressCounty, this.formInstance.data)
+        .pipe(
+          switchMap((vals) => {
+            this.cdRef.markForCheck();
+            this.cdRef.detectChanges();
+            if (this.addressCity) {
+              return this.formS.handleInitialCityAndStreets(
+                this.addressCounty,
+                this.addressCity,
+                this.formInstance.data
+              );
+            } else {
+              return of(true);
+            }
+          })
+        )
+        .subscribe((v) => {
+          this.cdRef.markForCheck();
+          this.cdRef.detectChanges();
+        });
+      this.addressCounty.valueChanges.subscribe((val) => {
+        this.formS
+          .updateCounty(this.addressCounty, this.formInstance.data)
+          .subscribe((v) => {
+            this.cdRef.markForCheck();
+            this.cdRef.detectChanges();
+            if (this.addressCity) {
+              this.addressCity.updateValueAndValidity({
+                onlySelf: true,
+              });
+            }
+          });
+      });
+    }
+    if (this.addressCity) {
+      this.addressCity.valueChanges.subscribe((val) => {
+        this.formS
+          .updateCity(this.addressCity, this.formInstance.data)
+          .subscribe((v) => {
+            this.cdRef.markForCheck();
+            this.cdRef.detectChanges();
+          });
+      });
+    }
+    if (this.addressStreet) {
+      this.addressStreet.valueChanges.subscribe((val) => {
+        this.formS.handleStreetType(val, this.formInstance.data);
+      });
+    }
   }
 
   get addressCounty() {
