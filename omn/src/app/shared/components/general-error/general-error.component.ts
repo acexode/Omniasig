@@ -4,8 +4,10 @@ import {
   Input,
   OnInit,
   ChangeDetectorRef,
+  EventEmitter,
+  Output,
 } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { IonTextItem } from './../../models/component/ion-text-item';
 
 @Component({
@@ -24,13 +26,21 @@ export class GeneralErrorComponent implements OnInit {
     },
   ];
   @Input() routeRedirect = '/home';
-  constructor(private router: Router, private cdRef: ChangeDetectorRef) {}
+  
+  constructor(private router: Router, private route: ActivatedRoute, private cdRef: ChangeDetectorRef) {}
 
   ngOnInit() {
     this.cdRef.markForCheck();
+    console.log("THE CATIVATED ROUTE", this.router.url)
     const url = this.routeRedirect ? this.routeRedirect : '/home';
     setTimeout(() => {
-      this.router.navigateByUrl(url);
+      if(this.router.url !== '/policy/form'){
+        this.router.navigateByUrl(url);
+      }
+      // else{
+      //           console.log("I RAA---------------------")
+      //   this.router.navigateByUrl('/policy/form');
+      // }
     }, 3000);
   }
 }

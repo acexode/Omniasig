@@ -6,7 +6,12 @@
 ></app-sub-page-header>
 
 <ion-content [ngClass]="color">
-  <ng-container [ngSwitch]="currentStep">
+  <ng-container *ngIf="showError">
+    <app-general-error
+    (goBack)="back()"
+    ></app-general-error>
+  </ng-container>
+  <ng-container *ngIf="!showError" [ngSwitch]="currentStep">
     <ng-container *ngSwitchCase="policySteps?.DNT">
       <app-dnt
         #dntComp
@@ -52,7 +57,7 @@
     <ng-container *ngSwitchCase="policySteps?.POLICY_VERIFY">
       <app-policy-verify 
       [offerData]="offerData"
-      (goBack)="back()"
+      (goToErrorHandler)="handleError()"
       ></app-policy-verify>
     </ng-container>
     <ng-container *ngSwitchDefault>

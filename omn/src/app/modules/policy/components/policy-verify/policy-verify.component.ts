@@ -20,7 +20,7 @@ import { NavController } from '@ionic/angular';
 })
 export class PolicyVerifyComponent implements OnInit {
   @Input() offerData: PolicyOffer;
-  @Output() goBack: EventEmitter<any> = new EventEmitter();
+  @Output() goToErrorHandler: EventEmitter<any> = new EventEmitter();
 
   constructor(
     private policyS: PolicyDataService,
@@ -55,7 +55,7 @@ export class PolicyVerifyComponent implements OnInit {
         (error) => {
           // handle error (until the error screen is available, go back to the previous form page)
           console.log("ERROR------------------------>", error)
-          this.goBack.emit();
+          this.goToErrorHandler.emit();
         }
       );
   }

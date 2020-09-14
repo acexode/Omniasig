@@ -47,6 +47,7 @@ export class PolicyFormPage implements OnInit, OnDestroy {
   policySteps = PolicyFormSteps;
   currentStep = PolicyFormSteps.DNT;
   typeItem;
+  showError: boolean = false;
 
   policyLocuintaData$: BehaviorSubject<
     Array<PolicyLocuintaListItem>
@@ -499,6 +500,14 @@ export class PolicyFormPage implements OnInit, OnDestroy {
         new Date().setFullYear(new Date().getFullYear() + 1)
       ).toISOString();
     }
+  }
+  
+  handleError(){
+    this.showError = true;
+    setTimeout(() => {
+      this.showError = false;
+      console.log("SHOW ERROR STATUS", this.showError)
+    }, 4000);
   }
 
   exitFlow() {
