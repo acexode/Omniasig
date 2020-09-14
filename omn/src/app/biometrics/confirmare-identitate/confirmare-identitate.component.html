@@ -37,7 +37,6 @@
           [config]="confirmModel?.cnp"
           formControlName="cnp"
         ></app-input>
-        {{ cnp.errors | json }}
         <ion-label *ngIf="cnp?.errors && cnp?.errors?.invalidCnp" color="danger"
           >Codul Numeric Personal este invalid!</ion-label
         >
