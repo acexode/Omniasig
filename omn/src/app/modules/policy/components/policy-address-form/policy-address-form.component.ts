@@ -6,22 +6,22 @@ import {
   Input,
   OnInit,
   Output,
-  ViewChild
+  ViewChild,
 } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { IonContent, ModalController } from '@ionic/angular';
-import { get } from 'lodash';
 import { Observable, of } from 'rxjs';
 import { finalize, switchMap } from 'rxjs/operators';
 import { LocuinteFormService } from 'src/app/profile/pages/locuinte/services/locuinte-form/locuinte-form.service';
 import { LocuinteService } from 'src/app/profile/pages/locuinte/services/locuinte/locuinte.service';
+import { PadService } from '../../services/pad.service';
 import { subPageHeaderDefault } from 'src/app/shared/data/sub-page-header-default';
 import { Locuinte } from 'src/app/shared/models/data/locuinte.interface';
 import {
   LocuinteFormModes,
-  LocuinteFormType
+  LocuinteFormType,
 } from 'src/app/shared/models/modes/locuinte-form-modes';
-import { PadService } from '../../services/pad.service';
+import { get } from 'lodash';
 import { PolicyValoareModalComponent } from './../modals/policy-valoare-modal/policy-valoare-modal.component';
 
 @Component({
