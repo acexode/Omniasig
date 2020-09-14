@@ -213,14 +213,14 @@ export class PolicyAddressFormComponent implements OnInit {
           this.formType = LocuinteFormType.PAD_CHECK;
           this.submitData().subscribe((v) => {
             if (v) {
-              this.dataModel = v;
+              this.dataModel = get(v, 'response', {});
               this.formInstance = {
                 config: this.formConfigs.place,
                 group: this.formGroups.place,
                 data: this.formData.place,
               };
               this.dataAdded.emit({
-                locuinta: v,
+                locuinta: get(v, 'response', null),
               });
               this.stepChange.emit(this.formType);
               this.handleFormSubmit();
