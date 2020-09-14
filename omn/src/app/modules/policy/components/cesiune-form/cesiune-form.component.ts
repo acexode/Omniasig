@@ -118,7 +118,9 @@ export class CesiuneFormComponent implements OnInit {
           this.cesiuneNum.clearValidators();
           this.cesiuneNum.reset();
         } else {
-          // this.cesiuneNum.setValue(1);
+          if (this.cesiuneNum instanceof AbstractControl) {
+            this.cesiuneNum.setValue(1);
+          }
           this.cesiuneNum.setValidators([
             Validators.required,
             Validators.min(1),
