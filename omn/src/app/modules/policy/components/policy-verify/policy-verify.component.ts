@@ -40,18 +40,20 @@ export class PolicyVerifyComponent implements OnInit {
       )
       .subscribe(
         (result) => {
-          this.policyS.addOffer(this.offerData).subscribe((v) => {
-            if (v) {
-              const id = get(v, 'id', null);
-              if (id) {
-                this.navCtrl.navigateForward(['/policy', 'offer', id]);
+          this.policyS
+            .addOfferToStore(this.offerData, result)
+            .subscribe((v) => {
+              if (v) {
+                const id = get(v, 'id', null);
+                if (id) {
+                  this.navCtrl.navigateForward(['/policy', 'offer', id]);
+                } else {
+                  this.navCtrl.navigateRoot(['/policy']);
+                }
               } else {
-                this.navCtrl.navigateRoot(['/policy']);
+                // We'll probably only show an error in here.
               }
-            } else {
-              // We'll probably only show an error in here.
-            }
-          });
+            });
         },
         (error) => {
           console.log("ERROR------------------------>", error)

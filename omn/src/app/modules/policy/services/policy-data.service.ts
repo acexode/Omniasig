@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Calendar } from '@ionic-native/calendar/ngx';
-import { random } from 'lodash';
+import { random, get, set } from 'lodash';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { catchError, map, switchMap, take, filter } from 'rxjs/operators';
 import { policyEndpoints } from 'src/app/core/configs/endpoints';
@@ -245,13 +245,52 @@ export class PolicyDataService {
     );
   }
 
-  addOffer(offerData: PolicyOffer): Observable<PolicyOffer> {
-    return of({ ...offerData, ...{ id: random(10, 100) } }).pipe(
-      map((v) => {
-        const vals = this.offerStore$.value ? this.offerStore$.value : [];
-        vals.push(v);
-        this.offerStore$.next(vals);
-        return v ? v : null;
+  addOfferToStore(
+    offerData: PolicyOffer,
+    offerResponse: any
+  ): Observable<PolicyOffer> {
+    const iban = get(offerResponse, 'iban', null);
+    const codOferta = get(
+      offerResponse,
+      'response.emitereOfertaResponse1.codOferta',
+      null
+    );
+    const moneda = get(
+      offerResponse,
+      'response.emitereOfertaResponse1.moneda',
+      null
+    );
+    const prima = get(
+      offerResponse,
+      'response.emitereOfertaResponse1.prima',
+      null
+    );
+    const eroare = get(
+      offerResponse,
+      'response.emitereOfertaResponse1.eroare',
+      true
+    );
+
+    return this.getUserOffers().pipe(
+      switchMap((offers) => {
+        this.offerStore$.next(offers ? offers : []);
+        return of(offers);
+      }),
+      map((vals) => {
+        if (vals instanceof Array && codOferta && moneda && prima && !eroare) {
+          const existing = vals.find((vvv) => {
+            return vvv.offerCode.toString() === codOferta.toString();
+          });
+          if (existing) {
+            // TODO: map more data in here.
+            set(existing, 'iban', iban);
+            set(existing, 'prima', prima);
+            set(existing, 'currency', moneda);
+          }
+          return existing;
+        } else {
+          return null;
+        }
       }),
       catchError((err) => of(null))
     );

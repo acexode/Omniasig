@@ -7,4 +7,7 @@ export interface PolicyOffer {
   cnp?: string;
   nume?: string;
   offerCode?: string;
+  iban?: string;
+  prima?: string | number;
+  currency?: string;
 }
