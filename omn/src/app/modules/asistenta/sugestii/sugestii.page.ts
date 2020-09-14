@@ -86,11 +86,11 @@ export class SugestiiPage implements OnInit, OnDestroy {
         // continue other processes
         // this.suggestion.controls.userComment.value
         // this.suggestion.controls.userRating.value
-        const sugestii = {
+        const sugestiiData = {
             message: this.suggestion.controls.userComment.value,
             rating: this.suggestion.controls.userRating.value
         };
-        this.sugestiiS.postSugestii( sugestii ).subscribe(
+        this.sugestiiS.postSugestii( sugestiiData ).subscribe(
             response => { },
             error => { }
         );
