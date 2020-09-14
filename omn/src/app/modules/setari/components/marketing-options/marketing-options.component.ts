@@ -34,6 +34,7 @@ export class MarketingOptionsComponent implements OnInit {
   formGroup = this.fb.group({
     accept: this.fb.control(false, Validators.required),
   });
+  busy:boolean =false
   constructor(private fb: FormBuilder, private navCtrl: NavController, private settingsS: SettingsService) { }
 
   ngOnInit() {
@@ -49,12 +50,12 @@ export class MarketingOptionsComponent implements OnInit {
   }
 
   submitForm() {
+    this.busy = true
     this.settingsS.updateSettings({ marketing: this.formGroup.get('accept').value }).subscribe(
       data => {
-        //TODO
-        return;
         this.navCtrl.navigateRoot('/home')
-      }
+      },
+      err => this.busy = false
     )
   }
 }

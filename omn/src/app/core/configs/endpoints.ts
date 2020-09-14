@@ -18,6 +18,7 @@ export const authEndpoints = {
   confirmPincodeReset:
     serverBaseUrl + '/UserProfile/ConfirmPinChangeWithoutAuthentification',
   updatePassword: serverBaseUrl + '/User/UpdatePassword',
+  ChangeMarketingAndNotificationSettings: serverBaseUrl + '/UserProfile/ChangeMarketingAndNotificationSettings'
 };
 
 export const baseEndpoints = {
@@ -43,6 +44,7 @@ export const locuinteEndpoints = {
   AlluserLocation: serverBaseUrl + '/Address/GetAllAddressesForLoggedUser',
   updateAddress: serverBaseUrl + '/Location/UpdateLocationForAddressId',
   disAbleLocation: serverBaseUrl + '/Location/DisableLocationForAddressId',
+  GetAllLocationsForLoggedUser: serverBaseUrl +  '/Location/GetAllLocationsForLoggedUser'
 };
 
 export const phoneNumberEndPoints = {

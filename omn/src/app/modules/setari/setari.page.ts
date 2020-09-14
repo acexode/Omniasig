@@ -46,11 +46,7 @@ export class SetariPage implements OnInit, OnDestroy {
   }
 
   saveSettings(v: boolean) {
-    this.settingsS.updateSettings({ notifications: v }).subscribe(
-      data => {
-        //TODO
-      }
-    )
+    this.settingsS.updateSettings({ notifications: v })
   }
 
   ngOnDestroy() {

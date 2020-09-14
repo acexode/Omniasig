@@ -4,14 +4,15 @@ import { BehaviorSubject, Observable, of } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
 import { AuthService } from 'src/app/core/services/auth/auth.service';
 import { RequestService } from 'src/app/core/services/request/request.service';
+import { locuinteEndpoints,authEndpoints } from '../../../core/configs/endpoints';
 
 @Injectable({
     providedIn: 'root',
 })
 export class SettingsService {
     private settings: any = {
-        notifications: false,
-        marketing: true,
+        notifications: null,
+        marketing: null,
     };
     settings$: BehaviorSubject<any> = new BehaviorSubject(
         this.settings
@@ -27,22 +28,18 @@ export class SettingsService {
         this.domiciliu
     );
     constructor(private reqS: RequestService,
-        private storeS: CustomStorageService
+        private storeS: CustomStorageService,
+        private auth: AuthService
     ) {
         this.initData()
     }
 
     initData() {
-        this.getSettings().subscribe(
-            (data) => {
-                this.settings$.next(data)
-            }
-        )
+        this.getSettings();
         this.getDomiciliu().subscribe(
-            data => {
-                this.domiciliu$.next(data)
-            }
-        )
+            (data: any[]) => {
+                this.domiciliu$.next(data.find((address) => address.isHomeAddress == true))
+            })
     }
 
     toggleFaceId(state: boolean) {
@@ -54,32 +51,24 @@ export class SettingsService {
     }
 
     updateSettings(value: Object): Observable<any> {
-        const data = {
-            ...value
-        }
-        // TODO remove after ws integration
-        return of(data);
-        return this.reqS.post('/', data)
+        this.settings = { ...this.settings, ...value };
+        return this.reqS.post(authEndpoints.ChangeMarketingAndNotificationSettings, this.settings)
     }
 
-    private getSettings(): Observable<any> {
-        // TODO remove after ws integration
-        return of({
-            notifications: true,
-            marketing: true
-        })
-        return this.reqS.get('/')
+    private getSettings() {
+        this.auth.authState.subscribe(
+            (data: any) => {
+                this.settings = {
+                    notifications: data.notifications ? data.notifications : false,
+                    marketing: data.marketing ? data.marketing : false
+                }
+                this.settings$.next(this.settings)
+            }
+        )
     }
 
     private getDomiciliu(): Observable<any> {
-        // TODO remove after ws integration
-        return of({
-            county: 'Strada Traian Brasov',
-            city: 'Cod',
-            street: 'jud',
-            number: 45,
-            postalCode: '500332'
-        })
-        return this.reqS.get('/')
+        return this.reqS.get(locuinteEndpoints.GetAllLocationsForLoggedUser)
     }
+
 }
