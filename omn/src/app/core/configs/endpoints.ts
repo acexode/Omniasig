@@ -17,12 +17,17 @@ export const authEndpoints = {
     serverBaseUrl + '/UserProfile/RequestPinChangeWithoutAuthentification',
   confirmPincodeReset:
     serverBaseUrl + '/UserProfile/ConfirmPinChangeWithoutAuthentification',
+  confirmNewEmail:
+    serverBaseUrl + '/UserProfile/ConfirmEmailForRegisterUserProfile',
+  confirmEmailChange: serverBaseUrl + '/UserProfile/ConfirmationNewEmailChange',
+  changeEmail: serverBaseUrl + '/UserProfile/RequestNewEmailChange',
   updatePassword: serverBaseUrl + '/UserProfile/UpdatePassword',
 };
 
 export const baseEndpoints = {
   policy: serverBaseUrl + '/policy',
   userProfile: serverBaseUrl + '/UserProfile',
+  pad: serverBaseUrl + '/PADInsurance',
 };
 
 export const policyEndpoints = {
@@ -38,15 +43,26 @@ export const policyEndpoints = {
 
 export const locuinteEndpoints = {
   base: serverBaseUrl + '/locuinte',
-  add: serverBaseUrl + '/Address/AddAddress',
+  add: serverBaseUrl + '/Location/AddAddressLocation',
   makeHomeAddress: serverBaseUrl + '/Address/MakeHomeAddress',
-  AlluserLocation: serverBaseUrl + '/Address/GetAllAddressesForLoggedUser',
-  updateAddress: serverBaseUrl + '/Location/UpdateLocationForAddressId',
-  disAbleLocation: serverBaseUrl + '/Location/DisableLocationForAddressId',
+  AlluserLocation: serverBaseUrl + '/Location/GetAllLocationsForLoggedUser',
+  disAbleLocation: serverBaseUrl + '/Location/DisableLocation',
+  singleLocation: serverBaseUrl + '/Location/GetLocationByIdForLoggedUser',
+  getCities: serverBaseUrl + '/INSIS/Cities',
+  getCounties: serverBaseUrl + '/INSIS/Counties',
+  getStreets: serverBaseUrl + '/INSIS/Streets',
+  updateAddress: serverBaseUrl + '/Location/UpdateLocation',
 };
 
 export const phoneNumberEndPoints = {
   RequestNewPhoneNumberChange:
     baseEndpoints.userProfile + '/RequestNewPhoneNumberChange',
   ConfirmNewPhoneNumber: baseEndpoints.userProfile + '/ConfirmNewPhoneNumber',
+};
+
+export const padEndpoints = {
+  base: baseEndpoints.pad,
+  VerifyPADInsuranceOffer: baseEndpoints.pad + '/VerifyPADInsuranceOffer',
+  CreatePADInsuranceOffer: baseEndpoints.pad + '/CreatePADInsuranceOffer',
+  CreatePADInsurancePolicy: baseEndpoints.pad + '/CreatePADInsurancePolicy',
 };
