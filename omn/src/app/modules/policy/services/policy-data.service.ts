@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Calendar } from '@ionic-native/calendar/ngx';
 import { random, get, set } from 'lodash';
-import { BehaviorSubject, Observable, of } from 'rxjs';
+import { BehaviorSubject, Observable, of, throwError } from 'rxjs';
 import { catchError, map, switchMap, take, filter } from 'rxjs/operators';
 import { policyEndpoints } from 'src/app/core/configs/endpoints';
 import { AuthService } from 'src/app/core/services/auth/auth.service';
@@ -271,7 +271,14 @@ export class PolicyDataService {
       'response.emitereOfertaResponse1.eroare',
       true
     );
-
+    const mesaj = get(
+      offerResponse,
+      'response.emitereOfertaResponse1.mesaj',
+      ''
+    );
+    if (eroare) {
+      return throwError(mesaj);
+    }
     return this.getUserOffers().pipe(
       switchMap((offers) => {
         this.offerStore$.next(offers ? offers : []);

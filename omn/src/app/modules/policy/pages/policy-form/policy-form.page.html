@@ -8,7 +8,9 @@
 <ion-content [ngClass]="color">
   <ng-container *ngIf="showError">
     <app-general-error
-    (goBack)="back()"
+      (goBack)="back()"
+      [doNavigate]="false"
+      [texts]="errMsg"
     ></app-general-error>
   </ng-container>
   <ng-container *ngIf="!showError" [ngSwitch]="currentStep">
@@ -55,9 +57,9 @@
       ></app-insurance-period>
     </ng-container>
     <ng-container *ngSwitchCase="policySteps?.POLICY_VERIFY">
-      <app-policy-verify 
-      [offerData]="offerData"
-      (goToErrorHandler)="handleError()"
+      <app-policy-verify
+        [offerData]="offerData"
+        (goToErrorHandler)="handleError($event)"
       ></app-policy-verify>
     </ng-container>
     <ng-container *ngSwitchDefault>

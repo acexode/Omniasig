@@ -31,7 +31,6 @@ export class PolicyVerifyComponent implements OnInit {
   ngOnInit() {}
 
   addOffer() {
-    console.log(this.offerData);
     this.padS
       .CreatePADInsuranceOffer(
         this.offerData.policy.locuintaData.id,
@@ -40,9 +39,8 @@ export class PolicyVerifyComponent implements OnInit {
       )
       .subscribe(
         (result) => {
-          this.policyS
-            .addOfferToStore(this.offerData, result)
-            .subscribe((v) => {
+          this.policyS.addOfferToStore(this.offerData, result).subscribe(
+            (v) => {
               if (v) {
                 const id = get(v, 'id', null);
                 if (id) {
@@ -53,11 +51,24 @@ export class PolicyVerifyComponent implements OnInit {
               } else {
                 // We'll probably only show an error in here.
               }
-            });
+            },
+            (err) => {
+              this.goToErrorHandler.emit(err);
+            }
+          );
         },
         (error) => {
-          console.log("ERROR------------------------>", error)
-          this.goToErrorHandler.emit();
+          const eroare = get(
+            error,
+            'error.emitereOfertaResponse1.eroare',
+            false
+          );
+          const mesaj = get(error, 'error.emitereOfertaResponse1.mesaj', '');
+          if (eroare && mesaj) {
+            this.goToErrorHandler.emit(mesaj);
+          } else {
+            this.goToErrorHandler.emit();
+          }
         }
       );
   }

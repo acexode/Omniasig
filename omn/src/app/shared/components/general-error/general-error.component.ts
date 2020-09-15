@@ -1,13 +1,11 @@
 import {
   ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
   Input,
   OnInit,
-  ChangeDetectorRef,
-  EventEmitter,
-  Output,
 } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { IonTextItem } from './../../models/component/ion-text-item';
 
 @Component({
@@ -26,14 +24,19 @@ export class GeneralErrorComponent implements OnInit {
     },
   ];
   @Input() routeRedirect = '/home';
-  
-  constructor(private router: Router, private route: ActivatedRoute, private cdRef: ChangeDetectorRef) {}
+  @Input() doNavigate = true;
+
+  constructor(
+    private router: Router,
+    private route: ActivatedRoute,
+    private cdRef: ChangeDetectorRef
+  ) {}
 
   ngOnInit() {
     this.cdRef.markForCheck();
     const url = this.routeRedirect ? this.routeRedirect : '/home';
     setTimeout(() => {
-      if(this.router.url !== '/policy/form'){
+      if (this.doNavigate) {
         this.router.navigateByUrl(url);
       }
     }, 3000);
