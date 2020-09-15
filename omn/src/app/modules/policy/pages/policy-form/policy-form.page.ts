@@ -515,7 +515,6 @@ export class PolicyFormPage implements OnInit, OnDestroy {
 
   handleError(data) {
     this.showError = true;
-    debugger;
     if (typeof data === 'string') {
       this.errMsg = [
         {
