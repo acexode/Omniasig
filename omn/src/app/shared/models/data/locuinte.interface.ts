@@ -38,6 +38,11 @@ export interface Locuinte {
   tipLocuinta?: TipLocuinta;
   policyData?: Array<PolicyItem>;
 
+  // Additional data for fallbacks.
+  addressCountyCode?: string;
+  addressStreetCode?: string;
+  addressCityCode?: string;
+
   // PAID data.
   paidExternalSeriePolita?: string;
   paidExternalNumarPolita?: string;

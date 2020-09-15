@@ -143,22 +143,19 @@ export class LocuinteViewComponent implements OnInit {
   }
   getLocationInfo(val) {
     const allValues = val;
-    console.log(val);
-    const obj = {
-      countryId: 'RO',
-      countyId: val.addressCounty,
-      cityId: val.addressCity,
-      postCode: null,
-    };
-    this.locuinteS.getStreets(obj).subscribe((streets) => {
-      const currStreets = streets.filter(
-        (e) => e.id === val.addressStreet
-      )[0];
-      allValues.addressCity = val.addressCity;
-      allValues.addressStreet = currStreets ? currStreets.name : '';
-      this.locuinta$.next(allValues);
-      this.cdRef.markForCheck();
-    });
+    // const obj = {
+    //   countryId: 'RO',
+    //   countyId: val.addressCounty,
+    //   cityId: val.addressCity,
+    //   postCode: null,
+    // };
+    // this.locuinteS.getStreets(obj).subscribe((streets) => {
+    //   const currStreets = streets.filter((e) => e.id === val.addressStreet)[0];
+    //   allValues.addressCity = val.addressCity;
+    //   allValues.addressStreet = currStreets ? currStreets.name : '';
+    // });
+    this.locuinta$.next(allValues);
+    this.cdRef.markForCheck();
   }
   deleteAddress(id) {
     const obj = {
