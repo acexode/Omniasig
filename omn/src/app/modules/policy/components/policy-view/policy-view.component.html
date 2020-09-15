@@ -75,29 +75,40 @@
           {{ policy?.policyNrPolita }}
         </ion-text>
       </div>
-
-      <div>
+      <ng-container
+        *ngIf="
+          policy?.locuintaData?.paidExternalNumarPolita ||
+          policy?.locuintaData?.paidExternalSeriePolita
+        "
+      >
         <div>
-          <ion-text class="alt-font color-dark-green text-weight-bold h3">
-            Reînnoiește PAD
+          <div>
+            <ion-text class="alt-font color-dark-green text-weight-bold h3">
+              Reînnoiește PAD
+            </ion-text>
+          </div>
+        </div>
+
+        <div class="mb-13">
+          <div class="">
+            <ion-text class="input-label text-weight-medium"> Seria </ion-text>
+          </div>
+          <ion-text class="s18-h24 ion-inherit-color">
+            {{ policy?.locuintaData?.paidExternalSeriePolita || '-' }}
           </ion-text>
         </div>
-      </div>
 
-      <div class="mb-13">
-        <div class="">
-          <ion-text class="input-label text-weight-medium"> Seria </ion-text>
+        <div class="mt-13 mb-36">
+          <div class="">
+            <ion-text class="input-label text-weight-medium">
+              Numărul:
+            </ion-text>
+          </div>
+          <ion-text class="s18-h24 ion-inherit-color">
+            {{ policy?.locuintaData?.paidExternalNumarPolita || '-' }}
+          </ion-text>
         </div>
-        <ion-text class="s18-h24 ion-inherit-color"> MISSING_DATA </ion-text>
-      </div>
-
-      <div class="mt-13 mb-36">
-        <div class="">
-          <ion-text class="input-label text-weight-medium"> Numărul: </ion-text>
-        </div>
-        <ion-text class="s18-h24 ion-inherit-color"> MISSING_DATA </ion-text>
-      </div>
-
+      </ng-container>
       <div class="mb-16">
         <ion-text class="alt-font color-dark-green text-weight-bold h3">
           Asigurat
@@ -128,8 +139,8 @@
           </ion-text>
         </div>
         <ion-text class="s18-h24 ion-inherit-color">
-          {{ policy?.dates?.from | date: 'MM.dd.yyyy' }} -
-          {{ policy?.dates?.to | date: 'MM.dd.yyyy' }}
+          {{ policy?.dates?.from | date: 'dd.MM.yyyy' }} -
+          {{ policy?.dates?.to | date: 'dd.MM.yyyy' }}
         </ion-text>
       </div>
 
@@ -140,7 +151,7 @@
           </ion-text>
         </div>
         <ion-text class="s18-h24 ion-inherit-color">
-          {{ policy?.locuintaData?.info?.valueSum }} Euro
+          {{ policy?.locuintaData?.value }} Euro
         </ion-text>
       </div>
 
@@ -151,8 +162,8 @@
           </ion-text>
         </div>
         <ion-text class="s18-h24 ion-inherit-color">
-          <!-- {{ (policy?.locuintaData?.info?.valueSum || 0) * 4.9 }} Lei -->
-          MISSING_DATA Lei
+          <!-- {{ (policy?.locuintaData?.value || 0) * 4.9 }} Lei -->
+          - Lei
         </ion-text>
       </div>
 
@@ -174,7 +185,7 @@
           </ion-text>
         </div>
         <ion-text class="s18-h24 ion-inherit-color">
-          {{ policy?.dates?.from | date: 'MM.dd.yyyy' }}
+          {{ policy?.dates?.from | date: 'dd.MM.yyyy' }}
         </ion-text>
       </div>
 
@@ -185,22 +196,25 @@
           </ion-text>
         </div>
         <ion-text class="s18-h24 ion-inherit-color">
-          {{ policy?.locuintaData?.address?.street }}
-          {{ policy?.locuintaData?.address?.number }}
-          {{ policy?.locuintaData?.address?.city }} jud.
-          {{ policy?.locuintaData?.address?.county }}
-          {{ policy?.locuintaData?.address?.postalCode }}
+          {{ policy?.locuintaData?.addressStreet }}
+          {{ policy?.locuintaData?.addressBuildingNumber }}
+          {{ policy?.locuintaData?.addressCity }} jud.
+          {{ policy?.locuintaData?.addressCounty }},
+          {{ policy?.locuintaData?.addressPostalCode }}
         </ion-text>
       </div>
 
-      <div class="mb-36">
+      <div class="mb-36" *ngIf="policy?.cesiune?.length">
         <div class="">
           <ion-text class="input-label text-weight-medium"> Cesiune </ion-text>
         </div>
-        <ion-text class="s18-h24 ion-inherit-color">
-          Denumire cesionar: MISSING_DATA <br />
-          CUI: MISSING_DATA <br />
-          Procent: MISSING_DATA%
+        <ion-text
+          class="s18-h24 ion-inherit-color"
+          *ngFor="let cesiune of policy?.cesiune"
+        >
+          Denumire cesionar: {{ cesiune?.denumireCesionar || '-' }} <br />
+          CUI: {{ cesiune?.cui || '-' }} <br />
+          Procent: {{ cesiune?.procent || '-' }}%
         </ion-text>
       </div>
       <div class="bg-grey-2 mx-n32 px-32 pb-60 pt-20 flex">
@@ -244,10 +258,9 @@
               Notificări
             </ion-text>
           </div>
-          <ion-text class="s18-h24 ion-inherit-color">
-            Vrei să primești notificări când trebuie <br />
-            să reînnoiești polița sau când trebuie <br />
-            să plătești o rată?..
+          <ion-text class="s18-h24 ion-inherit-color w-100">
+            Vrei să primești notificări când trebuie să reînnoiești polița sau
+            când trebuie să plătești o rată?..
           </ion-text>
         </div>
       </ion-col>

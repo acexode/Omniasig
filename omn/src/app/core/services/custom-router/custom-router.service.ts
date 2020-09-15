@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 import { filter, share, map } from 'rxjs/operators';
 import { Subject, BehaviorSubject } from 'rxjs';
-
+import { pick } from 'lodash';
 @Injectable({
   providedIn: 'root',
 })
@@ -64,6 +64,22 @@ export class CustomRouterService {
       return stateChild.params.pipe(
         map((value) => {
           return value[dataKey];
+        })
+      );
+    } else {
+      return new BehaviorSubject(null);
+    }
+  }
+  processChildQParamsAsync(state, dataKeys) {
+    const stateChild = this.getStateChildFromTree(state);
+    if (
+      stateChild &&
+      stateChild.hasOwnProperty('queryParams') &&
+      stateChild.queryParams instanceof Subject
+    ) {
+      return stateChild.queryParams.pipe(
+        map((value) => {
+          return pick(value, dataKeys);
         })
       );
     } else {
