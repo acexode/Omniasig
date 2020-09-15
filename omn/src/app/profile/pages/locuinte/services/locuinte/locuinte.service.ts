@@ -101,8 +101,7 @@ export class LocuinteService {
     const address = {
       id: 0,
       ...data,
-    };    
-    console.log(address)
+    };
     return this.reqS.post<Locuinte>(this.endpoints.add, address);
   }
 
@@ -110,8 +109,7 @@ export class LocuinteService {
     return this.reqS.post<Locuinte>(this.endpoints.makeHomeAddress, data);
   }
 
-  updateSingleLocuinte(data: Locuinte) {   
-    console.log(data)
+  updateSingleLocuinte(data: Locuinte) {
     return this.reqS.post<Locuinte>(this.endpoints.updateAddress, data);
   }
 
@@ -186,9 +184,8 @@ export class LocuinteService {
       })
     );
   }
- 
+
   mapToUIModel(entry: any): Locuinte {
-    console.log(entry)
     return {
       id: get(entry, 'id', null),
       name: get(entry, 'name', ''),

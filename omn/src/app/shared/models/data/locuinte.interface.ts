@@ -38,6 +38,11 @@ export interface Locuinte {
   tipLocuinta?: TipLocuinta;
   policyData?: Array<PolicyItem>;
 
+  // PAID data.
+  paidExternalSeriePolita?: string;
+  paidExternalNumarPolita?: string;
+  paidExternalDataStartValabilitatePolita?: string | Date;
+  paidExternalDataStopValabilitatePolita?: string | Date;
   // Temp - prefilled data.
   pad?: {
     padAvailable: boolean | number;

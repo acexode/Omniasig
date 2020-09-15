@@ -90,7 +90,6 @@ export class LocuinteViewComponent implements OnInit {
       .subscribe((vals: any) => {
         this.formMode = vals[0];
         this.formStep = vals[1];
-        console.log(vals);
         this.setTitles();
         const id = vals[2];
         if (id) {

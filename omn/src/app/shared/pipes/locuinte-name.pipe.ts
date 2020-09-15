@@ -6,7 +6,7 @@ import { get, join } from 'lodash';
   name: 'locuinteName',
 })
 export class LocuinteNamePipe implements PipeTransform {
-  transform(value: Partial<Locuinte>, type?: string): unknown {    
+  transform(value: Partial<Locuinte>, type?: string): unknown {
     if (!value) {
       return '';
     }
@@ -18,7 +18,7 @@ export class LocuinteNamePipe implements PipeTransform {
             get(value, 'addressStreet', null),
             get(value, 'addressCity', null),
             get(value, 'addressCounty', ''),
-          ].filter((v) => v !== null), 
+          ].filter((v) => v !== null),
           ', '
         );
       case 'main-list2':
