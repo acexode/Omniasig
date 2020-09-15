@@ -35,7 +35,7 @@ export class DatePersonaleUserActivationPage implements OnInit {
         },
       ],
       id: 'validate-id',
-      routerLink: [],
+      routerLink: ['/biometrics'],
       itemClass: this.itemClass,
     },
     {

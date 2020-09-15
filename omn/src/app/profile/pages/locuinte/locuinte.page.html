@@ -1,7 +1,7 @@
 <app-sub-page-header [config]="headerConfig"> </app-sub-page-header>
 
 <ion-content>
-  <ng-container *ngIf="(cards$ | async) as cards">
+  <ng-container *ngIf="cards">
     <ion-grid class="px-32 pt-32 pb-24 h-100 flex flex-column">
       <ion-row
         *ngIf="!cards?.length && cards !== null"
@@ -32,6 +32,7 @@
         <ng-container *ngFor="let cardI of cards; let first=first; let i=index">
           <ion-col
             class="ion-no-padding m-0 mb-24"
+            *ngIf="!cardI?.isDisabled"
             size="6"
             [ngClass]="{
                   'pl-8': i%2,
