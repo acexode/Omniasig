@@ -320,18 +320,22 @@ export class LocuinteFormService {
       })
     );
   }
-  handleStreetType(id, fieldsData) {
+  handleStreetType(id, fieldsData,addressPostalCode) {   
     this.streets$.subscribe((val) => {
       const f = val
         .filter((e) => e.id === id)
-        .map((x) => {
+        .map((x) => {          
           return {
             id: x.streetType,
             label: x.streetType,
+            postCode: x.postCode
           };
-        });
-
-      fieldsData.addressStreetType = get(f ? f[0] : {}, 'id', null);
+        });        
+        const PostalCode = get(f ? f[0] : {}, 'postCode', null);
+        addressPostalCode.patchValue(PostalCode)
+        fieldsData.addressStreetType = get(f ? f[0] : {}, 'id', null);
+        console.log(fieldsData)
+      
     });
   }
 
@@ -476,10 +480,6 @@ export class LocuinteFormService {
           break;
       }
     });
-<<<<<<< HEAD
-    
-=======
->>>>>>> 1d68be554e2a590a4c815d5166e63cdf86231c77
     return newModel;
   }
 }
