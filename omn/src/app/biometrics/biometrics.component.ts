@@ -1,8 +1,8 @@
 import { Component, HostBinding, OnInit } from '@angular/core';
+import { FormBuilder, Validators } from '@angular/forms';
 import { radiosConfigHelper } from '../shared/data/radios-config-helper';
 import { IonRadioInputOption } from '../shared/models/component/ion-radio-input-option';
 import { IonRadiosConfig } from '../shared/models/component/ion-radios-config';
-import { FormBuilder, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-biometrics',
@@ -10,9 +10,9 @@ import { FormBuilder, Validators } from '@angular/forms';
   styleUrls: ['./biometrics.component.scss'],
 })
 export class BiometricsComponent implements OnInit {
-  @HostBinding('class') color = 'ion-color-white-page';  
-  buttonText = 'Verifică'
-  pathAcord = "./more-details"
+  @HostBinding('class') color = 'ion-color-white-page';
+  buttonText = 'Verifică';
+  pathAcord = './more-details';
   formGroup = this.fb.group({
     selection: this.fb.control(null, Validators.required),
   });
@@ -34,14 +34,14 @@ export class BiometricsComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.formGroup.valueChanges.subscribe(val =>{      
-      if(val.selection){
-        this.buttonText = 'Verifică'
-        this.pathAcord = "./more-details"
-      }else{
-        this.buttonText = 'Confirmare identitate'
-        this.pathAcord = "./confirmare-identitate"
-      }      
-    })
+    this.formGroup.valueChanges.subscribe((val) => {
+      if (val.selection) {
+        this.buttonText = 'Verifică';
+        this.pathAcord = './more-details';
+      } else {
+        this.buttonText = 'Confirmare identitate';
+        this.pathAcord = './confirmare-identitate';
+      }
+    });
   }
 }

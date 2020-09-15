@@ -1,18 +1,18 @@
 import {
-  Component,
-  OnInit,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
+  Component,
   Input,
+  OnInit,
 } from '@angular/core';
 import {
   ControlValueAccessor,
-  NG_VALUE_ACCESSOR,
   FormBuilder,
+  NG_VALUE_ACCESSOR,
 } from '@angular/forms';
 import { get } from 'lodash';
-import { IonRadiosConfig } from 'src/app/shared/models/component/ion-radios-config';
 import { IonRadioInputOption } from 'src/app/shared/models/component/ion-radio-input-option';
+import { IonRadiosConfig } from 'src/app/shared/models/component/ion-radios-config';
 
 @Component({
   selector: 'app-radios',
@@ -44,7 +44,7 @@ export class RadiosComponent implements OnInit, ControlValueAccessor {
 
   onChange: (_: any) => void;
   onTouched: () => void;
-  value: any; 
+  value: any;
 
   constructor(private fb: FormBuilder, private cdRef: ChangeDetectorRef) {}
 

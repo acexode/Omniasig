@@ -18,7 +18,8 @@ const verifyCNP = (control) => {
       if (ctrlDigit === 10) {
         ctrlDigit = 1;
       }
-      if (ctrlDigit !== parseInt(control.value[12], 10)) {
+
+      if (ctrlDigit === parseInt(control.value[12], 10)) {
         return null;
       } else {
         return { invalidCnp: true };

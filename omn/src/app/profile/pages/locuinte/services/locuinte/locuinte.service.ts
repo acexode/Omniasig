@@ -135,7 +135,7 @@ export class LocuinteService {
   disableLocationForAddressId(addressId) {
     return this.reqS.post<Locuinte>(this.endpoints.disAbleLocation, addressId);
   }
- 
+
   getCounties() {
     const data = {
       countryId: 'RO',
@@ -203,6 +203,7 @@ export class LocuinteService {
       addressCountyCode: get(entry, 'addressCountyCode', ''),
       addressStreetCode: get(entry, 'addressStreetCode', ''),
       addressCityCode: get(entry, 'addressCityCode', ''),
+      isHomeAddress: get(entry, 'isHomeAddress', false),
     };
   }
 }
