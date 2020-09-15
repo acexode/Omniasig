@@ -8,7 +8,7 @@ import {
   ViewChild,
 } from '@angular/core';
 import { ActivatedRoute, Router, NavigationExtras } from '@angular/router';
-import { NavController } from '@ionic/angular';
+import { NavController, IonContent } from '@ionic/angular';
 import { cloneDeep, get, has } from 'lodash';
 import { BehaviorSubject, combineLatest } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
@@ -38,6 +38,7 @@ export class PolicyFormPage implements OnInit, OnDestroy {
   @ViewChild('exclusionComp', { static: false }) exclusionComp;
   @ViewChild('infoDocComp', { static: false }) infoDocComp;
   @ViewChild('addressFormComp', { static: false }) addressFormComp;
+  @ViewChild(IonContent, { static: false }) content: IonContent;
 
   @HostBinding('class')
   get color() {
@@ -511,11 +512,11 @@ export class PolicyFormPage implements OnInit, OnDestroy {
 
   periodSubmit(startDate) {
     this.periodStartData = startDate;
-    if (this.policyID === 'AMPLUS') {
+    if (this.policyID === 'PAD') {
+      this.next();
+    } else {
       this.changeStep(this.policySteps.TECHNICAL_SUPPORT);
-      return;
     }
-    this.next();
   }
 
   navigateBackDnt() {
@@ -621,6 +622,10 @@ export class PolicyFormPage implements OnInit, OnDestroy {
     this.reftime = setTimeout(() => {
       this.navCtrl.navigateForward(['/policy', 'offer', 2], navigationExtras);
     }, 3000);
+  }
+
+  scrollToTop() {
+    this.content.scrollToTop(1500);
   }
 
   exitFlow() {

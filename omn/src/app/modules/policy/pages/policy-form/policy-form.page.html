@@ -5,7 +5,7 @@
   [ngClass]="color"
 ></app-sub-page-header>
 
-<ion-content [ngClass]="color">
+<ion-content [scrollEvents]="true" [ngClass]="color">
   <ng-container [ngSwitch]="currentStep">
     <ng-container *ngSwitchCase="policySteps?.DNT">
       <app-dnt
@@ -22,7 +22,12 @@
       ></app-exclusion-slides>
     </ng-container>
     <ng-container *ngSwitchCase="policySteps?.INFO_DOC">
-      <app-info-doc [policyID]="policyID" #infoDocComp (continue)="next()">
+      <app-info-doc
+        (scrollTop)="scrollToTop()"
+        [policyID]="policyID"
+        #infoDocComp
+        (continue)="next()"
+      >
       </app-info-doc>
     </ng-container>
 

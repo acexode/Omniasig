@@ -21,6 +21,7 @@ export class InfoDocComponent implements OnInit {
   headerConfig = subPageHeaderSecondary('Document de Informare');
   @HostBinding('class') color = 'ion-color-white-page';
   @Output() continue = new EventEmitter();
+  @Output() scrollTop = new EventEmitter();
   @Input() policyID;
   currentStep: number = 1;
   maxSteps: number = 2;
@@ -594,8 +595,7 @@ export class InfoDocComponent implements OnInit {
   next() {
     if (this.policyID === 'Garant AMPLUS+ PAD' && this.currentStep === 1) {
       this.currentStep++;
-      // this.content.scrollToTop(300);
-      // TODO: make page scroll up
+      this.scrollTop.emit();
       return;
     }
     this.continue.emit();
