@@ -90,7 +90,7 @@ export class NumarTelefonComponent implements OnInit {
   }
 
   checkHasLoggedIn() {
-    this.auth.lastLoginNumber().subscribe((phoneNumber) => {
+    this.auth.getPhoneNumber().subscribe((phoneNumber) => {
       if (phoneNumber) {
         this.router.navigate(['login/verify', phoneNumber]);
       }

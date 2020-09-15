@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Calendar } from '@ionic-native/calendar/ngx';
-import { random } from 'lodash';
-import { BehaviorSubject, Observable, of } from 'rxjs';
-import { catchError, map, switchMap } from 'rxjs/operators';
+import { random, get, set } from 'lodash';
+import { BehaviorSubject, Observable, of, throwError } from 'rxjs';
+import { catchError, map, switchMap, take, filter } from 'rxjs/operators';
 import { policyEndpoints } from 'src/app/core/configs/endpoints';
 import { AuthService } from 'src/app/core/services/auth/auth.service';
 import { RequestService } from 'src/app/core/services/request/request.service';
@@ -19,7 +19,7 @@ export class PolicyDataService {
   policyArchiveStore$: BehaviorSubject<Array<PolicyItem>> = new BehaviorSubject(
     []
   );
-  offerStore$: BehaviorSubject<Array<PolicyOffer>> = new BehaviorSubject([]);
+  offerStore$: BehaviorSubject<Array<PolicyOffer>> = new BehaviorSubject(null);
 
   constructor(
     private reqS: RequestService,
@@ -45,21 +45,75 @@ export class PolicyDataService {
     });
   }
 
+  // get user policy offer
   getUserPolicies(id: number | string) {
     const emptyV: Array<PolicyItem> = [];
     return this.reqS
-      .get<Array<PolicyItem>>(this.endpoints.userPoliciesBase + '/' + id)
+      .get<Array<PolicyItem>>(this.endpoints.GetActivePADPolicies)
       .pipe(
         catchError((e) => {
           return of(emptyV);
         }),
-        map((pv) => (pv ? pv.map((pvi) => this.mapPolicyType(pvi)) : []))
+        map((pv) =>
+          pv
+            ? pv.map((pvi) => this.mapPolicyType(this.createPolicyObj(pvi)))
+            : []
+        )
       );
+  }
+
+  // create policy object to suit display data
+  createPolicyObj(policy: any) {
+    return {
+      id: policy.id,
+      typeId: 'PAD',
+      state: 1,
+      name: policy.policyNrChitanta,
+      serial: policy.policySeriePolita,
+      policyNrPolita: policy.policyNrPolita,
+      policyNrChitanta: policy.policyNrChitanta,
+      policyIdIncasareOMN: policy.policyIdIncasareOMN,
+      userId: null,
+      locuintaId: null,
+      userData: {
+        fullName: `${policy.userName} ${policy.userSurname}`,
+        cnp: policy.userCnp,
+      },
+      dates: {
+        from: policy.emisionDate,
+        to: policy.expireDate,
+      },
+      listingSubtitle: `${policy.addressStreet}, ${policy.addressStreetNumber} ${policy.addressCity}`,
+      locuintaData: {
+        id: policy.locuintaId,
+        type: policy.locationType,
+        structure: policy.locationStructure,
+        yearConstruction: policy.locationYearConstruction,
+        valueCurrency: policy.locationValueCurrency,
+        value: policy.locationValue,
+        typeUse: policy.locationArea,
+        area: policy.locationArea,
+        floors: policy.locationFloors,
+        rooms: policy.locationRooms,
+        hasAlarmSystem: policy.locationHasAlarmSystem,
+        name: policy.locationName,
+        addressCounty: policy.addressCounty,
+        addressCity: policy.addressCity,
+        addressStreet: policy.addressStreet,
+        addressBuildingNumber: policy.addressStreetNumber,
+        // Scara bloc.
+        addressScara: policy.addressScara,
+        addressApart: policy.addressApart,
+        addressPostalCode: policy.addressPostalCode,
+      },
+      expiry: policy.expireDate,
+    };
   }
 
   // get user offers
   getUserOffers() {
     const emptyV: Array<PolicyOffer> = [];
+
     return this.reqS
       .get<Array<PolicyOffer>>(this.endpoints.GetActivePADOffers)
       .pipe(
@@ -75,6 +129,7 @@ export class PolicyDataService {
         )
       );
   }
+
   getUserPoliciesArchive(id: number | string) {
     const emptyV: Array<PolicyItem> = [];
     return this.reqS
@@ -107,30 +162,28 @@ export class PolicyDataService {
           to: offer.expireDate,
         },
         locuintaData: {
-          id: offer.id,
+          id: offer.locuintaId,
+
+          type: offer.locationType,
+          structure: offer.locationStructure,
+          yearConstruction: offer.locationYearConstruction,
+          valueCurrency: offer.locationValueCurrency,
+          value: offer.locationValue,
+          typeUse: offer.locationArea,
+          area: offer.locationArea,
+          floors: offer.locationFloors,
+          rooms: offer.locationRooms,
+          hasAlarmSystem: offer.locationHasAlarmSystem,
+
           name: offer.locationName,
-          info: {
-            type: offer.locationType,
-            resistenceStructure: offer.locationStructure,
-            buildYear: offer.locationYearConstruction,
-            valueCurrency: offer.locationValueCurrency,
-            valueSum: offer.locationValue,
-            occupancy: offer.locationArea,
-            usableSurface: offer.locationArea,
-            heightRegime: offer.locationFloors,
-            roomCount: offer.locationRooms,
-            alarm: offer.locationHasAlarmSystem,
-          },
-          address: {
-            county: offer.addressCounty,
-            city: offer.addressCity,
-            street: offer.addressStreet,
-            number: offer.addressStreetNumber,
-            // Scara bloc.
-            entrance: offer.addressScara,
-            apartment: offer.addressApart,
-            postalCode: offer.addressPostalCode,
-          },
+          addressCounty: offer.addressCounty,
+          addressCity: offer.addressCity,
+          addressStreet: offer.addressStreet,
+          addressBuildingNumber: offer.addressStreetNumber,
+          // Scara bloc.
+          addressScara: offer.addressScara,
+          addressApart: offer.addressApart,
+          addressPostalCode: offer.addressPostalCode,
         },
         userId: null,
         locuintaId: null,
@@ -138,25 +191,23 @@ export class PolicyDataService {
       nume: `${offer.userName} ${offer.userSurname}`,
       cnp: offer.userCnp,
       expiry: offer.expireDate,
+      emisionDate: offer.emisionDate ? new Date(offer.emisionDate) : '',
     };
   }
 
   getSingleOfferById(id: number | string) {
     return this.offerStore$.pipe(
+      filter((v) => v !== null),
       switchMap((vals) => {
         if (vals instanceof Array) {
           const existing = vals.find((v) => v.id.toString() === id.toString());
           if (existing) {
             return of(existing);
           } else {
-            return this.getUserOffers().pipe(
-              map((o) => o.filter((off) => off.id === id))
-            );
+            return of(null);
           }
         } else {
-          return this.getUserOffers().pipe(
-            map((o) => o.filter((off) => off.id === id))
-          );
+          return of(null);
         }
       })
     );
@@ -195,13 +246,59 @@ export class PolicyDataService {
     );
   }
 
-  addOffer(offerData: PolicyOffer): Observable<PolicyOffer> {
-    return of({ ...offerData, ...{ id: random(10, 100) } }).pipe(
-      map((v) => {
-        const vals = this.offerStore$.value ? this.offerStore$.value : [];
-        vals.push(v);
-        this.offerStore$.next(vals);
-        return v ? v : null;
+  addOfferToStore(
+    offerData: PolicyOffer,
+    offerResponse: any
+  ): Observable<PolicyOffer> {
+    const iban = get(offerResponse, 'iban', null);
+    const codOferta = get(
+      offerResponse,
+      'response.emitereOfertaResponse1.codOferta',
+      null
+    );
+    const moneda = get(
+      offerResponse,
+      'response.emitereOfertaResponse1.moneda',
+      null
+    );
+    const prima = get(
+      offerResponse,
+      'response.emitereOfertaResponse1.prima',
+      null
+    );
+    const eroare = get(
+      offerResponse,
+      'response.emitereOfertaResponse1.eroare',
+      true
+    );
+    const mesaj = get(
+      offerResponse,
+      'response.emitereOfertaResponse1.mesaj',
+      ''
+    );
+    if (eroare) {
+      return throwError(mesaj);
+    }
+    return this.getUserOffers().pipe(
+      switchMap((offers) => {
+        this.offerStore$.next(offers ? offers : []);
+        return of(offers);
+      }),
+      map((vals) => {
+        if (vals instanceof Array && codOferta && moneda && prima && !eroare) {
+          const existing = vals.find((vvv) => {
+            return vvv.offerCode.toString() === codOferta.toString();
+          });
+          if (existing) {
+            // TODO: map more data in here.
+            set(existing, 'iban', iban);
+            set(existing, 'prima', prima);
+            set(existing, 'currency', moneda);
+          }
+          return existing;
+        } else {
+          return null;
+        }
       }),
       catchError((err) => of(null))
     );

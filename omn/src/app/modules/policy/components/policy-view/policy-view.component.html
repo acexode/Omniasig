@@ -6,33 +6,7 @@
       name="lg-casa-2"
     ></ion-icon>
   </ion-list>
-  <!-- Amplus -->
-  <ion-list
-    class="ion-align-items-center ion-text-center pt-24"
-    *ngIf="isAmplus"
-  >
-    <ion-icon
-      class="mr-auto ml-auto text-center check-icon-lg mb-48"
-      name="lg-casa-1"
-    ></ion-icon>
-  </ion-list>
-  <!--  -->
-
-  <!-- amplus -->
-  <ion-button
-    class="flat no-shadow mr-4 color-disabled ion-color-disabled text-weight-normal"
-    color="disabled"
-    size="large"
-    shape="round"
-    mode="md"
-    *ngIf="isAmplus"
-  >
-    Plătește rata
-    <ion-icon class="ml-18 label-large" name="md-plata"></ion-icon>
-  </ion-button>
-  <!--  -->
-
-  <div class="ion-align-items-center ion-text-center mt-n24" *ngIf="!isAmplus">
+  <div class="ion-align-items-center ion-text-center mt-n24">
     <ion-button
       class="flat no-shadow mr-4 color-disabled ion-color-disabled text-weight-normal"
       color="disabled"
@@ -43,7 +17,6 @@
       Reînnoiește
       <ion-icon class="ml-18 label-large" name="reinnoire"></ion-icon>
     </ion-button>
-
     <ion-button
       class="flat no-shadow ion-color-success ml-4 text-weight-normal"
       flat
@@ -60,38 +33,18 @@
       <ion-text class="s18-h24" color="dark">
         <h3 class="s18-h24">Sumar</h3>
       </ion-text>
-      <!-- <div class=""> -->
       <div class="">
-        <!-- pad -->
         <ion-text class="alt-font color-dark-green x-large">
-          Poliță de asigurare împotriva dezastrelor naturale (PAD)
+          {{ policy?.type?.name }}
         </ion-text>
-
-        <br />
-        <!-- Amplus -->
-        <ion-text class="alt-font color-dark-green x-large" *ngIf="isAmplus">
-          Poliţa de asigurare a locuinţei – Garant AMPLUS
-        </ion-text>
-        <!--  -->
       </div>
 
       <div class="mt-24">
         <ion-text class="s18-h24 ion-color-dark">
-          Pool-ul de aigurare împotriva dezastrelor naturale S.A.
+          {{ policy?.type?.shortDescription }}
         </ion-text>
       </div>
-      <!-- Amplus -->
-      <div class="mt-24" *ngIf="isAmplus">
-        <div class="">
-          <ion-text
-            class="input-label text-weight-medium label-normal text-weight-bold"
-          >
-            Seria și numărul
-          </ion-text>
-        </div>
-        <ion-text class="s18-h24 ion-inherit-color"> X001234567 </ion-text>
-      </div>
-      <!--  -->
+
       <div class="mt-24">
         <div class="">
           <ion-text
@@ -109,38 +62,53 @@
         <div class="">
           <ion-text class="input-label text-weight-medium"> Seria </ion-text>
         </div>
-        <ion-text class="s18-h24 ion-inherit-color"> AB-123 </ion-text>
+        <ion-text class="s18-h24 ion-inherit-color">
+          {{ policy?.serial }}
+        </ion-text>
       </div>
 
       <div class="mt-21 mb-36">
-        <div class="">
+        <div>
           <ion-text class="input-label text-weight-medium"> Numărul: </ion-text>
         </div>
-        <ion-text class="s18-h24 ion-inherit-color"> 00010203456 </ion-text>
+        <ion-text class="s18-h24 ion-inherit-color">
+          {{ policy?.policyNrPolita }}
+        </ion-text>
       </div>
-
-      <div class="">
+      <ng-container
+        *ngIf="
+          policy?.locuintaData?.paidExternalNumarPolita ||
+          policy?.locuintaData?.paidExternalSeriePolita
+        "
+      >
         <div>
-          <ion-text class="alt-font color-dark-green text-weight-bold h3">
-            Reînnoiește PAD
+          <div>
+            <ion-text class="alt-font color-dark-green text-weight-bold h3">
+              Reînnoiește PAD
+            </ion-text>
+          </div>
+        </div>
+
+        <div class="mb-13">
+          <div class="">
+            <ion-text class="input-label text-weight-medium"> Seria </ion-text>
+          </div>
+          <ion-text class="s18-h24 ion-inherit-color">
+            {{ policy?.locuintaData?.paidExternalSeriePolita || '-' }}
           </ion-text>
         </div>
-      </div>
 
-      <div class="mb-13">
-        <div class="">
-          <ion-text class="input-label text-weight-medium"> Seria </ion-text>
+        <div class="mt-13 mb-36">
+          <div class="">
+            <ion-text class="input-label text-weight-medium">
+              Numărul:
+            </ion-text>
+          </div>
+          <ion-text class="s18-h24 ion-inherit-color">
+            {{ policy?.locuintaData?.paidExternalNumarPolita || '-' }}
+          </ion-text>
         </div>
-        <ion-text class="s18-h24 ion-inherit-color"> AB-123 </ion-text>
-      </div>
-
-      <div class="mt-13 mb-36">
-        <div class="">
-          <ion-text class="input-label text-weight-medium"> Numărul: </ion-text>
-        </div>
-        <ion-text class="s18-h24 ion-inherit-color"> 00010203456 </ion-text>
-      </div>
-
+      </ng-container>
       <div class="mb-16">
         <ion-text class="alt-font color-dark-green text-weight-bold h3">
           Asigurat
@@ -151,159 +119,19 @@
         <div class="">
           <ion-text class="input-label text-weight-medium"> Nume </ion-text>
         </div>
-        <ion-text class="s18-h24 ion-inherit-color"> Ion Ionescu </ion-text>
+        <ion-text class="s18-h24 ion-inherit-color">
+          {{ policy?.userData?.fullName }}
+        </ion-text>
       </div>
 
       <div class="mb-36">
         <div class="">
           <ion-text class="input-label text-weight-medium"> CNP </ion-text>
         </div>
-        <ion-text class="s18-h24 ion-inherit-color"> 89******7634 </ion-text>
+        <ion-text class="s18-h24 ion-inherit-color">
+          {{ policy?.userData?.cnp | cnp }}
+        </ion-text>
       </div>
-      <!-- Amplus -->
-      <div class="w-100" *ngIf="isAmplus">
-        <div class="mb-36">
-          <div class="">
-            <ion-text class="input-label text-weight-medium">
-              Suma asigurată
-            </ion-text>
-          </div>
-          <ion-text class="s18-h24 ion-inherit-color">
-            70.000 Euro (Valoare de înlocuire)
-          </ion-text>
-        </div>
-        <div class="mb-36">
-          <div class="">
-            <ion-text class="input-label text-weight-medium">
-              Suma asigurată
-            </ion-text>
-          </div>
-          <ion-text class="s18-h24 ion-inherit-color">
-            70.000 Euro (Valoare de înlocuire)
-          </ion-text>
-        </div>
-        <div class="mb-36">
-          <div class="">
-            <ion-text class="input-label text-weight-medium">
-              Bunuri conținute
-            </ion-text>
-          </div>
-          <ion-text class="s18-h24 ion-inherit-color"> 7.000 Euro </ion-text>
-        </div>
-        <div class="mb-36">
-          <div class="">
-            <ion-text class="input-label text-weight-medium">
-              Răspundere civilă faţă de terţi
-            </ion-text>
-          </div>
-          <ion-text class="s18-h24 ion-inherit-color">
-            1.000 Euro/4.500 Lei
-          </ion-text>
-        </div>
-        <div class="mb-36">
-          <div class="">
-            <ion-text class="input-label text-weight-medium">
-              Asistenţă tehnică la locaţia asigurată
-            </ion-text>
-          </div>
-          <ion-text class="s18-h24 ion-inherit-color"> GOLD </ion-text>
-        </div>
-        <div class="mb-36">
-          <div class="">
-            <ion-text class="input-label text-weight-medium">
-              Perioada de asigurare
-            </ion-text>
-          </div>
-          <ion-text class="s18-h24 ion-inherit-color">
-            12.05.2020 - 11.05.2021
-          </ion-text>
-        </div>
-        <div class="mb-36">
-          <div class="">
-            <ion-text class="input-label text-weight-medium">
-              Modalitatea de plată
-            </ion-text>
-          </div>
-          <ion-text class="s18-h24 ion-inherit-color"> In rate </ion-text>
-        </div>
-        <div class="mb-36">
-          <div class="">
-            <ion-text class="input-label text-weight-medium">
-              Prețul asigurării
-            </ion-text>
-          </div>
-          <ion-text class="s18-h24 ion-inherit-color"> 352,8 lei </ion-text>
-        </div>
-        <div class="mb-36">
-          <div class="">
-            <ion-text class="input-label text-weight-medium">
-              Eşalonare rate (sume /scadenţe):
-            </ion-text>
-          </div>
-          <ion-text class="s18-h24 ion-inherit-color">
-            R1: 176,4 lei/12.05.2020
-            <br />
-            R2: 176,4 lei/ 12.11.2020
-          </ion-text>
-        </div>
-        <div class="mb-36">
-          <div class="">
-            <ion-text class="text-weight-medium" color="omn-medium-contrast">
-              Sume achitate
-            </ion-text>
-          </div>
-          <div class="mt-20 px-32 border-1px-left">
-            <div class="mb-20">
-              <div class="">
-                <ion-text class="input-label text-weight-medium">
-                  Rate 1
-                </ion-text>
-              </div>
-              <ion-text class="s18-h24 ion-inherit-color"> 176,4 lei </ion-text>
-            </div>
-            <div class="mb-20">
-              <div class="">
-                <ion-text class="input-label text-weight-medium">
-                  Chitanța
-                </ion-text>
-              </div>
-              <ion-text class="s18-h24 ion-inherit-color">
-                OMN 321654
-              </ion-text>
-            </div>
-            <div class="mb-20">
-              <div class="">
-                <ion-text class="input-label text-weight-medium">
-                  Data
-                </ion-text>
-              </div>
-              <ion-text class="s18-h24 ion-inherit-color">
-                15.05.2020
-              </ion-text>
-            </div>
-          </div>
-        </div>
-        <div class="mb-36">
-          <div class="">
-            <ion-text class="input-label text-weight-medium">
-              Eşalonare rate (sume /scadenţe):
-            </ion-text>
-          </div>
-          <ion-text class="s18-h24 ion-inherit-color">
-            R1: 176,4 lei/12.05.2020
-            <br />
-            R2: 176,4 lei/ 12.11.2020
-          </ion-text>
-        </div>
-      </div>
-      <!--  -->
-      <div class="mb-36">
-        <div class="">
-          <ion-text class="input-label text-weight-medium"> CNP </ion-text>
-        </div>
-        <ion-text class="s18-h24 ion-inherit-color"> 89******7634 </ion-text>
-      </div>
-
       <div class="mb-36">
         <div class="">
           <ion-text class="input-label text-weight-medium">
@@ -311,7 +139,8 @@
           </ion-text>
         </div>
         <ion-text class="s18-h24 ion-inherit-color">
-          2.05.2020 - 11.05.2021
+          {{ policy?.dates?.from | date: 'dd.MM.yyyy' }} -
+          {{ policy?.dates?.to | date: 'dd.MM.yyyy' }}
         </ion-text>
       </div>
 
@@ -321,7 +150,9 @@
             Suma asigurată
           </ion-text>
         </div>
-        <ion-text class="s18-h24 ion-inherit-color"> 0.000 Euro </ion-text>
+        <ion-text class="s18-h24 ion-inherit-color">
+          {{ policy?.locuintaData?.value }} Euro
+        </ion-text>
       </div>
 
       <div class="mb-36">
@@ -330,7 +161,10 @@
             Prima de asigurare în sumă de
           </ion-text>
         </div>
-        <ion-text class="s18-h24 ion-inherit-color"> 8,00 Lei </ion-text>
+        <ion-text class="s18-h24 ion-inherit-color">
+          <!-- {{ (policy?.locuintaData?.value || 0) * 4.9 }} Lei -->
+          - Lei
+        </ion-text>
       </div>
 
       <div class="mb-36">
@@ -339,7 +173,9 @@
             Încasată în lei conform document
           </ion-text>
         </div>
-        <ion-text class="s18-h24 ion-inherit-color"> YZW 123456 </ion-text>
+        <ion-text class="s18-h24 ion-inherit-color">
+          {{ policy?.policyNrChitanta }}
+        </ion-text>
       </div>
 
       <div class="mb-36">
@@ -348,7 +184,9 @@
             din data de
           </ion-text>
         </div>
-        <ion-text class="s18-h24 ion-inherit-color"> 5.05.2020 </ion-text>
+        <ion-text class="s18-h24 ion-inherit-color">
+          {{ policy?.dates?.from | date: 'dd.MM.yyyy' }}
+        </ion-text>
       </div>
 
       <div class="mb-36">
@@ -358,121 +196,28 @@
           </ion-text>
         </div>
         <ion-text class="s18-h24 ion-inherit-color">
-          trada Traian 45, Brasov, jud. Brasov, Cod. 654321
+          {{ policy?.locuintaData?.addressStreet }}
+          {{ policy?.locuintaData?.addressBuildingNumber }}
+          {{ policy?.locuintaData?.addressCity }} jud.
+          {{ policy?.locuintaData?.addressCounty }},
+          {{ policy?.locuintaData?.addressPostalCode }}
         </ion-text>
       </div>
-      <div class="mb-36">
+
+      <div class="mb-36" *ngIf="policy?.cesiune?.length">
         <div class="">
           <ion-text class="input-label text-weight-medium"> Cesiune </ion-text>
         </div>
-        <ion-text class="s18-h24 ion-inherit-color">
-          Banca Cutarescu, CUI: 321654,
-          <br />
-          Procent: 99%
+        <ion-text
+          class="s18-h24 ion-inherit-color"
+          *ngFor="let cesiune of policy?.cesiune"
+        >
+          Denumire cesionar: {{ cesiune?.denumireCesionar || '-' }} <br />
+          CUI: {{ cesiune?.cui || '-' }} <br />
+          Procent: {{ cesiune?.procent || '-' }}%
         </ion-text>
       </div>
-      <div *ngIf="isAmplus">
-        <div class="mb-16">
-          <ion-text class="alt-font color-dark-green text-weight-bold h3">
-            Documente anexate
-          </ion-text>
-        </div>
-
-        <div class="mb-13">
-          <div class="">
-            <ion-text class="input-label text-weight-medium"> Oferta </ion-text>
-          </div>
-          <ion-text class="s18-h24 ion-inherit-color">
-            123456
-            <br />
-            cod: 01.02.20.F.004.0.E
-          </ion-text>
-        </div>
-        <div class="mb-22">
-          <div class="">
-            <ion-text class="input-label text-weight-medium">
-              Condiţii de asigurare
-            </ion-text>
-          </div>
-          <ion-text class="s18-h24 ion-inherit-color">
-            cod: 08.05.20.W.001.0.M
-          </ion-text>
-        </div>
-      </div>
-
-      <!--  -->
-    </ion-col>
-  </div>
-  <ion-grid class="ion-no-padding">
-    <!-- Amplus -->
-    <ion-row class="pt-20 pb-20 bg-grey-medium" *ngIf="isAmplus">
-      <ion-col class="px-32">
-        <div class="">
-          <div class="">
-            <ion-text class="input-label text-weight-medium">
-              Menţiuni speciale
-            </ion-text>
-          </div>
-          <ion-text class="s18-h24 ion-inherit-color">
-            Avizarea evenimentelor se face prin intermediul Call Center-ului
-            OMNIASIG, la numărul 021.9669
-          </ion-text>
-        </div>
-      </ion-col>
-    </ion-row>
-
-    <ion-row class="pt-10 pb-10 bg-grey-medium" *ngIf="isAmplus">
-      <ion-col
-        class="ion-no-padding ion-align-items-center ion-text-center px-32"
-      >
-        <ion-button
-          class="flex flex-1 w-100 flat no-shadow color-white ion-color-success text-weight-medium px-5"
-          size="large"
-          shape="round"
-          mode="md"
-        >
-          021.9669
-        </ion-button>
-      </ion-col>
-    </ion-row>
-
-    <ion-row class="pt-10 pb-32 bg-grey-medium" *ngIf="isAmplus">
-      <ion-col class="px-32">
-        <div class="flex flex-1 ion-align-items-center ion-text-center">
-          <ion-text class="s18-h24 color-dark-green">
-            Suni din strainatate? Avizeaza dauna aici: +400.21.777.9669
-          </ion-text>
-        </div>
-      </ion-col>
-    </ion-row>
-
-    <ion-row *ngIf="isAmplus">
-      <ion-col class="mt-16 px-32">
-        <div class="mb-20">
-          <div class="flex flex-1">
-            <ion-text class="s18-h24 ion-inherit-color">
-              La emiterea acestei poliţe pentru imobilul ce face obiectul
-              prezentului contract de asigurare este încheiată în mod valabil:
-            </ion-text>
-          </div>
-          <div class="">
-            <ion-text class="input-label text-weight-medium">
-              Polița PAD
-            </ion-text>
-          </div>
-          <ion-text class="s18-h24 ion-inherit-color">
-            Serie: AB-018 <br />
-            Număr: 00012345678 <br />
-            Dată emitere: 08-05-2020 <br />
-            Dată început: 13-05-2020 <br />
-            Dată sfârșit: 12-05-2021 <br />
-          </ion-text>
-        </div>
-      </ion-col>
-    </ion-row>
-
-    <ion-row class="pt-10 pb-28 bg-grey-medium">
-      <ion-col class="ion-no-padding flex flex-1 w-100 pt-20 pb-32 px-32">
+      <div class="bg-grey-2 mx-n32 px-32 pb-60 pt-20 flex">
         <ion-item
           fill="block"
           size="icon-button"
@@ -485,55 +230,53 @@
           ></ion-icon>
 
           <ion-label class="text-weight-medium text-normal overflow-visible m-0"
-            >Acesta este un sumar. Descarcă Polița completă în format
-            PDF.</ion-label
-          >
+            >Acesta este un sumar. Descarcă Polița completă în format PDF.
+          </ion-label>
         </ion-item>
+      </div>
+    </ion-col>
+  </div>
+  <ion-row
+    class="flex flex-column ion-no-padding w-100 shadow-3 mt-n20"
+    *ngIf="calEntry"
+  >
+    <ion-row>
+      <ion-col
+        class="ion-no-padding flex flex-1 w-100 flex-column ion-justify-content-center ion-align-items-center"
+      >
+        <ion-icon
+          name="notificare"
+          class="radius-50-perc p-10 bg-secondary-blue color-white icon-20 mt-n20"
+        ></ion-icon>
       </ion-col>
     </ion-row>
-    <ion-row
-      class="flex flex-column ion-no-padding w-100 shadow-3"
-      *ngIf="calEntry"
-    >
-      <ion-row>
-        <ion-col
-          class="ion-no-padding flex flex-1 w-100 flex-column ion-justify-content-center ion-align-items-center"
-        >
-          <ion-icon
-            name="notificare"
-            class="radius-50-perc p-10 bg-secondary-blue color-white icon-20 mt-n20"
-          ></ion-icon>
-        </ion-col>
-      </ion-row>
-      <ion-row>
-        <ion-col class="mt-8 px-32">
-          <div class="mb-20">
-            <div class="">
-              <ion-text class="input-label text-weight-medium">
-                Notificări
-              </ion-text>
-            </div>
-            <ion-text class="s18-h24 ion-inherit-color">
-              Vrei să primești notificări când trebuie <br />
-              să reînnoiești polița sau când trebuie <br />
-              să plătești o rată?..
+    <ion-row>
+      <ion-col class="mt-8 px-32">
+        <div class="mb-20">
+          <div class="">
+            <ion-text class="input-label text-weight-medium">
+              Notificări
             </ion-text>
           </div>
-        </ion-col>
-      </ion-row>
-      <ion-row>
-        <ion-col class="ion-align-items-center ion-text-center mb-24">
-          <ion-button
-            class="flat no-shadow color-white ion-color-success text-weight-medium px-5"
-            size="large"
-            shape="round"
-            mode="md"
-            (click)="addCalendarEntry()"
-          >
-            Activează notificările
-          </ion-button>
-        </ion-col>
-      </ion-row>
+          <ion-text class="s18-h24 ion-inherit-color w-100">
+            Vrei să primești notificări când trebuie să reînnoiești polița sau
+            când trebuie să plătești o rată?..
+          </ion-text>
+        </div>
+      </ion-col>
     </ion-row>
-  </ion-grid>
+    <ion-row>
+      <ion-col class="ion-align-items-center ion-text-center mb-24">
+        <ion-button
+          class="flat no-shadow color-white ion-color-success text-weight-medium px-5"
+          size="large"
+          shape="round"
+          mode="md"
+          (click)="addCalendarEntry()"
+        >
+          Activează notificările
+        </ion-button>
+      </ion-col>
+    </ion-row>
+  </ion-row>
 </ion-content>

@@ -54,3 +54,10 @@ export const phoneNumberEndPoints = {
 export const sugestii = {
     base: baseEndpoints + '/ChangeSuggestions'
 };
+
+export const padEndpoints = {
+  base: baseEndpoints.pad,
+  VerifyPADInsuranceOffer: baseEndpoints.pad + '/VerifyPADInsuranceOffer',
+  CreatePADInsuranceOffer: baseEndpoints.pad + '/CreatePADInsuranceOffer',
+  CreatePADInsurancePolicy: baseEndpoints.pad + '/CreatePADInsurancePolicy',
+};

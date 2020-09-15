@@ -1,8 +1,8 @@
-import { dateHelperDMY } from 'src/app/core/helpers/date.helper';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { NavController } from '@ionic/angular';
 import { get } from 'lodash';
+import { dateHelperDMY } from 'src/app/core/helpers/date.helper';
 import { PolicyItem } from 'src/app/shared/models/data/policy-item';
 import { CalendarEntry } from '../models/calendar-entry';
 import { subPageHeaderCustom } from './../../../../shared/data/sub-page-header-custom';
@@ -13,6 +13,11 @@ import { PolicyDataService } from './../../services/policy-data.service';
   styleUrls: ['./policy-view.component.scss'],
 })
 export class PolicyViewComponent implements OnInit {
+  headerConfig = subPageHeaderCustom('Polița PAD', 'bg-state');
+  isAmplus = false;
+  calEntry: CalendarEntry;
+  policy: PolicyItem;
+
   constructor(
     private route: ActivatedRoute,
     private policyDataService: PolicyDataService,
@@ -22,22 +27,21 @@ export class PolicyViewComponent implements OnInit {
       this.getPolicyById(params.id);
     });
   }
-  headerConfig = subPageHeaderCustom('Polița PAD', 'bg-state');
-  isAmplus = false;
-  calEntry: CalendarEntry;
 
   ngOnInit(): void {}
 
   getPolicyById(id) {
-    this.policyDataService.getSinglePolicyById(id).subscribe((policy) => {
-      if (policy) {
-        this.setCalEntry(policy);
-      } else {
-        this.navCtrl.navigateBack('policy');
-      }
-    });
+    this.policyDataService
+      .getSinglePolicyById(id)
+      .subscribe((policy: PolicyItem) => {
+        if (policy) {
+          this.policy = policy;
+          this.setCalEntry(policy);
+        } else {
+          this.navCtrl.navigateBack('policy');
+        }
+      });
   }
-
   setCalEntry(policy: PolicyItem) {
     const date = get(policy, 'dates.to', null);
     let processedDate;
