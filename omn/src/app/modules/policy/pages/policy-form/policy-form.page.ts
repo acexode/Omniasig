@@ -1,3 +1,4 @@
+import { IonTextItem } from 'src/app/shared/models/component/ion-text-item';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -47,6 +48,7 @@ export class PolicyFormPage implements OnInit, OnDestroy {
   policySteps = PolicyFormSteps;
   currentStep = PolicyFormSteps.DNT;
   typeItem;
+  showError = false;
 
   policyLocuintaData$: BehaviorSubject<
     Array<PolicyLocuintaListItem>
@@ -64,6 +66,16 @@ export class PolicyFormPage implements OnInit, OnDestroy {
   maxPeriodStartDate;
   // This will contain all data needed for an offer.
   offerData: PolicyOffer = null;
+
+  // Errors.
+  defaultErrMsg: Array<IonTextItem> = [
+    {
+      classes: 'ion-text-center',
+      text:
+        'Ceva nu a funcționat corect. Vei fi redirecționat spre pagina anterioara.',
+    },
+  ];
+  errMsg;
   constructor(
     private routerS: CustomRouterService,
     private aRoute: ActivatedRoute,
@@ -499,6 +511,30 @@ export class PolicyFormPage implements OnInit, OnDestroy {
         new Date().setFullYear(new Date().getFullYear() + 1)
       ).toISOString();
     }
+  }
+
+  handleError(data) {
+    this.showError = true;
+    if (typeof data === 'string') {
+      this.errMsg = [
+        {
+          classes: 'ion-text-center',
+          text:
+            'Ceva nu a funcționat corect. Vei fi redirecționat spre pagina anterioara.',
+        },
+        {
+          classes: 'ion-text-center mt-8',
+          text: 'Mesaj eroare: ' + data,
+        },
+      ];
+    } else {
+      this.errMsg = this.defaultErrMsg;
+    }
+    setTimeout(() => {
+      this.showError = false;
+      this.errMsg = null;
+      this.back();
+    }, 5000);
   }
 
   exitFlow() {
