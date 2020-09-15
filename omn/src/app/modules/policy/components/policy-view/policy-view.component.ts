@@ -64,7 +64,7 @@ export class PolicyViewComponent implements OnInit {
     } catch (e) {}
   }
 
-  addCalenderEntry() {
+  addCalendarEntry() {
     this.policyDataService.addExpiryCalendarEntry(this.calEntry);
   }
 }

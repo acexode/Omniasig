@@ -50,21 +50,31 @@
           </ion-label>
           <ion-label class="text-small">
             Emisa la data de
-            {{ offer?.policy?.dates?.from | date: 'MM.dd.yyyy' }} în baza
-            datelor declarate de ASIGURAT
+            {{ offer?.emisionDate | date: 'MM.dd.yyyy' }} în baza datelor
+            declarate de ASIGURAT
           </ion-label>
         </ion-row>
 
-        <ion-row class="flex-column mb-24">
+        <ion-row
+          class="flex-column mb-24"
+          *ngIf="
+            offer?.policy?.locuintaData?.paidExternalNumarPolita ||
+            offer?.policy?.locuintaData?.paidExternalSeriePolita
+          "
+        >
           <ion-label
             class="link-small text-weight-medium mb-3 color-tertiary-grey"
           >
             Reînnoiește PAD
           </ion-label>
           <ion-label class="s18-h24 alt-font mb-4">
-            Seria: MISSING_DATA
+            Seria:
+            {{ offer?.policy?.locuintaData?.paidExternalSeriePolita || '-' }}
           </ion-label>
-          <ion-label class="s18-h24 mb-21"> Numarul: MISSING_DATA </ion-label>
+          <ion-label class="s18-h24 mb-21">
+            Numarul:
+            {{ offer?.policy?.locuintaData?.paidExternalNumarPolita || '-' }}
+          </ion-label>
           <ion-label class="s18-h24">
             Riscuri acoperite prin contract: cutremure de pământ, alunecări de
             teren şi inundaţii, ca fenomene naturale
@@ -96,7 +106,7 @@
               <div class="link-small text-weight-medium color-tertiary-grey">
                 Suma asigurată
               </div>
-              <ion-text class="s18-h24"> MISSING_DATA Euro</ion-text>
+              <ion-text class="s18-h24"> - Euro</ion-text>
             </ion-label>
           </ion-item>
           <ion-item class="ion-no-padding" lines="none">
@@ -193,24 +203,32 @@
               }}</ion-text>
             </ion-label>
           </ion-item>
-          <ion-item class="ion-no-padding mb-21" lines="none">
+          <ion-item
+            class="ion-no-padding mb-21"
+            lines="none"
+            *ngIf="offer?.policy?.cesiune?.length"
+          >
             <ion-label class="ion-text-wrap ion-no-margin">
               <div class="link-small text-weight-medium color-tertiary-grey">
                 Cesiune
               </div>
-              <div class="w-100">
-                <ion-text class="s18-h24"
-                  >Denumire cesionar: MISSING_DATA
-                </ion-text>
-              </div>
-              <div class="w-100">
-                <ion-text class="s18-h24 w-100">CUI: MISSING_DATA </ion-text>
-              </div>
-              <div class="w-100">
-                <ion-text class="s18-h24 w-100"
-                  >Procent: MISSING_DATA%
-                </ion-text>
-              </div>
+              <ng-container *ngFor="let cesiune of offer?.policy?.cesiune">
+                <div class="w-100">
+                  <ion-text class="s18-h24"
+                    >Denumire cesionar: {{ cesiune?.denumireCesionar || '-' }}
+                  </ion-text>
+                </div>
+                <div class="w-100">
+                  <ion-text class="s18-h24 w-100"
+                    >CUI: {{ cesiune?.cui || '-' }}
+                  </ion-text>
+                </div>
+                <div class="w-100">
+                  <ion-text class="s18-h24 w-100"
+                    >Procent: {{ cesiune?.procent || '-' }}%
+                  </ion-text>
+                </div>
+              </ng-container>
             </ion-label>
           </ion-item>
         </ion-row>

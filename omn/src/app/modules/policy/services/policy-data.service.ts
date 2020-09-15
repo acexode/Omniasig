@@ -191,6 +191,7 @@ export class PolicyDataService {
       nume: `${offer.userName} ${offer.userSurname}`,
       cnp: offer.userCnp,
       expiry: offer.expireDate,
+      emisionDate: offer.emisionDate ? new Date(offer.emisionDate) : '',
     };
   }
 

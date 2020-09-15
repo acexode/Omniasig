@@ -10,4 +10,5 @@ export interface PolicyOffer {
   iban?: string;
   prima?: string | number;
   currency?: string;
+  emisionDate?: string | Date;
 }
