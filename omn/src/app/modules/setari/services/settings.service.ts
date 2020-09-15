@@ -4,7 +4,7 @@ import { BehaviorSubject, Observable, of } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
 import { AuthService } from 'src/app/core/services/auth/auth.service';
 import { RequestService } from 'src/app/core/services/request/request.service';
-import { locuinteEndpoints,authEndpoints } from '../../../core/configs/endpoints';
+import { locuinteEndpoints, authEndpoints } from '../../../core/configs/endpoints';
 
 @Injectable({
     providedIn: 'root',
@@ -17,13 +17,7 @@ export class SettingsService {
     settings$: BehaviorSubject<any> = new BehaviorSubject(
         this.settings
     );
-    private domiciliu: any = {
-        county: null,
-        city: null,
-        street: null,
-        number: null,
-        postalCode: null
-    }
+    private domiciliu: any = null
     domiciliu$: BehaviorSubject<any> = new BehaviorSubject(
         this.domiciliu
     );
