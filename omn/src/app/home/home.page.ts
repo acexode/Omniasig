@@ -33,7 +33,9 @@ export class HomePage implements OnInit {
   offers$: BehaviorSubject<Array<PolicyListItem>> = new BehaviorSubject([]);
   policies$: BehaviorSubject<Array<PolicyListItem>> = new BehaviorSubject([]);
   account = null;
-
+  // remove
+  isToAddToPage = false;
+  ///
   daune: Array<ImageCard> = null;
 
   // Default title configs.

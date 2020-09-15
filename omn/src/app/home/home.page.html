@@ -35,7 +35,9 @@
                 </div>
             </app-policy-list>
         </ion-row>
-        <ion-row class="mt-32 mx-n8" *ngIf="release === 2">
+
+         <!-- this part is to be removed -->
+        <ion-row class="mt-32 mx-n8" *ngIf="isToAddToPage">
             <ion-col class="ion-no-padding">
                 <ion-row>
                     <ion-text color="omn-green">
@@ -57,6 +59,8 @@
                 </ion-row>
             </ion-col>
         </ion-row>
+        <!--  -->
+
         <ion-row class="mt-32 mx-n8" *ngIf="!accountActivated">
             <app-disabled-placeholder [item]="accountNotActivated"></app-disabled-placeholder>
         </ion-row>
