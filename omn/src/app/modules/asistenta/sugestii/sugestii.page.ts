@@ -74,9 +74,16 @@ export class SugestiiPage implements OnInit {
         message: this.suggestion.get('userComment').value,
         rating: this.suggestion.get('userRating').value,
       };
+      this.disableBtn = true;
       this.sugestiiS.postSugestii(sugestiiData).subscribe(
-        (response) => {},
-        (error) => {}
+        (response) => {
+          // We don't want to submit the same data all over again.
+          this.suggestion.reset();
+        },
+        (error) => {},
+        () => {
+          this.disableBtn = false;
+        }
       );
     } else {
       this.suggestion.updateValueAndValidity();
