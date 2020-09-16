@@ -101,6 +101,7 @@ export class NumarTelefonComponent implements OnInit {
     this.auth.sendPhoneNumberSms(this.phoneNumber.value).subscribe(
       (data) => {
         this.router.navigate(['login/authenticate', this.phoneNumber.value]);
+        this.busy = false;
       },
       (err) => {
         this.busy = false;

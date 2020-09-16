@@ -13,5 +13,5 @@
     <ion-icon [ngClass]="{ 'color-red': errorLogin }" name="ellipse" class="mr-4 password-hide s18-h24" *ngIf="digitsLength > 5"></ion-icon>
 </div>
 <form [formGroup]="passForm">
-    <ion-input #inputField formControlName="passcode" class="position-absolute bg-white text-center opacity-hide ion-no-border" [readonly]="busy" type="tel" inputmode="numeric"></ion-input>
+    <ion-input #inputField formControlName="passcode" class="position-absolute bg-white text-center opacity-hide ion-no-border" [readonly]="busy" type="tel" autofocus="true" inputmode="numeric"></ion-input>
 </form>
