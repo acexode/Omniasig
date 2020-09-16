@@ -42,8 +42,8 @@ export class OmnAppLauncherService {
       case NativeFunctionalities.READ_EMAIL:
         options = {
           action: this.webIntent.ACTION_VIEW,
-
           url: 'mailto:',
+          type: 'message/rfc822',
         };
         break;
 

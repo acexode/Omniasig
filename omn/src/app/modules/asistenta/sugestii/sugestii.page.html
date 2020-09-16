@@ -2,49 +2,64 @@
 </app-sub-page-header>
 
 <ion-content>
-    <ion-grid class="pt-72">
-        <ion-row class="ion-align-items-start">
-            <ion-col class="ion-no-padding flex flex-1 w-100 pr-32 pl-32 pt-10 pb-10">
-                <ion-text class="input-label text-weight-medium">
-                    Mesaj
-                </ion-text>
-            </ion-col>
-        </ion-row>
-        <ion-row class="ion-align-items-start">
-            <ion-col class="ion-no-padding flex flex-1 w-100 ion-align-items-center pr-32 pl-32">
-                <form [formGroup]="suggestion" class="w-100">
-                    <ion-list class="ion-no-padding">
-                        <ion-item lines="none" class="ion-no-padding">
-                            <ion-textarea formControlName="userComment" rows="3" cols="20"
-                                class="bg-grey-medium bottom-1px-solid px-5 w-100 top-radius-8" placeholder="Completează" inputmode="text">
-                            </ion-textarea>
-                        </ion-item>
-                        <ion-item lines="none" class="ion-no-padding">
-                            <ion-text class="input-label text-weight-medium pt-10 pb-10">
-                                Vă place aplicația noastră?
-                            </ion-text>
-                        </ion-item>
-                        <ion-item lines="none" class="ion-no-padding flex flex-1 flex-row ion-justify-content-between ion-align-items-center">
-                            <ion-icon *ngFor="let item of ionIconRatingData" class="icon-40 px-10" name="{{item.name}}" (click)=setIconRatingValue($event)
-                                color="omn-medium">
-                            </ion-icon>
-                        </ion-item>
-                    </ion-list>
-                </form>
-            </ion-col>
-        </ion-row>
-        <ion-row class="ion-align-items-start">
-            <ion-col class="ion-align-items-center ion-text-center py-32 px-32">
-                <ion-button 
-                    class="flex flex-1 w-100 flat color-white ion-color-success text-weight-medium px-5"
-                    size="large" 
-                    shape="round" 
-                    mode="md"
-                    [disabled]="suggestion.invalid"
-                    (click)="process()">
-                    Trimite
-                </ion-button>
-            </ion-col>
-        </ion-row>
-    </ion-grid>
+  <ion-grid class="pt-72 px-0">
+    <ion-row class="ion-align-items-start">
+      <ion-col class="ion-no-padding flex flex-1 w-100 pr-32 pl-32 pt-10 pb-10">
+        <ion-text class="input-label text-weight-medium"> Mesaj </ion-text>
+      </ion-col>
+    </ion-row>
+    <ion-row class="ion-align-items-start">
+      <ion-col
+        class="ion-no-padding flex flex-1 w-100 ion-align-items-center pr-32 pl-32"
+      >
+        <form [formGroup]="suggestion" class="w-100">
+          <ion-list class="ion-no-padding">
+            <ion-item lines="none" class="ion-no-padding w-100">
+              <ion-textarea
+                formControlName="userComment"
+                rows="3"
+                cols="20"
+                class="bg-grey-medium bottom-1px-solid px-5 w-100 top-radius-8"
+                placeholder="Completează"
+                inputmode="text"
+              >
+              </ion-textarea>
+            </ion-item>
+            <ion-item lines="none" class="ion-no-padding">
+              <ion-text class="input-label text-weight-medium pt-10 pb-10">
+                Vă place aplicația noastră?
+              </ion-text>
+            </ion-item>
+            <ion-item
+              lines="none"
+              class="ion-no-padding flex flex-1 flex-row ion-justify-content-between ion-align-items-center"
+            >
+              <ion-icon
+                *ngFor="let item of ionIconRatingData"
+                class="icon-40 px-10"
+                name="{{item.name}}"
+                (click)="setIconRatingValue($event)"
+                color="omn-medium"
+              >
+              </ion-icon>
+            </ion-item>
+          </ion-list>
+        </form>
+      </ion-col>
+    </ion-row>
+    <ion-row class="ion-align-items-start">
+      <ion-col class="ion-align-items-center ion-text-center py-32 px-32">
+        <ion-button
+          class="flex flex-1 w-100 flat color-white ion-color-success text-weight-medium px-5"
+          size="large"
+          shape="round"
+          mode="md"
+          [disabled]="disableBtn"
+          (click)="process()"
+        >
+          Trimite
+        </ion-button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
 </ion-content>
