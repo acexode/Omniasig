@@ -17,8 +17,12 @@ export class DatePersonalePage implements OnInit {
   account$ = this.authS.getAccountData();
   accountData: Account;
   headerConfig = subPageHeaderDefault('Date Personale');
-  domiciliu: any = null
-  constructor(private authS: AuthService, private configS: ConfigService, private settingsS: SettingsService) { }
+  domiciliu: any = null;
+  constructor(
+    private authS: AuthService,
+    private configS: ConfigService,
+    private settingsS: SettingsService
+  ) {}
 
   ngOnInit() {
     this.account$.subscribe((account) => {
@@ -27,14 +31,12 @@ export class DatePersonalePage implements OnInit {
         this.accountActivated = this.authS.accountActivated(account);
       }
     });
-    this.getDomiciliu()
+    this.getDomiciliu();
   }
 
   getDomiciliu() {
-    this.settingsS.domiciliu$.subscribe(
-      (data) => {
-        this.domiciliu = data;
-      }
-    )
+    this.settingsS.domiciliu$.subscribe((data) => {
+      this.domiciliu = data;
+    });
   }
 }

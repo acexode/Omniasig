@@ -20,20 +20,18 @@ export class SetariPage implements OnInit, OnDestroy {
   formGroup = this.fb.group({
     notifications: this.fb.control(false),
   });
-  constructor(private fb: FormBuilder, private settingsS: SettingsService) { }
+  constructor(private fb: FormBuilder, private settingsS: SettingsService) {}
   notificationS: Subscription;
 
   ngOnInit() {
     this.handleSubmission();
-    this.getSettings()
+    this.getSettings();
   }
 
   getSettings() {
-    this.settingsS.settings$.subscribe(
-      data => {
-        this.formGroup.get('notifications').patchValue(data.notifications)
-      }
-    )
+    this.settingsS.settings$.subscribe((data) => {
+      this.formGroup.get('notifications').patchValue(data.notifications);
+    });
   }
 
   // Try to attach this after data loading for the toggles.
@@ -41,12 +39,12 @@ export class SetariPage implements OnInit, OnDestroy {
     this.notificationS = this.formGroup
       .get('notifications')
       .valueChanges.subscribe((v: boolean) => {
-        this.saveSettings(v)
+        this.saveSettings(v);
       });
   }
 
   saveSettings(v: boolean) {
-    this.settingsS.updateSettings({ notifications: v })
+    this.settingsS.updateSettings({ notifications: v });
   }
 
   ngOnDestroy() {

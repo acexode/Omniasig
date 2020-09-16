@@ -21,6 +21,6 @@ import { SetariPage } from './setari.page';
     ReactiveFormsModule,
   ],
   declarations: [SetariPage, AutentificareComponent, MarketingOptionsComponent],
-  providers:[SettingsService]
+  providers: [SettingsService],
 })
 export class SetariPageModule {}

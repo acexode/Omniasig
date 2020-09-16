@@ -34,28 +34,32 @@ export class MarketingOptionsComponent implements OnInit {
   formGroup = this.fb.group({
     accept: this.fb.control(false, Validators.required),
   });
-  busy:boolean =false
-  constructor(private fb: FormBuilder, private navCtrl: NavController, private settingsS: SettingsService) { }
+  busy = false;
+  constructor(
+    private fb: FormBuilder,
+    private navCtrl: NavController,
+    private settingsS: SettingsService
+  ) {}
 
   ngOnInit() {
-    this.getSettings()
+    this.getSettings();
   }
 
   getSettings() {
-    this.settingsS.settings$.subscribe(
-      data => {
-        this.formGroup.get('accept').patchValue(data.marketing)
-      }
-    )
+    this.settingsS.settings$.subscribe((data) => {
+      this.formGroup.get('accept').patchValue(data.marketing);
+    });
   }
 
   submitForm() {
-    this.busy = true
-    this.settingsS.updateSettings({ marketing: this.formGroup.get('accept').value }).subscribe(
-      data => {
-        this.navCtrl.navigateRoot('/home')
-      },
-      err => this.busy = false
-    )
+    this.busy = true;
+    this.settingsS
+      .updateSettings({ marketing: this.formGroup.get('accept').value })
+      .subscribe(
+        (data) => {
+          this.navCtrl.navigateRoot('/home');
+        },
+        (err) => (this.busy = false)
+      );
   }
 }

@@ -24,7 +24,7 @@ export class AutentificareComponent implements OnInit, OnDestroy {
   faceIdS: Subscription;
 
   constructor(private fb: FormBuilder, private settingsS: SettingsService) {
-    this.getFaceIdstatus()
+    this.getFaceIdstatus();
   }
   ngOnInit() {
     this.handleSubmission();
@@ -32,17 +32,17 @@ export class AutentificareComponent implements OnInit, OnDestroy {
 
   // Try to attach this after data loading for the toggles.
   handleSubmission() {
-    this.faceIdS = this.formGroup.get('faceId').valueChanges.subscribe((v: boolean) => {
-      this.settingsS.toggleFaceId(v)
-    });
+    this.faceIdS = this.formGroup
+      .get('faceId')
+      .valueChanges.subscribe((v: boolean) => {
+        this.settingsS.toggleFaceId(v);
+      });
   }
 
   getFaceIdstatus() {
-    this.settingsS.getFaceIdState().subscribe(
-      (data:boolean) => {
-        this.formGroup.get('faceId').patchValue(data)
-      }
-    )
+    this.settingsS.getFaceIdState().subscribe((data: boolean) => {
+      this.formGroup.get('faceId').patchValue(data);
+    });
   }
 
   ngOnDestroy() {
