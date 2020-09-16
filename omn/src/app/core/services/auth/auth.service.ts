@@ -159,7 +159,7 @@ export class AuthService {
     this.authState.next({
       ...this.initialState,
     });
-    
+
     this.routerS.navigateByUrl('/login');
   }
 

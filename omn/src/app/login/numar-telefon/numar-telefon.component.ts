@@ -31,7 +31,7 @@ export class NumarTelefonComponent implements OnInit {
   };
   teleForm: FormGroup;
   busy = false;
-  
+
   constructor(
     private router: Router,
     private formBuilder: FormBuilder,
@@ -74,7 +74,7 @@ export class NumarTelefonComponent implements OnInit {
   get phoneNumber() {
     return this.teleForm.get('phoneNumber');
   }
-  
+
   newUserReg() {
     this.regService.setUserObj({
       phoneNumber: this.phoneNumber.value,
