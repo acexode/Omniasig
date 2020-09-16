@@ -169,18 +169,9 @@ export class LocuinteService {
 
   getStreets(obj) {
     return this.reqS.post(this.endpoints.getStreets, obj).pipe(
-      map((val: any) => {
-        const withLabel = val.map((v) => {
-          return {
-            ...v,
-            ...{
-              id: v.id,
-              label: v.name,
-            },
-          };
-        });
-        this.streetStore$.next(withLabel);
-        return withLabel;
+      map((vals: any) => {
+        this.streetStore$.next(vals);
+        return vals;
       })
     );
   }
@@ -209,6 +200,10 @@ export class LocuinteService {
       rooms: get(entry, 'rooms', ''),
       hasAlarmSystem: get(entry, 'hasAlarmSystem', ''),
       isDisabled: get(entry, 'isDisabled', ''),
+      addressCountyCode: get(entry, 'addressCountyCode', ''),
+      addressStreetCode: get(entry, 'addressStreetCode', ''),
+      addressCityCode: get(entry, 'addressCityCode', ''),
+      isHomeAddress: get(entry, 'isHomeAddress', false),
     };
   }
 }

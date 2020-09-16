@@ -6,14 +6,14 @@ export const autoCompleteConfigHelper = (conf: {
   disabled: boolean;
   dataServiceCb: (filter: any) => Observable<Array<any>>;
   dataServiceSource: BehaviorSubject<any>;
+  idKey?: string;
+  labelKey?: string;
 }): IonAutocompleteConfig => {
   const config: IonAutocompleteConfig = {
     inputLabel: {
       classes: 'mb-8 input-label',
       text: conf.label,
     },
-    labelKey: 'label',
-    idKey: 'id',
     clearInvalid: false,
     autocompleteOptions: {
       placeholder: 'Selectează',
@@ -23,6 +23,9 @@ export const autoCompleteConfigHelper = (conf: {
     disabled: conf?.disabled,
     dataServiceCb: conf.dataServiceCb,
     dataServiceSource: conf.dataServiceSource,
+    idKey: conf.idKey || 'id',
+    labelKey: conf.labelKey || 'label',
   };
+
   return config;
 };

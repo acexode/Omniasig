@@ -1,28 +1,62 @@
 export enum LocuinteStructureType {
-  BETON_ARMAT = 'beton',
-  ZIDARIE_PORTANTA = 'zidarie',
-  METAL = 'metal',
+  BETON = 'beton',
+  BETON_ARMAT = 'beton_armat',
+  CARAMIDA = 'caramida',
+  BCA = 'bca',
   LEMN = 'lemn',
+  MIXTA = 'mixta',
+  CARAMIDA_NEARSA = 'caramida_nearsa',
+  MATERIALE_NETRATATE = 'materiale_netratate',
+  CHIRPICI = 'chirpici',
 }
 export const locuinteFieldsData = {
   structure: [
+    {
+      id: LocuinteStructureType.BETON,
+      label: 'Beton',
+    },
     {
       id: LocuinteStructureType.BETON_ARMAT,
       label: 'Beton armat (cadre, diafragme, prefabricate)',
     },
     {
-      id: LocuinteStructureType.ZIDARIE_PORTANTA,
-      label: 'Zidărie portantă (zidarie, piatra)',
+      id: LocuinteStructureType.CARAMIDA,
+      label: 'Cărămidă',
     },
-
     {
-      id: LocuinteStructureType.METAL,
-      label: 'Metal',
+      id: LocuinteStructureType.BCA,
+      label: 'BCA',
     },
     {
       id: LocuinteStructureType.LEMN,
       label: 'Lemn',
     },
+    {
+      id: LocuinteStructureType.MIXTA,
+      label: 'Mixtă',
+    },
+    {
+      id: LocuinteStructureType.CARAMIDA_NEARSA,
+      label: 'Cărămidă nearsă',
+    },
+    {
+      id: LocuinteStructureType.MATERIALE_NETRATATE,
+      label: 'Materiale netratate',
+    },
+    {
+      id: LocuinteStructureType.CHIRPICI,
+      label: 'Chirpici/Paiantă',
+    },
+
+    // Old stuff.
+    // {
+    //   id: LocuinteStructureType.ZIDARIE_PORTANTA,
+    //   label: 'Zidărie portantă (zidarie, piatra)',
+    // },
+    //     {
+    //   id: LocuinteStructureType.METAL,
+    //   label: 'Metal',
+    // },
     // {
     //   id: 'lemnSub60',
     //   label: 'Lemn, sub 60%',

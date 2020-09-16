@@ -107,9 +107,7 @@
         "DEEPLINK_5_HOST": " "
       },
       "cordova-plugin-calendar": {},
-      "cordova-plugin-ionic-webview": {
-        "ANDROID_SUPPORT_ANNOTATIONS_VERSION": "27.+"
-      },
+      "cordova-plugin-ionic-webview": {},
       "cordova-plugin-app-launcher": {}
     },
     "platforms": [
@@ -117,6 +115,7 @@
       "android"
     ]
   },
+  "main": "karma.conf.js",
   "license": "Commercial",
   "platforms": [
     "android"

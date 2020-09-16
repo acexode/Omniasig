@@ -5,6 +5,8 @@ export const selectConfigHelper = (conf: {
   force?: boolean;
   multiple?: boolean;
   disabled?: boolean;
+  idKey?: string;
+  labelKey?: string;
 }): IonSelectConfig => {
   const config: IonSelectConfig = {
     inputLabel: {
@@ -18,6 +20,8 @@ export const selectConfigHelper = (conf: {
     alertOptions: {
       customClass: 'omn-select-alert',
     },
+    idKey: conf.idKey || 'id',
+    labelKey: conf.labelKey || 'label',
   };
   return config;
 };
