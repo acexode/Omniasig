@@ -56,4 +56,6 @@ export interface Locuinte {
   };
   locuintaState?: LocuintaState;
   isDisabled?: boolean;
+
+  isHomeAddress?: boolean;
 }
