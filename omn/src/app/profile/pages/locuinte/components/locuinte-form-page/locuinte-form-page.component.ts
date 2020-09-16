@@ -210,8 +210,10 @@ export class LocuinteFormPageComponent implements OnInit {
         this.formS.handleStreetProcessing(
           val,
           this.formInstance.data,
-          this.dataModel
+          this.dataModel,
+          this.addressPostalCode
         );
+        
       });
     }
   }

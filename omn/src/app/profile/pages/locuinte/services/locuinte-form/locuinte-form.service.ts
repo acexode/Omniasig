@@ -317,24 +317,8 @@ export class LocuinteFormService {
       })
     );
   }
-  handlePostalCode(id,fieldsData, addressPostalCode ){
-    this.streets$.subscribe((val) => {
-
-      const f = val
-        .filter((e) => e.id === id)
-        .map((x) => {          
-          return {
-            id: x.streetType,
-            label: x.streetType,
-            postCode: x.postCode
-          };
-        });        
-        const PostalCode = get(f ? f[0] : {}, 'postCode', null);
-        addressPostalCode.patchValue(PostalCode)
-       
-  })
-}
-  handleStreetProcessing(id, fieldsData, dataModel = {}) {
+  
+  handleStreetProcessing(id, fieldsData, dataModel = {}, addressPostalCode) {    
     const vvv = fieldsData.addressStreet ? fieldsData.addressStreet : [];
     const f = vvv.find((v) => {
       try {
@@ -345,9 +329,11 @@ export class LocuinteFormService {
       } catch (err) {
         return false;
       }
-    });
+    });  
+    const postCode = get(f, 'postCode', null)
+    addressPostalCode.patchValue(postCode)
     set(dataModel, 'addressStreetType', get(f, 'streetType', 'Strada'));
-    set(dataModel, 'addressStreetCode', get(f, 'id', null));
+    set(dataModel, 'addressStreetCode', get(f, 'id', null));    
   }
 
   updateCounty(field, fieldsData, dataModel = {}) {

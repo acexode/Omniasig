@@ -11,10 +11,10 @@ export enum LocuinteStructureType {
 }
 export const locuinteFieldsData = {
   structure: [
-    {
-      id: LocuinteStructureType.BETON,
-      label: 'Beton',
-    },
+    // {
+    //   id: LocuinteStructureType.BETON,
+    //   label: 'Beton',
+    // },
     {
       id: LocuinteStructureType.BETON_ARMAT,
       label: 'Beton armat (cadre, diafragme, prefabricate)',
@@ -24,29 +24,29 @@ export const locuinteFieldsData = {
       label: 'Cărămidă',
     },
     {
-      id: LocuinteStructureType.BCA,
-      label: 'BCA',
-    },
-    {
       id: LocuinteStructureType.LEMN,
       label: 'Lemn',
     },
-    {
-      id: LocuinteStructureType.MIXTA,
-      label: 'Mixtă',
-    },
-    {
-      id: LocuinteStructureType.CARAMIDA_NEARSA,
-      label: 'Cărămidă nearsă',
-    },
-    {
-      id: LocuinteStructureType.MATERIALE_NETRATATE,
-      label: 'Materiale netratate',
-    },
-    {
-      id: LocuinteStructureType.CHIRPICI,
-      label: 'Chirpici/Paiantă',
-    },
+    // {
+    //   id: LocuinteStructureType.BCA,
+    //   label: 'BCA',
+    // },
+    // {
+    //   id: LocuinteStructureType.MIXTA,
+    //   label: 'Mixtă',
+    // },
+    // {
+    //   id: LocuinteStructureType.CARAMIDA_NEARSA,
+    //   label: 'Cărămidă nearsă',
+    // },
+    // {
+    //   id: LocuinteStructureType.MATERIALE_NETRATATE,
+    //   label: 'Materiale netratate',
+    // },
+    // {
+    //   id: LocuinteStructureType.CHIRPICI,
+    //   label: 'Chirpici/Paiantă',
+    // },
 
     // Old stuff.
     // {
