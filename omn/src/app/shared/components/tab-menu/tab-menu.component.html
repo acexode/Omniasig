@@ -1,4 +1,5 @@
-<!-- 
+<!--
+  rla?.isActive
   refactor [hidden]="!rla2?.isActive"   [hidden]="rla2?.isActive" 
   this is due to the new UI https://projects.invisionapp.com/d/main#/console/20226080/431126038/preview
 -->
@@ -13,11 +14,6 @@
     [routerDirection]="'back'"
   >
     <ion-icon name="md-active-acasa"></ion-icon>
-    <!-- <ion-icon
-      [hidden]="rla?.isActive"
-      name="md-acasa"
-      color="success"
-    ></ion-icon> -->
     <ion-label
       class="custom-label link-small text-weight-medium"
       [class.label-border]="rla?.isActive"
@@ -35,12 +31,11 @@
     #rla2="routerLinkActive"
     [routerDirection]="rla3?.isActive ? 'back' : 'forward'"
   >
-    <ion-icon name="md-active-polita"></ion-icon>
-    <!-- <ion-icon
-      [hidden]="rla2?.isActive"
+    <!-- md-active-polita alternative-->
+   <ion-icon
       name="md-polita"
       color="success"
-    ></ion-icon> -->
+    ></ion-icon>
     <ion-label
       class="custom-label link-small text-weight-medium"
       [class.label-border]="rla2?.isActive"
@@ -59,7 +54,6 @@
     [routerDirection]="rla3?.isActive ? 'back' : 'forward'"
     [disabled]="release === 2"
   >
-   <!--  <ion-icon [hidden]="!rla4?.isActive" name="md-dosar-filled"></ion-icon> -->
     <ion-icon
       [hidden]="rla4?.isActive"
       name="md-dosar-light"
@@ -84,12 +78,10 @@
     #rla3="routerLinkActive"
     [routerDirection]="'forward'"
   >
-    <ion-icon name="md-active-user"></ion-icon>
-    <!-- <ion-icon
-      [hidden]="rla3?.isActive"
+    <ion-icon
       name="md-user"
       color="success"
-    ></ion-icon> -->
+    ></ion-icon>
     <ion-label
       class="custom-label link-small text-weight-medium"
       [class.label-border]="rla3?.isActive"
