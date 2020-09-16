@@ -253,6 +253,7 @@ export class AuthService {
     name?: string;
     surname?: string;
     dateBirth?: any;
+    [key: string]: any;
   }) {
     const account = this.authState.value.account;
     const newAccount = { ...account, ...data };

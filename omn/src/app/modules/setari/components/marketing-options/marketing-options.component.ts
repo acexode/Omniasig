@@ -47,7 +47,9 @@ export class MarketingOptionsComponent implements OnInit {
 
   getSettings() {
     this.settingsS.settings$.subscribe((data) => {
-      this.formGroup.get('accept').patchValue(data.marketing);
+      this.formGroup
+        .get('accept')
+        .patchValue(data.marketing, { emitEvent: false });
     });
   }
 

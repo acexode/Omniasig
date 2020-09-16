@@ -30,7 +30,9 @@ export class SetariPage implements OnInit, OnDestroy {
 
   getSettings() {
     this.settingsS.settings$.subscribe((data) => {
-      this.formGroup.get('notifications').patchValue(data.notifications);
+      this.formGroup
+        .get('notifications')
+        .patchValue(data.notifications, { emitEvent: false });
     });
   }
 
@@ -44,7 +46,7 @@ export class SetariPage implements OnInit, OnDestroy {
   }
 
   saveSettings(v: boolean) {
-    this.settingsS.updateSettings({ notifications: v });
+    this.settingsS.updateSettings({ notifications: v }).subscribe();
   }
 
   ngOnDestroy() {
