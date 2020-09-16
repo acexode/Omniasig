@@ -1,88 +1,35 @@
-<!--
-  refactor Ui base on new UI https://projects.invisionapp.com/d/main#/console/20226080/431126038/preview
--->
-
 <ion-tab-bar slot="bottom">
-  <ion-tab-button
-    tab="acasa"
-    [routerLink]="'/home'"
-    routerLinkActive="active"
-    #rla="routerLinkActive"
-    [selected]="rla?.isActive"
-    [routerDirection]="'back'"
-  >
-    <ion-icon name="md-active-acasa"></ion-icon>
-    <ion-label
-      class="custom-label link-small text-weight-medium"
-      [class.label-border]="rla?.isActive"
-      >Acasã</ion-label
-    >
+  <ion-tab-button tab="acasa" [routerLink]="'/home'" routerLinkActive="active" #rla="routerLinkActive" class="pb-16"
+    [selected]="rla?.isActive" [routerDirection]="'back'">
+    <ion-icon [hidden]="!rla?.isActive" name="md-active-acasa"></ion-icon>
+    <ion-icon [hidden]="rla?.isActive" name="md-acasa" color="success"></ion-icon>
+    <ion-label class="custom-label link-small text-weight-medium" [class.label-border]="rla?.isActive">Acasã</ion-label>
   </ion-tab-button>
 
-  <ion-tab-button
-    tab="asigurari"
-    (click)="setCurrentTab('asigurari')"
-    [routerLink]="'/policy'"
-    routerLinkActive="active"
-    [selected]="rla2?.isActive"
-    routerDirection="root"
-    #rla2="routerLinkActive"
-    [routerDirection]="rla3?.isActive ? 'back' : 'forward'"
-  >
-   <ion-icon
-      name="md-polita"
-      color="success"
-    ></ion-icon>
-    <ion-label
-      class="custom-label link-small text-weight-medium"
-      [class.label-border]="rla2?.isActive"
-      >Asigurãri</ion-label
-    >
+  <ion-tab-button tab="asigurari" (click)="setCurrentTab('asigurari')" [routerLink]="'/policy'"
+    routerLinkActive="active" [selected]="rla2?.isActive" routerDirection="root" #rla2="routerLinkActive" class="pb-16"
+    [routerDirection]="rla3?.isActive ? 'back' : 'forward'">
+    <ion-icon [hidden]="!rla2?.isActive" name="md-active-polita"></ion-icon>
+    <ion-icon [hidden]="rla2?.isActive" name="md-polita" color="success"></ion-icon>
+    <ion-label class="custom-label link-small text-weight-medium" [class.label-border]="rla2?.isActive">Asigurãri
+    </ion-label>
   </ion-tab-button>
 
-  <ion-tab-button
-    tab="daune"
-    (click)="setCurrentTab('daune')"
-    [routerLink]="'/daune'"
-    routerLinkActive="active"
-    [selected]="rla4?.isActive"
-    routerDirection="root"
-    #rla4="routerLinkActive"
-    [routerDirection]="rla3?.isActive ? 'back' : 'forward'"
-    [disabled]="release === 2"
-  >
-    <ion-icon
-      [hidden]="rla4?.isActive"
-      name="md-dosar-light"
-      color="success"
-    ></ion-icon>
-    <ion-label
-      class="custom-label link-small text-weight-medium"
-      [class.label-border]="rla4?.isActive"
-      >
-        Daune <br>
-        (în curând)
-      </ion-label
-    >
+  <ion-tab-button tab="daune" (click)="setCurrentTab('daune')" [routerLink]="'/daune'"
+    routerLinkActive="active" [selected]="rla4?.isActive" routerDirection="root" #rla4="routerLinkActive"
+    [routerDirection]="rla3?.isActive ? 'back' : 'forward'" [disabled]="release === 2">
+    <ion-icon [hidden]="!rla4?.isActive" name="md-dosar-filled"></ion-icon>
+    <ion-icon [hidden]="rla4?.isActive" name="md-dosar-light" color="success"></ion-icon>
+    <ion-label class="custom-label link-small text-weight-medium" [class.label-border]="rla4?.isActive">
+      Daune <br>
+      (în curând)
+    </ion-label>
   </ion-tab-button>
-  <ion-tab-button
-    tab="profil"
-    (click)="setCurrentTab('profil')"
-    [routerLink]="'/profil'"
-    routerLinkActive="active"
-    [selected]="rla3?.isActive"
-    routerDirection="root"
-    #rla3="routerLinkActive"
-    [routerDirection]="'forward'"
-  >
-    <ion-icon
-      name="md-user"
-      color="success"
-    ></ion-icon>
-    <ion-label
-      class="custom-label link-small text-weight-medium"
-      [class.label-border]="rla3?.isActive"
-      >Profil</ion-label
-    >
+  <ion-tab-button tab="profil" (click)="setCurrentTab('profil')" [routerLink]="'/profil'" routerLinkActive="active"
+    [selected]="rla3?.isActive" routerDirection="root" #rla3="routerLinkActive" [routerDirection]="'forward'" class="pb-16">
+    <ion-icon [hidden]="!rla3?.isActive" name="md-active-user"></ion-icon>
+    <ion-icon [hidden]="rla3?.isActive" name="md-user" color="success"></ion-icon>
+    <ion-label class="custom-label link-small text-weight-medium" [class.label-border]="rla3?.isActive">Profil
+    </ion-label>
   </ion-tab-button>
 </ion-tab-bar>
