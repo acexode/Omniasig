@@ -18,23 +18,28 @@ export class SugestiiPage implements OnInit {
     ionIconRatingData = [
         {
             name: 'md-angry',
-            rate: 1
+            rate: 1,
+            color: 'omn-medium',
         },
         {
             name: 'md-disappointed',
-            rate: 2
+            rate: 2,
+            color: 'omn-medium',
         },
         {
             name: 'md-indifferent',
-            rate: 3
+            rate: 3,
+            color: 'omn-medium',
         },
         {
             name: 'md-pleased',
-            rate: 4
+            rate: 4,
+            color: 'omn-medium',
         },
         {
             name: 'md-happy',
-            rate: 5
+            rate: 5,
+            color: 'omn-medium',
         },
     ];
     constructor(
@@ -52,9 +57,11 @@ export class SugestiiPage implements OnInit {
             userComment: [ '', [ Validators.required, Validators.minLength( 50 ) ] ],
             userRating: [ '', [ Validators.required ] ],
         } );
+
+        // this.resetAllIconColorState();
     }
-    setIconRatingValue( event: any ) {
-        this.resetAllIconColor();
+    _setIconRatingValue( event: any ) {
+        // this.resetAllIconColor();
         const getRate = this.ionIconRatingData.find( ( data ) => data.name.toLowerCase() === event.target.name.toLowerCase() );
         // patchValue or setValue
         this.suggestion.patchValue( {
@@ -63,20 +70,36 @@ export class SugestiiPage implements OnInit {
         this.renderer.setAttribute( event.target, 'color', 'success' );
 
     }
-    resetAllIconColor() {
-        this.rateIcons.forEach( icon => icon.color = 'omn-medium' );
+    setIconRatingValue( event: any ) {
+        // reset icon class (if already set before)
+        this.resetAllIconColorState();
+        // get selected icon
+        const getIcon = this.ionIconRatingData.find( ( data ) => data.name.toLowerCase() === event.target.name.toLowerCase() );
+        // patchValue or setValue can be used to update Reactiveform
+        this.suggestion.patchValue( {
+            userRating: getIcon.rate,
+        } );
+        // update color of icon
+        getIcon.color = 'success';
+
+    }
+    resetAllIconColorState() {
+        // omn-medium
+        this.ionIconRatingData.forEach( icon => icon.color = 'omn-medium' );
     }
     process() {
         // continue other processes
-        // this.suggestion.controls.userComment.value
-        // this.suggestion.controls.userRating.value
-        const sugestiiData = {
-            message: this.suggestion.controls.userComment.value,
-            rating: this.suggestion.controls.userRating.value
-        };
-        this.sugestiiS.postSugestii( sugestiiData ).subscribe(
-            response => { },
-            error => { }
-        );
+        // check if form is valid
+        if ( this.suggestion.valid ) {
+            const sugestiiData = {
+                message: this.suggestion.controls.userComment.value,
+                rating: this.suggestion.controls.userRating.value
+            };
+            this.sugestiiS.postSugestii( sugestiiData ).subscribe(
+                response => { },
+                error => { }
+            );
+        }
+
     }
 }
