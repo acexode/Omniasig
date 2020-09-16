@@ -66,7 +66,7 @@ export const phoneNumberEndPoints = {
 };
 
 export const sugestii = {
-  base: baseEndpoints + '/ChangeSuggestions',
+  base: baseEndpoints.userProfile + '/ChangeSuggestions',
 };
 
 export const padEndpoints = {
