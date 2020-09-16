@@ -24,17 +24,15 @@ export class RecuperarePasscodeCodComponent
   headerConfig = subPageHeaderDefault('Verificare Email');
   min = '00';
   sec: any = 59;
-  digitsLength = 0;
   @ViewChild('inputField') inputField: IonInput;
   sub: Subscription;
   phoneNumber = null;
-
   config: IonInputConfig = {
     type: 'number',
     inputMode: 'number',
   };
-  passForm: FormGroup;
   InvalidCode = false;
+  digitLength: number = 0
   constructor(
     private resetPinService: ResetPincodeService,
     private router: Router,
@@ -45,7 +43,6 @@ export class RecuperarePasscodeCodComponent
   }
 
   ngOnInit() {
-    this.initForm();
   }
 
   checkCNP() {
@@ -54,30 +51,9 @@ export class RecuperarePasscodeCodComponent
     }
   }
 
-  initForm() {
-    this.passForm = this.formBuilder.group({
-      digit: [
-        '',
-        [Validators.required, Validators.minLength(6), Validators.maxLength(6)],
-      ],
-    });
-
-    this.sub = this.passForm.valueChanges.subscribe((value) => {
-      this.changeInput(value.digit);
-    });
-  }
-
-  changeInput(digit: number) {
-    if (digit) {
-      this.digitsLength = digit.toString().length;
-    } else {
-      this.digitsLength = 0;
-    }
-  }
-
-  continue() {
+  continue(passForm: FormGroup) {
     this.resetPinService.setResetObj({
-      code: this.passForm.get('digit').value,
+      code: passForm.get('passcode').value,
     });
     this.router.navigate(['reset-pincode/new-pin']);
   }
@@ -87,7 +63,7 @@ export class RecuperarePasscodeCodComponent
   }
 
   startTimer() {
-    this.timers.buildTimer(59).subscribe((time: number) => {
+    this.sub = this.timers.buildTimer(59).subscribe((time: number) => {
       this.sec = time;
     });
   }
@@ -103,11 +79,12 @@ export class RecuperarePasscodeCodComponent
       );
   }
 
-  spawnInput() {
-    this.inputField.getInputElement().then((input) => {
-      input.focus();
-      input.click();
-    });
+  clearErr(_) {
+    this.InvalidCode = false
+  }
+
+  setDigitLength(length: number) {
+    this.digitLength = length
   }
 
   ngOnDestroy() {

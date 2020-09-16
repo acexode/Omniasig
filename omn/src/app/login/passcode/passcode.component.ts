@@ -15,15 +15,12 @@ export class PasscodeComponent implements OnInit, OnDestroy {
   min = '00';
   sec: any = 59;
   digitsLength = 0;
-  @ViewChild('inputField') inputField: IonInput;
-  passForm: FormGroup;
   phoneNumber: string = null;
   sub: Subscription;
   busy = false;
   errorLogin: string = null;
   constructor(
     private navCtrl: NavController,
-    private formBuilder: FormBuilder,
     private route: ActivatedRoute,
     private authService: AuthService
   ) {
@@ -31,7 +28,6 @@ export class PasscodeComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.initForm();
   }
 
   getPhoneNumber() {
@@ -44,63 +40,29 @@ export class PasscodeComponent implements OnInit, OnDestroy {
     });
   }
 
-  initForm() {
-    this.passForm = this.formBuilder.group({
-      passcode: [
-        '',
-        [Validators.required, Validators.minLength(6), Validators.maxLength(6)],
-      ],
-    });
-
-    this.passForm.valueChanges.subscribe((value) => {
-      this.changeInput(value.passcode);
-    });
-  }
-
-  changeInput(passcode) {
-    if (passcode || passcode === 0) {
-      this.digitsLength = passcode.toString().length;
-    } else {
-      this.digitsLength = 0;
-    }
-    if (this.digitsLength === 6) {
-      if (!this.busy) {
-        this.verifyPasscode();
-      }
-    }
-
-    this.errorLogin = null;
-  }
-
-  verifyPasscode() {
-    this.busy = true;
+  verifyPasscode(passForm: FormGroup) {
     const data = {
       phone: this.phoneNumber,
-      password: this.passForm.controls.passcode.value,
+      password: passForm.controls.passcode.value,
       aRoute: '/home',
     };
     this.authService.login(data).subscribe(
       (datav) => this.changeCurrentLogin(),
-      (error) => this.errLogin(error)
+      (error) => this.errLogin(error,passForm)
     );
   }
 
   changeCurrentLogin() {
     this.authService.saveLastLoginNumber(this.phoneNumber);
-    this.busy = false;
   }
 
-  errLogin(err) {
-    this.passForm.reset();
+  errLogin(err,passForm) {
+    passForm.reset();
     this.errorLogin = 'Cod Invalid!';
-    this.busy = false;
   }
 
-  spawnInput() {
-    this.inputField.getInputElement().then((input) => {
-      input.focus();
-      input.click();
-    });
+  clearErr(e){
+    this.errorLogin = null;
   }
 
   ngOnDestroy(): void {

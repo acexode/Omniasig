@@ -15,10 +15,9 @@ import { IonInput, NavController } from '@ionic/angular';
   templateUrl: './confirm-cod-de-acces.component.html',
   styleUrls: ['./confirm-cod-de-acces.component.scss'],
 })
-export class ConfirmCodDeAccesComponent implements OnInit, AfterViewInit {
+export class ConfirmCodDeAccesComponent implements OnInit {
   digitsLength = 0;
   @HostBinding('class') color = 'ion-color-white-page';
-  @ViewChild('inputField', { static: true }) inputField: IonInput;
   passForm: FormGroup;
   constructor(
     private navCtrl: NavController,
@@ -28,12 +27,8 @@ export class ConfirmCodDeAccesComponent implements OnInit, AfterViewInit {
   ) {
     this.checkUserObj();
   }
-  ngAfterViewInit(): void {
-    this.spawnInput();
-  }
 
   ngOnInit() {
-    this.initForm();
   }
 
   checkUserObj() {
@@ -46,30 +41,9 @@ export class ConfirmCodDeAccesComponent implements OnInit, AfterViewInit {
     }
   }
 
-  initForm() {
-    this.passForm = this.formBuilder.group({
-      confirmPass: [
-        '',
-        [Validators.required, Validators.minLength(6), Validators.maxLength(6)],
-      ],
-    });
-    this.passForm.valueChanges.subscribe((value) => {
-      this.changeInput(value.confirmPass);
-    });
-  }
-
-  changeInput(confirmPass) {
-    if (confirmPass) {
-      this.digitsLength = confirmPass.toString().length;
-    }
-    if (this.digitsLength > 5) {
-      this.verifyPasscode();
-    }
-  }
-
-  verifyPasscode() {
+  verifyPasscode(passForm:FormGroup) {
     if (
-      this.passForm.get('confirmPass').value ===
+      passForm.get('passcode').value ==
       this.regService.getuserObj.pin
     ) {
       this.navCtrl.navigateRoot(`registration/personal-details`);
@@ -78,9 +52,4 @@ export class ConfirmCodDeAccesComponent implements OnInit, AfterViewInit {
     }
   }
 
-  spawnInput() {
-    if (this.inputField) {
-      this.inputField.setFocus();
-    }
-  }
 }

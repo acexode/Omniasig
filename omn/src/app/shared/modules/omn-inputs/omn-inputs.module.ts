@@ -9,6 +9,7 @@ import { SelectComponent } from './components/select/select.component';
 import { CustomSelectDirective } from './directives/custom-select.directive';
 import { AutoCompleteModule } from 'ionic4-auto-complete';
 import { AutocompleteComponent } from './components/autocomplete/autocomplete.component';
+import { PasscodeFieldComponent } from '../passcode-field/passcode-field.component';
 
 @NgModule({
   declarations: [
@@ -18,6 +19,7 @@ import { AutocompleteComponent } from './components/autocomplete/autocomplete.co
     CustomSelectDirective,
     DatepickerComponent,
     AutocompleteComponent,
+    PasscodeFieldComponent
   ],
   imports: [CommonModule, IonicModule, ReactiveFormsModule, AutoCompleteModule],
   exports: [
@@ -26,6 +28,8 @@ import { AutocompleteComponent } from './components/autocomplete/autocomplete.co
     RadiosComponent,
     DatepickerComponent,
     AutocompleteComponent,
+    PasscodeFieldComponent,
+    PasscodeFieldComponent
   ],
 })
 export class OmnInputsModule {}

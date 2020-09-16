@@ -8,23 +8,7 @@
                 </ion-text>
             </div>
             <div class="ion-text-center pb-80">
-                <div (click)="spawnInput()" class="">
-                    <ion-icon class="mr-4 password-hide s18-h24" *ngIf="digitsLength < 1" name="ellipse-outline"></ion-icon>
-                    <ion-icon name="ellipse" *ngIf="digitsLength > 0" class="mr-4 password-hide s18-h24"></ion-icon>
-                    <ion-icon class="mr-4 password-hide s18-h24" *ngIf="digitsLength < 2" name="ellipse-outline"></ion-icon>
-                    <ion-icon name="ellipse" class="mr-4 password-hide s18-h24" *ngIf="digitsLength > 1"></ion-icon>
-                    <ion-icon class="mr-4 password-hide s18-h24" *ngIf="digitsLength < 3" name="ellipse-outline"></ion-icon>
-                    <ion-icon name="ellipse" class="mr-4 password-hide s18-h24" *ngIf="digitsLength > 2"></ion-icon>
-                    <ion-icon class="mr-4 password-hide s18-h24" *ngIf="digitsLength < 4" name="ellipse-outline"></ion-icon>
-                    <ion-icon name="ellipse" class="mr-4 password-hide s18-h24" *ngIf="digitsLength > 3"></ion-icon>
-                    <ion-icon class="mr-4 password-hide s18-h24" *ngIf="digitsLength < 5" name="ellipse-outline"></ion-icon>
-                    <ion-icon name="ellipse" class="mr-4 password-hide s18-h24" *ngIf="digitsLength > 4"></ion-icon>
-                    <ion-icon class="s18-h24 password-hide" *ngIf="digitsLength < 6" name="ellipse-outline"></ion-icon>
-                    <ion-icon name="ellipse" class="mr-4 password-hide s18-h24" *ngIf="digitsLength > 5"></ion-icon>
-                </div>
-                <form [formGroup]="pinForm">
-                    <ion-input #inputField formControlName="pincode" class="position-absolute bg-white text-center opacity-hide ion-no-border" maxlength="6" required="true" type="number" inputmode="number" autofocus="true"></ion-input>
-                </form>
+                <app-passcode-field [errorLogin]="errorLogin" (onPassForm)="verifyPincode($event)" (onClearErr)="clearErr($event)"></app-passcode-field>
             </div>
         </ion-col>
     </div>

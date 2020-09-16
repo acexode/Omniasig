@@ -10,10 +10,7 @@ import { IonInput, NavController } from '@ionic/angular';
   styleUrls: ['./reg-passcode.component.scss'],
 })
 export class RegPasscodeComponent implements OnInit {
-  digitsLength = 0;
   @HostBinding('class') color = 'ion-color-white-page';
-  @ViewChild('inputField') inputField: IonInput;
-  passForm: FormGroup;
   constructor(
     private navCtrl: NavController,
     private formBuilder: FormBuilder,
@@ -24,7 +21,6 @@ export class RegPasscodeComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.initForm();
   }
 
   checkUserObj() {
@@ -36,39 +32,11 @@ export class RegPasscodeComponent implements OnInit {
     }
   }
 
-  initForm() {
-    this.passForm = this.formBuilder.group({
-      passcode: [
-        '',
-        [Validators.required, Validators.minLength(6), Validators.maxLength(6)],
-      ],
-    });
-
-    this.passForm.valueChanges.subscribe((value) => {
-      this.changeInput(value.passcode);
-    });
-  }
-
-  changeInput(passcode) {
-    if (passcode) {
-      this.digitsLength = passcode.toString().length;
-    }
-    if (this.digitsLength > 5) {
-      this.verifyPasscode();
-    }
-  }
-
-  verifyPasscode() {
+  verifyPasscode(passForm:FormGroup) {
     this.regService.setUserObj({
-      pin: this.passForm.get('passcode').value,
+      pin: passForm.get('passcode').value,
     });
     this.navCtrl.navigateRoot(`registration/confirm-passcode`);
   }
 
-  spawnInput() {
-    this.inputField.getInputElement().then((input) => {
-      input.focus();
-      input.click();
-    });
-  }
 }

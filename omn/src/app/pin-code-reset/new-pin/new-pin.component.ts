@@ -11,9 +11,8 @@ import { subPageHeaderDefault } from 'src/app/shared/data/sub-page-header-defaul
 })
 export class NewPinComponent implements OnInit {
   headerConfig = subPageHeaderDefault('Cod de acces nou');
-  digitsLength = 0;
   @ViewChild('inputField') inputField: IonInput;
-  pinForm: FormGroup;
+  errorLogin =null;
   constructor(
     private navCtrl: NavController,
     private formBuilder: FormBuilder,
@@ -32,41 +31,17 @@ export class NewPinComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.initForm();
-  }
-  initForm() {
-    this.pinForm = this.formBuilder.group({
-      pincode: [
-        '',
-        [Validators.required, Validators.minLength(6), Validators.maxLength(6)],
-      ],
-    });
-
-    this.pinForm.valueChanges.subscribe((value) => {
-      this.changeInput(value.pincode);
-    });
   }
 
-  changeInput(pincode) {
-    if (pincode) {
-      this.digitsLength = pincode.toString().length;
-    }
-    if (this.digitsLength > 5) {
-      this.verifyPincode();
-    }
-  }
-
-  verifyPincode() {
+  verifyPincode(pinForm:FormGroup) {
     this.resetPinService.setResetObj({
-      newPin: this.pinForm.get('pincode').value,
+      newPin: pinForm.get('passcode').value,
     });
     this.navCtrl.navigateRoot(`/reset-pincode/confirm-pin`);
   }
 
-  spawnInput() {
-    this.inputField.getInputElement().then((input) => {
-      input.focus();
-      input.click();
-    });
+  clearErr(_){
+    this.errorLogin = null
   }
+
 }
