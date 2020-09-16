@@ -135,10 +135,15 @@ export class AuthService {
     );
   }
 
-  accountActivated(acc: Account) {
+  // deprecated
+  _accountActivated(acc: Account) {
     return acc
       ? acc.userStates.findIndex((s) => s === AccountStates.ACTIVE) > -1
       : false;
+  }
+
+  accountActivated( acc: Account ) {
+    return acc.isBiometricValid === true && acc.isEmailConfirmed === true ? true : false;
   }
 
   /**

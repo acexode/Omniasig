@@ -16,7 +16,8 @@ export interface Account {
   pin?: number;
   dateBirth?: string;
   marketing?: boolean;
-
+  isBiometricValid?: boolean;
+  isEmailConfirmed?: boolean;
   // Old model stuff
   firstName?: string;
   lastName?: string;
