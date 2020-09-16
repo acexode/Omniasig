@@ -19,19 +19,19 @@ import { addDaune, dauneDisabled, testDauneData } from './data/home-daune-data';
 import { offerHomeItemHelper } from './data/home-offer-item-helper';
 import { policyHomeItemHelper } from './data/home-policy-item-helper';
 
-@Component( {
+@Component({
   selector: 'app-home',
   templateUrl: 'home.page.html',
-  styleUrls: [ 'home.page.scss' ],
+  styleUrls: ['home.page.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-} )
+})
 export class HomePage implements OnInit {
   release = this.configS.release();
   dauneDisabled = dauneDisabled;
   hasOffers = false;
   accountActivated = false;
-  offers$: BehaviorSubject<Array<PolicyListItem>> = new BehaviorSubject( [] );
-  policies$: BehaviorSubject<Array<PolicyListItem>> = new BehaviorSubject( [] );
+  offers$: BehaviorSubject<Array<PolicyListItem>> = new BehaviorSubject([]);
+  policies$: BehaviorSubject<Array<PolicyListItem>> = new BehaviorSubject([]);
   account = null;
   daune: Array<ImageCard> = null;
 
@@ -129,7 +129,7 @@ export class HomePage implements OnInit {
         textContent: [],
         id: 'account',
         itemClass: 'flex-1 mt-n16 p-16 mb-12',
-        routerLink: [ '/biometrics' ],
+        routerLink: ['/biometrics'],
       },
       {
         mainIcon: {
@@ -139,7 +139,7 @@ export class HomePage implements OnInit {
         },
         textContent: [],
         id: 'email',
-        routerLink: [ '/profil', 'date-personale', 'validate-email' ],
+        routerLink: ['/profil', 'date-personale', 'validate-email'],
         itemClass: 'p-16 flex-1 mb-16',
       },
     ],
@@ -166,36 +166,35 @@ export class HomePage implements OnInit {
     private cdRef: ChangeDetectorRef,
     private configS: ConfigService
   ) {
-    if ( this.release === 2 ) {
-      this.daune = testDauneData.concat( addDaune );
+    if (this.release === 2) {
+      this.daune = testDauneData.concat(addDaune);
     }
   }
 
   ngOnInit(): void {
-    console.log( this.release );
-    this.authS.getAccountData().subscribe( ( account ) => {
+    this.authS.getAccountData().subscribe((account) => {
       this.account = account;
-      if ( account ) {
-        this.accountActivated = this.authS.accountActivated( account );
-        if ( this.accountActivated ) {
-          this.policyS.policyStore$.subscribe( ( v ) =>
-            this.policies$.next( this.mapPolicies( v ) )
+      if (account) {
+        this.accountActivated = this.authS.accountActivated(account);
+        if (this.accountActivated) {
+          this.policyS.policyStore$.subscribe((v) =>
+            this.policies$.next(this.mapPolicies(v))
           );
-          this.policyS.offerStore$.subscribe( ( v ) =>
-            this.offers$.next( this.mapOffers( v ) )
+          this.policyS.offerStore$.subscribe((v) =>
+            this.offers$.next(this.mapOffers(v))
           );
         }
       }
       this.cdRef.markForCheck();
-    } );
+    });
   }
 
   /**
    * Preprocess user Policies data.
    */
-  mapPolicies( policies: Array<PolicyItem> ) {
-    if ( policies ) {
-      return policies.map( ( p ) => policyHomeItemHelper( p ) );
+  mapPolicies(policies: Array<PolicyItem>) {
+    if (policies) {
+      return policies.map((p) => policyHomeItemHelper(p));
     } else {
       return [];
     }
@@ -204,10 +203,10 @@ export class HomePage implements OnInit {
   /**
    * Preprocess user Offers data.
    */
-  mapOffers( offers: Array<PolicyOffer> ) {
+  mapOffers(offers: Array<PolicyOffer>) {
     let newOff = [];
-    if ( offers && offers.length > 0 ) {
-      newOff = offers.map( ( o ) => offerHomeItemHelper( o ) );
+    if (offers && offers.length > 0) {
+      newOff = offers.map((o) => offerHomeItemHelper(o));
       this.asigTitle.classes = 'color-dark-green';
       this.hasOffers = true;
     } else {
@@ -221,7 +220,7 @@ export class HomePage implements OnInit {
   }
 
   openCustom() {
-    this.menu.enable( true, 'omn-menu' );
-    this.menu.open( 'omn-menu' );
+    this.menu.enable(true, 'omn-menu');
+    this.menu.open('omn-menu');
   }
 }
