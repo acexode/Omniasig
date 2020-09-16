@@ -157,9 +157,11 @@ export class AuthService {
     this.storeS.removeItem('account');
     this.storeS.removeItem('token');
     this.storeS.removeItem('phoneNumber');
+
     this.authState.next({
       ...this.initialState,
     });
+    
     this.routerS.navigateByUrl('/login');
   }
 
