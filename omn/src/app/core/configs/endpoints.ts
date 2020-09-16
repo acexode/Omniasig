@@ -6,6 +6,7 @@ export const authEndpoints = {
   findUserByPhoneNumber:
     serverBaseUrl + '/UserProfile/GetUserNameByPhoneNumber',
   getUserProfile: serverBaseUrl + '/UserProfile/GetUserProfile',
+  updateUserProfile: serverBaseUrl + '/UserProfile/UpdateUserProfile',
   sendPhoneNumberSms: serverBaseUrl + '/UserProfile/SmsPhoneNumberVerification',
   confirmPhoneNumberSms: serverBaseUrl + '/UserProfile/SmsPhoneNumberConfirm',
   GetUserNameByPhoneNumber:
@@ -27,6 +28,7 @@ export const authEndpoints = {
 export const baseEndpoints = {
   policy: serverBaseUrl + '/policy',
   userProfile: serverBaseUrl + '/UserProfile',
+  pad: serverBaseUrl + '/PADInsurance',
 };
 
 export const policyEndpoints = {
@@ -57,4 +59,11 @@ export const phoneNumberEndPoints = {
   RequestNewPhoneNumberChange:
     baseEndpoints.userProfile + '/RequestNewPhoneNumberChange',
   ConfirmNewPhoneNumber: baseEndpoints.userProfile + '/ConfirmNewPhoneNumber',
+};
+
+export const padEndpoints = {
+  base: baseEndpoints.pad,
+  VerifyPADInsuranceOffer: baseEndpoints.pad + '/VerifyPADInsuranceOffer',
+  CreatePADInsuranceOffer: baseEndpoints.pad + '/CreatePADInsuranceOffer',
+  CreatePADInsurancePolicy: baseEndpoints.pad + '/CreatePADInsurancePolicy',
 };
