@@ -34,7 +34,7 @@ export class PasscodeFieldComponent implements OnInit, AfterViewInit {
   ngAfterViewInit() {
     setTimeout(() => {
       this.clickInput()
-    }, 500);
+    }, 650);
   }
 
   initForm() {
