@@ -1,0 +1,145 @@
+<p
+  class="floating-text ls-02 s13-h16 mt-44 mx-32 position-absolute right-0"
+  routerLink="../home"
+>
+  Mai târziu
+</p>
+<app-sub-page-header [config]="headerConfig"></app-sub-page-header>
+<ion-content #cnpRef>
+  <ion-grid class="ion-no-padding w-100 mh-100 h-100 flex flex-1 flex-column">
+    <ion-row class="ion-justify-content-center mt-6 mx-24">
+      <ion-text
+        color="Success"
+        class="highlight alt-font s32-h38 ls-05 color-dark-green ion-color ion-color-Success md hydrated"
+      >
+        Confirmare identitate
+      </ion-text>
+    </ion-row>
+    <ion-grid
+      class="px-32 pt-32 pb-24 m-0 mh-100p w-100 flex flex-column ion-no-padding"
+      [formGroup]="confirmareForm"
+    >
+      <ion-row class="ion-no-padding judet mb-24">
+        <app-input
+          class="w-100"
+          [config]="confirmModel?.name"
+          formControlName="name"
+        ></app-input>
+      </ion-row>
+      <ion-row class="ion-no-padding localitate mb-24">
+        <app-input
+          class="w-100"
+          [config]="confirmModel?.surname"
+          formControlName="surname"
+        ></app-input>
+      </ion-row>
+      <ion-row class="ion-no-padding numar-scara mb-24">
+        <app-input
+          class="w-100"
+          [config]="confirmModel?.cnp"
+          formControlName="cnp"
+        ></app-input>
+        <ion-label
+          *ngIf="cnp?.errors && cnp?.errors?.invalidCnp"
+          class="mt-4 text-small color-red"
+          >Codul Numeric Personal este invalid!</ion-label
+        >
+      </ion-row>
+      <ion-row class="ion-no-padding apartament-postal-code mb-24">
+        <app-datepicker
+          class="w-100"
+          [config]="confirmModel?.dateOfBirth"
+          formControlName="dateOfBirth"
+        ></app-datepicker>
+      </ion-row>
+      <ion-row class="ion-no-padding judet mb-24">
+        <span class="mb-16 text-weight-medium">Adresa de domiciliu</span>
+        <app-select
+          class="w-100"
+          [config]="confirmModel?.addressCounty"
+          formControlName="addressCounty"
+          [options]="formData?.addressCounty"
+        ></app-select>
+      </ion-row>
+      <ion-row class="ion-no-padding localitate mb-24">
+        <app-select
+          class="w-100"
+          [config]="confirmModel?.addressCity"
+          [options]="formData?.addressCity"
+          formControlName="addressCity"
+        ></app-select>
+      </ion-row>
+      <ion-row class="ion-no-padding strada mb-24">
+        <app-autocomplete
+          class="w-100"
+          formControlName="addressStreet"
+          [config]="confirmModel?.addressStreet"
+        ></app-autocomplete>
+      </ion-row>
+      <ion-row class="ion-no-padding numar-scara mb-24">
+        <ion-col size="6" class="pr-16">
+          <app-input
+            class="w-100"
+            [config]="confirmModel?.addressBuildingNumber"
+            formControlName="addressBuildingNumber"
+          ></app-input>
+        </ion-col>
+        <ion-col size="6" class="pl-16">
+          <app-input
+            class="w-100"
+            [config]="confirmModel?.addressScara"
+            formControlName="addressScara"
+          ></app-input>
+        </ion-col>
+      </ion-row>
+      <ion-row class="ion-no-padding apartament-postal-code mb-24">
+        <ion-col size="6" class="pr-16">
+          <app-input
+            class="w-100"
+            [config]="confirmModel?.addressApart"
+            formControlName="addressApart"
+          ></app-input>
+        </ion-col>
+        <ion-col size="6" class="pl-16">
+          <app-input
+            class="w-100"
+            [config]="confirmModel?.addressPostalCode"
+            formControlName="addressPostalCode"
+          ></app-input>
+        </ion-col>
+      </ion-row>
+
+      <ion-row
+        class="ion-no-padding mb-24 flex ion-justify-content-between p-16 alt-bg"
+      >
+        <ion-col class="flex ion-no-padding flex-0">
+          <ion-checkbox formControlName="accept" type="checkbox"></ion-checkbox>
+        </ion-col>
+        <ion-col class="flex ion-no-padding pl-12">
+          <ion-text class="s16-h22">
+            Declar că informațiile furnizate sunt reale.
+          </ion-text>
+        </ion-col>
+      </ion-row>
+      <ion-row class="ion-no-padding mt-auto mb-24 mt-16 flex flex-1 flex-column">
+        <ion-button
+          type="submit"
+          color="success"
+          fill="solid"
+          expand="block"
+          (click)="submitForm()"
+          [disabled]="!confirmareForm?.valid || formSubmitting"
+          size="large"
+          class="m-0 w-100 flex mt-auto"
+        >
+          <ion-spinner
+            name="crescent"
+            *ngIf="formSubmitting"
+            class="icon-20"
+          ></ion-spinner>
+          {{ buttonText }}
+        </ion-button>
+      </ion-row>
+    </ion-grid>
+  </ion-grid>
+</ion-content>
