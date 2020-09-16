@@ -156,6 +156,7 @@ export class AuthService {
   doLogout() {
     this.storeS.removeItem('account');
     this.storeS.removeItem('token');
+    this.storeS.removeItem('phoneNumber');
     this.authState.next({
       ...this.initialState,
     });
