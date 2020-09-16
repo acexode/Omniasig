@@ -1,6 +1,6 @@
 export enum LocuinteStructureType {
   BETON_ARMAT = 'beton',
-  ZIDARIE_PORTANTA = 'zidarie',
+  CARAMIDA = 'Caramidă',
   METAL = 'metal',
   LEMN = 'lemn',
 }
@@ -11,18 +11,23 @@ export const locuinteFieldsData = {
       label: 'Beton armat (cadre, diafragme, prefabricate)',
     },
     {
-      id: LocuinteStructureType.ZIDARIE_PORTANTA,
-      label: 'Zidărie portantă (zidarie, piatra)',
-    },
-
-    {
-      id: LocuinteStructureType.METAL,
-      label: 'Metal',
+      id: LocuinteStructureType.CARAMIDA,
+      label: 'Caramidă',
     },
     {
       id: LocuinteStructureType.LEMN,
       label: 'Lemn',
     },
+    // {
+    //   id: LocuinteStructureType.ZIDARIE_PORTANTA,
+    //   label: 'Zidărie portantă (zidarie, piatra)',
+    // },
+
+    // {
+    //   id: LocuinteStructureType.METAL,
+    //   label: 'Metal',
+    // },
+    
     // {
     //   id: 'lemnSub60',
     //   label: 'Lemn, sub 60%',
