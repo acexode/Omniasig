@@ -23,7 +23,6 @@ export class InputSmsComponent implements OnInit, AfterViewInit, OnDestroy {
   min = '00';
   sec: any = 59;
   digitsLength = 0;
-  @ViewChild('inputField') inputField: IonInput;
   sub: Subscription;
   phoneNumber = null;
   errorLogin: string = null;

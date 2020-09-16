@@ -11,6 +11,8 @@ import { IonInput, NavController } from '@ionic/angular';
 })
 export class RegPasscodeComponent implements OnInit {
   @HostBinding('class') color = 'ion-color-white-page';
+  errorLogin: string | boolean = null;
+  passForm: FormGroup
   constructor(
     private navCtrl: NavController,
     private formBuilder: FormBuilder,
@@ -32,11 +34,32 @@ export class RegPasscodeComponent implements OnInit {
     }
   }
 
-  verifyPasscode(passForm:FormGroup) {
-    this.regService.setUserObj({
-      pin: passForm.get('passcode').value,
-    });
-    this.navCtrl.navigateRoot(`registration/confirm-passcode`);
+  verifyPasscode(passForm: FormGroup) {
+    let passcode: string = passForm.get('passcode').value;
+    if (passcode == '000000') {
+      this.errLogin(passForm)
+    } else {
+      this.regService.setUserObj({
+        pin: passcode,
+      });
+      this.navCtrl.navigateRoot(`registration/confirm-passcode`);
+    }
+  }
+
+  errLogin(passForm) {
+    console.log("pass");
+    if (!this.errorLogin) {
+
+    } else {
+
+      this.clearErr();
+    }
+  }
+
+  clearErr() {
+    //   this.errorLogin = nullio
+    // passForm.reset();
+    this.errorLogin = 'Codul este prea simplu.'
   }
 
 }

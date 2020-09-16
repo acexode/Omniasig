@@ -25,7 +25,6 @@ export class PasscodeFieldComponent implements OnInit, AfterViewInit {
   }
 
   clickInput() {
-    console.log("hey");
     this.inputField.getInputElement().then((input) => {
       input.click();
       input.focus()

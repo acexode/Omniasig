@@ -19,7 +19,12 @@
                 </ion-text>
             </div>
             <div class="ion-text-center pb-80">
-                <app-passcode-field (onPassForm)="verifyPasscode($event)"></app-passcode-field>
+                <app-passcode-field (onPassForm)="verifyPasscode($event)" [errorLogin]="errorLogin"></app-passcode-field>
+            </div>
+            <div class="ion-text-center">
+                <ion-text *ngIf="errorLogin" class="text-small color-red">
+                    {{ errorLogin }}
+                </ion-text>
             </div>
         </ion-col>
     </div>
