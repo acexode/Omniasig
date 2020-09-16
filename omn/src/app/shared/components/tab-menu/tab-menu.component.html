@@ -1,3 +1,8 @@
+<!-- 
+  refactor [hidden]="!rla2?.isActive"   [hidden]="rla2?.isActive" 
+  this is due to the new UI https://projects.invisionapp.com/d/main#/console/20226080/431126038/preview
+-->
+
 <ion-tab-bar slot="bottom">
   <ion-tab-button
     tab="acasa"
@@ -7,12 +12,12 @@
     [selected]="rla?.isActive"
     [routerDirection]="'back'"
   >
-    <ion-icon [hidden]="!rla?.isActive" name="md-active-acasa"></ion-icon>
-    <ion-icon
+    <ion-icon name="md-active-acasa"></ion-icon>
+    <!-- <ion-icon
       [hidden]="rla?.isActive"
       name="md-acasa"
       color="success"
-    ></ion-icon>
+    ></ion-icon> -->
     <ion-label
       class="custom-label link-small text-weight-medium"
       [class.label-border]="rla?.isActive"
@@ -30,12 +35,12 @@
     #rla2="routerLinkActive"
     [routerDirection]="rla3?.isActive ? 'back' : 'forward'"
   >
-    <ion-icon [hidden]="!rla2?.isActive" name="md-active-polita"></ion-icon>
-    <ion-icon
+    <ion-icon name="md-active-polita"></ion-icon>
+    <!-- <ion-icon
       [hidden]="rla2?.isActive"
       name="md-polita"
       color="success"
-    ></ion-icon>
+    ></ion-icon> -->
     <ion-label
       class="custom-label link-small text-weight-medium"
       [class.label-border]="rla2?.isActive"
@@ -44,7 +49,6 @@
   </ion-tab-button>
 
   <ion-tab-button
-    *ngIf="release === 2"
     tab="daune"
     (click)="setCurrentTab('daune')"
     [routerLink]="'/daune'"
@@ -53,8 +57,9 @@
     routerDirection="root"
     #rla4="routerLinkActive"
     [routerDirection]="rla3?.isActive ? 'back' : 'forward'"
+    [disabled]="release === 2"
   >
-    <ion-icon [hidden]="!rla4?.isActive" name="md-dosar-filled"></ion-icon>
+   <!--  <ion-icon [hidden]="!rla4?.isActive" name="md-dosar-filled"></ion-icon> -->
     <ion-icon
       [hidden]="rla4?.isActive"
       name="md-dosar-light"
@@ -63,7 +68,10 @@
     <ion-label
       class="custom-label link-small text-weight-medium"
       [class.label-border]="rla4?.isActive"
-      >Daune</ion-label
+      >
+        Daune <br>
+        (în curând)
+      </ion-label
     >
   </ion-tab-button>
   <ion-tab-button
@@ -76,12 +84,12 @@
     #rla3="routerLinkActive"
     [routerDirection]="'forward'"
   >
-    <ion-icon [hidden]="!rla3?.isActive" name="md-active-user"></ion-icon>
-    <ion-icon
+    <ion-icon name="md-active-user"></ion-icon>
+    <!-- <ion-icon
       [hidden]="rla3?.isActive"
       name="md-user"
       color="success"
-    ></ion-icon>
+    ></ion-icon> -->
     <ion-label
       class="custom-label link-small text-weight-medium"
       [class.label-border]="rla3?.isActive"
