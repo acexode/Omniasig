@@ -14,8 +14,8 @@ export class RequestService {
    *
    * @param endpoint - Full path.
    */
-  get<T>(endpoint: string): Observable<T> {
-    return this.http.get<T>(endpoint);
+  get<T>(endpoint: string, options = {}): Observable<T> {
+    return this.http.get<T>(endpoint, options);
   }
 
   /**

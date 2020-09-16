@@ -6,7 +6,14 @@
 ></app-sub-page-header>
 
 <ion-content [ngClass]="color">
-  <ng-container [ngSwitch]="currentStep">
+  <ng-container *ngIf="showError">
+    <app-general-error
+      (goBack)="back()"
+      [doNavigate]="false"
+      [texts]="errMsg"
+    ></app-general-error>
+  </ng-container>
+  <ng-container *ngIf="!showError" [ngSwitch]="currentStep">
     <ng-container *ngSwitchCase="policySteps?.DNT">
       <app-dnt
         #dntComp
@@ -68,6 +75,7 @@
       <app-policy-verify
         (calculateEvent)="calculationSubmit()"
         [offerData]="offerData"
+        (goToErrorHandler)="handleError($event)"
       ></app-policy-verify>
     </ng-container>
     <ng-container *ngSwitchCase="policySteps?.CALCULATION_LOADER">

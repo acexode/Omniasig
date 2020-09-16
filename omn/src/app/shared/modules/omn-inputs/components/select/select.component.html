@@ -20,12 +20,11 @@
       class="mw-100 w-100"
       [interfaceOptions]="config?.alertOptions"
       [placeholder]="config?.placeholder"
+      (ionChange)="selectChange()"
     >
-      <ng-container *ngFor="let item of items">
-        <ion-select-option [value]="item.id"
-          >{{ item.label }}
-        </ion-select-option>
-      </ng-container>
+      <ion-select-option *ngFor="let item of items | async" [value]="item.id"
+        >{{ item.label }}
+      </ion-select-option>
     </ion-select>
     <ion-icon
       name="sm-chevron-down-t"
