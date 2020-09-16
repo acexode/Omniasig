@@ -211,7 +211,12 @@ export class LocuinteFormPageComponent implements OnInit {
           val,
           this.formInstance.data,
           this.dataModel,
-          this.addressPostalCode
+          
+        );
+        this.formS.handlePostalCode(
+          val,
+          this.formInstance.data,
+          this.addressPostalCode,
         );
         
       });
