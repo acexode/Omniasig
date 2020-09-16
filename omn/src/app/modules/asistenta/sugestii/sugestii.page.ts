@@ -1,7 +1,6 @@
-import { Component, OnInit, HostBinding, OnDestroy, Renderer2, ViewChildren, QueryList } from '@angular/core';
+import { Component, OnInit, HostBinding, Renderer2, ViewChildren, QueryList } from '@angular/core';
 import { subPageHeaderDefault } from 'src/app/shared/data/sub-page-header-default';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Subscription } from 'rxjs';
 import { IonIcon } from '@ionic/angular';
 import { SugestiiService } from '../services/sugestii.service';
 
@@ -10,12 +9,11 @@ import { SugestiiService } from '../services/sugestii.service';
     templateUrl: './sugestii.page.html',
     styleUrls: [ './sugestii.page.scss' ],
 } )
-export class SugestiiPage implements OnInit, OnDestroy {
+export class SugestiiPage implements OnInit {
     @HostBinding( 'class' ) color = 'ion-color-white-page';
     headerConfig = subPageHeaderDefault( 'Sugestii' );
     @ViewChildren( IonIcon ) rateIcons: QueryList<IonIcon>;
     suggestion: FormGroup;
-    sub: Subscription;
     disableBtn = true;
     ionIconRatingData = [
         {
@@ -51,23 +49,9 @@ export class SugestiiPage implements OnInit, OnDestroy {
 
     initForm() {
         this.suggestion = this.formBuilder.group( {
-            userComment: [ '', [ Validators.required ] ],
-            userRating: [
-                '',
-            ],
+            userComment: [ '', [ Validators.required, Validators.minLength( 50 ) ] ],
+            userRating: [ '', [ Validators.required ] ],
         } );
-
-        this.sub = this.suggestion.valueChanges.subscribe( ( value ) => {
-            this.onChangeBtnStatus( value );
-        } );
-    }
-    onChangeBtnStatus( value: { userComment: string, userRating: number; } ) {
-        // disable Button
-        if ( value.userComment.length > 50 ) {
-            this.disableBtn = false;
-        } else {
-            this.disableBtn = true;
-        }
     }
     setIconRatingValue( event: any ) {
         this.resetAllIconColor();
@@ -94,8 +78,5 @@ export class SugestiiPage implements OnInit, OnDestroy {
             response => { },
             error => { }
         );
-    }
-    ngOnDestroy() {
-        this.sub.unsubscribe();
     }
 }
