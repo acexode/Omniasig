@@ -1,12 +1,15 @@
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
-
+import { AppVersion } from '@ionic-native/app-version/ngx';
 @Injectable({
   providedIn: 'root',
 })
 export class ConfigService {
-  constructor() {}
+  constructor(private appVersion: AppVersion) {}
 
+  public getVersionNumber() {
+    return this.appVersion.getVersionNumber();
+  }
   public getConfig() {
     return environment;
   }
