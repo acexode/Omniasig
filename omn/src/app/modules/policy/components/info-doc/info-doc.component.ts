@@ -23,7 +23,7 @@ export class InfoDocComponent implements OnInit {
   @Output() continue = new EventEmitter();
   @Output() scrollTop = new EventEmitter();
   @Input() policyID;
-  currentStep: number = 1;
+  currentStep: number = 0;
   maxSteps: number = 2;
   padHelpItems: Array<ImageCard> = [
     {
@@ -285,7 +285,7 @@ export class InfoDocComponent implements OnInit {
         text: 'Ce se asigură?',
         classes: '',
       },
-      listClass: 'green',
+      listClass: 'list green',
       textContents: [
         `Prin PAD se asigură exclusiv construcțiile cu destinația de locuință
         pentru următoarele trei riscuri: cutremure de pământ, alunecări de teren
@@ -312,7 +312,7 @@ export class InfoDocComponent implements OnInit {
         text: 'Ce nu se asigură?',
         classes: '',
       },
-      listClass: 'red',
+      listClass: 'list red',
       textContents: [
         `Daunele provocate bunurilor de orice fel, altele decât locuința;`,
         `Daunele provocate de inundații produse în timpul formării unor
@@ -340,7 +340,7 @@ export class InfoDocComponent implements OnInit {
         text: 'Există restricții de acoperire?',
         classes: '',
       },
-      listClass: 'danger',
+      listClass: 'list danger',
       textContents: [
         `Anexele, dependințele, dotările și utilitățile nelegate structural
         de locuință, anexele ce nu folosesc în mod direct scopului locativ
@@ -361,7 +361,7 @@ export class InfoDocComponent implements OnInit {
         text: 'Unde beneficiez de asigurare?',
         classes: 'px-8',
       },
-      listClass: 'blue',
+      listClass: 'list blue',
       textContents: [
         `Obiectul contractului de asigurare îl reprezintă construcțiile cu
         destinația de locuință situate pe teritoriul României.`,
@@ -376,7 +376,7 @@ export class InfoDocComponent implements OnInit {
         text: 'Ce obligații am?',
         classes: '',
       },
-      listClass: 'green-2',
+      listClass: 'list green-2',
       textContents: [
         `Să încheiați câte un PAD pentru fiecare locuință deținută în proprietate și, la expirarea valabilității acestora,
         sa le reînnoiți;`,
@@ -397,7 +397,7 @@ export class InfoDocComponent implements OnInit {
         text: 'Când și cum plătesc?',
         classes: '',
       },
-      listClass: 'yellow',
+      listClass: 'list yellow',
       textContents: [
         `Plata primei de asigurare se face integral și anticipat, în numerar sau prin virament în contul asigurătorului care eliberează PAD.`,
         `Primele de asigurare reprezintă echivalentul în lei, la cursul Băncii Naționale a României valabil la data efectuării plății, a 20 EUR pentru locuințele de „Tip A”, respectiv 10 EUR pentru locuințele de „Tip B”.`,
@@ -412,7 +412,7 @@ export class InfoDocComponent implements OnInit {
         text: 'Când începe și când încetează acoperirea?',
         classes: '',
       },
-      listClass: 'light-blue',
+      listClass: 'list light-blue',
       textContents: [
         `În cazul polițelor noi, asigurarea începe din a cincea zi de la data plății primei și încheierii contractului de asigurare.`,
         `În cazul polițelor care se reînnoiesc, asigurarea începe din ziua următoare celei în care s-a plătit prima și încheiat contractul de asigurare, dar nu mai devreme de ora 0,00 a zilei următoare celei în care încetează vechiul contract.`,
@@ -428,7 +428,7 @@ export class InfoDocComponent implements OnInit {
         text: 'Cum pot sa reziliez contractul?',
         classes: '',
       },
-      listClass: 'dark',
+      listClass: 'list dark',
       textContents: [
         `PAD nu poate fi reziliată. Chiar și în cazul înstrăinării locuinței, PAD rămâne în vigoare pe întreaga perioadă de valabilitate. `,
       ],
@@ -445,7 +445,7 @@ export class InfoDocComponent implements OnInit {
         text: 'Ce se asigură?',
         classes: '',
       },
-      listClass: 'green amplus',
+      listClass: 'list green amplus',
       textContents: [
         `Locuința(cu dependințele, dotările și instalațiile fixe) și, după caz, anexele(garaj, boxă, piscine etc.);`,
         `Bunurile conținute de tipul îmbrăcăminte, mobilier, echipamente electronice / electrocasnice(la o valoare globală egală cu 10 % din suma asigurată aferentă categoriei “locuinţă”);`,
@@ -473,7 +473,7 @@ export class InfoDocComponent implements OnInit {
         text: 'Ce nu se asigură?',
         classes: '',
       },
-      listClass: 'red amplus',
+      listClass: 'list red amplus',
       textContents: [
         `Nu sunt acoperite prejudicii cauzate de: `,
         `Război, terorism, reacții nucleare;`,
@@ -492,7 +492,7 @@ export class InfoDocComponent implements OnInit {
         text: 'Există restricții de acoperire?',
         classes: '',
       },
-      listClass: 'danger amplus',
+      listClass: 'list danger amplus',
       textContents: [
         `Nu se asigură:`,
         `Clădiri expertizate tehnic pentru riscul de cutremur;`,
@@ -515,7 +515,7 @@ export class InfoDocComponent implements OnInit {
         text: 'Unde beneficiez de asigurare?',
         classes: '',
       },
-      listClass: 'blue',
+      listClass: 'list blue',
       textContents: [
         `Asigurarea este valabilă la locaţia asigurată menționată în Poliță.`,
       ],
@@ -529,7 +529,7 @@ export class InfoDocComponent implements OnInit {
         text: 'Ce obligații am?',
         classes: '',
       },
-      listClass: 'green-2 amplus',
+      listClass: 'list green-2 amplus',
       textContents: [
         `La începutul și pe durata contractului:`,
         `Să aveți încheiată în mod valabil o poliţă de asigurare obligatorie a locuinţei(PAD) ca o condiţie preliminară şi obligatorie încheierii poliţei facultative; în lipsa acesteia OMNIASIG Vienna Insurance Group nu poate încheia poliţa facultativă, iar aceasta nu poate intra în vigoare;`,
@@ -549,7 +549,7 @@ export class InfoDocComponent implements OnInit {
         text: 'Când și cum plătesc?',
         classes: '',
       },
-      listClass: 'yellow',
+      listClass: 'list yellow',
       textContents: [
         `Prima plată se efectuează la momentul încheierii Poliţei, prin virament bancar sau în numerar.`,
         `În cazul poliţelor pentru care se agreează plata în rate, scadenţa acestora va fi afişată în Poliţă.`,
@@ -564,7 +564,7 @@ export class InfoDocComponent implements OnInit {
         text: 'Când începe și când încetează acoperirea?',
         classes: '',
       },
-      listClass: 'light-blue',
+      listClass: 'list light-blue',
       textContents: [
         `Perioada de valabilitate este cea menţionată în Poliţă.`,
         `Data de începere a acoperirii asigurării este condiţionată de plata integrală a Poliţei sau a primei rate de primă`,
@@ -579,7 +579,7 @@ export class InfoDocComponent implements OnInit {
         text: 'Cum pot sa reziliez contractul?',
         classes: '',
       },
-      listClass: 'dark',
+      listClass: 'list dark',
       textContents: [
         `La solicitarea dumneavoastră, contractul de asigurare îşi încetează efectele în termen de 20 zile calendaristice de la data notificării OMNIASIG Vienna Insurance Group în acest sens.`,
       ],
@@ -588,7 +588,11 @@ export class InfoDocComponent implements OnInit {
 
   constructor(public modalController: ModalController) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    if (this.policyID === 'Garant AMPLUS+ PAD') {
+      this.currentStep = 1;
+    }
+  }
 
   back() {}
 
