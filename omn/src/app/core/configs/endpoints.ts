@@ -44,15 +44,15 @@ export const policyEndpoints = {
 
 export const locuinteEndpoints = {
   base: serverBaseUrl + '/locuinte',
-  add: serverBaseUrl + '/Address/AddAddress',
-  makeHomeAddress: serverBaseUrl + '/Address/MakeHomeAddress',
-  AlluserLocation: serverBaseUrl + '/Address/GetAllAddressesForLoggedUser',
-  updateAddress: serverBaseUrl + '/Location/UpdateLocationForAddressId',
+  add: serverBaseUrl + '/Location/AddAddressLocation',
+  makeHomeAddress: serverBaseUrl + '/Location/MakeLocationHomeAddress',
+  AlluserLocation: serverBaseUrl + '/Location/GetAllLocationsForLoggedUser',
   disAbleLocation: serverBaseUrl + '/Location/DisableLocationForAddressId',
   singleLocation: serverBaseUrl + '/Location/GetLocationByIdForLoggedUser',
   getCities: serverBaseUrl + '/INSIS/Cities',
   getCounties: serverBaseUrl + '/INSIS/Counties',
   getStreets: serverBaseUrl + '/INSIS/Streets',
+  updateAddress: serverBaseUrl + '/Location/UpdateLocation',
 };
 
 export const phoneNumberEndPoints = {
