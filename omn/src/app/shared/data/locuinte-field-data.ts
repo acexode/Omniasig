@@ -7,7 +7,7 @@ export enum LocuinteStructureType {
   MIXTA = 'mixta',
   CARAMIDA_NEARSA = 'caramida_nearsa',
   MATERIALE_NETRATATE = 'materiale_netratate',
-  CHIRPICI = 'chirpici',
+  CHIRPICI = 'chirpici'
 }
 export const locuinteFieldsData = {
   structure: [
