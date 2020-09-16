@@ -15,6 +15,7 @@ export interface Account {
   roles?: string[];
   pin?: number;
   dateBirth?: string;
+  dateOfBirth?: string;
   marketing?: boolean;
 
   // Old model stuff

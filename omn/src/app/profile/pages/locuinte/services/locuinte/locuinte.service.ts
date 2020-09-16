@@ -203,6 +203,7 @@ export class LocuinteService {
       addressCountyCode: get(entry, 'addressCountyCode', ''),
       addressStreetCode: get(entry, 'addressStreetCode', ''),
       addressCityCode: get(entry, 'addressCityCode', ''),
+      isHomeAddress: get(entry, 'isHomeAddress', false),
     };
   }
 }
