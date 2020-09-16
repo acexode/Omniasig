@@ -8,7 +8,7 @@
                 </ion-text>
             </div>
             <div class="ion-text-center pb-80">
-                <app-passcode-field [errorLogin]="InvalidCode" (onPassForm)="continue($event)" (onClearErr)="clearErr($event)" (onDigitLength)="setDigitLength($event)"></app-passcode-field>
+                <app-passcode-field [errorLogin]="InvalidCode" (onClearErr)="clearErr($event)" (onDigitLength)="setDigitLength($event)"></app-passcode-field>
             </div>
             <div class="ion-text-center pt-80 flex flex-column flex-1 ion-justify-content-end ion-align-items-center">
                 <ion-text *ngIf="InvalidCode" class="text-small color-red">
