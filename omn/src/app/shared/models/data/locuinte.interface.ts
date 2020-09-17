@@ -12,8 +12,7 @@ export enum LocuintaState {
 }
 
 export interface Locuinte {
-  id: number;
-
+  id: number | string;
   name: string;
   addressCounty: string;
   addressCity: string;
@@ -56,4 +55,6 @@ export interface Locuinte {
   };
   locuintaState?: LocuintaState;
   isDisabled?: boolean;
+
+  isHomeAddress?: boolean;
 }

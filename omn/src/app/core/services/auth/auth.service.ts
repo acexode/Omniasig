@@ -1,12 +1,10 @@
+import { get } from 'lodash';
 import { Injectable } from '@angular/core';
 import {
   ActivatedRoute,
   ActivatedRouteSnapshot,
   Router,
-
-
-
-  UrlTree
+  UrlTree,
 } from '@angular/router';
 import * as qs from 'qs';
 import { BehaviorSubject, throwError } from 'rxjs';
@@ -17,7 +15,7 @@ import {
   share,
   switchMap,
   take,
-  tap
+  tap,
 } from 'rxjs/operators';
 import { authEndpoints } from '../../configs/endpoints';
 import { AccountStates } from '../../models/account-states';

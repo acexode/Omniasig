@@ -4,6 +4,7 @@ import {
   HostBinding,
   Output,
   EventEmitter,
+  Input,
 } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { TipModalComponent } from '../modals/tip-modal/tip-modal.component';
@@ -19,7 +20,8 @@ export class InfoDocComponent implements OnInit {
   headerConfig = subPageHeaderSecondary('Document de Informare');
   @HostBinding('class') color = 'ion-color-white-page';
   @Output() continue = new EventEmitter();
-  helpItems: Array<ImageCard> = [
+  @Input() policyID;
+  padHelpItems: Array<ImageCard> = [
     {
       mainIcon: {
         name: 'cutremur',
@@ -62,6 +64,180 @@ export class InfoDocComponent implements OnInit {
       id: '0',
       itemClass: 'mh-104',
     },
+  ];
+
+  amplusHelpItems: Array<ImageCard> = [
+    {
+      mainIcon: {
+        name: 'casa',
+        color: 'green-gradient',
+        classes: 'icon-40 mt-16 ion-align-self-start mb-0',
+      },
+      textContent: [
+        {
+          text: 'Locuința',
+        },
+      ],
+      id: '0',
+      itemClass: 'mh-104',
+    },
+    {
+      mainIcon: {
+        name: 'bunuri',
+        color: 'green-gradient',
+        classes: 'icon-40 mt-16 mb-0 ion-align-self-start',
+      },
+      textContent: [
+        {
+          text: 'Bunurile',
+        },
+      ],
+      id: '0',
+      itemClass: 'mh-104',
+    },
+    {
+      mainIcon: {
+        name: 'md-petitie',
+        color: 'green-gradient',
+        classes: 'icon-40 mt-16 mb-0 ion-align-self-start',
+      },
+      textContent: [
+        {
+          text: 'Daune terți',
+        },
+      ],
+      id: '0',
+      itemClass: 'mh-104',
+    },
+  ];
+
+  amplusCoveredRisks: Array<Array<ImageCard>> = [
+    [
+      {
+        mainIcon: {
+          name: 'incendiu',
+          color: 'green-gradient',
+          classes: 'icon-40 mt-16 ion-align-self-start mb-0',
+        },
+        id: '0',
+        itemClass: 'h-100',
+        riskText: 'Incendiu',
+      },
+      {
+        mainIcon: {
+          name: 'trasnet',
+          color: 'green-gradient',
+          classes: 'icon-40 mt-16 mb-0 ion-align-self-start',
+        },
+        id: '0',
+        itemClass: 'h-100',
+        riskText: 'Trăsnet',
+      },
+      {
+        mainIcon: {
+          name: 'explozie',
+          color: 'green-gradient',
+          classes: 'icon-40 mt-16 mb-0 ion-align-self-start',
+        },
+        id: '0',
+        itemClass: 'h-100',
+        riskText: 'Explozie',
+      },
+      {
+        mainIcon: {
+          name: 'cutremur',
+          color: 'green-gradient',
+          classes: 'icon-40 mt-16 mb-0 ion-align-self-start',
+        },
+        id: '0',
+        itemClass: 'h-100',
+        riskText: 'Cutremur',
+      },
+    ],
+    [
+      {
+        mainIcon: {
+          name: 'md-inundatie',
+          color: 'green-gradient',
+          classes: 'icon-40 mt-16 ion-align-self-start mb-0',
+        },
+        id: '0',
+        itemClass: 'h-100',
+        riskText: 'Inundație',
+      },
+      {
+        mainIcon: {
+          name: 'alunecari',
+          color: 'green-gradient',
+          classes: 'icon-40 mt-16 mb-0 ion-align-self-start',
+        },
+        id: '0',
+        itemClass: 'h-100',
+        riskText: 'Alunecări',
+      },
+      {
+        mainIcon: {
+          name: 'grindina',
+          color: 'green-gradient',
+          classes: 'icon-40 mt-16 mb-0 ion-align-self-start',
+        },
+        id: '0',
+        itemClass: 'h-100',
+        riskText: 'Grindină',
+      },
+      {
+        mainIcon: {
+          name: 'furtuna',
+          color: 'green-gradient',
+          classes: 'icon-40 mt-16 mb-0 ion-align-self-start',
+        },
+        id: '0',
+        itemClass: 'h-100',
+        riskText: 'Furtună',
+      },
+    ],
+    [
+      {
+        mainIcon: {
+          name: 'apa-de-conducta',
+          color: 'green-gradient',
+          classes: 'icon-40 mt-16 ion-align-self-start mb-0',
+        },
+        id: '0',
+        itemClass: 'h-100',
+        riskText: 'Apa de conductă',
+      },
+      {
+        mainIcon: {
+          name: 'furt',
+          color: 'green-gradient',
+          classes: 'icon-40 mt-16 mb-0 ion-align-self-start',
+        },
+        id: '0',
+        itemClass: 'h-100',
+        riskText: 'Furt',
+      },
+      {
+        mainIcon: {
+          name: 'centrala-termica',
+          color: 'green-gradient',
+          classes: 'icon-40 mt-16 mb-0 ion-align-self-start',
+        },
+        id: '0',
+        itemClass: 'h-100',
+        riskText: 'Avarii',
+      },
+      {
+        mainIcon: {
+          name: 'fenomene-electrice',
+          color: 'green-gradient',
+          classes: 'icon-40 mt-16 mb-0 ion-align-self-start',
+        },
+        id: '0',
+        itemClass: 'h-100',
+        riskText: 'Fenomene electrice',
+      },
+    ],
   ];
 
   tipItems: Array<ImageCard> = [
@@ -251,6 +427,157 @@ export class InfoDocComponent implements OnInit {
       listClass: 'dark',
       textContents: [
         `PAD nu poate fi reziliată. Chiar și în cazul înstrăinării locuinței, PAD rămâne în vigoare pe întreaga perioadă de valabilitate. `,
+      ],
+    },
+  ];
+
+  amplusCardInfo = [
+    {
+      classes: 'bg-green no-shadow',
+      icon: {
+        name: 'md-umbrella',
+      },
+      subtitle: {
+        text: 'Ce se asigură?',
+        classes: '',
+      },
+      listClass: 'green amplus',
+      textContents: [
+        `Locuința(cu dependințele, dotările și instalațiile fixe) și, după caz, anexele(garaj, boxă, piscine etc.);`,
+        `Bunurile conținute de tipul îmbrăcăminte, mobilier, echipamente electronice / electrocasnice(la o valoare globală egală cu 10 % din suma asigurată aferentă categoriei “locuinţă”);`,
+        `Daunele provocate terților din culpa dumneavoastră(răspunderea civilă), pentru o limită de răspundere de 1.000 EUR pe eveniment şi pe an de asigurare.`,
+        `Polița oferă protecție pentru avarierea sau distrugerea bunurilor asigurate din multe riscuri, dintre care amintim: `,
+        `Incendiu, trăsnet, explozie, căderi de corpuri;`,
+        `Riscuri de dezastre naturale(cutremur, inundații, alunecare / prăbușire de teren);`,
+        `Greve, revolte, tulburări civile, vandalism;`,
+        `Fenomene atmosferice(furtună, ploaie torențială, grindină);`,
+        `Apă de conductă;`,
+        `Furt prin efracție sau tâlhărie;`,
+        `Fenomene electrice;`,
+        `Avarii accidentale la centrala termică;`,
+        `Asistență tehnică la domiciliu.`,
+        `Închirierea / cazarea temporară la o altă locație pentru cazurile în care clădirea asigurată a devenit nelocuibilă ca urmare a producerii daunelor din riscuri acoperite;`,
+        `Suma asigurată menționată în Poliță reprezintă valoarea pentru care se încheie asigurarea şi este maximul răspunderii OMNIASIG Vienna Insurance Group în cazul producerii sau apariţiei unuia sau mai multor evenimente asigurate.`,
+      ],
+    },
+    {
+      classes: 'bg-red no-shadow',
+      icon: {
+        name: 'md-exclusion',
+      },
+      subtitle: {
+        text: 'Ce nu se asigură?',
+        classes: '',
+      },
+      listClass: 'red amplus',
+      textContents: [
+        `Nu sunt acoperite prejudicii cauzate de: `,
+        `Război, terorism, reacții nucleare;`,
+        `Fapte săvârșite cu intenție sau din culpă gravă de către Asigurat(de ex.improvizații neconforme cu reglementările în vigoare la instalaţiile de gaze, încălzire sau electrice);`,
+        `Pătrunderea apei de ploaie prin ferestre neetanșe sau neînchise sau prin deschizături care nu sunt produse de fenomenele atmosferice acoperite;`,
+        `Tasare;`,
+        `Igrasie.`,
+      ],
+    },
+    {
+      classes: 'bg-warning  no-shadow',
+      icon: {
+        name: 'md-restriction',
+      },
+      subtitle: {
+        text: 'Există restricții de acoperire?',
+        classes: '',
+      },
+      listClass: 'danger amplus',
+      textContents: [
+        `Nu se asigură:`,
+        `Clădiri expertizate tehnic pentru riscul de cutremur;`,
+        `Clădiri în curs de construcţie sau nefinalizate;`,
+        `Clădiri situate în zone cu istoric de alunecări / prăbuşiri de teren;`,
+        `Clădiri de patrimoniu;`,
+        `Construcţii subterane, sere, solarii;`,
+        `Bani, obiecte din metale preţioase, obiecte de artă;`,
+        `Vehicule;`,
+        `Orice tip de teren;`,
+        `Bunuri degradate, ruinate sau a căror stare de întreținere este necorespunzătoare.`,
+      ],
+    },
+    {
+      classes: 'bg-deep-blue  no-shadow',
+      icon: {
+        name: 'md-globe',
+      },
+      subtitle: {
+        text: 'Unde beneficiez de asigurare?',
+        classes: '',
+      },
+      listClass: 'blue',
+      textContents: [
+        `Asigurarea este valabilă la locaţia asigurată menționată în Poliță.`,
+      ],
+    },
+    {
+      classes: 'bg-light-green-2  no-shadow',
+      icon: {
+        name: 'md-handshake',
+      },
+      subtitle: {
+        text: 'Ce obligații am?',
+        classes: '',
+      },
+      listClass: 'green-2 amplus',
+      textContents: [
+        `La începutul și pe durata contractului:`,
+        `Să aveți încheiată în mod valabil o poliţă de asigurare obligatorie a locuinţei(PAD) ca o condiţie preliminară şi obligatorie încheierii poliţei facultative; în lipsa acesteia OMNIASIG Vienna Insurance Group nu poate încheia poliţa facultativă, iar aceasta nu poate intra în vigoare;`,
+        `Să răspundeți sincer și complet la toate întrebările formulate de OMNIASIG Vienna Insurance Group;`,
+        `Să plătiți prima de asigurare în întregime și la timp, conform scadenţelor stabilite;`,
+        `Să ne informați cu privire la orice modificare apărută în legătură cu adresa declarată sau orice modificări ale împrejurărilor esenţiale privind riscul asigurat;`,
+        `Să întreţineţi bunurile asigurate în condiţii corespunzătoare;`,
+        `În cazul producerii unui eveniment, să ne înștiințați imediat și să luați toate măsurile rezonabile pentru limitarea daunelor.`,
+      ],
+    },
+    {
+      classes: 'bg-yellow  no-shadow',
+      icon: {
+        name: 'md-coins',
+      },
+      subtitle: {
+        text: 'Când și cum plătesc?',
+        classes: '',
+      },
+      listClass: 'yellow',
+      textContents: [
+        `Prima plată se efectuează la momentul încheierii Poliţei, prin virament bancar sau în numerar.`,
+        `În cazul poliţelor pentru care se agreează plata în rate, scadenţa acestora va fi afişată în Poliţă.`,
+      ],
+    },
+    {
+      classes: 'bg-light-blue  no-shadow',
+      icon: {
+        name: 'md-hourglass',
+      },
+      subtitle: {
+        text: 'Când începe și când încetează acoperirea?',
+        classes: '',
+      },
+      listClass: 'light-blue',
+      textContents: [
+        `Perioada de valabilitate este cea menţionată în Poliţă.`,
+        `Data de începere a acoperirii asigurării este condiţionată de plata integrală a Poliţei sau a primei rate de primă`,
+      ],
+    },
+    {
+      classes: 'bg-dark  no-shadow',
+      icon: {
+        name: 'md-annulment',
+      },
+      subtitle: {
+        text: 'Cum pot sa reziliez contractul?',
+        classes: '',
+      },
+      listClass: 'dark',
+      textContents: [
+        `La solicitarea dumneavoastră, contractul de asigurare îşi încetează efectele în termen de 20 zile calendaristice de la data notificării OMNIASIG Vienna Insurance Group în acest sens.`,
       ],
     },
   ];
