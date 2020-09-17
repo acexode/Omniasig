@@ -73,6 +73,10 @@ export class OfferViewComponent implements OnInit {
   }
 
   pay() {
+// Starting the payment workflow here
+
+
+    return
     /*
       method to call payment web service when the pay(plateste) button is clicked,
       which also calls create PAD Insurance policy web service

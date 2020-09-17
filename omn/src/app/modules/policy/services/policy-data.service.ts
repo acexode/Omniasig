@@ -328,4 +328,8 @@ export class PolicyDataService {
         (err) => {}
       );
   }
+
+  makePayment(){
+    
+  }
 }
