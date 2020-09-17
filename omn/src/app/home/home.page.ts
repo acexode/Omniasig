@@ -125,6 +125,8 @@ export class HomePage implements OnInit {
     textContent: [],
     id: 'account',
     itemClass: 'flex-1 mt-n16 p-16 mb-12',
+    isButton: true,
+    isDisabled: false,
     routerLink: [ '/biometrics' ],
   };
   emailCard = {
@@ -135,13 +137,15 @@ export class HomePage implements OnInit {
     },
     textContent: [],
     id: 'email',
+    isButton: true,
+    isDisabled: false,
     routerLink: [ '/profil', 'date-personale', 'validate-email' ],
     itemClass: 'p-16 flex-1 mb-16',
   };
   accountNotActivated: DisabledPlaceholderCard = {
     leftColumnClass: 'flex-0',
     rightColumnClass: 'pl-16 pr-0 py-16',
-    cards: [],
+    cards: [ this.biometricCard, this.emailCard ],
     textContent: [
       {
         text: 'Activează-ți contul',
@@ -175,7 +179,7 @@ export class HomePage implements OnInit {
       this.account = account;
       if ( account ) {
         this.accountActivated = this.authS.accountActivated( account );
-        console.log( this.accountActivated );
+        console.log( this.accountActivated, this.account );
         if ( this.accountActivated ) {
           this.policyS.policyStore$.subscribe( ( v ) =>
             this.policies$.next( this.mapPolicies( v ) )
@@ -192,16 +196,20 @@ export class HomePage implements OnInit {
   }
   /* accountNotActvated */
   displayWhatNeedToBeActivated( { isBiometricValid, isEmailConfirmed } ) {
-    if ( !isEmailConfirmed && !isBiometricValid ) {
-      this.accountNotActivated.cards.push( this.biometricCard, this.emailCard );
-    } else if ( !isEmailConfirmed ) {
+    console.log( { isBiometricValid, isEmailConfirmed })
+    if ( isEmailConfirmed && isBiometricValid ) {
+      this.disableCard( this.biometricCard );
+      this.disableCard( this.emailCard );
+    } else if ( isEmailConfirmed ) {
       // email
-      this.accountNotActivated.cards.push( this.emailCard );
+      this.disableCard( this.emailCard );
     } else {
       // biometrics
-      console.log( 'biometrics' );
-      this.accountNotActivated.cards.push( this.biometricCard );
+      this.disableCard( this.biometricCard );
     }
+  }
+  disableCard( card: ImageCard ) {
+    card.isDisabled = true;
   }
   /**
    * Preprocess user Policies data.

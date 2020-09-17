@@ -1,6 +1,7 @@
 <ion-card
   *ngIf="!item?.routerLink"
   [button]="item?.isButton"
+  [disabled]="item?.isDisabled"
   class="m-0 w-100 flex-column flex is-link"
   [ngClass]="item?.itemClass + ' ' + (item?.isButton ? 'is-button' : ' ')"
   (click)="emitItemEvent('item-click', item)"
@@ -13,6 +14,7 @@
 <ion-card
   *ngIf="item?.routerLink"
   [button]="item?.isButton"
+  [disabled]="item?.isDisabled"
   [routerLink]="item?.routerLink"
   class="m-0 w-100 flex-column flex"
   [ngClass]="

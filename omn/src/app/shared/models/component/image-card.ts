@@ -17,4 +17,5 @@ export interface ImageCard {
   id: string | number;
   routerLink?: any;
   itemClass?: string;
+  isDisabled?: boolean;
 }
