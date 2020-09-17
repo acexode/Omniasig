@@ -125,9 +125,12 @@ export class HomePage implements OnInit {
     id: 'account',
     itemClass: 'flex-1 mt-n16 p-16 mb-12',
     isButton: true,
-    isHidden: this.account ? this.account.isBiometricValid : false,
+    isHidden: false,
     routerLink: [ '/biometrics' ],
   };
+  // changeClassForEmailCard (this is to change the class of the email card with its the only required one for validation)
+  changeClassForEmailCard = false;
+  //
   emailCard = {
     mainIcon: {
       name: 'md-email-light',
@@ -137,14 +140,14 @@ export class HomePage implements OnInit {
     textContent: [],
     id: 'email',
     isButton: true,
-    isHidden: this.account ? this.account.isEmailConfirmed : true,
+    isHidden: false,
     routerLink: [ '/profil', 'date-personale', 'validate-email' ],
-    itemClass: 'p-16 flex-1 mb-16',
+    itemClass: this.changeClassForEmailCard ? 'p-16 flex-1 mb-16' : 'flex-1 mt-n16 p-16 mb-12',
   };
   accountNotActivated: DisabledPlaceholderCard = {
     leftColumnClass: 'flex-0',
     rightColumnClass: 'pl-16 pr-0 py-16',
-    cards: [ this.biometricCard, this.emailCard ],
+    cards: [],
     textContent: [
       {
         text: 'Activează-ți contul',
@@ -177,12 +180,9 @@ export class HomePage implements OnInit {
     this.authS.getAccountData().subscribe( ( account ) => {
       this.account = account;
       if ( account ) {
-        // set isEmailConfirmed
-        // this.emailCard.isHidden = this.account.isEmailConfirmed;
-        // set biometricCard
-        // this.biometricCard.isHidden = this.account.isBiometricValid ? true : false;
+        // activate display for what needs validation from user
+        this.displayWhatNeedsToBeValidated(this.account);
 
-        console.log( this.emailCard, this.biometricCard );
         this.accountActivated = this.authS.accountActivated( account );
         if ( this.accountActivated ) {
           this.policyS.policyStore$.subscribe( ( v ) =>
@@ -195,6 +195,23 @@ export class HomePage implements OnInit {
       }
       this.cdRef.markForCheck();
     } );
+  }
+
+  displayWhatNeedsToBeValidated(acc: Account) {
+    if ( !this.account.isEmailConfirmed && !this.account.isBiometricValid ) {
+      this.pushCardForValidation( this.biometricCard );
+      this.pushCardForValidation( this.emailCard );
+    } else if ( !this.account.isEmailConfirmed ) {
+      // email
+      this.changeClassForEmailCard = true;
+      this.pushCardForValidation( this.emailCard );
+    } else {
+      // biometrics
+      this.pushCardForValidation( this.biometricCard );
+    }
+  }
+  pushCardForValidation(card: ImageCard) {
+    this.accountNotActivated.cards.push( card);
   }
   /**
    * Preprocess user Policies data.
