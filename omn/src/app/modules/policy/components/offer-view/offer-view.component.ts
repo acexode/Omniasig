@@ -1,7 +1,7 @@
 import { Component, HostBinding, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { NavController } from '@ionic/angular';
-import { get } from 'lodash';
+import { get, has } from 'lodash';
 import { take } from 'rxjs/operators';
 import { dateHelperDMY } from 'src/app/core/helpers/date.helper';
 import { subPageHeaderSecondary } from 'src/app/shared/data/sub-page-header-secondary';
@@ -96,7 +96,11 @@ export class OfferViewComponent implements OnInit {
 
   getPolicyById(id) {
     this.policyDataService.getSingleOfferById(id).subscribe((offer) => {
-      this.offer = offer instanceof Array ? offer[0] : offer;
+      this.offer = offer;
+      if (offer && has(offer, 'policy.typeId')) {
+        this.policyType = get(offer, 'policy.typeId', this.policyType);
+      }
+
       this.setCalEntry(this.offer);
     });
   }
