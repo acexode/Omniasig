@@ -1,5 +1,4 @@
-<!-- [ngClass]="item?.itemClass + ' ' + (item?.isButton ? 'is-button' : ' ')" -->
-<ion-card
+<!-- <ion-card
   *ngIf="!item?.routerLink"
   [button]="item?.isButton"
   [disabled]="item?.isDisabled"
@@ -11,8 +10,8 @@
     [ngTemplateOutlet]="innerCardContent"
     [ngTemplateOutletContext]="{ item: item }"
   ></ng-container>
-</ion-card>
-<!-- 'ion-hide' 'is-not-visible'-->
+</ion-card> -->
+<!--  -->
 <ion-card
   *ngIf="item?.routerLink"
   [button]="item?.isButton"
@@ -35,6 +34,7 @@
     [ngTemplateOutletContext]="{ item: item }"
   ></ng-container>
 </ion-card>
+<!--  -->
 <ng-template #innerCardContent let-item="item">
   <ion-icon
     *ngIf="item?.headerIcon"

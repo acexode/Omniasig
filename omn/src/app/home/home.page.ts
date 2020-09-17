@@ -32,7 +32,6 @@ export class HomePage implements OnInit {
   offers$: BehaviorSubject<Array<PolicyListItem>> = new BehaviorSubject( [] );
   policies$: BehaviorSubject<Array<PolicyListItem>> = new BehaviorSubject( [] );
   account = null;
-
   daune: Array<ImageCard> = null;
 
   // Default title configs.
@@ -126,7 +125,7 @@ export class HomePage implements OnInit {
     id: 'account',
     itemClass: 'flex-1 mt-n16 p-16 mb-12',
     isButton: true,
-    isHidden: true,
+    isHidden: false,
     routerLink: [ '/biometrics' ],
   };
   emailCard = {
@@ -138,7 +137,7 @@ export class HomePage implements OnInit {
     textContent: [],
     id: 'email',
     isButton: true,
-    isHidden: this.account?.isEmailConfirmed ? true : false,
+    isHidden: false,
     routerLink: [ '/profil', 'date-personale', 'validate-email' ],
     itemClass: 'p-16 flex-1 mb-16',
   };
@@ -178,8 +177,13 @@ export class HomePage implements OnInit {
     this.authS.getAccountData().subscribe( ( account ) => {
       this.account = account;
       if ( account ) {
+        // set isEmailConfirmed
+        // this.emailCard.isHidden = this.account.isEmailConfirmed;
+        // set biometricCard
+        this.biometricCard.isHidden = this.account.isBiometricValid ? true : false;
+
+        console.log( this.emailCard, this.biometricCard );
         this.accountActivated = this.authS.accountActivated( account );
-        console.log( this.accountActivated, this.account, this.emailCard, this.biometricCard );
         if ( this.accountActivated ) {
           this.policyS.policyStore$.subscribe( ( v ) =>
             this.policies$.next( this.mapPolicies( v ) )
@@ -187,30 +191,10 @@ export class HomePage implements OnInit {
           this.policyS.offerStore$.subscribe( ( v ) =>
             this.offers$.next( this.mapOffers( v ) )
           );
-        } else {
-          // this.displayWhatNeedToBeActivated( this.account );
         }
       }
       this.cdRef.markForCheck();
     } );
-  }
-  set
-  /* accountNotActvated */
-  displayWhatNeedToBeActivated( { isBiometricValid, isEmailConfirmed } ) {
-    console.log( { isBiometricValid, isEmailConfirmed } );
-    if ( isEmailConfirmed && isBiometricValid ) {
-      this.disableCard( this.biometricCard );
-      this.disableCard( this.emailCard );
-    } else if ( isEmailConfirmed ) {
-      // email
-      this.disableCard( this.emailCard );
-    } else {
-      // biometrics
-      this.disableCard( this.biometricCard );
-    }
-  }
-  disableCard( card: ImageCard ) {
-    card.isDisabled = true;
   }
   /**
    * Preprocess user Policies data.

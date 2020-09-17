@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { AuthService } from 'src/app/core/services/auth/auth.service';
 import { ImageCard } from 'src/app/shared/models/component/image-card';
 import { RegistrationService } from './../../core/services/auth/registration.service';
-
+import { Account } from 'src/app/core/models/account.interface';
 @Component( {
   selector: 'app-cont-creat',
   templateUrl: './cont-creat.component.html',
@@ -48,7 +48,7 @@ export class ContCreatComponent implements OnInit, AfterViewInit {
   cards: Array<ImageCard> = [
     this.biometricCard, this.emailCard
   ];
-  account: any;
+  account: Account;
   accountActivated: boolean;
   constructor(
     private router: Router,
