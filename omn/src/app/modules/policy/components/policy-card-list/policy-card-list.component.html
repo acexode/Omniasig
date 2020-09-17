@@ -1,16 +1,23 @@
 <ion-grid class="ion-no-padding">
-    <ion-row class="ion-no-padding" *ngIf="title">
-        <ion-text [color]="title?.color || 'omn-green'" [ngClass]="title?.classes">
-            <h4 class="mb-8">{{ title?.text }}</h4>
-        </ion-text>
-    </ion-row>
-    <ion-row class="ion-no-padding">
-        <ion-col class="ion-no-padding">
-            <ng-container *ngIf="items?.length">
-                <ion-row *ngFor="let item of items; let index = index" class="ion-no-padding mb-16">
-                    <app-image-card [item]="item" class="w-100"></app-image-card>
-                </ion-row>
-            </ng-container>
-        </ion-col>
-    </ion-row>
+  <ion-row class="ion-no-padding" *ngIf="title">
+    <ion-text [color]="title?.color || 'omn-green'" [ngClass]="title?.classes">
+      <h4 class="mb-8">{{ title?.text }}</h4>
+    </ion-text>
+  </ion-row>
+  <ion-row class="ion-no-padding">
+    <ion-col class="ion-no-padding">
+      <ng-container *ngIf="items?.length">
+        <ion-row
+          *ngFor="let item of items; let index = index"
+          class="ion-no-padding mb-16"
+        >
+          <app-image-card
+            (itemEvent)="defaultEvent($event)"
+            [item]="item"
+            class="w-100"
+          ></app-image-card>
+        </ion-row>
+      </ng-container>
+    </ion-col>
+  </ion-row>
 </ion-grid>
