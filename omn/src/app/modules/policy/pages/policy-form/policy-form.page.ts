@@ -44,12 +44,13 @@ export class PolicyFormPage implements OnInit, OnDestroy {
   get color() {
     return this.bgWhite ? 'ion-color-white-page' : null;
   }
+  loaderTitle = 'Calculăm costul poliței de asigurare…';
+
   bgWhite = false;
   headerConfig;
   policySteps = PolicyFormSteps;
   currentStep = PolicyFormSteps.DNT;
   typeItem;
-  loaderTitle = 'Calculăm costul poliței de asigurare…';
   showError = false;
 
   policyLocuintaData$: BehaviorSubject<
