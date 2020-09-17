@@ -1,8 +1,8 @@
+import { Component, HostBinding, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
+import { NavController } from '@ionic/angular';
 import { RegistrationService } from './../../core/services/auth/registration.service';
-import { Component, HostBinding, OnInit, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { IonInput, NavController } from '@ionic/angular';
 
 @Component({
   selector: 'app-reg-passcode',
@@ -13,7 +13,7 @@ export class RegPasscodeComponent implements OnInit {
   @HostBinding('class') color = 'ion-color-white-page';
   errorLogin: string | boolean = null;
   passForm: FormGroup;
-  digitsLength: number = 0;
+  digitsLength = 0;
   constructor(
     private navCtrl: NavController,
     private formBuilder: FormBuilder,
@@ -23,8 +23,7 @@ export class RegPasscodeComponent implements OnInit {
     this.checkUserObj();
   }
 
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
   checkUserObj() {
     if (
@@ -37,10 +36,10 @@ export class RegPasscodeComponent implements OnInit {
 
   verifyPasscode(passForm: FormGroup) {
     this.passForm = passForm;
-    let passcode: string = passForm.get('passcode').value;
-    if (passcode == '000000') {
+    const passcode: string = passForm.get('passcode').value;
+    if (passcode === '000000') {
       this.passForm.reset();
-      this.errorLogin = 'Codul este prea simplu.'
+      this.errorLogin = 'Codul este prea simplu.';
     } else {
       this.regService.setUserObj({
         pin: passcode,
@@ -51,13 +50,11 @@ export class RegPasscodeComponent implements OnInit {
 
   clearErr(_) {
     if (this.digitsLength > 0) {
-      this.errorLogin = null
+      this.errorLogin = null;
     }
   }
 
-
   digLength(length: number) {
-    this.digitsLength = length
+    this.digitsLength = length;
   }
-
 }

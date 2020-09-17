@@ -21,7 +21,7 @@
                 </ion-text>
             </div>
             <div class="ion-text-center pb-80">
-                <app-passcode-field [errorLogin]="InvalidCode" (onPassForm)="verifyDigit($event)" (onClearErr)="clearErr($event)"></app-passcode-field>
+                <app-passcode-field [errorLogin]="InvalidCode" (doPassForm)="verifyDigit($event)" (doClearErr)="clearErr($event)"></app-passcode-field>
             </div>
             <div class="ion-text-center pt-80">
                 <ion-text *ngIf="InvalidCode" class="text-small color-red">

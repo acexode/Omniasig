@@ -1,5 +1,15 @@
 import { IonInput } from '@ionic/angular';
-import { Component, OnInit, ViewChild, Input, AfterViewChecked, EventEmitter, Output, AfterContentInit, AfterViewInit } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  ViewChild,
+  Input,
+  AfterViewChecked,
+  EventEmitter,
+  Output,
+  AfterContentInit,
+  AfterViewInit,
+} from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Platform } from '@ionic/angular';
 
@@ -10,15 +20,15 @@ import { Platform } from '@ionic/angular';
 })
 export class PasscodeFieldComponent implements OnInit, AfterViewInit {
   @ViewChild('inputField') inputField: IonInput;
-  digitsLength: number = 0;
+  digitsLength = 0;
   @Input() errorLogin: string | null | boolean;
   @Input() busy: boolean;
   passForm: FormGroup;
-  @Output() onPassForm: EventEmitter<FormGroup> = new EventEmitter<FormGroup>();
-  @Output() onClearErr: EventEmitter<any> = new EventEmitter<any>();
-  @Output() onDigitLength: EventEmitter<number> = new EventEmitter<number>();
+  @Output() doPassForm: EventEmitter<FormGroup> = new EventEmitter();
+  @Output() doClearErr: EventEmitter<any> = new EventEmitter();
+  @Output() doDigitLength: EventEmitter<number> = new EventEmitter();
 
-  constructor(private formBuilder: FormBuilder, private platform: Platform) { }
+  constructor(private formBuilder: FormBuilder, private platform: Platform) {}
 
   ngOnInit() {
     this.initForm();
@@ -27,13 +37,13 @@ export class PasscodeFieldComponent implements OnInit, AfterViewInit {
   clickInput() {
     this.inputField.getInputElement().then((input) => {
       input.click();
-      input.focus()
-    })
+      input.focus();
+    });
   }
 
   ngAfterViewInit() {
     setTimeout(() => {
-      this.clickInput()
+      this.clickInput();
     }, 650);
   }
 
@@ -51,26 +61,26 @@ export class PasscodeFieldComponent implements OnInit, AfterViewInit {
   }
 
   changeInput(passCode: string) {
-    this.digitsLength = passCode ? passCode.length : 0
+    this.digitsLength = passCode ? passCode.length : 0;
     this.emitDigitLength();
     if (this.digitsLength === 6 && !this.busy) {
       this.emitForm();
     }
-    this.clearErr()
+    this.clearErr();
   }
 
   public emitForm(): void {
-    this.onPassForm.emit(this.passForm);
+    this.doPassForm.emit(this.passForm);
   }
 
   public emitDigitLength(): void {
-    this.onDigitLength.emit(this.digitsLength);
+    this.doDigitLength.emit(this.digitsLength);
   }
 
   clearErr() {
+    // tslint:disable-next-line: triple-equals
     if (this.errorLogin != null || this.errorLogin != typeof null) {
-      this.onClearErr.emit(null)
+      this.doClearErr.emit(null);
     }
   }
-
 }

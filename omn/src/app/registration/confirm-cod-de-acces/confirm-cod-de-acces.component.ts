@@ -1,14 +1,8 @@
+import { Component, HostBinding, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup } from '@angular/forms';
+import { Router } from '@angular/router';
+import { NavController } from '@ionic/angular';
 import { RegistrationService } from './../../core/services/auth/registration.service';
-import {
-  AfterViewInit,
-  Component,
-  HostBinding,
-  OnInit,
-  ViewChild,
-} from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
-import { IonInput, NavController } from '@ionic/angular';
 
 @Component({
   selector: 'app-confirm-cod-de-acces',
@@ -28,8 +22,7 @@ export class ConfirmCodDeAccesComponent implements OnInit {
     this.checkUserObj();
   }
 
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
   checkUserObj() {
     if (
@@ -41,15 +34,11 @@ export class ConfirmCodDeAccesComponent implements OnInit {
     }
   }
 
-  verifyPasscode(passForm:FormGroup) {
-    if (
-      passForm.get('passcode').value ==
-      this.regService.getuserObj.pin
-    ) {
+  verifyPasscode(passForm: FormGroup) {
+    if (passForm.get('passcode').value === this.regService.getuserObj.pin) {
       this.navCtrl.navigateRoot(`registration/personal-details`);
     } else {
       this.navCtrl.navigateBack(['/registration', 'create-passcode']);
     }
   }
-
 }

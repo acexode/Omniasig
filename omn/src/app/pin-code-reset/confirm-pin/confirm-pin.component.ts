@@ -18,7 +18,7 @@ export class ConfirmPinComponent implements OnInit {
     private navCtrl: NavController,
     private formBuilder: FormBuilder,
     private resetPinService: ResetPincodeService
-  ) { }
+  ) {}
 
   ngOnInit() {
     this.checkObjFields();
@@ -34,11 +34,9 @@ export class ConfirmPinComponent implements OnInit {
     }
   }
 
-
   verifyPin(pinForm: FormGroup) {
     if (
-      pinForm.get('passcode').value ==
-      this.resetPinService.getResetObj.newPin
+      pinForm.get('passcode').value === this.resetPinService.getResetObj.newPin
     ) {
       this.busy = true;
       this.resetPinService.confirmResetPincode().subscribe(
@@ -57,6 +55,6 @@ export class ConfirmPinComponent implements OnInit {
   }
 
   clearErr(_) {
-    this.errorLogin = null
+    this.errorLogin = null;
   }
 }

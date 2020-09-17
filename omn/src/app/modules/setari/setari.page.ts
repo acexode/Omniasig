@@ -1,3 +1,4 @@
+import { SettingsService } from './services/settings.service';
 import { Component, HostBinding, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { Subscription } from 'rxjs';
@@ -19,21 +20,33 @@ export class SetariPage implements OnInit, OnDestroy {
   formGroup = this.fb.group({
     notifications: this.fb.control(false),
   });
-  constructor(private fb: FormBuilder) {}
+  constructor(private fb: FormBuilder, private settingsS: SettingsService) {}
   notificationS: Subscription;
 
   ngOnInit() {
     this.handleSubmission();
+    this.getSettings();
+  }
+
+  getSettings() {
+    this.settingsS.settings$.subscribe((data) => {
+      this.formGroup
+        .get('notifications')
+        .patchValue(data.admintNotifications, { emitEvent: false });
+    });
   }
 
   // Try to attach this after data loading for the toggles.
   handleSubmission() {
-    unsubscriberHelper(this.notificationS);
     this.notificationS = this.formGroup
       .get('notifications')
-      .valueChanges.subscribe((v) => {
-        // TODO: implement data push.
+      .valueChanges.subscribe((v: boolean) => {
+        this.saveSettings(v);
       });
+  }
+
+  saveSettings(v: boolean) {
+    this.settingsS.updateSettings({ admintNotifications: v }).subscribe();
   }
 
   ngOnDestroy() {

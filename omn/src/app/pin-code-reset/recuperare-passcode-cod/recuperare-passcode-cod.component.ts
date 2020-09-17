@@ -5,7 +5,7 @@ import {
   OnInit,
   ViewChild,
 } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { IonInput } from '@ionic/angular';
 import { Subscription } from 'rxjs';
@@ -32,7 +32,7 @@ export class RecuperarePasscodeCodComponent
     inputMode: 'number',
   };
   InvalidCode = false;
-  digitLength: number = 0
+  digitLength = 0;
   constructor(
     private resetPinService: ResetPincodeService,
     private router: Router,
@@ -42,8 +42,7 @@ export class RecuperarePasscodeCodComponent
     this.checkCNP();
   }
 
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
   checkCNP() {
     if (!this.resetPinService.getResetObj?.cnp) {
@@ -80,11 +79,11 @@ export class RecuperarePasscodeCodComponent
   }
 
   clearErr(_) {
-    this.InvalidCode = false
+    this.InvalidCode = false;
   }
 
   setDigitLength(length: number) {
-    this.digitLength = length
+    this.digitLength = length;
   }
 
   ngOnDestroy() {

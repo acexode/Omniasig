@@ -1,13 +1,6 @@
-import {
-  AfterViewInit,
-  Component,
-  HostBinding,
-  OnInit,
-  ViewChild,
-} from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AfterViewInit, Component, HostBinding, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { IonInput } from '@ionic/angular';
 import { CustomTimersService } from 'src/app/core/services/custom-timers/custom-timers.service';
 import { IonInputConfig } from 'src/app/shared/models/component/ion-input-config';
 import { RegistrationService } from './../../core/services/auth/registration.service';
@@ -86,6 +79,6 @@ export class RegInputSmsComponent implements OnInit, AfterViewInit {
   }
 
   clearErr(_) {
-    this.InvalidCode = null
+    this.InvalidCode = null;
   }
 }

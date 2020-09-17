@@ -1,7 +1,7 @@
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { FormGroup } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { IonInput, NavController } from '@ionic/angular';
+import { NavController } from '@ionic/angular';
 import { Subscription } from 'rxjs';
 import { take } from 'rxjs/internal/operators/take';
 import { AuthService } from 'src/app/core/services/auth/auth.service';
@@ -27,8 +27,7 @@ export class PasscodeComponent implements OnInit, OnDestroy {
     this.getPhoneNumber();
   }
 
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
   getPhoneNumber() {
     this.sub = this.route.params.pipe(take(1)).subscribe((params) => {
@@ -48,7 +47,7 @@ export class PasscodeComponent implements OnInit, OnDestroy {
     };
     this.authService.login(data).subscribe(
       (datav) => this.changeCurrentLogin(),
-      (error) => this.errLogin(error,passForm)
+      (error) => this.errLogin(error, passForm)
     );
   }
 
@@ -56,12 +55,12 @@ export class PasscodeComponent implements OnInit, OnDestroy {
     this.authService.saveLastLoginNumber(this.phoneNumber);
   }
 
-  errLogin(err,passForm) {
+  errLogin(err, passForm) {
     passForm.reset();
     this.errorLogin = 'Cod Invalid!';
   }
 
-  clearErr(e){
+  clearErr(e) {
     this.errorLogin = null;
   }
 

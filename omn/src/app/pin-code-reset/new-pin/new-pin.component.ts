@@ -12,7 +12,7 @@ import { subPageHeaderDefault } from 'src/app/shared/data/sub-page-header-defaul
 export class NewPinComponent implements OnInit {
   headerConfig = subPageHeaderDefault('Cod de acces nou');
   @ViewChild('inputField') inputField: IonInput;
-  errorLogin =null;
+  errorLogin = null;
   constructor(
     private navCtrl: NavController,
     private formBuilder: FormBuilder,
@@ -30,18 +30,16 @@ export class NewPinComponent implements OnInit {
     }
   }
 
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
-  verifyPincode(pinForm:FormGroup) {
+  verifyPincode(pinForm: FormGroup) {
     this.resetPinService.setResetObj({
       newPin: pinForm.get('passcode').value,
     });
     this.navCtrl.navigateRoot(`/reset-pincode/confirm-pin`);
   }
 
-  clearErr(_){
-    this.errorLogin = null
+  clearErr(_: any) {
+    this.errorLogin = null;
   }
-
 }

@@ -19,7 +19,7 @@
                 </ion-text>
             </div>
             <div class="ion-text-center pb-80">
-                <app-passcode-field (onDigitLength)="digLength($event)" (onPassForm)="verifyPasscode($event)" [errorLogin]="errorLogin" (onClearErr)="clearErr($event)"></app-passcode-field>
+                <app-passcode-field (doDigitLength)="digLength($event)" (doPassForm)="verifyPasscode($event)" [errorLogin]="errorLogin" (doClearErr)="clearErr($event)"></app-passcode-field>
             </div>
             <div class="ion-text-center">
                 <ion-text *ngIf="errorLogin" class="text-small color-red">
