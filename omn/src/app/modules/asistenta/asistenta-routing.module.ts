@@ -11,7 +11,12 @@ const routes: Routes = [
     {
         path: 'petitii',
         loadChildren: () => import( './petitii/petitii.module' ).then( m => m.PetitiiPageModule )
+    },
+    {
+        path: 'sugestii',
+        loadChildren: () => import( './sugestii/sugestii.module' ).then( m => m.SugestiiPageModule )
     }
+
 ];
 
 @NgModule( {

@@ -6,7 +6,6 @@ export const authEndpoints = {
   findUserByPhoneNumber:
     serverBaseUrl + '/UserProfile/GetUserNameByPhoneNumber',
   getUserProfile: serverBaseUrl + '/UserProfile/GetUserProfile',
-  updateUserProfile: serverBaseUrl + '/UserProfile/UpdateUserProfile',
   sendPhoneNumberSms: serverBaseUrl + '/UserProfile/SmsPhoneNumberVerification',
   confirmPhoneNumberSms: serverBaseUrl + '/UserProfile/SmsPhoneNumberConfirm',
   GetUserNameByPhoneNumber:
@@ -25,6 +24,7 @@ export const authEndpoints = {
     serverBaseUrl + '/UserProfile/ConfirmEmailForRegisterUserProfile',
   confirmEmailChange: serverBaseUrl + '/UserProfile/ConfirmationNewEmailChange',
   changeEmail: serverBaseUrl + '/UserProfile/RequestNewEmailChange',
+  updateUserProfile: serverBaseUrl + '/UserProfile/UpdateUserProfile',
 };
 
 export const baseEndpoints = {
@@ -63,6 +63,10 @@ export const phoneNumberEndPoints = {
   RequestNewPhoneNumberChange:
     baseEndpoints.userProfile + '/RequestNewPhoneNumberChange',
   ConfirmNewPhoneNumber: baseEndpoints.userProfile + '/ConfirmNewPhoneNumber',
+};
+
+export const sugestii = {
+  base: baseEndpoints.userProfile + '/ChangeSuggestions',
 };
 
 export const padEndpoints = {
