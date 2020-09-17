@@ -8,16 +8,17 @@
       </ion-icon>
       <ion-label class="s18-h24 my-8">Call Center</ion-label>
     </ion-item>
-    <ion-item lines="none" class="mb-16 ml-24 item-mh-40">
+    <!-- Adrain suggested its made availabel later -->
+    <ion-item lines="none" class="mb-16 ml-24 item-mh-40" *ngIf="release === 2">
       <ion-icon name="md-chat" class="icon-22 mr-28" color="omn-medium">
       </ion-icon>
       <ion-label
-        *ngIf="release === 2"
         class="s18-h24 ml-0 flex flex-row ion-justify-content-start ion-align-items-center my-8"
       >
         Chat
       </ion-label>
     </ion-item>
+    <!--  -->
     <ion-item
       lines="none"
       class="mb-16 ml-24 item-mh-40"
@@ -42,5 +43,48 @@
       ></ion-icon>
       <ion-label class="s18-h24 my-8">Petiții</ion-label>
     </ion-item>
+
+    <ion-item
+      lines="none"
+      class="mb-16 ml-24 item-mh-40"
+      [routerLink]="['sugestii']"
+    >
+      <ion-icon
+        name="md-suggestion"
+        class="icon-22 mr-28"
+        color="success"
+      ></ion-icon>
+      <ion-label class="s18-h24 my-8">Sugestii</ion-label>
+    </ion-item>
   </ion-list>
+
+  <ion-grid class="position-absolute bottom-0 w-100 ion-no-padding">
+    <ion-row class="pt-10 ion-align-items-center">
+      <ion-col class="ion-align-items-center ion-text-center pr-32 pl-32 pb-4">
+        <ion-text class="s16-h22 color-dark-green ion-text-center">
+          Pentru asistență tehnică la domiciliu, detalii despre asigurări sau
+          notificarea unei daune te rugăm să apelezi
+        </ion-text>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col class="ion-align-items-center ion-text-center pr-32 pl-32 pb-16">
+        <ion-text class="s20-h24 text-color text-weight-bold alt-font">
+          Call Center OMNIASIG
+        </ion-text>
+      </ion-col>
+    </ion-row>
+    <ion-row class="ion-align-items-start">
+      <ion-col class="ion-align-items-center ion-text-center pr-32 pl-32 pb-24">
+        <ion-button
+          class="flex flex-1 w-100 m-0 flat no-shadow color-white ion-color-success text-weight-medium"
+          size="large"
+          shape="round"
+          mode="md"
+        >
+          021.9669
+        </ion-button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
 </ion-content>
