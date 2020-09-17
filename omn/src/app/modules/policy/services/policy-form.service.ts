@@ -73,6 +73,8 @@ export class PolicyFormService {
           to: new Date(fromD.setFullYear(new Date(fromD).getFullYear() + 1)),
         },
       },
+      payData: conf.payData,
+      supportData: conf.supportData,
     };
     return offer;
   }

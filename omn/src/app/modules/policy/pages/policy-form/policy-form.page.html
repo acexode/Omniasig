@@ -75,7 +75,15 @@
       <app-policy-verify
         [offerData]="offerData"
         (goToErrorHandler)="handleError($event)"
+        (calculateEvent)="calculationSubmit()"
       ></app-policy-verify>
+    </ng-container>
+    <ng-container *ngSwitchCase="policySteps?.CALCULATION_LOADER">
+      <app-loading-placeholder
+        [title]="loaderTitle"
+        class="flex flex-1 mh-100p w-100"
+      >
+      </app-loading-placeholder>
     </ng-container>
     <ng-container *ngSwitchDefault>
       <ng-container

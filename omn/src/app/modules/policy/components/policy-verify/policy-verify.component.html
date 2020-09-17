@@ -179,7 +179,7 @@
                 </div>
               </ng-container>
             </div>
-            <div ngClass="{'mb-13':policyID === 'AMPLUS'}">
+            <div [ngClass]="{ 'mb-13': policyID === 'AMPLUS' }">
               <div class="input-label text-weight-medium mb-3">
                 Perioada de valabilitate
               </div>
@@ -188,11 +188,39 @@
                 {{ offerData?.policy?.dates?.to | date: 'dd.MM.yyyy' }}
               </ion-text>
             </div>
+            <ng-container *ngIf="policyID === 'AMPLUS'">
+              <div class="mb-13">
+                <div class="input-label text-weight-medium mb-3">
+                  Asistenţă tehnică la locaţia asigurată
+                </div>
+                <ion-text class="input-detail s18-h24">{{
+                  offerData?.supportData?.plan | uppercase
+                }}</ion-text>
+              </div>
+              <div>
+                <div class="input-label text-weight-medium mb-3">
+                  Modalitatea de plata
+                </div>
+                <ion-text
+                  class="input-detail s18-h24"
+                  *ngIf="offerData?.payData?.rate === '1'"
+                  >Integral ({{ offerData?.payData?.rate }} rata)</ion-text
+                >
+                <ion-text
+                  class="input-detail s18-h24"
+                  *ngIf="offerData?.payData?.rate > 1"
+                  >În rate ({{ offerData?.payData?.rate }})</ion-text
+                >
+              </div>
+            </ng-container>
           </ion-label>
         </ion-item>
       </ion-row>
 
-      <ion-row class="ion-no-padding flex w-100 flex-1 mt-37 mb-24">
+      <ion-row
+        class="ion-no-padding flex w-100 flex-1 mt-37 mb-24"
+        *ngIf="policyID === 'PAD'"
+      >
         <ion-col
           class="ion-no-padding flex flex-1 w-100 flex-column ion-justify-content-end px-32"
         >
