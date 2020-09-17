@@ -1,7 +1,6 @@
-import { Component, OnInit, HostBinding, Renderer2, ViewChildren, QueryList } from '@angular/core';
+import { Component, OnInit, HostBinding } from '@angular/core';
 import { subPageHeaderDefault } from 'src/app/shared/data/sub-page-header-default';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { IonIcon } from '@ionic/angular';
 import { SugestiiService } from '../services/sugestii.service';
 
 @Component( {
@@ -12,7 +11,6 @@ import { SugestiiService } from '../services/sugestii.service';
 export class SugestiiPage implements OnInit {
     @HostBinding( 'class' ) color = 'ion-color-white-page';
     headerConfig = subPageHeaderDefault( 'Sugestii' );
-    @ViewChildren( IonIcon ) rateIcons: QueryList<IonIcon>;
     suggestion: FormGroup;
     disableBtn = true;
     ionIconRatingData = [
@@ -44,7 +42,6 @@ export class SugestiiPage implements OnInit {
     ];
     constructor(
         private formBuilder: FormBuilder,
-        private renderer: Renderer2,
         private sugestiiS: SugestiiService
     ) { }
 
@@ -54,20 +51,9 @@ export class SugestiiPage implements OnInit {
 
     initForm() {
         this.suggestion = this.formBuilder.group( {
-            userComment: [ '', [ Validators.required, Validators.minLength( 50 ) ] ],
-            userRating: [ '', [ Validators.required ] ],
+            userMessage: [ '', [ Validators.required, Validators.minLength( 50 ) ] ],
+            userSuggestionRating: [ '', [ Validators.required ] ],
         } );
-
-        // this.resetAllIconColorState();
-    }
-    _setIconRatingValue( event: any ) {
-        // this.resetAllIconColor();
-        const getRate = this.ionIconRatingData.find( ( data ) => data.name.toLowerCase() === event.target.name.toLowerCase() );
-        // patchValue or setValue
-        this.suggestion.patchValue( {
-            userRating: getRate.rate,
-        } );
-        this.renderer.setAttribute( event.target, 'color', 'success' );
 
     }
     setIconRatingValue( event: any ) {
@@ -77,7 +63,7 @@ export class SugestiiPage implements OnInit {
         const getIcon = this.ionIconRatingData.find( ( data ) => data.name.toLowerCase() === event.target.name.toLowerCase() );
         // patchValue or setValue can be used to update Reactiveform
         this.suggestion.patchValue( {
-            userRating: getIcon.rate,
+            userSuggestionRating: getIcon.rate,
         } );
         // update color of icon
         getIcon.color = 'success';
@@ -92,8 +78,8 @@ export class SugestiiPage implements OnInit {
         // check if form is valid
         if ( this.suggestion.valid ) {
             const sugestiiData = {
-                message: this.suggestion.controls.userComment.value,
-                rating: this.suggestion.controls.userRating.value
+                message: this.suggestion.controls.userMessage.value,
+                suggestion: this.suggestion.controls.userSuggestionRating.value
             };
             this.sugestiiS.postSugestii( sugestiiData ).subscribe(
                 response => { },
