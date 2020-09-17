@@ -125,7 +125,7 @@ export class HomePage implements OnInit {
     id: 'account',
     itemClass: 'flex-1 mt-n16 p-16 mb-12',
     isButton: true,
-    isHidden: false,
+    isHidden: this.account ? this.account.isBiometricValid : false,
     routerLink: [ '/biometrics' ],
   };
   emailCard = {
@@ -137,7 +137,7 @@ export class HomePage implements OnInit {
     textContent: [],
     id: 'email',
     isButton: true,
-    isHidden: false,
+    isHidden: this.account ? this.account.isEmailConfirmed : true,
     routerLink: [ '/profil', 'date-personale', 'validate-email' ],
     itemClass: 'p-16 flex-1 mb-16',
   };
@@ -180,7 +180,7 @@ export class HomePage implements OnInit {
         // set isEmailConfirmed
         // this.emailCard.isHidden = this.account.isEmailConfirmed;
         // set biometricCard
-        this.biometricCard.isHidden = this.account.isBiometricValid ? true : false;
+        // this.biometricCard.isHidden = this.account.isBiometricValid ? true : false;
 
         console.log( this.emailCard, this.biometricCard );
         this.accountActivated = this.authS.accountActivated( account );
