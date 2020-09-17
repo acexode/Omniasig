@@ -31,6 +31,7 @@ export const baseEndpoints = {
   policy: serverBaseUrl + '/policy',
   userProfile: serverBaseUrl + '/UserProfile',
   pad: serverBaseUrl + '/PADInsurance',
+  amplus: serverBaseUrl + '/AmplusInsurance',
 };
 
 export const policyEndpoints = {
@@ -42,6 +43,8 @@ export const policyEndpoints = {
   // real endpoints
   GetActivePADOffers: serverBaseUrl + '/PADInsurance/GetActivePADOffers',
   GetActivePADPolicies: serverBaseUrl + '/PADInsurance/GetActivePADPolicies',
+  GetActiveAmplusOffers:
+    serverBaseUrl + '/AmplusInsurance/GetActiveAmplusOffers',
 };
 
 export const locuinteEndpoints = {
@@ -74,4 +77,10 @@ export const padEndpoints = {
   VerifyPADInsuranceOffer: baseEndpoints.pad + '/VerifyPADInsuranceOffer',
   CreatePADInsuranceOffer: baseEndpoints.pad + '/CreatePADInsuranceOffer',
   CreatePADInsurancePolicy: baseEndpoints.pad + '/CreatePADInsurancePolicy',
+};
+
+export const amplusEndpoints = {
+  base: baseEndpoints.amplus,
+  CreateAmplusInsuranceOffer:
+    baseEndpoints.amplus + '/CreateAmplusInsuranceOffer',
 };
