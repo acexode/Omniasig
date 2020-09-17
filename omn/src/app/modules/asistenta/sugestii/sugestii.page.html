@@ -13,37 +13,37 @@
         class="ion-no-padding flex flex-1 w-100 ion-align-items-center pr-32 pl-32"
       >
         <form [formGroup]="suggestion" class="w-100">
-            <div>
-                <!-- autoGrow added to make text feild reponsive to inputs -->
-              <ion-textarea
-                formControlName="userComment"
-                rows="4"
-                cols="20"
-                class="bg-grey-medium bottom-1px-solid px-5 w-100 top-radius-4"
-                autoGrow="true"
-                placeholder="Completează"
-                inputmode="text"
-              >
-              </ion-textarea>
-              <!--  -->
-            </div>
-            <ion-item lines="none" class="ion-no-padding">
-              <ion-text class="input-label text-weight-medium pt-10 pb-10">
-                Vă place aplicația noastră?
-              </ion-text>
-            </ion-item>
-            <div
-              class="flex w-100 flex-1 flex-row ion-justify-content-between ion-align-items-center"
+          <div>
+            <!-- autoGrow added to make text feild reponsive to inputs -->
+            <ion-textarea
+              formControlName="userComment"
+              rows="4"
+              cols="20"
+              class="bg-grey-medium bottom-1px-solid px-5 w-100 top-radius-4"
+              autoGrow="true"
+              placeholder="Completează"
+              inputmode="text"
             >
-              <ion-icon
-                *ngFor="let item of ionIconRatingData"
-                class="icon-40 px-10"
-                name="{{item.name}}"
-                (click)="setIconRatingValue($event)"
-                color="{{item.color}}"
-              >
-              </ion-icon>
-            </div>
+            </ion-textarea>
+            <!--  -->
+          </div>
+          <ion-item lines="none" class="ion-no-padding">
+            <ion-text class="input-label text-weight-medium pt-10 pb-10">
+              Vă place aplicația noastră?
+            </ion-text>
+          </ion-item>
+          <div
+            class="flex w-100 flex-1 flex-row ion-justify-content-between ion-align-items-center"
+          >
+            <ion-icon
+              *ngFor="let item of ionIconRatingData"
+              class="icon-40 px-10"
+              name="{{item.name}}"
+              (click)="setIconRatingValue(item?.rate)"
+              [color]="item?.rate === userRating?.value?'success':'omn-medium'"
+            >
+            </ion-icon>
+          </div>
         </form>
       </ion-col>
     </ion-row>
@@ -54,7 +54,7 @@
           size="large"
           shape="round"
           mode="md"
-          [disabled]="suggestion.invalid"
+          [disabled]="!suggestion.valid"
           (click)="process()"
         >
           Trimite
