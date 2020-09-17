@@ -16,24 +16,20 @@
           <ion-label
             class="ion-text-center text-small w-100 color-tertiary-grey"
           >
-            18.05.2020 , 09:30
+          {{doc?.date | date:'h:mm a z'}}
           </ion-label>
         </ion-row>
         <ion-row class="mb-24">
           <ion-label
             class="alt-font w-100 ion-text-center s32-h38 text-weight-medium color-dark-green oferta-asigurare-ser"
           >
-            Oferta asigurare SERIE 1234567890
+            {{doc?.title}}
           </ion-label>
         </ion-row>
         <ion-row class="mb-24">
           <ion-text
             class="doc-details alt-text ion-text-center w-100 right-padding vertical-spacing mb-22 mt-auto ls-min-02"
-            >Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-            Suspendisse tellus velit, pulvinar non aliquam vel, lacinia
-            elementum nibh. Donec non enim accumsan, fermentum massa eget,
-            facilisis mauris. Suspendisse in molestie erat, interdum tincidunt
-            quam.</ion-text
+            >{{doc?.description}}</ion-text
           >
         </ion-row>
         <ion-row
@@ -43,6 +39,7 @@
             class="flex w-100"
             color="success"
             fill="solid"
+            (click)="downloadFile(doc.file, doc.title)"
             expand="block"
             size="large"
             >Descarca atasament</ion-button

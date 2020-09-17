@@ -7,7 +7,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 })
 export class ExpandableComponent implements OnInit {
   @Input() name: string;
-  @Input() doc: [];
+  @Input() doc: any;
   @Output() changeEv: EventEmitter<string> = new EventEmitter();
   public isMenuOpen = false;
 
@@ -15,6 +15,7 @@ export class ExpandableComponent implements OnInit {
     this.isMenuOpen = !this.isMenuOpen;
   }
   public broadcastName(name: string): void {
+    console.log(name)
     this.changeEv.emit(name);
   }
   constructor() {}

@@ -24,7 +24,7 @@
 >
   <ion-list class="w-100 pt-0">
     <ion-item
-      *ngFor="let item of doc"
+    *ngFor="let item of doc"
       class="expandable-item ml-32 position-relative flex"
       [routerLink]="[item?.id]"
     >
@@ -42,12 +42,12 @@
             class="ion-no-padding pr-16 flex ion-nowrap overflow-ellipsis white-space-nowrap"
           >
             <ion-label class="text-small text-weight-bold ls-min-02">
-              {{ item?.name }}
+              {{ item?.title }}
             </ion-label>
           </ion-col>
           <ion-col class="flex-0 ion-no-padding ion-justify-content-end">
             <ion-label class="data ion-text-end text-small color-tertiary-grey">
-              {{ item?.date }}
+              {{ item?.date | date }}
             </ion-label>
           </ion-col>
         </ion-row>
@@ -55,7 +55,7 @@
           <ion-text
             class="subiect text-normal overflow-ellipsis ion-nowrap white-space-nowrap"
           >
-            {{ item?.desc }}
+            {{ item?.description }} {{ item?.offerCode }} {{item?.policyNo}}
           </ion-text>
         </ion-row>
       </ion-col>
