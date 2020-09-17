@@ -4,7 +4,7 @@
     [routerLink]="'/home'"
     routerLinkActive="active"
     #rla="routerLinkActive"
-    class="pb-16"
+    class="pb-11"
     [selected]="rla?.isActive"
     [routerDirection]="'back'"
   >
@@ -31,7 +31,7 @@
     [selected]="rla2?.isActive"
     routerDirection="root"
     #rla2="routerLinkActive"
-    class="pb-16"
+    class="pb-11"
     [routerDirection]="rla3?.isActive ? 'back' : 'forward'"
   >
     <ion-icon [hidden]="!rla2?.isActive" name="md-active-polita"></ion-icon>
@@ -70,7 +70,7 @@
       color="success"
     ></ion-icon>
     <ion-label
-      class="custom-label link-small"
+      class="custom-label link-small mb-2"
       [ngClass]="{
         'text-weight-medium label-border': rla4?.isActive
       }"
@@ -88,7 +88,7 @@
     routerDirection="root"
     #rla3="routerLinkActive"
     [routerDirection]="'forward'"
-    class="pb-16"
+    class="pb-11"
   >
     <ion-icon [hidden]="!rla3?.isActive" name="md-active-user"></ion-icon>
     <ion-icon
