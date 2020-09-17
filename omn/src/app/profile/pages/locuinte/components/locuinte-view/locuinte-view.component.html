@@ -20,7 +20,7 @@
       </ion-label>
     </ion-row>
 
-    <ion-row class="pb-64 alt-bg">
+    <ion-row class="pb-64 alt-bg ">
       <ion-col>
         <ion-row
           class="mt-n24 w-auto mx-42 ion-justify-content-center ion-nowrap ion-align-self-center"
@@ -134,7 +134,7 @@
           <ion-text class="s18-h24">{{ locuinta?.rooms || '-' }}</ion-text>
         </ion-row>
 
-        <ion-row class="px-32 mb-13 w-100 flex-column">
+        <ion-row class="px-32 mb-13 w-100  flex-column">
           <ion-label class="link-small text-weight-medium color-tertiary-grey"
             >Alarmă antiefracție</ion-label
           >
@@ -143,11 +143,11 @@
           }}</ion-text>
         </ion-row>
 
-        <ion-row class="px-16">
+        <ion-row class="px-16 w-100 mh-100">
           <app-locuinte-view-card
             (click)="demoType()"
             [variant]="variant"
-            class="w-100"
+            class="w-100 mh-100"
           ></app-locuinte-view-card>
         </ion-row>
       </ion-col>
