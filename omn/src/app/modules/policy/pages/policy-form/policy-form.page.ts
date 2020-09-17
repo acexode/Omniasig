@@ -309,7 +309,12 @@ export class PolicyFormPage implements OnInit, OnDestroy {
         this.changeStep(this.policySteps.CESIUNE_FORM);
         break;
       case this.policySteps.POLICY_VERIFY:
-        this.changeStep(this.policySteps.PERIOD_FORM);
+        if (this.policyID === 'PAD') {
+          this.changeStep(this.policySteps.PERIOD_FORM);
+        } else {
+          this.changeStep(this.policySteps.WAY_TO_PAY);
+        }
+
         break;
       case this.policySteps.ADDRESS_FORM:
       case this.policySteps.LOCATION_FORM:
@@ -464,8 +469,6 @@ export class PolicyFormPage implements OnInit, OnDestroy {
       this.setMinDate(get(this.selectedAddressItem, 'policy', null));
       switch (this.policyID) {
         case 'AMPLUS':
-          this.changeStep(this.policySteps.CESIUNE_FORM);
-          break;
         case 'PAD':
           this.next();
           break;
@@ -492,12 +495,10 @@ export class PolicyFormPage implements OnInit, OnDestroy {
         this.changeStep(this.policySteps.PAD_CHECK);
         break;
       case LocuinteFormType.PLACE:
-        if (this.policyID === 'PAD') {
+        if (this.policyID === 'PAD' || this.policyID === 'AMPLUS') {
           this.changeStep(this.policySteps.LOCATION_FORM);
-        } else if (this.policyID === 'AMPLUS') {
-          this.changeStep(this.policySteps.CESIUNE_FORM);
         } else {
-          //TODO: handle PAD + AMPLUS here
+          // TODO: handle PAD + AMPLUS here
         }
 
         break;
