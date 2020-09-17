@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { BiometricsComponent } from './biometrics.component';
 import { InfoComponent } from './info/info.component';
+import { ConfirmareIdentitateComponent } from './confirmare-identitate/confirmare-identitate.component';
 
 const routes: Routes = [
   {
@@ -12,6 +13,10 @@ const routes: Routes = [
   {
     path: 'info',
     component: InfoComponent,
+  },
+  {
+    path: 'confirmare-identitate',
+    component: ConfirmareIdentitateComponent,
   },
   {
     path: 'more-details',

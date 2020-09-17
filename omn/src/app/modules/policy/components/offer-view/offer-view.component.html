@@ -16,11 +16,11 @@
                 Prețul poliței*
               </ion-label>
               <ion-label class="x-large text-weight-bold alt-font mb-8">
-                {{ offer?.policy?.locuintaData?.info?.valueSum * 4.9 }} lei
+                {{ offer?.policy?.locuintaData?.value * 4.9 }} lei
               </ion-label>
               <ion-label class="text-normal text-weight-medium">
-                {{ offer?.policy?.locuintaData?.info?.valueSum }} Euro la cursul
-                de 4,9 lei/Euro
+                {{ offer?.policy?.locuintaData?.value }} Euro la cursul de 4,9
+                lei/Euro
               </ion-label>
             </ion-card-content>
           </ion-card>
@@ -50,21 +50,31 @@
           </ion-label>
           <ion-label class="text-small">
             Emisa la data de
-            {{ offer?.policy?.dates?.from | date: 'MM.dd.yyyy' }} în baza
-            datelor declarate de ASIGURAT
+            {{ offer?.emisionDate | date: 'dd.MM.yyyy' }} în baza datelor
+            declarate de ASIGURAT
           </ion-label>
         </ion-row>
 
-        <ion-row class="flex-column mb-24">
+        <ion-row
+          class="flex-column mb-24"
+          *ngIf="
+            offer?.policy?.locuintaData?.paidExternalNumarPolita ||
+            offer?.policy?.locuintaData?.paidExternalSeriePolita
+          "
+        >
           <ion-label
             class="link-small text-weight-medium mb-3 color-tertiary-grey"
           >
             Reînnoiește PAD
           </ion-label>
           <ion-label class="s18-h24 alt-font mb-4">
-            Seria: MISSING_DATA
+            Seria:
+            {{ offer?.policy?.locuintaData?.paidExternalSeriePolita || '-' }}
           </ion-label>
-          <ion-label class="s18-h24 mb-21"> Numarul: MISSING_DATA </ion-label>
+          <ion-label class="s18-h24 mb-21">
+            Numarul:
+            {{ offer?.policy?.locuintaData?.paidExternalNumarPolita || '-' }}
+          </ion-label>
           <ion-label class="s18-h24">
             Riscuri acoperite prin contract: cutremure de pământ, alunecări de
             teren şi inundaţii, ca fenomene naturale
@@ -96,7 +106,7 @@
               <div class="link-small text-weight-medium color-tertiary-grey">
                 Suma asigurată
               </div>
-              <ion-text class="s18-h24"> MISSING_DATA Euro</ion-text>
+              <ion-text class="s18-h24"> - Euro</ion-text>
             </ion-label>
           </ion-item>
           <ion-item class="ion-no-padding" lines="none">
@@ -124,11 +134,11 @@
                 Adresa
               </div>
               <ion-text class="s18-h24"
-                >{{ offer?.policy?.locuintaData?.address?.street }}
-                {{ offer?.policy?.locuintaData?.address?.number }}
-                {{ offer?.policy?.locuintaData?.address?.city }} jud
-                {{ offer?.policy?.locuintaData?.address?.postalCode }}
-                {{ offer?.policy?.locuintaData?.address?.county }}</ion-text
+                >{{ offer?.policy?.locuintaData?.addressStreet }}
+                {{ offer?.policy?.locuintaData?.addressBuildingNumber }}
+                {{ offer?.policy?.locuintaData?.addressCity }} jud
+                {{ offer?.policy?.locuintaData?.addressPostalCode }}
+                {{ offer?.policy?.locuintaData?.addressCounty }}</ion-text
               >
             </ion-label>
           </ion-item>
@@ -138,7 +148,7 @@
                 Tip
               </div>
               <ion-text class="s18-h24">{{
-                offer?.policy?.locuintaData?.info?.type | locuinteField: 'type'
+                offer?.policy?.locuintaData?.type | locuinteField: 'type'
               }}</ion-text>
             </ion-label>
           </ion-item>
@@ -148,8 +158,8 @@
                 Structură de rezistență
               </div>
               <ion-text class="s18-h24">{{
-                offer?.policy?.locuintaData?.info?.resistenceStructure
-                  | locuinteField: 'resistenceStructure'
+                offer?.policy?.locuintaData?.structure
+                  | locuinteField: 'structure'
               }}</ion-text>
             </ion-label>
           </ion-item>
@@ -159,7 +169,7 @@
                 Anul construcției
               </div>
               <ion-text class="s18-h24">{{
-                offer?.policy.locuintaData?.info?.buildYear
+                offer?.policy.locuintaData?.yearConstruction
               }}</ion-text>
             </ion-label>
           </ion-item>
@@ -169,10 +179,7 @@
                 Suprafața utilă
               </div>
               <ion-text class="s18-h24"
-                >{{
-                  offer?.policy?.locuintaData?.info?.usableSurface
-                }}
-                mp</ion-text
+                >{{ offer?.policy?.locuintaData?.area }} mp</ion-text
               >
             </ion-label>
           </ion-item>
@@ -182,10 +189,7 @@
                 Regim de înălțime
               </div>
               <ion-text class="s18-h24"
-                >{{
-                  offer?.policy?.locuintaData?.info?.heightRegime
-                }}
-                etaje</ion-text
+                >{{ offer?.policy?.locuintaData?.floors }} etaje</ion-text
               >
             </ion-label>
           </ion-item>
@@ -195,28 +199,36 @@
                 Număr de camere
               </div>
               <ion-text class="s18-h24">{{
-                offer?.policy?.locuintaData?.info?.roomCount
+                offer?.policy?.locuintaData?.rooms
               }}</ion-text>
             </ion-label>
           </ion-item>
-          <ion-item class="ion-no-padding mb-21" lines="none">
+          <ion-item
+            class="ion-no-padding mb-21"
+            lines="none"
+            *ngIf="offer?.policy?.cesiune?.length"
+          >
             <ion-label class="ion-text-wrap ion-no-margin">
               <div class="link-small text-weight-medium color-tertiary-grey">
                 Cesiune
               </div>
-              <div class="w-100">
-                <ion-text class="s18-h24"
-                  >Denumire cesionar: MISSING_DATA
-                </ion-text>
-              </div>
-              <div class="w-100">
-                <ion-text class="s18-h24 w-100">CUI: MISSING_DATA </ion-text>
-              </div>
-              <div class="w-100">
-                <ion-text class="s18-h24 w-100"
-                  >Procent: MISSING_DATA%
-                </ion-text>
-              </div>
+              <ng-container *ngFor="let cesiune of offer?.policy?.cesiune">
+                <div class="w-100">
+                  <ion-text class="s18-h24"
+                    >Denumire cesionar: {{ cesiune?.denumireCesionar || '-' }}
+                  </ion-text>
+                </div>
+                <div class="w-100">
+                  <ion-text class="s18-h24 w-100"
+                    >CUI: {{ cesiune?.cui || '-' }}
+                  </ion-text>
+                </div>
+                <div class="w-100">
+                  <ion-text class="s18-h24 w-100"
+                    >Procent: {{ cesiune?.procent || '-' }}%
+                  </ion-text>
+                </div>
+              </ng-container>
             </ion-label>
           </ion-item>
         </ion-row>
@@ -271,6 +283,7 @@
         color="success"
         expand="full"
         shape="round"
+        (click)="pay()"
         >Plătește</ion-button
       >
     </ion-row>
@@ -398,11 +411,11 @@
                 Adresa
               </div>
               <ion-text class="s18-h24"
-                >{{ offer?.policy?.locuintaData?.address?.street }}
-                {{ offer?.policy?.locuintaData?.address?.number }}
-                {{ offer?.policy?.locuintaData?.address?.city }} jud
-                {{ offer?.policy?.locuintaData?.address?.postalCode }}
-                {{ offer?.policy?.locuintaData?.address?.county }}</ion-text
+                >{{ offer?.policy?.locuintaData?.addressStreet }}
+                {{ offer?.policy?.locuintaData?.addressBuildingNumber }}
+                {{ offer?.policy?.locuintaData?.addressCity }} jud
+                {{ offer?.policy?.locuintaData?.addressPostalCode }}
+                {{ offer?.policy?.locuintaData?.addressCounty }}</ion-text
               >
             </ion-label>
           </ion-item>
@@ -412,7 +425,7 @@
                 Tip
               </div>
               <ion-text class="s18-h24">{{
-                offer?.policy?.locuintaData?.info?.type | locuinteField: 'type'
+                offer?.policy?.locuintaData?.type | locuinteField: 'type'
               }}</ion-text>
             </ion-label>
           </ion-item>
@@ -422,7 +435,7 @@
                 Structură de rezistență
               </div>
               <ion-text class="s18-h24">{{
-                offer?.policy?.locuintaData?.info?.resistenceStructure
+                offer?.policy?.locuintaData?.structure
                   | locuinteField: 'resistenceStructure'
               }}</ion-text>
             </ion-label>
@@ -433,7 +446,7 @@
                 Anul construcției
               </div>
               <ion-text class="s18-h24">{{
-                offer?.policy.locuintaData?.info?.buildYear
+                offer?.policy.locuintaData?.yearConstruction
               }}</ion-text>
             </ion-label>
           </ion-item>
@@ -467,10 +480,7 @@
                 Regim de înălțime
               </div>
               <ion-text class="s18-h24"
-                >{{
-                  offer?.policy?.locuintaData?.info?.heightRegime
-                }}
-                etaje</ion-text
+                >{{ offer?.policy?.locuintaData?.floors }} etaje</ion-text
               >
             </ion-label>
           </ion-item>
@@ -480,7 +490,7 @@
                 Număr de camere
               </div>
               <ion-text class="s18-h24">{{
-                offer?.policy?.locuintaData?.info?.roomCount
+                offer?.policy?.locuintaData?.rooms
               }}</ion-text>
             </ion-label>
           </ion-item>
@@ -727,10 +737,9 @@
                 Notificări
               </ion-text>
             </div>
-            <ion-text class="s18-h24 ion-inherit-color">
-              Vrei să primești notificări când trebuie <br />
-              să reînnoiești polița sau când trebuie <br />
-              să plătești o rată?..
+            <ion-text class="s18-h24 ion-inherit-color w-100">
+              Vrei să primești notificări când trebuie să reînnoiești polița sau
+              când trebuie să plătești o rată?..
             </ion-text>
           </div>
         </ion-col>

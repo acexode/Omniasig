@@ -17,17 +17,18 @@ export class PolicyViewComponent implements OnInit {
   isAmplus = false;
   calEntry: CalendarEntry;
   policy: PolicyItem;
+
   constructor(
     private route: ActivatedRoute,
     private policyDataService: PolicyDataService,
     private navCtrl: NavController
-  ) {}
-
-  ngOnInit(): void {
+  ) {
     this.route.params.subscribe((params: any) => {
       this.getPolicyById(params.id);
     });
   }
+
+  ngOnInit(): void {}
 
   getPolicyById(id) {
     this.policyDataService
@@ -41,7 +42,6 @@ export class PolicyViewComponent implements OnInit {
         }
       });
   }
-
   setCalEntry(policy: PolicyItem) {
     const date = get(policy, 'dates.to', null);
     let processedDate;

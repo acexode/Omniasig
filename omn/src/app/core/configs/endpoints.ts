@@ -18,11 +18,19 @@ export const authEndpoints = {
   confirmPincodeReset:
     serverBaseUrl + '/UserProfile/ConfirmPinChangeWithoutAuthentification',
   updatePassword: serverBaseUrl + '/UserProfile/UpdatePassword',
+  ChangeMarketingAndNotificationSettings:
+    serverBaseUrl + '/UserProfile/ChangeMarketingAndNotificationSettings',
+  confirmNewEmail:
+    serverBaseUrl + '/UserProfile/ConfirmEmailForRegisterUserProfile',
+  confirmEmailChange: serverBaseUrl + '/UserProfile/ConfirmationNewEmailChange',
+  changeEmail: serverBaseUrl + '/UserProfile/RequestNewEmailChange',
+  updateUserProfile: serverBaseUrl + '/UserProfile/UpdateUserProfile',
 };
 
 export const baseEndpoints = {
   policy: serverBaseUrl + '/policy',
   userProfile: serverBaseUrl + '/UserProfile',
+  pad: serverBaseUrl + '/PADInsurance',
 };
 
 export const policyEndpoints = {
@@ -38,15 +46,32 @@ export const policyEndpoints = {
 
 export const locuinteEndpoints = {
   base: serverBaseUrl + '/locuinte',
-  add: serverBaseUrl + '/Address/AddAddress',
-  makeHomeAddress: serverBaseUrl + '/Address/MakeHomeAddress',
-  AlluserLocation: serverBaseUrl + '/Address/GetAllAddressesForLoggedUser',
+  add: serverBaseUrl + '/Location/AddAddressLocation',
+  makeHomeAddress: serverBaseUrl + '/Location/MakeLocationHomeAddress',
+  AlluserLocation: serverBaseUrl + '/Location/GetAllLocationsForLoggedUser',
   updateAddress: serverBaseUrl + '/Location/UpdateLocationForAddressId',
-  disAbleLocation: serverBaseUrl + '/Location/DisableLocationForAddressId',
+  disAbleLocation: serverBaseUrl + '/Location/DisableLocation',
+  GetAllLocationsForLoggedUser:
+    serverBaseUrl + '/Location/GetAllLocationsForLoggedUser',
+  singleLocation: serverBaseUrl + '/Location/GetLocationByIdForLoggedUser',
+  getCities: serverBaseUrl + '/INSIS/Cities',
+  getCounties: serverBaseUrl + '/INSIS/Counties',
+  getStreets: serverBaseUrl + '/INSIS/Streets',
 };
 
 export const phoneNumberEndPoints = {
   RequestNewPhoneNumberChange:
     baseEndpoints.userProfile + '/RequestNewPhoneNumberChange',
   ConfirmNewPhoneNumber: baseEndpoints.userProfile + '/ConfirmNewPhoneNumber',
+};
+
+export const sugestii = {
+  base: baseEndpoints.userProfile + '/ChangeSuggestions',
+};
+
+export const padEndpoints = {
+  base: baseEndpoints.pad,
+  VerifyPADInsuranceOffer: baseEndpoints.pad + '/VerifyPADInsuranceOffer',
+  CreatePADInsuranceOffer: baseEndpoints.pad + '/CreatePADInsuranceOffer',
+  CreatePADInsurancePolicy: baseEndpoints.pad + '/CreatePADInsurancePolicy',
 };

@@ -15,9 +15,9 @@ export class LocuinteNamePipe implements PipeTransform {
         return join(
           [
             get(value, 'name', null),
-            get(value, 'address.street', null),
-            get(value, 'address.city', null),
-            get(value, 'address.county', ''),
+            get(value, 'addressStreet', null),
+            get(value, 'addressCity', null),
+            get(value, 'addressCounty', ''),
           ].filter((v) => v !== null),
           ', '
         );
@@ -25,11 +25,29 @@ export class LocuinteNamePipe implements PipeTransform {
         return join(
           [
             'Strada ' +
-              get(value, 'address.street', null) +
+              get(value, 'addressStreet', null) +
               ' ' +
-              get(value, 'address.number', null),
-            get(value, 'address.city', null),
-            'jud. ' + get(value, 'address.county', ''),
+              get(value, 'addressBuildingNumber', null),
+            get(value, 'addressCity', null),
+            'jud. ' + get(value, 'addressCounty', ''),
+          ].filter((v) => v !== null),
+          ', '
+        );
+      case 'domiciliu-list':
+        return join(
+          [
+            get(value, 'addressStreet', null)
+              ? 'Strada ' + get(value, 'addressStreet', '')
+              : '' + ' ',
+            get(value, 'addressBuildingNumber', ''),
+            get(value, 'addressCity', null),
+            get(value, 'addressCounty', null)
+              ? 'jud. ' + get(value, 'addressCounty', '')
+              : '',
+
+            get(value, 'addressPostalCode', null)
+              ? 'Cod ' + get(value, 'addressPostalCode', '')
+              : '',
           ].filter((v) => v !== null),
           ', '
         );
@@ -37,12 +55,12 @@ export class LocuinteNamePipe implements PipeTransform {
         return join(
           [
             'Strada ' +
-              get(value, 'address.street', null) +
+              get(value, 'addressStreet', null) +
               ' ' +
-              get(value, 'address.number', null),
-            get(value, 'address.city', null),
-            'judetul ' + get(value, 'address.county', ''),
-            'Cod ' + get(value, 'address.postalCode', ''),
+              get(value, 'addressBuildingNumber', null),
+            get(value, 'addressCity', null),
+            'judetul ' + get(value, 'addressCounty', ''),
+            'Cod ' + get(value, 'addressPostalCode', ''),
           ].filter((v) => v !== null),
           ', '
         );
