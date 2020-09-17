@@ -154,9 +154,12 @@ export class AuthService {
   doLogout() {
     this.storeS.removeItem('account');
     this.storeS.removeItem('token');
+    this.storeS.removeItem('phoneNumber');
+
     this.authState.next({
       ...this.initialState,
     });
+
     this.routerS.navigateByUrl('/login');
   }
 
@@ -253,6 +256,7 @@ export class AuthService {
     name?: string;
     surname?: string;
     dateBirth?: any;
+    [key: string]: any;
   }) {
     const account = this.authState.value.account;
     const newAccount = { ...account, ...data };
