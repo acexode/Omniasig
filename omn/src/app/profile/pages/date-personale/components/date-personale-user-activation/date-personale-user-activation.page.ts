@@ -4,23 +4,22 @@ import { ImageCard } from 'src/app/shared/models/component/image-card';
 import { SubPageHeader } from 'src/app/shared/models/component/sub-page-header';
 import { subPageHeaderSecondary } from 'src/app/shared/data/sub-page-header-secondary';
 
-@Component({
+@Component( {
   selector: 'app-date-personale-user-activation',
   templateUrl: './date-personale-user-activation.page.html',
-  styleUrls: ['./date-personale-user-activation.page.scss'],
-})
+  styleUrls: [ './date-personale-user-activation.page.scss' ],
+} )
 export class DatePersonaleUserActivationPage implements OnInit {
-  @HostBinding('class') color = 'ion-color-white-page';
+  @HostBinding( 'class' ) color = 'ion-color-white-page';
   userActivationModes = UserActivateModes;
   headerConfig: SubPageHeader = {
-    ...subPageHeaderSecondary('Activare cont'),
+    ...subPageHeaderSecondary( 'Activare cont' ),
     leadingIcon: null,
     trailingIcon: null,
   };
   displayMode: UserActivateModes = this.userActivationModes.EXISTING;
-  itemClass = `py-8 flex-1 mb-16 ${
-    this.displayMode === UserActivateModes.NEW_USER && 'lighter-green-gradient'
-  }`;
+  itemClass = `py-8 flex-1 mb-16 ${ this.displayMode === UserActivateModes.NEW_USER && 'lighter-green-gradient'
+    }`;
   actions: Array<ImageCard> = [
     {
       mainIcon: {
@@ -35,7 +34,8 @@ export class DatePersonaleUserActivationPage implements OnInit {
         },
       ],
       id: 'validate-id',
-      routerLink: ['/biometrics'],
+      routerLink: [ '/biometrics' ],
+      isHidden: true,
       itemClass: this.itemClass,
     },
     {
@@ -51,12 +51,12 @@ export class DatePersonaleUserActivationPage implements OnInit {
         },
       ],
       id: 'validate-email',
-      routerLink: ['/profil', 'date-personale', 'validate-email'],
+      routerLink: [ '/profil', 'date-personale', 'validate-email' ],
       itemClass: this.itemClass,
     },
   ];
 
-  constructor() {}
+  constructor() { }
 
-  ngOnInit() {}
+  ngOnInit() { }
 }

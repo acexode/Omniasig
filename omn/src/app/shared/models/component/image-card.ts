@@ -18,4 +18,5 @@ export interface ImageCard {
   routerLink?: any;
   itemClass?: string;
   isDisabled?: boolean;
+  isHidden?: boolean;
 }

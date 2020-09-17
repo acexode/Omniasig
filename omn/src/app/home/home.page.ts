@@ -126,7 +126,7 @@ export class HomePage implements OnInit {
     id: 'account',
     itemClass: 'flex-1 mt-n16 p-16 mb-12',
     isButton: true,
-    isDisabled: false,
+    isHidden: true,
     routerLink: [ '/biometrics' ],
   };
   emailCard = {
@@ -138,7 +138,7 @@ export class HomePage implements OnInit {
     textContent: [],
     id: 'email',
     isButton: true,
-    isDisabled: false,
+    isHidden: this.account?.isEmailConfirmed ? true : false,
     routerLink: [ '/profil', 'date-personale', 'validate-email' ],
     itemClass: 'p-16 flex-1 mb-16',
   };
@@ -179,7 +179,7 @@ export class HomePage implements OnInit {
       this.account = account;
       if ( account ) {
         this.accountActivated = this.authS.accountActivated( account );
-        console.log( this.accountActivated, this.account );
+        console.log( this.accountActivated, this.account, this.emailCard, this.biometricCard );
         if ( this.accountActivated ) {
           this.policyS.policyStore$.subscribe( ( v ) =>
             this.policies$.next( this.mapPolicies( v ) )
@@ -188,12 +188,13 @@ export class HomePage implements OnInit {
             this.offers$.next( this.mapOffers( v ) )
           );
         } else {
-          this.displayWhatNeedToBeActivated( this.account );
+          // this.displayWhatNeedToBeActivated( this.account );
         }
       }
       this.cdRef.markForCheck();
     } );
   }
+  set
   /* accountNotActvated */
   displayWhatNeedToBeActivated( { isBiometricValid, isEmailConfirmed } ) {
     console.log( { isBiometricValid, isEmailConfirmed } );

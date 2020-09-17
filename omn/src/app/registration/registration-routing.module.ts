@@ -14,8 +14,9 @@ import { RegPasscodeComponent } from './reg-passcode/reg-passcode.component';
 const routes: Routes = [
   {
     path: '',
-    canActivate: [LoginGuard],
-    component: RegNumarTelefonComponent,
+    // canActivate: [LoginGuard],
+    // component: RegNumarTelefonComponent,
+    component: ContCreatComponent,
   },
   {
     path: 'confirm-number',
