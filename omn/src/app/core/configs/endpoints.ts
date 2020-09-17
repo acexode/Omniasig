@@ -6,6 +6,7 @@ export const authEndpoints = {
   findUserByPhoneNumber:
     serverBaseUrl + '/UserProfile/GetUserNameByPhoneNumber',
   getUserProfile: serverBaseUrl + '/UserProfile/GetUserProfile',
+  updateUserProfile: serverBaseUrl + '/UserProfile/UpdateUserProfile',
   sendPhoneNumberSms: serverBaseUrl + '/UserProfile/SmsPhoneNumberVerification',
   confirmPhoneNumberSms: serverBaseUrl + '/UserProfile/SmsPhoneNumberConfirm',
   GetUserNameByPhoneNumber:
@@ -17,11 +18,13 @@ export const authEndpoints = {
     serverBaseUrl + '/UserProfile/RequestPinChangeWithoutAuthentification',
   confirmPincodeReset:
     serverBaseUrl + '/UserProfile/ConfirmPinChangeWithoutAuthentification',
+  updatePassword: serverBaseUrl + '/UserProfile/UpdatePassword',
+  ChangeMarketingAndNotificationSettings:
+    serverBaseUrl + '/UserProfile/ChangeMarketingAndNotificationSettings',
   confirmNewEmail:
     serverBaseUrl + '/UserProfile/ConfirmEmailForRegisterUserProfile',
   confirmEmailChange: serverBaseUrl + '/UserProfile/ConfirmationNewEmailChange',
   changeEmail: serverBaseUrl + '/UserProfile/RequestNewEmailChange',
-  updatePassword: serverBaseUrl + '/UserProfile/UpdatePassword',
 };
 
 export const baseEndpoints = {
@@ -44,14 +47,16 @@ export const policyEndpoints = {
 export const locuinteEndpoints = {
   base: serverBaseUrl + '/locuinte',
   add: serverBaseUrl + '/Location/AddAddressLocation',
-  makeHomeAddress: serverBaseUrl + '/Address/MakeHomeAddress',
+  makeHomeAddress: serverBaseUrl + '/Location/MakeLocationHomeAddress',
   AlluserLocation: serverBaseUrl + '/Location/GetAllLocationsForLoggedUser',
+  updateAddress: serverBaseUrl + '/Location/UpdateLocationForAddressId',
   disAbleLocation: serverBaseUrl + '/Location/DisableLocation',
+  GetAllLocationsForLoggedUser:
+    serverBaseUrl + '/Location/GetAllLocationsForLoggedUser',
   singleLocation: serverBaseUrl + '/Location/GetLocationByIdForLoggedUser',
   getCities: serverBaseUrl + '/INSIS/Cities',
   getCounties: serverBaseUrl + '/INSIS/Counties',
   getStreets: serverBaseUrl + '/INSIS/Streets',
-  updateAddress: serverBaseUrl + '/Location/UpdateLocation',
 };
 
 export const phoneNumberEndPoints = {
