@@ -5,7 +5,7 @@ ion-alert {
   &.select-alert {
     .alert-wrapper {
       --max-width: calc(100% - 64px);
-      --max-height: calc(100% - 64px);
+      --max-height: calc(100% - 96px);
       .alert-head {
         padding-inline-end: rem(32);
         padding-inline-start: rem(32);
@@ -56,8 +56,9 @@ ion-alert {
         }
       }
       .alert-button-group {
-        padding-top: rem(12);
-        padding-bottom: rem(12);
+        padding-top: rem(15);
+        padding-bottom: rem(15);
+        min-height: 48px;
         .alert-button {
           @extend .ion-color-omn-green;
           color: var(--ion-color-base);
