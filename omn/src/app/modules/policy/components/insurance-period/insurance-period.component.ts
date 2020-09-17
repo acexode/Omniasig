@@ -44,8 +44,8 @@ export class InsurancePeriodComponent implements OnInit {
   constructor(private fb: FormBuilder, private cdRef: ChangeDetectorRef) {}
 
   ngOnInit() {
-    this.minDate.setDate(this.minDate.getDate() + 5); 
-    const minV = this.minDate ? this.minDate : new Date() ;
+    this.minDate.setDate(this.minDate.getDate() + 5);
+    const minV = this.minDate ? this.minDate : new Date();
     const maxV = this.maxDate ? this.maxDate : new Date();
     this.newProp.min = minV instanceof Date ? minV.toISOString() : minV;
     this.newProp.max = maxV instanceof Date ? maxV.toISOString() : maxV;
