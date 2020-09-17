@@ -1,6 +1,7 @@
 import { Component, OnInit, HostBinding } from '@angular/core';
 import { NavController } from '@ionic/angular';
 import { subPageHeaderPrimary } from 'src/app/shared/data/sub-page-header-primary';
+import { DocumenteService } from './services/documente.service';
 
 @Component({
   selector: 'app-documente',
@@ -94,6 +95,10 @@ export class DocumentePage implements OnInit {
       ],
     },
   ];
-  constructor(public navCtrl: NavController) {}
-  ngOnInit(): void {}
+  constructor(public navCtrl: NavController, private docs : DocumenteService) {}
+  ngOnInit(): void {
+    this.docs.GetAllDocumentsForCurrentUser().subscribe(v =>{
+      console.log(v)
+    })
+  }
 }
