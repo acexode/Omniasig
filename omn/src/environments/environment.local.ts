@@ -7,5 +7,5 @@ export const environment = {
     fakeBackend: false,
     recaptchaKey: null,
     activateDelay: 10,
-    release: 2,
+    release: 1,
 };

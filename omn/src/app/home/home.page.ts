@@ -196,7 +196,7 @@ export class HomePage implements OnInit {
   }
   /* accountNotActvated */
   displayWhatNeedToBeActivated( { isBiometricValid, isEmailConfirmed } ) {
-    console.log( { isBiometricValid, isEmailConfirmed })
+    console.log( { isBiometricValid, isEmailConfirmed } );
     if ( isEmailConfirmed && isBiometricValid ) {
       this.disableCard( this.biometricCard );
       this.disableCard( this.emailCard );
