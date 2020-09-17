@@ -29,7 +29,8 @@
       ></app-exclusion-slides>
     </ng-container>
     <ng-container *ngSwitchCase="policySteps?.INFO_DOC">
-      <app-info-doc #infoDocComp (continue)="next()"> </app-info-doc>
+      <app-info-doc [policyID]="policyID" #infoDocComp (continue)="next()">
+      </app-info-doc>
     </ng-container>
 
     <ng-container *ngSwitchCase="policySteps?.ADDRESS_SELECT">
@@ -48,6 +49,20 @@
         class="flex flex-1 w-100 mh-100p"
       ></app-cesiune-form>
     </ng-container>
+    <ng-container *ngSwitchCase="policySteps?.TECHNICAL_SUPPORT">
+      <app-asistenta-technica
+        [assisFormData]="assistFormData"
+        (emitForm)="techSupportSubmit($event)"
+        class="flex flex-1 w-100 mh-100p"
+      ></app-asistenta-technica>
+    </ng-container>
+    <ng-container *ngSwitchCase="policySteps?.WAY_TO_PAY">
+      <app-way-to-pay
+        [payFormData]="wayPayFormData"
+        (eventSubmit)="paySubmit($event)"
+        class="flex flex-1 w-100 mh-100p"
+      ></app-way-to-pay>
+    </ng-container>
     <ng-container *ngSwitchCase="policySteps?.PERIOD_FORM">
       <app-insurance-period
         (emitForm)="periodSubmit($event)"
@@ -60,7 +75,15 @@
       <app-policy-verify
         [offerData]="offerData"
         (goToErrorHandler)="handleError($event)"
+        (calculateEvent)="calculationSubmit()"
       ></app-policy-verify>
+    </ng-container>
+    <ng-container *ngSwitchCase="policySteps?.CALCULATION_LOADER">
+      <app-loading-placeholder
+        [title]="loaderTitle"
+        class="flex flex-1 mh-100p w-100"
+      >
+      </app-loading-placeholder>
     </ng-container>
     <ng-container *ngSwitchDefault>
       <ng-container
