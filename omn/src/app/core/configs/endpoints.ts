@@ -49,7 +49,7 @@ export const locuinteEndpoints = {
   add: serverBaseUrl + '/Location/AddAddressLocation',
   makeHomeAddress: serverBaseUrl + '/Location/MakeLocationHomeAddress',
   AlluserLocation: serverBaseUrl + '/Location/GetAllLocationsForLoggedUser',
-  updateAddress: serverBaseUrl + '/Location/UpdateLocationForAddressId',
+  updateAddress: serverBaseUrl + '/Location/UpdateLocation',
   disAbleLocation: serverBaseUrl + '/Location/DisableLocation',
   GetAllLocationsForLoggedUser:
     serverBaseUrl + '/Location/GetAllLocationsForLoggedUser',

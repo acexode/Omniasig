@@ -1,16 +1,17 @@
-import { get } from 'lodash';
-import { PolicyDataService } from './../../services/policy-data.service';
-import { PadService } from '../../services/pad.service';
 import {
   ChangeDetectionStrategy,
   Component,
+  EventEmitter,
   Input,
   OnInit,
-  EventEmitter,
   Output,
 } from '@angular/core';
-import { PolicyOffer } from 'src/app/shared/models/data/policy-offer';
+import { ActivatedRoute } from '@angular/router';
 import { NavController } from '@ionic/angular';
+import { get } from 'lodash';
+import { PolicyOffer } from 'src/app/shared/models/data/policy-offer';
+import { PadService } from '../../services/pad.service';
+import { PolicyDataService } from './../../services/policy-data.service';
 
 @Component({
   selector: 'app-policy-verify',
@@ -19,17 +20,20 @@ import { NavController } from '@ionic/angular';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PolicyVerifyComponent implements OnInit {
+  policyID;
   @Input() offerData: PolicyOffer;
+  @Output() calculateEvent: EventEmitter<any> = new EventEmitter();
   @Output() goToErrorHandler: EventEmitter<any> = new EventEmitter();
-
   constructor(
     private policyS: PolicyDataService,
-    private padS: PadService,
-    private navCtrl: NavController
+    private navCtrl: NavController,
+    private aRoute: ActivatedRoute,
+    private padS: PadService
   ) {}
 
-  ngOnInit() {}
-
+  ngOnInit() {
+    this.policyID = this.aRoute.snapshot.queryParamMap.get('policyID');
+  }
   addOffer() {
     this.padS
       .CreatePADInsuranceOffer(
@@ -71,5 +75,9 @@ export class PolicyVerifyComponent implements OnInit {
           }
         }
       );
+  }
+
+  calculatePrice() {
+    this.calculateEvent.emit();
   }
 }

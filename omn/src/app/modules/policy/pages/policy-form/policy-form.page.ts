@@ -8,7 +8,7 @@ import {
   OnInit,
   ViewChild,
 } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router, NavigationExtras } from '@angular/router';
 import { NavController } from '@ionic/angular';
 import { cloneDeep, get, has } from 'lodash';
 import { BehaviorSubject, combineLatest } from 'rxjs';
@@ -26,6 +26,7 @@ import { PolicyOffer } from './../../../../shared/models/data/policy-offer';
 import { PolicyFormSteps } from './../../../../shared/models/modes/policy-form-steps';
 import { PolicyDataService } from './../../services/policy-data.service';
 import { PolicyFormService } from './../../services/policy-form.service';
+import { policyTypes } from 'src/app/shared/models/data/policy-types';
 
 @Component({
   selector: 'app-policy-form',
@@ -43,6 +44,8 @@ export class PolicyFormPage implements OnInit, OnDestroy {
   get color() {
     return this.bgWhite ? 'ion-color-white-page' : null;
   }
+  loaderTitle = 'Calculăm costul poliței de asigurare…';
+
   bgWhite = false;
   headerConfig;
   policySteps = PolicyFormSteps;
@@ -62,10 +65,14 @@ export class PolicyFormPage implements OnInit, OnDestroy {
   cesiuneData;
   periodStartData;
   userAccount: Account;
+  wayPayFormData;
+  assistFormData;
   minPeriodStartDate;
   maxPeriodStartDate;
   // This will contain all data needed for an offer.
   offerData: PolicyOffer = null;
+  policyID;
+  reftime;
 
   // Errors.
   defaultErrMsg: Array<IonTextItem> = [
@@ -84,7 +91,8 @@ export class PolicyFormPage implements OnInit, OnDestroy {
     private locS: LocuinteService,
     private policyFs: PolicyFormService,
     private navCtrl: NavController,
-    private cdRef: ChangeDetectorRef
+    private cdRef: ChangeDetectorRef,
+    private router: Router
   ) {}
 
   ngOnInit() {
@@ -95,12 +103,25 @@ export class PolicyFormPage implements OnInit, OnDestroy {
         switchMap(() => {
           return combineLatest([
             this.routerS.processChildDataAsync(this.aRoute, 'step'),
-            this.routerS.processChildDataAsync(this.aRoute, 'policyType'),
           ]);
         })
       )
       .subscribe((vals: any) => {
-        this.typeItem = cloneDeep(vals[1]);
+        this.policyID = this.aRoute.snapshot.queryParamMap.get('policyID');
+        switch (this.policyID) {
+          case 'AMPLUS':
+            this.typeItem = policyTypes.AMPLUS;
+            break;
+          case 'PAD':
+            this.typeItem = policyTypes.PAD;
+            break;
+          case 'Garant AMPLUS+ PAD':
+            this.typeItem = policyTypes.AMPLUS_PAD;
+            break;
+          default:
+            break;
+        }
+
         this.loadLocuinte();
         this.changeStep(vals[0]);
       });
@@ -216,6 +237,25 @@ export class PolicyFormPage implements OnInit, OnDestroy {
           backLink: false,
         });
         break;
+      case this.policySteps.TECHNICAL_SUPPORT:
+        this.headerConfig = policySubpageHeader({
+          title: 'Asistență tehnică',
+          hasTrailingIcon: true,
+          hasLeadingIcon: true,
+          backLink: false,
+        });
+        break;
+      case this.policySteps.WAY_TO_PAY:
+        this.headerConfig = policySubpageHeader({
+          title: 'Modalitate de plată',
+          hasTrailingIcon: true,
+          hasLeadingIcon: true,
+          backLink: false,
+        });
+        break;
+      case this.policySteps.CALCULATION_LOADER:
+        this.headerConfig = null;
+        break;
       default:
         this.headerConfig = policySubpageHeader({
           title: 'Polita',
@@ -270,7 +310,12 @@ export class PolicyFormPage implements OnInit, OnDestroy {
         this.changeStep(this.policySteps.CESIUNE_FORM);
         break;
       case this.policySteps.POLICY_VERIFY:
-        this.changeStep(this.policySteps.PERIOD_FORM);
+        if (this.policyID === 'PAD') {
+          this.changeStep(this.policySteps.PERIOD_FORM);
+        } else {
+          this.changeStep(this.policySteps.WAY_TO_PAY);
+        }
+
         break;
       case this.policySteps.ADDRESS_FORM:
       case this.policySteps.LOCATION_FORM:
@@ -280,7 +325,18 @@ export class PolicyFormPage implements OnInit, OnDestroy {
         } else {
           this.navigateBackForm();
         }
-
+        break;
+      case this.policySteps.ADDRESS_FORM:
+        this.changeStep(this.policySteps.ADDRESS_SELECT);
+        break;
+      case this.policySteps.TECHNICAL_SUPPORT:
+        this.changeStep(this.policySteps.PERIOD_FORM);
+        break;
+      case this.policySteps.WAY_TO_PAY:
+        this.changeStep(this.policySteps.TECHNICAL_SUPPORT);
+        break;
+      case this.policySteps.CALCULATION_LOADER:
+        this.changeStep(this.policySteps.POLICY_VERIFY);
         break;
       default:
         break;
@@ -316,6 +372,8 @@ export class PolicyFormPage implements OnInit, OnDestroy {
           pType: this.typeItem as PolicyType,
           cesiune: get(this.cesiuneData, 'cesionar', []),
           fromDate: this.periodStartData,
+          payData: this.wayPayFormData,
+          supportData: this.assistFormData,
         });
         this.changeStep(this.policySteps.POLICY_VERIFY);
         break;
@@ -332,6 +390,7 @@ export class PolicyFormPage implements OnInit, OnDestroy {
     this.bgWhite = false;
     switch (this.currentStep) {
       case this.policySteps.DNT:
+      case this.policySteps.TECHNICAL_SUPPORT:
         this.bgWhite = false;
         break;
       case this.policySteps.INFO_DOC:
@@ -342,6 +401,7 @@ export class PolicyFormPage implements OnInit, OnDestroy {
       case this.policySteps.CESIUNE_FORM:
       case this.policySteps.PERIOD_FORM:
       case this.policySteps.POLICY_VERIFY:
+      case this.policySteps.WAY_TO_PAY:
         this.bgWhite = true;
         break;
       default:
@@ -403,13 +463,21 @@ export class PolicyFormPage implements OnInit, OnDestroy {
   addressSelect(type: string | PolicyLocuintaListItem) {
     if (type === 'ADD_NEW') {
       this.changeStep(this.policySteps.ADDRESS_FORM);
-
       this.cdRef.markForCheck();
     } else if (type) {
       this.refreshPostAddressSelect(type as PolicyLocuintaListItem);
       this.selectedAddressItem = type as PolicyLocuintaListItem;
       this.setMinDate(get(this.selectedAddressItem, 'policy', null));
-      this.next();
+      switch (this.policyID) {
+        case 'AMPLUS':
+        case 'PAD':
+          this.next();
+          break;
+        case 'Garant AMPLUS+ PAD':
+          break;
+        default:
+          break;
+      }
     }
   }
 
@@ -428,7 +496,12 @@ export class PolicyFormPage implements OnInit, OnDestroy {
         this.changeStep(this.policySteps.PAD_CHECK);
         break;
       case LocuinteFormType.PLACE:
-        this.changeStep(this.policySteps.LOCATION_FORM);
+        if (this.policyID === 'PAD' || this.policyID === 'AMPLUS') {
+          this.changeStep(this.policySteps.LOCATION_FORM);
+        } else {
+          // TODO: handle PAD + AMPLUS here
+        }
+
         break;
       case 'NEXT':
         this.next();
@@ -444,11 +517,19 @@ export class PolicyFormPage implements OnInit, OnDestroy {
 
   cesiuneSubmit(cesiuneData) {
     this.cesiuneData = cesiuneData;
+    if (this.policyID === 'AMPLUS') {
+      this.changeStep(this.policySteps.PERIOD_FORM);
+      return;
+    }
     this.next();
   }
 
   periodSubmit(startDate) {
     this.periodStartData = startDate;
+    if (this.policyID === 'AMPLUS') {
+      this.changeStep(this.policySteps.TECHNICAL_SUPPORT);
+      return;
+    }
     this.next();
   }
 
@@ -513,6 +594,49 @@ export class PolicyFormPage implements OnInit, OnDestroy {
     }
   }
 
+  techSupportSubmit(supportData) {
+    this.assistFormData = supportData;
+    this.offerData = this.policyFs.buildOfferItem({
+      locuintaItem: this.selectedAddressItem,
+      account: this.userAccount,
+      pType: this.typeItem as PolicyType,
+      cesiune: get(this.cesiuneData, 'cesionar', []),
+      fromDate: this.periodStartData,
+      payData: this.wayPayFormData,
+      supportData: this.assistFormData,
+    });
+    this.changeStep(this.policySteps.WAY_TO_PAY);
+  }
+
+  paySubmit(payData) {
+    this.wayPayFormData = payData;
+
+    // TODO: You may need to also add the new AMPLUS data in here,
+    // so that we can have it available in the offers.
+    this.offerData = this.policyFs.buildOfferItem({
+      locuintaItem: this.selectedAddressItem,
+      account: this.userAccount,
+      pType: this.typeItem as PolicyType,
+      cesiune: get(this.cesiuneData, 'cesionar', []),
+      fromDate: this.periodStartData,
+      payData: this.wayPayFormData,
+      supportData: this.assistFormData,
+    });
+    this.changeStep(this.policySteps.POLICY_VERIFY);
+  }
+
+  calculationSubmit() {
+    this.changeStep(this.policySteps.CALCULATION_LOADER);
+    const navigationExtras: NavigationExtras = {
+      queryParams: {
+        policyType: this.policyID,
+      },
+    };
+    // TODO: When linking to the BE WS, we may also need an error page for this.
+    this.reftime = setTimeout(() => {
+      this.navCtrl.navigateForward(['/policy', 'offer', 2], navigationExtras);
+    }, 3000);
+  }
   handleError(data) {
     this.showError = true;
     if (typeof data === 'string') {
@@ -536,12 +660,12 @@ export class PolicyFormPage implements OnInit, OnDestroy {
       this.back();
     }, 5000);
   }
-
   exitFlow() {
     this.navCtrl.navigateBack(['/policy']);
   }
 
   ngOnDestroy(): void {
     this.dntItem = null;
+    clearTimeout(this.reftime);
   }
 }
