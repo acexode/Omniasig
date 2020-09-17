@@ -15,8 +15,8 @@ export class PadService {
   }
 
   CreatePADInsuranceOffer(
-    padAddressId: number,
-    homeAddressId: number,
+    padAddressId: number | string,
+    homeAddressId: number | string,
     startDate
   ) {
     const formattedStartDate = startDate.toISOString().slice(0, 10);

@@ -634,7 +634,6 @@ export class PolicyFormPage implements OnInit, OnDestroy {
       this.navCtrl.navigateForward(['/policy', 'offer', 2], navigationExtras);
     }, 3000);
   }
-
   handleError(data) {
     this.showError = true;
     if (typeof data === 'string') {
@@ -658,7 +657,6 @@ export class PolicyFormPage implements OnInit, OnDestroy {
       this.back();
     }, 5000);
   }
-
   exitFlow() {
     this.navCtrl.navigateBack(['/policy']);
   }
