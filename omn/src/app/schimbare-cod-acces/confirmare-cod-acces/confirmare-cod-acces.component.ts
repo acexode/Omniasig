@@ -9,6 +9,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { IonInput, NavController } from '@ionic/angular';
 import { Subscription } from 'rxjs';
+import { unsubscriberHelper } from 'src/app/core/helpers/unsubscriber.helper';
 import { CustomStorageService } from 'src/app/core/services/custom-storage/custom-storage.service';
 import { subPageHeaderDefault } from 'src/app/shared/data/sub-page-header-default';
 import { IonInputConfig } from 'src/app/shared/models/component/ion-input-config';
@@ -24,15 +25,12 @@ export class ConfirmareCodAccesComponent implements OnInit, OnDestroy {
   @HostBinding('class') color = 'ion-color-white-page';
   headerConfig = subPageHeaderDefault('Confirmare cod de acces');
   digitsLength = 0;
-  @ViewChild('inputField') inputField: IonInput;
   sub: Subscription;
   accessCode = null;
-
   config: IonInputConfig = {
     type: 'number',
     inputMode: 'number',
   };
-  passForm: FormGroup;
   InvalidCode = false;
   busy = false;
 
@@ -43,39 +41,17 @@ export class ConfirmareCodAccesComponent implements OnInit, OnDestroy {
     private storeS: CustomStorageService,
     private changeCodeS: ChangeCodeService
   ) {
-    this.accessCode = this.changeCodeS.getUpdatePassObj.newPassword;
-  }
-
-  ngOnInit() {
-    this.initForm();
-  }
-
-  initForm() {
-    this.passForm = this.formBuilder.group({
-      digit: [
-        '',
-        [Validators.required, Validators.minLength(6), Validators.maxLength(6)],
-      ],
-    });
-
-    this.sub = this.passForm.valueChanges.subscribe((value) => {
-      this.changeInput(value.digit);
-      if (this.digitsLength === 6 && !this.busy) {
-        this.continue();
-      }
-    });
-  }
-
-  changeInput(digit: string) {
-    if (digit) {
-      this.digitsLength = digit.length;
+    if (this.changeCodeS.getUpdatePassObj?.newPassword) {
+      this.accessCode = this.changeCodeS.getUpdatePassObj.newPassword;
     } else {
-      this.digitsLength = 0;
+      this.navCtrl.navigateBack('/cod-acces');
     }
   }
 
-  continue() {
-    const { value } = this.passForm.controls.digit;
+  ngOnInit() {}
+
+  continue(passForm: FormGroup) {
+    const { value } = passForm.controls.passcode;
     if (value === this.accessCode) {
       this.busy = true;
       this.storeS.getItem<string>('phoneNumber').subscribe((phoneNumber) => {
@@ -112,14 +88,7 @@ export class ConfirmareCodAccesComponent implements OnInit, OnDestroy {
     this.navCtrl.navigateForward(['/cod-acces/change-success']);
   }
 
-  spawnInput() {
-    this.inputField.getInputElement().then((input) => {
-      input.focus();
-      input.click();
-    });
-  }
-
   ngOnDestroy() {
-    this.sub.unsubscribe();
+    unsubscriberHelper(this.sub);
   }
 }

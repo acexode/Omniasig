@@ -19,8 +19,8 @@ export class PinChangeSuccessfulComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit() {
     this.resetService.clearResetObj();
-    this.auth.doLogout();
     setTimeout(() => {
+      this.auth.doLogout();
       this.router.navigate(['/login']);
     }, 3000);
   }
