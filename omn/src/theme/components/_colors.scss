@@ -350,3 +350,8 @@
   background-color: $red;
   --background: $red;
 }
+
+.color-grey-3 {
+  color: $grey3;
+  --color: var(--app-grey-3);
+}
