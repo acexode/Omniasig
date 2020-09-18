@@ -1,4 +1,3 @@
-import { get, set } from 'lodash';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -10,6 +9,7 @@ import {
 import { FormGroup } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { IonContent, NavController } from '@ionic/angular';
+import { get } from 'lodash';
 import { combineLatest, Observable, of } from 'rxjs';
 import { finalize, switchMap } from 'rxjs/operators';
 import { CustomRouterService } from 'src/app/core/services/custom-router/custom-router.service';
@@ -210,15 +210,13 @@ export class LocuinteFormPageComponent implements OnInit {
         this.formS.handleStreetProcessing(
           val,
           this.formInstance.data,
-          this.dataModel,
-          
+          this.dataModel
         );
         this.formS.handlePostalCode(
           val,
           this.formInstance.data,
-          this.addressPostalCode,
+          this.addressPostalCode
         );
-        
       });
     }
   }
