@@ -47,9 +47,6 @@ export const policySalesItemHelper = (
       ' ' +
       'position-absolute bottom-0 right-0 svg-absolute-right';
   }
-  if (accountActivated) {
-    baseItem.routerLink = ['/policy', 'form'];
-  }
   if (containerRefItem) {
     baseItem.contentRef = {
       item: containerRefItem,

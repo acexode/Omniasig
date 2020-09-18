@@ -3,6 +3,8 @@ import {
   Component,
   Input,
   OnInit,
+  Output,
+  EventEmitter,
 } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { ImageCard } from 'src/app/shared/models/component/image-card';
@@ -20,12 +22,15 @@ export class PolicyCardListComponent implements OnInit {
   @Input()
   items: Array<ImageCard> = [];
   @Input() title: IonTextItem = null;
+  @Output() itemEvent: EventEmitter<{
+    type: string;
+    data: any;
+  }> = new EventEmitter();
   constructor(public modalController: ModalController) {}
 
   ngOnInit() {}
 
   async presentModal(index) {
-
     const modal = await this.modalController.create({
       component: DisabledMessageModalComponent,
       cssClass: 'disabled-message-modal-class',
@@ -35,5 +40,9 @@ export class PolicyCardListComponent implements OnInit {
       },
     });
     return await modal.present();
+  }
+
+  defaultEvent(event) {
+    this.itemEvent.emit(event);
   }
 }

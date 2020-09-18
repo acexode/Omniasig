@@ -3,10 +3,12 @@ import {
   ChangeDetectorRef,
   Component,
   OnInit,
+  Output,
+  EventEmitter,
+  Input,
 } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ModalController } from '@ionic/angular';
-import { subPageHeaderPrimary } from 'src/app/shared/data/sub-page-header-primary';
 import { AsistentaModalPagePage } from '../asistenta-modal-page/asistenta-modal-page.page';
 
 @Component({
@@ -16,7 +18,7 @@ import { AsistentaModalPagePage } from '../asistenta-modal-page/asistenta-modal-
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AsistentaTechnicaPage implements OnInit {
-  headerConfig = subPageHeaderPrimary('Asistență tehnică');
+  @Input() assisFormData;
   plans = [
     {
       text: 'Inclus în prețul poliței',
@@ -42,6 +44,8 @@ export class AsistentaTechnicaPage implements OnInit {
     plan: this.fb.control(false, Validators.required),
   });
 
+  @Output() emitForm: EventEmitter<any> = new EventEmitter();
+
   constructor(
     public modalCtrl: ModalController,
     private fb: FormBuilder,
@@ -49,7 +53,11 @@ export class AsistentaTechnicaPage implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.formGroup.setValue({ plan: this.plans[0].value });
+    if (this.assisFormData) {
+      this.formGroup.setValue(this.assisFormData);
+    } else {
+      this.formGroup.setValue({ plan: this.plans[0].value });
+    }
   }
 
   openModal(type) {
@@ -68,7 +76,7 @@ export class AsistentaTechnicaPage implements OnInit {
     return this.formGroup.get('plan');
   }
 
-  submit(){
-    // TODO: emit an event from here to the main component.
+  submit() {
+    this.emitForm.emit(this.formGroup.value);
   }
 }
