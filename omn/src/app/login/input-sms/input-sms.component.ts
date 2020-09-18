@@ -1,3 +1,4 @@
+import { unsubscriberHelper } from './../../core/helpers/unsubscriber.helper';
 import {
   AfterViewInit,
   Component,
@@ -23,7 +24,6 @@ export class InputSmsComponent implements OnInit, AfterViewInit, OnDestroy {
   min = '00';
   sec: any = 59;
   digitsLength = 0;
-  @ViewChild('inputField') inputField: IonInput;
   sub: Subscription;
   phoneNumber = null;
   errorLogin: string = null;
@@ -31,7 +31,6 @@ export class InputSmsComponent implements OnInit, AfterViewInit, OnDestroy {
     type: 'number',
     inputMode: 'number',
   };
-  passForm: FormGroup;
   busy = false;
   constructor(
     private route: ActivatedRoute,
@@ -42,35 +41,7 @@ export class InputSmsComponent implements OnInit, AfterViewInit, OnDestroy {
   ) { }
 
   ngOnInit() {
-    this.initForm();
     this.getPhoneNumber();
-  }
-  initForm() {
-    this.passForm = this.formBuilder.group({
-      digit: [
-        '',
-        [Validators.required, Validators.minLength(6), Validators.maxLength(6)],
-      ],
-    });
-
-    this.passForm.valueChanges.subscribe((value) => {
-      this.changeInput(value.digit);
-    });
-  }
-
-  changeInput(digit: number) {
-    if (digit || digit === 0) {
-      this.digitsLength = digit.toString().length;
-    } else {
-      this.digitsLength = 0;
-    }
-    if (this.digitsLength > 5 && this.busy === false) {
-      this.verifyDigit();
-    }
-    if (this.errorLogin) {
-      this.errorLogin = null;
-      this.busy = false;
-    }
   }
 
   getPhoneNumber() {
@@ -98,40 +69,36 @@ export class InputSmsComponent implements OnInit, AfterViewInit, OnDestroy {
       (data) => {
         this.startTimer();
       },
-      (err) => {}
+      (err) => { }
     );
   }
 
-  verifyDigit() {
+  verifyDigit(passForm: FormGroup) {
     this.busy = true;
-    const code = this.passForm.get('digit').value;
+    const code = passForm.get('passcode').value;
     this.auth.confirmPhoneNumberSms(this.phoneNumber, code).subscribe(
       (data) => {
         this.busy = false;
         this.router.navigate(['login/verify', this.phoneNumber]);
       },
       (err) => {
-        this.confirmationError(err);
+        this.confirmationError(err, passForm);
       }
     );
   }
 
-  confirmationError(err) {
-    this.passForm.reset();
+  clearErr(e) {
+    this.errorLogin = null;
+  }
+
+  confirmationError(err, passForm) {
+    passForm.reset();
     this.digitsLength = 0;
     this.errorLogin = 'Cod Invalid!';
     this.busy = false;
-
-  }
-
-  spawnInput() {
-    this.inputField.getInputElement().then((input) => {
-      input.focus();
-      input.click();
-    });
   }
 
   ngOnDestroy() {
-    this.sub.unsubscribe();
+    unsubscriberHelper(this.sub);
   }
 }
