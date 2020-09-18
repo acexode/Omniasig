@@ -21,6 +21,184 @@ export const policyTypes: { [key: string]: PolicyType } = {
     id: 'AMPLUS',
     name: 'Garant AMPLUS',
     shortDescription: 'Asigurarea facultativă a locuințelor',
+    dntConfig: {
+      success: dntItemHelper({
+        topIcon: {
+          name: 'lg-casa-1',
+          classes: 'mh-94',
+        },
+        topText: dntTopTexts(
+          'Garant AMPLUS',
+          'Asigurarea facultativă a locuinței'
+        ),
+        buttons: dntSuccessButton(),
+        textContent: dntAltText(
+          'Soluție financiară propusă',
+          'OMNIASIG îți propune produsul de asigurare Garant AMPLUS, adecvat necesităţilor dumneavoastră potrivit voinței exprimate conform celor de mai sus.',
+          ''
+        ),
+      }),
+      cancel: dntItemHelper({
+        topIcon: {
+          name: 'lg-casa-1',
+          classes: 'mh-94',
+        },
+        topText: dntTopTexts(
+          'Garant AMPLUS',
+          'Asigurarea facultativă a locuinței'
+        ),
+        buttons: dntCancelBtn(),
+        textContent: dntAltText(
+          'Formular de analiză a cerinţelor şi necesităţilor clienţilor',
+          'Dacă nu ai o locuință, nu ai nevoie de această asigurare. Rămânem alături de tine cu alte tipuri de asigurări!',
+          '',
+          'www.omniasig.ro'
+        ),
+      }),
+      items: [
+        dntItemHelper({
+          topIcon: {
+            name: 'lg-casa-1',
+            classes: 'mh-94',
+          },
+          topText: dntTopTexts(
+            'Garant AMPLUS',
+            'Asigurarea facultativă a locuinței'
+          ),
+          buttons: dntContentButtons,
+          textContent: dntContentText(
+            'Formular de analiză a cerinţelor şi necesităţilor clienţilor',
+            'Eşti interesat de protecţia prin asigurare a locuinţei și a bunurilor tale, inclusiv acoperirea de răspundere civilă şi serviciile de asistenţă tehnică la domiciliu?',
+            'Nu putem acorda consultanță prin intermediul aplicației. Dacă dorești consultanță, te rugăm să te adresezi unui reprezentant OMNIASIG.'
+          ),
+        }),
+      ],
+    },
+    exclusionConfig: {
+      items: [
+        {
+          content: exclusionItemHelper({
+            text: {
+              text:
+                'Locuința pe care dorești să o asiguri este construită înainte de anul 1940?',
+            },
+            icon: {
+              name: 'lg-exclusion-1',
+              classes: 'maxh-200 flex w-100 h-100 maxw-280',
+            },
+          }),
+          buttons: exclusionContentButtons,
+        },
+        {
+          content: exclusionItemHelper({
+            text: {
+              text:
+                'Locuința pe care dorești să o asiguri are o valoare mai mică de 21.000 Euro sau mai mare de 200.000 Euro?',
+            },
+            icon: {
+              name: 'lg-exclusion-2',
+              classes: 'maxh-200 flex w-100 h-100 maxw-280',
+            },
+          }),
+          buttons: exclusionContentButtons,
+        },
+        {
+          content: exclusionItemHelper({
+            text: {
+              text:
+                'Locuința pe care dorești să o asiguri este încă în construcție sau folosită în alt scop decât pentru locuit?',
+            },
+            icon: {
+              name: 'lg-exclusion-3',
+              classes: 'maxh-200 flex w-100 h-100 maxw-280',
+            },
+          }),
+          buttons: exclusionContentButtons,
+        },
+        {
+          content: exclusionItemHelper({
+            text: {
+              text:
+                'Locuința pe care dorești să o asiguri este din lemn, metal sau paiantă?',
+            },
+            icon: {
+              name: 'lg-exclusion-4',
+              classes: 'maxh-200 flex w-100 h-100 maxw-280',
+            },
+          }),
+          buttons: exclusionContentButtons,
+        },
+        {
+          content: exclusionItemHelper({
+            text: {
+              text:
+                'Locuința pe care dorești să o asiguri se află la mai puțin de 100m de ape neregularizate (neîndiguite/neconsolidate)?',
+            },
+            icon: {
+              name: 'lg-exclusion-5',
+              classes: 'maxh-200 flex w-100 h-100 maxw-280',
+            },
+          }),
+          buttons: exclusionContentButtons,
+        },
+        {
+          content: exclusionItemHelper({
+            text: {
+              text:
+                'Locuința pe care dorești să o asiguri se află într-o clădire expertizată tehnic pentru riscul de cutremur?',
+            },
+            icon: {
+              name: 'lg-exclusion-6',
+              classes: 'maxh-200 flex w-100 h-100 maxw-280',
+            },
+          }),
+          buttons: exclusionContentButtons,
+        },
+        {
+          content: exclusionItemHelper({
+            text: {
+              text:
+                'Locuința pe care dorești să o asiguri se află într-o zonă expusă alunecărilor de teren?',
+            },
+            icon: {
+              name: 'lg-exclusion-7',
+              classes: 'maxh-200 flex w-100 h-100 maxw-280',
+            },
+          }),
+          buttons: exclusionContentButtons,
+        },
+        {
+          content: exclusionItemHelper({
+            text: {
+              text:
+                'Locuința pe care dorești să o asiguri este clădire de patrimoniu?',
+            },
+            icon: {
+              name: 'lg-exclusion-8',
+              classes: 'maxh-200 flex w-100 h-100 maxw-280',
+            },
+          }),
+          buttons: exclusionContentButtons,
+        },
+        {
+          content: exclusionItemHelper({
+            text: {
+              text:
+                'Locuința pe care dorești să o asiguri se află într-o zonă în care construcția e interzisă?',
+            },
+            icon: {
+              name: 'lg-exclusion-9',
+              classes: 'maxh-200 flex w-100 h-100 maxw-280',
+            },
+          }),
+          buttons: exclusionContentButtons,
+        },
+      ],
+      cancel: {
+        content: exclusionCancelItem(),
+        buttons: exclusionCancelBtn(),
+      },
+    },
     listingIcon: {
       name: 'lg-casa-1',
       classes: 'mh-100  mw-188',
