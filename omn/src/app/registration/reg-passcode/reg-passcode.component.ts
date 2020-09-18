@@ -1,8 +1,8 @@
+import { Component, HostBinding, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
+import { NavController } from '@ionic/angular';
 import { RegistrationService } from './../../core/services/auth/registration.service';
-import { Component, HostBinding, OnInit, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { IonInput, NavController } from '@ionic/angular';
 
 @Component({
   selector: 'app-reg-passcode',
@@ -10,10 +10,10 @@ import { IonInput, NavController } from '@ionic/angular';
   styleUrls: ['./reg-passcode.component.scss'],
 })
 export class RegPasscodeComponent implements OnInit {
-  digitsLength = 0;
   @HostBinding('class') color = 'ion-color-white-page';
-  @ViewChild('inputField') inputField: IonInput;
+  errorLogin: string | boolean = null;
   passForm: FormGroup;
+  digitsLength = 0;
   constructor(
     private navCtrl: NavController,
     private formBuilder: FormBuilder,
@@ -23,9 +23,7 @@ export class RegPasscodeComponent implements OnInit {
     this.checkUserObj();
   }
 
-  ngOnInit() {
-    this.initForm();
-  }
+  ngOnInit() {}
 
   checkUserObj() {
     if (
@@ -36,39 +34,27 @@ export class RegPasscodeComponent implements OnInit {
     }
   }
 
-  initForm() {
-    this.passForm = this.formBuilder.group({
-      passcode: [
-        '',
-        [Validators.required, Validators.minLength(6), Validators.maxLength(6)],
-      ],
-    });
-
-    this.passForm.valueChanges.subscribe((value) => {
-      this.changeInput(value.passcode);
-    });
-  }
-
-  changeInput(passcode) {
-    if (passcode) {
-      this.digitsLength = passcode.toString().length;
-    }
-    if (this.digitsLength > 5) {
-      this.verifyPasscode();
+  verifyPasscode(passForm: FormGroup) {
+    this.passForm = passForm;
+    const passcode: string = passForm.get('passcode').value;
+    if (passcode === '000000') {
+      this.passForm.reset();
+      this.errorLogin = 'Codul este prea simplu.';
+    } else {
+      this.regService.setUserObj({
+        pin: passcode,
+      });
+      this.navCtrl.navigateRoot(`registration/confirm-passcode`);
     }
   }
 
-  verifyPasscode() {
-    this.regService.setUserObj({
-      pin: this.passForm.get('passcode').value,
-    });
-    this.navCtrl.navigateRoot(`registration/confirm-passcode`);
+  clearErr(_) {
+    if (this.digitsLength > 0) {
+      this.errorLogin = null;
+    }
   }
 
-  spawnInput() {
-    this.inputField.getInputElement().then((input) => {
-      input.focus();
-      input.click();
-    });
+  digLength(length: number) {
+    this.digitsLength = length;
   }
 }
