@@ -73,8 +73,8 @@ const routes: Routes = [
   },
   {
     path: 'reset-pincode',
-    canActivateChild: [ AuthGuard ],
-    canActivate: [ AuthGuard ],
+    canActivateChild: [LoginGuard],
+    canActivate: [LoginGuard],
     loadChildren: () =>
       import( './pin-code-reset/pin-code-reset.module' ).then(
         ( m ) => m.PinCodeResetPageModule

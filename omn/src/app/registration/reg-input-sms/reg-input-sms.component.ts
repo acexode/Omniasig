@@ -1,13 +1,6 @@
-import {
-  AfterViewInit,
-  Component,
-  HostBinding,
-  OnInit,
-  ViewChild,
-} from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AfterViewInit, Component, HostBinding, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { IonInput } from '@ionic/angular';
 import { CustomTimersService } from 'src/app/core/services/custom-timers/custom-timers.service';
 import { IonInputConfig } from 'src/app/shared/models/component/ion-input-config';
 import { RegistrationService } from './../../core/services/auth/registration.service';
@@ -21,15 +14,11 @@ export class RegInputSmsComponent implements OnInit, AfterViewInit {
   @HostBinding('class') color = 'ion-color-white-page';
   min = '00';
   sec: any = 59;
-  digitsLength = 0;
-  @ViewChild('inputField') inputField: IonInput;
   phoneNumber = null;
-
   config: IonInputConfig = {
     type: 'number',
     inputMode: 'number',
   };
-  passForm: FormGroup;
   InvalidCode: string = null;
   constructor(
     private route: ActivatedRoute,
@@ -42,7 +31,6 @@ export class RegInputSmsComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit() {
-    this.initForm();
     this.phoneNumber = this.regService.getuserObj.phoneNumber;
   }
 
@@ -55,35 +43,7 @@ export class RegInputSmsComponent implements OnInit, AfterViewInit {
     }
   }
 
-  initForm() {
-    this.passForm = this.formBuilder.group({
-      digit: [
-        '',
-        [Validators.required, Validators.minLength(6), Validators.maxLength(6)],
-      ],
-    });
-
-    this.passForm.valueChanges.subscribe((value) => {
-      this.changeInput(value.digit);
-    });
-  }
-
-  changeInput(digit: number) {
-    if (this.InvalidCode) {
-      this.InvalidCode = null;
-    }
-    if (digit) {
-      this.digitsLength = digit.toString().length;
-    } else {
-      this.digitsLength = 0;
-    }
-    if (this.digitsLength > 5) {
-      this.verifyDigit();
-    }
-  }
-
   ngAfterViewInit() {
-    this.spawnInput();
     this.startTimer();
   }
 
@@ -104,24 +64,21 @@ export class RegInputSmsComponent implements OnInit, AfterViewInit {
       );
   }
 
-  verifyDigit() {
+  verifyDigit(passForm: FormGroup) {
     this.regService
-      .ConfirmPhoneNumber(this.passForm.get('digit').value)
+      .ConfirmPhoneNumber(passForm.get('passcode').value)
       .subscribe(
         (data) => {
           this.router.navigate(['registration/notice']);
         },
         (err) => {
-          this.passForm.reset();
+          passForm.reset();
           this.InvalidCode = err.error;
         }
       );
   }
 
-  spawnInput() {
-    this.inputField.getInputElement().then((input) => {
-      input.click();
-      input.focus();
-    });
+  clearErr(_) {
+    this.InvalidCode = null;
   }
 }
