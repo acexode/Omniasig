@@ -9,6 +9,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { IonInput, NavController } from '@ionic/angular';
 import { Subscription } from 'rxjs';
+import { unsubscriberHelper } from 'src/app/core/helpers/unsubscriber.helper';
 import { CustomStorageService } from 'src/app/core/services/custom-storage/custom-storage.service';
 import { subPageHeaderDefault } from 'src/app/shared/data/sub-page-header-default';
 import { IonInputConfig } from 'src/app/shared/models/component/ion-input-config';
@@ -88,6 +89,6 @@ export class ConfirmareCodAccesComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.sub.unsubscribe();
+    unsubscriberHelper(this.sub);
   }
 }

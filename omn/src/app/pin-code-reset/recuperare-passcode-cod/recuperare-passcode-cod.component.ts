@@ -9,6 +9,7 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { IonInput } from '@ionic/angular';
 import { Subscription } from 'rxjs';
+import { unsubscriberHelper } from 'src/app/core/helpers/unsubscriber.helper';
 import { CustomTimersService } from 'src/app/core/services/custom-timers/custom-timers.service';
 import { subPageHeaderDefault } from 'src/app/shared/data/sub-page-header-default';
 import { IonInputConfig } from 'src/app/shared/models/component/ion-input-config';
@@ -87,6 +88,6 @@ export class RecuperarePasscodeCodComponent
   }
 
   ngOnDestroy() {
-    this.sub.unsubscribe();
+    unsubscriberHelper(this.sub);
   }
 }

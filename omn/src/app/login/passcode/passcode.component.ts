@@ -4,6 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { NavController } from '@ionic/angular';
 import { Subscription } from 'rxjs';
 import { take } from 'rxjs/internal/operators/take';
+import { unsubscriberHelper } from 'src/app/core/helpers/unsubscriber.helper';
 import { AuthService } from 'src/app/core/services/auth/auth.service';
 
 @Component({
@@ -67,6 +68,6 @@ export class PasscodeComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     // Called once, before the instance is destroyed.
     // Add 'implements OnDestroy' to the class.
-    this.sub.unsubscribe();
+    unsubscriberHelper(this.sub);
   }
 }

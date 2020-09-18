@@ -1,3 +1,4 @@
+import { unsubscriberHelper } from './../../core/helpers/unsubscriber.helper';
 import {
   AfterViewInit,
   Component,
@@ -98,6 +99,6 @@ export class InputSmsComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.sub.unsubscribe();
+    unsubscriberHelper(this.sub);
   }
 }

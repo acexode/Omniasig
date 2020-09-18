@@ -11,6 +11,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { IonInput } from '@ionic/angular';
 import { Subscription } from 'rxjs';
+import { unsubscriberHelper } from 'src/app/core/helpers/unsubscriber.helper';
 import { AuthService } from 'src/app/core/services/auth/auth.service';
 import { CustomTimersService } from 'src/app/core/services/custom-timers/custom-timers.service';
 import { subPageHeaderDefault } from 'src/app/shared/data/sub-page-header-default';
@@ -129,6 +130,6 @@ export class VerifyPhoneNumberComponent
   }
 
   ngOnDestroy() {
-    this.sub.unsubscribe();
+    unsubscriberHelper(this.sub);
   }
 }
