@@ -40,17 +40,16 @@ export class ConfirmareCodAccesComponent implements OnInit, OnDestroy {
     private storeS: CustomStorageService,
     private changeCodeS: ChangeCodeService
   ) {
-   if (this.changeCodeS.getUpdatePassObj?.newPassword) {
-    this.accessCode = this.changeCodeS.getUpdatePassObj.newPassword;
-   }else{
-    this.navCtrl.navigateBack('/cod-acces');
-   }
+    if (this.changeCodeS.getUpdatePassObj?.newPassword) {
+      this.accessCode = this.changeCodeS.getUpdatePassObj.newPassword;
+    } else {
+      this.navCtrl.navigateBack('/cod-acces');
+    }
   }
 
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
-  continue(passForm:FormGroup) {
+  continue(passForm: FormGroup) {
     const { value } = passForm.controls.passcode;
     if (value === this.accessCode) {
       this.busy = true;

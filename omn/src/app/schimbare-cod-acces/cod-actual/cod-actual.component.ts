@@ -38,10 +38,9 @@ export class CodActualComponent implements OnInit {
     private changeCodeS: ChangeCodeService
   ) {}
 
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
-  continue(passForm:FormGroup) {
+  continue(passForm: FormGroup) {
     const value = passForm.get('passcode').value;
     this.authS
       .lastLoginNumber()
@@ -81,8 +80,7 @@ export class CodActualComponent implements OnInit {
     this.router.navigate(['cod-acces/nou']);
   }
 
-  clearErr(_){
-    this.InvalidCode = null
+  clearErr(_) {
+    this.InvalidCode = null;
   }
-
 }

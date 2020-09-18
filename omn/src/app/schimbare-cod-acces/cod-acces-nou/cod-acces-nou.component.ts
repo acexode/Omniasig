@@ -1,18 +1,11 @@
-import {
-  Component,
-  OnInit,
-  ViewChild,
-  HostBinding,
-  OnDestroy,
-} from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { Component, HostBinding, OnDestroy, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
-import { IonInput } from '@ionic/angular';
 import { Subscription } from 'rxjs';
 import { subPageHeaderDefault } from 'src/app/shared/data/sub-page-header-default';
 import { IonInputConfig } from 'src/app/shared/models/component/ion-input-config';
-import { ChangeCodeService } from '../services/change-code.service';
 import { UpdatePassword } from '../models/UpdatePassword';
+import { ChangeCodeService } from '../services/change-code.service';
 
 @Component({
   selector: 'app-cod-acces-nou',
@@ -22,7 +15,7 @@ import { UpdatePassword } from '../models/UpdatePassword';
 export class CodAccesNouComponent implements OnInit, OnDestroy {
   @HostBinding('class') color = 'ion-color-white-page';
   headerConfig = subPageHeaderDefault('Cod de acces nou');
-  digitsLength: number = 0;
+  digitsLength = 0;
   sub: Subscription;
   config: IonInputConfig = {
     type: 'number',
@@ -32,11 +25,10 @@ export class CodAccesNouComponent implements OnInit, OnDestroy {
   constructor(
     private router: Router,
     private formBuilder: FormBuilder,
-    private changeCodeS: ChangeCodeService,
-  ) { }
+    private changeCodeS: ChangeCodeService
+  ) {}
 
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
   continue(passForm: FormGroup) {
     const { value } = passForm.controls.passcode;
@@ -54,9 +46,7 @@ export class CodAccesNouComponent implements OnInit, OnDestroy {
   }
 
   proceed() {
-    this.router.navigate([
-      'cod-acces/confirmare'
-    ]);
+    this.router.navigate(['cod-acces/confirmare']);
   }
 
   clearErr(_) {
@@ -66,7 +56,7 @@ export class CodAccesNouComponent implements OnInit, OnDestroy {
   }
 
   digLength(length: number) {
-    this.digitsLength = length
+    this.digitsLength = length;
   }
 
   ngOnDestroy() {
