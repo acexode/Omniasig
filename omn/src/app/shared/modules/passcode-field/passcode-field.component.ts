@@ -1,17 +1,14 @@
-import { IonInput } from '@ionic/angular';
 import {
-  Component,
-  OnInit,
-  ViewChild,
-  Input,
-  AfterViewChecked,
-  EventEmitter,
-  Output,
-  AfterContentInit,
   AfterViewInit,
+  Component,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
+  ViewChild,
 } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { Platform } from '@ionic/angular';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { IonInput } from '@ionic/angular';
 
 @Component({
   selector: 'app-passcode-field',
@@ -28,13 +25,15 @@ export class PasscodeFieldComponent implements OnInit, AfterViewInit {
   @Output() doClearErr: EventEmitter<any> = new EventEmitter();
   @Output() doDigitLength: EventEmitter<number> = new EventEmitter();
 
-  constructor(private formBuilder: FormBuilder, private platform: Platform) {}
+  constructor(private formBuilder: FormBuilder) {}
 
   ngOnInit() {
     this.initForm();
   }
 
   clickInput() {
+    this.inputField.setFocus();
+    // Above can probably replace this.
     this.inputField.getInputElement().then((input) => {
       input.click();
       input.focus();
@@ -44,7 +43,7 @@ export class PasscodeFieldComponent implements OnInit, AfterViewInit {
   ngAfterViewInit() {
     setTimeout(() => {
       this.clickInput();
-    }, 650);
+    }, 200);
   }
 
   initForm() {
@@ -78,8 +77,7 @@ export class PasscodeFieldComponent implements OnInit, AfterViewInit {
   }
 
   clearErr() {
-    // tslint:disable-next-line: triple-equals
-    if (this.errorLogin != null || this.errorLogin != typeof null) {
+    if (this.errorLogin != null || typeof this.errorLogin != null) {
       this.doClearErr.emit(null);
     }
   }

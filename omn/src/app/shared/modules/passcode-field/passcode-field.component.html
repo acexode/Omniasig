@@ -1,17 +1,86 @@
 <div (click)="clickInput()" class="">
-    <ion-icon class="mr-4 password-hide s18-h24" *ngIf="digitsLength < 1" [ngClass]="{ 'color-red': errorLogin }" name="ellipse-outline"></ion-icon>
-    <ion-icon [ngClass]="{ 'color-red': errorLogin }" name="ellipse" *ngIf="digitsLength > 0" class="mr-4 password-hide s18-h24"></ion-icon>
-    <ion-icon class="mr-4 password-hide s18-h24" *ngIf="digitsLength < 2" [ngClass]="{ 'color-red': errorLogin }" name="ellipse-outline"></ion-icon>
-    <ion-icon [ngClass]="{ 'color-red': errorLogin }" name="ellipse" class="mr-4 password-hide s18-h24" *ngIf="digitsLength > 1"></ion-icon>
-    <ion-icon class="mr-4 password-hide s18-h24" *ngIf="digitsLength < 3" [ngClass]="{ 'color-red': errorLogin }" name="ellipse-outline"></ion-icon>
-    <ion-icon [ngClass]="{ 'color-red': errorLogin }" name="ellipse" class="mr-4 password-hide s18-h24" *ngIf="digitsLength > 2"></ion-icon>
-    <ion-icon class="mr-4 password-hide s18-h24" *ngIf="digitsLength < 4" [ngClass]="{ 'color-red': errorLogin }" name="ellipse-outline"></ion-icon>
-    <ion-icon [ngClass]="{ 'color-red': errorLogin }" name="ellipse" class="mr-4 password-hide s18-h24" *ngIf="digitsLength > 3"></ion-icon>
-    <ion-icon class="mr-4 password-hide s18-h24" *ngIf="digitsLength < 5" [ngClass]="{ 'color-red': errorLogin }" name="ellipse-outline"></ion-icon>
-    <ion-icon [ngClass]="{ 'color-red': errorLogin }" name="ellipse" class="mr-4 password-hide s18-h24" *ngIf="digitsLength > 4"></ion-icon>
-    <ion-icon class="s18-h24 password-hide" *ngIf="digitsLength < 6" [ngClass]="{ 'color-red': errorLogin }" name="ellipse-outline"></ion-icon>
-    <ion-icon [ngClass]="{ 'color-red': errorLogin }" name="ellipse" class="mr-4 password-hide s18-h24" *ngIf="digitsLength > 5"></ion-icon>
+  <ion-icon
+    class="mr-4 password-hide s18-h24"
+    *ngIf="digitsLength < 1"
+    [ngClass]="{ 'color-red': errorLogin }"
+    name="ellipse-outline"
+  ></ion-icon>
+  <ion-icon
+    [ngClass]="{ 'color-red': errorLogin }"
+    name="ellipse"
+    *ngIf="digitsLength > 0"
+    class="mr-4 password-hide s18-h24"
+  ></ion-icon>
+  <ion-icon
+    class="mr-4 password-hide s18-h24"
+    *ngIf="digitsLength < 2"
+    [ngClass]="{ 'color-red': errorLogin }"
+    name="ellipse-outline"
+  ></ion-icon>
+  <ion-icon
+    [ngClass]="{ 'color-red': errorLogin }"
+    name="ellipse"
+    class="mr-4 password-hide s18-h24"
+    *ngIf="digitsLength > 1"
+  ></ion-icon>
+  <ion-icon
+    class="mr-4 password-hide s18-h24"
+    *ngIf="digitsLength < 3"
+    [ngClass]="{ 'color-red': errorLogin }"
+    name="ellipse-outline"
+  ></ion-icon>
+  <ion-icon
+    [ngClass]="{ 'color-red': errorLogin }"
+    name="ellipse"
+    class="mr-4 password-hide s18-h24"
+    *ngIf="digitsLength > 2"
+  ></ion-icon>
+  <ion-icon
+    class="mr-4 password-hide s18-h24"
+    *ngIf="digitsLength < 4"
+    [ngClass]="{ 'color-red': errorLogin }"
+    name="ellipse-outline"
+  ></ion-icon>
+  <ion-icon
+    [ngClass]="{ 'color-red': errorLogin }"
+    name="ellipse"
+    class="mr-4 password-hide s18-h24"
+    *ngIf="digitsLength > 3"
+  ></ion-icon>
+  <ion-icon
+    class="mr-4 password-hide s18-h24"
+    *ngIf="digitsLength < 5"
+    [ngClass]="{ 'color-red': errorLogin }"
+    name="ellipse-outline"
+  ></ion-icon>
+  <ion-icon
+    [ngClass]="{ 'color-red': errorLogin }"
+    name="ellipse"
+    class="mr-4 password-hide s18-h24"
+    *ngIf="digitsLength > 4"
+  ></ion-icon>
+  <ion-icon
+    class="s18-h24 password-hide"
+    *ngIf="digitsLength < 6"
+    [ngClass]="{ 'color-red': errorLogin }"
+    name="ellipse-outline"
+  ></ion-icon>
+  <ion-icon
+    [ngClass]="{ 'color-red': errorLogin }"
+    name="ellipse"
+    class="mr-4 password-hide s18-h24"
+    *ngIf="digitsLength > 5"
+  ></ion-icon>
 </div>
 <form [formGroup]="passForm">
-    <ion-input #inputField formControlName="passcode" class="position-absolute bg-white text-center opacity-hide ion-no-border" [readonly]="busy" type="tel" autofocus="true" inputmode="numeric"></ion-input>
+  <ion-input
+    [autofocus]="true"
+    #inputField
+    formControlName="passcode"
+    class="position-absolute bg-white text-center opacity-hide ion-no-border"
+    [readonly]="busy"
+    type="tel"
+    autofocus="true"
+    inputmode="tel"
+  ></ion-input>
 </form>
