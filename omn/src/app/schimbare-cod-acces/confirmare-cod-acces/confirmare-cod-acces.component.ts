@@ -24,15 +24,12 @@ export class ConfirmareCodAccesComponent implements OnInit, OnDestroy {
   @HostBinding('class') color = 'ion-color-white-page';
   headerConfig = subPageHeaderDefault('Confirmare cod de acces');
   digitsLength = 0;
-  @ViewChild('inputField') inputField: IonInput;
   sub: Subscription;
   accessCode = null;
-
   config: IonInputConfig = {
     type: 'number',
     inputMode: 'number',
   };
-  passForm: FormGroup;
   InvalidCode = false;
   busy = false;
 
@@ -43,39 +40,18 @@ export class ConfirmareCodAccesComponent implements OnInit, OnDestroy {
     private storeS: CustomStorageService,
     private changeCodeS: ChangeCodeService
   ) {
+   if (this.changeCodeS.getUpdatePassObj?.newPassword) {
     this.accessCode = this.changeCodeS.getUpdatePassObj.newPassword;
+   }else{
+    this.navCtrl.navigateBack('/cod-acces');
+   }
   }
 
   ngOnInit() {
-    this.initForm();
   }
 
-  initForm() {
-    this.passForm = this.formBuilder.group({
-      digit: [
-        '',
-        [Validators.required, Validators.minLength(6), Validators.maxLength(6)],
-      ],
-    });
-
-    this.sub = this.passForm.valueChanges.subscribe((value) => {
-      this.changeInput(value.digit);
-      if (this.digitsLength === 6 && !this.busy) {
-        this.continue();
-      }
-    });
-  }
-
-  changeInput(digit: string) {
-    if (digit) {
-      this.digitsLength = digit.length;
-    } else {
-      this.digitsLength = 0;
-    }
-  }
-
-  continue() {
-    const { value } = this.passForm.controls.digit;
+  continue(passForm:FormGroup) {
+    const { value } = passForm.controls.passcode;
     if (value === this.accessCode) {
       this.busy = true;
       this.storeS.getItem<string>('phoneNumber').subscribe((phoneNumber) => {
@@ -110,13 +86,6 @@ export class ConfirmareCodAccesComponent implements OnInit, OnDestroy {
 
   proceed() {
     this.navCtrl.navigateForward(['/cod-acces/change-success']);
-  }
-
-  spawnInput() {
-    this.inputField.getInputElement().then((input) => {
-      input.focus();
-      input.click();
-    });
   }
 
   ngOnDestroy() {

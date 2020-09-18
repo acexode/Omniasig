@@ -28,7 +28,6 @@ import { PasscodeFieldComponent } from '../passcode-field/passcode-field.compone
     RadiosComponent,
     DatepickerComponent,
     AutocompleteComponent,
-    PasscodeFieldComponent,
     PasscodeFieldComponent
   ],
 })

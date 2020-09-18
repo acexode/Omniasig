@@ -33,11 +33,6 @@ export class PasscodeFieldComponent implements OnInit, AfterViewInit {
 
   clickInput() {
     this.inputField.setFocus();
-    // Above can probably replace this.
-    this.inputField.getInputElement().then((input) => {
-      input.click();
-      input.focus();
-    });
   }
 
   ngAfterViewInit() {
