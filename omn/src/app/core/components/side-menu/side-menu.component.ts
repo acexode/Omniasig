@@ -15,15 +15,22 @@ export class SideMenuComponent implements OnInit {
   userAccount: Account;
   isAccountActive = true;
   app_version: string;
-  constructor(private authService: AuthService, private navC: NavController, private config: ConfigService) {}
+  constructor(
+    private authService: AuthService,
+    private navC: NavController,
+    private config: ConfigService
+  ) {}
 
   ngOnInit() {
-    console.log(this.config.getVersionNumber())
-    this.config.getVersionNumber().then(num =>{
-      this.app_version = num     
-    },(error) => {
-      console.log(error);
-    })
+    console.log(this.config.getVersionNumber());
+    this.config.getVersionNumber().then(
+      (num) => {
+        this.app_version = num;
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
     this.authService.getAccountData().subscribe((account: Account) => {
       this.userAccount = account;
       this.isAccountActive = this.authService.accountActivated(account);

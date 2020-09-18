@@ -23,7 +23,6 @@ ion-alert {
           contain: none;
           .alert-button-inner {
             @include align-items(start);
-
             .alert-radio-icon {
               margin-top: rem(18);
               margin-bottom: rem(16);
@@ -56,9 +55,9 @@ ion-alert {
         }
       }
       .alert-button-group {
-        padding-top: rem(7);
-        padding-bottom: rem(15);
-        min-height: 48px;
+        padding-top: rem(12);
+        padding-bottom: rem(12);
+        min-height: rem(64);
         .alert-button {
           @extend .ion-color-omn-green;
           color: var(--ion-color-base);
@@ -71,9 +70,12 @@ ion-alert {
           padding-inline-end: rem(16);
           padding-top: rem(10);
           padding-bottom: rem(8);
+          .alert-button-inner {
+            font-size: rem(16);
+            line-height: rem(22);
+          }
         }
       }
     }
   }
 }
-
