@@ -9,7 +9,15 @@ import {
   of,
   throwError,
 } from 'rxjs';
-import { catchError, map, switchMap, take, filter } from 'rxjs/operators';
+import {
+  catchError,
+  map,
+  switchMap,
+  take,
+  filter,
+  switchMapTo,
+  tap,
+} from 'rxjs/operators';
 import { policyEndpoints } from 'src/app/core/configs/endpoints';
 import { AuthService } from 'src/app/core/services/auth/auth.service';
 import { RequestService } from 'src/app/core/services/request/request.service';
@@ -121,51 +129,41 @@ export class PolicyDataService {
   getUserOffers() {
     const emptyV: Array<PolicyOffer> = [];
 
-    return (
-      this.reqS
-        .get<Array<PolicyOffer>>(this.endpoints.GetActivePADOffers)
-        // .get<Array<PolicyOffer>>(this.endpoints.GetActiveAmplusOffers)
-        .pipe(
-          catchError((e) => {
-            return of(emptyV);
-          }),
-          map((ov) => {
-            return ov
-              ? ov.map((ovi) =>
-                  this.mapOfferPolicyType(this.createOffersObj(ovi, 'PAD'))
-                )
-              : [];
-          }),
-          switchMap((padOffers) => {
-            // console.log(ov);
-            const amplusOffers = this.reqS
-              .get<Array<PolicyOffer>>(this.endpoints.GetActiveAmplusOffers)
-              .pipe(
-                catchError((e) => {
-                  return of(emptyV);
-                }),
-                map((ov) => {
-                  return ov
-                    ? ov.map((ovi) =>
-                        this.mapOfferPolicyType(
-                          this.createOffersObj(ovi, 'AMPLUS')
-                        )
+    return this.reqS
+      .get<Array<PolicyOffer>>(this.endpoints.GetActivePADOffers)
+      .pipe(
+        catchError((e) => {
+          return of(emptyV);
+        }),
+        map((ov) => {
+          return ov
+            ? ov.map((ovi) =>
+                this.mapOfferPolicyType(this.createOffersObj(ovi, 'PAD'))
+              )
+            : [];
+        }),
+        switchMap((padOffers) =>
+          this.reqS
+            .get<Array<PolicyOffer>>(this.endpoints.GetActiveAmplusOffers)
+            .pipe(
+              catchError((e) => {
+                return of(emptyV);
+              }),
+              map((ov) => {
+                return ov
+                  ? ov.map((ovi) =>
+                      this.mapOfferPolicyType(
+                        this.createOffersObj(ovi, 'AMPLUS')
                       )
-                    : [];
-                })
-              );
-            // return concat(padOffers, amplusOffers).pipe(
-            //   map(([l, w]) => {
-            //     console.log(ov);
-            //   })
-            // );
-            // return [...padOffers, ...amplusOffers];
-            return forkJoin([padOffers, amplusOffers]).pipe(
-              map(([res1, res2]) => [...res1, ...res2])
-            );
-          })
+                    )
+                  : [];
+              }),
+              map((amplusOffers) => {
+                return [...amplusOffers, ...padOffers];
+              })
+            )
         )
-    );
+      );
   }
 
   getUserPoliciesArchive(id: number | string) {
