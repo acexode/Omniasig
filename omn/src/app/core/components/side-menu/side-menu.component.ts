@@ -14,7 +14,7 @@ export class SideMenuComponent implements OnInit {
   subMenuHidden = true;
   userAccount: Account;
   isAccountActive = true;
-  app_version: string;
+  appVersion$ = this.config.appVersion$;
   constructor(
     private authService: AuthService,
     private navC: NavController,
@@ -22,14 +22,6 @@ export class SideMenuComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.config.getVersionNumber().then(
-      (num) => {
-        this.app_version = num;
-      },
-      (error) => {
-        console.log(error);
-      }
-    );
     this.authService.getAccountData().subscribe((account: Account) => {
       this.userAccount = account;
       this.isAccountActive = this.authService.accountActivated(account);

@@ -38,7 +38,7 @@ import { AppVersion } from '@ionic-native/app-version/ngx';
     CustomStorageService,
     CustomTimersService,
     MenuService,
-    AppVersion 
+    AppVersion,
   ],
   exports: [SideMenuComponent],
 })

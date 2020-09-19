@@ -140,11 +140,13 @@
   </ion-list>
 </ion-content>
 <ion-footer class="ion-no-border pl-24">
-  <ion-item menu-close class="mb-14" lines="none" (click)="doLogout()">
+  <ion-item menu-close lines="none" (click)="doLogout()">
     <ion-icon name="sm-iesire" class="icon-20 mr-28"></ion-icon>
-    <ion-label class="s18-h24 my-8">Ieșire</ion-label>    
+    <ion-label class="s18-h24 my-8">Ieșire</ion-label>
   </ion-item>
-  <ion-item  class="mb-14" lines="none" >   
-    <ion-label class="s18-h24 my-8">Versiune {{app_version}}</ion-label>    
+  <ion-item lines="none" class="text-x-small">
+    <ion-label class="text-x-small my-16 ml-48"
+      >Versiune {{ appVersion$ | async }}</ion-label
+    >
   </ion-item>
 </ion-footer>
