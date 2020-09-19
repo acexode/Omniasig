@@ -22,7 +22,10 @@ export class SideMenuComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+<<<<<<< HEAD
     console.log(this.config.getVersionNumber());
+=======
+>>>>>>> om-112
     this.config.getVersionNumber().then(
       (num) => {
         this.app_version = num;
