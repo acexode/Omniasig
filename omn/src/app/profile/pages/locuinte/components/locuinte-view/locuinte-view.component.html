@@ -2,7 +2,7 @@
 <ion-content *ngIf="locuinta$ | async as locuinta">
   <!-- *ngIf="locuinta.locuintaState === locuintaState.COMPLETE" -->
   <ion-grid
-    class="ion-no-padding pb-24 h-100 flex flex-column bg-white"
+    class="ion-no-padding mh-100p flex flex-column bg-white"
     *ngIf="
       locuinta.locuintaState === locuintaState.COMPLETE ||
       !locuinta?.locuintaState
@@ -20,152 +20,152 @@
       </ion-label>
     </ion-row>
 
-    <ion-row class="pb-64 alt-bg ">
-      <ion-col>
-        <ion-row
-          class="mt-n24 w-auto mx-42 ion-justify-content-center ion-nowrap ion-align-self-center"
+    <ion-row class="pb-64 alt-bg flex flex-column w-100 flex-1">
+      <ion-row
+        class="mt-n24 w-auto mx-42 ion-justify-content-center ion-nowrap ion-align-self-center"
+      >
+        <ion-button
+          shape="round"
+          size="large"
+          fill="clear"
+          (click)="deleteAddress(locuinta.id)"
+          class="m-0 w-auto mr-16 fond color-dark-green no-shadow"
         >
-          <ion-button
-            shape="round"
-            size="large"
-            fill="clear"
-            (click)="deleteAddress(locuinta.id)"
-            class="m-0 w-auto mr-16 fond color-dark-green no-shadow"
-          >
-            <span class="text-weight-normal pr-16 mr-auto">Șterge</span>
-            <ion-icon name="md-bin" class="icon-20 color-green"></ion-icon>
-          </ion-button>
+          <span class="text-weight-normal pr-16 mr-auto">Șterge</span>
+          <ion-icon name="md-bin" class="icon-20 color-green"></ion-icon>
+        </ion-button>
 
-          <ion-button
-            shape="round"
-            size="large"
-            fill="clear"
-            class="m-0 w-auto fond color-dark-green no-shadow"
-            [routerLink]="
-              locuinta?.id ? ['/profil', 'locuinte', 'edit', locuinta.id] : null
-            "
-          >
-            <span class="text-weight-normal pr-16 mr-auto">Modifică</span>
-            <ion-icon name="md-edit" class="icon-20"></ion-icon>
-          </ion-button>
-        </ion-row>
+        <ion-button
+          shape="round"
+          size="large"
+          fill="clear"
+          class="m-0 w-auto fond color-dark-green no-shadow"
+          [routerLink]="
+            locuinta?.id ? ['/profil', 'locuinte', 'edit', locuinta.id] : null
+          "
+        >
+          <span class="text-weight-normal pr-16 mr-auto">Modifică</span>
+          <ion-icon name="md-edit" class="icon-20"></ion-icon>
+        </ion-button>
+      </ion-row>
 
-        <ion-row class="px-32 mt-40 mb-16">
-          <ion-label color="omn-green" class="label-large alt-font">
-            Informații locuință
-          </ion-label>
-        </ion-row>
+      <ion-row class="px-32 mt-40 mb-16">
+        <ion-label color="omn-green" class="label-large alt-font">
+          Informații locuință
+        </ion-label>
+      </ion-row>
 
-        <ion-row class="px-32 mb-13 w-100 flex-column">
-          <ion-label class="link-small text-weight-medium color-tertiary-grey"
-            >Adresa</ion-label
-          >
-          <ion-text class="s18-h24">{{
-            locuinta | locuinteName: 'main-list2' || '-'
-          }}</ion-text>
-        </ion-row>
+      <ion-row class="px-32 mb-13 w-100 flex-column">
+        <ion-label class="link-small text-weight-medium color-tertiary-grey"
+          >Adresa</ion-label
+        >
+        <ion-text class="s18-h24">{{
+          locuinta | locuinteName: 'main-list2' || '-'
+        }}</ion-text>
+      </ion-row>
 
-        <ion-row class="px-32 mb-13 w-100 flex-column">
-          <ion-label class="link-small text-weight-medium color-tertiary-grey"
-            >Tip</ion-label
-          >
-          <ion-text class="s18-h24">{{
-            locuinta?.type | locuinteField: 'type' || '-'
-          }}</ion-text>
-        </ion-row>
+      <ion-row class="px-32 mb-13 w-100 flex-column">
+        <ion-label class="link-small text-weight-medium color-tertiary-grey"
+          >Tip</ion-label
+        >
+        <ion-text class="s18-h24">{{
+          locuinta?.type | locuinteField: 'type' || '-'
+        }}</ion-text>
+      </ion-row>
 
-        <ion-row class="px-32 mb-13 w-100 flex-column">
-          <ion-label class="link-small text-weight-medium color-tertiary-grey"
-            >Structură de rezistență</ion-label
-          >
-          <ion-text class="s18-h24">{{
-            locuinta?.structure | locuinteField: 'structure' || '-'
-          }}</ion-text>
-        </ion-row>
+      <ion-row class="px-32 mb-13 w-100 flex-column">
+        <ion-label class="link-small text-weight-medium color-tertiary-grey"
+          >Structură de rezistență</ion-label
+        >
+        <ion-text class="s18-h24">{{
+          locuinta?.structure | locuinteField: 'structure' || '-'
+        }}</ion-text>
+      </ion-row>
 
-        <ion-row class="px-32 mb-13 w-100 flex-column">
-          <ion-label class="link-small text-weight-medium color-tertiary-grey"
-            >Anul construcției</ion-label
-          >
-          <ion-text class="s18-h24">{{
-            locuinta?.yearConstruction || '-'
-          }}</ion-text>
-        </ion-row>
+      <ion-row class="px-32 mb-13 w-100 flex-column">
+        <ion-label class="link-small text-weight-medium color-tertiary-grey"
+          >Anul construcției</ion-label
+        >
+        <ion-text class="s18-h24">{{
+          locuinta?.yearConstruction || '-'
+        }}</ion-text>
+      </ion-row>
 
-        <ion-row class="px-32 mb-13 w-100 flex-column">
-          <ion-label class="link-small text-weight-medium color-tertiary-grey"
-            >Valoarea locuinței</ion-label
-          >
-          <ion-text class="s18-h24"
-            >{{ locuinta?.value || '-' }}
-            {{ locuinta?.valueCurrency || '-' }}</ion-text
-          >
-        </ion-row>
+      <ion-row class="px-32 mb-13 w-100 flex-column">
+        <ion-label class="link-small text-weight-medium color-tertiary-grey"
+          >Valoarea locuinței</ion-label
+        >
+        <ion-text class="s18-h24"
+          >{{ locuinta?.value || '-' }}
+          {{ locuinta?.valueCurrency || '-' }}</ion-text
+        >
+      </ion-row>
 
-        <ion-row class="px-32 mb-13 w-100 flex-column">
-          <ion-label class="link-small text-weight-medium color-tertiary-grey"
-            >Ocupare</ion-label
-          >
-          <ion-text class="s18-h24">{{
-            locuinta?.typeUse | locuinteField: 'typeUse' || '-'
-          }}</ion-text>
-        </ion-row>
+      <ion-row class="px-32 mb-13 w-100 flex-column">
+        <ion-label class="link-small text-weight-medium color-tertiary-grey"
+          >Ocupare</ion-label
+        >
+        <ion-text class="s18-h24">{{
+          locuinta?.typeUse | locuinteField: 'typeUse' || '-'
+        }}</ion-text>
+      </ion-row>
 
-        <ion-row class="px-32 mb-13 w-100 flex-column">
-          <ion-label class="link-small text-weight-medium color-tertiary-grey"
-            >Suprafața utilă</ion-label
-          >
-          <ion-text class="s18-h24">{{ locuinta?.area || '-' }} mp</ion-text>
-        </ion-row>
+      <ion-row class="px-32 mb-13 w-100 flex-column">
+        <ion-label class="link-small text-weight-medium color-tertiary-grey"
+          >Suprafața utilă</ion-label
+        >
+        <ion-text class="s18-h24">{{ locuinta?.area || '-' }} mp</ion-text>
+      </ion-row>
 
-        <ion-row class="px-32 mb-13 w-100 flex-column">
-          <ion-label class="link-small text-weight-medium color-tertiary-grey"
-            >Regim de înălțime</ion-label
-          >
-          <ion-text class="s18-h24"
-            >{{ locuinta?.floors || '-' }} etaje</ion-text
-          >
-        </ion-row>
+      <ion-row class="px-32 mb-13 w-100 flex-column">
+        <ion-label class="link-small text-weight-medium color-tertiary-grey"
+          >Regim de înălțime</ion-label
+        >
+        <ion-text class="s18-h24">{{ locuinta?.floors || '-' }} etaje</ion-text>
+      </ion-row>
 
-        <ion-row class="px-32 mb-13 w-100 flex-column">
-          <ion-label class="link-small text-weight-medium color-tertiary-grey"
-            >Număr de camere</ion-label
-          >
-          <ion-text class="s18-h24">{{ locuinta?.rooms || '-' }}</ion-text>
-        </ion-row>
+      <ion-row class="px-32 mb-13 w-100 flex-column">
+        <ion-label class="link-small text-weight-medium color-tertiary-grey"
+          >Număr de camere</ion-label
+        >
+        <ion-text class="s18-h24">{{ locuinta?.rooms || '-' }}</ion-text>
+      </ion-row>
 
-        <ion-row class="px-32 mb-13 w-100  flex-column">
-          <ion-label class="link-small text-weight-medium color-tertiary-grey"
-            >Alarmă antiefracție</ion-label
-          >
-          <ion-text class="s18-h24">{{
-            locuinta?.hasAlarmSystem | locuinteField: 'hasAlarmSystem' || '-'
-          }}</ion-text>
-        </ion-row>
+      <ion-row class="px-32 mb-13 w-100 flex-column">
+        <ion-label class="link-small text-weight-medium color-tertiary-grey"
+          >Alarmă antiefracție</ion-label
+        >
+        <ion-text class="s18-h24">{{
+          locuinta?.hasAlarmSystem | locuinteField: 'hasAlarmSystem' || '-'
+        }}</ion-text>
+      </ion-row>
 
-        <ion-row class="px-16 w-100 mh-100">
-          <app-locuinte-view-card
-            (click)="demoType()"
-            [variant]="variant"
-            class="w-100 mh-100"
-          ></app-locuinte-view-card>
-        </ion-row>
-      </ion-col>
+      <ion-row class="px-16 w-100 mh-100">
+        <app-locuinte-view-card
+          (click)="demoType()"
+          [variant]="variant"
+          class="w-100 mh-100"
+        ></app-locuinte-view-card>
+      </ion-row>
     </ion-row>
 
-    <ion-row class="bg-white pb-64 px-24 shadow-1">
-      <ion-col>
-        <ion-row class="ion-justify-content-center mb-20">
-          <ion-icon name="md-infomation" class="mt-n16 info-icon"></ion-icon>
-        </ion-row>
-        <ion-row>
-          <ion-label color="omn-green" class="alt-font label-x-large mb-12"
-            >Trebuie să știi</ion-label
-          >
-          <ion-text class="link-small mb-32">
-            Ca să poți cumpăra o asigurare facultativă pentru locuința ta,
-            aceasta trebuie:
-          </ion-text>
+    <ion-grid
+      class="bg-white pb-64 px-24 shadow-1 flex flex-column w-100 flex-1"
+    >
+      <ion-row class="ion-justify-content-center mb-20 flex w-100">
+        <ion-icon name="md-infomation" class="mt-n24 info-icon"></ion-icon>
+      </ion-row>
+      <ion-row class="flex flex-1 w-100 flex-column">
+        <ion-label
+          color="omn-green"
+          class="alt-font label-x-large mb-12 flex w-100"
+          >Trebuie să știi</ion-label
+        >
+        <ion-text class="link-small mb-32 w-100 flex flex-1">
+          Ca să poți cumpăra o asigurare facultativă pentru locuința ta, aceasta
+          trebuie:
+        </ion-text>
+        <div class="w-100">
           <ol class="link-small m-0 pl-24">
             <li class="mb-8">să nu fie construită înainte de anul 1940;</li>
             <li class="mb-8">
@@ -195,9 +195,9 @@
               să nu se afle într-o zonă în care construcția este interzisă.
             </li>
           </ol>
-        </ion-row>
-      </ion-col>
-    </ion-row>
+        </div>
+      </ion-row>
+    </ion-grid>
   </ion-grid>
 
   <ion-grid
