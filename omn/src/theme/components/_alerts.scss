@@ -23,7 +23,6 @@ ion-alert {
           contain: none;
           .alert-button-inner {
             @include align-items(start);
-
             .alert-radio-icon {
               margin-top: rem(18);
               margin-bottom: rem(16);
