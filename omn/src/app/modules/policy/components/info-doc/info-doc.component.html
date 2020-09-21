@@ -1,4 +1,11 @@
-<ion-grid *ngIf="policyID === 'PAD'" class="pt-80 px-0">
+<ion-grid *ngIf="policyID === 'PAD' || currentStep === 2" class="pt-80 px-0">
+  <ion-row *ngIf="policyID === 'Garant AMPLUS+ PAD'" class="mx-32 mb-23">
+    <div class="border-bottom-1 border-red pb-2">
+      <ion-label class="color-dark-green px-1">
+        {{ currentStep }}/{{ maxSteps }}</ion-label
+      >
+    </div>
+  </ion-row>
   <ion-row class="mx-32 mb-32">
     <ion-col class="ion-no-padding">
       <ion-row>
@@ -161,7 +168,18 @@
   </ion-row>
 </ion-grid>
 
-<ion-grid *ngIf="policyID === 'AMPLUS'" class="pt-80 px-0">
+<ion-grid
+  #info
+  *ngIf="policyID === 'AMPLUS' || currentStep === 1"
+  class="pt-80 px-0"
+>
+  <ion-row *ngIf="policyID === 'Garant AMPLUS+ PAD'" class="mx-32 mb-23">
+    <div class="border-bottom-1 border-red pb-2">
+      <ion-label class="color-dark-green px-1">
+        {{ currentStep }}/{{ maxSteps }}</ion-label
+      >
+    </div>
+  </ion-row>
   <ion-row class="mx-32 mb-32">
     <ion-col class="ion-no-padding">
       <ion-row>
