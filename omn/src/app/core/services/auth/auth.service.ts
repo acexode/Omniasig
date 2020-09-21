@@ -1,4 +1,3 @@
-import { get } from 'lodash';
 import { Injectable } from '@angular/core';
 import {
   ActivatedRoute,
@@ -6,6 +5,7 @@ import {
   Router,
   UrlTree,
 } from '@angular/router';
+import { get } from 'lodash';
 import * as qs from 'qs';
 import { BehaviorSubject, throwError } from 'rxjs';
 import {
@@ -26,9 +26,9 @@ import { Login } from '../../models/login.interface';
 import { CustomStorageService } from '../custom-storage/custom-storage.service';
 import { RequestService } from '../request/request.service';
 
-@Injectable( {
+@Injectable({
   providedIn: 'root',
-} )
+})
 export class AuthService {
   initialState: AuthState = {
     init: false,
@@ -45,134 +45,139 @@ export class AuthService {
     private reqS: RequestService
   ) {
     // Load account state from local/session/cookie storage.
-    this.storeS.getItem( 'token' ).subscribe( ( token: string ) => {
-      if ( token ) {
-        this.getAccountFromStorage( token );
+    this.storeS.getItem('token').subscribe((token: string) => {
+      if (token) {
+        this.getAccountFromStorage(token);
       } else {
-        this.authState.next( { ...this.initialState, ...{ init: true } } );
+        this.authState.next({ ...this.initialState, ...{ init: true } });
       }
-    } );
+    });
   }
 
   // get user data from storage and set account and token to authstate
-  getAccountFromStorage( token = null ) {
-    this.storeS.getItem( 'account' ).subscribe( ( account: Account ) => {
-      if ( account ) {
-        this.authState.next( {
+  getAccountFromStorage(token = null) {
+    this.storeS.getItem('account').subscribe((account: Account) => {
+      if (account) {
+        this.authState.next({
           init: true,
           account,
           authToken: token,
-        } );
+        });
       } else {
-        this.authState.next( { ...this.initialState, ...{ init: true } } );
+        this.authState.next({ ...this.initialState, ...{ init: true } });
       }
-    } );
+    });
   }
 
   // check if user exists
-  findUserByPhoneNumber( phoneNumber: number ) {
+  findUserByPhoneNumber(phoneNumber: number) {
     return this.reqS.get<any>(
-      `${ authEndpoints.findUserByPhoneNumber }?phoneNumber=${ phoneNumber }`
+      `${authEndpoints.findUserByPhoneNumber}?phoneNumber=${phoneNumber}`
     );
   }
 
   // request sms during login
-  sendPhoneNumberSms( phoneNumber ) {
-    const reqData: { phoneNumber: string; } = {
+  sendPhoneNumberSms(phoneNumber) {
+    const reqData: { phoneNumber: string } = {
       phoneNumber,
     };
-    return this.reqS.post<any>( authEndpoints.sendPhoneNumberSms, reqData );
+    return this.reqS.post<any>(authEndpoints.sendPhoneNumberSms, reqData);
   }
 
-  confirmPhoneNumberSms( phoneNumber, code ) {
-    const reqData: { phoneNumber: string; code: number; } = {
+  confirmPhoneNumberSms(phoneNumber, code) {
+    const reqData: { phoneNumber: string; code: number } = {
       phoneNumber,
       code,
     };
-    return this.reqS.post<any>( authEndpoints.confirmPhoneNumberSms, reqData );
+    return this.reqS.post<any>(authEndpoints.confirmPhoneNumberSms, reqData);
   }
 
   // save token to local storage
-  saveToken( token: string ) {
-    return this.storeS.setItem( 'token', token );
+  saveToken(token: string) {
+    return this.storeS.setItem('token', token);
   }
   // get token to local storage
   getToken() {
-    return this.storeS.getItem( 'token' );
+    return this.storeS.getItem('token');
   }
 
   // get user profile from ws
-  getProfile( token, phoneNumber ) {
+  getProfile(token, phoneNumber) {
     return this.reqS
       .get<Account>(
-        `${ authEndpoints.getUserProfile }?userNameOrId=${ phoneNumber }`
+        `${authEndpoints.getUserProfile}?userNameOrId=${phoneNumber}`
       )
       .pipe(
-        switchMap( ( res ) => {
-          return this.processAuthResponse( {
-            account: { ...res, userStates: [ AccountStates.ACTIVE ] },
+        switchMap((res) => {
+          return this.processAuthResponse({
+            account: { ...res, userStates: [AccountStates.ACTIVE] },
             token,
-          } );
-        } )
+          });
+        })
       );
   }
 
   // svae auth data to storage
-  processAuthResponse( data: LoginResponse ) {
+  processAuthResponse(data: LoginResponse) {
     const account = data.account ? data.account : null;
     const authToken = data.token ? data.token : null;
-    return this.storeS.setItem( 'account', account ).pipe(
-      tap( () => {
-        this.authState.next( {
+    return this.storeS.setItem('account', account).pipe(
+      tap(() => {
+        this.authState.next({
           init: true,
           account,
           authToken,
-        } );
-      } ),
-      map( ( v ) => data )
+        });
+      }),
+      map((v) => data)
     );
   }
 
   // deprecated
-  _accountActivated( acc: Account ) {
+  _accountActivated(acc: Account) {
     return acc
-      ? acc.userStates.findIndex( ( s ) => s === AccountStates.ACTIVE ) > -1
+      ? acc.userStates.findIndex((s) => s === AccountStates.ACTIVE) > -1
       : false;
   }
 
-  accountActivated( acc: Account ) {
-    return acc.isBiometricValid === true && acc.isEmailConfirmed === true ? true : false;
+  accountActivated(acc: Account) {
+    return acc.isBiometricValid === true && acc.isEmailConfirmed === true
+      ? true
+      : false;
   }
 
   /**
    *
    * @param phoneNumber phoneNumber of the user trying to login
    */
-  saveLastLoginNumber( phoneNumber: string ) {
-    return this.storeS.setItem( 'phoneNumber', phoneNumber );
+  saveLastLoginNumber(phoneNumber: string) {
+    return this.storeS.setItem('phoneNumber', phoneNumber);
   }
 
   getPhoneNumber() {
-    return this.storeS.getItem( 'phoneNumber' ).pipe( take( 1 ) );
+    return this.storeS.getItem('phoneNumber').pipe(take(1));
   }
 
   doLogout() {
-    this.storeS.removeItem( 'account' );
-    this.storeS.removeItem( 'token' );
-    this.authState.next( {
+    this.storeS.removeItem('account');
+    this.storeS.removeItem('token');
+    this.storeS.removeItem('phoneNumber');
+
+    this.authState.next({
       ...this.initialState,
-    } );
-    this.routerS.navigateByUrl( '/login' );
+    });
+
+    this.routerS.navigateByUrl('/login');
   }
 
-  updateState( newState: AuthState ) {
-    this.authState.next( newState );
+  updateState(newState: AuthState) {
+    this.authState.next(newState);
   }
 
   getAuthState() {
     return this.authState.pipe(
       share(),
-      filter( ( val: AuthState ) => val && val.hasOwnProperty( 'init' ) && val.init ),
+      filter((val: AuthState) => val && val.hasOwnProperty('init') && val.init),
       distinctUntilChanged()
     );
   }
@@ -180,63 +185,63 @@ export class AuthService {
   getAccountData() {
     return this.getAuthState().pipe(
       share(),
-      map( ( val: AuthState ) => {
+      map((val: AuthState) => {
         return val.account;
-      } )
+      })
     );
   }
 
   // makes http call to server.
-  login( loginData: {
+  login(loginData: {
     phone: string;
     password: any;
     aRoute: string | ActivatedRoute;
-  } ) {
+  }) {
     const reqData: Login = {
       userName: loginData.phone,
       password: loginData.password,
     };
-    return this.doLogin( reqData ).pipe(
-      switchMap( ( res ) => {
-        return this.saveToken( res.token ).pipe(
-          switchMap( () => {
-            return this.getProfile( res.token, loginData.phone );
-          } )
+    return this.doLogin(reqData).pipe(
+      switchMap((res) => {
+        return this.saveToken(res.token).pipe(
+          switchMap(() => {
+            return this.getProfile(res.token, loginData.phone);
+          })
         );
-      } ),
-      tap( ( value ) => {
+      }),
+      tap((value) => {
         let redirectUrl: any = '/home';
-        if ( loginData.aRoute instanceof ActivatedRoute ) {
+        if (loginData.aRoute instanceof ActivatedRoute) {
           redirectUrl = this.redirectUrlTree(
             loginData.aRoute ? loginData.aRoute.snapshot : null
           );
-        } else if ( typeof loginData.aRoute === 'string' ) {
+        } else if (typeof loginData.aRoute === 'string') {
           redirectUrl = loginData.aRoute;
-        } else if ( loginData.aRoute === null ) {
+        } else if (loginData.aRoute === null) {
           redirectUrl = null;
         }
-        if ( redirectUrl ) {
-          Promise.resolve( this.routerS.navigateByUrl( redirectUrl ) );
+        if (redirectUrl) {
+          Promise.resolve(this.routerS.navigateByUrl(redirectUrl));
         }
-      } )
+      })
     );
   }
 
-  doLogin( reqData: Login ) {
+  doLogin(reqData: Login) {
     return this.reqS
-      .post<LoginResponse>( authEndpoints.login, reqData )
-      .pipe( take( 1 ) );
+      .post<LoginResponse>(authEndpoints.login, reqData)
+      .pipe(take(1));
   }
 
-  redirectUrlTree( snapshot: ActivatedRouteSnapshot ): UrlTree {
-    if ( snapshot ) {
+  redirectUrlTree(snapshot: ActivatedRouteSnapshot): UrlTree {
+    if (snapshot) {
       const qP = snapshot.queryParams;
       const rUk = 'returnUrl';
-      if ( qP.hasOwnProperty( rUk ) && qP[ rUk ] ) {
-        return this.routerS.createUrlTree( [ qP[ rUk ] ] );
+      if (qP.hasOwnProperty(rUk) && qP[rUk]) {
+        return this.routerS.createUrlTree([qP[rUk]]);
       }
     }
-    return this.routerS.createUrlTree( [ '/' ] );
+    return this.routerS.createUrlTree(['/']);
   }
 
   demoActivate() {
@@ -245,87 +250,83 @@ export class AuthService {
       AccountStates.ACTIVE,
       AccountStates.EMAIL_VALIDATED,
     ];
-    this.authState.next( {
+    this.authState.next({
       init: true,
       account: { ...state.account },
-    } );
-    this.storeS.setItem( 'account', state.account );
+    });
+    this.storeS.setItem('account', state.account);
   }
 
-  doUpdateAccount( data: { cnp?: string; email?: string; } ) {
+  doUpdateAccount(data: {
+    cnp?: string;
+    email?: string;
+    name?: string;
+    surname?: string;
+    dateBirth?: any;
+    [key: string]: any;
+  }) {
     const account = this.authState.value.account;
-    if ( data.cnp ) {
-      account.cnp = data.cnp;
-    }
-    if ( data.email ) {
-      account.email = data.email;
-    }
+    const newAccount = { ...account, ...data };
 
-    this.storeS.setItem( 'account', account );
-    this.authState.next( {
+    this.storeS.setItem('account', newAccount);
+    this.authState.next({
       init: true,
-      account: { ...account },
-    } );
+      account: { ...newAccount },
+    });
   }
 
-  validateEmail( dataObj, newEmail?: boolean ) {
+  validateEmail(dataObj, newEmail?: boolean) {
     const endpointV = newEmail
       ? authEndpoints.confirmNewEmail
       : authEndpoints.confirmEmailChange;
     // Use custom query encode so that Angular will not remove token chars.
-    const encodedQs = qs.stringify( dataObj, {
-      encoder: ( str ) => {
-        return encodeURIComponent( str );
+    const encodedQs = qs.stringify(dataObj, {
+      encoder: (str) => {
+        return encodeURIComponent(str);
       },
-    } );
-    return this.reqS.get( endpointV + '?' + encodedQs );
+    });
+    return this.reqS.get(endpointV + '?' + encodedQs);
   }
 
   doReqNewEmailCode() {
     return this.getAccountData().pipe(
-      take( 1 ),
-      switchMap( ( value: Account ) => {
-        if ( value && value.email ) {
-          return this.doChangeEmail( value.email );
+      take(1),
+      switchMap((value: Account) => {
+        if (value && value.email) {
+          return this.doChangeEmail(value.email);
         } else {
-          throw throwError( 'NO_ACCOUNT_EMAIL' );
+          throw throwError('NO_ACCOUNT_EMAIL');
         }
-      } )
+      })
     );
   }
 
-  doChangeEmail( newEmail: string ) {
+  doChangeEmail(newEmail: string) {
     return this.getPhoneNumber().pipe(
-      take( 1 ),
-      switchMap( ( phoneNum ) => {
-        if ( phoneNum ) {
-          return this.reqS.post( authEndpoints.changeEmail, {
+      take(1),
+      switchMap((phoneNum) => {
+        if (phoneNum) {
+          return this.reqS.post(authEndpoints.changeEmail, {
             userNameOrId: phoneNum,
             newEmail,
-          } );
+          });
         } else {
-          throw throwError( 'NO_NUMBER' );
+          throw throwError('NO_NUMBER');
         }
-      } )
+      })
     );
   }
 
   lastLoginNumber() {
-    return this.storeS.getItem( 'phoneNumber' );
+    return this.storeS.getItem('phoneNumber');
   }
 
-  demoUpdate( data: { cnp?: string; email?: string; } ) {
-    const account = this.authState.value.account;
-    if ( data.cnp ) {
-      account.cnp = data.cnp;
-    }
-    if ( data.email ) {
-      account.email = data.email;
-    }
-    this.storeS.setItem( 'account', account );
-    this.authState.next( {
-      init: true,
-      account,
-    } );
+  updateUserProfile(obj) {
+    return this.reqS.post(authEndpoints.updateUserProfile, obj).pipe(
+      tap((v) => {
+        obj.dateBirth = get(obj, 'dateOfBirth', null);
+        this.doUpdateAccount(obj);
+      })
+    );
   }
 }
