@@ -113,8 +113,7 @@
       "cordova-plugin-app-version": {}
     },
     "platforms": [
-      "browser",
-      "android"
+      "browser"
     ]
   },
   "main": "karma.conf.js",
