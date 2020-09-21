@@ -1,9 +1,10 @@
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { FormGroup } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { IonInput, NavController } from '@ionic/angular';
+import { NavController } from '@ionic/angular';
 import { Subscription } from 'rxjs';
 import { take } from 'rxjs/internal/operators/take';
+import { unsubscriberHelper } from 'src/app/core/helpers/unsubscriber.helper';
 import { AuthService } from 'src/app/core/services/auth/auth.service';
 
 @Component({
@@ -15,24 +16,19 @@ export class PasscodeComponent implements OnInit, OnDestroy {
   min = '00';
   sec: any = 59;
   digitsLength = 0;
-  @ViewChild('inputField') inputField: IonInput;
-  passForm: FormGroup;
   phoneNumber: string = null;
   sub: Subscription;
   busy = false;
   errorLogin: string = null;
   constructor(
     private navCtrl: NavController,
-    private formBuilder: FormBuilder,
     private route: ActivatedRoute,
     private authService: AuthService
   ) {
     this.getPhoneNumber();
   }
 
-  ngOnInit() {
-    this.initForm();
-  }
+  ngOnInit() {}
 
   getPhoneNumber() {
     this.sub = this.route.params.pipe(take(1)).subscribe((params) => {
@@ -44,68 +40,34 @@ export class PasscodeComponent implements OnInit, OnDestroy {
     });
   }
 
-  initForm() {
-    this.passForm = this.formBuilder.group({
-      passcode: [
-        '',
-        [Validators.required, Validators.minLength(6), Validators.maxLength(6)],
-      ],
-    });
-
-    this.passForm.valueChanges.subscribe((value) => {
-      this.changeInput(value.passcode);
-    });
-  }
-
-  changeInput(passcode) {
-    if (passcode || passcode === 0) {
-      this.digitsLength = passcode.toString().length;
-    } else {
-      this.digitsLength = 0;
-    }
-    if (this.digitsLength === 6) {
-      if (!this.busy) {
-        this.verifyPasscode();
-      }
-    }
-
-    this.errorLogin = null;
-  }
-
-  verifyPasscode() {
-    this.busy = true;
+  verifyPasscode(passForm: FormGroup) {
     const data = {
       phone: this.phoneNumber,
-      password: this.passForm.controls.passcode.value,
+      password: passForm.controls.passcode.value,
       aRoute: '/home',
     };
     this.authService.login(data).subscribe(
       (datav) => this.changeCurrentLogin(),
-      (error) => this.errLogin(error)
+      (error) => this.errLogin(error, passForm)
     );
   }
 
   changeCurrentLogin() {
     this.authService.saveLastLoginNumber(this.phoneNumber);
-    this.busy = false;
   }
 
-  errLogin(err) {
-    this.passForm.reset();
+  errLogin(err, passForm) {
+    passForm.reset();
     this.errorLogin = 'Cod Invalid!';
-    this.busy = false;
   }
 
-  spawnInput() {
-    this.inputField.getInputElement().then((input) => {
-      input.focus();
-      input.click();
-    });
+  clearErr(e) {
+    this.errorLogin = null;
   }
 
   ngOnDestroy(): void {
     // Called once, before the instance is destroyed.
     // Add 'implements OnDestroy' to the class.
-    this.sub.unsubscribe();
+    unsubscriberHelper(this.sub);
   }
 }

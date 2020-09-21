@@ -1,26 +1,14 @@
 <ion-card
   *ngIf="!item?.routerLink"
   [button]="item?.isButton"
-  [routerLink]="item?.routerLink"
+  [disabled]="item?.isDisabled"
   class="m-0 w-100 flex-column flex is-link"
-  [ngClass]="item?.itemClass + ' ' + (item?.isButton ? 'is-button' : ' ')"
-  (click)="emitItemEvent('item-click', item)"
->
-  <ng-container
-    [ngTemplateOutlet]="innerCardContent"
-    [ngTemplateOutletContext]="{ item: item }"
-  ></ng-container>
-</ion-card>
-<ion-card
-  *ngIf="item?.routerLink"
-  [button]="item?.isButton"
-  class="m-0 w-100 flex-column flex"
   [ngClass]="
     item?.itemClass +
     ' ' +
     (item?.isButton ? 'is-button' : ' ') +
     ' ' +
-    (item?.routerLink ? 'is-link' : '')
+    (item?.isHidden ? 'is-not-visible' : '')
   "
   (click)="emitItemEvent('item-click', item)"
 >
@@ -29,6 +17,31 @@
     [ngTemplateOutletContext]="{ item: item }"
   ></ng-container>
 </ion-card>
+
+<ion-card
+  *ngIf="item?.routerLink"
+  [routerLink]="item?.routerLink"
+  [button]="item?.isButton"
+  [disabled]="item?.isDisabled"
+  [routerLink]="item?.routerLink"
+  class="m-0 w-100 flex-column flex"
+  [ngClass]="
+    item?.itemClass +
+    ' ' +
+    (item?.isButton ? 'is-button' : ' ') +
+    ' ' +
+    (item?.routerLink ? 'is-link' : '') +
+    ' ' +
+    (item?.isHidden ? 'ion-hide' : '')
+  "
+  (click)="emitItemEvent('item-click', item)"
+>
+  <ng-container
+    [ngTemplateOutlet]="innerCardContent"
+    [ngTemplateOutletContext]="{ item: item }"
+  ></ng-container>
+</ion-card>
+
 <ng-template #innerCardContent let-item="item">
   <ion-icon
     *ngIf="item?.headerIcon"

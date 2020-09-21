@@ -1,16 +1,15 @@
 import {
   Component,
-  OnInit,
-  HostBinding,
-  Output,
   EventEmitter,
+  HostBinding,
   Input,
-  ViewChild,
+  OnInit,
+  Output,
 } from '@angular/core';
 import { ModalController } from '@ionic/angular';
-import { TipModalComponent } from '../modals/tip-modal/tip-modal.component';
 import { subPageHeaderSecondary } from 'src/app/shared/data/sub-page-header-secondary';
 import { ImageCard } from 'src/app/shared/models/component/image-card';
+import { TipModalComponent } from '../modals/tip-modal/tip-modal.component';
 
 @Component({
   selector: 'app-info-doc',
@@ -23,8 +22,8 @@ export class InfoDocComponent implements OnInit {
   @Output() continue = new EventEmitter();
   @Output() scrollTop = new EventEmitter();
   @Input() policyID;
-  currentStep: number = 0;
-  maxSteps: number = 2;
+  currentStep = 0;
+  maxSteps = 2;
   padHelpItems: Array<ImageCard> = [
     {
       mainIcon: {

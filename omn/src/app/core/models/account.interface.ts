@@ -15,8 +15,10 @@ export interface Account {
   roles?: string[];
   pin?: number;
   dateBirth?: string;
+  dateOfBirth?: string;
   marketing?: boolean;
-
+  isBiometricValid?: boolean;
+  isEmailConfirmed?: boolean;
   // Old model stuff
   firstName?: string;
   lastName?: string;

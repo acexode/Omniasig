@@ -1,17 +1,17 @@
-import { get } from 'lodash';
-import { PolicyDataService } from './../../services/policy-data.service';
-import { PadService } from '../../services/pad.service';
 import {
   ChangeDetectionStrategy,
   Component,
+  EventEmitter,
   Input,
   OnInit,
   Output,
-  EventEmitter,
 } from '@angular/core';
-import { PolicyOffer } from 'src/app/shared/models/data/policy-offer';
-import { NavController } from '@ionic/angular';
 import { ActivatedRoute } from '@angular/router';
+import { NavController } from '@ionic/angular';
+import { get } from 'lodash';
+import { PolicyOffer } from 'src/app/shared/models/data/policy-offer';
+import { PadService } from '../../services/pad.service';
+import { PolicyDataService } from './../../services/policy-data.service';
 
 @Component({
   selector: 'app-policy-verify',

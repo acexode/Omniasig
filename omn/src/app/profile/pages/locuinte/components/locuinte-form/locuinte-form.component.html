@@ -48,7 +48,7 @@
   >
     <ion-row class="ion-no-padding judet mb-24">
       <app-select
-        class="w-100"
+        class="w-100 "
         [config]="fieldConfig?.addressCounty"
         formControlName="addressCounty"
         [options]="fieldConfigData?.addressCounty || []"
@@ -108,7 +108,7 @@
         formControlName="name"
       ></app-input>
     </ion-row>
-    <ng-container >
+    <ng-container>
       <ion-row class="ion-no-padding profile-padAvailable mb-24">
         <app-radios
           class="w-100"
@@ -120,7 +120,7 @@
       <ion-row
         class="ion-no-padding policy-serie-nr mb-24"
         *ngIf="padAvailableV"
-        >
+      >
         <ion-col size="6" class="pr-16">
           <app-input
             class="w-100"
@@ -186,6 +186,37 @@
           formControlName="value"
         ></app-input>
       </ion-row>
+
+      <ng-container *ngIf="policyType === 'AMPLUS'">
+        <ion-row
+          class="ion-no-padding mt-12"
+          (click)="triggerModal('VALOARE_MODAL')"
+        >
+          <ion-item class="form-description p-0 no-paddings" lines="none">
+            <ion-icon
+              slot="start"
+              name="md-info"
+              class="icon-20 position-absolute top-0 m-0 color-secondary-blue"
+            ></ion-icon
+            ><ion-text class="text-small ml-32"
+              >Valoarea de .........
+            </ion-text>
+          </ion-item></ion-row
+        >
+        <ion-row
+          class="mx-n16 mt-24 alt-bg bottom-radius-8 top-radius-8 p-16 label-normal"
+        >
+          <ion-text>
+            Bunurile cuprinse în Poliţă sunt asigurate la valorile declarate de
+            Asigurat, menţionate în Poliţă, reprezentând suma asigurată.
+          </ion-text>
+          <ion-text class="mt-16">
+            Împreună cu asigurarea locuinței, se asigură automat și bunurile
+            conținute (care nu fac obiectul excluderilor) la o valoare globală
+            egală cu 10% din suma asigurată a locuinței.</ion-text
+          >
+        </ion-row>
+      </ng-container>
     </ion-row>
 
     <ion-row class="ion-no-padding flex-column pad-description mb-24 mt-n12">

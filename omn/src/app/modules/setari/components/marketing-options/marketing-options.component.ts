@@ -1,3 +1,4 @@
+import { SettingsService } from './../../services/settings.service';
 import { NavController } from '@ionic/angular';
 import { Component, HostBinding, OnInit } from '@angular/core';
 import { radiosConfigHelper } from 'src/app/shared/data/radios-config-helper';
@@ -27,19 +28,40 @@ export class MarketingOptionsComponent implements OnInit {
   };
 
   radioOptions: Array<IonRadioInputOption> = [
-    { label: 'DA, sunt de acord', id: 1 },
-    { label: '*NU, nu sunt de acord', id: 0 },
+    { label: 'DA, sunt de acord', id: true },
+    { label: '*NU, nu sunt de acord', id: false },
   ];
   formGroup = this.fb.group({
-    accept: this.fb.control('', Validators.required),
+    accept: this.fb.control(false, Validators.required),
   });
-  constructor(private fb: FormBuilder, private navCtrl: NavController) {}
+  busy = false;
+  constructor(
+    private fb: FormBuilder,
+    private navCtrl: NavController,
+    private settingsS: SettingsService
+  ) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.getSettings();
+  }
+
+  getSettings() {
+    this.settingsS.settings$.subscribe((data) => {
+      this.formGroup
+        .get('accept')
+        .patchValue(data.marketing, { emitEvent: false });
+    });
+  }
 
   submitForm() {
-    if (this.formGroup.valid) {
-      this.navCtrl.navigateRoot('/home');
-    }
+    this.busy = true;
+    this.settingsS
+      .updateSettings({ marketing: this.formGroup.get('accept').value })
+      .subscribe(
+        (data) => {
+          this.navCtrl.navigateRoot('/home');
+        },
+        (err) => (this.busy = false)
+      );
   }
 }

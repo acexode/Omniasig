@@ -3,11 +3,9 @@ import {
   ActivatedRoute,
   ActivatedRouteSnapshot,
   Router,
-
-
-
-  UrlTree
+  UrlTree,
 } from '@angular/router';
+import { get } from 'lodash';
 import * as qs from 'qs';
 import { BehaviorSubject, throwError } from 'rxjs';
 import {
@@ -17,7 +15,7 @@ import {
   share,
   switchMap,
   take,
-  tap
+  tap,
 } from 'rxjs/operators';
 import { authEndpoints } from '../../configs/endpoints';
 import { AccountStates } from '../../models/account-states';
@@ -135,9 +133,16 @@ export class AuthService {
     );
   }
 
-  accountActivated(acc: Account) {
+  // deprecated
+  _accountActivated(acc: Account) {
     return acc
       ? acc.userStates.findIndex((s) => s === AccountStates.ACTIVE) > -1
+      : false;
+  }
+
+  accountActivated(acc: Account) {
+    return acc.isBiometricValid === true && acc.isEmailConfirmed === true
+      ? true
       : false;
   }
 
@@ -156,9 +161,12 @@ export class AuthService {
   doLogout() {
     this.storeS.removeItem('account');
     this.storeS.removeItem('token');
+    this.storeS.removeItem('phoneNumber');
+
     this.authState.next({
       ...this.initialState,
     });
+
     this.routerS.navigateByUrl('/login');
   }
 
@@ -249,19 +257,21 @@ export class AuthService {
     this.storeS.setItem('account', state.account);
   }
 
-  doUpdateAccount(data: { cnp?: string; email?: string }) {
+  doUpdateAccount(data: {
+    cnp?: string;
+    email?: string;
+    name?: string;
+    surname?: string;
+    dateBirth?: any;
+    [key: string]: any;
+  }) {
     const account = this.authState.value.account;
-    if (data.cnp) {
-      account.cnp = data.cnp;
-    }
-    if (data.email) {
-      account.email = data.email;
-    }
+    const newAccount = { ...account, ...data };
 
-    this.storeS.setItem('account', account);
+    this.storeS.setItem('account', newAccount);
     this.authState.next({
       init: true,
-      account: { ...account },
+      account: { ...newAccount },
     });
   }
 
@@ -311,18 +321,12 @@ export class AuthService {
     return this.storeS.getItem('phoneNumber');
   }
 
-  demoUpdate(data: { cnp?: string; email?: string }) {
-    const account = this.authState.value.account;
-    if (data.cnp) {
-      account.cnp = data.cnp;
-    }
-    if (data.email) {
-      account.email = data.email;
-    }
-    this.storeS.setItem('account', account);
-    this.authState.next({
-      init: true,
-      account,
-    });
+  updateUserProfile(obj) {
+    return this.reqS.post(authEndpoints.updateUserProfile, obj).pipe(
+      tap((v) => {
+        obj.dateBirth = get(obj, 'dateOfBirth', null);
+        this.doUpdateAccount(obj);
+      })
+    );
   }
 }
