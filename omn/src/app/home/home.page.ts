@@ -18,19 +18,19 @@ import { PolicyOffer } from '../shared/models/data/policy-offer';
 import { addDaune, dauneDisabled, testDauneData } from './data/home-daune-data';
 import { offerHomeItemHelper } from './data/home-offer-item-helper';
 import { policyHomeItemHelper } from './data/home-policy-item-helper';
-@Component( {
+@Component({
   selector: 'app-home',
   templateUrl: 'home.page.html',
-  styleUrls: [ 'home.page.scss' ],
+  styleUrls: ['home.page.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-} )
+})
 export class HomePage implements OnInit {
   release = this.configS.release();
   dauneDisabled = dauneDisabled;
   hasOffers = false;
   accountActivated = false;
-  offers$: BehaviorSubject<Array<PolicyListItem>> = new BehaviorSubject( [] );
-  policies$: BehaviorSubject<Array<PolicyListItem>> = new BehaviorSubject( [] );
+  offers$: BehaviorSubject<Array<PolicyListItem>> = new BehaviorSubject([]);
+  policies$: BehaviorSubject<Array<PolicyListItem>> = new BehaviorSubject([]);
   account = null;
   daune: Array<ImageCard> = null;
 
@@ -126,7 +126,7 @@ export class HomePage implements OnInit {
     itemClass: 'flex-1 mt-n16 p-16 mb-12',
     isButton: true,
     isHidden: false,
-    routerLink: [ '/biometrics' ],
+    routerLink: ['/biometrics'],
   };
   // changeClassForEmailCard (this is to change the class of the email card with its the only required one for validation)
   changeClassForEmailCard = false;
@@ -141,8 +141,10 @@ export class HomePage implements OnInit {
     id: 'email',
     isButton: true,
     isHidden: false,
-    routerLink: [ '/profil', 'date-personale', 'validate-email' ],
-    itemClass: this.changeClassForEmailCard ? 'p-16 flex-1 mb-16' : 'flex-1 mt-n16 p-16 mb-12',
+    routerLink: ['/profil', 'date-personale', 'validate-email'],
+    itemClass: this.changeClassForEmailCard
+      ? 'p-16 flex-1 mb-16'
+      : 'flex-1 mt-n16 p-16 mb-12',
   };
   accountNotActivated: DisabledPlaceholderCard = {
     leftColumnClass: 'flex-0',
@@ -171,54 +173,54 @@ export class HomePage implements OnInit {
     private cdRef: ChangeDetectorRef,
     private configS: ConfigService
   ) {
-    if ( this.release === 2 ) {
-      this.daune = testDauneData.concat( addDaune );
+    if (this.release === 2) {
+      this.daune = testDauneData.concat(addDaune);
     }
   }
 
   ngOnInit(): void {
-    this.authS.getAccountData().subscribe( ( account ) => {
+    this.authS.getAccountData().subscribe((account) => {
       this.account = account;
-      if ( account ) {
+      if (account) {
         // activate display for what needs validation from user
         this.displayWhatNeedsToBeValidated(this.account);
 
-        this.accountActivated = this.authS.accountActivated( account );
-        if ( this.accountActivated ) {
-          this.policyS.policyStore$.subscribe( ( v ) =>
-            this.policies$.next( this.mapPolicies( v ) )
+        this.accountActivated = this.authS.accountActivated(account);
+        if (this.accountActivated) {
+          this.policyS.policyStore$.subscribe((v) =>
+            this.policies$.next(this.mapPolicies(v))
           );
-          this.policyS.offerStore$.subscribe( ( v ) =>
-            this.offers$.next( this.mapOffers( v ) )
+          this.policyS.offerStore$.subscribe((v) =>
+            this.offers$.next(this.mapOffers(v))
           );
         }
       }
       this.cdRef.markForCheck();
-    } );
+    });
   }
 
   displayWhatNeedsToBeValidated(acc: Account) {
-    if ( !this.account.isEmailConfirmed && !this.account.isBiometricValid ) {
-      this.pushCardForValidation( this.biometricCard );
-      this.pushCardForValidation( this.emailCard );
-    } else if ( !this.account.isEmailConfirmed ) {
+    if (!this.account.isEmailConfirmed && !this.account.isBiometricValid) {
+      this.pushCardForValidation(this.biometricCard);
+      this.pushCardForValidation(this.emailCard);
+    } else if (!this.account.isEmailConfirmed) {
       // email
       this.changeClassForEmailCard = true;
-      this.pushCardForValidation( this.emailCard );
+      this.pushCardForValidation(this.emailCard);
     } else {
       // biometrics
-      this.pushCardForValidation( this.biometricCard );
+      this.pushCardForValidation(this.biometricCard);
     }
   }
   pushCardForValidation(card: ImageCard) {
-    this.accountNotActivated.cards.push( card);
+    this.accountNotActivated.cards.push(card);
   }
   /**
    * Preprocess user Policies data.
    */
-  mapPolicies( policies: Array<PolicyItem> ) {
-    if ( policies ) {
-      return policies.map( ( p ) => policyHomeItemHelper( p ) );
+  mapPolicies(policies: Array<PolicyItem>) {
+    if (policies) {
+      return policies.map((p) => policyHomeItemHelper(p));
     } else {
       return [];
     }
@@ -227,10 +229,10 @@ export class HomePage implements OnInit {
   /**
    * Preprocess user Offers data.
    */
-  mapOffers( offers: Array<PolicyOffer> ) {
+  mapOffers(offers: Array<PolicyOffer>) {
     let newOff = [];
-    if ( offers && offers.length > 0 ) {
-      newOff = offers.map( ( o ) => offerHomeItemHelper( o ) );
+    if (offers && offers.length > 0) {
+      newOff = offers.map((o) => offerHomeItemHelper(o));
       this.asigTitle.classes = 'color-dark-green';
       this.hasOffers = true;
     } else {
@@ -244,7 +246,7 @@ export class HomePage implements OnInit {
   }
 
   openCustom() {
-    this.menu.enable( true, 'omn-menu' );
-    this.menu.open( 'omn-menu' );
+    this.menu.enable(true, 'omn-menu');
+    this.menu.open('omn-menu');
   }
 }
