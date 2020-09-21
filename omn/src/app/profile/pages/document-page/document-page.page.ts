@@ -35,7 +35,7 @@ export class DocumentPagePage implements OnInit {
       .then((blob) => {
         this.file
           .writeFile(
-            //this.file.externalApplicationStorageDirectory,
+            // this.file.externalApplicationStorageDirectory,
             this.file.externalDataDirectory,
             name + '.pdf',
             blob,
