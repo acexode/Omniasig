@@ -21,6 +21,7 @@ export class InfoDocComponent implements OnInit {
   @HostBinding('class') color = 'ion-color-white-page';
   @Output() continue = new EventEmitter();
   @Output() scrollTop = new EventEmitter();
+  @Output() stepChange: EventEmitter<any> = new EventEmitter();
   @Input() policyID;
   currentStep = 0;
   maxSteps = 2;
@@ -593,11 +594,15 @@ export class InfoDocComponent implements OnInit {
     }
   }
 
-  back() {}
+  back() {
+    this.currentStep--;
+    this.stepChange.emit(this.currentStep);
+  }
 
   next() {
     if (this.policyID === 'Garant AMPLUS+ PAD' && this.currentStep === 1) {
       this.currentStep++;
+      this.stepChange.emit(this.currentStep);
       this.scrollTop.emit();
       return;
     }

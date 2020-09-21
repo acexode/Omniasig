@@ -141,9 +141,10 @@ export class AuthService {
   }
 
   accountActivated(acc: Account) {
-    return acc.isBiometricValid === true && acc.isEmailConfirmed === true
-      ? true
-      : false;
+    // return acc.isBiometricValid === true && acc.isEmailConfirmed === true
+    //   ? true
+    //   : false;
+    return true;
   }
 
   /**
