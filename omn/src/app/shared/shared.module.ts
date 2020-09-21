@@ -33,7 +33,7 @@ import { TimePipe } from './pipes/time.pipe';
     LocuinteFieldPipe,
     LoadingPlaceholderComponent,
     GeneralErrorComponent,
-    PolicyNamePipe,
+    PolicyNamePipe
   ],
   imports: [CommonModule, FormsModule, IonicModule, RouterModule],
   exports: [
@@ -51,7 +51,7 @@ import { TimePipe } from './pipes/time.pipe';
     ArchiveListComponent,
     LocuinteCardComponent,
     LoadingPlaceholderComponent,
-    GeneralErrorComponent,
+    GeneralErrorComponent
   ],
 })
 export class SharedModule {}

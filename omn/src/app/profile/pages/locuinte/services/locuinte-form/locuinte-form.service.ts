@@ -317,8 +317,8 @@ export class LocuinteFormService {
       })
     );
   }
-  
-  handleStreetProcessing(id, fieldsData, dataModel = {}) {    
+
+  handleStreetProcessing(id, fieldsData, dataModel = {}) {
     const vvv = fieldsData.addressStreet ? fieldsData.addressStreet : [];
     const f = vvv.find((v) => {
       try {
@@ -329,11 +329,11 @@ export class LocuinteFormService {
       } catch (err) {
         return false;
       }
-    });     
+    });
     set(dataModel, 'addressStreetType', get(f, 'streetType', 'Strada'));
-    set(dataModel, 'addressStreetCode', get(f, 'id', null));    
+    set(dataModel, 'addressStreetCode', get(f, 'id', null));
   }
-  handlePostalCode(id, fieldsData,  addressPostalCode) {    
+  handlePostalCode(id, fieldsData, addressPostalCode) {
     const vvv = fieldsData.addressStreet ? fieldsData.addressStreet : [];
     const f = vvv.find((v) => {
       try {
@@ -344,7 +344,7 @@ export class LocuinteFormService {
       } catch (err) {
         return false;
       }
-    });  
+    });
     const postCode = get(f, 'postCode', null);
     addressPostalCode.patchValue(postCode);
   }

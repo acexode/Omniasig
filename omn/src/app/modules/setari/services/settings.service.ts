@@ -11,7 +11,7 @@ import { CustomStorageService } from './../../../core/services/custom-storage/cu
 })
 export class SettingsService {
   private settings: any = {
-    notifications: null,
+    admintNotifications: null,
     marketing: null,
   };
   settings$: BehaviorSubject<any> = new BehaviorSubject(this.settings);
@@ -49,7 +49,7 @@ export class SettingsService {
   private getSettings() {
     this.auth.getAccountData().subscribe((data: any) => {
       this.settings = {
-        notifications: data.notifications ? data.notifications : false,
+        admintNotifications: data.admintNotifications ? data.admintNotifications : false,
         marketing: data.marketing ? data.marketing : false,
       };
       this.settings$.next(this.settings);

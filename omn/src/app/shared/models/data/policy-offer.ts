@@ -11,4 +11,7 @@ export interface PolicyOffer {
   prima?: string | number;
   currency?: string;
   emisionDate?: string | Date;
+  // New AMPLUS.
+  supportData?: any;
+  payData?: any;
 }

@@ -27,6 +27,11 @@ $font-family-base: var(--ion-font-family);
   line-height: rem(16);
 }
 
+.text-x-small {
+  font-size: rem(11);
+  line-height: rem(13);
+}
+
 h1,
 h2,
 h3,
@@ -96,6 +101,11 @@ h3,
 .s32-h38 {
   font-size: rem(32) !important;
   line-height: rem(38) !important;
+}
+
+.s13-h15 {
+  font-size: rem(13) !important;
+  line-height: rem(15) !important;
 }
 
 .s13-h16 {
