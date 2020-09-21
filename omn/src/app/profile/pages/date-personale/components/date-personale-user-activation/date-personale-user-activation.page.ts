@@ -5,22 +5,23 @@ import { SubPageHeader } from 'src/app/shared/models/component/sub-page-header';
 import { subPageHeaderSecondary } from 'src/app/shared/data/sub-page-header-secondary';
 import { AuthService } from 'src/app/core/services/auth/auth.service';
 import { Account } from 'src/app/core/models/account.interface';
-@Component( {
+@Component({
   selector: 'app-date-personale-user-activation',
   templateUrl: './date-personale-user-activation.page.html',
-  styleUrls: [ './date-personale-user-activation.page.scss' ],
-} )
+  styleUrls: ['./date-personale-user-activation.page.scss'],
+})
 export class DatePersonaleUserActivationPage implements OnInit {
-  @HostBinding( 'class' ) color = 'ion-color-white-page';
+  @HostBinding('class') color = 'ion-color-white-page';
   userActivationModes = UserActivateModes;
   headerConfig: SubPageHeader = {
-    ...subPageHeaderSecondary( 'Activare cont' ),
+    ...subPageHeaderSecondary('Activare cont'),
     leadingIcon: null,
     trailingIcon: null,
   };
   displayMode: UserActivateModes = this.userActivationModes.EXISTING;
-  itemClass = `py-8 flex-1 mb-16 ${ this.displayMode === UserActivateModes.NEW_USER && 'lighter-green-gradient'
-    }`;
+  itemClass = `py-8 flex-1 mb-16 ${
+    this.displayMode === UserActivateModes.NEW_USER && 'lighter-green-gradient'
+  }`;
 
   account: Account;
   accountActivated: boolean;
@@ -37,7 +38,7 @@ export class DatePersonaleUserActivationPage implements OnInit {
       },
     ],
     id: 'validate-id',
-    routerLink: [ '/biometrics' ],
+    routerLink: ['/biometrics'],
     isHidden: false,
     itemClass: this.itemClass,
   };
@@ -55,37 +56,34 @@ export class DatePersonaleUserActivationPage implements OnInit {
     ],
     id: 'validate-email',
     isHidden: false,
-    routerLink: [ '/profil', 'date-personale', 'validate-email' ],
+    routerLink: ['/profil', 'date-personale', 'validate-email'],
     itemClass: this.itemClass,
   };
-  actions: Array<ImageCard> = [
-    this.biometricCard,
-    this.emailCard
-  ];
+  actions: Array<ImageCard> = [this.biometricCard, this.emailCard];
 
-  constructor( private authS: AuthService ) { }
+  constructor(private authS: AuthService) {}
 
   ngOnInit(): void {
-    this.authS.getAccountData().subscribe( ( account ) => {
+    this.authS.getAccountData().subscribe((account) => {
       this.account = account;
-      if ( this.account ) {
-        this.accountActivated = this.authS.accountActivated( account );
-        if ( !this.accountActivated ) {
-          if ( this.account.isEmailConfirmed && this.account.isBiometricValid ) {
-            this.disableCard( this.biometricCard );
-            this.disableCard( this.emailCard );
-          } else if ( this.account.isEmailConfirmed ) {
+      if (this.account) {
+        this.accountActivated = this.authS.accountActivated(account);
+        if (!this.accountActivated) {
+          if (this.account.isEmailConfirmed && this.account.isBiometricValid) {
+            this.disableCard(this.biometricCard);
+            this.disableCard(this.emailCard);
+          } else if (this.account.isEmailConfirmed) {
             // email
-            this.disableCard( this.emailCard );
+            this.disableCard(this.emailCard);
           } else {
             // biometrics
-            this.disableCard( this.biometricCard );
+            this.disableCard(this.biometricCard);
           }
         }
       }
-    } );
+    });
   }
-  disableCard( card: ImageCard ) {
+  disableCard(card: ImageCard) {
     card.isDisabled = true;
   }
 }

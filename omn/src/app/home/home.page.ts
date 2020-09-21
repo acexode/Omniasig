@@ -1,3 +1,4 @@
+import { get } from 'lodash';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -128,9 +129,6 @@ export class HomePage implements OnInit {
     isHidden: false,
     routerLink: ['/biometrics'],
   };
-  // changeClassForEmailCard (this is to change the class of the email card with its the only required one for validation)
-  changeClassForEmailCard = false;
-  //
   emailCard = {
     mainIcon: {
       name: 'md-email-light',
@@ -142,9 +140,7 @@ export class HomePage implements OnInit {
     isButton: true,
     isHidden: false,
     routerLink: ['/profil', 'date-personale', 'validate-email'],
-    itemClass: this.changeClassForEmailCard
-      ? 'p-16 flex-1 mb-16'
-      : 'flex-1 mt-n16 p-16 mb-12',
+    itemClass: 'flex-1 mt-n16 p-16 mb-12',
   };
   accountNotActivated: DisabledPlaceholderCard = {
     leftColumnClass: 'flex-0',
@@ -200,20 +196,24 @@ export class HomePage implements OnInit {
   }
 
   displayWhatNeedsToBeValidated(acc: Account) {
-    if (!this.account.isEmailConfirmed && !this.account.isBiometricValid) {
-      this.pushCardForValidation(this.biometricCard);
-      this.pushCardForValidation(this.emailCard);
-    } else if (!this.account.isEmailConfirmed) {
-      // email
-      this.changeClassForEmailCard = true;
-      this.pushCardForValidation(this.emailCard);
-    } else {
+    const cardList = [];
+    if (!this.account.isBiometricValid) {
       // biometrics
-      this.pushCardForValidation(this.biometricCard);
+      cardList.push({ ...this.biometricCard });
     }
-  }
-  pushCardForValidation(card: ImageCard) {
-    this.accountNotActivated.cards.push(card);
+    if (!this.account.isEmailConfirmed) {
+      // email
+      cardList.push({
+        ...this.emailCard,
+        ...{
+          itemClass: !this.account.isBiometricValid
+            ? 'p-16 flex-1 mb-16'
+            : 'flex-1 mt-n16 p-16 mb-12',
+        },
+      });
+    }
+
+    this.accountNotActivated.cards = cardList;
   }
   /**
    * Preprocess user Policies data.
