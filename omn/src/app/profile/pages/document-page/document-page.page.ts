@@ -17,11 +17,8 @@ export class DocumentPagePage implements OnInit {
   constructor(private navCtrl: NavController, private docService: DocumenteService,private route: ActivatedRoute, private file: File) {}
 
   ngOnInit() {
-    this.route.params.subscribe(params => {
-      console.log(params) //log the entire params object
-      console.log(params['id']) //log the value of id
-      this.docService.GetDocumentById(params['id']).subscribe(e =>{
-        console.log(e)
+    this.route.params.subscribe(params => {      
+      this.docService.GetDocumentById(params['id']).subscribe(e =>{        
         this.doc = e
       })
     });
@@ -32,12 +29,12 @@ export class DocumentPagePage implements OnInit {
             method: "GET"
           }).then(res => res.blob()).then(blob => {
             this.file.writeFile(this.file.externalApplicationStorageDirectory, name+'.pdf', blob, { replace: true }).then(res => {
-              console.log(res)
+              
             }).catch(err => {
-              console.log('save error')    
+              
        });
           }).catch(err => {
-                 console.log('error')
+                
           });
        
   }

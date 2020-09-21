@@ -14,8 +14,7 @@ export class ExpandableComponent implements OnInit {
   public toggleAccordion(): void {
     this.isMenuOpen = !this.isMenuOpen;
   }
-  public broadcastName(name: string): void {
-    console.log(name)
+  public broadcastName(name: string): void {    
     this.changeEv.emit(name);
   }
   constructor() {}
