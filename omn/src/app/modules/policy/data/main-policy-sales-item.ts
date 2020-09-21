@@ -34,6 +34,7 @@ export const policySalesItemHelper = (
         color: 'omn-green',
       },
     ],
+    typeId: policy.typeId,
   };
   baseItem.headerIcon = accountActivated
     ? {

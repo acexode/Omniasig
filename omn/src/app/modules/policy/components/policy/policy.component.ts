@@ -1,29 +1,31 @@
+import { get } from 'lodash';
 import {
   ChangeDetectorRef,
   Component,
+  OnDestroy,
   OnInit,
   ViewChild,
-  OnDestroy,
 } from '@angular/core';
-import { MenuController } from '@ionic/angular';
+import { Router } from '@angular/router';
+import { MenuController, ModalController } from '@ionic/angular';
 import { BehaviorSubject, Subscription } from 'rxjs';
 import { Account } from 'src/app/core/models/account.interface';
 import { AuthService } from 'src/app/core/services/auth/auth.service';
+import { ArchiveListItem } from 'src/app/shared/models/component/archive-list-item';
 import { ImageCard } from 'src/app/shared/models/component/image-card';
+import { PolicyItem } from 'src/app/shared/models/data/policy-item';
+import { PolicyOffer } from 'src/app/shared/models/data/policy-offer';
 import { policyTypes } from 'src/app/shared/models/data/policy-types';
 import { offerItemHelper } from '../../data/main-offer-item-helper';
+import { mainPolicyArchiveListItem } from '../../data/main-policy-archive-list-item';
 import {
-  policyItemHelper,
   policyEmptyItemHelper,
+  policyItemHelper,
 } from '../../data/main-policy-item-helper';
 import { policySalesItemHelper } from '../../data/main-policy-sales-item';
 import { policyListTitles } from '../../data/policy-list-titles';
 import { PolicyDataService } from '../../services/policy-data.service';
-import { PolicyItem } from 'src/app/shared/models/data/policy-item';
-import { PolicyOffer } from 'src/app/shared/models/data/policy-offer';
-import { mainPolicyArchiveListItem } from '../../data/main-policy-archive-list-item';
-import { ArchiveListItem } from 'src/app/shared/models/component/archive-list-item';
-import { Router } from '@angular/router';
+import { DisabledMessageModalComponent } from '../modals/disabled-message-modal/disabled-message-modal.component';
 
 @Component({
   selector: 'app-policy',
@@ -49,7 +51,8 @@ export class PolicyComponent implements OnInit, OnDestroy {
     private authS: AuthService,
     private policyS: PolicyDataService,
     private cdRef: ChangeDetectorRef,
-    private router: Router
+    private router: Router,
+    public modalController: ModalController
   ) {}
 
   ngOnInit(): void {
@@ -148,26 +151,30 @@ export class PolicyComponent implements OnInit, OnDestroy {
   }
 
   eventHandler(event) {
-    // let policy;
-    // switch (event.data.id) {
-    //   case 'AMPLUS':
-    //     policy = policyTypes.AMPLUS;
-    //     break;
-    //   case 'PAD':
-    //     policy = policyTypes.PAD;
-    //     break;
-    //   case 'Garant AMPLUS+ PAD':
-    //     policy = policyTypes.AMPLUS_PAD;
-    //     break;
-    //   default:
-    //     break;
-    // }
+    if (this.accountActivated) {
+      this.router.navigate(['/policy', 'form'], {
+        queryParams: { policyID: event.data.id },
+      });
+    } else {
+      const typeId = get(event, 'data.typeId', null);
+      const item = get(event, 'data', null);
+      if (typeId && item) {
+        const policyType = policyTypes[typeId];
+        const description = get(policyType, 'disabledDescription', '');
+        Promise.resolve(this.presentDisabledModal(item, description));
+      }
+    }
+  }
 
-    // this.router.navigate(['/policy', 'form'], {
-    //   state: { policyType: policy },
-    // });
-    this.router.navigate(['/policy', 'form'], {
-      queryParams: { policyID: event.data.id },
+  async presentDisabledModal(item, description) {
+    const modal = await this.modalController.create({
+      component: DisabledMessageModalComponent,
+      cssClass: 'disabled-message-modal-class',
+      componentProps: {
+        item,
+        description,
+      },
     });
+    return await modal.present();
   }
 }

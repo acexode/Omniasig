@@ -27,6 +27,11 @@ $font-family-base: var(--ion-font-family);
   line-height: rem(16);
 }
 
+.text-x-small {
+  font-size: rem(11);
+  line-height: rem(13);
+}
+
 h1,
 h2,
 h3,
@@ -286,4 +291,7 @@ ion-label.input-label,
 
 a.no-decoration {
   text-decoration: none !important;
+}
+.is-not-visible {
+  visibility: hidden !important;
 }

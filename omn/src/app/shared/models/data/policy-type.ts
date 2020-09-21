@@ -4,10 +4,12 @@ import { ExclusionConfig } from './../component/exclusion-config';
 
 export interface PolicyType {
   id: string | number;
+  typeId?: string;
   order: number;
   name: string;
   shortDescription: string;
   dntConfig?: DntConfig;
   exclusionConfig?: ExclusionConfig;
   listingIcon?: IonIconItem;
+  disabledDescription?: string;
 }

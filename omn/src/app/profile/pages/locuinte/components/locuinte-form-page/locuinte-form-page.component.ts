@@ -1,4 +1,3 @@
-import { get, set } from 'lodash';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -10,6 +9,7 @@ import {
 import { FormGroup } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { IonContent, NavController } from '@ionic/angular';
+import { get } from 'lodash';
 import { combineLatest, Observable, of } from 'rxjs';
 import { finalize, switchMap } from 'rxjs/operators';
 import { CustomRouterService } from 'src/app/core/services/custom-router/custom-router.service';
@@ -212,6 +212,11 @@ export class LocuinteFormPageComponent implements OnInit {
           this.formInstance.data,
           this.dataModel
         );
+        this.formS.handlePostalCode(
+          val,
+          this.formInstance.data,
+          this.addressPostalCode
+        );
       });
     }
   }
@@ -231,6 +236,11 @@ export class LocuinteFormPageComponent implements OnInit {
   get addressStreet() {
     return this.formInstance && this.formInstance.group
       ? this.formInstance.group.get('addressStreet')
+      : null;
+  }
+  get addressPostalCode() {
+    return this.formInstance && this.formInstance.group
+      ? this.formInstance.group.get('addressPostalCode')
       : null;
   }
 
@@ -341,7 +351,6 @@ export class LocuinteFormPageComponent implements OnInit {
           this.formInstance.group.value,
           this.dataModel
         );
-
         this.formSubmitting = true;
         this.cdRef.markForCheck();
         if (this.dataModel) {
