@@ -1,3 +1,4 @@
+import { get } from 'lodash';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -18,7 +19,6 @@ import { PolicyOffer } from '../shared/models/data/policy-offer';
 import { addDaune, dauneDisabled, testDauneData } from './data/home-daune-data';
 import { offerHomeItemHelper } from './data/home-offer-item-helper';
 import { policyHomeItemHelper } from './data/home-policy-item-helper';
-
 @Component({
   selector: 'app-home',
   templateUrl: 'home.page.html',
@@ -116,33 +116,36 @@ export class HomePage implements OnInit {
   ];
 
   // Placeholder for account activation.
+  biometricCard = {
+    mainIcon: {
+      name: 'md-user-light',
+      color: 'green-gradient',
+      classes: 'icon-32 mt-0 ion-align-self-start',
+    },
+    textContent: [],
+    id: 'account',
+    itemClass: 'flex-1 mt-n16 p-16 mb-12',
+    isButton: true,
+    isHidden: false,
+    routerLink: ['/biometrics'],
+  };
+  emailCard = {
+    mainIcon: {
+      name: 'md-email-light',
+      color: 'green-gradient',
+      classes: 'icon-32 mt-0 mx-0 ion-align-self-start',
+    },
+    textContent: [],
+    id: 'email',
+    isButton: true,
+    isHidden: false,
+    routerLink: ['/profil', 'date-personale', 'validate-email'],
+    itemClass: 'flex-1 mt-n16 p-16 mb-12',
+  };
   accountNotActivated: DisabledPlaceholderCard = {
     leftColumnClass: 'flex-0',
     rightColumnClass: 'pl-16 pr-0 py-16',
-    cards: [
-      {
-        mainIcon: {
-          name: 'md-user-light',
-          color: 'green-gradient',
-          classes: 'icon-32 mt-0 ion-align-self-start',
-        },
-        textContent: [],
-        id: 'account',
-        itemClass: 'flex-1 mt-n16 p-16 mb-12',
-        routerLink: ['/biometrics'],
-      },
-      {
-        mainIcon: {
-          name: 'md-email-light',
-          color: 'green-gradient',
-          classes: 'icon-32 mt-0 mx-0 ion-align-self-start',
-        },
-        textContent: [],
-        id: 'email',
-        routerLink: ['/profil', 'date-personale', 'validate-email'],
-        itemClass: 'p-16 flex-1 mb-16',
-      },
-    ],
+    cards: [],
     textContent: [
       {
         text: 'Activează-ți contul',
@@ -175,6 +178,9 @@ export class HomePage implements OnInit {
     this.authS.getAccountData().subscribe((account) => {
       this.account = account;
       if (account) {
+        // activate display for what needs validation from user
+        this.displayWhatNeedsToBeValidated(this.account);
+
         this.accountActivated = this.authS.accountActivated(account);
         if (this.accountActivated) {
           this.policyS.policyStore$.subscribe((v) =>
@@ -189,6 +195,26 @@ export class HomePage implements OnInit {
     });
   }
 
+  displayWhatNeedsToBeValidated(acc: Account) {
+    const cardList = [];
+    if (!this.account.isBiometricValid) {
+      // biometrics
+      cardList.push({ ...this.biometricCard });
+    }
+    if (!this.account.isEmailConfirmed) {
+      // email
+      cardList.push({
+        ...this.emailCard,
+        ...{
+          itemClass: !this.account.isBiometricValid
+            ? 'p-16 flex-1 mb-16'
+            : 'flex-1 mt-n16 p-16 mb-12',
+        },
+      });
+    }
+
+    this.accountNotActivated.cards = cardList;
+  }
   /**
    * Preprocess user Policies data.
    */

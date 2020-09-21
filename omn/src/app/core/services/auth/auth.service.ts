@@ -1,4 +1,3 @@
-import { get } from 'lodash';
 import { Injectable } from '@angular/core';
 import {
   ActivatedRoute,
@@ -6,6 +5,7 @@ import {
   Router,
   UrlTree,
 } from '@angular/router';
+import { get } from 'lodash';
 import * as qs from 'qs';
 import { BehaviorSubject, throwError } from 'rxjs';
 import {
@@ -133,9 +133,16 @@ export class AuthService {
     );
   }
 
-  accountActivated(acc: Account) {
+  // deprecated
+  _accountActivated(acc: Account) {
     return acc
       ? acc.userStates.findIndex((s) => s === AccountStates.ACTIVE) > -1
+      : false;
+  }
+
+  accountActivated(acc: Account) {
+    return acc.isBiometricValid === true && acc.isEmailConfirmed === true
+      ? true
       : false;
   }
 
@@ -314,15 +321,6 @@ export class AuthService {
     return this.storeS.getItem('phoneNumber');
   }
 
-  demoUpdate(data: { cnp?: string; email?: string }) {
-    const account = this.authState.value.account;
-    if (data.cnp) {
-      account.cnp = data.cnp;
-    }
-    if (data.email) {
-      account.email = data.email;
-    }
-  }
   updateUserProfile(obj) {
     return this.reqS.post(authEndpoints.updateUserProfile, obj).pipe(
       tap((v) => {
