@@ -11,7 +11,7 @@ export const subPageHeaderTertiary = (title: string): SubPageHeader => {
     },
     leadingIcon: {
       name: 'md-close-2',
-      classes: 'icon-20 mt-2',
+      classes: 'icon-20 mt-2 p-8',
     },
   };
   return item;
