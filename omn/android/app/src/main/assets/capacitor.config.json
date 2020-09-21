@@ -1,0 +1,14 @@
+{
+  "appId": "io.ionic.starter",
+  "appName": "omn",
+  "bundledWebRuntime": false,
+  "npmClient": "npm",
+  "webDir": "www",
+  "plugins": {
+    "SplashScreen": {
+      "launchShowDuration": 0
+    }
+  },
+  "linuxAndroidStudioPath": "/home/cheks/Music/android-studio-ide-193.6626763-linux/android-studio/bin/studio.sh",
+  "cordova": {}
+}
