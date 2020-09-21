@@ -8,10 +8,16 @@ import { RequestService } from '../../../core/services/request/request.service';
 export class AmplusService {
   constructor(private reqS: RequestService) {}
 
-  CreateAmplusInsuranceOffer(addressId: number) {
+  CreateAmplusInsuranceOffer(
+    amplusAddressId: number | string,
+    generateOffer: boolean,
+    payload
+  ) {
     return this.reqS.post<any>(
-      `${amplusEndpoints.CreateAmplusInsuranceOffer}`,
-      {}
+      `${
+        amplusEndpoints.CreateAmplusInsuranceOffer
+      }?amplusAddressId=${79}&generateOffer=${generateOffer}`,
+      payload
     );
   }
 }

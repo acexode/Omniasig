@@ -23,6 +23,7 @@ import {
 } from 'src/app/shared/models/modes/locuinte-form-modes';
 import { get } from 'lodash';
 import { PolicyValoareModalComponent } from './../modals/policy-valoare-modal/policy-valoare-modal.component';
+import { AmplusService } from '../../services/amplus.service';
 
 @Component({
   selector: 'app-policy-address-form',
@@ -40,6 +41,7 @@ export class PolicyAddressFormComponent implements OnInit {
   formModes = LocuinteFormModes;
   formTypes = LocuinteFormType;
   refTimer;
+  loaderTitle: string;
   formGroups: {
     address: FormGroup;
     place: FormGroup;
@@ -68,17 +70,60 @@ export class PolicyAddressFormComponent implements OnInit {
   @Input() formType: LocuinteFormType = LocuinteFormType.ADDRESS;
   @Input() policyType: string;
   @Input() formInputData = null;
+  @Input() offerData = null;
+  @Input() policyId;
   @Output() stepChange: EventEmitter<any> = new EventEmitter();
   @Output() dataAdded: EventEmitter<any> = new EventEmitter();
+  @Output() errorEvent: EventEmitter<any> = new EventEmitter();
   constructor(
     private cdRef: ChangeDetectorRef,
     private formS: LocuinteFormService,
     private locuinteS: LocuinteService,
     private padS: PadService,
-    public modalController: ModalController
+    public modalController: ModalController,
+    private amplusS: AmplusService
   ) {}
 
   ngOnInit() {
+    if (
+      this.policyId === 'AMPLUS' &&
+      this.formType === LocuinteFormType.PAD_CHECK
+    ) {
+      this.loaderTitle = 'Verificăm corectitudinea datelor…';
+      const payload = {
+        isVip: this.offerData?.supportData?.plan === 'vip' ? true : false,
+        isGold: this.offerData?.supportData?.plan === 'gold' ? true : false,
+        mentiuni: 'self',
+        startDate: this.offerData?.policy?.dates?.from
+          .toISOString()
+          .slice(0, 10),
+        numberOfMonths: '24',
+        insurancePrice: 20000,
+        numberOfPayments: this.offerData?.payData?.rate,
+        paymentCurrency: this.offerData?.payData?.type,
+        propertyCessionList: null,
+      };
+      this.amplusS
+        .CreateAmplusInsuranceOffer(
+          this.offerData.policy.locuintaData.id,
+          false,
+          payload
+        )
+        .subscribe(
+          (result) => {
+            if (result) {
+              this.stepChange.emit('TO_POLICY_VERIFY');
+            } else {
+              this.errorEvent.emit('Some error occurred');
+            }
+          },
+          (err) => {
+            this.errorEvent.emit(err.error);
+          }
+        );
+      return;
+    }
+
     this.setTitles();
     this.initConfigs().subscribe((v) => {
       this.initForm();

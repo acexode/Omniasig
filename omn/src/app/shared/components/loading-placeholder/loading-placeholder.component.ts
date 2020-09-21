@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, SimpleChanges } from '@angular/core';
 
 @Component({
   selector: 'app-loading-placeholder',
@@ -6,8 +6,14 @@ import { Component, Input, OnInit } from '@angular/core';
   styleUrls: ['./loading-placeholder.component.scss'],
 })
 export class LoadingPlaceholderComponent implements OnInit {
-  @Input()
-  title = 'Verificăm datele în portalul PAID…';
+  @Input() title = 'Verificăm datele în portalul PAID…';
+
+  ngOnChanges(changes: SimpleChanges): void {
+    // == null to also match undefined
+    if (this.title == null) {
+      this.title = 'Verificăm datele în portalul PAID…';
+    }
+  }
 
   constructor() {}
 

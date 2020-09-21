@@ -11,6 +11,7 @@ import { NavController } from '@ionic/angular';
 import { get } from 'lodash';
 import { PolicyOffer } from 'src/app/shared/models/data/policy-offer';
 import { PadService } from '../../services/pad.service';
+import { AmplusService } from '../../services/amplus.service';
 import { PolicyDataService } from './../../services/policy-data.service';
 
 @Component({
@@ -28,7 +29,8 @@ export class PolicyVerifyComponent implements OnInit {
     private policyS: PolicyDataService,
     private navCtrl: NavController,
     private aRoute: ActivatedRoute,
-    private padS: PadService
+    private padS: PadService,
+    private amplusS: AmplusService
   ) {}
 
   ngOnInit() {
@@ -78,6 +80,38 @@ export class PolicyVerifyComponent implements OnInit {
   }
 
   calculatePrice() {
-    this.calculateEvent.emit();
+    // console.log(this.offerData.policy);
+    const payload = {
+      isVip: this.offerData?.supportData?.plan === 'vip' ? true : false,
+      isGold: this.offerData?.supportData?.plan === 'gold' ? true : false,
+      mentiuni: 'self',
+      startDate: this.offerData?.policy?.dates?.from,
+      numberOfMonths: '24',
+      insurancePrice: 20000,
+      numberOfPayments: this.offerData?.payData?.rate,
+      paymentCurrency: this.offerData?.payData?.type,
+      propertyCessionList: null,
+    };
+    this.amplusS
+      .CreateAmplusInsuranceOffer(
+        this.offerData.policy.locuintaData.id,
+        true,
+        payload
+      )
+      .subscribe(
+        (result) => {
+          console.log(result);
+          if (result) {
+            // this.stepChange.emit('TO_POLICY_VERIFY');
+          } else {
+            // this.errorEvent.emit('Some error occurred');
+          }
+        },
+        (err) => {
+          console.log(err);
+          // this.errorEvent.emit(err.error);
+        }
+      );
+    // this.calculateEvent.emit();
   }
 }

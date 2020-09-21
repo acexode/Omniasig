@@ -10,6 +10,7 @@
     <app-general-error
       (goBack)="back()"
       [doNavigate]="false"
+      [title]="errTitle"
       [texts]="errMsg"
     ></app-general-error>
   </ng-container>
@@ -96,6 +97,10 @@
           (dataAdded)="locuintaAdded($event)"
           [policyType]="typeItem?.id"
           (stepChange)="addressStepChange($event)"
+          (errorEvent)="errorHandle($event)"
+          [offerData]="offerData"
+          [policyId]="policyID"
+          [formType]="formCheckType"
         ></app-policy-address-form>
       </ng-container>
     </ng-container>

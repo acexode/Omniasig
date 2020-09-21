@@ -2,8 +2,11 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
+  EventEmitter,
   Input,
   OnInit,
+  Output,
+  SimpleChanges,
 } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { IonTextItem } from './../../models/component/ion-text-item';
@@ -25,6 +28,7 @@ export class GeneralErrorComponent implements OnInit {
   ];
   @Input() routeRedirect = '/home';
   @Input() doNavigate = true;
+  @Output() goBack: EventEmitter<any> = new EventEmitter();
 
   constructor(
     private router: Router,
@@ -40,5 +44,16 @@ export class GeneralErrorComponent implements OnInit {
         this.router.navigateByUrl(url);
       }
     }, 3000);
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    // == null to also match undefined
+    if (this.title == null) {
+      this.title = 'Ne pare rău...';
+    }
+  }
+
+  back() {
+    this.goBack.emit();
   }
 }

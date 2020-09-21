@@ -73,6 +73,7 @@ export class PolicyFormPage implements OnInit, OnDestroy {
   offerData: PolicyOffer = null;
   policyID;
   reftime;
+  formCheckType: LocuinteFormType;
 
   // Errors.
   defaultErrMsg: Array<IonTextItem> = [
@@ -83,6 +84,7 @@ export class PolicyFormPage implements OnInit, OnDestroy {
     },
   ];
   errMsg;
+  errTitle;
   constructor(
     private routerS: CustomRouterService,
     private aRoute: ActivatedRoute,
@@ -323,6 +325,10 @@ export class PolicyFormPage implements OnInit, OnDestroy {
         if (forceChange) {
           this.changeStep(this.policySteps.ADDRESS_SELECT);
         } else {
+          if (this.policyID === 'AMPLUS') {
+            this.showError = false;
+            this.changeStep(this.policySteps.WAY_TO_PAY);
+          }
           this.navigateBackForm();
         }
         break;
@@ -503,6 +509,9 @@ export class PolicyFormPage implements OnInit, OnDestroy {
         }
 
         break;
+      case 'TO_POLICY_VERIFY':
+        this.changeStep(this.policySteps.POLICY_VERIFY);
+        break;
       case 'NEXT':
         this.next();
         break;
@@ -622,7 +631,10 @@ export class PolicyFormPage implements OnInit, OnDestroy {
       payData: this.wayPayFormData,
       supportData: this.assistFormData,
     });
-    this.changeStep(this.policySteps.POLICY_VERIFY);
+
+    // this.changeStep(this.policySteps.POLICY_VERIFY);
+    this.formCheckType = LocuinteFormType.PAD_CHECK;
+    this.changeStep(this.policySteps.PAD_CHECK);
   }
 
   calculationSubmit() {
@@ -660,6 +672,27 @@ export class PolicyFormPage implements OnInit, OnDestroy {
       this.back();
     }, 5000);
   }
+
+  errorHandle(event) {
+    this.errTitle = 'Corectează urmatoarele erori:';
+    this.showError = true;
+    if (typeof event === 'string') {
+      this.errMsg = [
+        {
+          classes: 'ion-text-center',
+          text: event,
+        },
+      ];
+    } else {
+      this.errMsg = [
+        {
+          classes: 'ion-text-center',
+          text: event?.ofertaResponse?.mesaj,
+        },
+      ];
+    }
+  }
+
   exitFlow() {
     this.navCtrl.navigateBack(['/policy']);
   }
