@@ -177,10 +177,9 @@ export class LocuinteFormPageComponent implements OnInit {
           this.cdRef.markForCheck();
           this.cdRef.detectChanges();
         });
-      this.addressCounty.valueChanges.subscribe((val) => {        
-        if(this.addressCity.value){          
-          this.addressCity.patchValue({})
-          this.addressStreet.patchValue({})
+      this.addressCounty.valueChanges.subscribe((val) => {
+        if (this.addressCity.value) {
+          this.addressCity.patchValue({}, { emit: true });
         }
         this.formS
           .updateCounty(
@@ -191,7 +190,7 @@ export class LocuinteFormPageComponent implements OnInit {
           .subscribe((v) => {
             this.cdRef.markForCheck();
             this.cdRef.detectChanges();
-            if (this.addressCity) {              
+            if (this.addressCity) {
               this.addressCity.updateValueAndValidity({
                 onlySelf: true,
               });
@@ -200,10 +199,10 @@ export class LocuinteFormPageComponent implements OnInit {
       });
     }
     if (this.addressCity) {
-      this.addressCity.valueChanges.subscribe((val) => {        
-        if(this.addressStreet.value){          
-          this.addressStreet.patchValue({})
-        }        
+      this.addressCity.valueChanges.subscribe((val) => {
+        if (this.addressStreet.value) {
+          this.addressStreet.patchValue({}, { emit: true });
+        }
         this.formS
           .updateCity(this.addressCity, this.formInstance.data, this.dataModel)
           .subscribe((v) => {
