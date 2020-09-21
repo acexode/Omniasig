@@ -4,13 +4,13 @@ import { AuthService } from 'src/app/core/services/auth/auth.service';
 import { ImageCard } from 'src/app/shared/models/component/image-card';
 import { RegistrationService } from './../../core/services/auth/registration.service';
 import { Account } from 'src/app/core/models/account.interface';
-@Component( {
+@Component({
   selector: 'app-cont-creat',
   templateUrl: './cont-creat.component.html',
-  styleUrls: [ './cont-creat.component.scss' ],
-} )
+  styleUrls: ['./cont-creat.component.scss'],
+})
 export class ContCreatComponent implements OnInit, AfterViewInit {
-  @HostBinding( 'class' ) color = 'ion-color-white-page';
+  @HostBinding('class') color = 'ion-color-white-page';
   biometricCard = {
     mainIcon: {
       name: 'md-user-light-ling',
@@ -26,7 +26,7 @@ export class ContCreatComponent implements OnInit, AfterViewInit {
     itemClass: 'mh-104 shadow-page-item',
     isButton: true,
     isDisabled: false,
-    routerLink: [ '/biometrics' ],
+    routerLink: ['/biometrics'],
   };
   emailCard = {
     mainIcon: {
@@ -43,40 +43,38 @@ export class ContCreatComponent implements OnInit, AfterViewInit {
     itemClass: 'mh-104 shadow-page-item',
     isButton: true,
     isDisabled: false,
-    routerLink: [ '/profil/date-personale/validate-email' ],
+    routerLink: ['/profil/date-personale/validate-email'],
   };
-  cards: Array<ImageCard> = [
-    this.biometricCard, this.emailCard
-  ];
+  cards: Array<ImageCard> = [this.biometricCard, this.emailCard];
   account: Account;
   accountActivated: boolean;
   constructor(
     private router: Router,
     private regService: RegistrationService,
-    private authS: AuthService,
-  ) { }
+    private authS: AuthService
+  ) {}
 
   ngOnInit(): void {
-    this.authS.getAccountData().subscribe( ( account ) => {
+    this.authS.getAccountData().subscribe((account) => {
       this.account = account;
-      if ( this.account ) {
-        this.accountActivated = this.authS.accountActivated( account );
-        if ( !this.accountActivated ) {
-          if ( this.account.isEmailConfirmed && this.account.isBiometricValid ) {
-            this.disableCard( this.biometricCard );
-            this.disableCard( this.emailCard );
-          } else if ( this.account.isEmailConfirmed ) {
+      if (this.account) {
+        this.accountActivated = this.authS.accountActivated(account);
+        if (!this.accountActivated) {
+          if (this.account.isEmailConfirmed && this.account.isBiometricValid) {
+            this.disableCard(this.biometricCard);
+            this.disableCard(this.emailCard);
+          } else if (this.account.isEmailConfirmed) {
             // email
-            this.disableCard( this.emailCard );
-          } else {
+            this.disableCard(this.emailCard);
+          } else if (this.account.isBiometricValid) {
             // biometrics
-            this.disableCard( this.biometricCard );
+            this.disableCard(this.biometricCard);
           }
         }
       }
-    } );
+    });
   }
-  disableCard( card: ImageCard) {
+  disableCard(card: ImageCard) {
     card.isDisabled = true;
   }
   ngAfterViewInit() {

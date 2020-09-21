@@ -75,7 +75,7 @@ export class DatePersonaleUserActivationPage implements OnInit {
           } else if (this.account.isEmailConfirmed) {
             // email
             this.disableCard(this.emailCard);
-          } else {
+          } else if (this.account.isBiometricValid) {
             // biometrics
             this.disableCard(this.biometricCard);
           }
