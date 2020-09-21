@@ -169,6 +169,11 @@ export class PolicyAddressFormComponent implements OnInit {
           this.formInstance.data,
           this.dataModel
         );
+        this.formS.handlePostalCode(
+          val,
+          this.formInstance.data,
+          this.addressPostalCode
+        );
       });
     }
   }
@@ -190,6 +195,12 @@ export class PolicyAddressFormComponent implements OnInit {
       ? this.formInstance.group.get('addressStreet')
       : null;
   }
+  get addressPostalCode() {
+    return this.formInstance && this.formInstance.group
+      ? this.formInstance.group.get('addressPostalCode')
+      : null;
+  }
+
   buildFormAdd() {
     this.formConfigs.address = this.formS.buildFormConfig(
       LocuinteFormType.ADDRESS,
