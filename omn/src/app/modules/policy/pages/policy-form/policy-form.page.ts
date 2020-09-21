@@ -57,8 +57,8 @@ export class PolicyFormPage implements OnInit, OnDestroy {
   policyLocuintaData$: BehaviorSubject<
     Array<PolicyLocuintaListItem>
   > = new BehaviorSubject([]);
-  dntItem: any = 'success';
-  exclusionItem: any = 'success';
+  dntItem: any = null;
+  exclusionItem: any = null;
   locuintaFormType: LocuinteFormType = LocuinteFormType.ADDRESS;
 
   // Stored Data:
