@@ -89,9 +89,9 @@ export class OfferViewComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.params.pipe(take(1)).subscribe((params: any) => {
+      this.policyType = this.route.snapshot.queryParamMap.get('policyType');
       this.getPolicyById(params.id);
     });
-    this.policyType = this.route.snapshot.queryParamMap.get('policyType');
   }
 
   getPolicyById(id) {
