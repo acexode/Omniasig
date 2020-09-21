@@ -1,3 +1,4 @@
+import { ConfigService } from 'src/app/core/services/config/config.service';
 import { Component, OnInit, Input } from '@angular/core';
 import { AuthService } from '../../services/auth/auth.service';
 import { Account } from '../../models/account.interface';
@@ -13,8 +14,12 @@ export class SideMenuComponent implements OnInit {
   subMenuHidden = true;
   userAccount: Account;
   isAccountActive = true;
-
-  constructor(private authService: AuthService, private navC: NavController) {}
+  appVersion$ = this.config.appVersion$;
+  constructor(
+    private authService: AuthService,
+    private navC: NavController,
+    private config: ConfigService
+  ) {}
 
   ngOnInit() {
     this.authService.getAccountData().subscribe((account: Account) => {
