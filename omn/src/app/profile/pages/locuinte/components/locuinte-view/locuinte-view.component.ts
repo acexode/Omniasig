@@ -11,6 +11,7 @@ import { IonContent, ModalController, NavController } from '@ionic/angular';
 import { BehaviorSubject, combineLatest, Observable, of } from 'rxjs';
 import { finalize, switchMap } from 'rxjs/operators';
 import { CustomRouterService } from 'src/app/core/services/custom-router/custom-router.service';
+import { PadService } from 'src/app/modules/policy/services/pad.service';
 import { subPageHeaderDefault } from 'src/app/shared/data/sub-page-header-default';
 import { subPageHeaderPrimary } from 'src/app/shared/data/sub-page-header-primary';
 import {
@@ -72,7 +73,8 @@ export class LocuinteViewComponent implements OnInit {
     private navCtrl: NavController,
     private locuinteS: LocuinteService,
     private formS: LocuinteFormService,
-    public modalController: ModalController
+    public modalController: ModalController,
+    private padS: PadService,
   ) {}
 
   ngOnInit() {
@@ -95,6 +97,11 @@ export class LocuinteViewComponent implements OnInit {
         if (id) {
           this.locuinteS.getSingleLocuinta(id).subscribe((val: Locuinte) => {
             console.log( 'check: ', val );
+
+            this.padS.checkPad( 79, '7e7f51a1-5f7e-4118-9fee-74fb407400fe').subscribe( d => {
+              console.log( d );
+            } );
+
             if (val) {
               this.getLocationInfo(val);
               this.dataModel = val;
