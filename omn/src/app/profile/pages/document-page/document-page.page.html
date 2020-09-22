@@ -45,6 +45,7 @@
             class="flex w-100"
             color="success"
             fill="solid"
+            [disabled]="!(doc?.file && doc?.title)"
             (click)="downloadFile(doc.file, doc.title)"
             expand="block"
             size="large"

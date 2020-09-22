@@ -14,8 +14,8 @@ export class DocumentPagePage implements OnInit {
   headerConfig = subPageHeaderPrimary('OMNIASIG Vânzări');
   doc;
   successMsg = 'Fișier descărcat cu succes';
-  errorMsg= 'descărcarea fișierului nu a reușit'
-  downloading = 'Descărcarea...'
+  errorMsg = 'descărcarea fișierului nu a reușit';
+  downloading = 'Descărcare...';
   constructor(
     private navCtrl: NavController,
     private docService: DocumenteService,
@@ -34,12 +34,12 @@ export class DocumentPagePage implements OnInit {
   async presentToast(msg) {
     const toast = await this.toastController.create({
       message: msg,
-      duration: 2000
+      duration: 2000,
     });
     toast.present();
   }
   downloadFile(file, name) {
-    this.presentToast(this.downloading)
+    this.presentToast(this.downloading);
     fetch('data:application/pdf;base64,' + file, {
       method: 'GET',
     })
@@ -54,10 +54,10 @@ export class DocumentPagePage implements OnInit {
             { replace: true }
           )
           .then((res) => {
-            this.presentToast(this.successMsg)
+            this.presentToast(this.successMsg);
           })
           .catch((err) => {
-            this.presentToast(this.errorMsg)
+            this.presentToast(this.errorMsg);
           });
       })
       .catch((err) => {});
