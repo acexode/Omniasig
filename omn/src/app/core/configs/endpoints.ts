@@ -76,6 +76,7 @@ export const padEndpoints = {
   CreatePADInsurancePolicy: baseEndpoints.pad + '/CreatePADInsurancePolicy',
 };
 export const documenteEndpoints = {
-  GetAllDocumentsForCurrentUser: serverBaseUrl + '/Documents/GetAllDocumentsForCurrentUser',
-  GetDocumentById: serverBaseUrl + '/Documents/GetDocumentById'  
+  GetAllDocumentsForCurrentUser:
+    serverBaseUrl + '/Documents/GetAllDocumentsForCurrentUser',
+  GetDocumentById: serverBaseUrl + '/Documents/GetDocumentById',
 };
