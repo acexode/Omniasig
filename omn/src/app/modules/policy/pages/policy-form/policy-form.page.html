@@ -5,6 +5,7 @@
   [ngClass]="color"
 ></app-sub-page-header>
 
+<<<<<<< HEAD
 <ion-content [ngClass]="color">
   <ng-container *ngIf="showError">
     <app-general-error
@@ -33,64 +34,102 @@
       <app-info-doc [policyID]="policyID" #infoDocComp (continue)="next()">
       </app-info-doc>
     </ng-container>
+=======
+<ion-content [scrollEvents]="true" [ngClass]="color">
+  <ng-container [ngSwitch]="currentStep">
+    <ion-content [ngClass]="color">
+      <ng-container *ngIf="showError">
+        <app-general-error
+          (goBack)="back()"
+          [doNavigate]="false"
+          [texts]="errMsg"
+        ></app-general-error>
+      </ng-container>
+      <ng-container *ngIf="!showError" [ngSwitch]="currentStep">
+        <ng-container *ngSwitchCase="policySteps?.DNT">
+          <app-dnt
+            #dntComp
+            [config]="typeItem?.dntConfig"
+            (dntEvents)="dntEvents($event)"
+          ></app-dnt>
+        </ng-container>
+        <ng-container *ngSwitchCase="policySteps?.EXCLUSION">
+          <app-exclusion-slides
+            #exclusionComp
+            [config]="typeItem?.exclusionConfig"
+            (navEvents)="navEvents($event)"
+          ></app-exclusion-slides>
+        </ng-container>
+        <ng-container *ngSwitchCase="policySteps?.INFO_DOC">
+          <app-info-doc
+            (scrollTop)="scrollToTop()"
+            [policyID]="policyID"
+            #infoDocComp
+            (continue)="next()"
+            (stepChange)="infoDocStep($event)"
+          >
+          </app-info-doc>
+        </ng-container>
+>>>>>>> a7cb4a974b47dfe9a77fc84f206ff680d2cc9d79
 
-    <ng-container *ngSwitchCase="policySteps?.ADDRESS_SELECT">
-      <app-adresa-locuinta
-        #adresaLocComp
-        (selectionDone)="addressSelect($event)"
-        [initialData]="selectedAddressItem"
-        [locuinteList]="policyLocuintaData$|async"
-      >
-      </app-adresa-locuinta>
-    </ng-container>
-    <ng-container *ngSwitchCase="policySteps?.CESIUNE_FORM">
-      <app-cesiune-form
-        (emitForm)="cesiuneSubmit($event)"
-        [cesiuneData]="cesiuneData"
-        class="flex flex-1 w-100 mh-100p"
-      ></app-cesiune-form>
-    </ng-container>
-    <ng-container *ngSwitchCase="policySteps?.TECHNICAL_SUPPORT">
-      <app-asistenta-technica
-        [assisFormData]="assistFormData"
-        (emitForm)="techSupportSubmit($event)"
-        class="flex flex-1 w-100 mh-100p"
-      ></app-asistenta-technica>
-    </ng-container>
-    <ng-container *ngSwitchCase="policySteps?.WAY_TO_PAY">
-      <app-way-to-pay
-        [payFormData]="wayPayFormData"
-        (eventSubmit)="paySubmit($event)"
-        class="flex flex-1 w-100 mh-100p"
-      ></app-way-to-pay>
-    </ng-container>
-    <ng-container *ngSwitchCase="policySteps?.PERIOD_FORM">
-      <app-insurance-period
-        (emitForm)="periodSubmit($event)"
-        [minDate]="minPeriodStartDate"
-        [maxDate]="maxPeriodStartDate"
-        [preselectedStart]="periodStartData"
-      ></app-insurance-period>
-    </ng-container>
-    <ng-container *ngSwitchCase="policySteps?.POLICY_VERIFY">
-      <app-policy-verify
-        [offerData]="offerData"
-        (goToErrorHandler)="handleError($event)"
-        (calculateEvent)="calculationSubmit()"
-      ></app-policy-verify>
-    </ng-container>
-    <ng-container *ngSwitchCase="policySteps?.CALCULATION_LOADER">
-      <app-loading-placeholder
-        [title]="loaderTitle"
-        class="flex flex-1 mh-100p w-100"
-      >
-      </app-loading-placeholder>
-    </ng-container>
-    <ng-container *ngSwitchDefault>
-      <ng-container
-        *ngIf="currentStep === policySteps?.ADDRESS_FORM || 
+        <ng-container *ngSwitchCase="policySteps?.ADDRESS_SELECT">
+          <app-adresa-locuinta
+            #adresaLocComp
+            (selectionDone)="addressSelect($event)"
+            [initialData]="selectedAddressItem"
+            [locuinteList]="policyLocuintaData$|async"
+          >
+          </app-adresa-locuinta>
+        </ng-container>
+        <ng-container *ngSwitchCase="policySteps?.CESIUNE_FORM">
+          <app-cesiune-form
+            (emitForm)="cesiuneSubmit($event)"
+            [cesiuneData]="cesiuneData"
+            class="flex flex-1 w-100 mh-100p"
+          ></app-cesiune-form>
+        </ng-container>
+        <ng-container *ngSwitchCase="policySteps?.TECHNICAL_SUPPORT">
+          <app-asistenta-technica
+            [assisFormData]="assistFormData"
+            (emitForm)="techSupportSubmit($event)"
+            class="flex flex-1 w-100 mh-100p"
+          ></app-asistenta-technica>
+        </ng-container>
+        <ng-container *ngSwitchCase="policySteps?.WAY_TO_PAY">
+          <app-way-to-pay
+            [payFormData]="wayPayFormData"
+            (eventSubmit)="paySubmit($event)"
+            class="flex flex-1 w-100 mh-100p"
+          ></app-way-to-pay>
+        </ng-container>
+        <ng-container *ngSwitchCase="policySteps?.PERIOD_FORM">
+          <app-insurance-period
+            (emitForm)="periodSubmit($event)"
+            [minDate]="minPeriodStartDate"
+            [maxDate]="maxPeriodStartDate"
+            [preselectedStart]="periodStartData"
+          ></app-insurance-period>
+        </ng-container>
+        <ng-container *ngSwitchCase="policySteps?.POLICY_VERIFY">
+          <app-policy-verify
+            [offerData]="offerData"
+            (goToErrorHandler)="handleError($event)"
+            (calculateEvent)="calculationSubmit()"
+          ></app-policy-verify>
+        </ng-container>
+        <ng-container *ngSwitchCase="policySteps?.CALCULATION_LOADER">
+          <app-loading-placeholder
+            [title]="loaderTitle"
+            class="flex flex-1 mh-100p w-100"
+          >
+          </app-loading-placeholder>
+        </ng-container>
+        <ng-container *ngSwitchDefault>
+          <ng-container
+            *ngIf="currentStep === policySteps?.ADDRESS_FORM || 
         currentStep === policySteps?.LOCATION_FORM ||
          currentStep === policySteps?.PAD_CHECK "
+<<<<<<< HEAD
       >
         <app-policy-address-form
           #addressFormComp
@@ -102,7 +141,17 @@
           [policyId]="policyID"
           [formType]="formCheckType"
         ></app-policy-address-form>
+=======
+          >
+            <app-policy-address-form
+              #addressFormComp
+              (dataAdded)="locuintaAdded($event)"
+              [policyType]="typeItem?.id"
+              (stepChange)="addressStepChange($event)"
+            ></app-policy-address-form>
+          </ng-container>
+        </ng-container>
+>>>>>>> a7cb4a974b47dfe9a77fc84f206ff680d2cc9d79
       </ng-container>
-    </ng-container>
-  </ng-container>
-</ion-content>
+    </ion-content> </ng-container
+></ion-content>

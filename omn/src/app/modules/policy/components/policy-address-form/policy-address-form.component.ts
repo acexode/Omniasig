@@ -178,6 +178,9 @@ export class PolicyAddressFormComponent implements OnInit {
           this.cdRef.detectChanges();
         });
       this.addressCounty.valueChanges.subscribe((val) => {
+        if (this.addressCity.value) {
+          this.addressCity.patchValue({}, { emit: true });
+        }
         this.formS
           .updateCounty(
             this.addressCounty,
@@ -197,6 +200,9 @@ export class PolicyAddressFormComponent implements OnInit {
     }
     if (this.addressCity) {
       this.addressCity.valueChanges.subscribe((val) => {
+        if (this.addressStreet.value) {
+          this.addressStreet.patchValue({}, { emit: true });
+        }
         this.formS
           .updateCity(this.addressCity, this.formInstance.data, this.dataModel)
           .subscribe((v) => {
@@ -211,6 +217,11 @@ export class PolicyAddressFormComponent implements OnInit {
           val,
           this.formInstance.data,
           this.dataModel
+        );
+        this.formS.handlePostalCode(
+          val,
+          this.formInstance.data,
+          this.addressPostalCode
         );
       });
     }
@@ -233,6 +244,12 @@ export class PolicyAddressFormComponent implements OnInit {
       ? this.formInstance.group.get('addressStreet')
       : null;
   }
+  get addressPostalCode() {
+    return this.formInstance && this.formInstance.group
+      ? this.formInstance.group.get('addressPostalCode')
+      : null;
+  }
+
   buildFormAdd() {
     this.formConfigs.address = this.formS.buildFormConfig(
       LocuinteFormType.ADDRESS,

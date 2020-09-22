@@ -25,6 +25,7 @@ export class PolicyVerifyComponent implements OnInit {
   @Input() offerData: PolicyOffer;
   @Output() calculateEvent: EventEmitter<any> = new EventEmitter();
   @Output() goToErrorHandler: EventEmitter<any> = new EventEmitter();
+
   constructor(
     private policyS: PolicyDataService,
     private navCtrl: NavController,
@@ -36,11 +37,12 @@ export class PolicyVerifyComponent implements OnInit {
   ngOnInit() {
     this.policyID = this.aRoute.snapshot.queryParamMap.get('policyID');
   }
+
   addOffer() {
     this.padS
       .CreatePADInsuranceOffer(
-        this.offerData.policy.locuintaData.id,
-        this.offerData.policy.locuintaData.id,
+        this.offerData.policy.locuintaData.id as number,
+        this.offerData.policy.locuintaData.id as number,
         this.offerData.policy.dates.from
       )
       .subscribe(

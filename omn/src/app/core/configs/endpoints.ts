@@ -84,3 +84,8 @@ export const amplusEndpoints = {
   CreateAmplusInsuranceOffer:
     baseEndpoints.amplus + '/CreateAmplusInsuranceOffer',
 };
+export const documenteEndpoints = {
+  GetAllDocumentsForCurrentUser:
+    serverBaseUrl + '/Documents/GetAllDocumentsForCurrentUser',
+  GetDocumentById: serverBaseUrl + '/Documents/GetDocumentById',
+};
