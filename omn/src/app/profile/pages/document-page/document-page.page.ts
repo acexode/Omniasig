@@ -4,6 +4,7 @@ import { subPageHeaderPrimary } from 'src/app/shared/data/sub-page-header-primar
 import { DocumenteService } from '../documente/services/documente.service';
 import { ActivatedRoute } from '@angular/router';
 import { File } from '@ionic-native/file/ngx';
+import { ToastController } from '@ionic/angular';
 @Component({
   selector: 'app-document-page',
   templateUrl: './document-page.page.html',
@@ -12,12 +13,15 @@ import { File } from '@ionic-native/file/ngx';
 export class DocumentPagePage implements OnInit {
   headerConfig = subPageHeaderPrimary('OMNIASIG Vânzări');
   doc;
-
+  successMsg = 'Fișier descărcat cu succes';
+  errorMsg= 'descărcarea fișierului nu a reușit'
+  downloading = 'Descărcarea...'
   constructor(
     private navCtrl: NavController,
     private docService: DocumenteService,
     private route: ActivatedRoute,
-    private file: File
+    private file: File,
+    public toastController: ToastController
   ) {}
 
   ngOnInit() {
@@ -27,7 +31,15 @@ export class DocumentPagePage implements OnInit {
       });
     });
   }
+  async presentToast(msg) {
+    const toast = await this.toastController.create({
+      message: msg,
+      duration: 2000
+    });
+    toast.present();
+  }
   downloadFile(file, name) {
+    this.presentToast(this.downloading)
     fetch('data:application/pdf;base64,' + file, {
       method: 'GET',
     })
@@ -41,8 +53,12 @@ export class DocumentPagePage implements OnInit {
             blob,
             { replace: true }
           )
-          .then((res) => {})
-          .catch((err) => {});
+          .then((res) => {
+            this.presentToast(this.successMsg)
+          })
+          .catch((err) => {
+            this.presentToast(this.errorMsg)
+          });
       })
       .catch((err) => {});
   }
