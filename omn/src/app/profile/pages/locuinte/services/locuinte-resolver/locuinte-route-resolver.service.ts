@@ -21,16 +21,26 @@ export class LocuinteRouteResolver implements Resolve<any> {
     state: RouterStateSnapshot
   ): Promise<Observable<any> | Promise<any> | any> {
     const id = +route.paramMap.get( 'id' );
-    console.log( 'resolve id: ', id );
-    this.authS.getAccountData().subscribe( authData => this.authData = authData );
+    this.authS.getAccountData().subscribe(
+      authData => {
+        this.authData = authData;
+      } );
+
     return {
-      id,
+      locationId: id,
+      userId: this.authData.userId,
       userData: this.authData,
     };
-    // this.authS.getAccountData().subscribe(d => console.log('auth data: ', d));
-    // this.padS.checkPad( 79, '7e7f51a1-5f7e-4118-9fee-74fb407400fe' ).subscribe( d => {
-    //   console.log( d );
-    // } );
+  }
+
+  checkUserPad() {
+    return new Promise( ( resolve, reject ) => {
+      this.padS.checkPad( 79, '7e7f51a1-5f7e-4118-9fee-74fb407400fe' ).subscribe(
+        checkpadData => {
+          console.log( 'checkpadData: ', checkpadData );
+          resolve( checkpadData );
+        } );
+    } );
   }
 
 }
