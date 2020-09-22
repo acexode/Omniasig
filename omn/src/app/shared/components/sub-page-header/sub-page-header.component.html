@@ -11,7 +11,7 @@
     <ion-buttons
       slot="start"
       *ngIf="config?.leadingIcon"
-      class="m-0"
+      class="m-0 p-8 ml-n8"
       (click)="backAction(config?.leadingIcon)"
     >
       <ion-icon
@@ -36,7 +36,7 @@
       size="small"
       >{{ config?.title?.text }}</ion-title
     >
-    <ion-buttons slot="end" class="m-0">
+    <ion-buttons slot="end" class="m-0 mr-n8">
       <ion-icon
         *ngIf="config?.trailingIcon"
         [name]="config?.trailingIcon?.name"
