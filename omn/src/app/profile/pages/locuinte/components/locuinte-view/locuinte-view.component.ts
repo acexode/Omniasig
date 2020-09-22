@@ -94,6 +94,7 @@ export class LocuinteViewComponent implements OnInit {
         const id = vals[2];
         if (id) {
           this.locuinteS.getSingleLocuinta(id).subscribe((val: Locuinte) => {
+            console.log( 'check: ', val );
             if (val) {
               this.getLocationInfo(val);
               this.dataModel = val;
@@ -101,11 +102,11 @@ export class LocuinteViewComponent implements OnInit {
               this.initForm();
               this.cdRef.markForCheck();
             } else {
-              this.navCtrl.navigateRoot(['/profil', 'locuinte']);
+              // this.navCtrl.navigateRoot(['/profil', 'locuinte']);
             }
           });
         } else {
-          this.navCtrl.navigateRoot(['/profil', 'locuinte']);
+          // this.navCtrl.navigateRoot(['/profil', 'locuinte']);
         }
       });
   }

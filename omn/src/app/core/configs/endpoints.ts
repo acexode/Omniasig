@@ -32,6 +32,7 @@ export const baseEndpoints = {
   userProfile: serverBaseUrl + '/UserProfile',
   pad: serverBaseUrl + '/PADInsurance',
   amplus: serverBaseUrl + '/AmplusInsurance',
+  paidExternalService: serverBaseUrl + '/PAIDExternalService',
 };
 
 export const policyEndpoints = {
@@ -83,4 +84,9 @@ export const amplusEndpoints = {
   base: baseEndpoints.amplus,
   CreateAmplusInsuranceOffer:
     baseEndpoints.amplus + '/CreateAmplusInsuranceOffer',
+};
+
+export const paidExternalService = {
+  base: baseEndpoints.paidExternalService,
+  checkPad: baseEndpoints.paidExternalService + '/CheckPAD'
 };
