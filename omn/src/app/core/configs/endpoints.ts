@@ -81,3 +81,8 @@ export const paidExternalService = {
   base: baseEndpoints.paidExtS,
   CheckPAD: baseEndpoints.paidExtS + '/CheckPAD'
 }
+export const documenteEndpoints = {
+  GetAllDocumentsForCurrentUser:
+    serverBaseUrl + '/Documents/GetAllDocumentsForCurrentUser',
+  GetDocumentById: serverBaseUrl + '/Documents/GetDocumentById',
+};

@@ -1,14 +1,11 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-
 import { IonicModule } from '@ionic/angular';
-
-import { DocumentePageRoutingModule } from './documente-routing.module';
-
-import { DocumentePage } from './documente.page';
-import { ExpandableComponent } from '../../components/expandable/expandable.component';
 import { SharedModule } from 'src/app/shared/shared.module';
+import { ExpandableComponent } from '../../components/expandable/expandable.component';
+import { DocumentePageRoutingModule } from './documente-routing.module';
+import { DocumentePage } from './documente.page';
 
 @NgModule({
   imports: [
@@ -16,8 +13,8 @@ import { SharedModule } from 'src/app/shared/shared.module';
     FormsModule,
     SharedModule,
     IonicModule,
-    DocumentePageRoutingModule
+    DocumentePageRoutingModule,
   ],
-  declarations: [DocumentePage, ExpandableComponent]
+  declarations: [DocumentePage, ExpandableComponent],
 })
 export class DocumentePageModule {}

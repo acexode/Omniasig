@@ -1,6 +1,6 @@
 {
   "name": "omniasig",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "author": "Omniasig",
   "homepage": "https://www.omniasig.ro/",
   "scripts": {
@@ -26,6 +26,7 @@
     "@ionic-native/calendar": "^5.28.0",
     "@ionic-native/core": "^5.0.7",
     "@ionic-native/deeplinks": "^5.28.0",
+    "@ionic-native/file": "^5.28.0",
     "@ionic-native/splash-screen": "^5.27.0",
     "@ionic-native/status-bar": "^5.0.0",
     "@ionic-native/web-intent": "^5.27.0",
@@ -35,10 +36,12 @@
     "@ngx-translate/core": "^13.0.0",
     "@ngx-translate/http-loader": "^6.0.0",
     "com-darryncampbell-cordova-plugin-intent": "^2.0.0",
+    "cordova-android": "9.0.0",
     "cordova-browser": "6.0.0",
     "cordova-plugin-app-launcher": "^0.4.0",
     "cordova-plugin-app-version": "^0.1.9",
     "cordova-plugin-calendar": "^5.1.5",
+    "cordova-plugin-file": "^6.0.2",
     "cordova-plugin-ionic-keyboard": "^2.2.0",
     "cordova-plugin-splashscreen": "^6.0.0",
     "cordova-res": "^0.15.1",
@@ -110,7 +113,8 @@
       "cordova-plugin-calendar": {},
       "cordova-plugin-ionic-webview": {},
       "cordova-plugin-app-launcher": {},
-      "cordova-plugin-app-version": {}
+      "cordova-plugin-app-version": {},
+      "cordova-plugin-file": {}
     },
     "platforms": [
       "browser",
