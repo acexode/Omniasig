@@ -94,11 +94,9 @@ export class PolicyAddressFormComponent implements OnInit {
         isVip: this.offerData?.supportData?.plan === 'vip' ? true : false,
         isGold: this.offerData?.supportData?.plan === 'gold' ? true : false,
         mentiuni: 'self',
-        startDate: this.offerData?.policy?.dates?.from
-          .toISOString()
-          .slice(0, 10),
-        numberOfMonths: '24',
-        insurancePrice: 20000,
+        startDate: this.offerData?.policy?.dates?.from,
+        numberOfMonths: '12',
+        insurancePrice: 100000,
         numberOfPayments: this.offerData?.payData?.rate,
         paymentCurrency: this.offerData?.payData?.type,
         propertyCessionList: null,

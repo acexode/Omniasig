@@ -631,23 +631,21 @@ export class PolicyFormPage implements OnInit, OnDestroy {
       payData: this.wayPayFormData,
       supportData: this.assistFormData,
     });
-
-    // this.changeStep(this.policySteps.POLICY_VERIFY);
     this.formCheckType = LocuinteFormType.PAD_CHECK;
     this.changeStep(this.policySteps.PAD_CHECK);
   }
 
   calculationSubmit() {
     this.changeStep(this.policySteps.CALCULATION_LOADER);
-    const navigationExtras: NavigationExtras = {
-      queryParams: {
-        policyType: this.policyID,
-      },
-    };
-    // TODO: When linking to the BE WS, we may also need an error page for this.
-    this.reftime = setTimeout(() => {
-      this.navCtrl.navigateForward(['/policy', 'offer', 2], navigationExtras);
-    }, 3000);
+    // const navigationExtras: NavigationExtras = {
+    //   queryParams: {
+    //     policyType: this.policyID,
+    //   },
+    // };
+    // // TODO: When linking to the BE WS, we may also need an error page for this.
+    // this.reftime = setTimeout(() => {
+    //   this.navCtrl.navigateForward(['/policy', 'offer', 2], navigationExtras);
+    // }, 3000);
   }
   handleError(data) {
     this.showError = true;

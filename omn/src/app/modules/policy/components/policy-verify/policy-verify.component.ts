@@ -80,14 +80,14 @@ export class PolicyVerifyComponent implements OnInit {
   }
 
   calculatePrice() {
-    // console.log(this.offerData.policy);
+    this.calculateEvent.emit();
     const payload = {
       isVip: this.offerData?.supportData?.plan === 'vip' ? true : false,
       isGold: this.offerData?.supportData?.plan === 'gold' ? true : false,
       mentiuni: 'self',
       startDate: this.offerData?.policy?.dates?.from,
-      numberOfMonths: '24',
-      insurancePrice: 20000,
+      numberOfMonths: '12',
+      insurancePrice: 100000,
       numberOfPayments: this.offerData?.payData?.rate,
       paymentCurrency: this.offerData?.payData?.type,
       propertyCessionList: null,
@@ -101,17 +101,39 @@ export class PolicyVerifyComponent implements OnInit {
       .subscribe(
         (result) => {
           console.log(result);
-          if (result) {
-            // this.stepChange.emit('TO_POLICY_VERIFY');
-          } else {
-            // this.errorEvent.emit('Some error occurred');
-          }
+          this.policyS.addOfferToStore(this.offerData, result).subscribe(
+            (v) => {
+              console.log('success', v);
+              if (v) {
+                const id = get(v, 'id', null);
+                if (id) {
+                  this.navCtrl.navigateForward(['/policy', 'offer', id]);
+                } else {
+                  this.navCtrl.navigateRoot(['/policy']);
+                }
+              } else {
+                console.log('error no id');
+                // We'll probably only show an error in here.
+              }
+            },
+            (err) => {
+              this.goToErrorHandler.emit(err);
+            }
+          );
         },
-        (err) => {
-          console.log(err);
-          // this.errorEvent.emit(err.error);
+        (error) => {
+          const eroare = get(
+            error,
+            'error.emitereOfertaResponse1.eroare',
+            false
+          );
+          const mesaj = get(error, 'error.emitereOfertaResponse1.mesaj', '');
+          if (eroare && mesaj) {
+            this.goToErrorHandler.emit(mesaj);
+          } else {
+            this.goToErrorHandler.emit();
+          }
         }
       );
-    // this.calculateEvent.emit();
   }
 }
