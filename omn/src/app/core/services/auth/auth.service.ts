@@ -103,10 +103,9 @@ export class AuthService {
         if (!vM) {
           return null;
         }
-        if (has(vM, 'key') && has(vM, 'expiry')) {
-          return this.isTokenExpired(vM.expiry) ? vM : null;
-        }
-        return vM ? get(vM, 'key', null) : null;
+        return !this.isTokenExpired(get(vM, 'expiry', undefined))
+          ? get(vM, 'key', null)
+          : null;
       })
     );
   }
@@ -348,6 +347,7 @@ export class AuthService {
   }
 
   isTokenExpired(date?: string | Date): boolean {
+    debugger;
     if (date === undefined) {
       return false;
     }
