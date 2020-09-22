@@ -15,7 +15,7 @@ import { CustomTimersService } from './services/custom-timers/custom-timers.serv
 import { MenuService } from './services/menu/menu.service';
 import { RequestService } from './services/request/request.service';
 import { AppVersion } from '@ionic-native/app-version/ngx';
-
+import { File } from '@ionic-native/file/ngx';
 @NgModule({
   declarations: [SideMenuComponent],
   imports: [
@@ -39,6 +39,7 @@ import { AppVersion } from '@ionic-native/app-version/ngx';
     CustomTimersService,
     MenuService,
     AppVersion,
+    File
   ],
   exports: [SideMenuComponent],
 })

@@ -9,7 +9,7 @@ import {
   ViewChild,
 } from '@angular/core';
 import { ActivatedRoute, Router, NavigationExtras } from '@angular/router';
-import { NavController } from '@ionic/angular';
+import { NavController, IonContent } from '@ionic/angular';
 import { cloneDeep, get, has } from 'lodash';
 import { BehaviorSubject, combineLatest } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
@@ -39,6 +39,7 @@ export class PolicyFormPage implements OnInit, OnDestroy {
   @ViewChild('exclusionComp', { static: false }) exclusionComp;
   @ViewChild('infoDocComp', { static: false }) infoDocComp;
   @ViewChild('addressFormComp', { static: false }) addressFormComp;
+  @ViewChild(IonContent, { static: false }) content: IonContent;
 
   @HostBinding('class')
   get color() {
@@ -56,8 +57,8 @@ export class PolicyFormPage implements OnInit, OnDestroy {
   policyLocuintaData$: BehaviorSubject<
     Array<PolicyLocuintaListItem>
   > = new BehaviorSubject([]);
-  dntItem: any = 'success';
-  exclusionItem: any = 'success';
+  dntItem: any = null;
+  exclusionItem: any = null;
   locuintaFormType: LocuinteFormType = LocuinteFormType.ADDRESS;
 
   // Stored Data:
@@ -175,16 +176,18 @@ export class PolicyFormPage implements OnInit, OnDestroy {
         }
         break;
       case this.policySteps.INFO_DOC:
+        const step = get(this.infoDocComp, 'currentStep', 0);
         this.headerConfig = policySubpageHeader({
           title: 'Document de Informare',
           backLink: false,
+          hasLeadingIcon: step > 1,
           hasTrailingIcon: true,
         });
         break;
       case this.policySteps.ADDRESS_SELECT:
         this.headerConfig = policySubpageHeader({
           title: 'Adresă locuință',
-          hasTrailingIcon: true,
+
           hasLeadingIcon: true,
           backLink: false,
         });
@@ -292,7 +295,11 @@ export class PolicyFormPage implements OnInit, OnDestroy {
 
         break;
       case this.policySteps.INFO_DOC:
-        if (has(this.typeItem, 'dntConfig', null)) {
+        const step = get(this.infoDocComp, 'currentStep', 0);
+        if (this.policyID === 'Garant AMPLUS+ PAD' && step > 1) {
+          this.infoDocComp.back();
+          return;
+        } else if (has(this.typeItem, 'dntConfig', null)) {
           this.typeItem.dntConfig = {
             ...this.typeItem.dntConfig,
             ...{ initialStep: this.dntItem },
@@ -474,6 +481,7 @@ export class PolicyFormPage implements OnInit, OnDestroy {
           this.next();
           break;
         case 'Garant AMPLUS+ PAD':
+          this.changeStep(this.policySteps.CESIUNE_FORM);
           break;
         default:
           break;
@@ -499,6 +507,7 @@ export class PolicyFormPage implements OnInit, OnDestroy {
         if (this.policyID === 'PAD' || this.policyID === 'AMPLUS') {
           this.changeStep(this.policySteps.LOCATION_FORM);
         } else {
+          this.changeStep(this.policySteps.CESIUNE_FORM);
           // TODO: handle PAD + AMPLUS here
         }
 
@@ -526,11 +535,11 @@ export class PolicyFormPage implements OnInit, OnDestroy {
 
   periodSubmit(startDate) {
     this.periodStartData = startDate;
-    if (this.policyID === 'AMPLUS') {
+    if (this.policyID === 'PAD') {
+      this.next();
+    } else {
       this.changeStep(this.policySteps.TECHNICAL_SUPPORT);
-      return;
     }
-    this.next();
   }
 
   navigateBackDnt() {
@@ -610,9 +619,6 @@ export class PolicyFormPage implements OnInit, OnDestroy {
 
   paySubmit(payData) {
     this.wayPayFormData = payData;
-
-    // TODO: You may need to also add the new AMPLUS data in here,
-    // so that we can have it available in the offers.
     this.offerData = this.policyFs.buildOfferItem({
       locuintaItem: this.selectedAddressItem,
       account: this.userAccount,
@@ -637,6 +643,11 @@ export class PolicyFormPage implements OnInit, OnDestroy {
       this.navCtrl.navigateForward(['/policy', 'offer', 2], navigationExtras);
     }, 3000);
   }
+
+  scrollToTop() {
+    this.content.scrollToTop(1500);
+  }
+
   handleError(data) {
     this.showError = true;
     if (typeof data === 'string') {
@@ -660,6 +671,7 @@ export class PolicyFormPage implements OnInit, OnDestroy {
       this.back();
     }, 5000);
   }
+
   exitFlow() {
     this.navCtrl.navigateBack(['/policy']);
   }
@@ -667,5 +679,11 @@ export class PolicyFormPage implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.dntItem = null;
     clearTimeout(this.reftime);
+  }
+
+  infoDocStep(step: number) {
+    if (this.policyID === 'Garant AMPLUS+ PAD') {
+      this.setTitles();
+    }
   }
 }
