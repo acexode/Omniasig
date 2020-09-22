@@ -61,7 +61,8 @@ export class AuthService {
         this.authState.next({
           init: true,
           account,
-          authToken: token,
+          authToken: token.key,
+          expiryDate: token.expiry,
         });
       } else {
         this.authState.next({ ...this.initialState, ...{ init: true } });
