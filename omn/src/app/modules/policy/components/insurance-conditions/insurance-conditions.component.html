@@ -22,7 +22,7 @@
     </ion-row>
 
     <ion-row
-      class="py-24 px-19 mx-24 border-radius-4 bg-light-green position-fixed top-471"
+      class="py-24 px-19 mx-24 border-radius-4 bg-light-green position-fixed top-230"
     >
       <ion-text class="s16-h22 text-center"
         >Este necesară parcurgerea întregii pagini. Te rugăm să derulezi până la
@@ -31,8 +31,13 @@
     </ion-row>
 
     <ion-row class="px-16 s16-h22 mb-13">
-      <ng-container *ngFor="let condition of conditions">
+      <ng-container *ngFor="let condition of amplusConditions">
         <ion-text class="mb-16">{{ condition }}</ion-text>
+      </ng-container>
+      <ng-container *ngIf="policyType === 'Garant AMPLUS+ PAD'">
+        <ng-container *ngFor="let condition of amplusPadCondtions">
+          <ion-text class="mb-16">{{ condition }}</ion-text>
+        </ng-container>
       </ng-container>
     </ion-row>
 

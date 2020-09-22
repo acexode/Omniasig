@@ -1,0 +1,157 @@
+ul.list {
+  list-style: none;
+  padding: 0;
+  &.green {
+    li {
+      &:before {
+        content: '✔︎';
+        display: inline-block;
+        width: 1.3rem;
+      }
+      &:nth-child(3) {
+        &:before {
+          content: '⁃';
+          display: inline-block;
+          width: 1.3rem;
+        }
+      }
+      &:nth-child(4) {
+        &:before {
+          content: '⁃';
+          display: inline-block;
+          width: 1.3rem;
+        }
+      }
+    }
+
+    &.amplus {
+      li {
+        &:before {
+          content: '✔︎';
+          display: inline-block;
+          width: 1.3rem;
+        }
+        &:nth-child(4) {
+          list-style: none;
+          padding: 0;
+          &:before {
+            content: '';
+            display: none;
+            width: 0;
+          }
+        }
+        &:nth-child(15) {
+          list-style: none;
+          padding: 0;
+          &:before {
+            content: '';
+            display: none;
+            width: 0;
+          }
+        }
+      }
+    }
+  }
+
+  &.red {
+    li {
+      &:before {
+        content: '✖︎';
+        display: inline-block;
+        width: 1.3rem;
+      }
+    }
+    &.amplus {
+      li {
+        &:before {
+          content: '✖︎';
+          display: inline-block;
+          width: 1.3rem;
+        }
+        &:nth-child(1) {
+          list-style: none;
+          padding: 0;
+          &:before {
+            content: '';
+            display: none;
+            width: 0;
+          }
+        }
+      }
+    }
+  }
+
+  &.danger {
+    li {
+      &:before {
+        content: '!';
+        display: inline-block;
+        width: 1.3rem;
+      }
+    }
+    &.amplus {
+      li {
+        display: flex;
+        padding-left: 0.7rem;
+        &:before {
+          content: '!';
+          display: block;
+          margin-right: 1.3rem;
+          width: 0;
+        }
+        &:nth-child(1) {
+          list-style: none;
+          padding: 0;
+          &:before {
+            content: '';
+            display: none;
+            width: 0;
+          }
+        }
+      }
+    }
+  }
+
+  &.blue {
+    li {
+      &:before {
+        content: '✔︎';
+        display: inline-block;
+        width: 1.3rem;
+      }
+    }
+  }
+
+  &.green-2 {
+    li {
+      padding-left: 0.5rem;
+      &:before {
+        content: '•';
+        display: inline-block;
+        width: 1.3rem;
+      }
+    }
+
+    &.amplus {
+      li {
+        display: flex;
+        padding-left: 0.7rem;
+        &:before {
+          content: '•';
+          display: block;
+          margin-right: 1.3rem;
+          width: 0;
+        }
+        &:nth-child(1) {
+          list-style: none;
+          padding: 0;
+          &:before {
+            content: '';
+            display: none;
+            width: 0;
+          }
+        }
+      }
+    }
+  }
+}
