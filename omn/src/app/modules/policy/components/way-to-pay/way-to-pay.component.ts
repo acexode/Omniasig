@@ -1,5 +1,6 @@
 import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-way-to-pay',
@@ -9,8 +10,12 @@ import { FormBuilder, Validators } from '@angular/forms';
 export class WayToPayComponent implements OnInit {
   @Input() payFormData;
   formGroup = this.fb.group({
-    rate: this.fb.control(1, Validators.required),
+    rate: this.fb.control(null, Validators.required),
     type: this.fb.control(null, Validators.required),
+  });
+
+  amplusPadGroup = this.fb.group({
+    rate: this.fb.control(null, Validators.required),
   });
 
   fieldConfig = {
@@ -35,20 +40,30 @@ export class WayToPayComponent implements OnInit {
       { id: '4', label: '4 rate' },
     ],
   };
-
+  policyID;
   @Output() eventSubmit: EventEmitter<any> = new EventEmitter();
 
-  constructor(private fb: FormBuilder) {}
+  constructor(private fb: FormBuilder, private aRoute: ActivatedRoute) {}
 
   ngOnInit() {
-    if (this.payFormData && this.formGroup) {
+    this.policyID = this.aRoute.snapshot.queryParamMap.get('policyID');
+    if (this.payFormData && this.policyID === 'AMPLUS') {
       this.formGroup.setValue(this.payFormData);
+    }
+    if (this.payFormData && this.policyID === 'Garant AMPLUS+ PAD') {
+      this.amplusPadGroup.setValue(this.payFormData);
     }
   }
 
   submit() {
-    if (this.formGroup.valid) {
-      this.eventSubmit.emit(this.formGroup.value);
+    if (this.policyID === 'AMPLUS') {
+      if (this.formGroup.valid) {
+        this.eventSubmit.emit(this.formGroup.value);
+      }
+    } else {
+      if (this.amplusPadGroup.valid) {
+        this.eventSubmit.emit(this.formGroup.value);
+      }
     }
   }
 }
