@@ -99,30 +99,30 @@ export class AuthService {
   // get token to local storage
   getToken() {
     return this.storeS.getItem('token').pipe(
-      filter((v: any) => {
-        if (!v) {
+      map((vM: any) => {
+        if (!vM) {
           return null;
-        } else if (has(v, 'key') && has(v, 'expiry')) {
-          return this.isTokenExpired(v.expiry) ? v : null;
         }
-      }),
-      map((vM) => {
-        return vM ? get(vM, 'token', null) : null;
+        if (has(vM, 'key') && has(vM, 'expiry')) {
+          return this.isTokenExpired(vM.expiry) ? vM : null;
+        }
+        return vM ? get(vM, 'key', null) : null;
       })
     );
   }
 
   // get user profile from ws
-  getProfile(token, phoneNumber) {
+  getProfile(data: { token: string; phoneNumber: string; expiry: string }) {
     return this.reqS
       .get<Account>(
-        `${authEndpoints.getUserProfile}?userNameOrId=${phoneNumber}`
+        `${authEndpoints.getUserProfile}?userNameOrId=${data.phoneNumber}`
       )
       .pipe(
         switchMap((res) => {
           return this.processAuthResponse({
-            account: { ...res, userStates: [AccountStates.ACTIVE] },
-            token,
+            account: { ...res },
+            token: data.token,
+            expiration: data.expiry,
           });
         })
       );
@@ -132,13 +132,14 @@ export class AuthService {
   processAuthResponse(data: LoginResponse) {
     const account = data.account ? data.account : null;
     const authToken = data.token ? data.token : null;
-    debugger;
+    const expiry = data.expiration ? data.expiration : null;
     return this.storeS.setItem('account', account).pipe(
       tap(() => {
         this.authState.next({
           init: true,
           account,
           authToken,
+          expiryDate: expiry,
         });
       }),
       map((v) => data)
@@ -153,7 +154,7 @@ export class AuthService {
   }
 
   accountActivated(acc: Account) {
-    return acc.isBiometricValid === true && acc.isEmailConfirmed === true
+    return acc && acc.isBiometricValid === true && acc.isEmailConfirmed === true
       ? true
       : false;
   }
@@ -215,10 +216,13 @@ export class AuthService {
     };
     return this.doLogin(reqData).pipe(
       switchMap((res) => {
-        debugger;
         return this.saveToken({ key: res.token, expiry: res.expiration }).pipe(
           switchMap(() => {
-            return this.getProfile(res.token, loginData.phone);
+            return this.getProfile({
+              token: res.token,
+              phoneNumber: loginData.phone,
+              expiry: res.expiration,
+            });
           })
         );
       }),
