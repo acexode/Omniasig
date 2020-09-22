@@ -13,7 +13,7 @@ export const subPageHeaderCustom = (
     },
     trailingIcon: {
       name: 'md-close-2',
-      classes: 'icon-20 mt-2',
+      classes: 'icon-20 mt-2 p-8',
     },
     title: {
       text: title,
