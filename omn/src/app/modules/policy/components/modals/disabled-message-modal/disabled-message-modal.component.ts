@@ -13,7 +13,9 @@ export class DisabledMessageModalComponent implements OnInit {
   constructor(public modalCtrl: ModalController) {}
 
   ngOnInit() {}
-
+  close() {
+    this.modalCtrl.dismiss();
+  }
   dismissModal() {
     this.modalCtrl.dismiss();
   }
