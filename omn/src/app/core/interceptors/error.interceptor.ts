@@ -20,10 +20,11 @@ export class ErrorInterceptor implements HttpInterceptor {
     return next.handle(request).pipe(
       catchError((err) => {
         if (err.status === 401) {
-          // auto logout if 401 response returned from api
-          // this.authenticationService.logout();
-          // tslint:disable-next-line: deprecation
-          location.reload(true);
+          this.authenticationService.getToken().subscribe((v) => {
+            if (!v) {
+              this.authenticationService.doLogout();
+            }
+          });
         }
         const error = err.error.message || err.statusText;
         return throwError(error);

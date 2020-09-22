@@ -5,7 +5,7 @@ import {
   Router,
   UrlTree,
 } from '@angular/router';
-import { get, has } from 'lodash';
+import { get } from 'lodash';
 import * as qs from 'qs';
 import { BehaviorSubject, throwError } from 'rxjs';
 import {
@@ -348,7 +348,6 @@ export class AuthService {
   }
 
   isTokenExpired(date?: string | Date): boolean {
-    debugger;
     if (date === undefined) {
       return false;
     }
