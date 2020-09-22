@@ -11,6 +11,7 @@ import { IonContent, ModalController, NavController } from '@ionic/angular';
 import { BehaviorSubject, combineLatest, Observable, of } from 'rxjs';
 import { finalize, switchMap } from 'rxjs/operators';
 import { CustomRouterService } from 'src/app/core/services/custom-router/custom-router.service';
+import { PadService } from 'src/app/modules/policy/services/pad.service';
 import { subPageHeaderDefault } from 'src/app/shared/data/sub-page-header-default';
 import { subPageHeaderPrimary } from 'src/app/shared/data/sub-page-header-primary';
 import {
@@ -73,6 +74,7 @@ export class LocuinteViewComponent implements OnInit {
     private locuinteS: LocuinteService,
     private formS: LocuinteFormService,
     public modalController: ModalController,
+    private padS: PadService,
   ) { }
 
   ngOnInit() {
@@ -95,15 +97,20 @@ export class LocuinteViewComponent implements OnInit {
         if ( id ) {
           this.locuinteS.getSingleLocuinta( id ).subscribe( ( val: Locuinte ) => {
             console.log( 'check: ', val );
-
-            this.aRoute.data.subscribe( d => console.log( 'hmmm', d ) );
-
+            
             if ( val ) {
               this.getLocationInfo( val );
               this.dataModel = val;
               this.buildFormAdd();
               this.initForm();
               this.cdRef.markForCheck();
+
+              // checkpad for the locuite
+              this.aRoute.data.subscribe( d => {
+                console.log( 'hmmm', d );
+                this.checkUserPad( d.data );
+              });
+
             } else {
               // this.navCtrl.navigateRoot(['/profil', 'locuinte']);
             }
@@ -352,4 +359,17 @@ export class LocuinteViewComponent implements OnInit {
     } );
     return await modal.present();
   }
+
+  checkUserPad( { locationId, userId } ) {
+    this.padS.checkPad( locationId, userId ).subscribe(
+    checkpadData => {
+      console.log( 'checkpadData: ', checkpadData );
+      // tslint:disable-next-line:no-unused-expression
+      checkpadData.hasPaid === true ? this.variant = 'found' : '';
+    },
+    err => {
+
+    });
+  }
+
 }

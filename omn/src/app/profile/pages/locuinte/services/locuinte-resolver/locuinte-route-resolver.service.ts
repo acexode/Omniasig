@@ -3,8 +3,6 @@ import { Resolve, ActivatedRouteSnapshot, RouterStateSnapshot, Router } from '@a
 
 import { Observable } from 'rxjs';
 import { AuthService } from 'src/app/core/services/auth/auth.service';
-
-import { PadService } from 'src/app/modules/policy/services/pad.service';
 import { Account } from 'src/app/core/models/account.interface';
 
 @Injectable( {
@@ -14,7 +12,7 @@ export class LocuinteRouteResolver implements Resolve<any> {
 
   authData: Account;
 
-  constructor( private padS: PadService, private authS: AuthService ) { }
+  constructor( private authS: AuthService ) { }
 
   async resolve(
     route: ActivatedRouteSnapshot,
@@ -31,16 +29,6 @@ export class LocuinteRouteResolver implements Resolve<any> {
       userId: this.authData.userId,
       userData: this.authData,
     };
-  }
-
-  checkUserPad() {
-    return new Promise( ( resolve, reject ) => {
-      this.padS.checkPad( 79, '7e7f51a1-5f7e-4118-9fee-74fb407400fe' ).subscribe(
-        checkpadData => {
-          console.log( 'checkpadData: ', checkpadData );
-          resolve( checkpadData );
-        } );
-    } );
   }
 
 }
