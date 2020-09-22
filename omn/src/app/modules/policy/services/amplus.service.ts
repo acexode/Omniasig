@@ -11,12 +11,10 @@ export class AmplusService {
   CreateAmplusInsuranceOffer(
     amplusAddressId: number | string,
     generateOffer: boolean,
-    payload
+    payload: any
   ) {
     return this.reqS.post<any>(
-      `${
-        amplusEndpoints.CreateAmplusInsuranceOffer
-      }?amplusAddressId=${79}&generateOffer=${generateOffer}`,
+      `${amplusEndpoints.CreateAmplusInsuranceOffer}?amplusAddressId=${amplusAddressId}&generateOffer=${generateOffer}`,
       payload
     );
   }

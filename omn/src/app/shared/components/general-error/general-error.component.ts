@@ -4,6 +4,7 @@ import {
   Component,
   EventEmitter,
   Input,
+  OnChanges,
   OnInit,
   Output,
   SimpleChanges,
@@ -17,7 +18,7 @@ import { IonTextItem } from './../../models/component/ion-text-item';
   styleUrls: ['./general-error.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class GeneralErrorComponent implements OnInit {
+export class GeneralErrorComponent implements OnInit, OnChanges {
   @Input() title = 'Ne pare rău...';
   @Input() texts: Array<IonTextItem> = [
     {

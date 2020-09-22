@@ -637,15 +637,6 @@ export class PolicyFormPage implements OnInit, OnDestroy {
 
   calculationSubmit() {
     this.changeStep(this.policySteps.CALCULATION_LOADER);
-    // const navigationExtras: NavigationExtras = {
-    //   queryParams: {
-    //     policyType: this.policyID,
-    //   },
-    // };
-    // // TODO: When linking to the BE WS, we may also need an error page for this.
-    // this.reftime = setTimeout(() => {
-    //   this.navCtrl.navigateForward(['/policy', 'offer', 2], navigationExtras);
-    // }, 3000);
   }
   handleError(data) {
     this.showError = true;

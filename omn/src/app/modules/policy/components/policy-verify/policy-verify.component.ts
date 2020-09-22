@@ -6,7 +6,7 @@ import {
   OnInit,
   Output,
 } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, NavigationExtras } from '@angular/router';
 import { NavController } from '@ionic/angular';
 import { get } from 'lodash';
 import { PolicyOffer } from 'src/app/shared/models/data/policy-offer';
@@ -45,23 +45,25 @@ export class PolicyVerifyComponent implements OnInit {
       )
       .subscribe(
         (result) => {
-          this.policyS.addOfferToStore(this.offerData, result).subscribe(
-            (v) => {
-              if (v) {
-                const id = get(v, 'id', null);
-                if (id) {
-                  this.navCtrl.navigateForward(['/policy', 'offer', id]);
+          this.policyS
+            .addOfferToStore(this.offerData, result, this.policyID)
+            .subscribe(
+              (v) => {
+                if (v) {
+                  const id = get(v, 'id', null);
+                  if (id) {
+                    this.navCtrl.navigateForward(['/policy', 'offer', id]);
+                  } else {
+                    this.navCtrl.navigateRoot(['/policy']);
+                  }
                 } else {
-                  this.navCtrl.navigateRoot(['/policy']);
+                  // We'll probably only show an error in here.
                 }
-              } else {
-                // We'll probably only show an error in here.
+              },
+              (err) => {
+                this.goToErrorHandler.emit(err);
               }
-            },
-            (err) => {
-              this.goToErrorHandler.emit(err);
-            }
-          );
+            );
         },
         (error) => {
           const eroare = get(
@@ -100,26 +102,33 @@ export class PolicyVerifyComponent implements OnInit {
       )
       .subscribe(
         (result) => {
-          console.log(result);
-          this.policyS.addOfferToStore(this.offerData, result).subscribe(
-            (v) => {
-              console.log('success', v);
-              if (v) {
-                const id = get(v, 'id', null);
-                if (id) {
-                  this.navCtrl.navigateForward(['/policy', 'offer', id]);
+          this.policyS
+            .addOfferToStore(this.offerData, result, this.policyID)
+            .subscribe(
+              (v) => {
+                if (v) {
+                  const id = get(v, 'id', null);
+                  if (id) {
+                    const navigationExtras: NavigationExtras = {
+                      queryParams: {
+                        policyType: this.policyID,
+                      },
+                    };
+                    this.navCtrl.navigateForward(
+                      ['/policy', 'offer', id],
+                      navigationExtras
+                    );
+                  } else {
+                    this.navCtrl.navigateRoot(['/policy']);
+                  }
                 } else {
-                  this.navCtrl.navigateRoot(['/policy']);
+                  // We'll probably only show an error in here.
                 }
-              } else {
-                console.log('error no id');
-                // We'll probably only show an error in here.
+              },
+              (err) => {
+                this.goToErrorHandler.emit(err);
               }
-            },
-            (err) => {
-              this.goToErrorHandler.emit(err);
-            }
-          );
+            );
         },
         (error) => {
           const eroare = get(

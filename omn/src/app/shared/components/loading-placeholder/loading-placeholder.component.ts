@@ -1,11 +1,17 @@
-import { Component, Input, OnInit, SimpleChanges } from '@angular/core';
+import {
+  Component,
+  Input,
+  OnChanges,
+  OnInit,
+  SimpleChanges,
+} from '@angular/core';
 
 @Component({
   selector: 'app-loading-placeholder',
   templateUrl: './loading-placeholder.component.html',
   styleUrls: ['./loading-placeholder.component.scss'],
 })
-export class LoadingPlaceholderComponent implements OnInit {
+export class LoadingPlaceholderComponent implements OnInit, OnChanges {
   @Input() title = 'Verificăm datele în portalul PAID…';
 
   ngOnChanges(changes: SimpleChanges): void {
