@@ -1,0 +1,8 @@
+:host {
+    height: 100%;
+}
+
+.payment-iframe {
+    width: calc(100% - 2px)!important;
+    margin-left: rem(1);
+}

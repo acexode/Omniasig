@@ -1,6 +1,7 @@
+import { PaymentPayModalComponent } from './../payment-pay-modal/payment-pay-modal.component';
 import { Component, HostBinding, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { NavController } from '@ionic/angular';
+import { NavController, ModalController } from '@ionic/angular';
 import { get } from 'lodash';
 import { take } from 'rxjs/operators';
 import { dateHelperDMY } from 'src/app/core/helpers/date.helper';
@@ -24,8 +25,9 @@ export class OfferViewComponent implements OnInit {
     private route: ActivatedRoute,
     private policyDataService: PolicyDataService,
     private padS: PadService,
-    private navCtrl: NavController
-  ) {}
+    private navCtrl: NavController,
+    public modalController: ModalController
+  ) { }
 
   ngOnInit(): void {
     this.route.params.pipe(take(1)).subscribe((params: any) => {
@@ -37,6 +39,8 @@ export class OfferViewComponent implements OnInit {
     this.policyDataService.getSingleOfferById(id).subscribe((offer) => {
       this.offer = offer instanceof Array ? offer[0] : offer;
       this.setCalEntry(this.offer);
+      console.log(this.offer);
+
     });
   }
 
@@ -44,7 +48,7 @@ export class OfferViewComponent implements OnInit {
     this.navCtrl.navigateRoot('/policy');
   }
 
-  back() {}
+  back() { }
 
   setCalEntry(offer: PolicyOffer) {
     const date = get(offer, 'expiry', null);
@@ -65,7 +69,7 @@ export class OfferViewComponent implements OnInit {
           calendarName: 'offer',
         },
       };
-    } catch (e) {}
+    } catch (e) { }
   }
 
   addCalendarEntry() {
@@ -73,8 +77,23 @@ export class OfferViewComponent implements OnInit {
   }
 
   pay() {
-// Starting the payment workflow here
-
+    // Starting the payment workflow here
+    const data = {
+      ibaN_1: this.offer.iban,
+      amount_IBAN_1: 10,
+      areTermsAccepted: true,
+      currencyToPay: this.offer.policy.locuintaData.valueCurrency,
+      policyCurrency: this.offer.policy.locuintaData.valueCurrency,
+      policyCode: this.offer.offerCode,
+      isMobilePayment: true
+    }
+    this.policyDataService.makePayment(data).subscribe(
+      (data) => {
+        console.log(data);
+        this.presentModal(data)
+      },
+      err => console.log(err)
+    )
 
     return
     /*
@@ -93,5 +112,16 @@ export class OfferViewComponent implements OnInit {
         this.navCtrl.navigateRoot('/policy');
       }
     );
+  }
+
+  async presentModal(data) {
+    const modal = await this.modalController.create({
+      component: PaymentPayModalComponent,
+      cssClass: 'my-custom-class',
+      componentProps: {
+        data
+      }
+    });
+    return await modal.present();
   }
 }

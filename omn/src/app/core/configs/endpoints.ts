@@ -42,6 +42,7 @@ export const policyEndpoints = {
   // real endpoints
   GetActivePADOffers: serverBaseUrl + '/PADInsurance/GetActivePADOffers',
   GetActivePADPolicies: serverBaseUrl + '/PADInsurance/GetActivePADPolicies',
+  initiatePayment :serverBaseUrl + '/GPWebpay'
 };
 
 export const locuinteEndpoints = {

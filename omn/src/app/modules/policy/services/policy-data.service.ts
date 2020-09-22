@@ -123,8 +123,8 @@ export class PolicyDataService {
         map((ov) =>
           ov
             ? ov.map((ovi) =>
-                this.mapOfferPolicyType(this.createOffersObj(ovi, 'PAD'))
-              )
+              this.mapOfferPolicyType(this.createOffersObj(ovi, 'PAD'))
+            )
             : []
         )
       );
@@ -151,6 +151,7 @@ export class PolicyDataService {
     return {
       id: offer.id,
       offerCode: offer.offerCode,
+      iban: offer.offerIBAN,
       policy: {
         id: offer.id,
         name: offer.offerCode,
@@ -163,7 +164,6 @@ export class PolicyDataService {
         },
         locuintaData: {
           id: offer.locuintaId,
-
           type: offer.locationType,
           structure: offer.locationStructure,
           yearConstruction: offer.locationYearConstruction,
@@ -174,7 +174,6 @@ export class PolicyDataService {
           floors: offer.locationFloors,
           rooms: offer.locationRooms,
           hasAlarmSystem: offer.locationHasAlarmSystem,
-
           name: offer.locationName,
           addressCounty: offer.addressCounty,
           addressCity: offer.addressCity,
@@ -324,12 +323,13 @@ export class PolicyDataService {
         calEntry.options
       )
       .then(
-        (msg) => {},
-        (err) => {}
+        (msg) => { },
+        (err) => { }
       );
   }
 
-  makePayment(){
-    
+  makePayment(data) {
+    console.log(this.endpoints.initiatePayment);
+    return this.reqS.post<any>(this.endpoints.initiatePayment, data)
   }
 }
