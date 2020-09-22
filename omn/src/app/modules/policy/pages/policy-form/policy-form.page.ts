@@ -678,16 +678,12 @@ export class PolicyFormPage implements OnInit, OnDestroy {
       this.errMsg = this.defaultErrMsg;
     }
     
-    // setTimeout(() => {
-    //   this.showError = false;
-    //   this.errMsg = null;
-    //   this.back();
-    // }, 5000);
+    setTimeout(() => {
+      this.showError = false;
+      this.errMsg = null;
+      this.back();
+    }, 5000);
   }
-  
-  // checkPad(){
-    
-  // }
 
   exitFlow() {
     this.navCtrl.navigateBack(['/policy']);

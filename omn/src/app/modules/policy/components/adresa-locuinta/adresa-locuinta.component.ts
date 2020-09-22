@@ -9,7 +9,6 @@ import {
 import { FormBuilder, Validators } from '@angular/forms';
 import { get } from 'lodash';
 import { PolicyLocuintaListItem } from './../../../../shared/models/component/policy-locuinta-list-item';
-import { PolicyOffer } from 'src/app/shared/models/data/policy-offer';
 import { AuthService } from 'src/app/core/services/auth/auth.service';
 import { PaidExternalService } from '../../services/paid-external-service.service';
 
@@ -25,7 +24,7 @@ export class AdresaLocuintaComponent implements OnInit {
   addNew = 'ADD_NEW';
   checkPAD: boolean = false;
   userId;
-  loaderTitle = "llllllllllll"
+  loaderTitle = "Verificăm datele în portalul PAID…"
   @Input() set locuinteList(lV) {
     this.fullList = lV;
     // Split based on policy availability.
@@ -71,20 +70,18 @@ export class AdresaLocuintaComponent implements OnInit {
     const value = this.fullList.find((lI) => get(lI, 'locuinta.id', -1) === id);
     if (value) {
       console.log("CHECKPAD22222222222", value.locuinta.id, this.userId)
-      // this.paidS.CheckPAD({locationId: parseInt(value.locuinta.id), userId: this.userId})
-      this.paidS.CheckPAD({locationId: 79, userId: this.userId})
+      this.paidS.CheckPAD({locationId: value.locuinta.id, userId: this.userId})
       .subscribe(
         (value)=>{
           if(value.hasPaid){
-            // this.checkPadResponse.emit(value.paidExpireDate);
             this.checkPadResponse.emit(value);
           }else{
             this.selectionDone.emit(value);
           }
         },
         (error)=>{
-        // Emit error here
           console.log(error);
+          this.checkPadResponse.emit(error);
         }
       )
     }

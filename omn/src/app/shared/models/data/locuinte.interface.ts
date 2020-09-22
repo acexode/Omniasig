@@ -12,7 +12,7 @@ export enum LocuintaState {
 }
 
 export interface Locuinte {
-  id: number | string;
+  id: number;
   name: string;
   addressCounty: string;
   addressCity: string;
