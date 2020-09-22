@@ -5,7 +5,7 @@ import {
   Router,
   UrlTree,
 } from '@angular/router';
-import { get } from 'lodash';
+import { get, has } from 'lodash';
 import * as qs from 'qs';
 import { BehaviorSubject, throwError } from 'rxjs';
 import {
@@ -93,12 +93,23 @@ export class AuthService {
   }
 
   // save token to local storage
-  saveToken(token: string) {
+  saveToken(token: { key: string; expiry: string }) {
     return this.storeS.setItem('token', token);
   }
   // get token to local storage
   getToken() {
-    return this.storeS.getItem('token');
+    return this.storeS.getItem('token').pipe(
+      filter((v: any) => {
+        if (!v) {
+          return null;
+        } else if (has(v, 'key') && has(v, 'expiry')) {
+          return this.isTokenExpired(v.expiry) ? v : null;
+        }
+      }),
+      map((vM) => {
+        return vM ? get(vM, 'token', null) : null;
+      })
+    );
   }
 
   // get user profile from ws
@@ -121,6 +132,7 @@ export class AuthService {
   processAuthResponse(data: LoginResponse) {
     const account = data.account ? data.account : null;
     const authToken = data.token ? data.token : null;
+    debugger;
     return this.storeS.setItem('account', account).pipe(
       tap(() => {
         this.authState.next({
@@ -203,7 +215,8 @@ export class AuthService {
     };
     return this.doLogin(reqData).pipe(
       switchMap((res) => {
-        return this.saveToken(res.token).pipe(
+        debugger;
+        return this.saveToken({ key: res.token, expiry: res.expiration }).pipe(
           switchMap(() => {
             return this.getProfile(res.token, loginData.phone);
           })
@@ -328,5 +341,18 @@ export class AuthService {
         this.doUpdateAccount(obj);
       })
     );
+  }
+
+  isTokenExpired(date?: string | Date): boolean {
+    if (date === undefined) {
+      return false;
+    }
+    try {
+      const expDate = new Date(date);
+      const boolVal = !(expDate.valueOf() > new Date().valueOf());
+      return boolVal;
+    } catch (e) {
+      return null;
+    }
   }
 }
