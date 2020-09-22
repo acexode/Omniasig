@@ -102,6 +102,7 @@
           >
             <app-policy-address-form
               #addressFormComp
+              (checkPadResponse)="handleError($event)"
               (dataAdded)="locuintaAdded($event)"
               [policyType]="typeItem?.id"
               (stepChange)="addressStepChange($event)"

@@ -17,6 +17,8 @@ import { LocuinteService } from 'src/app/profile/pages/locuinte/services/locuint
 import { PadService } from '../../services/pad.service';
 import { subPageHeaderDefault } from 'src/app/shared/data/sub-page-header-default';
 import { Locuinte } from 'src/app/shared/models/data/locuinte.interface';
+import { AuthService } from 'src/app/core/services/auth/auth.service';
+import { PaidExternalService } from '../../services/paid-external-service.service';
 import {
   LocuinteFormModes,
   LocuinteFormType,
@@ -64,10 +66,14 @@ export class PolicyAddressFormComponent implements OnInit {
 
   formSubmitting = false;
   formInstance: { group: FormGroup; config: any; data: any } = null;
+  checkPAD: boolean = false;
+  loaderTitle = "Verificăm datele în portalul PAID…";
+  userId;
 
   @Input() formType: LocuinteFormType = LocuinteFormType.ADDRESS;
   @Input() policyType: string;
   @Input() formInputData = null;
+  @Output() checkPadResponse: EventEmitter<any> = new EventEmitter();
   @Output() stepChange: EventEmitter<any> = new EventEmitter();
   @Output() dataAdded: EventEmitter<any> = new EventEmitter();
   constructor(
@@ -75,8 +81,14 @@ export class PolicyAddressFormComponent implements OnInit {
     private formS: LocuinteFormService,
     private locuinteS: LocuinteService,
     private padS: PadService,
-    public modalController: ModalController
-  ) {}
+    public modalController: ModalController, 
+    private authS: AuthService, 
+    private paidS: PaidExternalService
+  ) {
+    this.authS.getAuthState().subscribe((authData) => {
+      this.userId = authData.account.userId;
+    });
+  }
 
   ngOnInit() {
     this.setTitles();
@@ -261,9 +273,10 @@ export class PolicyAddressFormComponent implements OnInit {
           };
           this.stepChange.emit(this.formType);
         } else if (this.formType === LocuinteFormType.PLACE) {
+          this.checkPAD = true;
           this.submitData().subscribe((v) => {
             if (v) {
-              console.log("BEFORE WE GO TO CENSUINE PALACE")
+              console.log("BEFORE WE GO TO CENSUINE PALACE", this.dataModel, this.userId);
               const header = subPageHeaderDefault('');
               header.leadingIcon = null;
               this.headerConfig = header;
@@ -271,7 +284,22 @@ export class PolicyAddressFormComponent implements OnInit {
               this.dataAdded.emit({
                 locuinta: get(v, 'response', null),
               });
-              this.stepChange.emit('NEXT');
+              
+              this.paidS.CheckPAD({locationId: this.dataModel.id, userId: this.userId})
+              .subscribe(
+                (value)=>{
+                  console.log("CHECK PAD BEFORE WE GO TO CENSUINE PALACE", value);
+                  if(value.hasPaid){
+                    this.checkPadResponse.emit(value);
+                  }else{
+                    this.stepChange.emit('NEXT');
+                  }
+                },
+                (error)=>{
+                  console.log(error);
+                  this.checkPadResponse.emit(error);
+                }
+              )
             }
           });
         }

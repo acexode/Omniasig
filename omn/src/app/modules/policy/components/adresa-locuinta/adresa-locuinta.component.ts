@@ -24,7 +24,7 @@ export class AdresaLocuintaComponent implements OnInit {
   addNew = 'ADD_NEW';
   checkPAD: boolean = false;
   userId;
-  loaderTitle = "Verificăm datele în portalul PAID…"
+  loaderTitle = "Verificăm datele în portalul PAID…";
   @Input() set locuinteList(lV) {
     this.fullList = lV;
     // Split based on policy availability.
@@ -69,7 +69,6 @@ export class AdresaLocuintaComponent implements OnInit {
   emitLocuintaItemById(id) {
     const value = this.fullList.find((lI) => get(lI, 'locuinta.id', -1) === id);
     if (value) {
-      console.log("CHECKPAD22222222222", value.locuinta.id, this.userId)
       this.paidS.CheckPAD({locationId: value.locuinta.id, userId: this.userId})
       .subscribe(
         (value)=>{
