@@ -649,6 +649,7 @@ export class PolicyFormPage implements OnInit, OnDestroy {
   }
 
   handleError(data) {
+    console.log("MYDATA---------------------", data, typeof(data))
     this.showError = true;
     if (typeof data === 'string') {
       this.errMsg = [
@@ -662,15 +663,31 @@ export class PolicyFormPage implements OnInit, OnDestroy {
           text: 'Mesaj eroare: ' + data,
         },
       ];
+    }else if(typeof data === 'object'){
+      this.errMsg = [
+        {
+          classes: 'ion-text-center',
+          text:
+            `Locuința pe care dorești să o asiguri are deja o 
+            asigurare PAD activă în ${data.paidExpireDate} . 
+            Poți să îți re-înnoiești poliță PAD când au rămas 
+            mai puțin de 30 de zile din valabilitate.`,
+        }
+      ];
     } else {
       this.errMsg = this.defaultErrMsg;
     }
-    setTimeout(() => {
-      this.showError = false;
-      this.errMsg = null;
-      this.back();
-    }, 5000);
+    
+    // setTimeout(() => {
+    //   this.showError = false;
+    //   this.errMsg = null;
+    //   this.back();
+    // }, 5000);
   }
+  
+  // checkPad(){
+    
+  // }
 
   exitFlow() {
     this.navCtrl.navigateBack(['/policy']);

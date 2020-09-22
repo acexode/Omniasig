@@ -31,6 +31,7 @@ export const baseEndpoints = {
   policy: serverBaseUrl + '/policy',
   userProfile: serverBaseUrl + '/UserProfile',
   pad: serverBaseUrl + '/PADInsurance',
+  paidExtS: serverBaseUrl + '/PAIDExternalService'
 };
 
 export const policyEndpoints = {
@@ -75,3 +76,8 @@ export const padEndpoints = {
   CreatePADInsuranceOffer: baseEndpoints.pad + '/CreatePADInsuranceOffer',
   CreatePADInsurancePolicy: baseEndpoints.pad + '/CreatePADInsurancePolicy',
 };
+
+export const paidExternalService = {
+  base: baseEndpoints.paidExtS,
+  CheckPAD: baseEndpoints.paidExtS + '/CheckPAD'
+}

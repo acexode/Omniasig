@@ -44,6 +44,7 @@
         <ng-container *ngSwitchCase="policySteps?.ADDRESS_SELECT">
           <app-adresa-locuinta
             #adresaLocComp
+            (checkPadResponse)="handleError($event)"
             (selectionDone)="addressSelect($event)"
             [initialData]="selectedAddressItem"
             [locuinteList]="policyLocuintaData$|async"

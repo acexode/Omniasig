@@ -263,6 +263,7 @@ export class PolicyAddressFormComponent implements OnInit {
         } else if (this.formType === LocuinteFormType.PLACE) {
           this.submitData().subscribe((v) => {
             if (v) {
+              console.log("BEFORE WE GO TO CENSUINE PALACE")
               const header = subPageHeaderDefault('');
               header.leadingIcon = null;
               this.headerConfig = header;

@@ -1,4 +1,6 @@
-<ion-grid
+<ion-content>
+<ng-container *ngIf="!checkPAD">
+  <ion-grid
   class="ion-no-padding flex flex-1 flex-column h-100 pt-40 pb-24"
   [formGroup]="locuintaForm"
 >
@@ -91,3 +93,12 @@
     </ion-col>
   </ion-row>
 </ion-grid>
+</ng-container>
+<ng-container *ngIf="checkPAD">
+  <app-loading-placeholder
+    [title]="loaderTitle"
+    class="flex flex-1 mh-100p w-100"
+  >
+  </app-loading-placeholder>
+</ng-container>
+</ion-content>
