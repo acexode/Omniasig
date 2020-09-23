@@ -81,7 +81,6 @@ export class AdresaLocuintaComponent implements OnInit {
           }
         },
         (error)=>{
-          console.log(error);
           this.checkPadResponse.emit(error);
         }
       )

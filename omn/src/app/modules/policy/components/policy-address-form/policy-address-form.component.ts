@@ -290,12 +290,12 @@ export class PolicyAddressFormComponent implements OnInit {
                   if(value.hasPaid){
                     this.checkPadResponse.emit(value);
                   }else{
+                    this.paidS.locationId = this.dataModel.id as number;
                     this.paidS.startDate = value.paidMinimStartDate;
                     this.stepChange.emit('NEXT');
                   }
                 },
                 (error)=>{
-                  console.log(error);
                   this.checkPadResponse.emit(error);
                 }
               )

@@ -42,15 +42,9 @@ export class PolicyVerifyComponent implements OnInit {
   }
 
   addOffer() {
-
-    console.log("------INITIAL CHECK FOR OFFER WITH FALSE", this.offerData, this.paidS.locationId);
     this.checkData = true;
-    if(this.offerData.policy.locuintaData.id){
-      this.locuintaDataId = this.offerData.policy.locuintaData.id as number;
-    }else{
-      this.locuintaDataId = this.paidS.locationId;
-    }
-    console.log("------INITIAL CHECK FOR OFFER WITH FALSE", this.locuintaDataId,this.offerData.policy.dates.from,false);
+    this.locuintaDataId = this.paidS.locationId;
+
     this.padS
       .CreatePADInsuranceOffer(
         this.locuintaDataId,
@@ -61,7 +55,7 @@ export class PolicyVerifyComponent implements OnInit {
         (result) => {
           this.padS
             .CreatePADInsuranceOffer(
-              this.offerData.policy.locuintaData.id as number,
+              this.locuintaDataId,
               this.offerData.policy.dates.from,
               true
             )

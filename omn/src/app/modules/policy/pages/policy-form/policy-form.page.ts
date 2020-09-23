@@ -478,10 +478,6 @@ export class PolicyFormPage implements OnInit, OnDestroy {
       supportData: this.assistFormData,
     });
     
-    console.log("OFFER DATA DETAILS",this.offerData)
-    console.log("OFFER DATA DETAILS",this.selectedAddressItem)
-    console.log("OFFER DATA DETAILS",this.offerData)
-    
     if (type === 'ADD_NEW') {
       this.changeStep(this.policySteps.ADDRESS_FORM);
       this.cdRef.markForCheck();
