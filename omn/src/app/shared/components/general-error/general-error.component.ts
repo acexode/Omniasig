@@ -19,7 +19,10 @@ import { IonTextItem } from './../../models/component/ion-text-item';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class GeneralErrorComponent implements OnInit, OnChanges {
-  @Input() title = 'Ne pare rău...';
+  @Input() title = {
+    text: 'Ne pare rău...',
+    class: '',
+  };
   @Input() texts: Array<IonTextItem> = [
     {
       classes: 'ion-text-center',
@@ -50,7 +53,10 @@ export class GeneralErrorComponent implements OnInit, OnChanges {
   ngOnChanges(changes: SimpleChanges): void {
     // == null to also match undefined
     if (this.title == null) {
-      this.title = 'Ne pare rău...';
+      this.title = {
+        text: 'Ne pare rău...',
+        class: '',
+      };
     }
   }
 

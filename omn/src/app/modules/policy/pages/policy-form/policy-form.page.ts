@@ -657,6 +657,10 @@ export class PolicyFormPage implements OnInit, OnDestroy {
 
   handleError(data) {
     this.headerConfig = null;
+    this.errTitle = {
+      text: 'Ne pare rău...',
+      class: 'color-red',
+    };
     this.showError = true;
     if (typeof data === 'string') {
       this.errMsg = [
@@ -687,7 +691,10 @@ export class PolicyFormPage implements OnInit, OnDestroy {
 
   errorHandle(event) {
     this.headerConfig = null;
-    this.errTitle = 'Corectează urmatoarele erori:';
+    this.errTitle = {
+      text: 'Corectează urmatoarele erori:',
+      class: 'color-red',
+    };
     this.showError = true;
     if (typeof event === 'string') {
       this.errMsg = [

@@ -34,6 +34,9 @@ export class AdresaLocuintaComponent implements OnInit {
     this.initLocuintaMainForm();
     this.cdRef.markForCheck();
   }
+
+  @Input() policyID: string;
+
   @Output() selectionDone: EventEmitter<
     string | PolicyLocuintaListItem
   > = new EventEmitter();
@@ -82,10 +85,12 @@ export class AdresaLocuintaComponent implements OnInit {
         .CheckPAD({ locationId: value.locuinta.id, userId: this.userId })
         .subscribe(
           (value) => {
-            if (value.canHaveAmplus) {
-              this.selectionDone.emit(value);
-            } else {
-              this.checkPadResponse.emit(value);
+            if (this.policyID === 'AMPLUS') {
+              if (value.canHaveAmplus) {
+                this.selectionDone.emit(value);
+              } else {
+                this.checkPadResponse.emit(value);
+              }
             }
           },
           (error) => {

@@ -380,12 +380,14 @@ export class PolicyAddressFormComponent implements OnInit {
                 })
                 .pipe(
                   map((v) => {
-                    if (v.canHaveAmplus) {
-                      this.formSubmitting = false;
-                      this.cdRef.markForCheck();
-                      return data;
-                    } else {
-                      this.checkPadResponse.emit(v);
+                    if (this.policyId === 'AMPLUS') {
+                      if (v.canHaveAmplus) {
+                        this.formSubmitting = false;
+                        this.cdRef.markForCheck();
+                        return data;
+                      } else {
+                        this.checkPadResponse.emit(v);
+                      }
                     }
                   }),
                   catchError((e) => {
