@@ -11,6 +11,7 @@ import { IonContent, ModalController, NavController } from '@ionic/angular';
 import { BehaviorSubject, combineLatest, Observable, of } from 'rxjs';
 import { finalize, switchMap } from 'rxjs/operators';
 import { CustomRouterService } from 'src/app/core/services/custom-router/custom-router.service';
+import { AmplusService } from 'src/app/modules/policy/services/amplus.service';
 import { PadService } from 'src/app/modules/policy/services/pad.service';
 import { subPageHeaderDefault } from 'src/app/shared/data/sub-page-header-default';
 import { subPageHeaderPrimary } from 'src/app/shared/data/sub-page-header-primary';
@@ -75,6 +76,7 @@ export class LocuinteViewComponent implements OnInit {
     private formS: LocuinteFormService,
     public modalController: ModalController,
     private padS: PadService,
+    private ampS: AmplusService,
   ) { }
 
   ngOnInit() {
@@ -109,7 +111,23 @@ export class LocuinteViewComponent implements OnInit {
               this.aRoute.data.subscribe( resolveData => {
                 console.log( 'hmmm', resolveData );
                 this.checkUserPad( resolveData.data );
-              });
+              } );
+              /* amplus test */
+
+              const payload = {
+                isVip: true,
+                isGold: false,
+                mentiuni: '',
+                startDate: '2020-09-28T10:44:17.286Z',
+                numberOfMonths: '12',
+                insurancePrice: 100000,
+                numberOfPayments: '1',
+                paymentCurrency: 'ron',
+                propertyCessionList: null
+              };
+
+              this.ampS.CreateAmplusInsuranceOffer( 79, false, payload )
+                .subscribe( d => console.log( d ) );
 
             } else {
               // this.navCtrl.navigateRoot(['/profil', 'locuinte']);
@@ -362,14 +380,14 @@ export class LocuinteViewComponent implements OnInit {
 
   checkUserPad( { locationId, userId } ) {
     this.padS.checkPad( locationId, userId ).subscribe(
-    checkpadData => {
-      console.log( 'checkpadData: ', checkpadData );
-      // tslint:disable-next-line:no-unused-expression
-      checkpadData.hasPaid === true ? this.variant = 'found' : '';
-    },
-    err => {
+      checkpadData => {
+        console.log( 'checkpadData: ', checkpadData );
+        // tslint:disable-next-line:no-unused-expression
+        checkpadData.hasPaid === true ? this.variant = 'found' : '';
+      },
+      err => {
 
-    });
+      } );
   }
 
 }
