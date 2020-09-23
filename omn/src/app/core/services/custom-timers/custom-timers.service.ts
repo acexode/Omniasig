@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { of, timer, BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, timer } from 'rxjs';
 import { filter, scan, takeWhile } from 'rxjs/operators';
 import { ConfigService } from '../config/config.service';
 
