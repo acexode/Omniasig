@@ -22,7 +22,7 @@ export class ErrorInterceptor implements HttpInterceptor {
         if (err.status === 401) {
           this.authenticationService.getToken().subscribe((v) => {
             if (!v) {
-              this.authenticationService.doLogout();
+              this.authenticationService.doLogout(true);
             }
           });
         }

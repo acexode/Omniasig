@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { of, timer, BehaviorSubject } from 'rxjs';
-import { scan, takeWhile } from 'rxjs/operators';
+import { filter, scan, takeWhile } from 'rxjs/operators';
 import { ConfigService } from '../config/config.service';
 
 @Injectable({
@@ -15,6 +15,10 @@ export class CustomTimersService {
       scan((acc) => --acc, seconds),
       takeWhile((x) => x >= 0)
     );
+  }
+
+  buildIndefiniteTimer(periodMiliseconds = 60000) {
+    return timer(0, periodMiliseconds).pipe(filter((v) => v !== 0));
   }
 
   public startEmailValidateTimer() {
