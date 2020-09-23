@@ -81,11 +81,11 @@ export class AdresaLocuintaComponent implements OnInit {
       this.paidS
         .CheckPAD({ locationId: value.locuinta.id, userId: this.userId })
         .subscribe(
-          (value) => {
-            if (value.canHaveAmplus) {
-              this.selectionDone.emit(value);
+          (value2) => {
+            if (value2.canHaveAmplus) {
+              this.selectionDone.emit(value2);
             } else {
-              this.checkPadResponse.emit(value);
+              this.checkPadResponse.emit(value2);
             }
           },
           (error) => {
