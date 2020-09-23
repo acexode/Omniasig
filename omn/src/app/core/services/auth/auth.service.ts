@@ -7,7 +7,7 @@ import {
 } from '@angular/router';
 import { get } from 'lodash';
 import * as qs from 'qs';
-import { BehaviorSubject, throwError } from 'rxjs';
+import { BehaviorSubject, of, throwError } from 'rxjs';
 import {
   distinctUntilChanged,
   filter,
@@ -103,20 +103,34 @@ export class AuthService {
 
   // get user profile from ws
   getProfile(token, phoneNumber) {
-    return this.reqS
-      .get<Account>(
-        `${authEndpoints.getUserProfile}?userNameOrId=${phoneNumber}`
-      )
-      .pipe(
-        switchMap((res) => {
-          return this.processAuthResponse({
-            account: { ...res, userStates: [AccountStates.ACTIVE] },
-            token,
-          });
-        })
-      );
+    return this.doGetProfile(phoneNumber).pipe(
+      switchMap((res) => {
+        return this.processAuthResponse({
+          account: { ...res, userStates: [AccountStates.ACTIVE] },
+          token,
+        });
+      })
+    );
   }
 
+  doGetProfile(phoneNumber) {
+    return this.reqS.get<Account>(
+      `${authEndpoints.getUserProfile}?userNameOrId=${phoneNumber}`
+    );
+  }
+
+  refreshProfile() {
+    return this.lastLoginNumber().pipe(
+      switchMap((v) => {
+        if (!v) {
+          return of(this.doLogout());
+        } else {
+          return this.doGetProfile(v);
+        }
+      }),
+      tap
+    );
+  }
   // svae auth data to storage
   processAuthResponse(data: LoginResponse) {
     const account = data.account ? data.account : null;
@@ -243,19 +257,6 @@ export class AuthService {
       }
     }
     return this.routerS.createUrlTree(['/']);
-  }
-
-  demoActivate() {
-    const state = this.authState.value;
-    state.account.userStates = [
-      AccountStates.ACTIVE,
-      AccountStates.EMAIL_VALIDATED,
-    ];
-    this.authState.next({
-      init: true,
-      account: { ...state.account },
-    });
-    this.storeS.setItem('account', state.account);
   }
 
   doUpdateAccount(data: {

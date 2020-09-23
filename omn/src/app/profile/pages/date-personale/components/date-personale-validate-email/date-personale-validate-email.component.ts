@@ -139,7 +139,6 @@ export class DatePersonaleValidateEmailComponent implements OnInit, OnDestroy {
       this.displayMode = this.validateEmailModes.EMAIL_CHANGE_VALIDATE_SUCCESS;
     }
     this.cdRef.markForCheck();
-    this.authS.demoActivate();
   }
 
   resendEmail() {
