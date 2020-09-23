@@ -11,7 +11,7 @@ import {
 import { FormGroup } from '@angular/forms';
 import { IonContent, ModalController } from '@ionic/angular';
 import { Observable, of } from 'rxjs';
-import { finalize, switchMap } from 'rxjs/operators';
+import { catchError, finalize, map, switchMap } from 'rxjs/operators';
 import { LocuinteFormService } from 'src/app/profile/pages/locuinte/services/locuinte-form/locuinte-form.service';
 import { LocuinteService } from 'src/app/profile/pages/locuinte/services/locuinte/locuinte.service';
 import { PadService } from '../../services/pad.service';
@@ -24,6 +24,7 @@ import {
 import { get } from 'lodash';
 import { PolicyValoareModalComponent } from './../modals/policy-valoare-modal/policy-valoare-modal.component';
 import { AmplusService } from '../../services/amplus.service';
+import { PaidExternalService } from '../../services/paid-external-service.service';
 
 @Component({
   selector: 'app-policy-address-form',
@@ -75,13 +76,15 @@ export class PolicyAddressFormComponent implements OnInit {
   @Output() stepChange: EventEmitter<any> = new EventEmitter();
   @Output() dataAdded: EventEmitter<any> = new EventEmitter();
   @Output() errorEvent: EventEmitter<any> = new EventEmitter();
+  @Output() checkPadResponse: EventEmitter<any> = new EventEmitter();
   constructor(
     private cdRef: ChangeDetectorRef,
     private formS: LocuinteFormService,
     private locuinteS: LocuinteService,
     private padS: PadService,
     public modalController: ModalController,
-    private amplusS: AmplusService
+    private amplusS: AmplusService,
+    private paidS: PaidExternalService
   ) {}
 
   ngOnInit() {
@@ -369,9 +372,27 @@ export class PolicyAddressFormComponent implements OnInit {
           );
         } else {
           return this.locuinteS.addSingleLocuinte(model2).pipe(
-            finalize(() => {
-              this.formSubmitting = false;
-              this.cdRef.markForCheck();
+            switchMap((data) => {
+              return this.paidS
+                .CheckPAD({
+                  locationId: data.response.id,
+                  userId: this.offerData.policy.userData.userId,
+                })
+                .pipe(
+                  map((v) => {
+                    if (v.canHaveAmplus) {
+                      this.formSubmitting = false;
+                      this.cdRef.markForCheck();
+                      return data;
+                    } else {
+                      this.checkPadResponse.emit(v);
+                    }
+                  }),
+                  catchError((e) => {
+                    this.checkPadResponse.emit(e);
+                    return of(e);
+                  })
+                );
             })
           );
         }

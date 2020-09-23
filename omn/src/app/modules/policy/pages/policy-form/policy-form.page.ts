@@ -284,6 +284,7 @@ export class PolicyFormPage implements OnInit, OnDestroy {
    * @param forceChange - Specific event will force a step navigation.
    */
   back(forceChange = false) {
+    this.showError = false;
     switch (this.currentStep) {
       case this.policySteps.DNT:
         this.navigateBackDnt();
@@ -326,7 +327,6 @@ export class PolicyFormPage implements OnInit, OnDestroy {
         }
 
         break;
-      case this.policySteps.ADDRESS_FORM:
       case this.policySteps.LOCATION_FORM:
       case this.policySteps.PAD_CHECK:
         if (forceChange) {
@@ -474,6 +474,15 @@ export class PolicyFormPage implements OnInit, OnDestroy {
    * Will change step after selection.
    */
   addressSelect(type: string | PolicyLocuintaListItem) {
+    this.offerData = this.policyFs.buildOfferItem({
+      locuintaItem: this.selectedAddressItem,
+      account: this.userAccount,
+      pType: this.typeItem as PolicyType,
+      cesiune: get(this.cesiuneData, 'cesionar', []),
+      fromDate: this.periodStartData,
+      payData: this.wayPayFormData,
+      supportData: this.assistFormData,
+    });
     if (type === 'ADD_NEW') {
       this.changeStep(this.policySteps.ADDRESS_FORM);
       this.cdRef.markForCheck();
@@ -482,14 +491,11 @@ export class PolicyFormPage implements OnInit, OnDestroy {
       this.selectedAddressItem = type as PolicyLocuintaListItem;
       this.setMinDate(get(this.selectedAddressItem, 'policy', null));
       switch (this.policyID) {
-        case 'AMPLUS':
         case 'PAD':
           this.next();
           break;
-        case 'Garant AMPLUS+ PAD':
-          this.changeStep(this.policySteps.CESIUNE_FORM);
-          break;
         default:
+          this.changeStep(this.policySteps.CESIUNE_FORM);
           break;
       }
     }
@@ -650,6 +656,7 @@ export class PolicyFormPage implements OnInit, OnDestroy {
   }
 
   handleError(data) {
+    this.headerConfig = null;
     this.showError = true;
     if (typeof data === 'string') {
       this.errMsg = [
@@ -663,17 +670,23 @@ export class PolicyFormPage implements OnInit, OnDestroy {
           text: 'Mesaj eroare: ' + data,
         },
       ];
+    } else if (typeof data === 'object') {
+      this.errMsg = [
+        {
+          classes: 'ion-text-center',
+          text: `Locuința pe care dorești să o asiguri are deja o 
+            asigurare PAD activă în ${data.paidExpireDate} . 
+            Poți să îți re-înnoiești poliță PAD când au rămas 
+            mai puțin de 30 de zile din valabilitate.`,
+        },
+      ];
     } else {
       this.errMsg = this.defaultErrMsg;
     }
-    setTimeout(() => {
-      this.showError = false;
-      this.errMsg = null;
-      this.back();
-    }, 5000);
   }
 
   errorHandle(event) {
+    this.headerConfig = null;
     this.errTitle = 'Corectează urmatoarele erori:';
     this.showError = true;
     if (typeof event === 'string') {
@@ -691,6 +704,15 @@ export class PolicyFormPage implements OnInit, OnDestroy {
         },
       ];
     }
+  }
+
+  changeTitle() {
+    this.headerConfig = policySubpageHeader({
+      title: 'Verificare',
+      hasTrailingIcon: false,
+      hasLeadingIcon: false,
+      backLink: false,
+    });
   }
 
   exitFlow() {

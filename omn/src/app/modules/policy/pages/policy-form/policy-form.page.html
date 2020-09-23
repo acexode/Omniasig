@@ -5,36 +5,6 @@
   [ngClass]="color"
 ></app-sub-page-header>
 
-<<<<<<< HEAD
-<ion-content [ngClass]="color">
-  <ng-container *ngIf="showError">
-    <app-general-error
-      (goBack)="back()"
-      [doNavigate]="false"
-      [title]="errTitle"
-      [texts]="errMsg"
-    ></app-general-error>
-  </ng-container>
-  <ng-container *ngIf="!showError" [ngSwitch]="currentStep">
-    <ng-container *ngSwitchCase="policySteps?.DNT">
-      <app-dnt
-        #dntComp
-        [config]="typeItem?.dntConfig"
-        (dntEvents)="dntEvents($event)"
-      ></app-dnt>
-    </ng-container>
-    <ng-container *ngSwitchCase="policySteps?.EXCLUSION">
-      <app-exclusion-slides
-        #exclusionComp
-        [config]="typeItem?.exclusionConfig"
-        (navEvents)="navEvents($event)"
-      ></app-exclusion-slides>
-    </ng-container>
-    <ng-container *ngSwitchCase="policySteps?.INFO_DOC">
-      <app-info-doc [policyID]="policyID" #infoDocComp (continue)="next()">
-      </app-info-doc>
-    </ng-container>
-=======
 <ion-content [scrollEvents]="true" [ngClass]="color">
   <ng-container [ngSwitch]="currentStep">
     <ion-content [ngClass]="color">
@@ -42,6 +12,7 @@
         <app-general-error
           (goBack)="back()"
           [doNavigate]="false"
+          [title]="errTitle"
           [texts]="errMsg"
         ></app-general-error>
       </ng-container>
@@ -70,12 +41,13 @@
           >
           </app-info-doc>
         </ng-container>
->>>>>>> a7cb4a974b47dfe9a77fc84f206ff680d2cc9d79
 
         <ng-container *ngSwitchCase="policySteps?.ADDRESS_SELECT">
           <app-adresa-locuinta
             #adresaLocComp
+            (checkPadResponse)="handleError($event)"
             (selectionDone)="addressSelect($event)"
+            (changeTitleEvent)="changeTitle()"
             [initialData]="selectedAddressItem"
             [locuinteList]="policyLocuintaData$|async"
           >
@@ -129,29 +101,20 @@
             *ngIf="currentStep === policySteps?.ADDRESS_FORM || 
         currentStep === policySteps?.LOCATION_FORM ||
          currentStep === policySteps?.PAD_CHECK "
-<<<<<<< HEAD
-      >
-        <app-policy-address-form
-          #addressFormComp
-          (dataAdded)="locuintaAdded($event)"
-          [policyType]="typeItem?.id"
-          (stepChange)="addressStepChange($event)"
-          (errorEvent)="errorHandle($event)"
-          [offerData]="offerData"
-          [policyId]="policyID"
-          [formType]="formCheckType"
-        ></app-policy-address-form>
-=======
           >
             <app-policy-address-form
               #addressFormComp
               (dataAdded)="locuintaAdded($event)"
               [policyType]="typeItem?.id"
               (stepChange)="addressStepChange($event)"
+              (errorEvent)="errorHandle($event)"
+              (checkPadResponse)="handleError($event)"
+              [offerData]="offerData"
+              [policyId]="policyID"
+              [formType]="formCheckType"
             ></app-policy-address-form>
           </ng-container>
         </ng-container>
->>>>>>> a7cb4a974b47dfe9a77fc84f206ff680d2cc9d79
       </ng-container>
     </ion-content> </ng-container
 ></ion-content>

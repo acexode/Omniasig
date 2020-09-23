@@ -1,23 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Calendar } from '@ionic-native/calendar/ngx';
 import { random, get, set } from 'lodash';
-import {
-  BehaviorSubject,
-  concat,
-  forkJoin,
-  Observable,
-  of,
-  throwError,
-} from 'rxjs';
-import {
-  catchError,
-  map,
-  switchMap,
-  take,
-  filter,
-  switchMapTo,
-  tap,
-} from 'rxjs/operators';
+import { BehaviorSubject, Observable, of, throwError } from 'rxjs';
+import { catchError, map, switchMap, filter } from 'rxjs/operators';
 import { policyEndpoints } from 'src/app/core/configs/endpoints';
 import { AuthService } from 'src/app/core/services/auth/auth.service';
 import { RequestService } from 'src/app/core/services/request/request.service';
