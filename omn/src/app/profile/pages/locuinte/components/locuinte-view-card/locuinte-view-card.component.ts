@@ -1,6 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { AmplusService } from 'src/app/modules/policy/services/amplus.service';
+import { Locuinte } from 'src/app/shared/models/data/locuinte.interface';
 import { PriceModalComponent } from '../../../components/modals/price-modal/price-modal.component';
 
 @Component({
@@ -10,6 +11,7 @@ import { PriceModalComponent } from '../../../components/modals/price-modal/pric
 })
 export class LocuinteViewCardComponent implements OnInit {
   @Input() variant;
+  @Input() locuintaData: Locuinte;
   constructor(public modalController: ModalController, private ampS: AmplusService) {}
 
   ngOnInit() {}

@@ -146,20 +146,25 @@
             <ion-label class="link-small text-weight-medium color-tertiary-grey"
               >Polița PAD</ion-label
             >
+            <!-- e.g Serie: AB-018 -->
             <ion-text class="s18-h24">
-              Serie: AB-018
+              Serie:  {{ locuintaData.paidExternalSeriePolita}}
             </ion-text>
+            <!-- e.g Număr: 00012345678 -->
             <ion-text class="s18-h24">
-              Număr: 00012345678
+              Număr: {{ locuintaData.paidExternalNumarPolita}}
             </ion-text>
+            <!-- e.g Dată emitere: 08-05-2020 -->
             <ion-text class="s18-h24">
-              Dată emitere: 08-05-2020
+              Dată emitere: {{ locuintaData.PaidExternalDataPolita | date: 'dd-MM-yyyy' }}
             </ion-text>
+            <!-- e.g Dată început: 13-05-2020 -->
             <ion-text class="s18-h24">
-              Dată început: 13-05-2020
+              Dată început: {{ locuintaData.paidExternalDataStartValabilitatePolita | date: 'dd-MM-yyyy' }}
             </ion-text>
+            <!-- e.g Dată sfârșit: 12-05-2021 -->
             <ion-text class="s18-h24">
-              Dată sfârșit: 12-05-2021
+              Dată sfârșit: {{ locuintaData.paidExternalDataStopValabilitatePolita | date: 'dd-MM-yyyy' }}
             </ion-text>
           </ion-row>
         </ion-col>
