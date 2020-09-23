@@ -20,26 +20,23 @@ export class LocuinteViewCardComponent implements OnInit {
     const amplusAddressId = 79;
     const generateOffer = false;
     // payload
-    /* {
-      "isVip": true,
-      "isGold": true,
-        "mentiuni": "string",
-          "startDate": "2020-09-23T07:26:13.614Z",
-            "numberOfMonths": "string",
-              "insurancePrice": 0,
-                "numberOfPayments": "string",
-                  "paymentCurrency": "string",
-                    "propertyCessionList": [
-                      {
-                        "id": 0,
-                        "cui": "string",
-                        "procentage": 0,
-                        "name": "string"
-                      }
-                    ];
-    } */
-    this.ampS.CreateAmplusInsuranceOffer( amplusAddressId, generateOffer, { id: 1 } )
-      .subscribe( d => console.log( d ) );
+    const payload = {
+      isVip: true,
+      isGold: false,
+      mentiuni: '',
+      startDate: '2020-09-28T10:44:17.286Z',
+      numberOfMonths: '12',
+      insurancePrice: 100000,
+      numberOfPayments: '1',
+      paymentCurrency: 'ron',
+      propertyCessionList: null
+    };
+
+    this.ampS.CreateAmplusInsuranceOffer( amplusAddressId, generateOffer, payload )
+      .subscribe( d => {
+        console.log( d );
+        this.presentModal();
+      } );
   }
 
   async presentModal() {

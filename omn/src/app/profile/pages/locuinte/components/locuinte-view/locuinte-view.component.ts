@@ -76,7 +76,6 @@ export class LocuinteViewComponent implements OnInit {
     private formS: LocuinteFormService,
     public modalController: ModalController,
     private padS: PadService,
-    private ampS: AmplusService,
   ) { }
 
   ngOnInit() {
@@ -112,22 +111,6 @@ export class LocuinteViewComponent implements OnInit {
                 console.log( 'hmmm', resolveData );
                 this.checkUserPad( resolveData.data );
               } );
-              /* amplus test */
-
-              const payload = {
-                isVip: true,
-                isGold: false,
-                mentiuni: '',
-                startDate: '2020-09-28T10:44:17.286Z',
-                numberOfMonths: '12',
-                insurancePrice: 100000,
-                numberOfPayments: '1',
-                paymentCurrency: 'ron',
-                propertyCessionList: null
-              };
-
-              this.ampS.CreateAmplusInsuranceOffer( 79, false, payload )
-                .subscribe( d => console.log( d ) );
 
             } else {
               // this.navCtrl.navigateRoot(['/profil', 'locuinte']);
