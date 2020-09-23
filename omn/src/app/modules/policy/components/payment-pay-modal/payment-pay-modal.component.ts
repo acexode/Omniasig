@@ -1,3 +1,4 @@
+import { RequestService } from './../../../../core/services/request/request.service';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -7,7 +8,7 @@ import {
   ViewChild,
 } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { DomSanitizer } from '@angular/platform-browser';
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { Subject } from 'rxjs';
 
 @Component({
@@ -22,18 +23,15 @@ export class PaymentPayModalComponent implements OnInit {
   cancelSubject: Subject<boolean> = new Subject();
   submitSubject: Subject<boolean> = new Subject();
   iframeUrl: string;
-  safeUrl;
+  safeUrl:SafeResourceUrl;
   @Input() data: any
-  constructor(private sanitizer: DomSanitizer) { }
+  constructor(private sanitizer: DomSanitizer, private reqS: RequestService) { }
 
   ngOnInit(): void {
+    this.iframeUrl = this.sanitizer.sanitize(4, 'test.3dsecure.gpwebpay.com/pgw/card?pgwSessionId=X0JQc8QgfPzso2CHXnj4jwLRiq2XqkMK');
     this.safeUrl = this.sanitizer.bypassSecurityTrustResourceUrl(
-      this.data.url
+      'test.3dsecure.gpwebpay.com/pgw/card?pgwSessionId=X0JQc8QgfPzso2CHXnj4jwLRiq2XqkMK'
     );
-  }
-
-  ifunc() {
-    console.log(document.getElementById("iframe").contentWindow.location.href)
   }
 
   closeModal() {

@@ -80,7 +80,7 @@ export class OfferViewComponent implements OnInit {
     // Starting the payment workflow here
     const data = {
       ibaN_1: this.offer.iban,
-      amount_IBAN_1: 10,
+      amount_IBAN_1: 1,
       areTermsAccepted: true,
       currencyToPay: this.offer.policy.locuintaData.valueCurrency,
       policyCurrency: this.offer.policy.locuintaData.valueCurrency,
