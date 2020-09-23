@@ -1,4 +1,4 @@
-import { Component, OnInit, HostBinding } from '@angular/core';
+import { Component, OnInit, HostBinding, Input } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 
 @Component({
@@ -10,9 +10,16 @@ export class PriceModalComponent implements OnInit {
   // @HostBinding('class') color = 'ion-color-white-page';
   item: any;
   description: any;
+  // Data passed in by componentProps
+  @Input() prima: number;
+  @Input() variant: string;
+  found: 'found';
+  notFound: 'not-found';
   constructor(public modalCtrl: ModalController) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    console.log( 'prima: ', this.prima, 'variant: ', this.variant );
+  }
 
   dismissModal() {
     this.modalCtrl.dismiss();

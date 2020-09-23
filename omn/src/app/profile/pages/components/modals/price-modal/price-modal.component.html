@@ -14,18 +14,18 @@
         >
       </ion-row>
       <ion-row class="ion-justify-content-center mb-32">
-        <ion-text color="omn-green" class="alt-font x-large text-center"
-          >450,8 lei/an</ion-text
-        >
+        <ion-text color="omn-green" class="alt-font x-large text-center" *ngIf="!prima && variant === 'not-found'"
+          >450,8 lei/an</ion-text>
+        <ion-text color="omn-green" class="alt-font x-large text-center" *ngIf="prima && variant === 'found'">{{ prima }} lei/an</ion-text>
       </ion-row>
-      <ion-row class="ion-justify-content-center mb-8">
-        <ion-text class="text-color alt-font s20-h24 text-center"
+      <ion-row class="ion-justify-content-center mb-8" *ngIf="variant === 'not-found'">
+        <ion-text class="text-color alt-font s20-h24 text-center" 
           >Asigurarea obligatorie PAD costă</ion-text
         >
       </ion-row>
-      <ion-row class="ion-justify-content-center mb-32">
+      <ion-row class="ion-justify-content-center mb-32" *ngIf="variant === 'not-found'">
         <ion-text color="omn-green" class="alt-font x-large text-center"
-          >98,0 lei/an</ion-text
+          >20 euro/an</ion-text
         >
       </ion-row>
     </ion-col>

@@ -10,7 +10,7 @@ import { PriceModalComponent } from '../../../components/modals/price-modal/pric
   styleUrls: ['./locuinte-view-card.component.scss'],
 })
 export class LocuinteViewCardComponent implements OnInit {
-  @Input() variant;
+  @Input() variant: string;
   @Input() locuintaData: Locuinte;
   constructor(public modalController: ModalController, private ampS: AmplusService) {}
 
@@ -35,14 +35,18 @@ export class LocuinteViewCardComponent implements OnInit {
     this.ampS.CreateAmplusInsuranceOffer( amplusAddressId, generateOffer, payload )
       .subscribe( d => {
         console.log( d );
-        this.presentModal();
+        this.presentModal(d);
       } );
   }
 
-  async presentModal() {
+  async presentModal(data) {
     const modal = await this.modalController.create({
       component: PriceModalComponent,
       cssClass: 'disabled-message-modal-class',
+      componentProps: {
+        variant: this.variant,
+        prima: data.response?.ofertaResponse?.prima
+      }
     });
     return await modal.present();
   }

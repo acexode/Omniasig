@@ -79,6 +79,12 @@ export class LocuinteViewComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    // checkpad for the locuite first (this is to be done first: suggested by adrian)
+    this.aRoute.data.subscribe( resolveData => {
+      console.log( 'hmmm', resolveData );
+      this.checkUserPad( resolveData.data );
+    } );
+    /*  */
     this.routerS
       .getNavigationEndEvent()
       .pipe(
@@ -105,13 +111,6 @@ export class LocuinteViewComponent implements OnInit {
               this.buildFormAdd();
               this.initForm();
               this.cdRef.markForCheck();
-
-              // checkpad for the locuite
-              this.aRoute.data.subscribe( resolveData => {
-                console.log( 'hmmm', resolveData );
-                this.checkUserPad( resolveData.data );
-              } );
-
             } else {
               // this.navCtrl.navigateRoot(['/profil', 'locuinte']);
             }
@@ -366,7 +365,7 @@ export class LocuinteViewComponent implements OnInit {
       checkpadData => {
         console.log( 'checkpadData: ', checkpadData );
         // tslint:disable-next-line:no-unused-expression
-        checkpadData.hasPaid === true ? this.variant = 'found' : '';
+        (checkpadData.hasPaid === true) ? this.variant = 'found' : 'not-found';
       },
       err => {
 
