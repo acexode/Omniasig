@@ -142,7 +142,11 @@ export class AuthService {
       .buildIndefiniteTimer(60000)
       .subscribe((v) => {
         // Check expiry status.
-        this.handleAuthCheck().subscribe();
+        this.handleAuthCheck().subscribe((aC) => {
+          if (aC instanceof UrlTree) {
+            this.routerS.navigateByUrl(aC);
+          }
+        });
       });
   }
 
@@ -289,6 +293,7 @@ export class AuthService {
       userName: loginData.phone,
       password: loginData.password,
     };
+
     return this.doLogin(reqData).pipe(
       switchMap((res) => {
         return this.saveToken({ key: res.token, expiry: res.expiration }).pipe(

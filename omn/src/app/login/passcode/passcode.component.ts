@@ -58,6 +58,7 @@ export class PasscodeComponent implements OnInit, OnDestroy {
       password: passForm.controls.passcode.value,
       aRoute: '/home',
     };
+
     this.authService.login(data).subscribe(
       (datav) => {
         this.changeCurrentLogin();
