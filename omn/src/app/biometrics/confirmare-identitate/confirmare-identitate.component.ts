@@ -69,11 +69,6 @@ export class ConfirmareIdentitateComponent implements OnInit {
         minLength: 13,
       },
     }),
-    dateOfBirth: dateTimeConfigHelper({
-      label: 'Data nașterii',
-      displayFormat: 'YYYY-MM-DD',
-      pickerFormat: '',
-    }),
     addressCounty: selectConfigHelper({
       label: 'Județ',
       idKey: 'name',
@@ -125,10 +120,7 @@ export class ConfirmareIdentitateComponent implements OnInit {
     private navCtrl: NavController,
     private cdRef: ChangeDetectorRef,
     private auth: AuthService
-  ) {
-    this.confirmModel.dateOfBirth.max = new Date(
-      new Date().setFullYear(new Date().getFullYear() - 18)
-    ).toISOString();
+  ) {    
     this.confirmareForm = this.formBuilder.group({
       name: ['', Validators.required],
       surname: ['', Validators.required],
@@ -229,7 +221,7 @@ export class ConfirmareIdentitateComponent implements OnInit {
           name: value.name,
           cnp: value.cnp,
           surname: value.surname,
-          dateOfBirth: '',
+          dateOfBirth: null,
         };
         const locuinte: any = {
           name: 'Domiciliu',
