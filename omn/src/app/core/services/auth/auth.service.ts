@@ -128,7 +128,6 @@ export class AuthService {
           return this.doGetProfile(v);
         }
       }),
-      tap
     );
   }
   // svae auth data to storage
