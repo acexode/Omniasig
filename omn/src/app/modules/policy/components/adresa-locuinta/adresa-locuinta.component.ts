@@ -67,14 +67,16 @@ export class AdresaLocuintaComponent implements OnInit {
   }
 
   emitLocuintaItemById(id) {
-    const value = this.fullList.find((lI) => get(lI, 'locuinta.id', -1) === id);
-    if (value) {
-      this.paidS.CheckPAD({locationId: value.locuinta.id, userId: this.userId})
+    const data = this.fullList.find((lI) => get(lI, 'locuinta.id', -1) === id);
+    if (data) {
+      this.paidS.CheckPAD({locationId: data.locuinta.id as number, userId: this.userId})
       .subscribe(
         (value)=>{
           if(value.hasPaid){
             this.checkPadResponse.emit(value);
           }else{
+            this.paidS.locationId = data.locuinta.id;
+            this.paidS.startDate = value.paidMinimStartDate;
             this.selectionDone.emit(value);
           }
         },

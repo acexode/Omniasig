@@ -7,6 +7,9 @@ import { paidExternalServiceModel } from '../models/paid-external-service'
     providedIn: 'root',
 })
 export class PaidExternalService {
+    startDate;
+    locationId;
+    
     constructor(private reqS: RequestService) {}
 
     CheckPAD(data: paidExternalServiceModel) {

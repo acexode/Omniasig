@@ -9,6 +9,7 @@ import {
 } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { IonDateTimeConfig } from 'src/app/shared/models/component/ion-datetime-config';
+import { PaidExternalService } from '../../services/paid-external-service.service';
 
 @Component({
   selector: 'app-insurance-period',
@@ -18,7 +19,7 @@ import { IonDateTimeConfig } from 'src/app/shared/models/component/ion-datetime-
 })
 export class InsurancePeriodComponent implements OnInit {
   currentDate = new Date();
-  @Input() minDate = new Date();
+  @Input() minDate;
   @Input() maxDate = new Date(
     this.currentDate.setFullYear(this.currentDate.getFullYear() + 1)
   ).toISOString();
@@ -41,10 +42,11 @@ export class InsurancePeriodComponent implements OnInit {
   };
   @Output() emitForm: EventEmitter<any> = new EventEmitter();
 
-  constructor(private fb: FormBuilder, private cdRef: ChangeDetectorRef) {}
+  constructor(private fb: FormBuilder, private cdRef: ChangeDetectorRef, private paidS: PaidExternalService) {
+    this.minDate = this.paidS.startDate;
+  }
 
   ngOnInit() {
-    this.minDate.setDate(this.minDate.getDate() + 5);
     const minV = this.minDate ? this.minDate : new Date();
     const maxV = this.maxDate ? this.maxDate : new Date();
     this.newProp.min = minV instanceof Date ? minV.toISOString() : minV;

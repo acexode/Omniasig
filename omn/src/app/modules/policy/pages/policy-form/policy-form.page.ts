@@ -468,6 +468,20 @@ export class PolicyFormPage implements OnInit, OnDestroy {
    * Will change step after selection.
    */
   addressSelect(type: string | PolicyLocuintaListItem) {
+    this.offerData = this.policyFs.buildOfferItem({
+      locuintaItem: this.selectedAddressItem,
+      account: this.userAccount,
+      pType: this.typeItem as PolicyType,
+      cesiune: get(this.cesiuneData, 'cesionar', []),
+      fromDate: this.periodStartData,
+      payData: this.wayPayFormData,
+      supportData: this.assistFormData,
+    });
+    
+    console.log("OFFER DATA DETAILS",this.offerData)
+    console.log("OFFER DATA DETAILS",this.selectedAddressItem)
+    console.log("OFFER DATA DETAILS",this.offerData)
+    
     if (type === 'ADD_NEW') {
       this.changeStep(this.policySteps.ADDRESS_FORM);
       this.cdRef.markForCheck();
@@ -649,7 +663,6 @@ export class PolicyFormPage implements OnInit, OnDestroy {
   }
 
   handleError(data) {
-    console.log("MYDATA---------------------", data, typeof(data))
     this.showError = true;
     if (typeof data === 'string') {
       this.errMsg = [

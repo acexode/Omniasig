@@ -276,7 +276,6 @@ export class PolicyAddressFormComponent implements OnInit {
           this.checkPAD = true;
           this.submitData().subscribe((v) => {
             if (v) {
-              console.log("BEFORE WE GO TO CENSUINE PALACE", this.dataModel, this.userId);
               const header = subPageHeaderDefault('');
               header.leadingIcon = null;
               this.headerConfig = header;
@@ -285,13 +284,13 @@ export class PolicyAddressFormComponent implements OnInit {
                 locuinta: get(v, 'response', null),
               });
               
-              this.paidS.CheckPAD({locationId: this.dataModel.id, userId: this.userId})
+              this.paidS.CheckPAD({locationId: this.dataModel.id as number, userId: this.userId})
               .subscribe(
                 (value)=>{
-                  console.log("CHECK PAD BEFORE WE GO TO CENSUINE PALACE", value);
                   if(value.hasPaid){
                     this.checkPadResponse.emit(value);
                   }else{
+                    this.paidS.startDate = value.paidMinimStartDate;
                     this.stepChange.emit('NEXT');
                   }
                 },
