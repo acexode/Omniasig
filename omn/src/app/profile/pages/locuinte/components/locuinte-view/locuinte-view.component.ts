@@ -97,7 +97,7 @@ export class LocuinteViewComponent implements OnInit {
         if ( id ) {
           this.locuinteS.getSingleLocuinta( id ).subscribe( ( val: Locuinte ) => {
             console.log( 'check: ', val );
-            
+
             if ( val ) {
               this.getLocationInfo( val );
               this.dataModel = val;
@@ -106,9 +106,9 @@ export class LocuinteViewComponent implements OnInit {
               this.cdRef.markForCheck();
 
               // checkpad for the locuite
-              this.aRoute.data.subscribe( d => {
-                console.log( 'hmmm', d );
-                this.checkUserPad( d.data );
+              this.aRoute.data.subscribe( resolveData => {
+                console.log( 'hmmm', resolveData );
+                this.checkUserPad( resolveData.data );
               });
 
             } else {

@@ -32,7 +32,7 @@ export class PadService {
   }
   checkPad( locationId: number, userId: any ) {
     return this.reqS.post<any>(
-      `${ paidExternalService.checkPad }?locationId=${ locationId }&userId=${ userId }`, ''
+      `${ paidExternalService.checkPad }?locationId=${ locationId }&userId=${ userId }`, null
     );
   }
 }

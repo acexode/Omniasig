@@ -1,4 +1,5 @@
 <ion-col class="ion-no-padding">
+  <!-- not-insured -->
   <ion-card *ngIf="variant === 'not-insured'" class="m-0 bottom-radius-40">
     <ion-icon
       name="md-lock-light"
@@ -39,7 +40,7 @@
       </ion-row>
     </ion-card-content>
   </ion-card>
-
+  <!-- not found -->
   <ion-card *ngIf="variant === 'not-found'" class="m-0">
     <ion-icon
       name="alert-circle"
@@ -123,7 +124,7 @@
       </ion-row>
     </ion-card-content>
   </ion-card>
-
+  <!-- found -->
   <ion-card *ngIf="variant === 'found'" class="m-0 bottom-radius-40">
     <ion-icon
       name="add"
@@ -172,6 +173,7 @@
               expand="block"
               size="large"
               class="m-0 w-100 no-shadow bg-light-green color-green text-weight-normal flat"
+              (click)="getAmplus()"
             >
               Vezi cât costă să te asiguri
             </ion-button>
@@ -191,4 +193,5 @@
       </ion-row>
     </ion-card-content>
   </ion-card>
+  <!--  -->
 </ion-col>
