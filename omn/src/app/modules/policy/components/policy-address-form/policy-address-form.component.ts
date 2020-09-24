@@ -256,6 +256,7 @@ export class PolicyAddressFormComponent implements OnInit {
                 group: this.formGroups.place,
                 data: this.formData.place,
               };
+              debugger;
               this.dataAdded.emit({
                 locuinta: get(v, 'response', null),
               });
@@ -274,6 +275,7 @@ export class PolicyAddressFormComponent implements OnInit {
           this.stepChange.emit(this.formType);
         } else if (this.formType === LocuinteFormType.PLACE) {
           this.checkPAD = true;
+          debugger;
           this.submitData().subscribe((v) => {
             if (v) {
               const header = subPageHeaderDefault('');

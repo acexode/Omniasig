@@ -73,6 +73,7 @@ export class AdresaLocuintaComponent implements OnInit {
 
   emitLocuintaItemById(id) {
     const data = this.fullList.find((lI) => get(lI, 'locuinta.id', -1) === id);
+
     if (data) {
       this.paidS
         .CheckPAD({
@@ -86,7 +87,7 @@ export class AdresaLocuintaComponent implements OnInit {
             } else {
               this.paidS.locationId = data.locuinta.id;
               this.paidS.startDate = value.paidMinimStartDate;
-              this.selectionDone.emit(value);
+              this.selectionDone.emit(data);
             }
           },
           (error) => {
