@@ -33,6 +33,9 @@ export class AdresaLocuintaComponent implements OnInit {
     this.initLocuintaMainForm();
     this.cdRef.markForCheck();
   }
+
+  @Input() policyID: string;
+
   @Output() selectionDone: EventEmitter<
     string | PolicyLocuintaListItem
   > = new EventEmitter();
@@ -41,6 +44,7 @@ export class AdresaLocuintaComponent implements OnInit {
   locuintaForm = this.fb.group({
     selection: this.fb.control('', Validators.required),
   });
+  @Output() changeTitleEvent: EventEmitter<any> = new EventEmitter();
   constructor(
     private cdRef: ChangeDetectorRef,
     private fb: FormBuilder,
@@ -53,6 +57,10 @@ export class AdresaLocuintaComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.authS.getAuthState().subscribe((authData) => {
+      this.userId = authData.account.userId;
+    });
+
     this.initLocuintaMainForm();
   }
 
@@ -72,23 +80,33 @@ export class AdresaLocuintaComponent implements OnInit {
   }
 
   emitLocuintaItemById(id) {
-    const data = this.fullList.find((lI) => get(lI, 'locuinta.id', -1) === id);
-
-    if (data) {
+    this.changeTitleEvent.emit();
+    this.checkPAD = true;
+    const value = this.fullList.find((lI) => get(lI, 'locuinta.id', -1) === id);
+    if (value) {
       this.paidS
-        .CheckPAD({
-          locationId: data.locuinta.id as number,
-          userId: this.userId,
-        })
+        .CheckPAD({ locationId: value.locuinta.id, userId: this.userId })
         .subscribe(
-          (value) => {
-            if (value.hasPaid) {
-              this.checkPadResponse.emit(value);
-            } else {
-              this.paidS.locationId = data.locuinta.id;
-              this.paidS.startDate = value.paidMinimStartDate;
-              this.selectionDone.emit(data);
+          (value2) => {
+            if (this.policyID === 'AMPLUS') {
+              if (value2.canHaveAmplus) {
+                this.selectionDone.emit(value);
+              } else {
+                this.checkPadResponse.emit(value2);
+              }
+              return;
+            } else if (this.policyID === 'PAD') {
+              if (value2.hasPaid) {
+                this.checkPadResponse.emit(value);
+              } else {
+                this.paidS.locationId = value.locuinta.id;
+                this.paidS.startDate = value2.paidMinimStartDate;
+                this.selectionDone.emit(value);
+              }
             }
+            //TODO: check for AMPLUS+ PAD
+            // To be removed: this allows smooth flow for AMPLUS+ PAD workflow
+            this.selectionDone.emit(value);
           },
           (error) => {
             this.checkPadResponse.emit(error);

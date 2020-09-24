@@ -74,6 +74,7 @@ export class PolicyFormPage implements OnInit, OnDestroy {
   offerData: PolicyOffer = null;
   policyID;
   reftime;
+  formCheckType: LocuinteFormType;
 
   // Errors.
   defaultErrMsg: Array<IonTextItem> = [
@@ -84,6 +85,7 @@ export class PolicyFormPage implements OnInit, OnDestroy {
     },
   ];
   errMsg;
+  errTitle;
   constructor(
     private routerS: CustomRouterService,
     private aRoute: ActivatedRoute,
@@ -278,6 +280,7 @@ export class PolicyFormPage implements OnInit, OnDestroy {
    * @param forceChange - Specific event will force a step navigation.
    */
   back(forceChange = false) {
+    this.showError = false;
     switch (this.currentStep) {
       case this.policySteps.DNT:
         this.navigateBackDnt();
@@ -304,7 +307,11 @@ export class PolicyFormPage implements OnInit, OnDestroy {
         this.changeStep(this.policySteps.DNT);
         break;
       case this.policySteps.ADDRESS_SELECT:
-        this.changeStep(this.policySteps.EXCLUSION);
+        if (forceChange) {
+          this.changeStep(this.policySteps.ADDRESS_SELECT);
+        } else {
+          this.changeStep(this.policySteps.EXCLUSION);
+        }
         break;
       case this.policySteps.CESIUNE_FORM:
         this.changeStep(this.policySteps.ADDRESS_SELECT);
@@ -320,14 +327,12 @@ export class PolicyFormPage implements OnInit, OnDestroy {
         }
 
         break;
-      case this.policySteps.ADDRESS_FORM:
       case this.policySteps.LOCATION_FORM:
       case this.policySteps.PAD_CHECK:
         if (forceChange) {
           this.changeStep(this.policySteps.ADDRESS_SELECT);
-        } else {
-          this.navigateBackForm();
         }
+        this.navigateBackForm();
         break;
       case this.policySteps.ADDRESS_FORM:
         this.changeStep(this.policySteps.ADDRESS_SELECT);
@@ -482,14 +487,11 @@ export class PolicyFormPage implements OnInit, OnDestroy {
       this.selectedAddressItem = type as PolicyLocuintaListItem;
       this.setMinDate(get(this.selectedAddressItem, 'policy', null));
       switch (this.policyID) {
-        case 'AMPLUS':
         case 'PAD':
           this.next();
           break;
-        case 'Garant AMPLUS+ PAD':
-          this.changeStep(this.policySteps.CESIUNE_FORM);
-          break;
         default:
+          this.changeStep(this.policySteps.CESIUNE_FORM);
           break;
       }
     }
@@ -510,13 +512,10 @@ export class PolicyFormPage implements OnInit, OnDestroy {
         this.changeStep(this.policySteps.PAD_CHECK);
         break;
       case LocuinteFormType.PLACE:
-        if (this.policyID === 'PAD' || this.policyID === 'AMPLUS') {
-          this.changeStep(this.policySteps.LOCATION_FORM);
-        } else {
-          this.changeStep(this.policySteps.CESIUNE_FORM);
-          // TODO: handle PAD + AMPLUS here
-        }
-
+        this.changeStep(this.policySteps.LOCATION_FORM);
+        break;
+      case 'TO_POLICY_VERIFY':
+        this.changeStep(this.policySteps.POLICY_VERIFY);
         break;
       case 'NEXT':
         this.next();
@@ -634,20 +633,12 @@ export class PolicyFormPage implements OnInit, OnDestroy {
       payData: this.wayPayFormData,
       supportData: this.assistFormData,
     });
-    this.changeStep(this.policySteps.POLICY_VERIFY);
+    this.formCheckType = LocuinteFormType.PAD_CHECK;
+    this.changeStep(this.policySteps.PAD_CHECK);
   }
 
   calculationSubmit() {
     this.changeStep(this.policySteps.CALCULATION_LOADER);
-    const navigationExtras: NavigationExtras = {
-      queryParams: {
-        policyType: this.policyID,
-      },
-    };
-    // TODO: When linking to the BE WS, we may also need an error page for this.
-    this.reftime = setTimeout(() => {
-      this.navCtrl.navigateForward(['/policy', 'offer', 2], navigationExtras);
-    }, 3000);
   }
 
   scrollToTop() {
@@ -655,39 +646,67 @@ export class PolicyFormPage implements OnInit, OnDestroy {
   }
 
   handleError(data) {
-    this.showError = true;
-    if (typeof data === 'string') {
+    this.headerConfig = null;
+    if (this.policyID === 'AMPLUS') {
+      this.errTitle = {
+        text: 'Lipsă poliță PAD',
+        class: 'color-red',
+      };
       this.errMsg = [
         {
           classes: 'ion-text-center',
           text:
-            'Ceva nu a funcționat corect. Vei fi redirecționat spre pagina anterioara.',
-        },
-        {
-          classes: 'ion-text-center mt-8',
-          text: 'Mesaj eroare: ' + data,
-        },
-      ];
-    } else if (typeof data === 'object') {
-      this.errMsg = [
-        {
-          classes: 'ion-text-center',
-          text:
-            'Locuința pe care dorești să o asiguri are deja o ' +
-            'asigurare PAD activă în ${data.paidExpireDate}. ' +
-            'Poți să îți re-înnoiești poliță PAD când au rămas' +
-            'mai puțin de 30 de zile din valabilitate.',
+            'Nu am găsit o poliță PAD valabilă pentru această adresă. Conform legislației din România, pentru a putea cumpăra o poliță de asigurare faculativă, locuința trebuie să fie asigurată obligatoriu prin polița PAD.',
         },
       ];
     } else {
-      this.errMsg = this.defaultErrMsg;
+      this.errTitle = {
+        text: 'Ne pare rău...',
+        class: 'color-red',
+      };
+      if (typeof data === 'string') {
+        this.errMsg = [
+          {
+            classes: 'ion-text-center',
+            text:
+              'Ceva nu a funcționat corect. Vei fi redirecționat spre pagina anterioara.',
+          },
+          {
+            classes: 'ion-text-center mt-8',
+            text: 'Mesaj eroare: ' + data,
+          },
+        ];
+      } else if (typeof data === 'object') {
+        this.errMsg = [
+          {
+            classes: 'ion-text-center',
+            text:
+              'Locuința pe care dorești să o asiguri are deja o ' +
+              'asigurare PAD activă în ${data.paidExpireDate} . ' +
+              'Poți să îți re-înnoiești poliță PAD când au rămas ' +
+              'mai puțin de 30 de zile din valabilitate.',
+          },
+        ];
+      } else {
+        this.errMsg = this.defaultErrMsg;
+      }
     }
+    this.showError = true;
 
     setTimeout(() => {
       this.showError = false;
       this.errMsg = null;
       this.back();
     }, 5000);
+  }
+
+  changeTitle() {
+    this.headerConfig = policySubpageHeader({
+      title: 'Verificare',
+      hasTrailingIcon: false,
+      hasLeadingIcon: false,
+      backLink: false,
+    });
   }
 
   exitFlow() {
