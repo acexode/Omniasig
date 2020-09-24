@@ -134,11 +134,7 @@ export class PolicyFormPage implements OnInit, OnDestroy {
 
   // Load Address + policy combination data. Used in the address picker.
   loadLocuinte() {
-    combineLatest([
-      this.locS.locuinteStore$,
-      // TODO: Update this once we decide if we use the user Id.
-      this.policyD.policyStore$,
-    ]).subscribe((vals) => {
+    this.locS.locuinteStore$.subscribe((vals) => {
       this.policyLocuintaData$.next(
         this.policyFs.buildPolicyLocuintaModel(vals, this.typeItem.id)
       );
