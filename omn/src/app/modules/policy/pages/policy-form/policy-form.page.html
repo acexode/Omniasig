@@ -10,8 +10,9 @@
     <ion-content [ngClass]="color">
       <ng-container *ngIf="showError">
         <app-general-error
-          (goBack)="back()"
+          (goBack)="back($event)"
           [doNavigate]="false"
+          [title]="errTitle"
           [texts]="errMsg"
         ></app-general-error>
       </ng-container>
@@ -44,9 +45,12 @@
         <ng-container *ngSwitchCase="policySteps?.ADDRESS_SELECT">
           <app-adresa-locuinta
             #adresaLocComp
+            (checkPadResponse)="handleError($event)"
             (selectionDone)="addressSelect($event)"
+            (changeTitleEvent)="changeTitle()"
             [initialData]="selectedAddressItem"
             [locuinteList]="policyLocuintaData$|async"
+            [policyID]="policyID"
           >
           </app-adresa-locuinta>
         </ng-container>
@@ -104,6 +108,11 @@
               (dataAdded)="locuintaAdded($event)"
               [policyType]="typeItem?.id"
               (stepChange)="addressStepChange($event)"
+              (errorEvent)="errorHandle($event)"
+              (checkPadResponse)="handleError($event)"
+              [offerData]="offerData"
+              [policyId]="policyID"
+              [formType]="formCheckType"
             ></app-policy-address-form>
           </ng-container>
         </ng-container>
