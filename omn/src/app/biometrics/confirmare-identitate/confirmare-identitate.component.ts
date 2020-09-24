@@ -209,12 +209,29 @@ export class ConfirmareIdentitateComponent implements OnInit {
       });
     }
     if (this.addressStreet) {
-      this.addressStreet.valueChanges.subscribe((val) => {
-        this.locuinteF.handleStreetProcessing(
-          val,
-          this.formData,
-          this.dataModel
-        );
+      this.addressStreet.valueChanges.subscribe((val) => {        
+        if (this.addressStreet) {
+          this.addressStreet.valueChanges.subscribe((val) => {
+            let {addressStreet} = this.formData
+            if(addressStreet.length){
+              this.locuinteF.handleStreetProcessing(
+                val,
+                this.formData,
+                this.dataModel
+              );
+              this.locuinteF.handlePostalCode(
+                val,
+                this.formData,
+                this.addressPostalCode
+              );    
+              this.addressPostalCode.disable()      
+            }else{
+              this.addressStreet.clearValidators()              
+              this.addressPostalCode.clearValidators()
+              this.addressPostalCode.disable()
+            }
+          });
+        }
       });
     }
   }
@@ -270,6 +287,11 @@ export class ConfirmareIdentitateComponent implements OnInit {
   get addressStreet() {
     return this.confirmareForm && this.confirmareForm
       ? this.confirmareForm.get('addressStreet')
+      : null;
+  }
+  get addressPostalCode() {
+    return this.confirmareForm && this.confirmareForm
+      ? this.confirmareForm.get('addressPostalCode')
       : null;
   }
 

@@ -213,16 +213,24 @@ export class LocuinteFormPageComponent implements OnInit {
     }
     if (this.addressStreet) {
       this.addressStreet.valueChanges.subscribe((val) => {
-        this.formS.handleStreetProcessing(
-          val,
-          this.formInstance.data,
-          this.dataModel
-        );
-        this.formS.handlePostalCode(
-          val,
-          this.formInstance.data,
-          this.addressPostalCode
-        );
+        let {addressStreet} = this.formInstance.data
+        if(addressStreet.length){
+          this.formS.handleStreetProcessing(
+            val,
+            this.formInstance.data,
+            this.dataModel
+          );
+          this.formS.handlePostalCode(
+            val,
+            this.formInstance.data,
+            this.addressPostalCode
+          );    
+          this.addressPostalCode.disable()      
+        }else{
+          this.addressStreet.clearValidators()
+          this.addressPostalCode.clearValidators()
+          this.addressPostalCode.disable()
+        }
       });
     }
   }
