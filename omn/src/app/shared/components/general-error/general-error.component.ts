@@ -2,8 +2,12 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
+  EventEmitter,
   Input,
+  OnChanges,
   OnInit,
+  Output,
+  SimpleChanges,
 } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { IonTextItem } from './../../models/component/ion-text-item';
@@ -14,8 +18,11 @@ import { IonTextItem } from './../../models/component/ion-text-item';
   styleUrls: ['./general-error.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class GeneralErrorComponent implements OnInit {
-  @Input() title = 'Ne pare rău...';
+export class GeneralErrorComponent implements OnInit, OnChanges {
+  @Input() title = {
+    text: 'Ne pare rău...',
+    class: '',
+  };
   @Input() texts: Array<IonTextItem> = [
     {
       classes: 'ion-text-center',
@@ -25,6 +32,7 @@ export class GeneralErrorComponent implements OnInit {
   ];
   @Input() routeRedirect = '/home';
   @Input() doNavigate = true;
+  @Output() goBack: EventEmitter<any> = new EventEmitter();
 
   constructor(
     private router: Router,
@@ -40,5 +48,19 @@ export class GeneralErrorComponent implements OnInit {
         this.router.navigateByUrl(url);
       }
     }, 3000);
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    // == null to also match undefined
+    if (this.title == null) {
+      this.title = {
+        text: 'Ne pare rău...',
+        class: '',
+      };
+    }
+  }
+
+  back() {
+    this.goBack.emit(true);
   }
 }
