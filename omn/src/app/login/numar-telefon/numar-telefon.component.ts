@@ -1,17 +1,20 @@
+import { unsubscriberHelper } from './../../core/helpers/unsubscriber.helper';
+import { Subscription } from 'rxjs';
 import { RegistrationService } from 'src/app/core/services/auth/registration.service';
-import { Component, OnInit, HostBinding } from '@angular/core';
+import { Component, OnInit, HostBinding, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from 'src/app/core/services/auth/auth.service';
 import { IonTextItem } from 'src/app/shared/models/component/ion-text-item';
 import { IonInputConfig } from './../../shared/models/component/ion-input-config';
+import { get } from 'lodash';
 
 @Component({
   selector: 'app-numar-telefon',
   templateUrl: './numar-telefon.component.html',
   styleUrls: ['./numar-telefon.component.scss'],
 })
-export class NumarTelefonComponent implements OnInit {
+export class NumarTelefonComponent implements OnInit, OnDestroy {
   @HostBinding('class') color = 'ion-color-white-page';
   label: IonTextItem = {
     text: 'Numărul tău de telefon',
@@ -31,11 +34,15 @@ export class NumarTelefonComponent implements OnInit {
   };
   teleForm: FormGroup;
   busy = false;
+  navESub: Subscription;
+  fieldValidS: Subscription;
+  errorLogin = '';
 
   constructor(
     private router: Router,
     private formBuilder: FormBuilder,
     private auth: AuthService,
+    private route: ActivatedRoute,
     private regService: RegistrationService
   ) {
     this.checkHasLoggedIn();
@@ -43,8 +50,17 @@ export class NumarTelefonComponent implements OnInit {
 
   ngOnInit() {
     this.initForm();
+    this.handleNavError();
   }
-
+  handleNavError() {
+    this.navESub = this.route.queryParams.subscribe((qP) => {
+      if (qP && get(qP, 'expired', false)) {
+        // This tells the user that the session has expired.
+        this.errorLogin =
+          'Sesiunea a expirat, autentificati-va pentru a continua...';
+      }
+    });
+  }
   initForm() {
     this.teleForm = this.formBuilder.group({
       phoneNumber: [
@@ -55,6 +71,10 @@ export class NumarTelefonComponent implements OnInit {
           Validators.minLength(10),
         ],
       ],
+    });
+
+    this.fieldValidS = this.phoneNumber.valueChanges.subscribe((v) => {
+      this.errorLogin = null;
     });
   }
 
@@ -94,7 +114,9 @@ export class NumarTelefonComponent implements OnInit {
   checkHasLoggedIn() {
     this.auth.getPhoneNumber().subscribe((phoneNumber) => {
       if (phoneNumber) {
-        this.router.navigate(['login/verify', phoneNumber]);
+        this.router.navigate(['login/verify', phoneNumber], {
+          preserveQueryParams: true,
+        });
       }
     });
   }
@@ -110,5 +132,9 @@ export class NumarTelefonComponent implements OnInit {
         this.busy = false;
       }
     );
+  }
+  ngOnDestroy() {
+    unsubscriberHelper(this.navESub);
+    unsubscriberHelper(this.fieldValidS);
   }
 }
