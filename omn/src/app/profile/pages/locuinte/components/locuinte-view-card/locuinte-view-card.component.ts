@@ -34,7 +34,6 @@ export class LocuinteViewCardComponent implements OnInit {
 
     this.ampS.CreateAmplusInsuranceOffer( amplusAddressId, generateOffer, payload )
       .subscribe( d => {
-        console.log( d );
         this.presentModal( d.response?.ofertaResponse?.prima);
       } );
   }

@@ -11,8 +11,7 @@ import { IonContent, ModalController, NavController } from '@ionic/angular';
 import { BehaviorSubject, combineLatest, Observable, of } from 'rxjs';
 import { finalize, switchMap } from 'rxjs/operators';
 import { CustomRouterService } from 'src/app/core/services/custom-router/custom-router.service';
-import { AmplusService } from 'src/app/modules/policy/services/amplus.service';
-import { PadService } from 'src/app/modules/policy/services/pad.service';
+import { PaidExternalService } from 'src/app/modules/policy/services/paid-external.service';
 import { subPageHeaderDefault } from 'src/app/shared/data/sub-page-header-default';
 import { subPageHeaderPrimary } from 'src/app/shared/data/sub-page-header-primary';
 import {
@@ -75,13 +74,12 @@ export class LocuinteViewComponent implements OnInit {
     private locuinteS: LocuinteService,
     private formS: LocuinteFormService,
     public modalController: ModalController,
-    private padS: PadService,
+    private paidES: PaidExternalService,
   ) { }
 
   ngOnInit() {
     // checkpad for the locuite first (this is to be done first: suggested by adrian)
     this.aRoute.data.subscribe( resolveData => {
-      console.log( 'hmmm', resolveData );
       this.checkUserPad( resolveData.data );
     } );
     /*  */
@@ -103,8 +101,6 @@ export class LocuinteViewComponent implements OnInit {
         const id = vals[ 2 ];
         if ( id ) {
           this.locuinteS.getSingleLocuinta( id ).subscribe( ( val: Locuinte ) => {
-            console.log( 'check: ', val );
-
             if ( val ) {
               this.getLocationInfo( val );
               this.dataModel = val;
@@ -112,11 +108,11 @@ export class LocuinteViewComponent implements OnInit {
               this.initForm();
               this.cdRef.markForCheck();
             } else {
-              // this.navCtrl.navigateRoot(['/profil', 'locuinte']);
+              this.navCtrl.navigateRoot(['/profil', 'locuinte']);
             }
           } );
         } else {
-          // this.navCtrl.navigateRoot(['/profil', 'locuinte']);
+          this.navCtrl.navigateRoot(['/profil', 'locuinte']);
         }
       } );
   }
@@ -361,9 +357,8 @@ export class LocuinteViewComponent implements OnInit {
   }
 
   checkUserPad( { locationId, userId } ) {
-    this.padS.checkPad( locationId, userId ).subscribe(
+    this.paidES.CheckPAD( { locationId, userId }).subscribe(
       checkpadData => {
-        console.log( 'checkpadData: ', checkpadData );
         // tslint:disable-next-line:no-unused-expression
         (checkpadData.hasPaid === true) ? this.variant = 'found' : 'not-found';
       },

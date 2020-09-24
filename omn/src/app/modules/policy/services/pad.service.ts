@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { padEndpoints, paidExternalService } from '../../../core/configs/endpoints';
+import { padEndpoints } from '../../../core/configs/endpoints';
 import { RequestService } from '../../../core/services/request/request.service';
 
 @Injectable( {
@@ -28,11 +28,6 @@ export class PadService {
   CreatePADInsurancePolicy( padOfferId: number ) {
     return this.reqS.get<any>(
       `${ padEndpoints.CreatePADInsurancePolicy }?padOfferId=${ padOfferId }`
-    );
-  }
-  checkPad( locationId: number, userId: any ) {
-    return this.reqS.post<any>(
-      `${ paidExternalService.checkPad }?locationId=${ locationId }&userId=${ userId }`, null
     );
   }
 }

@@ -17,7 +17,6 @@ export class PriceModalComponent implements OnInit {
   constructor(public modalCtrl: ModalController) {}
 
   ngOnInit() {
-    console.log( 'prima: ', this.prima, 'variant: ', this.variant );
   }
 
   dismissModal() {
