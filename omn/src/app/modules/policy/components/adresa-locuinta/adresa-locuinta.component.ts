@@ -8,9 +8,9 @@ import {
 } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { get } from 'lodash';
-import { PolicyLocuintaListItem } from './../../../../shared/models/component/policy-locuinta-list-item';
 import { AuthService } from 'src/app/core/services/auth/auth.service';
 import { PaidExternalService } from '../../services/paid-external-service.service';
+import { PolicyLocuintaListItem } from './../../../../shared/models/component/policy-locuinta-list-item';
 
 @Component({
   selector: 'app-adresa-locuinta',
@@ -22,9 +22,9 @@ export class AdresaLocuintaComponent implements OnInit {
   vLocuinteListP: Array<PolicyLocuintaListItem> = [];
   fullList: Array<PolicyLocuintaListItem> = [];
   addNew = 'ADD_NEW';
-  checkPAD: boolean = false;
+  checkPAD = false;
   userId;
-  loaderTitle = "Verificăm datele în portalul PAID…";
+  loaderTitle = 'Verificăm datele în portalul PAID…';
   @Input() set locuinteList(lV) {
     this.fullList = lV;
     // Split based on policy availability.
@@ -32,7 +32,7 @@ export class AdresaLocuintaComponent implements OnInit {
     this.vLocuinteListP = lV.filter((vv) => vv.policy).map((v) => v);
     this.initLocuintaMainForm();
     this.cdRef.markForCheck();
-  };
+  }
   @Output() selectionDone: EventEmitter<
     string | PolicyLocuintaListItem
   > = new EventEmitter();
@@ -41,7 +41,12 @@ export class AdresaLocuintaComponent implements OnInit {
   locuintaForm = this.fb.group({
     selection: this.fb.control('', Validators.required),
   });
-  constructor(private cdRef: ChangeDetectorRef, private fb: FormBuilder, private authS: AuthService, private paidS: PaidExternalService) {
+  constructor(
+    private cdRef: ChangeDetectorRef,
+    private fb: FormBuilder,
+    private authS: AuthService,
+    private paidS: PaidExternalService
+  ) {
     this.authS.getAuthState().subscribe((authData) => {
       this.userId = authData.account.userId;
     });
@@ -69,21 +74,25 @@ export class AdresaLocuintaComponent implements OnInit {
   emitLocuintaItemById(id) {
     const data = this.fullList.find((lI) => get(lI, 'locuinta.id', -1) === id);
     if (data) {
-      this.paidS.CheckPAD({locationId: data.locuinta.id as number, userId: this.userId})
-      .subscribe(
-        (value)=>{
-          if(value.hasPaid){
-            this.checkPadResponse.emit(value);
-          }else{
-            this.paidS.locationId = data.locuinta.id;
-            this.paidS.startDate = value.paidMinimStartDate;
-            this.selectionDone.emit(value);
+      this.paidS
+        .CheckPAD({
+          locationId: data.locuinta.id as number,
+          userId: this.userId,
+        })
+        .subscribe(
+          (value) => {
+            if (value.hasPaid) {
+              this.checkPadResponse.emit(value);
+            } else {
+              this.paidS.locationId = data.locuinta.id;
+              this.paidS.startDate = value.paidMinimStartDate;
+              this.selectionDone.emit(value);
+            }
+          },
+          (error) => {
+            this.checkPadResponse.emit(error);
           }
-        },
-        (error)=>{
-          this.checkPadResponse.emit(error);
-        }
-      )
+        );
     }
   }
   get selection() {

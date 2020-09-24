@@ -31,7 +31,7 @@ export const baseEndpoints = {
   policy: serverBaseUrl + '/policy',
   userProfile: serverBaseUrl + '/UserProfile',
   pad: serverBaseUrl + '/PADInsurance',
-  paidExtS: serverBaseUrl + '/PAIDExternalService'
+  paidExtS: serverBaseUrl + '/PAIDExternalService',
 };
 
 export const policyEndpoints = {
@@ -79,8 +79,8 @@ export const padEndpoints = {
 
 export const paidExternalService = {
   base: baseEndpoints.paidExtS,
-  CheckPAD: baseEndpoints.paidExtS + '/CheckPAD'
-}
+  CheckPAD: baseEndpoints.paidExtS + '/CheckPAD',
+};
 export const documenteEndpoints = {
   GetAllDocumentsForCurrentUser:
     serverBaseUrl + '/Documents/GetAllDocumentsForCurrentUser',

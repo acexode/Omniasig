@@ -1,4 +1,4 @@
-export interface paidExternalServiceModel {
-    locationId: number;
-    userId: string;
+export interface PaidExternalServiceModel {
+  locationId: number;
+  userId: string;
 }

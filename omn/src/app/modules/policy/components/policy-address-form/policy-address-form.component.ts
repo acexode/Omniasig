@@ -66,8 +66,8 @@ export class PolicyAddressFormComponent implements OnInit {
 
   formSubmitting = false;
   formInstance: { group: FormGroup; config: any; data: any } = null;
-  checkPAD: boolean = false;
-  loaderTitle = "Verificăm datele în portalul PAID…";
+  checkPAD = false;
+  loaderTitle = 'Verificăm datele în portalul PAID…';
   userId;
 
   @Input() formType: LocuinteFormType = LocuinteFormType.ADDRESS;
@@ -81,8 +81,8 @@ export class PolicyAddressFormComponent implements OnInit {
     private formS: LocuinteFormService,
     private locuinteS: LocuinteService,
     private padS: PadService,
-    public modalController: ModalController, 
-    private authS: AuthService, 
+    public modalController: ModalController,
+    private authS: AuthService,
     private paidS: PaidExternalService
   ) {
     this.authS.getAuthState().subscribe((authData) => {
@@ -283,22 +283,26 @@ export class PolicyAddressFormComponent implements OnInit {
               this.dataAdded.emit({
                 locuinta: get(v, 'response', null),
               });
-              
-              this.paidS.CheckPAD({locationId: this.dataModel.id as number, userId: this.userId})
-              .subscribe(
-                (value)=>{
-                  if(value.hasPaid){
-                    this.checkPadResponse.emit(value);
-                  }else{
-                    this.paidS.locationId = this.dataModel.id as number;
-                    this.paidS.startDate = value.paidMinimStartDate;
-                    this.stepChange.emit('NEXT');
+
+              this.paidS
+                .CheckPAD({
+                  locationId: this.dataModel.id as number,
+                  userId: this.userId,
+                })
+                .subscribe(
+                  (value) => {
+                    if (value.hasPaid) {
+                      this.checkPadResponse.emit(value);
+                    } else {
+                      this.paidS.locationId = this.dataModel.id as number;
+                      this.paidS.startDate = value.paidMinimStartDate;
+                      this.stepChange.emit('NEXT');
+                    }
+                  },
+                  (error) => {
+                    this.checkPadResponse.emit(error);
                   }
-                },
-                (error)=>{
-                  this.checkPadResponse.emit(error);
-                }
-              )
+                );
             }
           });
         }

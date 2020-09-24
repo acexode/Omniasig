@@ -22,8 +22,8 @@ import { PaidExternalService } from '../../services/paid-external-service.servic
 })
 export class PolicyVerifyComponent implements OnInit {
   policyID;
-  checkData: boolean = false;
-  loaderTitle = "Verificăm corectitudinea datelor…";
+  checkData = false;
+  loaderTitle = 'Verificăm corectitudinea datelor…';
   locuintaDataId;
   @Input() offerData: PolicyOffer;
   @Output() calculateEvent: EventEmitter<any> = new EventEmitter();
@@ -60,8 +60,8 @@ export class PolicyVerifyComponent implements OnInit {
               true
             )
             .subscribe(
-              (result) => {
-                this.policyS.addOfferToStore(this.offerData, result).subscribe(
+              (result2) => {
+                this.policyS.addOfferToStore(this.offerData, result2).subscribe(
                   (v) => {
                     if (v) {
                       const id = get(v, 'id', null);
@@ -80,22 +80,18 @@ export class PolicyVerifyComponent implements OnInit {
                 );
               },
               (error) => {
-                this.processErrorMessage(error)
+                this.processErrorMessage(error);
               }
             );
         },
         (error) => {
-          this.processErrorMessage(error)
+          this.processErrorMessage(error);
         }
       );
   }
-  
-  processErrorMessage(error){
-    const eroare = get(
-      error,
-      'error.emitereOfertaResponse1.eroare',
-      false
-    );
+
+  processErrorMessage(error) {
+    const eroare = get(error, 'error.emitereOfertaResponse1.eroare', false);
     const mesaj = get(error, 'error.emitereOfertaResponse1.mesaj', '');
     if (eroare && mesaj) {
       this.goToErrorHandler.emit(mesaj);
