@@ -106,7 +106,7 @@ export class AuthService {
     return this.doGetProfile(phoneNumber).pipe(
       switchMap((res) => {
         return this.processAuthResponse({
-          account: { ...res, userStates: [AccountStates.ACTIVE] },
+          account: { ...res },
           token,
         });
       })
@@ -121,6 +121,7 @@ export class AuthService {
 
   refreshProfile() {
     return this.lastLoginNumber().pipe(
+      take(1),
       switchMap((v) => {
         if (!v) {
           return of(this.doLogout());
@@ -128,6 +129,17 @@ export class AuthService {
           return this.doGetProfile(v);
         }
       }),
+      switchMap((profile) => {
+        return this.storeS.setItem('account', profile).pipe(
+          take(1),
+          map((resV) => {
+            return profile;
+          })
+        );
+      }),
+      tap((value: Account) => {
+        this.doUpdateAccount(value);
+      })
     );
   }
   // svae auth data to storage
@@ -191,6 +203,9 @@ export class AuthService {
   getAuthState() {
     return this.authState.pipe(
       share(),
+      distinctUntilChanged((a, b) => {
+        return JSON.stringify(a) === JSON.stringify(b);
+      }),
       filter((val: AuthState) => val && val.hasOwnProperty('init') && val.init),
       distinctUntilChanged()
     );
@@ -286,7 +301,13 @@ export class AuthService {
         return encodeURIComponent(str);
       },
     });
-    return this.reqS.get(endpointV + '?' + encodedQs);
+    return this.reqS.get(endpointV + '?' + encodedQs).pipe(
+      tap((v) => {
+        if (v) {
+          this.refreshProfile().subscribe();
+        }
+      })
+    );
   }
 
   doReqNewEmailCode() {
@@ -298,6 +319,9 @@ export class AuthService {
         } else {
           throw throwError('NO_ACCOUNT_EMAIL');
         }
+      }),
+      switchMap(() => {
+        return this.refreshProfile();
       })
     );
   }
