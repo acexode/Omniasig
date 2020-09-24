@@ -27,12 +27,13 @@
         *ngFor="let item of texts"
         [color]="item?.color"
         [ngClass]="item?.classes"
+        class="w-100"
         >{{ item?.text }}</ion-label
       >
     </ion-row>
     <ion-row class="mt-auto">
       <ion-button
-        class="flat w-100 no-shadow color-white ion-color-success text-weight-medium px-5"
+        class="flat w-100 no-shadow color-white ion-color-success text-weight-medium m-0"
         size="large"
         shape="round"
         mode="md"
