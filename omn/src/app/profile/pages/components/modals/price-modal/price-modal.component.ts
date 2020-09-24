@@ -13,8 +13,7 @@ export class PriceModalComponent implements OnInit {
   // Data passed in by componentProps
   @Input() prima: number;
   @Input() variant: string;
-  found: 'found';
-  notFound: 'not-found';
+
   constructor(public modalCtrl: ModalController) {}
 
   ngOnInit() {

@@ -35,17 +35,17 @@ export class LocuinteViewCardComponent implements OnInit {
     this.ampS.CreateAmplusInsuranceOffer( amplusAddressId, generateOffer, payload )
       .subscribe( d => {
         console.log( d );
-        this.presentModal(d);
+        this.presentModal( d.response?.ofertaResponse?.prima);
       } );
   }
 
-  async presentModal(data) {
+  async presentModal( data = 0 ) {
     const modal = await this.modalController.create({
       component: PriceModalComponent,
       cssClass: 'disabled-message-modal-class',
       componentProps: {
         variant: this.variant,
-        prima: data.response?.ofertaResponse?.prima
+        prima: data ? data : 0,
       }
     });
     return await modal.present();
