@@ -7,7 +7,7 @@ import {
 } from '@angular/router';
 import { get } from 'lodash';
 import * as qs from 'qs';
-import { BehaviorSubject, of, throwError } from 'rxjs';
+import { BehaviorSubject, of, Subscription, throwError } from 'rxjs';
 import {
   distinctUntilChanged,
   filter,
@@ -18,13 +18,14 @@ import {
   tap,
 } from 'rxjs/operators';
 import { authEndpoints } from '../../configs/endpoints';
-import { AccountStates } from '../../models/account-states';
 import { Account } from '../../models/account.interface';
 import { AuthState } from '../../models/auth-state.interface';
 import { LoginResponse } from '../../models/login-response.interface';
 import { Login } from '../../models/login.interface';
 import { CustomStorageService } from '../custom-storage/custom-storage.service';
 import { RequestService } from '../request/request.service';
+import { unsubscriberHelper } from './../../helpers/unsubscriber.helper';
+import { CustomTimersService } from './../custom-timers/custom-timers.service';
 
 @Injectable({
   providedIn: 'root',
@@ -39,15 +40,18 @@ export class AuthService {
   authState: BehaviorSubject<AuthState> = new BehaviorSubject(
     this.initialState
   );
+  sessionExpiryTimer: Subscription;
   constructor(
     private storeS: CustomStorageService,
     private routerS: Router,
-    private reqS: RequestService
+    private reqS: RequestService,
+    private timerS: CustomTimersService
   ) {
     // Load account state from local/session/cookie storage.
     this.storeS.getItem('token').subscribe((token: string) => {
       if (token) {
         this.getAccountFromStorage(token);
+        this.setExpireTimer();
       } else {
         this.authState.next({ ...this.initialState, ...{ init: true } });
       }
@@ -61,7 +65,8 @@ export class AuthService {
         this.authState.next({
           init: true,
           account,
-          authToken: token,
+          authToken: token.key,
+          expiryDate: token.expiry,
         });
       } else {
         this.authState.next({ ...this.initialState, ...{ init: true } });
@@ -93,21 +98,30 @@ export class AuthService {
   }
 
   // save token to local storage
-  saveToken(token: string) {
+  saveToken(token: { key: string; expiry: string }) {
     return this.storeS.setItem('token', token);
   }
   // get token to local storage
   getToken() {
-    return this.storeS.getItem('token');
+    return this.storeS.getItem('token').pipe(
+      map((vM: any) => {
+        if (!vM) {
+          return null;
+        }
+        return !this.isTokenExpired(get(vM, 'expiry', undefined))
+          ? get(vM, 'key', null)
+          : null;
+      })
+    );
   }
-
-  // get user profile from ws
-  getProfile(token, phoneNumber) {
-    return this.doGetProfile(phoneNumber).pipe(
+  getProfile(data: { token: string; phoneNumber: string; expiry: string }) {
+    return this.doGetProfile(data.phoneNumber).pipe(
       switchMap((res) => {
+        this.setExpireTimer();
         return this.processAuthResponse({
           account: { ...res },
-          token,
+          token: data.token,
+          expiration: data.expiry,
         });
       })
     );
@@ -116,6 +130,48 @@ export class AuthService {
   doGetProfile(phoneNumber) {
     return this.reqS.get<Account>(
       `${authEndpoints.getUserProfile}?userNameOrId=${phoneNumber}`
+    );
+  }
+
+  setExpireTimer() {
+    // This runs every minute and checks for token expiration.
+    unsubscriberHelper(this.sessionExpiryTimer);
+    this.sessionExpiryTimer = this.timerS
+      .buildIndefiniteTimer(60000)
+      .subscribe((v) => {
+        // Check expiry status.
+        this.handleAuthCheck().subscribe((aC) => {
+          if (aC instanceof UrlTree) {
+            this.routerS.navigateByUrl(aC);
+          }
+        });
+      });
+  }
+
+  /**
+   * Used by both the auth guard and the
+   * expirations process to decide if an user login is valid.
+   */
+  handleAuthCheck() {
+    return this.getToken().pipe(
+      take(1),
+      switchMap((isAuthenticated) => {
+        if (isAuthenticated) {
+          return of(true);
+        } else {
+          return this.getAccountData().pipe(
+            take(1),
+            switchMap((acc) => {
+              if (acc) {
+                this.doLogout(true);
+                return of(false);
+              } else {
+                return this.redirectToLogin();
+              }
+            })
+          );
+        }
+      })
     );
   }
 
@@ -142,27 +198,37 @@ export class AuthService {
       })
     );
   }
+
+  // This will go to the password input automatically.
+  redirectToLogin() {
+    return this.getPhoneNumber().pipe(
+      take(1),
+      map((value) => {
+        if (value) {
+          return this.routerS.createUrlTree(['/login', 'verify', value]);
+        } else {
+          return this.routerS.createUrlTree(['/login']);
+        }
+      })
+    );
+  }
+
   // svae auth data to storage
   processAuthResponse(data: LoginResponse) {
     const account = data.account ? data.account : null;
     const authToken = data.token ? data.token : null;
+    const expiry = data.expiration ? data.expiration : null;
     return this.storeS.setItem('account', account).pipe(
       tap(() => {
         this.authState.next({
           init: true,
           account,
           authToken,
+          expiryDate: expiry,
         });
       }),
       map((v) => data)
     );
-  }
-
-  // deprecated
-  _accountActivated(acc: Account) {
-    return acc
-      ? acc.userStates.findIndex((s) => s === AccountStates.ACTIVE) > -1
-      : false;
   }
 
   accountActivated(acc: Account) {
@@ -184,16 +250,39 @@ export class AuthService {
     return this.storeS.getItem('phoneNumber').pipe(take(1));
   }
 
-  doLogout() {
+  doLogout(expired = false) {
+    unsubscriberHelper(this.sessionExpiryTimer);
     this.storeS.removeItem('account');
     this.storeS.removeItem('token');
-    this.storeS.removeItem('phoneNumber');
+    if (!expired) {
+      this.storeS.removeItem('phoneNumber');
+    }
 
     this.authState.next({
       ...this.initialState,
     });
-
-    this.routerS.navigateByUrl('/login');
+    if (expired) {
+      // Flag the page with a message to the user.
+      return this.getPhoneNumber()
+        .pipe(take(1))
+        .subscribe((value) => {
+          if (value) {
+            this.routerS.navigate(['/login', 'verify', value], {
+              queryParams: {
+                expired: true,
+              },
+            });
+          } else {
+            this.routerS.navigate(['/login'], {
+              queryParams: {
+                expired: true,
+              },
+            });
+          }
+        });
+    } else {
+      this.routerS.navigateByUrl('/login');
+    }
   }
 
   updateState(newState: AuthState) {
@@ -230,11 +319,16 @@ export class AuthService {
       userName: loginData.phone,
       password: loginData.password,
     };
+
     return this.doLogin(reqData).pipe(
       switchMap((res) => {
-        return this.saveToken(res.token).pipe(
+        return this.saveToken({ key: res.token, expiry: res.expiration }).pipe(
           switchMap(() => {
-            return this.getProfile(res.token, loginData.phone);
+            return this.getProfile({
+              token: res.token,
+              phoneNumber: loginData.phone,
+              expiry: res.expiration,
+            });
           })
         );
       }),
@@ -353,5 +447,18 @@ export class AuthService {
         this.doUpdateAccount(obj);
       })
     );
+  }
+
+  isTokenExpired(date?: string | Date): boolean {
+    if (date === undefined) {
+      return false;
+    }
+    try {
+      const expDate = new Date(date);
+      const boolVal = !(expDate.valueOf() > new Date().valueOf());
+      return boolVal;
+    } catch (e) {
+      return null;
+    }
   }
 }
