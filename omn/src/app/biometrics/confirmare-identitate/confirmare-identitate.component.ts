@@ -179,6 +179,9 @@ export class ConfirmareIdentitateComponent implements OnInit {
           this.cdRef.detectChanges();
         });
       this.addressCounty.valueChanges.subscribe((val) => {
+        if (this.addressCity.value) {
+          this.addressCity.patchValue({}, { emit: true });
+        }
         this.locuinteF
           .updateCounty(this.addressCounty, this.formData, this.dataModel)
           .subscribe((v) => {
@@ -194,6 +197,9 @@ export class ConfirmareIdentitateComponent implements OnInit {
     }
     if (this.addressCity) {
       this.addressCity.valueChanges.subscribe((val) => {
+        if (this.addressStreet.value) {
+          this.addressStreet.patchValue({}, { emit: true });
+        }
         this.locuinteF
           .updateCity(this.addressCity, this.formData, this.dataModel)
           .subscribe((v) => {

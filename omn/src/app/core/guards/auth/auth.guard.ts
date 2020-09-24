@@ -24,16 +24,7 @@ export class AuthGuard implements CanActivate, CanActivateChild {
     | Promise<boolean | UrlTree>
     | boolean
     | UrlTree {
-    return this.authS.getToken().pipe(
-      take(1),
-      switchMap((isAuthenticated) => {
-        if (isAuthenticated) {
-          return of(true);
-        } else {
-          return this.redirectToLogin();
-        }
-      })
-    );
+    return this.authS.handleAuthCheck();
   }
 
   canActivateChild(
@@ -44,28 +35,6 @@ export class AuthGuard implements CanActivate, CanActivateChild {
     | Promise<boolean | UrlTree>
     | boolean
     | UrlTree {
-    return this.authS.getToken().pipe(
-      take(1),
-      switchMap((isAuthenticated) => {
-        if (isAuthenticated) {
-          return of(true);
-        } else {
-          return this.redirectToLogin();
-        }
-      })
-    );
-  }
-
-  redirectToLogin() {
-    return this.authS.getPhoneNumber().pipe(
-      take(1),
-      map((value) => {
-        if (value) {
-          return this.routerS.createUrlTree(['/login', 'verify', value]);
-        } else {
-          return this.routerS.createUrlTree(['/login']);
-        }
-      })
-    );
+    return this.authS.handleAuthCheck();
   }
 }
