@@ -17,7 +17,7 @@ import { PolicyComponent } from './components/policy/policy.component';
 import { PolicyPage } from './page/policy.page';
 import { PolicyRoutingModule } from './policy-routing.module';
 import { PolicySharedModule } from './policy-shared.module';
-
+import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
 @NgModule({
   declarations: [
     PolicyPage,
@@ -44,6 +44,6 @@ import { PolicySharedModule } from './policy-shared.module';
     OmnInputsModule,
   ],
   exports: [AsistentaModalPagePage],
-  providers: [],
+  providers: [InAppBrowser],
 })
 export class PolicyModule {}

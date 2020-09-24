@@ -10,6 +10,8 @@ import { PolicyOffer } from 'src/app/shared/models/data/policy-offer';
 import { PolicyDataService } from '../../services/policy-data.service';
 import { CalendarEntry } from '../models/calendar-entry';
 import { PadService } from '../../services/pad.service';
+import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
+
 
 @Component({
   selector: 'app-offer-view',
@@ -26,7 +28,8 @@ export class OfferViewComponent implements OnInit {
     private policyDataService: PolicyDataService,
     private padS: PadService,
     private navCtrl: NavController,
-    public modalController: ModalController
+    public modalController: ModalController,
+    private iab: InAppBrowser
   ) { }
 
   ngOnInit(): void {
@@ -89,8 +92,28 @@ export class OfferViewComponent implements OnInit {
     }
     this.policyDataService.makePayment(data).subscribe(
       (data) => {
-        console.log(data);
-        this.presentModal(data)
+        const browser = this.iab.create(data.url, '_blank', 'location=no');
+        browser.on('loadstop').subscribe(
+          (data) => console.log(data),
+          (err) => console.log(err)
+        )
+        if (browser.on('loadstart').subscribe)
+          browser.on('loadstart').subscribe((e) => {
+            if (e && e.url)
+              console.log(e);
+
+          });
+
+        //When the InAppBrowser is closed, check and use the last viewed URL
+        if (browser.on('exit').subscribe)
+          browser.on('exit').subscribe((e) => {
+            if (e) {
+              console.log(e);
+            }
+            // ...use the last viewed URL...;
+          });
+
+
       },
       err => console.log(err)
     )

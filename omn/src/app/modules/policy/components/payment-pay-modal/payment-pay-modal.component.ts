@@ -10,6 +10,7 @@ import {
 import { FormGroup } from '@angular/forms';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { Subject } from 'rxjs';
+import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
 
 @Component({
   selector: 'omnpo-payment-pay-modal',
@@ -25,7 +26,7 @@ export class PaymentPayModalComponent implements OnInit {
   iframeUrl: string;
   safeUrl:SafeResourceUrl;
   @Input() data: any
-  constructor(private sanitizer: DomSanitizer, private reqS: RequestService) { }
+  constructor(private sanitizer: DomSanitizer,private iab: InAppBrowser) { }
 
   ngOnInit(): void {
     this.iframeUrl = this.sanitizer.sanitize(4, 'test.3dsecure.gpwebpay.com/pgw/card?pgwSessionId=X0JQc8QgfPzso2CHXnj4jwLRiq2XqkMK');
