@@ -61,6 +61,6 @@ export class GeneralErrorComponent implements OnInit, OnChanges {
   }
 
   back() {
-    this.goBack.emit();
+    this.goBack.emit(true);
   }
 }

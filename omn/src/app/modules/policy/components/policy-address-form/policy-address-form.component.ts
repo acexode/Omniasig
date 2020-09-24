@@ -88,6 +88,7 @@ export class PolicyAddressFormComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    // checks if offer can be created before going to the verify page
     if (
       this.policyId === 'AMPLUS' &&
       this.formType === LocuinteFormType.PAD_CHECK
@@ -388,7 +389,12 @@ export class PolicyAddressFormComponent implements OnInit {
                       } else {
                         this.checkPadResponse.emit(v);
                       }
+                      return;
                     }
+                    //TODO: check for AMPLUS+ PAD
+                    // To be removed: this allows smooth flow for AMPLUS+ PAD workflow
+                    this.formSubmitting = false;
+                    return data;
                   }),
                   catchError((e) => {
                     this.checkPadResponse.emit(e);

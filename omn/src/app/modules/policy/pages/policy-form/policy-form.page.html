@@ -10,7 +10,7 @@
     <ion-content [ngClass]="color">
       <ng-container *ngIf="showError">
         <app-general-error
-          (goBack)="back()"
+          (goBack)="back($event)"
           [doNavigate]="false"
           [title]="errTitle"
           [texts]="errMsg"

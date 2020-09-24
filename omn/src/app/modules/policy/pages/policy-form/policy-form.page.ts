@@ -311,7 +311,11 @@ export class PolicyFormPage implements OnInit, OnDestroy {
         this.changeStep(this.policySteps.DNT);
         break;
       case this.policySteps.ADDRESS_SELECT:
-        this.changeStep(this.policySteps.EXCLUSION);
+        if (forceChange) {
+          this.changeStep(this.policySteps.ADDRESS_SELECT);
+        } else {
+          this.changeStep(this.policySteps.EXCLUSION);
+        }
         break;
       case this.policySteps.CESIUNE_FORM:
         this.changeStep(this.policySteps.ADDRESS_SELECT);
@@ -331,13 +335,8 @@ export class PolicyFormPage implements OnInit, OnDestroy {
       case this.policySteps.PAD_CHECK:
         if (forceChange) {
           this.changeStep(this.policySteps.ADDRESS_SELECT);
-        } else {
-          if (this.policyID === 'AMPLUS') {
-            this.showError = false;
-            this.changeStep(this.policySteps.WAY_TO_PAY);
-          }
-          this.navigateBackForm();
         }
+        this.navigateBackForm();
         break;
       case this.policySteps.ADDRESS_FORM:
         this.changeStep(this.policySteps.ADDRESS_SELECT);
@@ -516,13 +515,7 @@ export class PolicyFormPage implements OnInit, OnDestroy {
         this.changeStep(this.policySteps.PAD_CHECK);
         break;
       case LocuinteFormType.PLACE:
-        if (this.policyID === 'PAD' || this.policyID === 'AMPLUS') {
-          this.changeStep(this.policySteps.LOCATION_FORM);
-        } else {
-          this.changeStep(this.policySteps.CESIUNE_FORM);
-          // TODO: handle PAD + AMPLUS here
-        }
-
+        this.changeStep(this.policySteps.LOCATION_FORM);
         break;
       case 'TO_POLICY_VERIFY':
         this.changeStep(this.policySteps.POLICY_VERIFY);

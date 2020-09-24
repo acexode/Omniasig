@@ -87,11 +87,15 @@ export class AdresaLocuintaComponent implements OnInit {
           (value2) => {
             if (this.policyID === 'AMPLUS') {
               if (value2.canHaveAmplus) {
-                this.selectionDone.emit(value2);
+                this.selectionDone.emit(value);
               } else {
                 this.checkPadResponse.emit(value2);
               }
+              return;
             }
+            //TODO: check for AMPLUS+ PAD
+            // To be removed: this allows smooth flow for AMPLUS+ PAD workflow
+            this.selectionDone.emit(value);
           },
           (error) => {
             this.checkPadResponse.emit(error);
