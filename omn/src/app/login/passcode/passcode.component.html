@@ -1,30 +1,35 @@
+<app-sub-page-header [config]="headerConfig"> </app-sub-page-header>
 <ion-content class="bg-white">
-    <ion-header [translucent]="false" class="header-element">
-        <ion-toolbar size="small" color="omn-transparent-white" class="header-toolbar">
-            <ion-buttons slot="start" class="header-buttons"> </ion-buttons>
-        </ion-toolbar>
-    </ion-header>
-    <div class="px-32">
-        <ion-col>
-            <div class="text-center mb-8 ion-text-center">
-                <ion-text class="alt-font color-dark-green x-large mb-17 text-center">
-                    Cod de acces
-                </ion-text>
-            </div>
-            <div class="ion-text-center pb-42">
-                <ion-text class="text-small">
-                    Introduceti codul de acces din 6 cifre.
-                </ion-text>
-            </div>
-            <div class="ion-text-center pb-80">
-                <app-passcode-field [errorLogin]="errorLogin" (doPassForm)="verifyPasscode($event)" (doClearErr)="clearErr($event)"></app-passcode-field>
-
-            </div>
-            <div class="ion-text-center pt-80">
-                <ion-text *ngIf="errorLogin" class="text-small color-red">
-                    {{ errorLogin }}
-                </ion-text>
-            </div>
-        </ion-col>
-    </div>
+  <ion-row class="px-24 pt-46 h-100">
+    <ion-col size="12" class="ion-no-padding">
+      <div class="ion-text-center pb-38">
+        <ion-text class="text-small">
+          Introdu codul tău de acces format din 6 cifre.</ion-text
+        >
+      </div>
+      <div class="ion-text-center pt-32">
+        <app-passcode-field
+          [errorLogin]="errorLogin"
+          (doPassForm)="verifyPasscode($event)"
+          (doClearErr)="clearErr($event)"
+        >
+        </app-passcode-field>
+      </div>
+      <ion-text *ngIf="errorLogin" class="text-small color-red">
+        {{ errorLogin }}
+      </ion-text>
+    </ion-col>
+    <ion-col size="12" class="mt-auto">
+      <ion-button
+        expand="block"
+        fill="clear"
+        color="omn-green"
+        [routerLink]="['/reset-pincode']"
+      >
+        <ion-text class="s16-h22 ls-01 text-weight-normal"
+          >Am uitat codul de acces</ion-text
+        >
+      </ion-button>
+    </ion-col>
+  </ion-row>
 </ion-content>

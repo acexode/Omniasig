@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, HostBinding, OnDestroy, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { NavController } from '@ionic/angular';
@@ -6,6 +6,7 @@ import { Subscription } from 'rxjs';
 import { take } from 'rxjs/internal/operators/take';
 import { unsubscriberHelper } from 'src/app/core/helpers/unsubscriber.helper';
 import { AuthService } from 'src/app/core/services/auth/auth.service';
+import { subPageHeaderTertiary } from 'src/app/shared/data/sub-page-header-tertiary';
 
 @Component({
   selector: 'app-passcode',
@@ -20,6 +21,8 @@ export class PasscodeComponent implements OnInit, OnDestroy {
   sub: Subscription;
   busy = false;
   errorLogin: string = null;
+  headerConfig = subPageHeaderTertiary('Autentificare');
+  @HostBinding('class') color = 'ion-color-white-page';
   constructor(
     private navCtrl: NavController,
     private route: ActivatedRoute,
@@ -63,6 +66,10 @@ export class PasscodeComponent implements OnInit, OnDestroy {
 
   clearErr(e) {
     this.errorLogin = null;
+  }
+
+  back() {
+    console.log('back');
   }
 
   ngOnDestroy(): void {
