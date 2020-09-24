@@ -650,36 +650,50 @@ export class PolicyFormPage implements OnInit, OnDestroy {
 
   handleError(data) {
     this.headerConfig = null;
-    this.errTitle = {
-      text: 'Ne pare rău...',
-      class: 'color-red',
-    };
-    this.showError = true;
-    if (typeof data === 'string') {
+    if (this.policyID === 'AMPLUS') {
+      this.errTitle = {
+        text: 'Lipsă poliță PAD',
+        class: 'color-red',
+      };
       this.errMsg = [
         {
           classes: 'ion-text-center',
           text:
-            'Ceva nu a funcționat corect. Vei fi redirecționat spre pagina anterioara.',
-        },
-        {
-          classes: 'ion-text-center mt-8',
-          text: 'Mesaj eroare: ' + data,
-        },
-      ];
-    } else if (typeof data === 'object') {
-      this.errMsg = [
-        {
-          classes: 'ion-text-center',
-          text: `Locuința pe care dorești să o asiguri are deja o 
-            asigurare PAD activă în ${data.paidExpireDate} . 
-            Poți să îți re-înnoiești poliță PAD când au rămas 
-            mai puțin de 30 de zile din valabilitate.`,
+            'Nu am găsit o poliță PAD valabilă pentru această adresă. Conform legislației din România, pentru a putea cumpăra o poliță de asigurare faculativă, locuința trebuie să fie asigurată obligatoriu prin polița PAD.',
         },
       ];
     } else {
-      this.errMsg = this.defaultErrMsg;
+      this.errTitle = {
+        text: 'Ne pare rău...',
+        class: 'color-red',
+      };
+      if (typeof data === 'string') {
+        this.errMsg = [
+          {
+            classes: 'ion-text-center',
+            text:
+              'Ceva nu a funcționat corect. Vei fi redirecționat spre pagina anterioara.',
+          },
+          {
+            classes: 'ion-text-center mt-8',
+            text: 'Mesaj eroare: ' + data,
+          },
+        ];
+      } else if (typeof data === 'object') {
+        this.errMsg = [
+          {
+            classes: 'ion-text-center',
+            text: `Locuința pe care dorești să o asiguri are deja o 
+            asigurare PAD activă în ${data.paidExpireDate} . 
+            Poți să îți re-înnoiești poliță PAD când au rămas 
+            mai puțin de 30 de zile din valabilitate.`,
+          },
+        ];
+      } else {
+        this.errMsg = this.defaultErrMsg;
+      }
     }
+    this.showError = true;
   }
 
   errorHandle(event) {
