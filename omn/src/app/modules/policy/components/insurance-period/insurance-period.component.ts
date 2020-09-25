@@ -43,7 +43,7 @@ export class InsurancePeriodComponent implements OnInit {
   @Output() emitForm: EventEmitter<any> = new EventEmitter();
 
   constructor(private fb: FormBuilder, private cdRef: ChangeDetectorRef, private paidS: PaidExternalService) {
-    this.minDate = this.paidS.startDate;
+    // this.minDate = this.paidS.startDate;
   }
 
   ngOnInit() {
