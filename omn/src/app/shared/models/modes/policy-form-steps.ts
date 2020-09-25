@@ -12,4 +12,5 @@ export enum PolicyFormSteps {
   TECHNICAL_SUPPORT,
   WAY_TO_PAY,
   CALCULATION_LOADER,
+  POLICY_VERIFY_CHECK,
 }

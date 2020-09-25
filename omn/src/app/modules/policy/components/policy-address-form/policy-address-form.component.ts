@@ -96,44 +96,6 @@ export class PolicyAddressFormComponent implements OnInit {
   }
 
   ngOnInit() {
-    // checks if offer can be created before going to the verify page
-    if (
-      this.policyId === 'AMPLUS' &&
-      this.formType === LocuinteFormType.PAD_CHECK
-    ) {
-      this.loaderTitle = 'Verificăm corectitudinea datelor…';
-      const payload = {
-        isVip: this.offerData?.supportData?.plan === 'vip' ? true : false,
-        isGold: this.offerData?.supportData?.plan === 'gold' ? true : false,
-        mentiuni: 'self',
-        startDate: this.offerData?.policy?.dates?.from,
-        numberOfMonths: '12',
-        insurancePrice: 100000,
-        numberOfPayments: this.offerData?.payData?.rate,
-        paymentCurrency: this.offerData?.payData?.type,
-        propertyCessionList: null,
-      };
-      this.amplusS
-        .CreateAmplusInsuranceOffer(
-          this.offerData.policy.locuintaData.id,
-          false,
-          payload
-        )
-        .subscribe(
-          (result) => {
-            if (result) {
-              this.stepChange.emit('TO_POLICY_VERIFY');
-            } else {
-              this.errorEvent.emit('Some error occurred');
-            }
-          },
-          (err) => {
-            this.errorEvent.emit(err.error);
-          }
-        );
-      return;
-    }
-
     this.setTitles();
     this.initConfigs().subscribe((v) => {
       this.initForm();
@@ -401,18 +363,18 @@ export class PolicyAddressFormComponent implements OnInit {
                       return;
                     }
 
-                    if(this.policyId === 'PAD'){
+                    if (this.policyId === 'PAD') {
                       if (v.hasPaid) {
-                        this.checkPadResponse.emit(v);      
+                        this.checkPadResponse.emit(v);
                       } else {
                         this.paidS.startDate = v.paidMinimStartDate;
                         this.formSubmitting = false;
                         this.cdRef.markForCheck();
                         return data;
                       }
-                      return
+                      return;
                     }
-                    //TODO: check for AMPLUS+ PAD
+                    // TODO: check for AMPLUS+ PAD
                     // To be removed: this allows smooth flow for AMPLUS+ PAD workflow
                     this.formSubmitting = false;
                     return data;

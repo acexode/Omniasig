@@ -97,16 +97,17 @@ export class AdresaLocuintaComponent implements OnInit {
               return;
             } else if (this.policyID === 'PAD') {
               if (value2.hasPaid) {
-                this.checkPadResponse.emit(value);
+                this.checkPadResponse.emit(value2);
               } else {
                 this.paidS.locationId = value.locuinta.id;
                 this.paidS.startDate = value2.paidMinimStartDate;
                 this.selectionDone.emit(value);
               }
+            } else {
+              // TODO: check for AMPLUS+ PAD
+              // To be removed: this allows smooth flow for AMPLUS+ PAD workflow
+              this.selectionDone.emit(value);
             }
-            //TODO: check for AMPLUS+ PAD
-            // To be removed: this allows smooth flow for AMPLUS+ PAD workflow
-            this.selectionDone.emit(value);
           },
           (error) => {
             this.checkPadResponse.emit(error);
