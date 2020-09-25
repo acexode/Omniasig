@@ -18,7 +18,7 @@ import { IonDateTimeConfig } from 'src/app/shared/models/component/ion-datetime-
 })
 export class InsurancePeriodComponent implements OnInit {
   currentDate = new Date();
-  @Input() minDate = new Date();
+  @Input() minDate;
   @Input() maxDate = new Date(
     this.currentDate.setFullYear(this.currentDate.getFullYear() + 1)
   ).toISOString();
@@ -44,11 +44,24 @@ export class InsurancePeriodComponent implements OnInit {
   constructor(private fb: FormBuilder, private cdRef: ChangeDetectorRef) {}
 
   ngOnInit() {
-    this.minDate.setDate(this.minDate.getDate() + 5);
     const minV = this.minDate ? this.minDate : new Date();
     const maxV = this.maxDate ? this.maxDate : new Date();
-    this.newProp.min = minV instanceof Date ? minV.toISOString() : minV;
-    this.newProp.max = maxV instanceof Date ? maxV.toISOString() : maxV;
+    try {
+      this.newProp.min =
+        minV instanceof Date
+          ? minV.toISOString()
+          : new Date(minV).toISOString();
+    } catch (e) {
+      this.newProp.min = new Date().toISOString();
+    }
+    try {
+      this.newProp.max =
+        maxV instanceof Date
+          ? maxV.toISOString()
+          : new Date(maxV).toISOString();
+    } catch (e) {
+      this.newProp.max = new Date().toISOString();
+    }
     this.preselectFormData();
     this.cdRef.markForCheck();
   }
