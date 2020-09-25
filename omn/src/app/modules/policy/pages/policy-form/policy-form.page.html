@@ -95,6 +95,13 @@
       >
       </app-loading-placeholder>
     </ng-container>
+    <ng-container *ngSwitchCase="policySteps?.POLICY_VERIFY_CHECK">
+      <app-loading-placeholder
+        [title]="loaderTitle"
+        class="flex flex-1 mh-100p w-100"
+      >
+      </app-loading-placeholder>
+    </ng-container>
     <ng-container *ngSwitchDefault>
       <ng-container
         *ngIf="currentStep === policySteps?.ADDRESS_FORM || 
@@ -108,7 +115,6 @@
           [policyType]="typeItem?.id"
           (stepChange)="addressStepChange($event)"
           (errorEvent)="handleError($event)"
-          (checkPadResponse)="handleError($event)"
           [offerData]="offerData"
           [policyId]="policyID"
           [formType]="formCheckType"

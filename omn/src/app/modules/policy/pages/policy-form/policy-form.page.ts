@@ -1,4 +1,6 @@
-import { IonTextItem } from 'src/app/shared/models/component/ion-text-item';
+import { dateHelperDMY } from './../../../../core/helpers/date.helper';
+import { PadService } from './../../services/pad.service';
+import { AmplusService } from './../../services/amplus.service';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -8,14 +10,16 @@ import {
   OnInit,
   ViewChild,
 } from '@angular/core';
-import { ActivatedRoute, Router, NavigationExtras } from '@angular/router';
-import { NavController, IonContent } from '@ionic/angular';
-import { cloneDeep, get, has } from 'lodash';
+import { ActivatedRoute, Router } from '@angular/router';
+import { IonContent, NavController } from '@ionic/angular';
+import { get, has } from 'lodash';
 import { BehaviorSubject, combineLatest } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import { AuthService } from 'src/app/core/services/auth/auth.service';
 import { CustomRouterService } from 'src/app/core/services/custom-router/custom-router.service';
+import { IonTextItem } from 'src/app/shared/models/component/ion-text-item';
 import { PolicyType } from 'src/app/shared/models/data/policy-type';
+import { policyTypes } from 'src/app/shared/models/data/policy-types';
 import { LocuinteFormType } from 'src/app/shared/models/modes/locuinte-form-modes';
 import { policySubpageHeader } from '../../data/policy-subpage-header';
 import { Account } from './../../../../core/models/account.interface';
@@ -26,7 +30,6 @@ import { PolicyOffer } from './../../../../shared/models/data/policy-offer';
 import { PolicyFormSteps } from './../../../../shared/models/modes/policy-form-steps';
 import { PolicyDataService } from './../../services/policy-data.service';
 import { PolicyFormService } from './../../services/policy-form.service';
-import { policyTypes } from 'src/app/shared/models/data/policy-types';
 
 @Component({
   selector: 'app-policy-form',
@@ -91,6 +94,8 @@ export class PolicyFormPage implements OnInit, OnDestroy {
     private aRoute: ActivatedRoute,
     private authS: AuthService,
     private policyD: PolicyDataService,
+    private amplusS: AmplusService,
+    private padS: PadService,
     private locS: LocuinteService,
     private policyFs: PolicyFormService,
     private navCtrl: NavController,
@@ -207,6 +212,7 @@ export class PolicyFormPage implements OnInit, OnDestroy {
         });
         break;
       case this.policySteps.PAD_CHECK:
+      case this.policySteps.POLICY_VERIFY_CHECK:
         this.headerConfig = policySubpageHeader({
           title: 'Verificare',
           hasTrailingIcon: false,
@@ -346,6 +352,13 @@ export class PolicyFormPage implements OnInit, OnDestroy {
       case this.policySteps.CALCULATION_LOADER:
         this.changeStep(this.policySteps.POLICY_VERIFY);
         break;
+      case this.policySteps.POLICY_VERIFY_CHECK:
+        if (this.policyID === 'PAD') {
+          this.changeStep(this.policySteps.PERIOD_FORM);
+        } else {
+          this.changeStep(this.policySteps.WAY_TO_PAY);
+        }
+        break;
       default:
         break;
     }
@@ -387,6 +400,16 @@ export class PolicyFormPage implements OnInit, OnDestroy {
         break;
       default:
         break;
+    }
+  }
+
+  processErrorMessage(error, key) {
+    const eroare = get(error, key + '.eroare', false);
+    const mesaj = get(error, key + '.mesaj', '');
+    if (eroare && mesaj) {
+      this.handleError(mesaj);
+    } else {
+      this.handleError(error);
     }
   }
 
@@ -478,7 +501,7 @@ export class PolicyFormPage implements OnInit, OnDestroy {
       payData: this.wayPayFormData,
       supportData: this.assistFormData,
     });
-    
+
     if (type === 'ADD_NEW') {
       this.changeStep(this.policySteps.ADDRESS_FORM);
       this.cdRef.markForCheck();
@@ -488,8 +511,7 @@ export class PolicyFormPage implements OnInit, OnDestroy {
       this.setMinDate(get(this.selectedAddressItem, 'policy', null));
       switch (this.policyID) {
         case 'PAD':
-          this.changeStep(this.policySteps.CESIUNE_FORM);
-          //this.next();
+          this.next();
           break;
         default:
           this.changeStep(this.policySteps.CESIUNE_FORM);
@@ -542,7 +564,37 @@ export class PolicyFormPage implements OnInit, OnDestroy {
   periodSubmit(startDate) {
     this.periodStartData = startDate;
     if (this.policyID === 'PAD') {
-      this.next();
+      this.offerData = this.policyFs.buildOfferItem({
+        locuintaItem: this.selectedAddressItem,
+        account: this.userAccount,
+        pType: this.typeItem as PolicyType,
+        cesiune: get(this.cesiuneData, 'cesionar', []),
+        fromDate: this.periodStartData,
+        payData: this.wayPayFormData,
+        supportData: this.assistFormData,
+      });
+      this.loaderTitle = 'Verificăm corectitudinea datelor…';
+      this.changeStep(this.policySteps.POLICY_VERIFY_CHECK);
+      // checks if offer can be created before going to the verify page
+      this.padS
+        .CreatePADInsuranceOffer(
+          this.offerData.policy.locuintaData.id,
+          this.offerData.policy.dates.from,
+          false
+        )
+        .subscribe(
+          (result) => {
+            if (result) {
+              this.changeStep(this.policySteps.POLICY_VERIFY);
+            } else {
+              this.handleError(null);
+            }
+          },
+          (err) => {
+            this.processErrorMessage(err.error, 'emitereOfertaResponse1');
+          }
+        );
+      return;
     } else {
       this.changeStep(this.policySteps.TECHNICAL_SUPPORT);
     }
@@ -634,8 +686,41 @@ export class PolicyFormPage implements OnInit, OnDestroy {
       payData: this.wayPayFormData,
       supportData: this.assistFormData,
     });
-    this.formCheckType = LocuinteFormType.PAD_CHECK;
-    this.changeStep(this.policySteps.PAD_CHECK);
+    this.loaderTitle = 'Verificăm corectitudinea datelor…';
+    this.changeStep(this.policySteps.POLICY_VERIFY_CHECK);
+    // checks if offer can be created before going to the verify page
+    if (this.policyID === 'AMPLUS') {
+      const payload = {
+        isVip: this.offerData?.supportData?.plan === 'vip' ? true : false,
+        isGold: this.offerData?.supportData?.plan === 'gold' ? true : false,
+        mentiuni: 'self',
+        startDate: this.offerData?.policy?.dates?.from,
+        numberOfMonths: '12',
+        insurancePrice: 100000,
+        numberOfPayments: this.offerData?.payData?.rate,
+        paymentCurrency: this.offerData?.payData?.type,
+        propertyCessionList: null,
+      };
+      this.amplusS
+        .CreateAmplusInsuranceOffer(
+          this.offerData.policy.locuintaData.id,
+          false,
+          payload
+        )
+        .subscribe(
+          (result) => {
+            if (result) {
+              this.changeStep(this.policySteps.POLICY_VERIFY);
+            } else {
+              this.handleError(null);
+            }
+          },
+          (err) => {
+            this.processErrorMessage(err.error, 'ofertaResponse');
+          }
+        );
+      return;
+    }
   }
 
   calculationSubmit() {
@@ -648,7 +733,10 @@ export class PolicyFormPage implements OnInit, OnDestroy {
 
   handleError(data) {
     this.headerConfig = null;
-    if (this.policyID === 'AMPLUS') {
+    if (
+      this.policyID === 'AMPLUS' &&
+      this.currentStep !== this.policySteps.POLICY_VERIFY_CHECK
+    ) {
       this.errTitle = {
         text: 'Lipsă poliță PAD',
         class: 'color-red',
@@ -657,7 +745,9 @@ export class PolicyFormPage implements OnInit, OnDestroy {
         {
           classes: 'ion-text-center',
           text:
-            'Nu am găsit o poliță PAD valabilă pentru această adresă. Conform legislației din România, pentru a putea cumpăra o poliță de asigurare faculativă, locuința trebuie să fie asigurată obligatoriu prin polița PAD.',
+            'Nu am găsit o poliță PAD valabilă pentru această adresă. ' +
+            'Conform legislației din România, pentru a putea cumpăra o poliță de asigurare faculativă,' +
+            ' locuința trebuie să fie asigurată obligatoriu prin polița PAD.',
         },
       ];
     } else {
@@ -677,28 +767,41 @@ export class PolicyFormPage implements OnInit, OnDestroy {
             text: 'Mesaj eroare: ' + data,
           },
         ];
-      } else if (typeof data === 'object' && data?.paidExpireDate) {
-        this.errMsg = [
-          {
-            classes: 'ion-text-center',
+      } else if (typeof data === 'object') {
+        this.errMsg = [];
+        if (data.hasPaid && data.paidExpireDate) {
+          let date = data.paidExpireDate;
+          try {
+            date = dateHelperDMY(new Date(data.paidExpireDate));
+          } catch (e) {
+            date = data.paidExpireDate;
+          }
+          this.errMsg.push({
+            classes: 'ion-text-center w-100 mb-16',
             text:
-              `Locuința pe care dorești să o asiguri are deja o 
-              asigurare PAD activă în ${data.paidExpireDate} .
-              Poți să îți re-înnoiești poliță PAD când au rămas 
-              mai puțin de 30 de zile din valabilitate.`,
-          },
-        ];
+              'Locuința pe care dorești să o asiguri are deja o ' +
+              'asigurare PAD activă în ' +
+              date +
+              '. Poți să îți re-înnoiești poliță PAD când au rămas ' +
+              'mai puțin de 30 de zile din valabilitate.',
+          });
+        }
+        if (data.dateOfBirthCheckPassed === false) {
+          this.errMsg.push({
+            classes: 'ion-text-center w-100 mb-16',
+            text:
+              'Ceva nu a funcționat corect. Va rugam sa verificati data de nastere.',
+          });
+        }
       } else {
         this.errMsg = this.defaultErrMsg;
       }
     }
+    if (this.errMsg.length === 0) {
+      this.errMsg = this.defaultErrMsg;
+    }
     this.showError = true;
-
-    // setTimeout(() => {
-    //   this.showError = false;
-    //   this.errMsg = null;
-    //   this.back();
-    // }, 5000);
+    this.cdRef.markForCheck();
   }
 
   changeTitle() {
