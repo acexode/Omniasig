@@ -16,28 +16,12 @@ export class PolicyFormService {
     data: Array<any>,
     type: string
   ): Array<PolicyLocuintaListItem> {
-    if (data[0]) {
-      const policies = data[1] ? data[1] : [];
-      return data[0].map((l) => {
-        if (!policies.length) {
-          return { locuinta: l };
-        } else {
-          const found = policies.find((p) => {
-            // const lId = get(p, 'locuintaId', -2);
-            // return (
-            //   get(l, 'id', -1).toString() === (lId ? lId : -2).toString() &&
-            const locP = get(p, 'locuintaId', -2);
-            return (
-              get(l, 'id', -1).toString() === (locP ? locP.toString() : '') &&
-              get(p, 'typeId', '-') === type
-            );
-          });
-
-          return {
-            locuinta: l,
-            policy: found,
-          };
-        }
+    if (data) {
+      return data.map((l) => {
+        return {
+          locuinta: l,
+          policy: null,
+        };
       });
     } else {
       return [];
