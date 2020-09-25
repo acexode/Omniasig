@@ -1,4 +1,4 @@
-import { PaymentPayModalComponent } from './../payment-pay-modal/payment-pay-modal.component';
+import { PaymentStatusComponent } from './../payment-status/payment-status.component';
 import { Component, HostBinding, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { NavController, ModalController } from '@ionic/angular';
@@ -10,7 +10,8 @@ import { PolicyOffer } from 'src/app/shared/models/data/policy-offer';
 import { PolicyDataService } from '../../services/policy-data.service';
 import { CalendarEntry } from '../models/calendar-entry';
 import { PadService } from '../../services/pad.service';
-import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
+import { InAppBrowser, InAppBrowserObject } from '@ionic-native/in-app-browser/ngx';
+import { Url, UrlWithStringQuery } from 'url';
 
 
 @Component({
@@ -23,6 +24,7 @@ export class OfferViewComponent implements OnInit {
   headerConfig = subPageHeaderSecondary('Oferta de asigurare');
   @HostBinding('class') color = 'ion-color-white-page';
   calEntry: CalendarEntry;
+  busy: boolean = false
   constructor(
     private route: ActivatedRoute,
     private policyDataService: PolicyDataService,
@@ -42,8 +44,6 @@ export class OfferViewComponent implements OnInit {
     this.policyDataService.getSingleOfferById(id).subscribe((offer) => {
       this.offer = offer instanceof Array ? offer[0] : offer;
       this.setCalEntry(this.offer);
-      console.log(this.offer);
-
     });
   }
 
@@ -81,8 +81,10 @@ export class OfferViewComponent implements OnInit {
 
   pay() {
     // Starting the payment workflow here
+    this.busy = true
     const data = {
       ibaN_1: this.offer.iban,
+      // TODO add the real amount of an offer (which i do not know right now)
       amount_IBAN_1: 1,
       areTermsAccepted: true,
       currencyToPay: this.offer.policy.locuintaData.valueCurrency,
@@ -92,30 +94,10 @@ export class OfferViewComponent implements OnInit {
     }
     this.policyDataService.makePayment(data).subscribe(
       (data) => {
-        const browser = this.iab.create(data.url, '_blank', 'location=no');
-        browser.on('loadstop').subscribe(
-          (data) => console.log(data),
-          (err) => console.log(err)
-        )
-        if (browser.on('loadstart').subscribe)
-          browser.on('loadstart').subscribe((e) => {
-            if (e && e.url)
-              console.log(e);
-
-          });
-
-        //When the InAppBrowser is closed, check and use the last viewed URL
-        if (browser.on('exit').subscribe)
-          browser.on('exit').subscribe((e) => {
-            if (e) {
-              console.log(e);
-            }
-            // ...use the last viewed URL...;
-          });
-
-
+        this.openIAB(data.url)
+        this.busy = false
       },
-      err => console.log(err)
+      err => this.busy = false
     )
 
     return
@@ -137,14 +119,47 @@ export class OfferViewComponent implements OnInit {
     );
   }
 
-  async presentModal(data) {
+  openIAB(url) {
+    const browser = this.iab.create(url, '_blank', 'location=no');
+    if (browser.on('loadstart').subscribe)
+      browser.on('loadstart').subscribe((e) => {
+        if (e && e.url.includes("tok")) {
+          this.confirmToken(e.url, browser)
+        }
+      });
+    if (browser.on('loaderror').subscribe)
+      browser.on('loaderror').subscribe((e) => {
+        browser.close()
+      });
+  }
+
+  confirmToken(urlPath, browser: InAppBrowserObject) {
+    let url = new URL(urlPath).search;
+    const urlParams = new URLSearchParams(url);
+    let token = urlParams.get('tok');
+    this.policyDataService.confirmPayment(token).subscribe(
+      (data) => {
+        browser.close()
+        this.presentModal('success')
+      },
+      (err) => {
+        browser.close()
+        this.presentModal('failed', err.error)
+      }
+    )
+  }
+
+  async presentModal(paymentStatus: 'failed' | 'success',
+    failureReason?: string) {
     const modal = await this.modalController.create({
-      component: PaymentPayModalComponent,
+      component: PaymentStatusComponent,
       cssClass: 'my-custom-class',
       componentProps: {
-        data
+        paymentStatus,
+        failureReason
       }
     });
     return await modal.present();
   }
+
 }

@@ -1,3 +1,4 @@
+import { PaymentStatusComponent } from './components/payment-status/payment-status.component';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AsistentaTechnicaPage } from './components/asistenta-technica/asistenta-technica.page';
@@ -35,6 +36,10 @@ const routes: Routes = [
         path: ':id',
         component: PolicyViewComponent,
       },
+      // {
+      //   path: 'payment-status',
+      //   component: PaymentStatusComponent,
+      // },
     ],
   },
 

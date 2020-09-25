@@ -1,3 +1,4 @@
+import { PaymentStatusComponent } from './components/payment-status/payment-status.component';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -9,7 +10,6 @@ import { AsistentaModalPagePage } from './components/asistenta-modal-page/asiste
 import { AsistentaTechnicaPage } from './components/asistenta-technica/asistenta-technica.page';
 import { DisabledMessageModalComponent } from './components/modals/disabled-message-modal/disabled-message-modal.component';
 import { OfferViewComponent } from './components/offer-view/offer-view.component';
-import { PaymentPayModalComponent } from './components/payment-pay-modal/payment-pay-modal.component';
 import { PolicyArchiveListComponent } from './components/policy-archive-list/policy-archive-list.component';
 import { PolicyCardListComponent } from './components/policy-card-list/policy-card-list.component';
 import { PolicyViewComponent } from './components/policy-view/policy-view.component';
@@ -29,7 +29,7 @@ import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
     PolicyViewComponent,
     AsistentaModalPagePage,
     AsistentaTechnicaPage,
-    PaymentPayModalComponent
+    PaymentStatusComponent
   ],
   imports: [
     CommonModule,
@@ -46,4 +46,4 @@ import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
   exports: [AsistentaModalPagePage],
   providers: [InAppBrowser],
 })
-export class PolicyModule {}
+export class PolicyModule { }

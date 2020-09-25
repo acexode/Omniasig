@@ -64,6 +64,7 @@
         "@types/jasminewd2": "~2.0.3",
         "@types/node": "^12.11.1",
         "codelyzer": "^5.1.2",
+        "cordova-android-support-gradle-release": "^3.0.1",
         "cordova-plugin-device": "2.0.2",
         "cordova-plugin-inappbrowser": "^4.0.0",
         "cordova-plugin-ionic-keyboard": "^2.0.5",
@@ -113,7 +114,10 @@
                 "ANDROID_SUPPORT_ANNOTATIONS_VERSION": "27.+"
             },
             "cordova-plugin-app-launcher": {},
-            "cordova-plugin-inappbrowser": {}
+            "cordova-plugin-inappbrowser": {},
+            "cordova-android-support-gradle-release": {
+                "ANDROID_SUPPORT_VERSION": "27.+"
+            }
         },
         "platforms": [
             "browser",
