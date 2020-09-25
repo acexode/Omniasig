@@ -325,26 +325,8 @@ export class PolicyAddressFormComponent implements OnInit {
               this.dataAdded.emit({
                 locuinta: get(v, 'response', null),
               });
-
-              this.paidS
-                .CheckPAD({
-                  locationId: this.dataModel.id as number,
-                  userId: this.userId,
-                })
-                .subscribe(
-                  (value) => {
-                    if (value.hasPaid) {
-                      this.checkPadResponse.emit(value);
-                    } else {
-                      this.paidS.locationId = this.dataModel.id as number;
-                      this.paidS.startDate = value.paidMinimStartDate;
-                      this.stepChange.emit('NEXT');
-                    }
-                  },
-                  (error) => {
-                    this.checkPadResponse.emit(error);
-                  }
-                );
+              this.paidS.locationId = this.dataModel.id as number;
+              this.stepChange.emit('NEXT');
             }
           });
         }
@@ -417,6 +399,18 @@ export class PolicyAddressFormComponent implements OnInit {
                         this.checkPadResponse.emit(v);
                       }
                       return;
+                    }
+
+                    if(this.policyId === 'PAD'){
+                      if (v.hasPaid) {
+                        this.checkPadResponse.emit(v);      
+                      } else {
+                        this.paidS.startDate = v.paidMinimStartDate;
+                        this.formSubmitting = false;
+                        this.cdRef.markForCheck();
+                        return data;
+                      }
+                      return
                     }
                     //TODO: check for AMPLUS+ PAD
                     // To be removed: this allows smooth flow for AMPLUS+ PAD workflow

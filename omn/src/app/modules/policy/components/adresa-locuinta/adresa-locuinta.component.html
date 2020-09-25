@@ -110,4 +110,11 @@
       </ion-button>
     </ion-col>
   </ion-row>
+  <ng-container *ngIf="checkPAD">
+    <app-loading-placeholder
+      class="flex flex-1 mh-100p w-100"
+      [title]="loaderTitle"
+    >
+    </app-loading-placeholder>
+  </ng-container>
 </ion-content>
