@@ -81,20 +81,6 @@
         [preselectedStart]="periodStartData"
       ></app-insurance-period>
     </ng-container>
-    <ng-container *ngSwitchCase="policySteps?.POLICY_VERIFY">
-      <app-policy-verify
-        [offerData]="offerData"
-        (goToErrorHandler)="handleError($event)"
-        (calculateEvent)="calculationSubmit()"
-      ></app-policy-verify>
-    </ng-container>
-    <ng-container *ngSwitchCase="policySteps?.CALCULATION_LOADER">
-      <app-loading-placeholder
-        [title]="loaderTitle"
-        class="flex flex-1 mh-100p w-100"
-      >
-      </app-loading-placeholder>
-    </ng-container>
     <ng-container *ngSwitchCase="policySteps?.POLICY_VERIFY_CHECK">
       <app-loading-placeholder
         [title]="loaderTitle"
@@ -103,6 +89,24 @@
       </app-loading-placeholder>
     </ng-container>
     <ng-container *ngSwitchDefault>
+      <ng-container
+        *ngIf="!showError && 
+        (currentStep === policySteps?.POLICY_VERIFY || currentStep === policySteps?.OFFER_EMIT_CHECK)"
+      >
+        <app-policy-verify
+          [ngClass]="{'ion-hide': currentStep === policySteps?.OFFER_EMIT_CHECK}"
+          [offerData]="offerData"
+          (goToErrorHandler)="handleError($event)"
+          (createOfferEvent)="calculationSubmit()"
+        ></app-policy-verify>
+        <ng-container *ngIf="policySteps?.OFFER_EMIT_CHECK">
+          <app-loading-placeholder
+            [title]="loaderTitle"
+            class="flex flex-1 mh-100p w-100"
+          >
+          </app-loading-placeholder>
+        </ng-container>
+      </ng-container>
       <ng-container
         *ngIf="currentStep === policySteps?.ADDRESS_FORM || 
         currentStep === policySteps?.LOCATION_FORM ||

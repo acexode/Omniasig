@@ -62,7 +62,6 @@ export class InsurancePeriodComponent implements OnInit {
     } catch (e) {
       this.newProp.max = new Date().toISOString();
     }
-    debugger;
     this.preselectFormData();
     this.cdRef.markForCheck();
   }

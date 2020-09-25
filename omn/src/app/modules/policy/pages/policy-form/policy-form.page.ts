@@ -260,7 +260,7 @@ export class PolicyFormPage implements OnInit, OnDestroy {
           backLink: false,
         });
         break;
-      case this.policySteps.CALCULATION_LOADER:
+      case this.policySteps.OFFER_EMIT_CHECK:
         this.headerConfig = null;
         break;
       default:
@@ -349,7 +349,7 @@ export class PolicyFormPage implements OnInit, OnDestroy {
       case this.policySteps.WAY_TO_PAY:
         this.changeStep(this.policySteps.TECHNICAL_SUPPORT);
         break;
-      case this.policySteps.CALCULATION_LOADER:
+      case this.policySteps.OFFER_EMIT_CHECK:
         this.changeStep(this.policySteps.POLICY_VERIFY);
         break;
       case this.policySteps.POLICY_VERIFY_CHECK:
@@ -492,7 +492,6 @@ export class PolicyFormPage implements OnInit, OnDestroy {
    * Will change step after selection.
    */
   addressSelect(type: string | PolicyLocuintaListItem) {
-    debugger;
     this.offerData = this.policyFs.buildOfferItem({
       locuintaItem: this.selectedAddressItem,
       account: this.userAccount,
@@ -725,7 +724,7 @@ export class PolicyFormPage implements OnInit, OnDestroy {
   }
 
   calculationSubmit() {
-    this.changeStep(this.policySteps.CALCULATION_LOADER);
+    this.changeStep(this.policySteps.OFFER_EMIT_CHECK);
   }
 
   scrollToTop() {
@@ -736,7 +735,8 @@ export class PolicyFormPage implements OnInit, OnDestroy {
     this.headerConfig = null;
     if (
       this.policyID === 'AMPLUS' &&
-      this.currentStep !== this.policySteps.POLICY_VERIFY_CHECK
+      this.currentStep !== this.policySteps.POLICY_VERIFY_CHECK &&
+      this.currentStep !== this.policySteps.OFFER_EMIT_CHECK
     ) {
       this.errTitle = {
         text: 'Lipsă poliță PAD',

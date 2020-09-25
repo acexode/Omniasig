@@ -169,7 +169,7 @@ export class PolicyDataService {
   }
   // ceate offer obj
   createOffersObj(offer: any, typeId: string) {
-    return {
+    const offerObj = {
       id: offer.id,
       offerCode: offer.offerCode,
       policy: {
@@ -214,6 +214,10 @@ export class PolicyDataService {
       expiry: offer.expireDate,
       emisionDate: offer.emisionDate ? new Date(offer.emisionDate) : '',
     };
+    if (typeId === 'AMPLUS') {
+      offerObj.expiry = get(offer, 'offerExpireDate', '');
+    }
+    return offerObj;
   }
 
   getSingleOfferById(id: number | string) {

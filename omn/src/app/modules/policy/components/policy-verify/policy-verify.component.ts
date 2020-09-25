@@ -12,7 +12,6 @@ import { get } from 'lodash';
 import { PolicyOffer } from 'src/app/shared/models/data/policy-offer';
 import { AmplusService } from '../../services/amplus.service';
 import { PadService } from '../../services/pad.service';
-import { PaidExternalService } from '../../services/paid-external-service.service';
 import { PolicyDataService } from './../../services/policy-data.service';
 
 @Component({
@@ -23,11 +22,8 @@ import { PolicyDataService } from './../../services/policy-data.service';
 })
 export class PolicyVerifyComponent implements OnInit {
   policyID;
-  checkData = false;
-  loaderTitle = 'Verificăm corectitudinea datelor…';
-  locuintaDataId;
   @Input() offerData: PolicyOffer;
-  @Output() calculateEvent: EventEmitter<any> = new EventEmitter();
+  @Output() createOfferEvent: EventEmitter<any> = new EventEmitter();
   @Output() goToErrorHandler: EventEmitter<any> = new EventEmitter();
 
   constructor(
@@ -35,7 +31,6 @@ export class PolicyVerifyComponent implements OnInit {
     private navCtrl: NavController,
     private aRoute: ActivatedRoute,
     private padS: PadService,
-    private paidS: PaidExternalService,
     private amplusS: AmplusService
   ) {}
 
@@ -44,50 +39,32 @@ export class PolicyVerifyComponent implements OnInit {
   }
 
   addOffer() {
-    this.checkData = true;
-    this.locuintaDataId = this.locuintaDataId;
+    this.createOfferEvent.emit();
     this.padS
       .CreatePADInsuranceOffer(
-        this.locuintaDataId,
+        this.offerData.policy.locuintaData.id,
         this.offerData.policy.dates.from,
-        false
+        true
       )
       .subscribe(
         (result) => {
-          this.padS
-            .CreatePADInsuranceOffer(
-              this.locuintaDataId,
-              this.offerData.policy.dates.from,
-              true
-            )
+          this.policyS
+            .addOfferToStore(this.offerData, result, this.policyID)
             .subscribe(
-              (result2) => {
-                this.policyS
-                  .addOfferToStore(this.offerData, result, this.policyID)
-                  .subscribe(
-                    (v) => {
-                      if (v) {
-                        const id = get(v, 'id', null);
-                        if (id) {
-                          this.navCtrl.navigateForward([
-                            '/policy',
-                            'offer',
-                            id,
-                          ]);
-                        } else {
-                          this.navCtrl.navigateRoot(['/policy']);
-                        }
-                      } else {
-                        // We'll probably only show an error in here.
-                      }
-                    },
-                    (err) => {
-                      this.goToErrorHandler.emit(err);
-                    }
-                  );
+              (v) => {
+                if (v) {
+                  const id = get(v, 'id', null);
+                  if (id) {
+                    this.navCtrl.navigateForward(['/policy', 'offer', id]);
+                  } else {
+                    this.navCtrl.navigateRoot(['/policy']);
+                  }
+                } else {
+                  // We'll probably only show an error in here.
+                }
               },
-              (error) => {
-                this.processErrorMessage(error);
+              (err) => {
+                this.goToErrorHandler.emit(err);
               }
             );
         },
@@ -108,7 +85,7 @@ export class PolicyVerifyComponent implements OnInit {
   }
 
   calculatePrice() {
-    this.calculateEvent.emit();
+    this.createOfferEvent.emit();
     const payload = {
       isVip: this.offerData?.supportData?.plan === 'vip' ? true : false,
       isGold: this.offerData?.supportData?.plan === 'gold' ? true : false,
@@ -157,12 +134,8 @@ export class PolicyVerifyComponent implements OnInit {
             );
         },
         (error) => {
-          const eroare = get(
-            error,
-            'error.emitereOfertaResponse1.eroare',
-            false
-          );
-          const mesaj = get(error, 'error.emitereOfertaResponse1.mesaj', '');
+          const eroare = get(error, 'error.ofertaResponse.eroare', false);
+          const mesaj = get(error, 'error.ofertaResponse.mesaj', '');
           if (eroare && mesaj) {
             this.goToErrorHandler.emit(mesaj);
           } else {
