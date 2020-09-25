@@ -287,7 +287,6 @@ export class PolicyAddressFormComponent implements OnInit {
               this.dataAdded.emit({
                 locuinta: get(v, 'response', null),
               });
-              this.paidS.locationId = this.dataModel.id as number;
               this.stepChange.emit('NEXT');
             }
           });

@@ -99,7 +99,6 @@ export class AdresaLocuintaComponent implements OnInit {
               if (value2.hasPaid) {
                 this.checkPadResponse.emit(value2);
               } else {
-                this.paidS.locationId = value.locuinta.id;
                 this.paidS.startDate = value2.paidMinimStartDate;
                 this.selectionDone.emit(value);
               }

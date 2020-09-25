@@ -8,7 +8,6 @@ import { PaidExternalServiceModel } from '../models/paid-external-service';
 })
 export class PaidExternalService {
   startDate;
-  locationId;
 
   constructor(private reqS: RequestService) {}
 
