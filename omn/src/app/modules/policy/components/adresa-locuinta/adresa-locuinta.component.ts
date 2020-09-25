@@ -6,6 +6,7 @@ import {
   OnInit,
   Output,
 } from '@angular/core';
+import { set } from 'lodash';
 import { FormBuilder, Validators } from '@angular/forms';
 import { get } from 'lodash';
 import { AuthService } from 'src/app/core/services/auth/auth.service';
@@ -88,9 +89,27 @@ export class AdresaLocuintaComponent implements OnInit {
         .CheckPAD({ locationId: value.locuinta.id, userId: this.userId })
         .subscribe(
           (value2) => {
+            const defPolicy = {
+              dates: {
+                to: null,
+              },
+            };
             if (this.policyID === 'AMPLUS') {
               if (value2.canHaveAmplus) {
-                this.selectionDone.emit(value);
+                const policy = get(value, 'policy', defPolicy)
+                  ? get(value, 'policy', defPolicy)
+                  : defPolicy;
+                set(
+                  policy,
+                  'dates.to',
+                  get(value2, 'paidMinimStartDate', null)
+                );
+                this.selectionDone.emit({
+                  ...value,
+                  ...{
+                    policy,
+                  },
+                });
               } else {
                 this.checkPadResponse.emit(value2);
               }
@@ -99,9 +118,20 @@ export class AdresaLocuintaComponent implements OnInit {
               if (value2.hasPaid) {
                 this.checkPadResponse.emit(value2);
               } else {
-                this.paidS.locationId = value.locuinta.id;
-                this.paidS.startDate = value2.paidMinimStartDate;
-                this.selectionDone.emit(value);
+                const policy = get(value, 'policy', defPolicy)
+                  ? get(value, 'policy', defPolicy)
+                  : defPolicy;
+                set(
+                  policy,
+                  'dates.to',
+                  get(value2, 'paidMinimStartDate', null)
+                );
+                this.selectionDone.emit({
+                  ...value,
+                  ...{
+                    policy,
+                  },
+                });
               }
             } else {
               // TODO: check for AMPLUS+ PAD

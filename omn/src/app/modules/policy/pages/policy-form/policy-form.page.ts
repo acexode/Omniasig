@@ -492,6 +492,7 @@ export class PolicyFormPage implements OnInit, OnDestroy {
    * Will change step after selection.
    */
   addressSelect(type: string | PolicyLocuintaListItem) {
+    debugger;
     this.offerData = this.policyFs.buildOfferItem({
       locuintaItem: this.selectedAddressItem,
       account: this.userAccount,

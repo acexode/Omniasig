@@ -9,7 +9,6 @@ import {
 } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { IonDateTimeConfig } from 'src/app/shared/models/component/ion-datetime-config';
-import { PaidExternalService } from '../../services/paid-external-service.service';
 
 @Component({
   selector: 'app-insurance-period',
@@ -42,15 +41,28 @@ export class InsurancePeriodComponent implements OnInit {
   };
   @Output() emitForm: EventEmitter<any> = new EventEmitter();
 
-  constructor(private fb: FormBuilder, private cdRef: ChangeDetectorRef, private paidS: PaidExternalService) {
-    // this.minDate = this.paidS.startDate;
-  }
+  constructor(private fb: FormBuilder, private cdRef: ChangeDetectorRef) {}
 
   ngOnInit() {
     const minV = this.minDate ? this.minDate : new Date();
     const maxV = this.maxDate ? this.maxDate : new Date();
-    this.newProp.min = minV instanceof Date ? minV.toISOString() : minV;
-    this.newProp.max = maxV instanceof Date ? maxV.toISOString() : maxV;
+    try {
+      this.newProp.min =
+        minV instanceof Date
+          ? minV.toISOString()
+          : new Date(minV).toISOString();
+    } catch (e) {
+      this.newProp.min = new Date().toISOString();
+    }
+    try {
+      this.newProp.max =
+        maxV instanceof Date
+          ? maxV.toISOString()
+          : new Date(maxV).toISOString();
+    } catch (e) {
+      this.newProp.max = new Date().toISOString();
+    }
+    debugger;
     this.preselectFormData();
     this.cdRef.markForCheck();
   }

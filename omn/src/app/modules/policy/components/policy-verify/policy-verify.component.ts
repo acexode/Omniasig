@@ -45,7 +45,7 @@ export class PolicyVerifyComponent implements OnInit {
 
   addOffer() {
     this.checkData = true;
-    this.locuintaDataId = this.paidS.locationId;
+    this.locuintaDataId = this.locuintaDataId;
     this.padS
       .CreatePADInsuranceOffer(
         this.locuintaDataId,

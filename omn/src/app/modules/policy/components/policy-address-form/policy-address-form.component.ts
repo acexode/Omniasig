@@ -69,6 +69,7 @@ export class PolicyAddressFormComponent implements OnInit {
   formInstance: { group: FormGroup; config: any; data: any } = null;
   checkPAD = false;
   loaderTitle = 'Verificăm datele în portalul PAID…';
+  paidResponseData = null;
   userId;
 
   @Input() formType: LocuinteFormType = LocuinteFormType.ADDRESS;
@@ -96,6 +97,7 @@ export class PolicyAddressFormComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.paidResponseData = null;
     this.setTitles();
     this.initConfigs().subscribe((v) => {
       this.initForm();
@@ -261,8 +263,20 @@ export class PolicyAddressFormComponent implements OnInit {
                 group: this.formGroups.place,
                 data: this.formData.place,
               };
+              const policy = this.paidResponseData
+                ? {
+                    dates: {
+                      to: get(
+                        this.paidResponseData,
+                        'paidMinimStartDate',
+                        null
+                      ),
+                    },
+                  }
+                : null;
               this.dataAdded.emit({
                 locuinta: get(v, 'response', null),
+                policy,
               });
               this.stepChange.emit(this.formType);
               this.handleFormSubmit();
@@ -284,10 +298,21 @@ export class PolicyAddressFormComponent implements OnInit {
               header.leadingIcon = null;
               this.headerConfig = header;
               this.buttonVisible = false;
+              const policy = this.paidResponseData
+                ? {
+                    dates: {
+                      to: get(
+                        this.paidResponseData,
+                        'paidMinimStartDate',
+                        null
+                      ),
+                    },
+                  }
+                : null;
               this.dataAdded.emit({
                 locuinta: get(v, 'response', null),
+                policy,
               });
-              this.paidS.locationId = this.dataModel.id as number;
               this.stepChange.emit('NEXT');
             }
           });
@@ -352,6 +377,7 @@ export class PolicyAddressFormComponent implements OnInit {
                 })
                 .pipe(
                   map((v) => {
+                    this.paidResponseData = v;
                     if (this.policyId === 'AMPLUS') {
                       if (v.canHaveAmplus) {
                         this.formSubmitting = false;
@@ -367,7 +393,6 @@ export class PolicyAddressFormComponent implements OnInit {
                       if (v.hasPaid) {
                         this.checkPadResponse.emit(v);
                       } else {
-                        this.paidS.startDate = v.paidMinimStartDate;
                         this.formSubmitting = false;
                         this.cdRef.markForCheck();
                         return data;
@@ -380,6 +405,7 @@ export class PolicyAddressFormComponent implements OnInit {
                     return data;
                   }),
                   catchError((e) => {
+                    this.paidResponseData = null;
                     this.checkPadResponse.emit(e);
                     return of(e);
                   })
