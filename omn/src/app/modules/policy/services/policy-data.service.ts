@@ -220,12 +220,16 @@ export class PolicyDataService {
     return offerObj;
   }
 
-  getSingleOfferById(id: number | string) {
+  getSingleOfferById(id: number | string, type = 'PAD') {
     return this.offerStore$.pipe(
       filter((v) => v !== null),
       switchMap((vals) => {
         if (vals instanceof Array) {
-          const existing = vals.find((v) => v.id.toString() === id.toString());
+          const existing = vals.find(
+            (v) =>
+              v.id.toString() === id.toString() &&
+              get(v, 'policy.typeId', 'PAD') === type
+          );
           if (existing) {
             return of(existing);
           } else {

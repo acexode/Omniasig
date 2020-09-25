@@ -55,7 +55,9 @@ export class PolicyVerifyComponent implements OnInit {
                 if (v) {
                   const id = get(v, 'id', null);
                   if (id) {
-                    this.navCtrl.navigateForward(['/policy', 'offer', id]);
+                    this.navCtrl.navigateForward(['/policy', 'offer', id], {
+                      queryParams: { policyType: 'PAD' },
+                    });
                   } else {
                     this.navCtrl.navigateRoot(['/policy']);
                   }
