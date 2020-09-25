@@ -1,4 +1,4 @@
-<ion-content>
+<!-- <ion-content>
   <ng-container *ngIf="!checkPAD">
     <ion-grid class="px-32 pt-32 pb-24 flex flex-1 mh-100p flex-shrink-0">
       <app-locuinte-form
@@ -23,7 +23,7 @@
       </app-loading-placeholder>
     </ion-grid>
   </ng-container>
-  
+
   <ng-container *ngIf="checkPAD">
     <app-loading-placeholder
       class="flex flex-1 mh-100p w-100"
@@ -31,4 +31,27 @@
     >
     </app-loading-placeholder>
   </ng-container>
-</ion-content>
+</ion-content> -->
+<ion-grid class="px-32 pt-32 pb-24 flex flex-1 mh-100p flex-shrink-0">
+  <app-locuinte-form
+    (eventSubmit)="handleFormSubmit()"
+    class="flex flex-1 mh-100p w-100"
+    *ngIf="formInstance && formType !== formTypes?.PAD_CHECK"
+    [buttonVisible]="buttonVisible"
+    [formSubmitting]="formSubmitting"
+    [policyType]="policyType"
+    [formGroupInstance]="formInstance?.group"
+    [fieldConfig]="formInstance?.config"
+    [fieldConfigData]="formInstance?.data"
+    [buttonText]="buttonText"
+    [formType]="formType"
+    (customEvents)="formCustomEvents()"
+    (openModal)="openModal($event)"
+  ></app-locuinte-form>
+  <app-loading-placeholder
+    class="flex flex-1 mh-100p w-100"
+    *ngIf="formType === formTypes?.PAD_CHECK"
+    [title]="loaderTitle"
+  >
+  </app-loading-placeholder>
+</ion-grid>

@@ -478,7 +478,7 @@ export class PolicyFormPage implements OnInit, OnDestroy {
       payData: this.wayPayFormData,
       supportData: this.assistFormData,
     });
-
+    debugger;
     if (type === 'ADD_NEW') {
       this.changeStep(this.policySteps.ADDRESS_FORM);
       this.cdRef.markForCheck();
@@ -647,6 +647,7 @@ export class PolicyFormPage implements OnInit, OnDestroy {
   }
 
   handleError(data) {
+    debugger;
     this.headerConfig = null;
     if (this.policyID === 'AMPLUS') {
       this.errTitle = {
@@ -694,11 +695,11 @@ export class PolicyFormPage implements OnInit, OnDestroy {
     }
     this.showError = true;
 
-    setTimeout(() => {
-      this.showError = false;
-      this.errMsg = null;
-      this.back();
-    }, 5000);
+    // setTimeout(() => {
+    //   this.showError = false;
+    //   this.errMsg = null;
+    //   this.back();
+    // }, 5000);
   }
 
   changeTitle() {
