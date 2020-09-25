@@ -478,6 +478,7 @@ export class PolicyFormPage implements OnInit, OnDestroy {
       payData: this.wayPayFormData,
       supportData: this.assistFormData,
     });
+    
     if (type === 'ADD_NEW') {
       this.changeStep(this.policySteps.ADDRESS_FORM);
       this.cdRef.markForCheck();
@@ -487,7 +488,8 @@ export class PolicyFormPage implements OnInit, OnDestroy {
       this.setMinDate(get(this.selectedAddressItem, 'policy', null));
       switch (this.policyID) {
         case 'PAD':
-          this.next();
+          this.changeStep(this.policySteps.CESIUNE_FORM);
+          //this.next();
           break;
         default:
           this.changeStep(this.policySteps.CESIUNE_FORM);
@@ -675,16 +677,15 @@ export class PolicyFormPage implements OnInit, OnDestroy {
             text: 'Mesaj eroare: ' + data,
           },
         ];
-      } else if (typeof data === 'object') {
+      } else if (typeof data === 'object' && data?.paidExpireDate) {
         this.errMsg = [
           {
             classes: 'ion-text-center',
             text:
-              'Locuința pe care dorești să o asiguri are deja o ' +
-              'asigurare PAD activă în ' +
-              data.paidExpireDate +
-              '. Poți să îți re-înnoiești poliță PAD când au rămas ' +
-              'mai puțin de 30 de zile din valabilitate.',
+              `Locuința pe care dorești să o asiguri are deja o 
+              asigurare PAD activă în ${data.paidExpireDate} .
+              Poți să îți re-înnoiești poliță PAD când au rămas 
+              mai puțin de 30 de zile din valabilitate.`,
           },
         ];
       } else {
