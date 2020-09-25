@@ -365,7 +365,7 @@
               <div class="link-small text-weight-medium color-tertiary-grey">
                 Data expirării
               </div>
-              <ion-text class="s18-h24">05.05.2020</ion-text>
+              <ion-text class="s18-h24">{{ offer?.expiry | date: 'dd.MM.yyyy' }}</ion-text>
             </ion-label>
           </ion-item>
           <ion-item class="ion-no-padding no-paddings" lines="none">
@@ -373,7 +373,7 @@
               <div class="link-small text-weight-medium color-tertiary-grey">
                 Emitent
               </div>
-              <ion-text class="s18-h24">XXXXXXXXXXXXX</ion-text>
+              <ion-text class="s18-h24">Omniasig S.A.</ion-text>
             </ion-label>
           </ion-item>
         </ion-row>
@@ -880,7 +880,7 @@
               <div class="link-small text-weight-medium color-tertiary-grey">
                 Emitent
               </div>
-              <ion-text class="s18-h24">XXXXXXXXXXXXX</ion-text>
+              <ion-text class="s18-h24">Omniasig S.A.</ion-text>
             </ion-label>
           </ion-item>
         </ion-row>
