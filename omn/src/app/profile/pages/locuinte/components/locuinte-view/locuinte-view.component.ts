@@ -101,6 +101,7 @@ export class LocuinteViewComponent implements OnInit {
         const id = vals[ 2 ];
         if ( id ) {
           this.locuinteS.getSingleLocuinta( id ).subscribe( ( val: Locuinte ) => {
+            console.log( 'val: ', val );
             if ( val ) {
               this.getLocationInfo( val );
               this.dataModel = val;

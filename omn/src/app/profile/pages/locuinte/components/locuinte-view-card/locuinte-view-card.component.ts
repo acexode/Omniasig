@@ -1,5 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { ModalController } from '@ionic/angular';
+import { getTommorrowUTCdate } from 'src/app/core/helpers/date.helper';
 import { AmplusService } from 'src/app/modules/policy/services/amplus.service';
 import { PolicyDataService } from 'src/app/modules/policy/services/policy-data.service';
 import { Locuinte } from 'src/app/shared/models/data/locuinte.interface';
@@ -20,6 +21,8 @@ export class LocuinteViewCardComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.policyS.getUserPolicies( this.locuintaData.id)
+      .subscribe( d => console.log( d ) );
   }
 
   getAmplus() {
@@ -30,17 +33,16 @@ export class LocuinteViewCardComponent implements OnInit {
       isVip: true,
       isGold: false,
       mentiuni: '',
-      startDate: '2020-09-28T10:44:17.286Z',
+      startDate: getTommorrowUTCdate(), //  e.g '2020-09-28T10:44:17.286Z'
       numberOfMonths: '12',
-      insurancePrice: 100000,
+      insurancePrice: this.locuintaData.value,
       numberOfPayments: '1',
       paymentCurrency: 'ron',
       propertyCessionList: null
     };
-
     this.ampS.CreateAmplusInsuranceOffer( this.locuintaData.id, generateOffer, payload )
-      .subscribe( d => {
-        this.presentModal( d.response?.ofertaResponse?.prima );
+      .subscribe( data => {
+        this.presentModal( data.response?.ofertaResponse?.prima );
       } );
   }
 
