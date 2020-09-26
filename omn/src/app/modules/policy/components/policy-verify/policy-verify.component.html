@@ -1,260 +1,262 @@
 <ion-content>
-  <ion-grid class="mx-0 pb-24 h-100 px-0 flex flex-1">
-    <ion-col class="flex flex-1 flex-column w-100 ion-no-padding">
-      <ion-row class="ion-no-padding flex w-100 flex-column mt-40">
-        <div
-          id="text-content"
-          class="ml-32 mr-32 p-16 border-radius-8 bg-light-green ls-min-02"
-        >
-          <ion-text class="alt-font h3">
-            Te rugăm să verifici datele de mai jos cu atenție. Pentru a corecta
-            un detaliu, te rugăm să te întorci în pagina respectivă.
-          </ion-text>
-        </div>
-      </ion-row>
-
-      <ion-row class="ion-no-padding flex w-100 flex-column">
-        <ion-item class="mt-40 px-32 no-paddings" lines="none">
-          <ion-label class="ion-text-wrap m-0">
-            <div class="mb-20">
-              <ion-text
-                class="activation-msg h3 color-dark-green ion-text-center w-100 vertical-spacing mt-auto alt-font text-weight-bold"
-              >
-                Asigurat
-              </ion-text>
-            </div>
-
-            <div class="mb-13">
-              <div class="input-label text-weight-medium mb-3">Nume</div>
-              <ion-text class="input-detail s18-h24"
-                >{{ offerData?.policy?.userData?.surname }}
-                {{ offerData?.policy?.userData?.name }}</ion-text
-              >
-            </div>
-            <div>
-              <div class="input-label text-weight-medium">CNP</div>
-              <ion-text class="input-detail s18-h24"
-                >{{ offerData?.policy?.userData?.cnp | cnp }}
-              </ion-text>
-            </div>
-          </ion-label>
-        </ion-item>
-
-        <ion-item class="mt-37 px-32 no-paddings" lines="none">
-          <ion-label class="ion-text-wrap m-0">
-            <div class="mb-20">
-              <ion-text
-                class="activation-msg h3 color-dark-green ion-text-center w-100 vertical-spacing mb-18 mt-auto alt-font text-weight-bold"
-                >Informații locuință</ion-text
-              >
-            </div>
-
-            <div class="mb-13">
-              <div class="input-label text-weight-medium mb-3">Adresa</div>
-              <ion-text class="input-detail s18-h24"
-                >{{
-                  offerData?.policy?.locuintaData | locuinteName: 'main-list2'
-                }}
-              </ion-text>
-            </div>
-            <div class="mb-13">
-              <div class="input-label text-weight-medium mb-3">Tip</div>
-              <ion-text class="input-detail s18-h24"
-                >{{
-                  offerData?.policy?.locuintaData?.type
-                    | locuinteField: 'type' || '-'
-                }}
-              </ion-text>
-            </div>
-            <div class="mb-13">
-              <div class="input-label mb-3">Structură de rezistență</div>
-              <ion-text class="input-detail s18-h24"
-                >{{
-                  offerData?.policy?.locuintaData?.structure
-                    | locuinteField: 'structure' || '-'
-                }}
-              </ion-text>
-            </div>
-            <div class="mb-13">
-              <div class="input-label text-weight-medium mb-3">
-                Anul construcției
+  <ng-container>
+    <ion-grid class="mx-0 pb-24 h-100 px-0 flex flex-1">
+      <ion-col class="flex flex-1 flex-column w-100 ion-no-padding">
+        <ion-row class="ion-no-padding flex w-100 flex-column mt-40">
+          <div
+            id="text-content"
+            class="ml-32 mr-32 p-16 border-radius-8 bg-light-green ls-min-02"
+          >
+            <ion-text class="alt-font h3">
+              Te rugăm să verifici datele de mai jos cu atenție. Pentru a corecta
+              un detaliu, te rugăm să te întorci în pagina respectivă.
+            </ion-text>
+          </div>
+        </ion-row>
+  
+        <ion-row class="ion-no-padding flex w-100 flex-column">
+          <ion-item class="mt-40 px-32 no-paddings" lines="none">
+            <ion-label class="ion-text-wrap m-0">
+              <div class="mb-20">
+                <ion-text
+                  class="activation-msg h3 color-dark-green ion-text-center w-100 vertical-spacing mt-auto alt-font text-weight-bold"
+                >
+                  Asigurat
+                </ion-text>
               </div>
-              <ion-text class="input-detail s18-h24"
-                >{{ offerData?.policy?.locuintaData?.yearConstruction }}
-              </ion-text>
-            </div>
-            <div class="mb-13">
-              <div class="input-label text-weight-medium mb-3">
-                Valoarea locuinței
+  
+              <div class="mb-13">
+                <div class="input-label text-weight-medium mb-3">Nume</div>
+                <ion-text class="input-detail s18-h24"
+                  >{{ offerData?.policy?.userData?.surname }}
+                  {{ offerData?.policy?.userData?.name }}</ion-text
+                >
               </div>
-              <ion-text class="input-detail s18-h24"
-                >{{ offerData?.policy?.locuintaData?.value || '-' }}
-                {{
-                  offerData?.policy?.locuintaData?.valueCurrency
-                    | locuinteField: 'valueCurrency' || '-'
-                }}
-              </ion-text>
-            </div>
-            <div class="mb-13">
-              <div class="input-label text-weight-medium mb-3">Ocupare</div>
-              <ion-text class="input-detail s18-h24">
-                {{
-                  offerData?.policy?.locuintaData?.typeUse
-                    | locuinteField: 'typeUse' || '-'
-                }}
-              </ion-text>
-            </div>
-            <div class="mb-13">
-              <div class="input-label text-weight-medium mb-3">
-                Suprafața utilă
+              <div>
+                <div class="input-label text-weight-medium">CNP</div>
+                <ion-text class="input-detail s18-h24"
+                  >{{ offerData?.policy?.userData?.cnp | cnp }}
+                </ion-text>
               </div>
-              <ion-text class="input-detail s18-h24">
-                {{ offerData?.policy?.locuintaData?.area }} mp
-              </ion-text>
-            </div>
-            <div class="mb-13">
-              <div class="input-label text-weight-medium mb-3">
-                Regim de înălțime
+            </ion-label>
+          </ion-item>
+  
+          <ion-item class="mt-37 px-32 no-paddings" lines="none">
+            <ion-label class="ion-text-wrap m-0">
+              <div class="mb-20">
+                <ion-text
+                  class="activation-msg h3 color-dark-green ion-text-center w-100 vertical-spacing mb-18 mt-auto alt-font text-weight-bold"
+                  >Informații locuință</ion-text
+                >
               </div>
-              <ion-text class="input-detail s18-h24">
-                {{ offerData?.policy?.locuintaData?.floors }} etaje
-              </ion-text>
-            </div>
-            <div class="mb-13">
-              <div class="input-label text-weight-medium mb-3">
-                Număr de camere
+  
+              <div class="mb-13">
+                <div class="input-label text-weight-medium mb-3">Adresa</div>
+                <ion-text class="input-detail s18-h24"
+                  >{{
+                    offerData?.policy?.locuintaData | locuinteName: 'main-list2'
+                  }}
+                </ion-text>
               </div>
-              <ion-text class="input-detail s18-h24">
-                {{ offerData?.policy?.locuintaData?.rooms }}</ion-text
-              >
-            </div>
-            <div>
-              <div class="input-label text-weight-medium">
-                Alarmă antiefracție
+              <div class="mb-13">
+                <div class="input-label text-weight-medium mb-3">Tip</div>
+                <ion-text class="input-detail s18-h24"
+                  >{{
+                    offerData?.policy?.locuintaData?.type
+                      | locuinteField: 'type' || '-'
+                  }}
+                </ion-text>
               </div>
-              <ion-text class="input-detail s18-h24">
-                {{
-                  offerData?.policy?.locuintaData?.hasAlarmSystem
-                    | locuinteField: 'hasAlarmSystem'
-                }}
-              </ion-text>
-            </div>
-          </ion-label>
-        </ion-item>
-
-        <ion-item class="mt-37 px-32 no-paddings" lines="none">
-          <ion-label class="ion-text-wrap m-0">
-            <div class="mb-20">
-              <ion-text
-                class="activation-msg h3 color-dark-green ion-text-center w-100 vertical-spacing mb-18 mt-auto alt-font text-weight-bold"
-                >Detalii poliță</ion-text
-              >
-            </div>
-
-            <div class="mb-13">
-              <div class="input-label text-weight-medium mb-3">
-                Suma asigurată
+              <div class="mb-13">
+                <div class="input-label mb-3">Structură de rezistență</div>
+                <ion-text class="input-detail s18-h24"
+                  >{{
+                    offerData?.policy?.locuintaData?.structure
+                      | locuinteField: 'structure' || '-'
+                  }}
+                </ion-text>
               </div>
-              <ion-text class="input-detail s18-h24">20.000 Euro</ion-text>
-            </div>
-            <div class="mb-13" *ngIf="offerData?.policy?.cesiune?.length > 0">
-              <div class="input-label text-weight-medium mb-3">Cesiune</div>
-              <ng-container
-                *ngFor="let cItem of offerData?.policy?.cesiune; let i = index"
-              >
-                <div [ngClass]="{ 'mt-24': i > 0 }">
-                  <ion-text class="input-detail s18-h24"
-                    >Denumire cesionar: {{ cItem?.denumireCesionar }}</ion-text
-                  >
+              <div class="mb-13">
+                <div class="input-label text-weight-medium mb-3">
+                  Anul construcției
+                </div>
+                <ion-text class="input-detail s18-h24"
+                  >{{ offerData?.policy?.locuintaData?.yearConstruction }}
+                </ion-text>
+              </div>
+              <div class="mb-13">
+                <div class="input-label text-weight-medium mb-3">
+                  Valoarea locuinței
+                </div>
+                <ion-text class="input-detail s18-h24"
+                  >{{ offerData?.policy?.locuintaData?.value || '-' }}
+                  {{
+                    offerData?.policy?.locuintaData?.valueCurrency
+                      | locuinteField: 'valueCurrency' || '-'
+                  }}
+                </ion-text>
+              </div>
+              <div class="mb-13">
+                <div class="input-label text-weight-medium mb-3">Ocupare</div>
+                <ion-text class="input-detail s18-h24">
+                  {{
+                    offerData?.policy?.locuintaData?.typeUse
+                      | locuinteField: 'typeUse' || '-'
+                  }}
+                </ion-text>
+              </div>
+              <div class="mb-13">
+                <div class="input-label text-weight-medium mb-3">
+                  Suprafața utilă
+                </div>
+                <ion-text class="input-detail s18-h24">
+                  {{ offerData?.policy?.locuintaData?.area }} mp
+                </ion-text>
+              </div>
+              <div class="mb-13">
+                <div class="input-label text-weight-medium mb-3">
+                  Regim de înălțime
+                </div>
+                <ion-text class="input-detail s18-h24">
+                  {{ offerData?.policy?.locuintaData?.floors }} etaje
+                </ion-text>
+              </div>
+              <div class="mb-13">
+                <div class="input-label text-weight-medium mb-3">
+                  Număr de camere
+                </div>
+                <ion-text class="input-detail s18-h24">
+                  {{ offerData?.policy?.locuintaData?.rooms }}</ion-text
+                >
+              </div>
+              <div>
+                <div class="input-label text-weight-medium">
+                  Alarmă antiefracție
+                </div>
+                <ion-text class="input-detail s18-h24">
+                  {{
+                    offerData?.policy?.locuintaData?.hasAlarmSystem
+                      | locuinteField: 'hasAlarmSystem'
+                  }}
+                </ion-text>
+              </div>
+            </ion-label>
+          </ion-item>
+  
+          <ion-item class="mt-37 px-32 no-paddings" lines="none">
+            <ion-label class="ion-text-wrap m-0">
+              <div class="mb-20">
+                <ion-text
+                  class="activation-msg h3 color-dark-green ion-text-center w-100 vertical-spacing mb-18 mt-auto alt-font text-weight-bold"
+                  >Detalii poliță</ion-text
+                >
+              </div>
+  
+              <div class="mb-13">
+                <div class="input-label text-weight-medium mb-3">
+                  Suma asigurată
+                </div>
+                <ion-text class="input-detail s18-h24">20.000 Euro</ion-text>
+              </div>
+              <div class="mb-13" *ngIf="offerData?.policy?.cesiune?.length > 0">
+                <div class="input-label text-weight-medium mb-3">Cesiune</div>
+                <ng-container
+                  *ngFor="let cItem of offerData?.policy?.cesiune; let i = index"
+                >
+                  <div [ngClass]="{ 'mt-24': i > 0 }">
+                    <ion-text class="input-detail s18-h24"
+                      >Denumire cesionar: {{ cItem?.denumireCesionar }}</ion-text
+                    >
+                  </div>
+                  <div>
+                    <ion-text class="input-detail s18-h24"
+                      >CUI: {{ cItem?.cui }}</ion-text
+                    >
+                  </div>
+                  <div>
+                    <ion-text class="input-detail s18-h24"
+                      >Procent:{{ cItem?.procent }}%</ion-text
+                    >
+                  </div>
+                </ng-container>
+              </div>
+              <div [ngClass]="{ 'mb-13': policyID === 'AMPLUS' }">
+                <div class="input-label text-weight-medium mb-3">
+                  Perioada de valabilitate
+                </div>
+                <ion-text class="input-detail s18-h24"
+                  >{{ offerData?.policy?.dates?.from | date: 'dd.MM.yyyy' }} -
+                  {{ offerData?.policy?.dates?.to | date: 'dd.MM.yyyy' }}
+                </ion-text>
+              </div>
+              <ng-container *ngIf="policyID === 'AMPLUS'">
+                <div class="mb-13">
+                  <div class="input-label text-weight-medium mb-3">
+                    Asistenţă tehnică la locaţia asigurată
+                  </div>
+                  <ion-text class="input-detail s18-h24">{{
+                    offerData?.supportData?.plan | uppercase
+                  }}</ion-text>
                 </div>
                 <div>
-                  <ion-text class="input-detail s18-h24"
-                    >CUI: {{ cItem?.cui }}</ion-text
+                  <div class="input-label text-weight-medium mb-3">
+                    Modalitatea de plata
+                  </div>
+                  <ion-text
+                    class="input-detail s18-h24"
+                    *ngIf="offerData?.payData?.rate === '1'"
+                    >Integral ({{ offerData?.payData?.rate }} rata)</ion-text
                   >
-                </div>
-                <div>
-                  <ion-text class="input-detail s18-h24"
-                    >Procent:{{ cItem?.procent }}%</ion-text
+                  <ion-text
+                    class="input-detail s18-h24"
+                    *ngIf="offerData?.payData?.rate > 1"
+                    >În rate ({{ offerData?.payData?.rate }})</ion-text
                   >
                 </div>
               </ng-container>
-            </div>
-            <div [ngClass]="{ 'mb-13': policyID === 'AMPLUS' }">
-              <div class="input-label text-weight-medium mb-3">
-                Perioada de valabilitate
-              </div>
-              <ion-text class="input-detail s18-h24"
-                >{{ offerData?.policy?.dates?.from | date: 'dd.MM.yyyy' }} -
-                {{ offerData?.policy?.dates?.to | date: 'dd.MM.yyyy' }}
-              </ion-text>
-            </div>
-            <ng-container *ngIf="policyID === 'AMPLUS'">
-              <div class="mb-13">
-                <div class="input-label text-weight-medium mb-3">
-                  Asistenţă tehnică la locaţia asigurată
-                </div>
-                <ion-text class="input-detail s18-h24">{{
-                  offerData?.supportData?.plan | uppercase
-                }}</ion-text>
-              </div>
-              <div>
-                <div class="input-label text-weight-medium mb-3">
-                  Modalitatea de plata
-                </div>
-                <ion-text
-                  class="input-detail s18-h24"
-                  *ngIf="offerData?.payData?.rate === '1'"
-                  >Integral ({{ offerData?.payData?.rate }} rata)</ion-text
-                >
-                <ion-text
-                  class="input-detail s18-h24"
-                  *ngIf="offerData?.payData?.rate > 1"
-                  >În rate ({{ offerData?.payData?.rate }})</ion-text
-                >
-              </div>
-            </ng-container>
-          </ion-label>
-        </ion-item>
-      </ion-row>
-
-      <ion-row
-        class="ion-no-padding flex w-100 flex-1 mt-37 mb-24"
-        *ngIf="policyID === 'PAD'"
-      >
-        <ion-col
-          class="ion-no-padding flex flex-1 w-100 flex-column ion-justify-content-end px-32"
+            </ion-label>
+          </ion-item>
+        </ion-row>
+  
+        <ion-row
+          class="ion-no-padding flex w-100 flex-1 mt-37 mb-24"
+          *ngIf="policyID === 'PAD'"
         >
-          <ion-button
-            class="activate-btn m-0"
-            color="success"
-            size="large"
-            expand="block"
-            size="large"
-            (click)="addOffer()"
+          <ion-col
+            class="ion-no-padding flex flex-1 w-100 flex-column ion-justify-content-end px-32"
           >
-            Vezi oferta
-          </ion-button>
-        </ion-col>
-      </ion-row>
-      <ion-row
-        *ngIf="policyID === 'AMPLUS'"
-        class="ion-no-padding flex w-100 flex-1 mt-37 mb-24"
-      >
-        <ion-col
-          class="ion-no-padding flex flex-1 w-100 flex-column ion-justify-content-end px-32"
+            <ion-button
+              class="activate-btn m-0"
+              color="success"
+              size="large"
+              expand="block"
+              size="large"
+              (click)="addOffer()"
+            >
+              Vezi oferta
+            </ion-button>
+          </ion-col>
+        </ion-row>
+        <ion-row
+          *ngIf="policyID === 'AMPLUS' || policyID === 'Garant AMPLUS+ PAD'"
+          class="ion-no-padding flex w-100 flex-1 mt-37 mb-24"
         >
-          <ion-button
-            class="activate-btn m-0"
-            color="success"
-            size="large"
-            expand="block"
-            size="large"
-            (click)="calculatePrice()"
+          <ion-col
+            class="ion-no-padding flex flex-1 w-100 flex-column ion-justify-content-end px-32"
           >
-            Calculează prețul
-          </ion-button>
-        </ion-col>
-      </ion-row>
-    </ion-col>
-  </ion-grid>
+            <ion-button
+              class="activate-btn m-0"
+              color="success"
+              size="large"
+              expand="block"
+              size="large"
+              (click)="calculatePrice()"
+            >
+              Calculează prețul
+            </ion-button>
+          </ion-col>
+        </ion-row>
+      </ion-col>
+    </ion-grid>
+  </ng-container>
 </ion-content>
