@@ -2,7 +2,6 @@ import { Component, OnInit, Input } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { getTommorrowUTCdate } from 'src/app/core/helpers/date.helper';
 import { AmplusService } from 'src/app/modules/policy/services/amplus.service';
-import { PolicyDataService } from 'src/app/modules/policy/services/policy-data.service';
 import { Locuinte } from 'src/app/shared/models/data/locuinte.interface';
 import { PriceModalComponent } from '../../../components/modals/price-modal/price-modal.component';
 
@@ -17,13 +16,9 @@ export class LocuinteViewCardComponent implements OnInit {
   constructor(
     public modalController: ModalController,
     private ampS: AmplusService,
-    private policyS: PolicyDataService
   ) { }
 
-  ngOnInit() {
-    this.policyS.getUserPolicies( this.locuintaData.id)
-      .subscribe( d => console.log( d ) );
-  }
+  ngOnInit() {}
 
   getAmplus() {
     // generateOffer

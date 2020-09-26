@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { get } from 'lodash';
 import { BehaviorSubject, Observable, of } from 'rxjs';
-import { catchError, map, switchMap, take, tap } from 'rxjs/operators';
+import { catchError, map, switchMap, take } from 'rxjs/operators';
 import { locuinteEndpoints } from 'src/app/core/configs/endpoints';
 import { AuthService } from 'src/app/core/services/auth/auth.service';
 import { RequestService } from 'src/app/core/services/request/request.service';
@@ -73,7 +73,6 @@ export class LocuinteService {
     return this.reqS
       .get<Locuinte>( this.endpoints.singleLocation + '?id=' + id )
       .pipe(
-        tap(d => console.log(d)),
         map( ( v ) => this.mapToUIModel( v )),
         catchError( ( e ) => {
           return of( null );

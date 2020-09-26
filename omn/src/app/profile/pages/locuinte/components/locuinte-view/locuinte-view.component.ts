@@ -66,6 +66,7 @@ export class LocuinteViewComponent implements OnInit {
   refTimer;
   @HostBinding( 'class' ) color = null;
   @ViewChild( 'contentRef', { static: true } ) contentRef: IonContent;
+  checkPAD$: Observable<any>;
   constructor(
     private routerS: CustomRouterService,
     private aRoute: ActivatedRoute,
@@ -80,7 +81,7 @@ export class LocuinteViewComponent implements OnInit {
   ngOnInit() {
     // checkpad for the locuite first (this is to be done first: suggested by adrian)
     this.aRoute.data.subscribe( resolveData => {
-      this.checkUserPad( resolveData.data );
+      this.checkPAD$ = this.paidES.CheckPAD( { locationId: resolveData.data.locationId, userId: resolveData.data.userId } );
     } );
     /*  */
     this.routerS
@@ -101,7 +102,6 @@ export class LocuinteViewComponent implements OnInit {
         const id = vals[ 2 ];
         if ( id ) {
           this.locuinteS.getSingleLocuinta( id ).subscribe( ( val: Locuinte ) => {
-            console.log( 'val: ', val );
             if ( val ) {
               this.getLocationInfo( val );
               this.dataModel = val;
@@ -355,17 +355,6 @@ export class LocuinteViewComponent implements OnInit {
       }
     } );
     return await modal.present();
-  }
-
-  checkUserPad( { locationId, userId } ) {
-    this.paidES.CheckPAD( { locationId, userId }).subscribe(
-      checkpadData => {
-        // tslint:disable-next-line:no-unused-expression
-        (checkpadData.hasPaid === true) ? this.variant = 'found' : 'not-found';
-      },
-      err => {
-
-      } );
   }
 
 }
