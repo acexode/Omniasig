@@ -13,6 +13,7 @@ BUILD-testing:
   variables:
     BUILD_DIRECTORY: $CI_PROJECT_DIR
   script:
+    - cd omn
     - ls
     - npm install
     - ng lint
