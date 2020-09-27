@@ -36,9 +36,14 @@ export class LocuinteViewCardComponent implements OnInit {
       propertyCessionList: null
     };
     this.ampS.CreateAmplusInsuranceOffer( this.locuintaData.id, generateOffer, payload )
-      .subscribe( data => {
+      .subscribe(
+        data => {
         this.presentModal( data.response?.ofertaResponse?.prima );
-      } );
+        },
+        err => {
+
+        }
+      );
   }
 
   async presentModal( data = 0 ) {
