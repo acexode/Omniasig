@@ -19,6 +19,7 @@ export interface ImageCard {
   itemClass?: string;
   isDisabled?: boolean;
   isHidden?: boolean;
+  queryParams?: any;
   // This will handle any extra property attached to the cards.
   [key: string]: any;
 }
