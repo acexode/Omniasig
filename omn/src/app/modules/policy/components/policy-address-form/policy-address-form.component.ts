@@ -10,18 +10,21 @@ import {
 } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { IonContent, ModalController } from '@ionic/angular';
+import { get } from 'lodash';
 import { Observable, of } from 'rxjs';
-import { finalize, switchMap } from 'rxjs/operators';
+import { catchError, finalize, map, switchMap } from 'rxjs/operators';
+import { AuthService } from 'src/app/core/services/auth/auth.service';
 import { LocuinteFormService } from 'src/app/profile/pages/locuinte/services/locuinte-form/locuinte-form.service';
 import { LocuinteService } from 'src/app/profile/pages/locuinte/services/locuinte/locuinte.service';
-import { PadService } from '../../services/pad.service';
 import { subPageHeaderDefault } from 'src/app/shared/data/sub-page-header-default';
 import { Locuinte } from 'src/app/shared/models/data/locuinte.interface';
 import {
   LocuinteFormModes,
   LocuinteFormType,
 } from 'src/app/shared/models/modes/locuinte-form-modes';
-import { get } from 'lodash';
+import { AmplusService } from '../../services/amplus.service';
+import { PadService } from '../../services/pad.service';
+import { PaidExternalService } from '../../services/paid-external-service.service';
 import { PolicyValoareModalComponent } from './../modals/policy-valoare-modal/policy-valoare-modal.component';
 
 @Component({
@@ -64,21 +67,37 @@ export class PolicyAddressFormComponent implements OnInit {
 
   formSubmitting = false;
   formInstance: { group: FormGroup; config: any; data: any } = null;
+  checkPAD = false;
+  loaderTitle = 'Verificăm datele în portalul PAID…';
+  paidResponseData = null;
+  userId;
 
   @Input() formType: LocuinteFormType = LocuinteFormType.ADDRESS;
   @Input() policyType: string;
   @Input() formInputData = null;
+  @Output() checkPadResponse: EventEmitter<any> = new EventEmitter();
+  @Input() offerData = null;
+  @Input() policyId;
   @Output() stepChange: EventEmitter<any> = new EventEmitter();
   @Output() dataAdded: EventEmitter<any> = new EventEmitter();
+  @Output() errorEvent: EventEmitter<any> = new EventEmitter();
   constructor(
     private cdRef: ChangeDetectorRef,
     private formS: LocuinteFormService,
     private locuinteS: LocuinteService,
     private padS: PadService,
-    public modalController: ModalController
-  ) {}
+    public modalController: ModalController,
+    private authS: AuthService,
+    private amplusS: AmplusService,
+    private paidS: PaidExternalService
+  ) {
+    this.authS.getAuthState().subscribe((authData) => {
+      this.userId = authData.account.userId;
+    });
+  }
 
   ngOnInit() {
+    this.paidResponseData = null;
     this.setTitles();
     this.initConfigs().subscribe((v) => {
       this.initForm();
@@ -135,6 +154,9 @@ export class PolicyAddressFormComponent implements OnInit {
           this.cdRef.detectChanges();
         });
       this.addressCounty.valueChanges.subscribe((val) => {
+        if (this.addressCity.value) {
+          this.addressCity.patchValue({}, { emit: true });
+        }
         this.formS
           .updateCounty(
             this.addressCounty,
@@ -154,6 +176,9 @@ export class PolicyAddressFormComponent implements OnInit {
     }
     if (this.addressCity) {
       this.addressCity.valueChanges.subscribe((val) => {
+        if (this.addressStreet.value) {
+          this.addressStreet.patchValue({}, { emit: true });
+        }
         this.formS
           .updateCity(this.addressCity, this.formInstance.data, this.dataModel)
           .subscribe((v) => {
@@ -168,6 +193,11 @@ export class PolicyAddressFormComponent implements OnInit {
           val,
           this.formInstance.data,
           this.dataModel
+        );
+        this.formS.handlePostalCode(
+          val,
+          this.formInstance.data,
+          this.addressPostalCode
         );
       });
     }
@@ -190,6 +220,12 @@ export class PolicyAddressFormComponent implements OnInit {
       ? this.formInstance.group.get('addressStreet')
       : null;
   }
+  get addressPostalCode() {
+    return this.formInstance && this.formInstance.group
+      ? this.formInstance.group.get('addressPostalCode')
+      : null;
+  }
+
   buildFormAdd() {
     this.formConfigs.address = this.formS.buildFormConfig(
       LocuinteFormType.ADDRESS,
@@ -227,8 +263,20 @@ export class PolicyAddressFormComponent implements OnInit {
                 group: this.formGroups.place,
                 data: this.formData.place,
               };
+              const policy = this.paidResponseData
+                ? {
+                    dates: {
+                      to: get(
+                        this.paidResponseData,
+                        'paidMinimStartDate',
+                        null
+                      ),
+                    },
+                  }
+                : null;
               this.dataAdded.emit({
                 locuinta: get(v, 'response', null),
+                policy,
               });
               this.stepChange.emit(this.formType);
               this.handleFormSubmit();
@@ -250,8 +298,20 @@ export class PolicyAddressFormComponent implements OnInit {
               header.leadingIcon = null;
               this.headerConfig = header;
               this.buttonVisible = false;
+              const policy = this.paidResponseData
+                ? {
+                    dates: {
+                      to: get(
+                        this.paidResponseData,
+                        'paidMinimStartDate',
+                        null
+                      ),
+                    },
+                  }
+                : null;
               this.dataAdded.emit({
                 locuinta: get(v, 'response', null),
+                policy,
               });
               this.stepChange.emit('NEXT');
             }
@@ -309,9 +369,47 @@ export class PolicyAddressFormComponent implements OnInit {
           );
         } else {
           return this.locuinteS.addSingleLocuinte(model2).pipe(
-            finalize(() => {
-              this.formSubmitting = false;
-              this.cdRef.markForCheck();
+            switchMap((data) => {
+              return this.paidS
+                .CheckPAD({
+                  locationId: data.response.id,
+                  userId: this.offerData.policy.userData.userId,
+                })
+                .pipe(
+                  map((v) => {
+                    this.paidResponseData = v;
+                    if (this.policyId === 'AMPLUS') {
+                      if (v.canHaveAmplus) {
+                        this.formSubmitting = false;
+                        this.cdRef.markForCheck();
+                        return data;
+                      } else {
+                        this.checkPadResponse.emit(v);
+                      }
+                      return;
+                    }
+
+                    if (this.policyId === 'PAD') {
+                      if (v.hasPaid) {
+                        this.checkPadResponse.emit(v);
+                      } else {
+                        this.formSubmitting = false;
+                        this.cdRef.markForCheck();
+                        return data;
+                      }
+                      return;
+                    }
+                    // TODO: check for AMPLUS+ PAD
+                    // To be removed: this allows smooth flow for AMPLUS+ PAD workflow
+                    this.formSubmitting = false;
+                    return data;
+                  }),
+                  catchError((e) => {
+                    this.paidResponseData = null;
+                    this.checkPadResponse.emit(e);
+                    return of(e);
+                  })
+                );
             })
           );
         }

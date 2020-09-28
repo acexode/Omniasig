@@ -69,11 +69,6 @@ export class ConfirmareIdentitateComponent implements OnInit {
         minLength: 13,
       },
     }),
-    dateOfBirth: dateTimeConfigHelper({
-      label: 'Data nașterii',
-      displayFormat: 'YYYY-MM-DD',
-      pickerFormat: '',
-    }),
     addressCounty: selectConfigHelper({
       label: 'Județ',
       idKey: 'name',
@@ -126,14 +121,10 @@ export class ConfirmareIdentitateComponent implements OnInit {
     private cdRef: ChangeDetectorRef,
     private auth: AuthService
   ) {
-    this.confirmModel.dateOfBirth.max = new Date(
-      new Date().setFullYear(new Date().getFullYear() - 18)
-    ).toISOString();
     this.confirmareForm = this.formBuilder.group({
       name: ['', Validators.required],
       surname: ['', Validators.required],
       cnp: this.formBuilder.control(null, [Validators.required, cnpValidator]),
-      dateOfBirth: ['', Validators.required],
       addressCounty: ['', Validators.required],
       addressCity: ['', Validators.required],
       addressStreet: ['', Validators.required],
@@ -179,6 +170,9 @@ export class ConfirmareIdentitateComponent implements OnInit {
           this.cdRef.detectChanges();
         });
       this.addressCounty.valueChanges.subscribe((val) => {
+        if (this.addressCity.value) {
+          this.addressCity.patchValue({}, { emit: true });
+        }
         this.locuinteF
           .updateCounty(this.addressCounty, this.formData, this.dataModel)
           .subscribe((v) => {
@@ -194,6 +188,9 @@ export class ConfirmareIdentitateComponent implements OnInit {
     }
     if (this.addressCity) {
       this.addressCity.valueChanges.subscribe((val) => {
+        if (this.addressStreet.value) {
+          this.addressStreet.patchValue({}, { emit: true });
+        }
         this.locuinteF
           .updateCity(this.addressCity, this.formData, this.dataModel)
           .subscribe((v) => {
@@ -224,7 +221,6 @@ export class ConfirmareIdentitateComponent implements OnInit {
           name: value.name,
           cnp: value.cnp,
           surname: value.surname,
-          dateOfBirth: value.dateOfBirth,
         };
         const locuinte: any = {
           name: 'Domiciliu',

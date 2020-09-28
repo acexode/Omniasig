@@ -5,10 +5,11 @@ import {
   OnInit,
   ViewChild,
 } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { IonInput } from '@ionic/angular';
 import { Subscription } from 'rxjs';
+import { unsubscriberHelper } from 'src/app/core/helpers/unsubscriber.helper';
 import { CustomTimersService } from 'src/app/core/services/custom-timers/custom-timers.service';
 import { subPageHeaderDefault } from 'src/app/shared/data/sub-page-header-default';
 import { IonInputConfig } from 'src/app/shared/models/component/ion-input-config';
@@ -24,17 +25,15 @@ export class RecuperarePasscodeCodComponent
   headerConfig = subPageHeaderDefault('Verificare Email');
   min = '00';
   sec: any = 59;
-  digitsLength = 0;
   @ViewChild('inputField') inputField: IonInput;
   sub: Subscription;
   phoneNumber = null;
-
   config: IonInputConfig = {
     type: 'number',
     inputMode: 'number',
   };
-  passForm: FormGroup;
   InvalidCode = false;
+  digitLength = 0;
   constructor(
     private resetPinService: ResetPincodeService,
     private router: Router,
@@ -44,9 +43,7 @@ export class RecuperarePasscodeCodComponent
     this.checkCNP();
   }
 
-  ngOnInit() {
-    this.initForm();
-  }
+  ngOnInit() {}
 
   checkCNP() {
     if (!this.resetPinService.getResetObj?.cnp) {
@@ -54,30 +51,9 @@ export class RecuperarePasscodeCodComponent
     }
   }
 
-  initForm() {
-    this.passForm = this.formBuilder.group({
-      digit: [
-        '',
-        [Validators.required, Validators.minLength(6), Validators.maxLength(6)],
-      ],
-    });
-
-    this.sub = this.passForm.valueChanges.subscribe((value) => {
-      this.changeInput(value.digit);
-    });
-  }
-
-  changeInput(digit: number) {
-    if (digit) {
-      this.digitsLength = digit.toString().length;
-    } else {
-      this.digitsLength = 0;
-    }
-  }
-
-  continue() {
+  continue(passForm: FormGroup) {
     this.resetPinService.setResetObj({
-      code: this.passForm.get('digit').value,
+      code: passForm.get('passcode').value,
     });
     this.router.navigate(['reset-pincode/new-pin']);
   }
@@ -87,7 +63,7 @@ export class RecuperarePasscodeCodComponent
   }
 
   startTimer() {
-    this.timers.buildTimer(59).subscribe((time: number) => {
+    this.sub = this.timers.buildTimer(59).subscribe((time: number) => {
       this.sec = time;
     });
   }
@@ -103,14 +79,15 @@ export class RecuperarePasscodeCodComponent
       );
   }
 
-  spawnInput() {
-    this.inputField.getInputElement().then((input) => {
-      input.focus();
-      input.click();
-    });
+  clearErr(_) {
+    this.InvalidCode = false;
+  }
+
+  setDigitLength(length: number) {
+    this.digitLength = length;
   }
 
   ngOnDestroy() {
-    this.sub.unsubscribe();
+    unsubscriberHelper(this.sub);
   }
 }

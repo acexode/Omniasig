@@ -31,6 +31,8 @@ export const baseEndpoints = {
   policy: serverBaseUrl + '/policy',
   userProfile: serverBaseUrl + '/UserProfile',
   pad: serverBaseUrl + '/PADInsurance',
+  amplus: serverBaseUrl + '/AmplusInsurance',
+  paidExtS: serverBaseUrl + '/PAIDExternalService',
 };
 
 export const policyEndpoints = {
@@ -42,8 +44,12 @@ export const policyEndpoints = {
   // real endpoints
   GetActivePADOffers: serverBaseUrl + '/PADInsurance/GetActivePADOffers',
   GetActivePADPolicies: serverBaseUrl + '/PADInsurance/GetActivePADPolicies',
-  initiatePayment :serverBaseUrl + '/GPWebpay',
-  confirmPayment:serverBaseUrl + '/Payment/GetPaymentbyUrlHash'
+
+  initiatePayment: serverBaseUrl + '/GPWebpay',
+  confirmPayment: serverBaseUrl + '/Payment/GetPaymentbyUrlHash',
+
+  GetActiveAmplusOffers:
+    serverBaseUrl + '/AmplusInsurance/GetActiveAmplusOffers',
 };
 
 export const locuinteEndpoints = {
@@ -51,7 +57,7 @@ export const locuinteEndpoints = {
   add: serverBaseUrl + '/Location/AddAddressLocation',
   makeHomeAddress: serverBaseUrl + '/Location/MakeLocationHomeAddress',
   AlluserLocation: serverBaseUrl + '/Location/GetAllLocationsForLoggedUser',
-  updateAddress: serverBaseUrl + '/Location/UpdateLocationForAddressId',
+  updateAddress: serverBaseUrl + '/Location/UpdateLocation',
   disAbleLocation: serverBaseUrl + '/Location/DisableLocation',
   GetAllLocationsForLoggedUser:
     serverBaseUrl + '/Location/GetAllLocationsForLoggedUser',
@@ -76,4 +82,21 @@ export const padEndpoints = {
   VerifyPADInsuranceOffer: baseEndpoints.pad + '/VerifyPADInsuranceOffer',
   CreatePADInsuranceOffer: baseEndpoints.pad + '/CreatePADInsuranceOffer',
   CreatePADInsurancePolicy: baseEndpoints.pad + '/CreatePADInsurancePolicy',
+};
+
+export const amplusEndpoints = {
+  base: baseEndpoints.amplus,
+  CreateAmplusInsuranceOffer:
+    baseEndpoints.amplus + '/CreateAmplusInsuranceOffer',
+};
+
+export const paidExternalService = {
+  base: baseEndpoints.paidExtS,
+  CheckPAD: baseEndpoints.paidExtS + '/CheckPAD',
+};
+
+export const documenteEndpoints = {
+  GetAllDocumentsForCurrentUser:
+    serverBaseUrl + '/Documents/GetAllDocumentsForCurrentUser',
+  GetDocumentById: serverBaseUrl + '/Documents/GetDocumentById',
 };

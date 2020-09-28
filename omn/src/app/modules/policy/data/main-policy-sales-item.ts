@@ -34,6 +34,7 @@ export const policySalesItemHelper = (
         color: 'omn-green',
       },
     ],
+    typeId: policy.typeId,
   };
   baseItem.headerIcon = accountActivated
     ? {
@@ -46,9 +47,6 @@ export const policySalesItemHelper = (
       baseItem.mainIcon.classes +
       ' ' +
       'position-absolute bottom-0 right-0 svg-absolute-right';
-  }
-  if (accountActivated) {
-    baseItem.routerLink = ['/policy', 'form'];
   }
   if (containerRefItem) {
     baseItem.contentRef = {

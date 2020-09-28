@@ -15,13 +15,13 @@ export class PadService {
   }
 
   CreatePADInsuranceOffer(
-    padAddressId: number,
-    homeAddressId: number,
-    startDate
+    padAddressId: number | string,
+    startDate,
+    generateOffer
   ) {
     const formattedStartDate = startDate.toISOString().slice(0, 10);
     return this.reqS.get<any>(
-      `${padEndpoints.CreatePADInsuranceOffer}?padAddressId=${padAddressId}&homeAddressId=${homeAddressId}&startDate=${formattedStartDate}`
+      `${padEndpoints.CreatePADInsuranceOffer}?padAddressId=${padAddressId}&startDate=${formattedStartDate}&generateOffer=${generateOffer}`
     );
   }
 

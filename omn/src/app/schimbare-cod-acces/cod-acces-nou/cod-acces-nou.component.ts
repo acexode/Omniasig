@@ -1,18 +1,12 @@
-import {
-  Component,
-  OnInit,
-  ViewChild,
-  HostBinding,
-  OnDestroy,
-} from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { Component, HostBinding, OnDestroy, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
-import { IonInput } from '@ionic/angular';
 import { Subscription } from 'rxjs';
+import { unsubscriberHelper } from 'src/app/core/helpers/unsubscriber.helper';
 import { subPageHeaderDefault } from 'src/app/shared/data/sub-page-header-default';
 import { IonInputConfig } from 'src/app/shared/models/component/ion-input-config';
-import { ChangeCodeService } from '../services/change-code.service';
 import { UpdatePassword } from '../models/UpdatePassword';
+import { ChangeCodeService } from '../services/change-code.service';
 
 @Component({
   selector: 'app-cod-acces-nou',
@@ -23,55 +17,24 @@ export class CodAccesNouComponent implements OnInit, OnDestroy {
   @HostBinding('class') color = 'ion-color-white-page';
   headerConfig = subPageHeaderDefault('Cod de acces nou');
   digitsLength = 0;
-  @ViewChild('inputField') inputField: IonInput;
   sub: Subscription;
-
   config: IonInputConfig = {
     type: 'number',
     inputMode: 'number',
   };
-  passForm: FormGroup;
   InvalidCode = false;
-
   constructor(
     private router: Router,
     private formBuilder: FormBuilder,
-    private changeCodeS: ChangeCodeService,
-  ) { }
+    private changeCodeS: ChangeCodeService
+  ) {}
 
-  ngOnInit() {
-    this.initForm();
-  }
+  ngOnInit() {}
 
-  initForm() {
-    this.passForm = this.formBuilder.group({
-      digit: [
-        '',
-        [Validators.required, Validators.minLength(6), Validators.maxLength(6)],
-      ],
-    });
-
-    this.sub = this.passForm.valueChanges.subscribe((value) => {
-      this.changeInput(value.digit);
-      this.InvalidCode = false;
-      if (this.digitsLength === 6) {
-        this.continue();
-      }
-    });
-  }
-
-  changeInput(digit: string) {
-    if (digit) {
-      this.digitsLength = digit.length;
-    } else {
-      this.digitsLength = 0;
-    }
-  }
-
-  continue() {
-    const { value } = this.passForm.controls.digit;
+  continue(passForm: FormGroup) {
+    const { value } = passForm.controls.passcode;
     if (value === '000000') {
-      this.passForm.reset();
+      passForm.reset();
       this.InvalidCode = true;
     } else {
       const resetObj: UpdatePassword = {
@@ -84,19 +47,20 @@ export class CodAccesNouComponent implements OnInit, OnDestroy {
   }
 
   proceed() {
-    this.router.navigate([
-      'cod-acces/confirmare'
-    ]);
+    this.router.navigate(['cod-acces/confirmare']);
   }
 
-  spawnInput() {
-    this.inputField.getInputElement().then((input) => {
-      input.focus();
-      input.click();
-    });
+  clearErr(_) {
+    if (this.digitsLength > 0) {
+      this.InvalidCode = null;
+    }
+  }
+
+  digLength(length: number) {
+    this.digitsLength = length;
   }
 
   ngOnDestroy() {
-    this.sub.unsubscribe();
+    unsubscriberHelper(this.sub);
   }
 }
