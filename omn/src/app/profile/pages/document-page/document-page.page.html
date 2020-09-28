@@ -1,6 +1,12 @@
-<app-sub-page-header (trailingActionEv)="mainPage()" [config]="headerConfig"></app-sub-page-header>
+<app-sub-page-header
+  (trailingActionEv)="mainPage()"
+  [config]="headerConfig"
+></app-sub-page-header>
 <ion-content>
-  <ion-grid color="secondary" class="pt-0 ion-no-padding flex flex-1 flex-column w-100 mh-100p">
+  <ion-grid
+    color="secondary"
+    class="pt-0 ion-no-padding flex flex-1 flex-column w-100 mh-100p"
+  >
     <ion-row class="ion-justify-content-center py-44"></ion-row>
     <ion-row class="px-32 flex flex-column flex-1 w-100 bg-white">
       <ion-row
@@ -16,24 +22,20 @@
           <ion-label
             class="ion-text-center text-small w-100 color-tertiary-grey"
           >
-            18.05.2020 , 09:30
+            {{doc?.date | date:'dd.MM.yyyy, hh:mm'}}
           </ion-label>
         </ion-row>
         <ion-row class="mb-24">
           <ion-label
             class="alt-font w-100 ion-text-center s32-h38 text-weight-medium color-dark-green oferta-asigurare-ser"
           >
-            Oferta asigurare SERIE 1234567890
+            {{doc?.title}}
           </ion-label>
         </ion-row>
         <ion-row class="mb-24">
           <ion-text
             class="doc-details alt-text ion-text-center w-100 right-padding vertical-spacing mb-22 mt-auto ls-min-02"
-            >Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-            Suspendisse tellus velit, pulvinar non aliquam vel, lacinia
-            elementum nibh. Donec non enim accumsan, fermentum massa eget,
-            facilisis mauris. Suspendisse in molestie erat, interdum tincidunt
-            quam.</ion-text
+            >{{doc?.description}}</ion-text
           >
         </ion-row>
         <ion-row
@@ -43,6 +45,8 @@
             class="flex w-100"
             color="success"
             fill="solid"
+            [disabled]="!(doc?.file && doc?.title)"
+            (click)="downloadFile(doc.file, doc.title)"
             expand="block"
             size="large"
             >Descarca atasament</ion-button

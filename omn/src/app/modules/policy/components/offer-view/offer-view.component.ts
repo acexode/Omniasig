@@ -1,5 +1,5 @@
 import { Component, HostBinding, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, NavigationExtras } from '@angular/router';
 import { NavController } from '@ionic/angular';
 import { get, has } from 'lodash';
 import { take } from 'rxjs/operators';
@@ -95,7 +95,7 @@ export class OfferViewComponent implements OnInit {
   }
 
   getPolicyById(id) {
-    this.policyDataService.getSingleOfferById(id).subscribe((offer) => {
+    this.policyDataService.getSingleOfferById(id, this.policyType).subscribe((offer) => {
       this.offer = offer;
       if (offer && has(offer, 'policy.typeId')) {
         this.policyType = get(offer, 'policy.typeId', this.policyType);
@@ -110,7 +110,12 @@ export class OfferViewComponent implements OnInit {
   }
 
   gotoConditions() {
-    this.navCtrl.navigateForward(['/policy', 'conditions']);
+    const navigationExtras: NavigationExtras = {
+      queryParams: {
+        policyType: this.policyType,
+      },
+    };
+    this.navCtrl.navigateForward(['/policy', 'conditions'], navigationExtras);
   }
 
   back() {}
