@@ -10,7 +10,7 @@ export interface SubPageHeader {
   title?: IonTextItem;
 }
 
-export interface tertiaryHeader {
+export interface TertiaryHeader {
   title: string;
   leadingIconClasses: string;
 }
