@@ -16,7 +16,7 @@
         {{ userAccount.surname + ' ' + userAccount.name }}
       </ion-text>
       <ion-text [hidden]="isAccountActive">
-        <p class="text-small color-light-red">Cont Inactive</p>
+        <p class="text-small color-light-red">Cont Inactiv</p>
       </ion-text>
     </ion-label>
   </ion-item>
@@ -45,16 +45,11 @@
       <ion-icon name="sm-polita" class="icon-20 mr-28"></ion-icon>
       <ion-label class="s18-h24 my-8">Asigurări</ion-label>
     </ion-item>
-    <ion-item
-      lines="none"
-      menu-close
-      class="mb-12 ml-24"
-      [routerLink]="'daune'"
-      routerLinkActive="active-item"
-      (click)="closeMenu()"
-    >
-      <ion-icon name="sm-dosar" class="icon-20 mr-28"></ion-icon>
-      <ion-label class="s18-h24 my-8">Daune</ion-label>
+    <ion-item lines="none" menu-close class="mb-12 ml-24 color-tertiary-grey">
+      <ion-icon name="sm-dosar" class="icon-20 mr-28 color-tertiary-grey"></ion-icon>
+      <ion-label class="s18-h24 my-8 color-tertiary-grey"
+        >Daune (în curând)</ion-label
+      >
     </ion-item>
     <ion-item
       lines="none"

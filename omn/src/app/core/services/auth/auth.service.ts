@@ -421,7 +421,6 @@ export class AuthService {
   updateUserProfile(obj) {
     return this.reqS.post(authEndpoints.updateUserProfile, obj).pipe(
       tap((v) => {
-        obj.dateBirth = get(obj, 'dateOfBirth', null);
         this.doUpdateAccount(obj);
       })
     );

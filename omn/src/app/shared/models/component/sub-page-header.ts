@@ -9,3 +9,8 @@ export interface SubPageHeader {
   trailingIcon?: IonIconItem;
   title?: IonTextItem;
 }
+
+export interface TertiaryHeader {
+  title: string;
+  leadingIconClasses: string;
+}
