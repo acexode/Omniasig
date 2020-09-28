@@ -1,5 +1,11 @@
+import {
+  Component,
+  HostBinding,
+  OnDestroy,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import { get } from 'lodash';
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { NavController } from '@ionic/angular';
@@ -7,6 +13,7 @@ import { Subscription } from 'rxjs';
 import { take } from 'rxjs/internal/operators/take';
 import { unsubscriberHelper } from 'src/app/core/helpers/unsubscriber.helper';
 import { AuthService } from 'src/app/core/services/auth/auth.service';
+import { subPageHeaderTertiary } from 'src/app/shared/data/sub-page-header-tertiary';
 
 @Component({
   selector: 'app-passcode',
@@ -22,6 +29,11 @@ export class PasscodeComponent implements OnInit, OnDestroy {
   navESub: Subscription;
   busy = false;
   errorLogin: string = null;
+  headerConfig = subPageHeaderTertiary({
+    title: 'Autentificare',
+    leadingIconClasses: 'icon-20 mt-2',
+  });
+  @HostBinding('class') color = 'ion-color-white-page';
   @ViewChild('app-passcode-field') pField;
   constructor(
     private navCtrl: NavController,

@@ -14,7 +14,10 @@ import { IonRadiosConfig } from 'src/app/shared/models/component/ion-radios-conf
 })
 export class DatePersonaleComponent implements OnInit {
   @HostBinding('class') color = 'ion-color-white-page';
-  headerConfig = subPageHeaderTertiary('');
+  headerConfig = subPageHeaderTertiary({
+    title: '',
+    leadingIconClasses: 'icon-20 mt-2',
+  });
   detailsForm: FormGroup;
   config: any = {
     nume: {
