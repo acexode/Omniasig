@@ -21,6 +21,7 @@
 <ion-card
   *ngIf="item?.routerLink"
   [routerLink]="item?.routerLink"
+  [queryParams]="item?.queryParams"
   [button]="item?.isButton"
   [disabled]="item?.isDisabled"
   [routerLink]="item?.routerLink"
