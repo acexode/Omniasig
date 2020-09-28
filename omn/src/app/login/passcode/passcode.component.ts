@@ -29,7 +29,10 @@ export class PasscodeComponent implements OnInit, OnDestroy {
   navESub: Subscription;
   busy = false;
   errorLogin: string = null;
-  headerConfig = subPageHeaderTertiary('Autentificare');
+  headerConfig = subPageHeaderTertiary({
+    title: 'Autentificare',
+    leadingIconClasses: 'icon-20 mt-2',
+  });
   @HostBinding('class') color = 'ion-color-white-page';
   @ViewChild('app-passcode-field') pField;
   constructor(
