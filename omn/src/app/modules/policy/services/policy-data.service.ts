@@ -169,7 +169,7 @@ export class PolicyDataService {
   }
   // ceate offer obj
   createOffersObj(offer: any, typeId: string) {
-    return {
+    const offerObj = {
       id: offer.id,
       offerCode: offer.offerCode,
       policy: {
@@ -214,14 +214,22 @@ export class PolicyDataService {
       expiry: offer.expireDate,
       emisionDate: offer.emisionDate ? new Date(offer.emisionDate) : '',
     };
+    if (typeId === 'AMPLUS') {
+      offerObj.expiry = get(offer, 'offerExpireDate', '');
+    }
+    return offerObj;
   }
 
-  getSingleOfferById(id: number | string) {
+  getSingleOfferById(id: number | string, type = 'PAD') {
     return this.offerStore$.pipe(
       filter((v) => v !== null),
       switchMap((vals) => {
         if (vals instanceof Array) {
-          const existing = vals.find((v) => v.id.toString() === id.toString());
+          const existing = vals.find(
+            (v) =>
+              v.id.toString() === id.toString() &&
+              get(v, 'policy.typeId', 'PAD') === type
+          );
           if (existing) {
             return of(existing);
           } else {
