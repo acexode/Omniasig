@@ -28,13 +28,11 @@ export class ErrorInterceptor implements HttpInterceptor {
             if (v instanceof UrlTree) {
               this.routerS.navigateByUrl(v);
             } else if (!v) {
-              const error = err.error.message || err.statusText;
-              return throwError(error);
+              return throwError(err);
             }
           });
         } else {
-          const error = err.error.message || err.statusText;
-          return throwError(error);
+          return throwError(err);
         }
       })
     );
