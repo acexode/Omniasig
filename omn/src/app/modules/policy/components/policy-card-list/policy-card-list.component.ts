@@ -1,14 +1,13 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  EventEmitter,
   Input,
   OnInit,
+  Output,
 } from '@angular/core';
-import { ModalController } from '@ionic/angular';
 import { ImageCard } from 'src/app/shared/models/component/image-card';
 import { IonTextItem } from 'src/app/shared/models/component/ion-text-item';
-import { PolicyText } from 'src/app/shared/models/data/policy-types';
-import { DisabledMessageModalComponent } from '../modals/disabled-message-modal/disabled-message-modal.component';
 
 @Component({
   selector: 'app-policy-card-list',
@@ -20,20 +19,15 @@ export class PolicyCardListComponent implements OnInit {
   @Input()
   items: Array<ImageCard> = [];
   @Input() title: IonTextItem = null;
-  constructor(public modalController: ModalController) {}
+  @Output() itemEvent: EventEmitter<{
+    type: string;
+    data: any;
+  }> = new EventEmitter();
+  constructor() {}
 
   ngOnInit() {}
 
-  async presentModal(index) {
-
-    const modal = await this.modalController.create({
-      component: DisabledMessageModalComponent,
-      cssClass: 'disabled-message-modal-class',
-      componentProps: {
-        item: this.items[index],
-        description: PolicyText[index],
-      },
-    });
-    return await modal.present();
+  defaultEvent(event) {
+    this.itemEvent.emit(event);
   }
 }

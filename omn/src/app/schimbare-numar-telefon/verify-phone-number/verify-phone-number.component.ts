@@ -11,6 +11,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { IonInput } from '@ionic/angular';
 import { Subscription } from 'rxjs';
+import { unsubscriberHelper } from 'src/app/core/helpers/unsubscriber.helper';
 import { AuthService } from 'src/app/core/services/auth/auth.service';
 import { CustomTimersService } from 'src/app/core/services/custom-timers/custom-timers.service';
 import { subPageHeaderDefault } from 'src/app/shared/data/sub-page-header-default';
@@ -24,22 +25,19 @@ import { PhonenumberService } from '../services/phonenumber.service';
   styleUrls: ['./verify-phone-number.component.scss'],
 })
 export class VerifyPhoneNumberComponent
-  implements OnInit, OnDestroy, AfterViewInit {
+  implements OnInit, AfterViewInit {
   @HostBinding('class') color = 'ion-color-white-page';
   headerConfig = subPageHeaderDefault('Cod de verificare');
   min = '00';
   sec: any = 59;
   digitsLength = 0;
-  @ViewChild('inputField') inputField: IonInput;
-  sub: Subscription;
   phoneNumber = null;
-
   config: IonInputConfig = {
     type: 'number',
     inputMode: 'number',
   };
-  passForm: FormGroup;
   InvalidCode = false;
+  passForm: FormGroup;
   constructor(
     private route: ActivatedRoute,
     private router: Router,
@@ -58,30 +56,7 @@ export class VerifyPhoneNumberComponent
     });
   }
 
-  ngOnInit() {
-    this.initForm();
-  }
-  initForm() {
-    this.passForm = this.formBuilder.group({
-      digit: [
-        '',
-        [Validators.required, Validators.minLength(6), Validators.maxLength(6)],
-      ],
-    });
-
-    this.sub = this.passForm.valueChanges.subscribe((value) => {
-      this.changeInput(value.digit);
-    });
-  }
-
-  changeInput(digit: number) {
-    this.InvalidCode = false;
-    if (digit) {
-      this.digitsLength = digit.toString().length;
-    } else {
-      this.digitsLength = 0;
-    }
-  }
+  ngOnInit() { }
 
   ngAfterViewInit() {
     this.startTimer();
@@ -105,7 +80,7 @@ export class VerifyPhoneNumberComponent
     this.authS.getAuthState().subscribe((authData) => {
       const { userId } = authData.account;
       const requestNewPhoneDetails: ConfirmNewPhoneNumber = {
-        confirmationCode: this.passForm.controls.digit.value,
+        confirmationCode: this.passForm.controls.passcode.value,
         userNameOrId: userId,
         newPhoneNumber: this.phoneNumber,
       };
@@ -121,14 +96,16 @@ export class VerifyPhoneNumberComponent
     });
   }
 
-  spawnInput() {
-    this.inputField.getInputElement().then((input) => {
-      input.focus();
-      input.click();
-    });
+  verifyPin(passForm: FormGroup) {
+    this.passForm = passForm;
   }
 
-  ngOnDestroy() {
-    this.sub.unsubscribe();
+  digLength(length: number) {
+    this.digitsLength = length;
   }
+
+  clearErr(_) {
+    this.InvalidCode = null;
+  }
+
 }

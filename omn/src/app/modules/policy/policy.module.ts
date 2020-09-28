@@ -7,7 +7,6 @@ import { IonicModule } from '@ionic/angular';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { OmnInputsModule } from './../../shared/modules/omn-inputs/omn-inputs.module';
 import { AsistentaModalPagePage } from './components/asistenta-modal-page/asistenta-modal-page.page';
-import { AsistentaTechnicaPage } from './components/asistenta-technica/asistenta-technica.page';
 import { DisabledMessageModalComponent } from './components/modals/disabled-message-modal/disabled-message-modal.component';
 import { OfferViewComponent } from './components/offer-view/offer-view.component';
 import { PolicyArchiveListComponent } from './components/policy-archive-list/policy-archive-list.component';
@@ -15,9 +14,11 @@ import { PolicyCardListComponent } from './components/policy-card-list/policy-ca
 import { PolicyViewComponent } from './components/policy-view/policy-view.component';
 import { PolicyComponent } from './components/policy/policy.component';
 import { PolicyPage } from './page/policy.page';
+import { InsuranceConditionsComponent } from './components/insurance-conditions/insurance-conditions.component';
 import { PolicyRoutingModule } from './policy-routing.module';
 import { PolicySharedModule } from './policy-shared.module';
 import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
+import { AsistentaTechnicaPage } from './components/asistenta-technica/asistenta-technica.page';
 @NgModule({
   declarations: [
     PolicyPage,
@@ -29,7 +30,8 @@ import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
     PolicyViewComponent,
     AsistentaModalPagePage,
     AsistentaTechnicaPage,
-    PaymentStatusComponent
+    PaymentStatusComponent,
+    InsuranceConditionsComponent,
   ],
   imports: [
     CommonModule,

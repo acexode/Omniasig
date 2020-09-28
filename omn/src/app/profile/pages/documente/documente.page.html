@@ -4,10 +4,13 @@
   <ion-grid class="pt-32 pb-16 px-0">
     <ion-row  class="ion-no-padding">
       <ion-col class="ion-no-padding">
-        <app-expandable
-          *ngFor="let doc of documentes"
-          name="{{ doc.name }}"
-          [doc]="doc.doc"
+        <app-expandable          
+          name="Oferte"
+          [doc]="offer"
+        ></app-expandable>
+        <app-expandable          
+          name="Asigurări"
+          [doc]="policy"
         ></app-expandable>
       </ion-col>
     </ion-row>

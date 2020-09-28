@@ -25,4 +25,6 @@ export interface PolicyItem {
   // Display
   type?: PolicyType;
   listingSubtitle?: string;
+  locationValueCurrency?: any;
+  locationValue?: any;
 }

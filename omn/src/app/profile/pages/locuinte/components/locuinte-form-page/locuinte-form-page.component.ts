@@ -1,4 +1,3 @@
-import { get, set } from 'lodash';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -10,6 +9,7 @@ import {
 import { FormGroup } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { IonContent, NavController } from '@ionic/angular';
+import { get } from 'lodash';
 import { combineLatest, Observable, of } from 'rxjs';
 import { finalize, switchMap } from 'rxjs/operators';
 import { CustomRouterService } from 'src/app/core/services/custom-router/custom-router.service';
@@ -178,6 +178,9 @@ export class LocuinteFormPageComponent implements OnInit {
           this.cdRef.detectChanges();
         });
       this.addressCounty.valueChanges.subscribe((val) => {
+        if (this.addressCity.value) {
+          this.addressCity.patchValue({}, { emit: true });
+        }
         this.formS
           .updateCounty(
             this.addressCounty,
@@ -197,6 +200,9 @@ export class LocuinteFormPageComponent implements OnInit {
     }
     if (this.addressCity) {
       this.addressCity.valueChanges.subscribe((val) => {
+        if (this.addressStreet.value) {
+          this.addressStreet.patchValue({}, { emit: true });
+        }
         this.formS
           .updateCity(this.addressCity, this.formInstance.data, this.dataModel)
           .subscribe((v) => {
@@ -211,6 +217,11 @@ export class LocuinteFormPageComponent implements OnInit {
           val,
           this.formInstance.data,
           this.dataModel
+        );
+        this.formS.handlePostalCode(
+          val,
+          this.formInstance.data,
+          this.addressPostalCode
         );
       });
     }
@@ -231,6 +242,11 @@ export class LocuinteFormPageComponent implements OnInit {
   get addressStreet() {
     return this.formInstance && this.formInstance.group
       ? this.formInstance.group.get('addressStreet')
+      : null;
+  }
+  get addressPostalCode() {
+    return this.formInstance && this.formInstance.group
+      ? this.formInstance.group.get('addressPostalCode')
       : null;
   }
 
@@ -341,7 +357,6 @@ export class LocuinteFormPageComponent implements OnInit {
           this.formInstance.group.value,
           this.dataModel
         );
-
         this.formSubmitting = true;
         this.cdRef.markForCheck();
         if (this.dataModel) {

@@ -17,4 +17,9 @@ export interface ImageCard {
   id: string | number;
   routerLink?: any;
   itemClass?: string;
+  isDisabled?: boolean;
+  isHidden?: boolean;
+  queryParams?: any;
+  // This will handle any extra property attached to the cards.
+  [key: string]: any;
 }

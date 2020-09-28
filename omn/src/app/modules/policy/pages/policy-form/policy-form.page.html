@@ -5,11 +5,12 @@
   [ngClass]="color"
 ></app-sub-page-header>
 
-<ion-content [ngClass]="color">
+<ion-content [scrollEvents]="true" [ngClass]="color">
   <ng-container *ngIf="showError">
     <app-general-error
-      (goBack)="back()"
+      (goBack)="back($event)"
       [doNavigate]="false"
+      [title]="errTitle"
       [texts]="errMsg"
     ></app-general-error>
   </ng-container>
@@ -29,15 +30,25 @@
       ></app-exclusion-slides>
     </ng-container>
     <ng-container *ngSwitchCase="policySteps?.INFO_DOC">
-      <app-info-doc #infoDocComp (continue)="next()"> </app-info-doc>
+      <app-info-doc
+        (scrollTop)="scrollToTop()"
+        [policyID]="policyID"
+        #infoDocComp
+        (continue)="next()"
+        (stepChange)="infoDocStep($event)"
+      >
+      </app-info-doc>
     </ng-container>
 
     <ng-container *ngSwitchCase="policySteps?.ADDRESS_SELECT">
       <app-adresa-locuinta
         #adresaLocComp
+        (checkPadResponse)="handleError($event)"
         (selectionDone)="addressSelect($event)"
+        (changeTitleEvent)="changeTitle()"
         [initialData]="selectedAddressItem"
         [locuinteList]="policyLocuintaData$|async"
+        [policyID]="policyID"
       >
       </app-adresa-locuinta>
     </ng-container>
@@ -48,6 +59,20 @@
         class="flex flex-1 w-100 mh-100p"
       ></app-cesiune-form>
     </ng-container>
+    <ng-container *ngSwitchCase="policySteps?.TECHNICAL_SUPPORT">
+      <app-asistenta-technica
+        [assisFormData]="assistFormData"
+        (emitForm)="techSupportSubmit($event)"
+        class="flex flex-1 w-100 mh-100p"
+      ></app-asistenta-technica>
+    </ng-container>
+    <ng-container *ngSwitchCase="policySteps?.WAY_TO_PAY">
+      <app-way-to-pay
+        [payFormData]="wayPayFormData"
+        (eventSubmit)="paySubmit($event)"
+        class="flex flex-1 w-100 mh-100p"
+      ></app-way-to-pay>
+    </ng-container>
     <ng-container *ngSwitchCase="policySteps?.PERIOD_FORM">
       <app-insurance-period
         (emitForm)="periodSubmit($event)"
@@ -56,13 +81,32 @@
         [preselectedStart]="periodStartData"
       ></app-insurance-period>
     </ng-container>
-    <ng-container *ngSwitchCase="policySteps?.POLICY_VERIFY">
-      <app-policy-verify
-        [offerData]="offerData"
-        (goToErrorHandler)="handleError($event)"
-      ></app-policy-verify>
+    <ng-container *ngSwitchCase="policySteps?.POLICY_VERIFY_CHECK">
+      <app-loading-placeholder
+        [title]="loaderTitle"
+        class="flex flex-1 mh-100p w-100"
+      >
+      </app-loading-placeholder>
     </ng-container>
     <ng-container *ngSwitchDefault>
+      <ng-container
+        *ngIf="!showError && 
+        (currentStep === policySteps?.POLICY_VERIFY || currentStep === policySteps?.OFFER_EMIT_CHECK)"
+      >
+        <app-policy-verify
+          [ngClass]="{'ion-hide': currentStep === policySteps?.OFFER_EMIT_CHECK}"
+          [offerData]="offerData"
+          (goToErrorHandler)="handleError($event)"
+          (createOfferEvent)="calculationSubmit()"
+        ></app-policy-verify>
+        <ng-container *ngIf="policySteps?.OFFER_EMIT_CHECK">
+          <app-loading-placeholder
+            [title]="loaderTitle"
+            class="flex flex-1 mh-100p w-100"
+          >
+          </app-loading-placeholder>
+        </ng-container>
+      </ng-container>
       <ng-container
         *ngIf="currentStep === policySteps?.ADDRESS_FORM || 
         currentStep === policySteps?.LOCATION_FORM ||
@@ -70,9 +114,14 @@
       >
         <app-policy-address-form
           #addressFormComp
+          (checkPadResponse)="handleError($event)"
           (dataAdded)="locuintaAdded($event)"
           [policyType]="typeItem?.id"
           (stepChange)="addressStepChange($event)"
+          (errorEvent)="handleError($event)"
+          [offerData]="offerData"
+          [policyId]="policyID"
+          [formType]="formCheckType"
         ></app-policy-address-form>
       </ng-container>
     </ng-container>

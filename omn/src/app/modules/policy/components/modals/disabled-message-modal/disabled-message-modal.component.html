@@ -34,7 +34,10 @@
       name="md-lock-light"
       class="p-12 radius-50-perc mt-n18 mb-3"
     ></ion-icon>
-    <ion-label color="omn-green" class="text-normal mb-12 ion-text-center w-100">
+    <ion-label
+      color="omn-green"
+      class="text-normal mb-12 ion-text-center w-100"
+    >
       Activează-ți contul ca să poți cumpăra acest produs.
     </ion-label>
     <ion-button
@@ -43,6 +46,8 @@
       fill="solid"
       expand="block"
       size="large"
+      [routerLink]="['profil', 'date-personale', 'validate']"
+      (click)="close()"
       class="m-0 w-100 flat no-shadow"
     >
       Verifică identitatea

@@ -27,7 +27,7 @@ export const policySubpageHeader = (conf: {
   if (get(conf, 'hasTrailingIcon', null)) {
     item.trailingIcon = {
       name: 'md-close-2',
-      classes: 'icon-20 mt-2',
+      classes: 'icon-20 mt-2 p-6',
       routerLink: get(conf, 'trailingLink', null),
     };
   }

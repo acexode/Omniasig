@@ -20,9 +20,7 @@
       </ion-button>
     </ion-buttons>
     <ion-title class="ion-text-left header-title omn-green"
-      ><h2 class="alt-font omn-green">
-        Asigurari
-      </h2>
+      ><h2 class="alt-font omn-green">Asigurari</h2>
     </ion-title>
   </ion-toolbar>
 </ion-header>
@@ -62,6 +60,7 @@
         ><app-policy-card-list
           [items]="sItems"
           [title]="titles?.salesList"
+          (itemEvent)="eventHandler($event)"
         ></app-policy-card-list
       ></ion-col>
     </ion-row>
@@ -95,7 +94,7 @@
           sigur direct din aplicație.
         </ion-text>
         <ion-button
-          routerLink="/policy/offer/1"
+          routerLink="['/profil', 'date-personale', 'activate']"
           class="activate-btn m-0"
           color="success"
           size="large"
