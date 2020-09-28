@@ -26,9 +26,11 @@ export class DocumentPagePage implements OnInit {
 
   ngOnInit() {
     this.route.params.subscribe((params) => {
-      this.docService.GetDocumentById(params['id']).subscribe((e) => {
-        this.doc = e;
-      });
+      if (params.hasOwnProperties('id')) {
+        this.docService.GetDocumentById(params.id).subscribe((e) => {
+          this.doc = e;
+        });
+      }
     });
   }
   async presentToast(msg) {
