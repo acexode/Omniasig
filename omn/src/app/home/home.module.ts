@@ -7,7 +7,7 @@ import { HomePageRoutingModule } from './home-routing.module';
 import { HomePage } from './home.page';
 import { PolicySharedModule } from '../modules/policy/policy-shared.module';
 import { FaqComponent } from './faq/faq.component';
-
+import { Keyboard } from '@ionic-native/keyboard/ngx';
 @NgModule({
   imports: [
     CommonModule,
@@ -19,5 +19,6 @@ import { FaqComponent } from './faq/faq.component';
     PolicySharedModule,
   ],
   declarations: [HomePage, FaqComponent],
+  providers: [Keyboard],
 })
 export class HomePageModule {}

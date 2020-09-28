@@ -19,6 +19,7 @@ import { PolicyOffer } from '../shared/models/data/policy-offer';
 import { addDaune, dauneDisabled, testDauneData } from './data/home-daune-data';
 import { offerHomeItemHelper } from './data/home-offer-item-helper';
 import { policyHomeItemHelper } from './data/home-policy-item-helper';
+import { Keyboard } from '@ionic-native/keyboard/ngx';
 @Component({
   selector: 'app-home',
   templateUrl: 'home.page.html',
@@ -101,7 +102,7 @@ export class HomePage implements OnInit {
     {
       mainIcon: {
         name: 'md-intrebari',
-        color: 'green-gradient',
+        color: 'primary',
         classes: 'icon-40 mt-16 mb-0 ion-align-self-start',
       },
       textContent: [
@@ -167,7 +168,8 @@ export class HomePage implements OnInit {
     private authS: AuthService,
     private policyS: PolicyDataService,
     private cdRef: ChangeDetectorRef,
-    private configS: ConfigService
+    private configS: ConfigService,
+    private keyboard: Keyboard
   ) {
     if (this.release === 2) {
       this.daune = testDauneData.concat(addDaune);
@@ -175,6 +177,10 @@ export class HomePage implements OnInit {
   }
 
   ngOnInit(): void {
+    // TODO: next time this issue shows up, move it to a navigation-based check.
+    if (this.keyboard.isVisible) {
+      this.keyboard.hide();
+    }
     this.authS.getAccountData().subscribe((account) => {
       this.account = account;
       if (account) {
