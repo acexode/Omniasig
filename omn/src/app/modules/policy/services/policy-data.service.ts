@@ -123,8 +123,8 @@ export class PolicyDataService {
         map((ov) => {
           return ov
             ? ov.map((ovi) =>
-                this.mapOfferPolicyType(this.createOffersObj(ovi, 'PAD'))
-              )
+              this.mapOfferPolicyType(this.createOffersObj(ovi, 'PAD'))
+            )
             : [];
         }),
         switchMap((padOffers) =>
@@ -137,10 +137,10 @@ export class PolicyDataService {
               map((ov) => {
                 return ov
                   ? ov.map((ovi) =>
-                      this.mapOfferPolicyType(
-                        this.createOffersObj(ovi, 'AMPLUS')
-                      )
+                    this.mapOfferPolicyType(
+                      this.createOffersObj(ovi, 'AMPLUS')
                     )
+                  )
                   : [];
               }),
               map((amplusOffers) => {
