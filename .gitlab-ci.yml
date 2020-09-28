@@ -17,4 +17,4 @@ BUILD-testing:
     - ls
     - npm install
     - ng lint
-    - npm run-script build
+    - npm run build
