@@ -34,6 +34,7 @@ export class RecuperarePasscodeCodComponent
   };
   InvalidCode = false;
   digitLength = 0;
+  passForm: FormGroup;
   constructor(
     private resetPinService: ResetPincodeService,
     private router: Router,
@@ -51,11 +52,13 @@ export class RecuperarePasscodeCodComponent
     }
   }
 
-  continue(passForm: FormGroup) {
-    this.resetPinService.setResetObj({
-      code: passForm.get('passcode').value,
-    });
-    this.router.navigate(['reset-pincode/new-pin']);
+  continue() {
+    if (this.passForm) {
+      this.resetPinService.setResetObj({
+        code: this.passForm.get('passcode').value,
+      });
+      this.router.navigate(['reset-pincode/new-pin']);
+    }
   }
 
   ngAfterViewInit() {
@@ -77,6 +80,10 @@ export class RecuperarePasscodeCodComponent
         },
         (err) => err
       );
+  }
+
+  setupForm(formGroup) {
+    this.passForm = formGroup;
   }
 
   clearErr(_) {
