@@ -101,7 +101,7 @@ export class HomePage implements OnInit {
     {
       mainIcon: {
         name: 'md-intrebari',
-        color: 'green-gradient',
+        color: 'primary',
         classes: 'icon-40 mt-16 mb-0 ion-align-self-start',
       },
       textContent: [

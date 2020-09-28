@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Calendar } from '@ionic-native/calendar/ngx';
 import { random, get, set } from 'lodash';
 import { BehaviorSubject, Observable, of, throwError } from 'rxjs';
-import { catchError, map, switchMap, take, filter } from 'rxjs/operators';
+import { catchError, map, switchMap, filter } from 'rxjs/operators';
 import { policyEndpoints } from 'src/app/core/configs/endpoints';
 import { AuthService } from 'src/app/core/services/auth/auth.service';
 import { RequestService } from 'src/app/core/services/request/request.service';
@@ -120,12 +120,33 @@ export class PolicyDataService {
         catchError((e) => {
           return of(emptyV);
         }),
-        map((ov) =>
-          ov
+        map((ov) => {
+          return ov
             ? ov.map((ovi) =>
                 this.mapOfferPolicyType(this.createOffersObj(ovi, 'PAD'))
               )
-            : []
+            : [];
+        }),
+        switchMap((padOffers) =>
+          this.reqS
+            .get<Array<PolicyOffer>>(this.endpoints.GetActiveAmplusOffers)
+            .pipe(
+              catchError((e) => {
+                return of(emptyV);
+              }),
+              map((ov) => {
+                return ov
+                  ? ov.map((ovi) =>
+                      this.mapOfferPolicyType(
+                        this.createOffersObj(ovi, 'AMPLUS')
+                      )
+                    )
+                  : [];
+              }),
+              map((amplusOffers) => {
+                return [...amplusOffers, ...padOffers];
+              })
+            )
         )
       );
   }
@@ -148,7 +169,7 @@ export class PolicyDataService {
   }
   // ceate offer obj
   createOffersObj(offer: any, typeId: string) {
-    return {
+    const offerObj = {
       id: offer.id,
       offerCode: offer.offerCode,
       policy: {
@@ -193,14 +214,22 @@ export class PolicyDataService {
       expiry: offer.expireDate,
       emisionDate: offer.emisionDate ? new Date(offer.emisionDate) : '',
     };
+    if (typeId === 'AMPLUS') {
+      offerObj.expiry = get(offer, 'offerExpireDate', '');
+    }
+    return offerObj;
   }
 
-  getSingleOfferById(id: number | string) {
+  getSingleOfferById(id: number | string, type = 'PAD') {
     return this.offerStore$.pipe(
       filter((v) => v !== null),
       switchMap((vals) => {
         if (vals instanceof Array) {
-          const existing = vals.find((v) => v.id.toString() === id.toString());
+          const existing = vals.find(
+            (v) =>
+              v.id.toString() === id.toString() &&
+              get(v, 'policy.typeId', 'PAD') === type
+          );
           if (existing) {
             return of(existing);
           } else {
@@ -248,8 +277,46 @@ export class PolicyDataService {
 
   addOfferToStore(
     offerData: PolicyOffer,
-    offerResponse: any
+    offerResponse: any,
+    policyType: string
   ): Observable<PolicyOffer> {
+    const { iban, codOferta, moneda, prima, eroare, mesaj } =
+      policyType === 'PAD'
+        ? this.processPadOffer(offerResponse)
+        : this.processAmplusOffer(offerResponse);
+
+    if (eroare) {
+      return throwError(mesaj);
+    }
+    return this.getUserOffers().pipe(
+      switchMap((offers) => {
+        this.offerStore$.next(offers ? offers : []);
+        return of(offers);
+      }),
+      map((vals) => {
+        if (vals instanceof Array && codOferta && moneda && prima && !eroare) {
+          const existing = vals.find((vvv) => {
+            // not all offers has an offercode -- add check to avoid throwing error
+            if (vvv.offerCode) {
+              return vvv.offerCode.toString() === codOferta.toString();
+            }
+          });
+          if (existing) {
+            // TODO: map more data in here.
+            set(existing, 'iban', iban);
+            set(existing, 'prima', prima);
+            set(existing, 'currency', moneda);
+          }
+          return existing;
+        } else {
+          return null;
+        }
+      }),
+      catchError((err) => of(null))
+    );
+  }
+
+  processPadOffer(offerResponse) {
     const iban = get(offerResponse, 'iban', null);
     const codOferta = get(
       offerResponse,
@@ -276,32 +343,23 @@ export class PolicyDataService {
       'response.emitereOfertaResponse1.mesaj',
       ''
     );
-    if (eroare) {
-      return throwError(mesaj);
-    }
-    return this.getUserOffers().pipe(
-      switchMap((offers) => {
-        this.offerStore$.next(offers ? offers : []);
-        return of(offers);
-      }),
-      map((vals) => {
-        if (vals instanceof Array && codOferta && moneda && prima && !eroare) {
-          const existing = vals.find((vvv) => {
-            return vvv.offerCode.toString() === codOferta.toString();
-          });
-          if (existing) {
-            // TODO: map more data in here.
-            set(existing, 'iban', iban);
-            set(existing, 'prima', prima);
-            set(existing, 'currency', moneda);
-          }
-          return existing;
-        } else {
-          return null;
-        }
-      }),
-      catchError((err) => of(null))
+
+    return { iban, codOferta, moneda, prima, eroare, mesaj };
+  }
+
+  processAmplusOffer(offerResponse) {
+    const iban = get(offerResponse, 'iban', null);
+    const codOferta = get(
+      offerResponse,
+      'response.ofertaResponse.codOferta',
+      null
     );
+    const moneda = get(offerResponse, 'response.ofertaResponse.moneda', null);
+    const prima = get(offerResponse, 'response.ofertaResponse.prima', null);
+    const eroare = get(offerResponse, 'response.ofertaResponse.eroare', true);
+    const mesaj = get(offerResponse, 'response.ofertaResponse.mesaj', '');
+
+    return { iban, codOferta, moneda, prima, eroare, mesaj };
   }
 
   /* for Notification */
