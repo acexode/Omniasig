@@ -37,7 +37,8 @@
       expand="block"
       size="large"
       class="m-0 w-100 flat no-shadow"
-      [routerLink]="['/policy']"
+      [routerLink]="['/policy', 'form']"
+      [queryParams]="{ policyType: 'AMPLUS' }"
       (click)="dismissModal()"
     >
       Asigură-te
