@@ -387,10 +387,10 @@ export class PolicyDataService {
   }
 
   makePayment(data) {
-    return this.reqS.post<any>(this.endpoints.initiatePayment, data)
+    return this.reqS.post<any>(this.endpoints.initiatePayment, data);
   }
 
   confirmPayment(token) {
-    return this.reqS.get<any>(`${this.endpoints.confirmPayment}?urlHash=${token}`)
+    return this.reqS.get<any>(`${this.endpoints.confirmPayment}?urlHash=${token}`);
   }
 }
