@@ -120,11 +120,11 @@ export class ConfirmareIdentitateComponent implements OnInit {
     private navCtrl: NavController,
     private cdRef: ChangeDetectorRef,
     private auth: AuthService
-  ) {    
+  ) {
     this.confirmareForm = this.formBuilder.group({
       name: ['', Validators.required],
       surname: ['', Validators.required],
-      cnp: this.formBuilder.control(null, [Validators.required, cnpValidator]),      
+      cnp: this.formBuilder.control(null, [Validators.required, cnpValidator]),
       addressCounty: ['', Validators.required],
       addressCity: ['', Validators.required],
       addressStreet: ['', Validators.required],
@@ -221,7 +221,6 @@ export class ConfirmareIdentitateComponent implements OnInit {
           name: value.name,
           cnp: value.cnp,
           surname: value.surname,
-          dateOfBirth: null,
         };
         const locuinte: any = {
           name: 'Domiciliu',
