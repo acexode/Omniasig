@@ -99,10 +99,10 @@ export class LocuinteService {
 
   addSingleLocuinte(data: Locuinte) {
     const address = {
-      id: 0,
       ...data,
+      id: 0,
     };
-    return this.reqS.post<Locuinte>(this.endpoints.add, address);
+    return this.reqS.post<any>(this.endpoints.add, address);
   }
 
   makeHomeAddress(data) {

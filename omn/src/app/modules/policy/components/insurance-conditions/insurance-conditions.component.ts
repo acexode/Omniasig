@@ -8,6 +8,7 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class InsuranceConditionsComponent implements OnInit {
   @HostBinding('class') color = 'ion-color-white-page';
+  // tslint:disable:max-line-length
   amplusConditions = [
     `1. CLAUZA OPERATIVĂ`,
     `1.1. OMNIASIG VIENNA INSURANCE GROUP se obligă ca, în urma producerii sau apariţiei oricărui eveniment asigurat, în baza informaţiilor furnizate de Asigurat / Contractant, precum şi a oricăror date privind riscurile asigurate transmise în scris de acesta, sub rezerva respectării întocmai a condiţiilor, excluderilor şi clauzelor stabilite de comun acord şi în baza plăţii primei de asigurare în cuantumul şi la scadenţele prevăzute în Poliţă, să plătească Asiguratului sau, după caz, Beneficiarului despăgubirea cuvenită în cuantumul şi în condiţiile prevăzute în prezenta Poliţă.`,
@@ -572,6 +573,7 @@ asumate prin prezenta Poliţă.`,
     `- să aleagă modalitatea prestaţiilor, la costuri optime şi în condiţii de eficienţă;`,
     `- ulterior intervenţiei, să efectueze o expertiză (direct sau prin personal autorizat) asupra evenimentului produs, urmărilor acestuia, modului în care s-a efectuat intervenţia.`,
   ];
+  // tslint:enable:max-line-length
   policyType;
   constructor(private route: ActivatedRoute) {}
 

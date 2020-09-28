@@ -8,10 +8,14 @@ import {
 import { Observable, throwError } from 'rxjs';
 import { AuthService } from '../services/auth/auth.service';
 import { catchError } from 'rxjs/operators';
+import { Router, UrlTree } from '@angular/router';
 
 @Injectable()
 export class ErrorInterceptor implements HttpInterceptor {
-  constructor(private authenticationService: AuthService) {}
+  constructor(
+    private authenticationService: AuthService,
+    private routerS: Router
+  ) {}
 
   intercept(
     request: HttpRequest<any>,
@@ -20,13 +24,16 @@ export class ErrorInterceptor implements HttpInterceptor {
     return next.handle(request).pipe(
       catchError((err) => {
         if (err.status === 401) {
-          // auto logout if 401 response returned from api
-          // this.authenticationService.logout();
-          // tslint:disable-next-line: deprecation
-          location.reload(true);
+          this.authenticationService.handleAuthCheck().subscribe((v) => {
+            if (v instanceof UrlTree) {
+              this.routerS.navigateByUrl(v);
+            } else if (!v) {
+              return throwError(err);
+            }
+          });
+        } else {
+          return throwError(err);
         }
-        const error = err.error.message || err.statusText;
-        return throwError(error);
       })
     );
   }

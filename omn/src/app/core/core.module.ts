@@ -16,6 +16,7 @@ import { MenuService } from './services/menu/menu.service';
 import { RequestService } from './services/request/request.service';
 import { AppVersion } from '@ionic-native/app-version/ngx';
 import { File } from '@ionic-native/file/ngx';
+import { ErrorInterceptor } from './interceptors/error.interceptor';
 @NgModule({
   declarations: [SideMenuComponent],
   imports: [
@@ -31,6 +32,7 @@ import { File } from '@ionic-native/file/ngx';
   providers: [
     fakeBackendProvider,
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
     RequestService,
     ConfigService,
     AuthService,
@@ -39,7 +41,7 @@ import { File } from '@ionic-native/file/ngx';
     CustomTimersService,
     MenuService,
     AppVersion,
-    File
+    File,
   ],
   exports: [SideMenuComponent],
 })
