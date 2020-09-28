@@ -16,9 +16,9 @@ import { Keyboard } from '@ionic-native/keyboard/ngx';
     IonicModule,
     HomePageRoutingModule,
     SharedModule,
-    PolicySharedModule,    
+    PolicySharedModule,
   ],
   declarations: [HomePage, FaqComponent],
-  providers: [Keyboard]
+  providers: [Keyboard],
 })
 export class HomePageModule {}
