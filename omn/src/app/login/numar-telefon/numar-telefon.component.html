@@ -25,6 +25,11 @@
             formControlName="phoneNumber"
             [config]="config"
           ></app-input>
+          <div class="ion-text-center pt-4" *ngIf="errorLogin">
+            <ion-text *ngIf="errorLogin" class="text-small color-red">
+              {{ errorLogin }}
+            </ion-text>
+          </div>
         </form>
       </div>
       <div class="ion-align-items-center ion-text-center mt-8">

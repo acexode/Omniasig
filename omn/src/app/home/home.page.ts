@@ -102,7 +102,7 @@ export class HomePage implements OnInit {
     {
       mainIcon: {
         name: 'md-intrebari',
-        color: 'green-gradient',
+        color: 'primary',
         classes: 'icon-40 mt-16 mb-0 ion-align-self-start',
       },
       textContent: [
@@ -177,9 +177,10 @@ export class HomePage implements OnInit {
   }
 
   ngOnInit(): void {
+    // TODO: next time this issue shows up, move it to a navigation-based check.
     if (this.keyboard.isVisible) {
-      this.keyboard.hide()      
-  }
+      this.keyboard.hide();
+    }
     this.authS.getAccountData().subscribe((account) => {
       this.account = account;
       if (account) {

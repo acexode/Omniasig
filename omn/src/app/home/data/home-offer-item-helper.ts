@@ -5,6 +5,7 @@ export const offerHomeItemHelper = (offer: PolicyOffer) => {
   const baseItem = {
     id: null,
     routerLink: null,
+    queryParams: null,
     leftIcon: {
       name: 'md-acasa-light',
       color: 'success',
@@ -27,6 +28,7 @@ export const offerHomeItemHelper = (offer: PolicyOffer) => {
   if (offer) {
     baseItem.id = offer.id;
     baseItem.routerLink = '/policy/offer/' + offer.id;
+    baseItem.queryParams = { policyType: offer.policy.typeId };
     if (offer.policy && offer.policy.type) {
       const t = offer.policy.type;
       baseItem.textContent.head.text = t.name ? t.name : '';
