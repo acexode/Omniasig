@@ -16,18 +16,31 @@
       <ion-label
         color="omn-green"
         class="h2 ls-min-02 alt-font border-danger ion-text-center text-weight-bold w-auto"
-        >{{ title }}
+        [ngClass]="title?.class"
+        >{{ title?.text }}
       </ion-label>
     </ion-row>
     <ion-row
-      class="ion-no-padding my-16 flex flex-1 flex-column ion-align-items-start"
+      class="ion-no-padding my-16 flex flex-1 flex-column ion-align-items-start w-100"
     >
       <ion-label
         *ngFor="let item of texts"
         [color]="item?.color"
         [ngClass]="item?.classes"
+        class="w-100"
         >{{ item?.text }}</ion-label
       >
+    </ion-row>
+    <ion-row class="mt-auto">
+      <ion-button
+        class="flat w-100 no-shadow color-white ion-color-success text-weight-medium m-0"
+        size="large"
+        shape="round"
+        mode="md"
+        (click)="back()"
+      >
+        Înapoi
+      </ion-button>
     </ion-row>
   </ion-col>
 </ion-grid>
