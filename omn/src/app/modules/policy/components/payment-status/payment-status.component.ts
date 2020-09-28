@@ -7,16 +7,17 @@ import { NavController, ModalController } from '@ionic/angular';
   styleUrls: ['./payment-status.component.scss'],
 })
 export class PaymentStatusComponent implements OnInit {
-  @Input() paymentStatus: 'failed' | 'success' = null
-  failureReason: string = null
-  constructor(private navCtrl: NavController,
-    public modalController: ModalController) { }
+  @Input() paymentStatus: 'failed' | 'success' = null;
+  failureReason: string = null;
+  constructor(
+    private navCtrl: NavController,
+    public modalController: ModalController
+  ) {}
 
-  ngOnInit() {
-  }
+  ngOnInit() {}
   goHome() {
     this.navCtrl.navigateRoot('/home').then(() => {
       this.modalController.dismiss();
-    })
+    });
   }
 }

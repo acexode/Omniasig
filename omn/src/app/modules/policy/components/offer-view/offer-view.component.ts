@@ -85,7 +85,7 @@ export class OfferViewComponent implements OnInit {
   ];
 
   calEntry: CalendarEntry;
-  busy: boolean = false;
+  busy = false;
   constructor(
     private route: ActivatedRoute,
     private policyDataService: PolicyDataService,
@@ -170,8 +170,8 @@ export class OfferViewComponent implements OnInit {
       isMobilePayment: true,
     };
     this.policyDataService.makePayment(data).subscribe(
-      (data) => {
-        this.openIAB(data.url);
+      (dataV) => {
+        this.openIAB(dataV.url);
         this.busy = false;
       },
       (err) => (this.busy = false)
@@ -198,22 +198,23 @@ export class OfferViewComponent implements OnInit {
 
   openIAB(url) {
     const browser = this.iab.create(url, '_blank', 'location=no');
-    if (browser.on('loadstart').subscribe)
+    // TODO: linter complains, this is to be retested.
+    if (browser) {
       browser.on('loadstart').subscribe((e) => {
         if (e && e.url.includes('tok')) {
           this.confirmToken(e.url, browser);
         }
       });
-    if (browser.on('loaderror').subscribe)
       browser.on('loaderror').subscribe((e) => {
         browser.close();
       });
+    }
   }
 
   confirmToken(urlPath, browser: InAppBrowserObject) {
-    let url = new URL(urlPath).search;
+    const url = new URL(urlPath).search;
     const urlParams = new URLSearchParams(url);
-    let token = urlParams.get('tok');
+    const token = urlParams.get('tok');
     this.policyDataService.confirmPayment(token).subscribe(
       (data) => {
         browser.close();
