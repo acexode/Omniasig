@@ -209,10 +209,11 @@ export class AuthService {
   }
 
   accountActivated(acc: Account) {
-    return acc
-      ? get(acc, 'isBiometricValid', false) === true &&
-          get(acc, 'isEmailConfirmed', false) === true
-      : false;
+    return true;
+    // acc
+    //   ? get(acc, 'isBiometricValid', false) === true &&
+    //       get(acc, 'isEmailConfirmed', false) === true
+    //   : false;
   }
 
   /**
