@@ -233,11 +233,19 @@ export class ConfirmareIdentitateComponent implements OnInit {
           addressStreet: value.addressStreet,
           isHomeAddress: true,
         };
-        this.auth.updateUserProfile(user).subscribe(() => {
-          this.locuintS.addSingleLocuinte(locuinte).subscribe(() => {
+        this.auth
+          .updateUserProfile(user)
+          .pipe(
+            switchMap(() => {
+              return this.locuintS.addSingleLocuinte(locuinte);
+            }),
+            switchMap(() => {
+              return this.auth.refreshProfile();
+            })
+          )
+          .subscribe(() => {
             this.navCtrl.navigateRoot('/home');
           });
-        });
       });
     } else {
       this.confirmareForm.updateValueAndValidity();
