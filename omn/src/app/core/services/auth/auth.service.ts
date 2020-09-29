@@ -1,5 +1,3 @@
-import { CustomTimersService } from './../custom-timers/custom-timers.service';
-import { unsubscriberHelper } from './../../helpers/unsubscriber.helper';
 import { Injectable } from '@angular/core';
 import {
   ActivatedRoute,
@@ -7,10 +5,9 @@ import {
   Router,
   UrlTree,
 } from '@angular/router';
-import { ToastController } from '@ionic/angular';
 import { get } from 'lodash';
 import * as qs from 'qs';
-import { BehaviorSubject, throwError, Subscription, of, pipe } from 'rxjs';
+import { BehaviorSubject, of, Subscription, throwError } from 'rxjs';
 import {
   distinctUntilChanged,
   filter,
@@ -21,13 +18,14 @@ import {
   tap,
 } from 'rxjs/operators';
 import { authEndpoints } from '../../configs/endpoints';
-import { AccountStates } from '../../models/account-states';
 import { Account } from '../../models/account.interface';
 import { AuthState } from '../../models/auth-state.interface';
 import { LoginResponse } from '../../models/login-response.interface';
 import { Login } from '../../models/login.interface';
 import { CustomStorageService } from '../custom-storage/custom-storage.service';
 import { RequestService } from '../request/request.service';
+import { unsubscriberHelper } from './../../helpers/unsubscriber.helper';
+import { CustomTimersService } from './../custom-timers/custom-timers.service';
 
 @Injectable({
   providedIn: 'root',
@@ -116,23 +114,23 @@ export class AuthService {
       })
     );
   }
-
-  // get user profile from ws
   getProfile(data: { token: string; phoneNumber: string; expiry: string }) {
-    return this.reqS
-      .get<Account>(
-        `${authEndpoints.getUserProfile}?userNameOrId=${data.phoneNumber}`
-      )
-      .pipe(
-        switchMap((res) => {
-          this.setExpireTimer();
-          return this.processAuthResponse({
-            account: { ...res },
-            token: data.token,
-            expiration: data.expiry,
-          });
-        })
-      );
+    return this.doGetProfile(data.phoneNumber).pipe(
+      switchMap((res) => {
+        this.setExpireTimer();
+        return this.processAuthResponse({
+          account: { ...res },
+          token: data.token,
+          expiration: data.expiry,
+        });
+      })
+    );
+  }
+
+  doGetProfile(phoneNumber) {
+    return this.reqS.get<Account>(
+      `${authEndpoints.getUserProfile}?userNameOrId=${phoneNumber}`
+    );
   }
 
   setExpireTimer() {
@@ -177,6 +175,30 @@ export class AuthService {
     );
   }
 
+  refreshProfile() {
+    return this.lastLoginNumber().pipe(
+      take(1),
+      switchMap((v) => {
+        if (!v) {
+          return of(this.doLogout());
+        } else {
+          return this.doGetProfile(v);
+        }
+      }),
+      switchMap((profile) => {
+        return this.storeS.setItem('account', profile).pipe(
+          take(1),
+          map((resV) => {
+            return profile;
+          })
+        );
+      }),
+      tap((value: Account) => {
+        this.doUpdateAccount(value);
+      })
+    );
+  }
+
   // This will go to the password input automatically.
   redirectToLogin() {
     return this.getPhoneNumber().pipe(
@@ -190,6 +212,7 @@ export class AuthService {
       })
     );
   }
+
   // svae auth data to storage
   processAuthResponse(data: LoginResponse) {
     const account = data.account ? data.account : null;
@@ -269,6 +292,9 @@ export class AuthService {
   getAuthState() {
     return this.authState.pipe(
       share(),
+      distinctUntilChanged((a, b) => {
+        return JSON.stringify(a) === JSON.stringify(b);
+      }),
       filter((val: AuthState) => val && val.hasOwnProperty('init') && val.init),
       distinctUntilChanged()
     );
@@ -341,19 +367,6 @@ export class AuthService {
     return this.routerS.createUrlTree(['/']);
   }
 
-  demoActivate() {
-    const state = this.authState.value;
-    state.account.userStates = [
-      AccountStates.ACTIVE,
-      AccountStates.EMAIL_VALIDATED,
-    ];
-    this.authState.next({
-      init: true,
-      account: { ...state.account },
-    });
-    this.storeS.setItem('account', state.account);
-  }
-
   doUpdateAccount(data: {
     cnp?: string;
     email?: string;
@@ -382,7 +395,13 @@ export class AuthService {
         return encodeURIComponent(str);
       },
     });
-    return this.reqS.get(endpointV + '?' + encodedQs);
+    return this.reqS.get(endpointV + '?' + encodedQs).pipe(
+      tap((v) => {
+        if (v) {
+          this.refreshProfile().subscribe();
+        }
+      })
+    );
   }
 
   doReqNewEmailCode() {
@@ -394,6 +413,9 @@ export class AuthService {
         } else {
           throw throwError('NO_ACCOUNT_EMAIL');
         }
+      }),
+      switchMap(() => {
+        return this.refreshProfile();
       })
     );
   }
@@ -421,7 +443,6 @@ export class AuthService {
   updateUserProfile(obj) {
     return this.reqS.post(authEndpoints.updateUserProfile, obj).pipe(
       tap((v) => {
-        obj.dateBirth = get(obj, 'dateOfBirth', null);
         this.doUpdateAccount(obj);
       })
     );

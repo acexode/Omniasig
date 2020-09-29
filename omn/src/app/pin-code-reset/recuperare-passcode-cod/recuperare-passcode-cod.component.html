@@ -13,6 +13,7 @@
           [errorLogin]="InvalidCode"
           (doClearErr)="clearErr($event)"
           (doDigitLength)="setDigitLength($event)"
+          (doPassForm)="setupForm($event)"
         ></app-passcode-field>
       </div>
       <div
@@ -32,8 +33,8 @@
         </ion-text>
         <div class="ion-align-items-center ion-text-center pt-18 w-100 px-8">
           <ion-button
-            [disabled]="digitLength < 6"
-            (click)="continue(null)"
+            [disabled]="digitLength < 6 && passForm?.valid"
+            (click)="continue()"
             class="success-gradient ion-color-success m-0"
             expand="block"
             size="large"
