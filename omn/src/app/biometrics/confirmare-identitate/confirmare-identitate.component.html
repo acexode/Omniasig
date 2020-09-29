@@ -6,7 +6,7 @@
 </p>
 <app-sub-page-header [config]="headerConfig"></app-sub-page-header>
 <ion-content #cnpRef>
-  <ion-grid class="ion-no-padding w-100 mh-100 h-100 flex flex-1 flex-column">
+  <ion-grid class="ion-no-padding mh-100p flex flex-column">
     <ion-row class="ion-justify-content-center mt-6 mx-24">
       <ion-text
         color="Success"
@@ -45,13 +45,7 @@
           >Codul Numeric Personal este invalid!</ion-label
         >
       </ion-row>
-      <ion-row class="ion-no-padding apartament-postal-code mb-24">
-        <app-datepicker
-          class="w-100"
-          [config]="confirmModel?.dateOfBirth"
-          formControlName="dateOfBirth"
-        ></app-datepicker>
-      </ion-row>
+      
       <ion-row class="ion-no-padding judet mb-24">
         <span class="mb-16 text-weight-medium">Adresa de domiciliu</span>
         <app-select
@@ -121,7 +115,7 @@
           </ion-text>
         </ion-col>
       </ion-row>
-      <ion-row class="ion-no-padding mt-auto mb-24 mt-16 flex flex-1 flex-column">
+      <ion-row class="ion-no-padding mt-auto mt-16 flex flex-1 flex-column">
         <ion-button
           type="submit"
           color="success"

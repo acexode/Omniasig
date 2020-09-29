@@ -36,11 +36,6 @@ export class ProfilPage implements OnInit {
           text: 'Locuințe',
         },
       ],
-      headerIcon: {
-        name: 'ellipse',
-        classes: 'icon-22 m-8 ion-align-self-start color-red',
-        routerLink: ['locuinte/invalid/' + 2],
-      },
       id: 'places',
       itemClass: 'mh-104 shadow-page-item',
       isButton: true,
