@@ -25,14 +25,14 @@ export class LocuinteViewCardComponent implements OnInit {
     const generateOffer = false;
     // payload
     const payload = {
-      isVip: true,
-      isGold: false,
+      isVip: false,
+      isGold: true,
       mentiuni: '',
       startDate: getTommorrowUTCdate(), //  e.g '2020-09-28T10:44:17.286Z'
       numberOfMonths: '12',
       insurancePrice: this.locuintaData.value,
       numberOfPayments: '1',
-      paymentCurrency: 'ron',
+      paymentCurrency: this.locuintaData.valueCurrency,
       propertyCessionList: null
     };
     this.ampS.CreateAmplusInsuranceOffer( this.locuintaData.id, generateOffer, payload )
@@ -41,6 +41,7 @@ export class LocuinteViewCardComponent implements OnInit {
           this.presentModal( data.response?.ofertaResponse?.prima );
         },
         err => {
+          // console.log( err );
         }
       );
   }
