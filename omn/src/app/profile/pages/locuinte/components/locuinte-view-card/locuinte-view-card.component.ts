@@ -18,7 +18,7 @@ export class LocuinteViewCardComponent implements OnInit {
     private ampS: AmplusService,
   ) { }
 
-  ngOnInit() {}
+  ngOnInit() { }
 
   getAmplus() {
     // generateOffer
@@ -38,10 +38,9 @@ export class LocuinteViewCardComponent implements OnInit {
     this.ampS.CreateAmplusInsuranceOffer( this.locuintaData.id, generateOffer, payload )
       .subscribe(
         data => {
-        this.presentModal( data.response?.ofertaResponse?.prima );
+          this.presentModal( data.response?.ofertaResponse?.prima );
         },
         err => {
-
         }
       );
   }
