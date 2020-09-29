@@ -220,6 +220,7 @@ export class HomePage implements OnInit {
     }
 
     this.accountNotActivated.cards = cardList;
+    this.cdRef.markForCheck();
   }
   /**
    * Preprocess user Policies data.

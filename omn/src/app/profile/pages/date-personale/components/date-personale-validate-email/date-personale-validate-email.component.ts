@@ -1,3 +1,4 @@
+import { take } from 'rxjs/internal/operators/take';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -69,7 +70,7 @@ export class DatePersonaleValidateEmailComponent implements OnInit, OnDestroy {
         switchMap((val) => {
           return combineLatest([
             this.routerS.processChildDataAsync(this.aRoute, 'validateMode'),
-            this.authS.getAccountData(),
+            this.authS.getAccountData().pipe(take(1)),
             this.routerS.processChildQParamsAsync(this.aRoute, [
               'UserNameOrId',
               'ConfirmationToken',
@@ -139,7 +140,6 @@ export class DatePersonaleValidateEmailComponent implements OnInit, OnDestroy {
       this.displayMode = this.validateEmailModes.EMAIL_CHANGE_VALIDATE_SUCCESS;
     }
     this.cdRef.markForCheck();
-    this.authS.demoActivate();
   }
 
   resendEmail() {
