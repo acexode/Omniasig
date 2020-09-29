@@ -17,6 +17,10 @@ export class AutocompleteProviderService implements AutoCompleteService {
     return of([]);
   }
 
+  getItemLabel = (item: any) => {
+    return item ? get(item, this.labelAttribute, get(item, 'label', '')) : '';
+  }
+
   updateConfig(conf: {
     labelAttribute: string;
     formValueAttribute?: any;
@@ -43,8 +47,5 @@ export class AutocompleteProviderService implements AutoCompleteService {
 
   getResults(term: any) {
     return this.dataServiceCb(term, this.dataServiceSource);
-  }
-  getItemLabel?(item: any) {
-    return get(item, this.labelAttribute, get(item, 'label', ''));
   }
 }
