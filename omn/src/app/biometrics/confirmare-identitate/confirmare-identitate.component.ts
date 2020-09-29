@@ -200,9 +200,7 @@ export class ConfirmareIdentitateComponent implements OnInit {
       });
     }
     if (this.addressStreet) {
-      this.addressStreet.valueChanges.subscribe((val) => {        
-        if (this.addressStreet) {
-          this.addressStreet.valueChanges.subscribe((val) => {
+      this.addressStreet.valueChanges.subscribe((val) => { 
             let {addressStreet} = this.formData
             if(addressStreet.length){
               this.locuinteF.handleStreetProcessing(
@@ -221,8 +219,6 @@ export class ConfirmareIdentitateComponent implements OnInit {
               this.addressPostalCode.clearValidators()
               this.addressPostalCode.disable()
             }
-          });
-        }
       });
     }
   }
