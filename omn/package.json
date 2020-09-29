@@ -39,6 +39,7 @@
     "com-darryncampbell-cordova-plugin-intent": "^2.0.0",
     "cordova-android": "9.0.0",
     "cordova-browser": "6.0.0",
+    "cordova-ios": "6.1.1",
     "cordova-plugin-app-launcher": "^0.4.0",
     "cordova-plugin-app-version": "^0.1.9",
     "cordova-plugin-calendar": "^5.1.5",
@@ -119,7 +120,8 @@
     },
     "platforms": [
       "browser",
-      "android"
+      "android",
+      "ios"
     ]
   },
   "main": "karma.conf.js",
