@@ -106,6 +106,7 @@ export class ConfirmareIdentitateComponent implements OnInit {
       label: 'Cod poștal',
       type: 'number',
       placeholder: '',
+      disabled: true,
       custom: {
         maxLength: 6,
         minLength: 6,
@@ -132,7 +133,7 @@ export class ConfirmareIdentitateComponent implements OnInit {
       addressScara: [''],
       addressApart: ['', Validators.required],
       addressPostalCode: [
-        null,
+        { value: '', disabled: true },
         [Validators.required, Validators.minLength(6), Validators.maxLength(6)],
       ],
       accept: [false, Validators.required],
@@ -170,8 +171,9 @@ export class ConfirmareIdentitateComponent implements OnInit {
           this.cdRef.detectChanges();
         });
       this.addressCounty.valueChanges.subscribe((val) => {
-        if (this.addressCity.value) {
-          this.addressCity.patchValue({}, { emit: true });
+        if (this.addressCity) {
+          this.addressCity.patchValue('');
+          this.addressCity.updateValueAndValidity();
         }
         this.locuinteF
           .updateCounty(this.addressCounty, this.formData, this.dataModel)
@@ -188,12 +190,37 @@ export class ConfirmareIdentitateComponent implements OnInit {
     }
     if (this.addressCity) {
       this.addressCity.valueChanges.subscribe((val) => {
-        if (this.addressStreet.value) {
-          this.addressStreet.patchValue({}, { emit: true });
+        if (this.addressStreet) {
+          this.addressStreet.setValidators([Validators.required]);
+          this.addressStreet.patchValue('');
+          this.addressStreet.updateValueAndValidity();
         }
         this.locuinteF
           .updateCity(this.addressCity, this.formData, this.dataModel)
           .subscribe((v) => {
+            if (v && v.length) {
+              this.addressStreet.setValidators([Validators.required]);
+              this.locuinteF.handleStreetProcessing(
+                null,
+                this.formData,
+                this.dataModel
+              );
+              this.locuinteF.handlePostalCode(
+                val,
+                this.formData,
+                this.addressPostalCode,
+                this.addressCity.value
+              );
+            } else {
+              this.locuinteF.handlePostalCode(
+                null,
+                this.formData,
+                this.addressPostalCode,
+                this.addressCity ? this.addressCity.value : null
+              );
+              this.addressStreet.clearValidators();
+            }
+            this.addressStreet.updateValueAndValidity({ emitEvent: true });
             this.cdRef.markForCheck();
             this.cdRef.detectChanges();
           });
@@ -205,6 +232,13 @@ export class ConfirmareIdentitateComponent implements OnInit {
           val,
           this.formData,
           this.dataModel
+        );
+
+        this.locuinteF.handlePostalCode(
+          val,
+          this.formData,
+          this.addressPostalCode,
+          this.addressCity ? this.addressCity.value : null
         );
       });
     }
@@ -268,6 +302,11 @@ export class ConfirmareIdentitateComponent implements OnInit {
   get addressStreet() {
     return this.confirmareForm && this.confirmareForm
       ? this.confirmareForm.get('addressStreet')
+      : null;
+  }
+  get addressPostalCode() {
+    return this.confirmareForm && this.confirmareForm
+      ? this.confirmareForm.get('addressPostalCode')
       : null;
   }
 

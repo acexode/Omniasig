@@ -7,7 +7,7 @@ import {
   OnInit,
   Output,
 } from '@angular/core';
-import { FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormGroup, Validators } from '@angular/forms';
 import { LocuinteFormType } from 'src/app/shared/models/modes/locuinte-form-modes';
 import { distinctUntilChanged } from 'rxjs/operators';
 
@@ -32,18 +32,31 @@ export class LocuinteFormComponent implements OnInit {
   @Input() set formGroupInstance(fg: FormGroup) {
     this.fG = fg;
     this.handleCustom();
+    this.setValidatorSubs();
     this.cdRef.markForCheck();
   }
   get formGroupInstance() {
     return this.fG;
   }
 
+  validatorSubs;
   // Only used for custom policy displays.
   @Input() policyType = null;
   @Output() eventSubmit: EventEmitter<any> = new EventEmitter();
   constructor(private cdRef: ChangeDetectorRef) {}
 
   ngOnInit() {}
+
+  setValidatorSubs() {
+    unsubscriberHelper(this.validatorSubs);
+    if (this.fG instanceof AbstractControl) {
+      this.validatorSubs = this.fG.statusChanges
+        .pipe(distinctUntilChanged())
+        .subscribe((st) => {
+          this.cdRef.markForCheck();
+        });
+    }
+  }
 
   doSubmit() {
     if (this.fG.valid) {
