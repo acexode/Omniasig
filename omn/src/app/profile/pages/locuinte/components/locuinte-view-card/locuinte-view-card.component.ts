@@ -35,15 +35,12 @@ export class LocuinteViewCardComponent implements OnInit {
       paymentCurrency: this.locuintaData.valueCurrency,
       propertyCessionList: null
     };
-    console.log( payload );
     this.ampS.CreateAmplusInsuranceOffer( this.locuintaData.id, generateOffer, payload )
       .subscribe(
         data => {
           this.presentModal( data.response?.ofertaResponse?.prima );
         },
-        err => {
-          console.log( err );
-        }
+        err => { }
       );
   }
 
