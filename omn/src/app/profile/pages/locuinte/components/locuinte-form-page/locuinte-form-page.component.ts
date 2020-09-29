@@ -6,7 +6,7 @@ import {
   OnInit,
   ViewChild,
 } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { IonContent, NavController } from '@ionic/angular';
 import { get } from 'lodash';
@@ -178,8 +178,9 @@ export class LocuinteFormPageComponent implements OnInit {
           this.cdRef.detectChanges();
         });
       this.addressCounty.valueChanges.subscribe((val) => {
-        if (this.addressCity.value) {
-          this.addressCity.patchValue({}, { emit: true });
+        if (this.addressCity) {
+          this.addressCity.patchValue('');
+          this.addressCity.updateValueAndValidity();
         }
         this.formS
           .updateCounty(
@@ -188,24 +189,47 @@ export class LocuinteFormPageComponent implements OnInit {
             this.dataModel
           )
           .subscribe((v) => {
+            if (this.addressCity) {
+              this.addressCity.updateValueAndValidity({ onlySelf: true });
+            }
             this.cdRef.markForCheck();
             this.cdRef.detectChanges();
-            if (this.addressCity) {
-              this.addressCity.updateValueAndValidity({
-                onlySelf: true,
-              });
-            }
           });
       });
     }
     if (this.addressCity) {
       this.addressCity.valueChanges.subscribe((val) => {
-        if (this.addressStreet.value) {
-          this.addressStreet.patchValue({}, { emit: true });
+        if (this.addressStreet) {
+          this.addressStreet.setValidators([Validators.required]);
+          this.addressStreet.patchValue('');
+          this.addressStreet.updateValueAndValidity();
         }
         this.formS
           .updateCity(this.addressCity, this.formInstance.data, this.dataModel)
           .subscribe((v) => {
+            if (v && v.length) {
+              this.addressStreet.setValidators([Validators.required]);
+              this.formS.handleStreetProcessing(
+                val,
+                this.formData,
+                this.dataModel
+              );
+              this.formS.handlePostalCode(
+                null,
+                this.formInstance.data,
+                this.addressPostalCode,
+                this.addressCity ? this.addressCity.value : null
+              );
+            } else {
+              this.formS.handlePostalCode(
+                null,
+                this.formInstance.data,
+                this.addressPostalCode,
+                this.addressCity ? this.addressCity.value : null
+              );
+              this.addressStreet.clearValidators();
+            }
+            this.addressStreet.updateValueAndValidity({ emitEvent: true });
             this.cdRef.markForCheck();
             this.cdRef.detectChanges();
           });
@@ -213,24 +237,17 @@ export class LocuinteFormPageComponent implements OnInit {
     }
     if (this.addressStreet) {
       this.addressStreet.valueChanges.subscribe((val) => {
-        let {addressStreet} = this.formInstance.data
-        if(addressStreet.length){
-          this.formS.handleStreetProcessing(
-            val,
-            this.formInstance.data,
-            this.dataModel
-          );
-          this.formS.handlePostalCode(
-            val,
-            this.formInstance.data,
-            this.addressPostalCode
-          );    
-          this.addressPostalCode.disable()      
-        }else{
-          this.addressStreet.clearValidators()
-          this.addressPostalCode.clearValidators()
-          this.addressPostalCode.disable()
-        }
+        this.formS.handleStreetProcessing(
+          val,
+          this.formInstance.data,
+          this.dataModel
+        );
+        this.formS.handlePostalCode(
+          val,
+          this.formInstance.data,
+          this.addressPostalCode,
+          this.addressCity ? this.addressCity.value : null
+        );
       });
     }
   }
