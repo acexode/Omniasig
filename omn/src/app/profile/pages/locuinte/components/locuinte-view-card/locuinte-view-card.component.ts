@@ -43,13 +43,17 @@ export class LocuinteViewCardComponent implements OnInit {
       .CreateAmplusInsuranceOffer(this.locuintaData.id, generateOffer, payload)
       .subscribe(
         (data) => {
-          this.presentModal(
-            get(data, 'response.ofertaResponse.prima', null),
-            get(data, 'response.ofertaResponse.moneda', null)
+          Promise.resolve(
+            this.presentModal(
+              get(data, 'response.ofertaResponse.prima', null),
+              get(data, 'response.ofertaResponse.moneda', null)
+            )
           );
+          this.checking = false;
         },
         (err) => {
-          this.presentModal(null, null);
+          Promise.resolve(this.presentModal(null, null));
+          this.checking = false;
         },
         () => {
           this.checking = false;
