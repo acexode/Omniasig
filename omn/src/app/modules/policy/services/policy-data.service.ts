@@ -173,6 +173,8 @@ export class PolicyDataService {
       id: offer.id,
       offerCode: offer.offerCode,
       iban: offer.offerIBAN,
+      ratePlanList:offer.ratePlanList,
+      offerPrice:offer.offerPrima,
       policy: {
         id: offer.id,
         name: offer.offerCode,

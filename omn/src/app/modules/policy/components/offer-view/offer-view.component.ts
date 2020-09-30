@@ -161,8 +161,7 @@ export class OfferViewComponent implements OnInit {
     this.busy = true;
     const data = {
       ibaN_1: this.offer.iban,
-      // TODO add the real amount of an offer (which i do not know right now)
-      amount_IBAN_1: 1,
+      amount_IBAN_1: this.offer.offerPrice,
       areTermsAccepted: true,
       currencyToPay: this.offer.policy.locuintaData.valueCurrency,
       policyCurrency: this.offer.policy.locuintaData.valueCurrency,
