@@ -1,13 +1,24 @@
-import { Component, OnInit, HostBinding } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import {
+  Component,
+  EventEmitter,
+  HostBinding,
+  Input,
+  Output,
+} from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-insurance-conditions',
   templateUrl: './insurance-conditions.component.html',
   styleUrls: ['./insurance-conditions.component.scss'],
 })
-export class InsuranceConditionsComponent implements OnInit {
+export class InsuranceConditionsComponent {
   @HostBinding('class') color = 'ion-color-white-page';
+  @Input() policyType;
+  @Output() emitPay: EventEmitter<any> = new EventEmitter();
+  formG: FormGroup = this.fb.group({
+    accept: this.fb.control(false, Validators.requiredTrue),
+  });
   // tslint:disable:max-line-length
   amplusConditions = [
     `1. CLAUZA OPERATIVĂ`,
@@ -574,10 +585,8 @@ asumate prin prezenta Poliţă.`,
     `- ulterior intervenţiei, să efectueze o expertiză (direct sau prin personal autorizat) asupra evenimentului produs, urmărilor acestuia, modului în care s-a efectuat intervenţia.`,
   ];
   // tslint:enable:max-line-length
-  policyType;
-  constructor(private route: ActivatedRoute) {}
-
-  ngOnInit() {
-    this.policyType = this.route.snapshot.queryParamMap.get('policyType');
+  constructor(private fb: FormBuilder) {}
+  doPay() {
+    this.emitPay.emit(true);
   }
 }

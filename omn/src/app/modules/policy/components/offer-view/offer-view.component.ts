@@ -1,3 +1,4 @@
+import { subPageHeaderDefault } from 'src/app/shared/data/sub-page-header-default';
 import { Component, HostBinding, OnInit } from '@angular/core';
 import { ActivatedRoute, NavigationExtras } from '@angular/router';
 import {
@@ -24,6 +25,7 @@ export class OfferViewComponent implements OnInit {
   policyType;
   offer: PolicyOffer = null;
   headerConfig = subPageHeaderSecondary('Oferta de asigurare');
+  viewMode: 'V' | 'C' = 'V';
   @HostBinding('class') color = 'ion-color-white-page';
 
   risksCovered = [
@@ -108,7 +110,7 @@ export class OfferViewComponent implements OnInit {
       .subscribe((offer) => {
         this.offer = offer;
         if (offer && has(offer, 'policy.typeId')) {
-          this.policyType = get(offer, 'policy.typeId', this.policyType);
+          this.policyType = 'AMPLUS';
         }
 
         this.setCalEntry(this.offer);
@@ -119,16 +121,16 @@ export class OfferViewComponent implements OnInit {
     this.navCtrl.navigateRoot('/policy');
   }
 
-  gotoConditions() {
-    const navigationExtras: NavigationExtras = {
-      queryParams: {
-        policyType: this.policyType,
-      },
-    };
-    this.navCtrl.navigateForward(['/policy', 'conditions'], navigationExtras);
+  backToOffer() {
+    this.viewMode = 'V';
+    this.headerConfig = subPageHeaderSecondary('Oferta de asigurare');
   }
 
-  back() {}
+  gotoConditions() {
+    this.viewMode = 'C';
+    this.headerConfig = subPageHeaderDefault('Condiţii de asigurare');
+    this.headerConfig.leadingIcon.routerLink = false;
+  }
 
   setCalEntry(offer: PolicyOffer) {
     const date = get(offer, 'expiry', null);
@@ -177,22 +179,6 @@ export class OfferViewComponent implements OnInit {
     );
 
     return;
-    /*
-      method to call payment web service when the pay(plateste) button is clicked,
-      which also calls create PAD Insurance policy web service
-    */
-    // const offerId = parseInt(this.offer.id, 10);
-    // this.padS.CreatePADInsurancePolicy(offerId).subscribe(
-    //   (result) => {
-    //     this.policyDataService.initData();
-    //     this.navCtrl.navigateRoot('/policy');
-    //     // next thing to do after creating PAD Insurance policy
-    //   },
-    //   (error) => {
-    //     // handle error
-    //     this.navCtrl.navigateRoot('/policy');
-    //   }
-    // );
   }
 
   openIAB(url) {
