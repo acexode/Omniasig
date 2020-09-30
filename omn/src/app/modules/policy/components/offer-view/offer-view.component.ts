@@ -110,7 +110,7 @@ export class OfferViewComponent implements OnInit {
       .subscribe((offer) => {
         this.offer = offer;
         if (offer && has(offer, 'policy.typeId')) {
-          this.policyType = 'AMPLUS';
+          this.policyType = get(offer, 'policy.typeId', this.policyType);
         }
 
         this.setCalEntry(this.offer);
