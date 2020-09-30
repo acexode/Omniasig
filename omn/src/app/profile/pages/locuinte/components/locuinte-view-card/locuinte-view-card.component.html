@@ -72,9 +72,15 @@
               fill="solid"
               expand="block"
               size="large"
+              [disabled]="checking"
               class="m-0 w-100 no-shadow bg-light-green color-green text-weight-normal"
             >
-              Vezi cât costă să te asiguri
+              <ion-spinner
+                name="crescent"
+                *ngIf="checking"
+                class="icon-20"
+              ></ion-spinner
+              >Vezi cât costă să te asiguri
             </ion-button>
           </ion-row>
           <ion-row>
@@ -150,23 +156,32 @@
             >
             <!-- e.g Serie: AB-018 -->
             <ion-text class="s18-h24">
-              Serie:  {{ locuintaData.paidExternalSeriePolita}}
+              Serie: {{ locuintaData.paidExternalSeriePolita }}
             </ion-text>
             <!-- e.g Număr: 00012345678 -->
             <ion-text class="s18-h24">
-              Număr: {{ locuintaData.paidExternalNumarPolita}}
+              Număr: {{ locuintaData.paidExternalNumarPolita }}
             </ion-text>
             <!-- e.g Dată emitere: 08-05-2020 -->
             <ion-text class="s18-h24">
-              Dată emitere: {{ locuintaData.PaidExternalDataPolita | date: 'dd-MM-yyyy' }}
+              Dată emitere:
+              {{ locuintaData.PaidExternalDataPolita | date: 'dd-MM-yyyy' }}
             </ion-text>
             <!-- e.g Dată început: 13-05-2020 -->
             <ion-text class="s18-h24">
-              Dată început: {{ locuintaData.paidExternalDataStartValabilitatePolita | date: 'dd-MM-yyyy' }}
+              Dată început:
+              {{
+                locuintaData.paidExternalDataStartValabilitatePolita
+                  | date: 'dd-MM-yyyy'
+              }}
             </ion-text>
             <!-- e.g Dată sfârșit: 12-05-2021 -->
             <ion-text class="s18-h24">
-              Dată sfârșit: {{ locuintaData.paidExternalDataStopValabilitatePolita | date: 'dd-MM-yyyy' }}
+              Dată sfârșit:
+              {{
+                locuintaData.paidExternalDataStopValabilitatePolita
+                  | date: 'dd-MM-yyyy'
+              }}
             </ion-text>
           </ion-row>
         </ion-col>

@@ -260,7 +260,7 @@ export class LocuinteViewComponent implements OnInit {
     switch ( this.formMode ) {
       case this.locuintaState.INVALID:
         const model = this.formS.processFormModel(
-          this.formInstance.group.value,
+          this.formInstance.group.getRawValue(),
           this.dataModel
         );
         this.formSubmitting = true;
@@ -274,7 +274,7 @@ export class LocuinteViewComponent implements OnInit {
 
       case this.locuintaState.INCOMPLETE:
         const model2 = this.formS.processFormModel(
-          this.formInstance.group.value,
+          this.formInstance.group.getRawValue(),
           this.dataModel
         );
         this.formSubmitting = true;

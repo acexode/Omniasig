@@ -13,6 +13,7 @@ export class PriceModalComponent implements OnInit {
   // Data passed in by componentProps
   @Input() prima: number;
   @Input() variant: string;
+  @Input() currency: string;
 
   constructor(public modalCtrl: ModalController) {}
 
