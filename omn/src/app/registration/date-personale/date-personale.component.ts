@@ -7,17 +7,17 @@ import { subPageHeaderTertiary } from 'src/app/shared/data/sub-page-header-terti
 import { IonRadioInputOption } from 'src/app/shared/models/component/ion-radio-input-option';
 import { IonRadiosConfig } from 'src/app/shared/models/component/ion-radios-config';
 
-@Component({
+@Component( {
   selector: 'app-date-personale',
   templateUrl: './date-personale.component.html',
-  styleUrls: ['./date-personale.component.scss'],
-})
+  styleUrls: [ './date-personale.component.scss' ],
+} )
 export class DatePersonaleComponent implements OnInit {
-  @HostBinding('class') color = 'ion-color-white-page';
-  headerConfig = subPageHeaderTertiary({
+  @HostBinding( 'class' ) color = 'ion-color-white-page';
+  headerConfig = subPageHeaderTertiary( {
     title: '',
     leadingIconClasses: 'icon-20 mt-2',
-  });
+  } );
   detailsForm: FormGroup;
   config: any = {
     nume: {
@@ -60,10 +60,10 @@ export class DatePersonaleComponent implements OnInit {
     },
   };
 
-  radiosConfig: IonRadiosConfig = radiosConfigHelper({
+  radiosConfig: IonRadiosConfig = radiosConfigHelper( {
     label: '',
     mode: 'item',
-  });
+  } );
   radioOptions: Array<IonRadioInputOption> = [
     { label: 'Da', id: true },
     { label: 'Nu', id: false },
@@ -88,30 +88,30 @@ export class DatePersonaleComponent implements OnInit {
       !this.regService.getuserObj?.userName ||
       !this.regService.getuserObj?.pin
     ) {
-      this.router.navigate(['/registration']);
+      // this.router.navigate(['/registration']);
     }
   }
 
   proceed() {
-    this.regService.setUserObj({ ...this.detailsForm.value });
-    this.router.navigate(['registration/email']);
+    this.regService.setUserObj( { ...this.detailsForm.value } );
+    this.router.navigate( [ 'registration/email' ] );
   }
 
   initForm() {
-    this.detailsForm = this.formBuilder.group({
-      name: ['', [Validators.required, Validators.minLength(2)]],
-      surname: ['', [Validators.required, Validators.minLength(2)]],
+    this.detailsForm = this.formBuilder.group( {
+      name: [ '', [ Validators.required, Validators.minLength( 2 ) ] ],
+      surname: [ '', [ Validators.required, Validators.minLength( 2 ) ] ],
       cnp: [
         '',
         [
           Validators.required,
-          Validators.minLength(13),
-          Validators.maxLength(13),
+          Validators.minLength( 13 ),
+          Validators.maxLength( 13 ),
         ],
       ],
-      isPublicPerson: ['', [Validators.required]],
-      marketing: [false],
-      roles: [['MobileUser']],
-    });
+      isPublicPerson: [ '', [ Validators.required ] ],
+      marketing: [ false ],
+      roles: [ [ 'MobileUser' ] ],
+    } );
   }
 }

@@ -366,7 +366,7 @@ export class LocuinteFormPageComponent implements OnInit {
     switch (this.formMode) {
       case this.formModes.EDIT_FULL:
         const model = this.formS.processFormModel(
-          this.formInstance.group.value,
+          this.formInstance.group.getRawValue(),
           this.dataModel
         );
         this.formSubmitting = true;
@@ -379,7 +379,7 @@ export class LocuinteFormPageComponent implements OnInit {
         );
       case this.formModes.ADD_NEW_FULL:
         const model2 = this.formS.processFormModel(
-          this.formInstance.group.value,
+          this.formInstance.group.getRawValue(),
           this.dataModel
         );
         this.formSubmitting = true;

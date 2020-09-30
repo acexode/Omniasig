@@ -287,6 +287,49 @@
         >Plătește</ion-button
       >
     </ion-row>
+    <ion-row
+      class="flex flex-column ion-no-padding w-100 shadow-3 mt-32"
+      *ngIf="calEntry"
+    >
+      <ion-row>
+        <ion-col
+          class="ion-no-padding flex flex-1 w-100 flex-column ion-justify-content-center ion-align-items-center"
+        >
+          <ion-icon
+            name="notificare"
+            class="radius-50-perc p-10 bg-secondary-blue color-white icon-20 mt-n20"
+          ></ion-icon>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col class="mt-8 px-32">
+          <div class="mb-20">
+            <div class="">
+              <ion-text class="input-label text-weight-medium">
+                Notificări
+              </ion-text>
+            </div>
+            <ion-text class="s18-h24 ion-inherit-color w-100">
+              Vrei să primești notificări când trebuie să reînnoiești polița sau
+              când trebuie să plătești o rată?..
+            </ion-text>
+          </div>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col class="ion-align-items-center ion-text-center mb-24">
+          <ion-button
+            class="flat no-shadow color-white ion-color-success text-weight-medium px-5"
+            size="large"
+            shape="round"
+            mode="md"
+            (click)="addCalendarEntry()"
+          >
+            Activează notificările
+          </ion-button>
+        </ion-col>
+      </ion-row>
+    </ion-row>
   </ion-grid>
 
   <ion-grid *ngIf="policyType === 'AMPLUS'" class="ion-no-padding">
@@ -744,9 +787,8 @@
               </ion-text>
             </div>
             <ion-text class="s18-h24 ion-inherit-color">
-              Vrei să primești notificări când trebuie <br />
-              să reînnoiești polița sau când trebuie <br />
-              să plătești o rată?..
+              Vrei să primești notificări când trebuie să reînnoiești polița sau
+              când trebuie să plătești o rată?..
             </ion-text>
           </div>
         </ion-col>

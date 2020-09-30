@@ -372,7 +372,7 @@ export class LocuinteFormService {
     } catch (e) {
       postCode = null;
     }
-    addressPostalCode.setValue(postCode);
+    addressPostalCode.patchValue(postCode);
   }
 
   updateCounty(field, fieldsData, dataModel = {}) {

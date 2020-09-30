@@ -2,15 +2,15 @@ import { Injectable } from '@angular/core';
 import { padEndpoints } from '../../../core/configs/endpoints';
 import { RequestService } from '../../../core/services/request/request.service';
 
-@Injectable({
+@Injectable( {
   providedIn: 'root',
-})
+} )
 export class PadService {
-  constructor(private reqS: RequestService) {}
+  constructor( private reqS: RequestService ) { }
 
-  VerifyPADInsuranceOffer(addressId: number) {
+  VerifyPADInsuranceOffer( addressId: number ) {
     return this.reqS.get<any>(
-      `${padEndpoints.VerifyPADInsuranceOffer}?addressId=${addressId}`
+      `${ padEndpoints.VerifyPADInsuranceOffer }?addressId=${ addressId }`
     );
   }
 
@@ -19,15 +19,15 @@ export class PadService {
     startDate,
     generateOffer
   ) {
-    const formattedStartDate = startDate.toISOString().slice(0, 10);
+    const formattedStartDate = startDate.toISOString().slice( 0, 10 );
     return this.reqS.get<any>(
       `${padEndpoints.CreatePADInsuranceOffer}?padAddressId=${padAddressId}&startDate=${formattedStartDate}&generateOffer=${generateOffer}`
     );
   }
 
-  CreatePADInsurancePolicy(padOfferId: number) {
+  CreatePADInsurancePolicy( padOfferId: number ) {
     return this.reqS.get<any>(
-      `${padEndpoints.CreatePADInsurancePolicy}?padOfferId=${padOfferId}`
+      `${ padEndpoints.CreatePADInsurancePolicy }?padOfferId=${ padOfferId }`
     );
   }
 }

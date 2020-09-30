@@ -1,4 +1,4 @@
-<ion-grid class="ion-no-padding">
+<ion-grid class="ion-no-padding position-relative">
   <ion-row class="px-16">
     <ion-icon
       (click)="dismissModal()"
@@ -6,38 +6,59 @@
       class="position-absolute right-0 top-0 bottom-left-radius-8 icon-16 p-23 z-index-999"
     >
     </ion-icon>
-    <ion-col class="ion-no-padding">
-      <ion-row class="ion-justify-content-center pt-73 mb-8">
+    <ion-col class="ion-no-padding pt-73">
+      <ion-row class="ion-justify-content-center mb-8" *ngIf="prima">
         <ion-text class="text-color alt-font s20-h24 text-center"
           >Asigurarea facultativă Garant AMPLUS pentru locuința ta costă
           aproximativ</ion-text
         >
       </ion-row>
       <ion-row class="ion-justify-content-center mb-32">
-        <ion-text color="omn-green" class="alt-font x-large text-center"
-          >450,8 lei/an</ion-text
+        <ion-text
+          color="omn-green"
+          class="alt-font x-large text-center"
+          *ngIf="prima"
+          >{{ prima }} {{ currency }}/an</ion-text
         >
       </ion-row>
-      <ion-row class="ion-justify-content-center mb-8">
+      <ion-row
+        class="ion-justify-content-center mb-8"
+        *ngIf="variant === 'not-found'"
+      >
         <ion-text class="text-color alt-font s20-h24 text-center"
           >Asigurarea obligatorie PAD costă</ion-text
         >
       </ion-row>
-      <ion-row class="ion-justify-content-center mb-32">
+      <ion-row
+        class="ion-justify-content-center mb-32"
+        *ngIf="variant === 'not-found'"
+      >
         <ion-text color="omn-green" class="alt-font x-large text-center"
-          >98,0 lei/an</ion-text
+          >20 euro/an</ion-text
         >
+      </ion-row>
+      <ion-row class="ion-justify-content-center mb-32">
+        <ion-text class="text-color alt-font s14-h16 text-center">
+          * Simulare realizată pe planul Gold, cu plata într-o singură rata,
+          poliță valabilă 12 luni.
+        </ion-text>
       </ion-row>
     </ion-col>
   </ion-row>
-  <ion-row class="ion-justify-content-center px-16 pb-16">
+  <ion-row class="ion-justify-content-center px-16 pb-16 w-100">
+    <!-- 
+      removed class from button: flat no-shadow
+     -->
     <ion-button
       type="submit"
       color="success"
       fill="solid"
       expand="block"
       size="large"
-      class="m-0 w-100 flat no-shadow"
+      class="m-0 w-100"
+      [routerLink]="['/policy', 'form']"
+      [queryParams]="{ policyID: 'AMPLUS' }"
+      (click)="dismissModal()"
     >
       Asigură-te
     </ion-button>
