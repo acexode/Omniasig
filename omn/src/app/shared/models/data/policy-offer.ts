@@ -19,9 +19,9 @@ export interface PolicyOffer {
 }
 
 export interface ratePlan {
-  id: string | number,
-  amount: number,
-  currency: string,
-  rateNumber: number,
-  dueDatea: Date
+  id: string | number;
+  amount: number;
+  currency: string;
+  rateNumber: number;
+  dueDatea: Date;
 }
