@@ -39,7 +39,7 @@ const routes: Routes = [
   },
   {
     path: 'personal-details',
-    // canActivate: [ LoginGuard ],
+    canActivate: [ LoginGuard ],
     component: DatePersonaleComponent,
   },
   {

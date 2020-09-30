@@ -7,17 +7,10 @@ const routes: Routes = [
     path: '',
     component: ProfilePage,
     children: [
-      /* {
-        path: '',
-        loadChildren: () =>
-          import('./main/profil/profil.module').then((m) => m.ProfilPageModule),
-      }, */
       {
         path: '',
         loadChildren: () =>
-          import( './pages/locuinte/locuinte.module' ).then(
-            ( m ) => m.LocuintePageModule
-          ),
+          import('./main/profil/profil.module').then((m) => m.ProfilPageModule),
       },
       {
         path: 'date-personale',
