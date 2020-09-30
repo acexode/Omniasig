@@ -13,7 +13,12 @@ import { LocuinteRouteResolver } from './services/locuinte-resolver/locuinte-rou
 const routes: Routes = [
   {
     path: '',
-    component: LocuintePage,
+    // component: LocuintePage,
+    component: LocuinteFormPageComponent,
+    data: {
+      formMode: LocuinteFormModes.ADD_NEW_FULL,
+      locuinta: null,
+    },
   },
   {
     path: 'add',
