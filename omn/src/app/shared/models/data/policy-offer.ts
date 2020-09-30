@@ -15,7 +15,7 @@ export interface PolicyOffer {
   supportData?: any;
   payData?: any;
   ratePlanList?: ratePlan[];
-  offerPrice?:number;
+  offerPrice?: number;
 }
 
 export interface ratePlan {
