@@ -8,7 +8,7 @@ import {
   Output,
   ViewChild,
 } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { FormGroup, Validators } from '@angular/forms';
 import { IonContent, ModalController } from '@ionic/angular';
 import { get } from 'lodash';
 import { Observable, of } from 'rxjs';
@@ -154,8 +154,9 @@ export class PolicyAddressFormComponent implements OnInit {
           this.cdRef.detectChanges();
         });
       this.addressCounty.valueChanges.subscribe((val) => {
-        if (this.addressCity.value) {
-          this.addressCity.patchValue({}, { emit: true });
+        if (this.addressCity) {
+          this.addressCity.patchValue('');
+          this.addressCity.updateValueAndValidity();
         }
         this.formS
           .updateCounty(
@@ -176,12 +177,37 @@ export class PolicyAddressFormComponent implements OnInit {
     }
     if (this.addressCity) {
       this.addressCity.valueChanges.subscribe((val) => {
-        if (this.addressStreet.value) {
-          this.addressStreet.patchValue({}, { emit: true });
+        if (this.addressStreet) {
+          this.addressStreet.setValidators([Validators.required]);
+          this.addressStreet.patchValue('');
+          this.addressStreet.updateValueAndValidity();
         }
         this.formS
           .updateCity(this.addressCity, this.formInstance.data, this.dataModel)
           .subscribe((v) => {
+            if (v && v.length) {
+              this.addressStreet.setValidators([Validators.required]);
+              this.formS.handleStreetProcessing(
+                val,
+                this.formData,
+                this.dataModel
+              );
+              this.formS.handlePostalCode(
+                null,
+                this.formInstance.data,
+                this.addressPostalCode,
+                this.addressCity ? this.addressCity.value : null
+              );
+            } else {
+              this.formS.handlePostalCode(
+                null,
+                this.formInstance.data,
+                this.addressPostalCode,
+                this.addressCity ? this.addressCity.value : null
+              );
+              this.addressStreet.clearValidators();
+            }
+            this.addressStreet.updateValueAndValidity({ emitEvent: true });
             this.cdRef.markForCheck();
             this.cdRef.detectChanges();
           });
@@ -197,7 +223,8 @@ export class PolicyAddressFormComponent implements OnInit {
         this.formS.handlePostalCode(
           val,
           this.formInstance.data,
-          this.addressPostalCode
+          this.addressPostalCode,
+          this.addressCity ? this.addressCity.value : null
         );
       });
     }
@@ -355,7 +382,7 @@ export class PolicyAddressFormComponent implements OnInit {
     switch (this.formMode) {
       case this.formModes.ADD_NEW_POLICY:
         const model2 = this.formS.processFormModel(
-          this.formInstance.group.value,
+          this.formInstance.group.getRawValue(),
           this.dataModel
         );
         this.formSubmitting = true;

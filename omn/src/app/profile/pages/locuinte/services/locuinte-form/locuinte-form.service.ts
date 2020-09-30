@@ -1,8 +1,9 @@
+import { take } from 'rxjs/internal/operators/take';
 import { Injectable } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { forOwn, get, set } from 'lodash';
 import { BehaviorSubject, Observable, of } from 'rxjs';
-import { map, tap, switchMap, filter } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 import { LocuinteService } from 'src/app/profile/pages/locuinte/services/locuinte/locuinte.service';
 import { autoCompleteConfigHelper } from 'src/app/shared/data/autocomplete-config-helper';
 import { dateTimeConfigHelper } from 'src/app/shared/data/datetime-config-helper';
@@ -103,11 +104,13 @@ export class LocuinteFormService {
         get(model, 'addressApart', ''),
         Validators.required
       ),
-      addressPostalCode: this.fb.control(get(model, 'addressPostalCode', ''), [
-        Validators.required,
-        Validators.minLength(6),
-        Validators.maxLength(6),
-      ]),
+      addressPostalCode: this.fb.control(
+        {
+          value: get(model, 'addressPostalCode', ''),
+          disabled: true,
+        },
+        [Validators.required, Validators.minLength(6), Validators.maxLength(6)]
+      ),
       // Additional - add validator after build
       name: this.fb.control(get(model, 'name', '')),
     });
@@ -175,7 +178,7 @@ export class LocuinteFormService {
               maxLength: 6,
               minLength: 6,
             },
-            disabled: isDisabled,
+            disabled: true,
           }),
           name: inputConfigHelper({
             label: 'Vrei să dai o denumire acestui profil? (opțional)',
@@ -303,7 +306,7 @@ export class LocuinteFormService {
           }
           observer.next(true);
         });
-      });
+      }).pipe(take(1));
     } else {
       return of(true);
     }
@@ -333,7 +336,8 @@ export class LocuinteFormService {
     set(dataModel, 'addressStreetType', get(f, 'streetType', 'Strada'));
     set(dataModel, 'addressStreetCode', get(f, 'id', null));
   }
-  handlePostalCode(id, fieldsData, addressPostalCode) {
+
+  handlePostalCode(id, fieldsData, addressPostalCode, cityValue = null) {
     const vvv = fieldsData.addressStreet ? fieldsData.addressStreet : [];
     const f = vvv.find((v) => {
       try {
@@ -345,7 +349,29 @@ export class LocuinteFormService {
         return false;
       }
     });
-    const postCode = get(f, 'postCode', null);
+    let postCode = get(f, 'postCode', null);
+    // Default to a city value, if available.
+    if (!vvv.length || (cityValue && !postCode)) {
+      const vv = fieldsData.addressCity ? fieldsData.addressCity : [];
+      const cV = cityValue ? cityValue : null;
+      const f2 = vv.find((v) => {
+        try {
+          const vName = v.name.toString();
+          const vId = v.id.toString();
+          const vF = cV.toString();
+          return vName === vF || vId === vF;
+        } catch (err) {
+          return false;
+        }
+      });
+      postCode = get(f2, 'postCode', null);
+    }
+    try {
+      postCode =
+        postCode.toString().trim().length > 0 ? postCode.toString() : null;
+    } catch (e) {
+      postCode = null;
+    }
     addressPostalCode.patchValue(postCode);
   }
 
@@ -364,6 +390,7 @@ export class LocuinteFormService {
     if (addressCounty) {
       set(dataModel, 'addressCountyCode', addressCounty.id);
       return this.locuinteS.getCities(addressCounty.id).pipe(
+        take(1),
         map((data: any) => {
           fieldsData.addressCity = data;
           return data;
@@ -374,7 +401,10 @@ export class LocuinteFormService {
   }
 
   updateCity(field, fieldsData, dataModel = {}) {
-    const addressCity = fieldsData.addressCity.find((v) => {
+    const addressCity = (fieldsData.addressCity
+      ? fieldsData.addressCity
+      : []
+    ).find((v) => {
       try {
         const vName = v.name.toString();
         const vId = v.id.toString();
