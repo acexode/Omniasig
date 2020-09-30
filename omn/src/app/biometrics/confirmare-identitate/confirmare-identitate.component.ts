@@ -245,7 +245,7 @@ export class ConfirmareIdentitateComponent implements OnInit {
   }
 
   submitForm() {
-    const value = this.confirmareForm.value;
+    const value = this.confirmareForm.getRawValue();
     if (this.confirmareForm.valid) {
       this.formSubmitting = true;
       this.auth.lastLoginNumber().subscribe((e) => {

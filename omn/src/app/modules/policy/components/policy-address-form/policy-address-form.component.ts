@@ -382,7 +382,7 @@ export class PolicyAddressFormComponent implements OnInit {
     switch (this.formMode) {
       case this.formModes.ADD_NEW_POLICY:
         const model2 = this.formS.processFormModel(
-          this.formInstance.group.value,
+          this.formInstance.group.getRawValue(),
           this.dataModel
         );
         this.formSubmitting = true;

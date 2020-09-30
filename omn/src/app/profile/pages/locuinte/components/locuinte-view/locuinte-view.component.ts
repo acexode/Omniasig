@@ -11,6 +11,7 @@ import { IonContent, ModalController, NavController } from '@ionic/angular';
 import { BehaviorSubject, combineLatest, Observable, of } from 'rxjs';
 import { finalize, switchMap } from 'rxjs/operators';
 import { CustomRouterService } from 'src/app/core/services/custom-router/custom-router.service';
+import { PaidExternalService } from 'src/app/modules/policy/services/paid-external.service';
 import { subPageHeaderDefault } from 'src/app/shared/data/sub-page-header-default';
 import { subPageHeaderPrimary } from 'src/app/shared/data/sub-page-header-primary';
 import {
@@ -22,14 +23,14 @@ import { LocuinteFormService } from '../../services/locuinte-form/locuinte-form.
 import { LocuinteService } from '../../services/locuinte/locuinte.service';
 import { ConfirmationModalComponent } from '../modals/confirmation-modal/confirmation-modal.component';
 
-@Component({
+@Component( {
   selector: 'app-locuinte-view',
   templateUrl: './locuinte-view.component.html',
-  styleUrls: ['./locuinte-view.component.scss'],
-})
+  styleUrls: [ './locuinte-view.component.scss' ],
+} )
 export class LocuinteViewComponent implements OnInit {
   headerConfig = null;
-  locuinta$: BehaviorSubject<Locuinte> = new BehaviorSubject(null);
+  locuinta$: BehaviorSubject<Locuinte> = new BehaviorSubject( null );
   variant = 'not-found'; // not-insured, not-found, found.
   dataModel: Locuinte;
   formMode: LocuintaState;
@@ -41,30 +42,31 @@ export class LocuinteViewComponent implements OnInit {
     address: any;
     place: any;
   } = {
-    address: {},
-    place: {},
-  };
+      address: {},
+      place: {},
+    };
   formGroups: {
     address: FormGroup;
     place: FormGroup;
   } = {
-    address: null,
-    place: null,
-  };
+      address: null,
+      place: null,
+    };
   formData: {
     address: any;
     place: any;
   } = {
-    address: {},
-    place: {},
-  };
-  formInstance: { group: FormGroup; config: any; data: any } = null;
+      address: {},
+      place: {},
+    };
+  formInstance: { group: FormGroup; config: any; data: any; } = null;
   buttonVisible: boolean;
   buttonText: string;
   formSubmitting: boolean;
   refTimer;
-  @HostBinding('class') color = null;
-  @ViewChild('contentRef', { static: true }) contentRef: IonContent;
+  @HostBinding( 'class' ) color = null;
+  @ViewChild( 'contentRef', { static: true } ) contentRef: IonContent;
+  checkPAD$: Observable<any>;
   constructor(
     private routerS: CustomRouterService,
     private aRoute: ActivatedRoute,
@@ -72,30 +74,36 @@ export class LocuinteViewComponent implements OnInit {
     private navCtrl: NavController,
     private locuinteS: LocuinteService,
     private formS: LocuinteFormService,
-    public modalController: ModalController
-  ) {}
+    public modalController: ModalController,
+    private paidES: PaidExternalService,
+  ) { }
 
   ngOnInit() {
+    // checkpad for the locuite first (this is to be done first: suggested by adrian)
+    this.aRoute.data.subscribe( resolveData => {
+      this.checkPAD$ = this.paidES.CheckPAD( { locationId: resolveData.data.locationId, userId: resolveData.data.userId } );
+    } );
+    /*  */
     this.routerS
       .getNavigationEndEvent()
       .pipe(
-        switchMap(() =>
-          combineLatest([
-            this.routerS.processChildDataAsync(this.aRoute, 'formMode'),
-            this.routerS.processChildDataAsync(this.aRoute, 'formStep'),
-            this.routerS.processChildParamsAsync(this.aRoute, 'id'),
-          ])
+        switchMap( () =>
+          combineLatest( [
+            this.routerS.processChildDataAsync( this.aRoute, 'formMode' ),
+            this.routerS.processChildDataAsync( this.aRoute, 'formStep' ),
+            this.routerS.processChildParamsAsync( this.aRoute, 'id' ),
+          ] )
         )
       )
-      .subscribe((vals: any) => {
-        this.formMode = vals[0];
-        this.formStep = vals[1];
+      .subscribe( ( vals: any ) => {
+        this.formMode = vals[ 0 ];
+        this.formStep = vals[ 1 ];
         this.setTitles();
-        const id = vals[2];
-        if (id) {
-          this.locuinteS.getSingleLocuinta(id).subscribe((val: Locuinte) => {
-            if (val) {
-              this.getLocationInfo(val);
+        const id = vals[ 2 ];
+        if ( id ) {
+          this.locuinteS.getSingleLocuinta( id ).subscribe( ( val: Locuinte ) => {
+            if ( val ) {
+              this.getLocationInfo( val );
               this.dataModel = val;
               this.buildFormAdd();
               this.initForm();
@@ -103,32 +111,32 @@ export class LocuinteViewComponent implements OnInit {
             } else {
               this.navCtrl.navigateRoot(['/profil', 'locuinte']);
             }
-          });
+          } );
         } else {
           this.navCtrl.navigateRoot(['/profil', 'locuinte']);
         }
-      });
+      } );
   }
 
   setTitles() {
-    switch (this.formMode) {
+    switch ( this.formMode ) {
       case this.locuintaState.INCOMPLETE:
-        this.headerConfig = subPageHeaderDefault('Adresa');
+        this.headerConfig = subPageHeaderDefault( 'Adresa' );
         // this.color = '';
         break;
       case this.locuintaState.INVALID:
-        this.headerConfig = subPageHeaderDefault('Confirmare domiciliu');
+        this.headerConfig = subPageHeaderDefault( 'Confirmare domiciliu' );
         this.color = 'ion-color-white-page';
         break;
       default:
-        this.headerConfig = subPageHeaderDefault('Locuințe');
+        this.headerConfig = subPageHeaderDefault( 'Locuințe' );
         this.color = 'ion-color-white-page';
         break;
     }
   }
 
   demoType() {
-    switch (this.variant) {
+    switch ( this.variant ) {
       case 'not-insured':
         this.variant = 'not-found';
         break;
@@ -141,7 +149,7 @@ export class LocuinteViewComponent implements OnInit {
         break;
     }
   }
-  getLocationInfo(val) {
+  getLocationInfo( val ) {
     const allValues = val;
     // const obj = {
     //   countryId: 'RO',
@@ -154,25 +162,25 @@ export class LocuinteViewComponent implements OnInit {
     //   allValues.addressCity = val.addressCity;
     //   allValues.addressStreet = currStreets ? currStreets.name : '';
     // });
-    this.locuinta$.next(allValues);
+    this.locuinta$.next( allValues );
     this.cdRef.markForCheck();
   }
-  deleteAddress(id) {
+  deleteAddress( id ) {
     const obj = {
       id,
       disabledReason: 'Disabled by user',
     };
-    this.locuinteS.disableLocationForAddressId(obj).subscribe((v) => {
-      this.navCtrl.navigateRoot(['/profil', 'locuinte']);
-    });
+    this.locuinteS.disableLocationForAddressId( obj ).subscribe( ( v ) => {
+      this.navCtrl.navigateRoot( [ '/profil', 'locuinte' ] );
+    } );
   }
   initForm() {
-    switch (this.formMode) {
+    switch ( this.formMode ) {
       case this.locuintaState.INVALID:
         this.buttonVisible = true;
         this.buttonText = 'Salvează';
-        if (!this.formInstance) {
-          if (this.formStep === LocuinteFormType.ADDRESS) {
+        if ( !this.formInstance ) {
+          if ( this.formStep === LocuinteFormType.ADDRESS ) {
             this.formInstance = {
               config: this.formConfigs.address,
               group: this.formGroups.address,
@@ -185,8 +193,8 @@ export class LocuinteViewComponent implements OnInit {
         }
         break;
       case this.locuintaState.INCOMPLETE:
-        if (!this.formInstance) {
-          if (this.formStep === LocuinteFormType.ADDRESS) {
+        if ( !this.formInstance ) {
+          if ( this.formStep === LocuinteFormType.ADDRESS ) {
             this.formInstance = {
               config: this.formConfigs.address,
               group: this.formGroups.address,
@@ -210,38 +218,38 @@ export class LocuinteViewComponent implements OnInit {
       null,
       disabled
     );
-    this.formConfigs.place = this.formS.buildFormConfig(LocuinteFormType.PLACE);
+    this.formConfigs.place = this.formS.buildFormConfig( LocuinteFormType.PLACE );
     this.formData.address = this.formS.getFormFieldsData(
       this.formConfigs.address
     );
-    this.formData.place = this.formS.getFormFieldsData(this.formConfigs.place);
-    this.formGroups.address = this.formS.buildAddressSubform(this.dataModel);
-    this.formGroups.place = this.formS.buildLocuinteSubform(this.dataModel);
+    this.formData.place = this.formS.getFormFieldsData( this.formConfigs.place );
+    this.formGroups.address = this.formS.buildAddressSubform( this.dataModel );
+    this.formGroups.place = this.formS.buildLocuinteSubform( this.dataModel );
   }
 
-  formCustomEvents() {}
+  formCustomEvents() { }
 
   handleFormSubmit() {
     this.buttonVisible = true;
-    if (this.formType === LocuinteFormType.ADDRESS) {
-      this.submitData().subscribe(async (v) => {
-        if (v) {
-          this.confirmModal(v);
+    if ( this.formType === LocuinteFormType.ADDRESS ) {
+      this.submitData().subscribe( async ( v ) => {
+        if ( v ) {
+          this.confirmModal( v );
         }
-      });
-    } else if (this.formType === LocuinteFormType.PLACE) {
-      this.submitData().subscribe((v) => {
-        if (v) {
+      } );
+    } else if ( this.formType === LocuinteFormType.PLACE ) {
+      this.submitData().subscribe( ( v ) => {
+        if ( v ) {
           this.formType = LocuinteFormType.SUCCESS_MSG;
-          const header = subPageHeaderDefault('');
+          const header = subPageHeaderDefault( '' );
           header.leadingIcon = null;
           this.headerConfig = header;
           this.buttonVisible = false;
-          this.refTimer = setTimeout(() => {
+          this.refTimer = setTimeout( () => {
             this.navigateToMain();
-          }, 2000);
+          }, 2000 );
         }
-      });
+      } );
     }
 
     this.cdRef.markForCheck();
@@ -249,55 +257,55 @@ export class LocuinteViewComponent implements OnInit {
   }
 
   submitData(): Observable<Locuinte> {
-    switch (this.formMode) {
+    switch ( this.formMode ) {
       case this.locuintaState.INVALID:
         const model = this.formS.processFormModel(
-          this.formInstance.group.value,
+          this.formInstance.group.getRawValue(),
           this.dataModel
         );
         this.formSubmitting = true;
         this.cdRef.markForCheck();
-        return this.locuinteS.updateSingleLocuinte(model).pipe(
-          finalize(() => {
+        return this.locuinteS.updateSingleLocuinte( model ).pipe(
+          finalize( () => {
             this.formSubmitting = false;
             this.cdRef.markForCheck();
-          })
+          } )
         );
 
       case this.locuintaState.INCOMPLETE:
         const model2 = this.formS.processFormModel(
-          this.formInstance.group.value,
+          this.formInstance.group.getRawValue(),
           this.dataModel
         );
         this.formSubmitting = true;
         this.cdRef.markForCheck();
-        if (this.dataModel) {
-          return this.locuinteS.updateSingleLocuinte(model2).pipe(
-            finalize(() => {
+        if ( this.dataModel ) {
+          return this.locuinteS.updateSingleLocuinte( model2 ).pipe(
+            finalize( () => {
               this.formSubmitting = false;
               this.cdRef.markForCheck();
-            })
+            } )
           );
         } else {
-          return this.locuinteS.addSingleLocuinte(model2).pipe(
-            finalize(() => {
+          return this.locuinteS.addSingleLocuinte( model2 ).pipe(
+            finalize( () => {
               this.formSubmitting = false;
               this.cdRef.markForCheck();
-            })
+            } )
           );
         }
 
       default:
-        return of(null);
+        return of( null );
     }
   }
 
   navigateToMain() {
-    switch (this.formMode) {
+    switch ( this.formMode ) {
       case this.locuintaState.INCOMPLETE:
       case this.locuintaState.INVALID:
-        if (this.formType === LocuinteFormType.SUCCESS_MSG) {
-          this.navCtrl.navigateRoot(['/profil', 'locuinte']);
+        if ( this.formType === LocuinteFormType.SUCCESS_MSG ) {
+          this.navCtrl.navigateRoot( [ '/profil', 'locuinte' ] );
         }
         break;
       default:
@@ -306,13 +314,13 @@ export class LocuinteViewComponent implements OnInit {
   }
 
   scrollTop() {
-    if (this.contentRef) {
+    if ( this.contentRef ) {
       this.contentRef.scrollToTop();
     }
   }
 
   nextStep() {
-    this.headerConfig = subPageHeaderPrimary('Informații  locuință');
+    this.headerConfig = subPageHeaderPrimary( 'Informații  locuință' );
     this.color = 'ion-color-white-page';
     this.buttonVisible = true;
     this.buttonText = 'Salvează';
@@ -324,19 +332,19 @@ export class LocuinteViewComponent implements OnInit {
     this.formType = LocuinteFormType.PLACE;
   }
 
-  async confirmModal(v) {
-    const modal = await this.modalController.create({
+  async confirmModal( v ) {
+    const modal = await this.modalController.create( {
       component: ConfirmationModalComponent,
       cssClass: 'disabled-message-modal-class',
-    });
-    modal.onDidDismiss().then((data) => {
+    } );
+    modal.onDidDismiss().then( ( data ) => {
       const value = 'data';
-      const next = data[value];
-      if (next) {
+      const next = data[ value ];
+      if ( next ) {
         this.dataModel = v;
         this.formType = LocuinteFormType.PLACE;
         this.buttonText = 'Salvează';
-        const header = subPageHeaderDefault('Adresa');
+        const header = subPageHeaderDefault( 'Adresa' );
         header.leadingIcon.routerLink = false;
         this.headerConfig = header;
         this.formInstance = {
@@ -345,7 +353,8 @@ export class LocuinteViewComponent implements OnInit {
           data: this.formData.place,
         };
       }
-    });
+    } );
     return await modal.present();
   }
+
 }
