@@ -45,6 +45,7 @@ export interface Locuinte {
   // PAID data.
   paidExternalSeriePolita?: string;
   paidExternalNumarPolita?: string;
+  PaidExternalDataPolita?: string | Date;
   paidExternalDataStartValabilitatePolita?: string | Date;
   paidExternalDataStopValabilitatePolita?: string | Date;
   // Temp - prefilled data.
