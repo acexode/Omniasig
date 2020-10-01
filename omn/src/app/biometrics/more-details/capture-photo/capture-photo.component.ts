@@ -12,10 +12,9 @@ import { Router, ActivatedRoute } from '@angular/router';
 export class CapturePhotoComponent implements OnInit {
   @HostBinding('class') color = 'ion-color-white-page';
   photo = this.photoService.photos;
- 
   headerConfig = subPageHeaderDefault('Fotografia ta');
-  saving = false
-  constructor(private photoService: PhotoService,private router: Router,private route: ActivatedRoute) {}
+  saving = false;
+  constructor(private photoService: PhotoService, private router: Router, private route: ActivatedRoute) {}
 
   removePhoto() {
     this.photoService.removePhoto();
@@ -28,13 +27,13 @@ export class CapturePhotoComponent implements OnInit {
 
   ngOnInit() {}
   async uploadPhoto(){
-    this.saving = true
-    let blob = await fetch(this.photo[0].webviewPath).then(r =>  r.blob());   
-    this.photoService.uploadImage(blob, true).subscribe(data =>{      
+    this.saving = true;
+    const blob = await fetch(this.photo[0].webviewPath).then(r =>  r.blob());   
+    this.photoService.uploadImage(blob, true).subscribe(data =>{     
       this.photoService.processPicture().subscribe(d =>{        
-        this.saving = false
-        this.router.navigate(['../complete-verification'], { relativeTo: this.route })      
-      })
-    })
+        this.saving = false;
+        this.router.navigate(['../complete-verification'], { relativeTo: this.route });     
+      });
+    });
   }
 }

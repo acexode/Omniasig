@@ -14,8 +14,8 @@ export class CaptureDocsComponent implements OnInit {
   photo = this.photoService.photos;
   step = 1;
   captured;
-  saving = false
-  constructor(private photoService: PhotoService, private router: Router,private route: ActivatedRoute) {}
+  saving = false;
+  constructor(private photoService: PhotoService, private router: Router, private route: ActivatedRoute) {}
 
   removePhoto() {
     this.photoService.removePhoto();
@@ -30,14 +30,11 @@ export class CaptureDocsComponent implements OnInit {
     this.captured = await this.photoService.addNewToGallery();
   }
   async uploadPhoto(){
-    this.saving = true
-    let blob = await fetch(this.photo[0].webviewPath).then(r =>  r.blob());   
+    this.saving = true;
+    const blob = await fetch(this.photo[0].webviewPath).then(r =>  r.blob());  
     this.photoService.uploadImage(blob, false).subscribe(data =>{    
-      this.saving = false 
-      this.router.navigate(['../capture-photo'], { relativeTo: this.route })      
-    })
-    
-   
-  }
-  
+      this.saving = false;
+      this.router.navigate(['../capture-photo'], { relativeTo: this.route });
+    }); 
+  }  
 }
