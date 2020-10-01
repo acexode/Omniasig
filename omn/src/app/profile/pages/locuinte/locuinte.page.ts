@@ -11,7 +11,7 @@ import { Locuinte } from 'src/app/shared/models/data/locuinte.interface';
   styleUrls: ['./locuinte.page.scss'],
 })
 export class LocuintePage implements OnInit {
-  headerConfig = subPageHeaderDefault('Locuințe');
+  headerConfig = subPageHeaderDefault('Locuințe', '/profil');
   accountActivated = false;
   account$ = this.authS.getAccountData();
   cards$ = this.locuinteS.locuinteStore$;
