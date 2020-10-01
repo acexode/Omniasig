@@ -29,8 +29,8 @@ export class CapturePhotoComponent implements OnInit {
   async uploadPhoto(){
     this.saving = true;
     const blob = await fetch(this.photo[0].webviewPath).then(r =>  r.blob());
-    this.photoService.uploadImage(blob, true).subscribe(data =>{
-      this.photoService.processPicture().subscribe(d =>{
+    this.photoService.uploadImage(blob, true).subscribe(data => {
+      this.photoService.processPicture().subscribe(d => {
         this.saving = false;
         this.router.navigate(['../complete-verification'], { relativeTo: this.route });
       });
