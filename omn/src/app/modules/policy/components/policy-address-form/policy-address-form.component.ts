@@ -150,6 +150,14 @@ export class PolicyAddressFormComponent implements OnInit {
           })
         )
         .subscribe((v) => {
+          // We need to clear the validator when we have no data on the initial call.
+          if (
+            this.addressStreet &&
+            !get(this.formInstance.data, 'addressStreet', [])?.length
+          ) {
+            this.addressStreet.clearValidators();
+            this.addressStreet.updateValueAndValidity();
+          }
           this.cdRef.markForCheck();
           this.cdRef.detectChanges();
         });

@@ -174,6 +174,7 @@ export class LocuinteFormPageComponent implements OnInit {
           })
         )
         .subscribe((v) => {
+          // We need to clear the validator when we have no data on the initial call.
           if (
             this.addressStreet &&
             !get(this.formInstance.data, 'addressStreet', [])?.length
@@ -187,7 +188,6 @@ export class LocuinteFormPageComponent implements OnInit {
       this.addressCounty.valueChanges.subscribe((val) => {
         if (this.addressCity) {
           this.addressCity.patchValue('');
-          this.addressStreet.markAsTouched();
           this.addressCity.updateValueAndValidity();
         }
         this.formS

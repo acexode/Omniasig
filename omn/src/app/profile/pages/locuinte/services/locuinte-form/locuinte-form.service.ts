@@ -96,7 +96,9 @@ export class LocuinteFormService {
         Validators.required
       ),
       addressBuildingNumber: this.fb.control(
-        get(model, 'addressBuildingNumber', ''),
+        get(model, 'addressBuildingNumber', '') !== 0
+          ? get(model, 'addressBuildingNumber', '')
+          : '',
         Validators.required
       ),
       addressScara: this.fb.control(get(model, 'addressScara', '')),
@@ -472,8 +474,11 @@ export class LocuinteFormService {
           val ? set(newModel, key, parseInt(val, 10)) : set(newModel, key, val);
           break;
         case 'addressStreet':
-        case 'addressApart':
           set(newModel, key, val ? val : '');
+          break;
+        case 'addressApart':
+          const v = !val || val === null || val === '' ? '0' : val;
+          set(newModel, key, v ? v : '0');
           break;
         case 'hasAlarmSystem':
         case 'floors':

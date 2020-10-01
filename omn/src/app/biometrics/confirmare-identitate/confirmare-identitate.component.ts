@@ -131,7 +131,7 @@ export class ConfirmareIdentitateComponent implements OnInit {
       addressStreet: ['', Validators.required],
       addressBuildingNumber: ['', Validators.required],
       addressScara: [''],
-      addressApart: ['', Validators.required],
+      addressApart: [''],
       addressPostalCode: [
         { value: '', disabled: true },
         [Validators.required, Validators.minLength(6), Validators.maxLength(6)],
@@ -167,6 +167,14 @@ export class ConfirmareIdentitateComponent implements OnInit {
           })
         )
         .subscribe((v) => {
+          // We need to clear the validator when we have no data on the initial call.
+          if (
+            this.addressStreet &&
+            !get(this.formData, 'addressStreet', [])?.length
+          ) {
+            this.addressStreet.clearValidators();
+            this.addressStreet.updateValueAndValidity();
+          }
           this.cdRef.markForCheck();
           this.cdRef.detectChanges();
         });
@@ -258,7 +266,12 @@ export class ConfirmareIdentitateComponent implements OnInit {
         };
         const locuinte: any = {
           name: 'Domiciliu',
-          addressApart: value.addressApart,
+          addressApart:
+            !value.addressApart ||
+            value.addressApart === null ||
+            value.addressApart === ''
+              ? 0
+              : value.addressApart,
           addressBuildingNumber: value.addressBuildingNumber,
           addressCity: value.addressCity,
           addressCounty: value.addressCounty,
