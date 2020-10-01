@@ -14,6 +14,7 @@ export class LocuinteService {
   singleLoading: BehaviorSubject<boolean> = new BehaviorSubject( false );
   multipleLoading: BehaviorSubject<boolean> = new BehaviorSubject( false );
   locuinteStore$: BehaviorSubject<Array<Locuinte>> = new BehaviorSubject( null );
+  newlocuinteStore$: BehaviorSubject<Array<Locuinte>> = new BehaviorSubject( null );
   streetStore$: BehaviorSubject<Array<any>> = new BehaviorSubject( [] );
   countyStore$: BehaviorSubject<Array<any>> = new BehaviorSubject( null );
   cityStore$: BehaviorSubject<Array<any>> = new BehaviorSubject( null );
@@ -51,7 +52,6 @@ export class LocuinteService {
         this.multipleLoading.next( false );
       }
     );
-
     this.getCounties().subscribe( ( vals ) => {
       if ( vals instanceof Array && vals.length ) {
         this.countyStore$.next( vals );
@@ -73,7 +73,7 @@ export class LocuinteService {
     return this.reqS
       .get<Locuinte>( this.endpoints.singleLocation + '?id=' + id )
       .pipe(
-        map( ( v ) => this.mapToUIModel( v )),
+        map( ( v ) => this.mapToUIModel( v ) ),
         catchError( ( e ) => {
           return of( null );
         } )
@@ -102,7 +102,7 @@ export class LocuinteService {
       ...data,
       id: 0,
     };
-    return this.reqS.post<any>(this.endpoints.add, address);
+    return this.reqS.post<any>( this.endpoints.add, address );
   }
 
   makeHomeAddress( data ) {

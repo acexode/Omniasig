@@ -8,7 +8,7 @@ import { Account } from 'src/app/core/models/account.interface';
 @Injectable( {
   providedIn: 'root'
 } )
-export class LocuinteRouteResolver implements Resolve<any> {
+export class LocuinteViewRouteResolver implements Resolve<any> {
 
   authData: Account;
 
