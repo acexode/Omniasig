@@ -101,6 +101,11 @@ export class LocuinteFormService {
           : '',
         Validators.required
       ),
+      addressBuildingNumber: this.fb.control(
+        get(model, 'addressBuildingNumber', '') !== 0
+          ? get(model, 'addressBuildingNumber', '')
+          : ''
+      ),
       addressScara: this.fb.control(get(model, 'addressScara', '')),
       addressApart: this.fb.control(get(model, 'addressApart', '')),
       addressPostalCode: this.fb.control(
@@ -147,6 +152,12 @@ export class LocuinteFormService {
             placeholder: '',
             disabled: isDisabled,
           }),
+          addressBuildingNumber: inputConfigHelper({
+            label: 'Bloc (opțional)',
+            type: 'text',
+            placeholder: '',
+            disabled: isDisabled,
+          }),
           addressScara: inputConfigHelper({
             label: 'Scara (opțional)',
             type: 'text',
@@ -154,7 +165,7 @@ export class LocuinteFormService {
             disabled: isDisabled,
           }),
           addressApart: inputConfigHelper({
-            label: 'Apartament',
+            label: 'Apartament (opțional)',
             type: 'text',
             placeholder: '',
             disabled: isDisabled,
@@ -476,6 +487,7 @@ export class LocuinteFormService {
           break;
         case 'addressStreet':
         case 'addressApart':
+        case 'addressBuildingNumber':
           set(newModel, key, val ? val : '');
           break;
         case 'hasAlarmSystem':
