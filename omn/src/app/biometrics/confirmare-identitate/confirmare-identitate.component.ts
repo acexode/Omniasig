@@ -87,7 +87,7 @@ export class ConfirmareIdentitateComponent implements OnInit {
       idKey: 'name',
       labelKey: 'name',
     }),
-    addressBuildingNumber: inputConfigHelper({
+    addressStreetNumber: inputConfigHelper({
       label: 'Număr',
       type: 'text',
       placeholder: '',
@@ -129,7 +129,7 @@ export class ConfirmareIdentitateComponent implements OnInit {
       addressCounty: ['', Validators.required],
       addressCity: ['', Validators.required],
       addressStreet: ['', Validators.required],
-      addressBuildingNumber: ['', Validators.required],
+      addressStreetNumber: ['', Validators.required],
       addressScara: [''],
       addressApart: [''],
       addressPostalCode: [
@@ -266,7 +266,7 @@ export class ConfirmareIdentitateComponent implements OnInit {
         const locuinte: any = {
           name: 'Domiciliu',
           addressApart: value.addressApart ? value.addressApart : '',
-          addressBuildingNumber: value.addressBuildingNumber,
+          addressStreetNumber: value.addressStreetNumber,
           addressCity: value.addressCity,
           addressCounty: value.addressCounty,
           addressScara: value.addressScara,

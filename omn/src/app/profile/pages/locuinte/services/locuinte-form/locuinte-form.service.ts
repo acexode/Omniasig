@@ -95,9 +95,9 @@ export class LocuinteFormService {
         get(model, 'addressStreet', ''),
         Validators.required
       ),
-      addressBuildingNumber: this.fb.control(
-        get(model, 'addressBuildingNumber', '') !== 0
-          ? get(model, 'addressBuildingNumber', '')
+      addressStreetNumber: this.fb.control(
+        get(model, 'addressStreetNumber', '') !== 0
+          ? get(model, 'addressStreetNumber', '')
           : '',
         Validators.required
       ),
@@ -141,7 +141,7 @@ export class LocuinteFormService {
             idKey: 'name',
             labelKey: 'name',
           }),
-          addressBuildingNumber: inputConfigHelper({
+          addressStreetNumber: inputConfigHelper({
             label: 'Număr',
             type: 'text',
             placeholder: '',
@@ -464,7 +464,7 @@ export class LocuinteFormService {
         case 'addressCity':
         case 'addressCounty':
         case 'name':
-        case 'addressBuildingNumber':
+        case 'addressStreetNumber':
         case 'addressScara':
         case 'addressPostalCode':
         case 'addressStreetType':

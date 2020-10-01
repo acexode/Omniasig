@@ -20,7 +20,7 @@ export interface Locuinte {
   addressStreetType?: string;
   // Scara bloc.
   addressScara: string;
-  addressBuildingNumber: string;
+  addressStreetNumber: string;
   addressApart: string;
   addressPostalCode: string;
 

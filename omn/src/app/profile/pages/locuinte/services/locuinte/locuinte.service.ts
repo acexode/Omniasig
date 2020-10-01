@@ -184,7 +184,7 @@ export class LocuinteService {
       addressCity: get( entry, 'addressCity', '' ),
       addressStreet: get( entry, 'addressStreet', '' ),
       addressStreetType: get( entry, 'addressStreetType', '' ),
-      addressBuildingNumber: get( entry, 'addressBuildingNumber', '' ),
+      addressStreetNumber: get( entry, 'addressStreetNumber', '' ),
       // Scara bloc.
       addressScara: get( entry, 'addressScara', '' ),
       addressApart: get( entry, 'addressApart', '' ),

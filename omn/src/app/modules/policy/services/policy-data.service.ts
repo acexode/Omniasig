@@ -100,7 +100,7 @@ export class PolicyDataService {
         addressCounty: policy.addressCounty,
         addressCity: policy.addressCity,
         addressStreet: policy.addressStreet,
-        addressBuildingNumber: policy.addressStreetNumber,
+        addressStreetNumber: policy.addressStreetNumber,
         // Scara bloc.
         addressScara: policy.addressScara,
         addressApart: policy.addressApart,
@@ -200,7 +200,7 @@ export class PolicyDataService {
           addressCounty: offer.addressCounty,
           addressCity: offer.addressCity,
           addressStreet: offer.addressStreet,
-          addressBuildingNumber: offer.addressStreetNumber,
+          addressStreetNumber: offer.addressStreetNumber,
           // Scara bloc.
           addressScara: offer.addressScara,
           addressApart: offer.addressApart,
