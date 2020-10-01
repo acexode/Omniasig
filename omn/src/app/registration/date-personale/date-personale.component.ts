@@ -31,7 +31,7 @@ export class DatePersonaleComponent implements OnInit {
       },
       clearable: true,
       inputClasses: '',
-      autoCapitalize: 'words',
+      autoCapitalize: 'sentences',
     },
     prenume: {
       placeholder: 'Ion',
@@ -44,7 +44,7 @@ export class DatePersonaleComponent implements OnInit {
       },
       clearable: true,
       inputClasses: '',
-      autoCapitalize: 'words',
+      autoCapitalize: 'sentences',
     },
     cnp: {
       placeholder: '1234567890123',

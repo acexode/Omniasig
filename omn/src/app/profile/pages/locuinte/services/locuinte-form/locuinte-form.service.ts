@@ -186,7 +186,7 @@ export class LocuinteFormService {
             placeholder: 'Ex: Casa de vacanță',
             disabled: isDisabled,
             custom: {
-              autoCapitalize: 'words',
+              autoCapitalize: 'sentences',
             },
           } ),
         };
@@ -267,7 +267,7 @@ export class LocuinteFormService {
             placeholder: 'Ex: Casa de vacanță',
             disabled: isDisabled,
             custom: {
-              autoCapitalize: 'words',
+              autoCapitalize: 'sentences',
             },
           } ),
         };
