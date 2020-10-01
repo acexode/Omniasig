@@ -173,7 +173,6 @@ export class ConfirmareIdentitateComponent implements OnInit {
             !get(this.formData, 'addressStreet', [])?.length
           ) {
             this.addressStreet.clearValidators();
-            this.addressStreet.updateValueAndValidity();
           }
           this.cdRef.markForCheck();
           this.cdRef.detectChanges();
@@ -266,12 +265,7 @@ export class ConfirmareIdentitateComponent implements OnInit {
         };
         const locuinte: any = {
           name: 'Domiciliu',
-          addressApart:
-            !value.addressApart ||
-            value.addressApart === null ||
-            value.addressApart === ''
-              ? 0
-              : value.addressApart,
+          addressApart: value.addressApart ? value.addressApart : '',
           addressBuildingNumber: value.addressBuildingNumber,
           addressCity: value.addressCity,
           addressCounty: value.addressCounty,

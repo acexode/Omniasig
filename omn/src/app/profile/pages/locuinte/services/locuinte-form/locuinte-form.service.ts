@@ -43,7 +43,7 @@ export class LocuinteFormService {
         Validators.required
       ),
       yearConstruction: this.fb.control(
-        get(model, 'yearConstruction', 0),
+        get(model, 'yearConstruction', null),
         Validators.required
       ),
       valueCurrency: this.fb.control(
@@ -471,14 +471,12 @@ export class LocuinteFormService {
           set(newModel, key, val);
           break;
         case 'yearConstruction':
-          val ? set(newModel, key, parseInt(val, 10)) : set(newModel, key, val);
+          const v = val ? parseInt(val, 10) : val;
+          set(newModel, key, val > 0 ? val : 2000);
           break;
         case 'addressStreet':
-          set(newModel, key, val ? val : '');
-          break;
         case 'addressApart':
-          const v = !val || val === null || val === '' ? '0' : val;
-          set(newModel, key, v ? v : '0');
+          set(newModel, key, val ? val : '');
           break;
         case 'hasAlarmSystem':
         case 'floors':
@@ -487,16 +485,8 @@ export class LocuinteFormService {
         case 'area':
         case 'valueCurrency':
         case 'value':
-          set(newModel, key, val);
-          break;
         case 'structure':
-          set(newModel, key, val);
-          break;
         case 'type':
-          set(newModel, key, val);
-          break;
-
-        case 'valueCurrency':
           set(newModel, key, val);
           break;
 
@@ -504,8 +494,7 @@ export class LocuinteFormService {
         case 'addressCountyCode':
         case 'addressStreetCode':
         case 'addressCityCode':
-          // Ignore.
-          break;
+        // Ignore.
         default:
           set(newModel, key, val);
           break;
