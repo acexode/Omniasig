@@ -16,7 +16,7 @@ const { Camera, Filesystem, Storage } = Plugins;
 })
 export class PhotoService {
   public photos: Photo[] = [];
-  endpoints = biometricsEndpoints
+  endpoints = biometricsEndpoints;
   constructor(private reqS: RequestService) {}
 
   public async addNewToGallery() {
@@ -47,12 +47,12 @@ export class PhotoService {
   }
   uploadImage(blobData, isSelfie) {
     const formData = new FormData();
-    const timeStamp = Math.round(new Date().getTime()/1000);
+    const timeStamp = Math.round(new Date().getTime() / 1000);
     formData.append('imageFile', blobData, `file-${timeStamp}.jpg`);
-    formData.append('type', blobData.type);   
+    formData.append('type', blobData.type);
     return this.reqS.post(this.endpoints.uploadPicture + '?isSelfie=' + isSelfie, formData);
   }
-  processPicture(){ 
+  processPicture(){
     return this.reqS.get(this.endpoints.processPicture);
   }
 }
