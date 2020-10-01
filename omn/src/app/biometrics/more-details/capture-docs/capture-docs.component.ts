@@ -31,10 +31,10 @@ export class CaptureDocsComponent implements OnInit {
   }
   async uploadPhoto(){
     this.saving = true;
-    const blob = await fetch(this.photo[0].webviewPath).then(r =>  r.blob());  
-    this.photoService.uploadImage(blob, false).subscribe(data =>{    
+    const blob = await fetch(this.photo[0].webviewPath).then(r =>  r.blob());
+      this.photoService.uploadImage(blob, false).subscribe(data =>{
       this.saving = false;
       this.router.navigate(['../capture-photo'], { relativeTo: this.route });
-    }); 
-  }  
+    });
+  }
 }
