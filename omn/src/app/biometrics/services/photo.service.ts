@@ -52,7 +52,7 @@ export class PhotoService {
     formData.append('type', blobData.type);   
     return this.reqS.post(this.endpoints.uploadPicture+ '?isSelfie=' + isSelfie, formData)    
   }
-  processPicture() {  
+  processPicture() { 
     return this.reqS.get(this.endpoints.processPicture)
     
   }
