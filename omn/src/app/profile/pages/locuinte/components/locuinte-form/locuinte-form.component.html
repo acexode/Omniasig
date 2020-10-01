@@ -48,7 +48,7 @@
   >
     <ion-row class="ion-no-padding judet mb-24">
       <app-select
-        class="w-100 "
+        class="w-100"
         [config]="fieldConfig?.addressCounty"
         formControlName="addressCounty"
         [options]="fieldConfigData?.addressCounty || []"
@@ -108,35 +108,6 @@
         formControlName="name"
       ></app-input>
     </ion-row>
-    <ng-container>
-      <ion-row class="ion-no-padding profile-padAvailable mb-24">
-        <app-radios
-          class="w-100"
-          [config]="fieldConfig?.padAvailable"
-          [options]="fieldConfigData?.padAvailable || []"
-          formControlName="padAvailable"
-        ></app-radios>
-      </ion-row>
-      <ion-row
-        class="ion-no-padding policy-serie-nr mb-24"
-        *ngIf="padAvailableV"
-      >
-        <ion-col size="6" class="pr-16">
-          <app-input
-            class="w-100"
-            [config]="fieldConfig?.padSerie"
-            formControlName="padSerie"
-          ></app-input
-        ></ion-col>
-        <ion-col size="6" class="pl-16">
-          <app-input
-            class="w-100"
-            [config]="fieldConfig?.padNr"
-            formControlName="padNr"
-          ></app-input
-        ></ion-col>
-      </ion-row>
-    </ng-container>
   </ion-grid>
 </ng-template>
 

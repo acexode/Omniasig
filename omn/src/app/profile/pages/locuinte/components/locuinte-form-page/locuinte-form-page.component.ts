@@ -174,12 +174,20 @@ export class LocuinteFormPageComponent implements OnInit {
           })
         )
         .subscribe((v) => {
+          if (
+            this.addressStreet &&
+            !get(this.formInstance.data, 'addressStreet', [])?.length
+          ) {
+            this.addressStreet.clearValidators();
+            this.addressStreet.updateValueAndValidity();
+          }
           this.cdRef.markForCheck();
           this.cdRef.detectChanges();
         });
       this.addressCounty.valueChanges.subscribe((val) => {
         if (this.addressCity) {
           this.addressCity.patchValue('');
+          this.addressStreet.markAsTouched();
           this.addressCity.updateValueAndValidity();
         }
         this.formS
@@ -204,6 +212,7 @@ export class LocuinteFormPageComponent implements OnInit {
           this.addressStreet.patchValue('');
           this.addressStreet.updateValueAndValidity();
         }
+
         this.formS
           .updateCity(this.addressCity, this.formInstance.data, this.dataModel)
           .subscribe((v) => {
