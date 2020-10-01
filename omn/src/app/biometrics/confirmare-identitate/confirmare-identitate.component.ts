@@ -55,7 +55,7 @@ export class ConfirmareIdentitateComponent implements OnInit {
       type: 'text',
       placeholder: '',
       custom: {
-        autoCapitalize: 'characters',
+        autoCapitalize: 'words',
       }
     }),
     surname: inputConfigHelper({
@@ -63,7 +63,7 @@ export class ConfirmareIdentitateComponent implements OnInit {
       type: 'text',
       placeholder: '',
       custom: {
-        autoCapitalize: 'characters',
+        autoCapitalize: 'words',
       }
     }),
     cnp: inputConfigHelper({
