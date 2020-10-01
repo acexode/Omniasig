@@ -1,3 +1,4 @@
+import { biometricsEndpoints } from './../../core/configs/endpoints';
 import { Injectable } from '@angular/core';
 import {
   Plugins,
@@ -7,6 +8,7 @@ import {
   CameraPhoto,
   CameraSource,
 } from '@capacitor/core';
+import { RequestService } from 'src/app/core/services/request/request.service';
 const { Camera, Filesystem, Storage } = Plugins;
 
 @Injectable({
@@ -14,8 +16,8 @@ const { Camera, Filesystem, Storage } = Plugins;
 })
 export class PhotoService {
   public photos: Photo[] = [];
-
-  constructor() {}
+  endpoints = biometricsEndpoints
+  constructor(private reqS: RequestService) {}
 
   public async addNewToGallery() {
     // Take a photo
@@ -42,6 +44,17 @@ export class PhotoService {
 
   public removePhoto() {
     this.photos.shift();
+  }
+  uploadImage(blobData, isSelfie) {
+    const formData = new FormData();
+    const timeStamp = Math.round(new Date().getTime()/1000)    
+    formData.append('imageFile', blobData, `file-${timeStamp}.jpg`);
+    formData.append('type', blobData.type);   
+    return this.reqS.post(this.endpoints.uploadPicture+ '?isSelfie=' + isSelfie, formData)    
+  }
+  processPicture() {  
+    return this.reqS.get(this.endpoints.processPicture)
+    
   }
 }
 

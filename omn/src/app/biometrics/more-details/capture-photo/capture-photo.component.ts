@@ -1,6 +1,8 @@
 import { Component, OnInit, HostBinding } from '@angular/core';
 import { PhotoService } from '../../services/photo.service';
 import { subPageHeaderDefault } from 'src/app/shared/data/sub-page-header-default';
+import { Router, ActivatedRoute } from '@angular/router';
+
 
 @Component({
   selector: 'app-capture-photo',
@@ -10,10 +12,10 @@ import { subPageHeaderDefault } from 'src/app/shared/data/sub-page-header-defaul
 export class CapturePhotoComponent implements OnInit {
   @HostBinding('class') color = 'ion-color-white-page';
   photo = this.photoService.photos;
-
+ 
   headerConfig = subPageHeaderDefault('Fotografia ta');
-
-  constructor(public photoService: PhotoService) {}
+  saving = false
+  constructor(private photoService: PhotoService,private router: Router,private route: ActivatedRoute) {}
 
   removePhoto() {
     this.photoService.removePhoto();
@@ -25,4 +27,14 @@ export class CapturePhotoComponent implements OnInit {
   }
 
   ngOnInit() {}
+  async uploadPhoto(){
+    this.saving = true
+    let blob = await fetch(this.photo[0].webviewPath).then(r =>  r.blob());   
+    this.photoService.uploadImage(blob, true).subscribe(data =>{      
+      this.photoService.processPicture().subscribe(d =>{        
+        this.saving = false
+        this.router.navigate(['../complete-verification'], { relativeTo: this.route })      
+      })
+    })
+  }
 }

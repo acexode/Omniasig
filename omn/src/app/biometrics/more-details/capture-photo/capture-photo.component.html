@@ -59,8 +59,13 @@
         color="success"
         fill="solid"
         expand="block"
-        routerLink="../complete-verification"
+        (click)="uploadPhoto()"
       >
+      <ion-spinner
+      name="crescent"
+      *ngIf="saving"
+      class="icon-20"
+    ></ion-spinner>
         Continuă
       </ion-button>
 

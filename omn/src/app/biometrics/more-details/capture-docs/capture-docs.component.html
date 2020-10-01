@@ -23,16 +23,21 @@
 
     <ion-row
       class="ion-justify-content-end mt-16 mx-32 flex flex-1 flex-column ion-align-items-center"
-    >
+    >    
       <ion-button
         class="activate-btn"
         size="large"
         color="success"
         fill="solid"
         expand="block"
-        class="m-0 w-100 flex mt-auto"
-        routerLink="../capture-photo"
+        class="m-0 w-100 flex mt-auto"        
+        (click)="uploadPhoto()"
       >
+      <ion-spinner
+      name="crescent"
+      *ngIf="saving"
+      class="icon-20"
+    ></ion-spinner>
         Continuă
       </ion-button>
 
