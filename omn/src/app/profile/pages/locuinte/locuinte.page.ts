@@ -31,7 +31,6 @@ export class LocuintePage implements OnInit {
 
   ngOnInit() {
     this.aRoute.data.subscribe( resolveData => {
-      console.log( resolveData );
       const { authData, error, cards$ } = resolveData.data;
       if ( authData && error === null ) {
         this.cdRef.markForCheck();

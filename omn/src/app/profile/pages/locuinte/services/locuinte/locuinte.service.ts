@@ -14,7 +14,6 @@ export class LocuinteService {
   singleLoading: BehaviorSubject<boolean> = new BehaviorSubject( false );
   multipleLoading: BehaviorSubject<boolean> = new BehaviorSubject( false );
   locuinteStore$: BehaviorSubject<Array<Locuinte>> = new BehaviorSubject( null );
-  newlocuinteStore$: BehaviorSubject<Array<Locuinte>> = new BehaviorSubject( null );
   streetStore$: BehaviorSubject<Array<any>> = new BehaviorSubject( [] );
   countyStore$: BehaviorSubject<Array<any>> = new BehaviorSubject( null );
   cityStore$: BehaviorSubject<Array<any>> = new BehaviorSubject( null );
