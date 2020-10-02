@@ -8,7 +8,7 @@ import { LocuinteFormPageComponent } from './components/locuinte-form-page/locui
 import { LocuinteViewComponent } from './components/locuinte-view/locuinte-view.component';
 import { LocuintePage } from './locuinte.page';
 import { LocuintaState } from 'src/app/shared/models/data/locuinte.interface';
-import { LocuinteRouteResolver } from './services/locuinte-resolver/locuinte-route-resolver.service';
+import { LocuinteViewRouteResolver } from './services/locuinte-resolver/locuinte-view-route-resolver.service';
 
 const routes: Routes = [
   {
@@ -34,7 +34,7 @@ const routes: Routes = [
   {
     path: 'view/:id',
     component: LocuinteViewComponent,
-    resolve: { data: LocuinteRouteResolver }
+    resolve: { data: LocuinteViewRouteResolver },
   },
   {
     path: 'incomplete/:id',

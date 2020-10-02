@@ -1,7 +1,7 @@
 <ion-content>
   <ng-container *ngIf="!checkPAD">
     <ion-grid
-      class="ion-no-padding flex flex-1 flex-column h-100 pt-40 pb-24"
+      class="ion-no-padding flex flex-1 flex-column mh-100p pt-40 pb-24"
       [formGroup]="locuintaForm"
     >
       <ion-radio-group formControlName="selection">
@@ -76,7 +76,7 @@
           </ion-item>
         </ion-row>
       </ion-radio-group>
-      <ion-row class="mt-auto w-100 px-32 mb-24 ion-no-padding">
+      <ion-row class="mt-auto w-100 px-32 flex flex-column ion-no-padding">
         <ion-col class="ion-no-padding flex flex-1 w-100 flex-column">
           <ion-button
             (click)="submitForm()"

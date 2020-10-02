@@ -5,13 +5,13 @@ import { subPageHeaderDefault } from 'src/app/shared/data/sub-page-header-defaul
 import { LocuinteService } from './services/locuinte/locuinte.service';
 import { Locuinte } from 'src/app/shared/models/data/locuinte.interface';
 
-@Component({
+@Component( {
   selector: 'app-locuinte',
   templateUrl: './locuinte.page.html',
-  styleUrls: ['./locuinte.page.scss'],
-})
+  styleUrls: [ './locuinte.page.scss' ],
+} )
 export class LocuintePage implements OnInit {
-  headerConfig = subPageHeaderDefault('Locuințe');
+  headerConfig = subPageHeaderDefault( 'Locuințe', '/profil' );
   accountActivated = false;
   account$ = this.authS.getAccountData();
   cards$ = this.locuinteS.locuinteStore$;
@@ -22,23 +22,23 @@ export class LocuintePage implements OnInit {
     private authS: AuthService,
     private locuinteS: LocuinteService,
     private navCtrl: NavController,
-    private cdRef: ChangeDetectorRef
-  ) {}
+    private cdRef: ChangeDetectorRef,
+  ) { }
 
   ngOnInit() {
-    this.account$.subscribe((account) => {
-      if (account) {
+    this.account$.subscribe( ( account ) => {
+      if ( account ) {
         // this.accountActivated = this.authS.accountActivated(account);
         this.accountActivated = true;
         this.cdRef.markForCheck();
         this.reQLocuintes();
-        this.cards$.subscribe((cards) => {
+        this.cards$.subscribe( ( cards ) => {
           this.cards = cards;
           // this.getLocationInfo()
           this.cdRef.markForCheck();
-        });
+        } );
       }
-    });
+    } );
   }
 
   reQLocuintes() {
@@ -48,7 +48,7 @@ export class LocuintePage implements OnInit {
   async openVerifyModal() {
     let actionSheet = null;
     this.actionSheetController
-      .create({
+      .create( {
         cssClass: 'locuinte-sheet',
         buttons: [
           {
@@ -72,14 +72,14 @@ export class LocuintePage implements OnInit {
             handler: () => this.redirectToAddForm(),
           },
         ],
-      })
-      .then((v) => {
+      } )
+      .then( ( v ) => {
         actionSheet = v;
         actionSheet.present();
-      });
+      } );
   }
 
   redirectToAddForm() {
-    this.navCtrl.navigateForward('/profil/locuinte/add');
+    this.navCtrl.navigateForward( '/profil/locuinte/add' );
   }
 }
