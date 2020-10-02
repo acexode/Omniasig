@@ -11,6 +11,6 @@ export interface IonAutocompleteConfig {
   labelKey?: string;
   placeholder?: string;
   disabled?: boolean;
-  dataServiceCb: (text: string) => Observable<Array<any>>;
+  dataServiceCb: ( text: string ) => Observable<Array<any>>;
   dataServiceSource: BehaviorSubject<any>;
 }

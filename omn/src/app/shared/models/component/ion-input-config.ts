@@ -23,5 +23,6 @@ export interface IonInputConfig {
   minLength?: number;
   autoComplete?: boolean;
   autoCorrect?: boolean;
+  autoCapitalize?: string;
   inputMode?: string;
 }

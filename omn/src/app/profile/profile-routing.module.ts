@@ -15,30 +15,30 @@ const routes: Routes = [
       {
         path: 'date-personale',
         loadChildren: () =>
-          import('./pages/date-personale/date-personale.module').then(
-            (m) => m.DatePersonalePageModule
+          import( './pages/date-personale/date-personale.module' ).then(
+            ( m ) => m.DatePersonalePageModule
           ),
       },
       {
         path: 'locuinte',
         loadChildren: () =>
-          import('./pages/locuinte/locuinte.module').then(
-            (m) => m.LocuintePageModule
+          import( './pages/locuinte/locuinte.module' ).then(
+            ( m ) => m.LocuintePageModule
           ),
       },
       {
         path: 'documente',
         loadChildren: () =>
-          import('./pages/documente/documente.module').then(
-            (m) => m.DocumentePageModule
+          import( './pages/documente/documente.module' ).then(
+            ( m ) => m.DocumentePageModule
           ),
       },
     ],
   },
 ];
 
-@NgModule({
-  imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule],
-})
-export class ProfilePageRoutingModule {}
+@NgModule( {
+  imports: [ RouterModule.forChild( routes ) ],
+  exports: [ RouterModule ],
+} )
+export class ProfilePageRoutingModule { }
