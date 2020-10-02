@@ -38,7 +38,7 @@ export class PolicyAddressFormComponent implements OnInit {
   buttonText = 'Continuă';
   headerConfig = null;
   buttonVisible = true;
-  dataModel: Locuinte;
+  dataModel: any = { id: null };
   formMode: LocuinteFormModes = LocuinteFormModes.ADD_NEW_POLICY;
   formModes = LocuinteFormModes;
   formTypes = LocuinteFormType;
@@ -150,6 +150,13 @@ export class PolicyAddressFormComponent implements OnInit {
           })
         )
         .subscribe((v) => {
+          // We need to clear the validator when we have no data on the initial call.
+          if (
+            this.addressStreet &&
+            !get(this.formInstance.data, 'addressStreet', [])?.length
+          ) {
+            this.addressStreet.clearValidators();
+          }
           this.cdRef.markForCheck();
           this.cdRef.detectChanges();
         });
