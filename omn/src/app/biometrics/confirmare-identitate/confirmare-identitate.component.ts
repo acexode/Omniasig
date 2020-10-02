@@ -1,4 +1,3 @@
-import { get } from 'lodash';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -9,11 +8,11 @@ import {
 } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { IonContent, NavController } from '@ionic/angular';
+import { get } from 'lodash';
 import { of } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import { LocuinteFormService } from 'src/app/profile/pages/locuinte/services/locuinte-form/locuinte-form.service';
 import { autoCompleteConfigHelper } from 'src/app/shared/data/autocomplete-config-helper';
-import { dateTimeConfigHelper } from 'src/app/shared/data/datetime-config-helper';
 import { inputConfigHelper } from 'src/app/shared/data/input-config-helper';
 import { selectConfigHelper } from 'src/app/shared/data/select-config-helper';
 import { subPageHeaderPrimary } from 'src/app/shared/data/sub-page-header-primary';
@@ -92,13 +91,18 @@ export class ConfirmareIdentitateComponent implements OnInit {
       type: 'text',
       placeholder: '',
     }),
+    addressBuildingNumber: inputConfigHelper({
+      label: 'Bloc (opțional)',
+      type: 'text',
+      placeholder: '',
+    }),
     addressScara: inputConfigHelper({
       label: 'Scara (opțional)',
       type: 'text',
       placeholder: '',
     }),
     addressApart: inputConfigHelper({
-      label: 'Apartament',
+      label: 'Apartament (opțional)',
       type: 'text',
       placeholder: '',
     }),
@@ -130,13 +134,14 @@ export class ConfirmareIdentitateComponent implements OnInit {
       addressCity: ['', Validators.required],
       addressStreet: ['', Validators.required],
       addressStreetNumber: ['', Validators.required],
+      addressBuildingNumber: [''],
       addressScara: [''],
       addressApart: [''],
       addressPostalCode: [
         { value: '', disabled: true },
         [Validators.required, Validators.minLength(6), Validators.maxLength(6)],
       ],
-      accept: [false, Validators.required],
+      accept: [false, Validators.requiredTrue],
     });
     this.auth.getAccountData().subscribe((v) => {
       if (v && this.confirmareForm) {
@@ -267,6 +272,7 @@ export class ConfirmareIdentitateComponent implements OnInit {
           name: 'Domiciliu',
           addressApart: value.addressApart ? value.addressApart : '',
           addressStreetNumber: value.addressStreetNumber,
+          addressBuildingNumber: value.addressBuildingNumber,
           addressCity: value.addressCity,
           addressCounty: value.addressCounty,
           addressScara: value.addressScara,
@@ -278,7 +284,10 @@ export class ConfirmareIdentitateComponent implements OnInit {
           .updateUserProfile(user)
           .pipe(
             switchMap(() => {
-              return this.locuintS.addSingleLocuinte(locuinte);
+              return this.locuintS.addSingleLocuinte({
+                ...locuinte,
+                ...this.dataModel,
+              });
             }),
             switchMap(() => {
               return this.auth.refreshProfile();

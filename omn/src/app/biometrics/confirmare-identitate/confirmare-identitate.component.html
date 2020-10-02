@@ -45,7 +45,7 @@
           >Codul Numeric Personal este invalid!</ion-label
         >
       </ion-row>
-      
+
       <ion-row class="ion-no-padding judet mb-24">
         <span class="mb-16 text-weight-medium">Adresa de domiciliu</span>
         <app-select
@@ -81,8 +81,8 @@
         <ion-col size="6" class="pl-16">
           <app-input
             class="w-100"
-            [config]="confirmModel?.addressScara"
-            formControlName="addressScara"
+            [config]="confirmModel?.addressBuildingNumber"
+            formControlName="addressBuildingNumber"
           ></app-input>
         </ion-col>
       </ion-row>
@@ -90,11 +90,20 @@
         <ion-col size="6" class="pr-16">
           <app-input
             class="w-100"
+            [config]="confirmModel?.addressScara"
+            formControlName="addressScara"
+          ></app-input>
+        </ion-col>
+        <ion-col size="6" class="pl-16">
+          <app-input
+            class="w-100"
             [config]="confirmModel?.addressApart"
             formControlName="addressApart"
           ></app-input>
         </ion-col>
-        <ion-col size="6" class="pl-16">
+      </ion-row>
+      <ion-row class="ion-no-padding postal-code mb-24">
+        <ion-col size="6" class="pr-16">
           <app-input
             class="w-100"
             [config]="confirmModel?.addressPostalCode"
