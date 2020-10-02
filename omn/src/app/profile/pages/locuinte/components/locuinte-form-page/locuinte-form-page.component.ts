@@ -11,7 +11,7 @@ import { ActivatedRoute } from '@angular/router';
 import { IonContent, NavController } from '@ionic/angular';
 import { get } from 'lodash';
 import { combineLatest, Observable, of } from 'rxjs';
-import { finalize, switchMap } from 'rxjs/operators';
+import { finalize, switchMap, take } from 'rxjs/operators';
 import { CustomRouterService } from 'src/app/core/services/custom-router/custom-router.service';
 import { subPageHeaderDefault } from 'src/app/shared/data/sub-page-header-default';
 import { Locuinte } from 'src/app/shared/models/data/locuinte.interface';
@@ -117,22 +117,25 @@ export class LocuinteFormPageComponent implements OnInit {
           break;
         case this.formModes.EDIT_FULL:
           if (id) {
-            this.locuinteS.getSingleLocuinta(id).subscribe(
-              (val: Locuinte) => {
-                if (val) {
-                  this.dataModel = val;
-                  this.buildFormAdd();
-                  observer.next(true);
-                } else {
+            this.locuinteS
+              .getSingleLocuinta(id)
+              .pipe(take(1))
+              .subscribe(
+                (val: Locuinte) => {
+                  if (val) {
+                    this.dataModel = val;
+                    this.buildFormAdd();
+                    observer.next(true);
+                  } else {
+                    this.navCtrl.navigateRoot(['/profil', 'locuinte']);
+                    observer.next(false);
+                  }
+                },
+                () => {
                   this.navCtrl.navigateRoot(['/profil', 'locuinte']);
                   observer.next(false);
                 }
-              },
-              () => {
-                this.navCtrl.navigateRoot(['/profil', 'locuinte']);
-                observer.next(false);
-              }
-            );
+              );
           }
           break;
       }
@@ -322,9 +325,6 @@ export class LocuinteFormPageComponent implements OnInit {
               header.leadingIcon = null;
               this.headerConfig = header;
               this.buttonVisible = false;
-              /* update locunite data */
-              this.locuinteS.loadAllData();
-              /*  */
               this.refTimer = setTimeout(() => {
                 this.navigateToMain();
               }, 2000);

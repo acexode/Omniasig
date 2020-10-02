@@ -171,9 +171,6 @@ export class LocuinteViewComponent implements OnInit {
       disabledReason: 'Disabled by user',
     };
     this.locuinteS.disableLocationForAddressId( obj ).subscribe( ( v ) => {
-      /* update locuinte */
-      this.locuinteS.loadAllData();
-      /*  route to locuinte page*/
       this.navCtrl.navigateRoot( [ '/profil', 'locuinte' ] );
     } );
   }
