@@ -31,7 +31,6 @@ export class LocuinteFormComponent implements OnInit {
   @Output() openModal: EventEmitter<any> = new EventEmitter();
   @Input() set formGroupInstance(fg: FormGroup) {
     this.fG = fg;
-    this.handleCustom();
     this.setValidatorSubs();
     this.cdRef.markForCheck();
   }
@@ -68,53 +67,6 @@ export class LocuinteFormComponent implements OnInit {
   }
   emitEvents() {
     this.customEvents.emit();
-  }
-
-  handleCustom() {
-    if (this.fG) {
-      const fieldC = this.fG.get('padAvailable');
-      const fieldS = this.fG.get('padSerie');
-      const fieldN = this.fG.get('padNr');
-      if (fieldC) {
-        unsubscriberHelper(this.padSubs);
-        this.padSubs = fieldC.valueChanges
-          .pipe(distinctUntilChanged())
-          .subscribe((fV) => {
-            if (fV) {
-              if (fieldN) {
-                fieldN.setValidators([Validators.required]);
-              }
-              if (fieldS) {
-                fieldS.setValidators([Validators.required]);
-              }
-            } else {
-              if (fieldN) {
-                fieldN.clearValidators();
-                fieldN.reset();
-              }
-              if (fieldS) {
-                fieldS.clearValidators();
-                fieldS.reset();
-              }
-            }
-            if (fieldN) {
-              fieldN.updateValueAndValidity();
-            }
-            if (fieldS) {
-              fieldS.updateValueAndValidity();
-            }
-            this.cdRef.markForCheck();
-          });
-      }
-    }
-  }
-
-  get padAvailableV() {
-    if (this.fG) {
-      const fieldC = this.fG.get('padAvailable');
-      return fieldC ? fieldC.value : false;
-    }
-    return false;
   }
 
   triggerModal(modalName) {

@@ -100,7 +100,8 @@ export class PolicyDataService {
         addressCounty: policy.addressCounty,
         addressCity: policy.addressCity,
         addressStreet: policy.addressStreet,
-        addressBuildingNumber: policy.addressStreetNumber,
+        addressStreetNumber: policy.addressStreetNumber,
+        addressBuildingNumber: policy.addressBuildingNumber,
         // Scara bloc.
         addressScara: policy.addressScara,
         addressApart: policy.addressApart,
@@ -169,6 +170,7 @@ export class PolicyDataService {
   }
   // ceate offer obj
   createOffersObj(offer: any, typeId: string) {
+    console.log("OFFER FROM BACKEND BEFORE MAPPIN G TO FRONTEND", offer);
     const offerObj = {
       id: offer.id,
       offerCode: offer.offerCode,
@@ -200,7 +202,8 @@ export class PolicyDataService {
           addressCounty: offer.addressCounty,
           addressCity: offer.addressCity,
           addressStreet: offer.addressStreet,
-          addressBuildingNumber: offer.addressStreetNumber,
+          addressStreetNumber: offer.addressStreetNumber,
+          addressBuildingNumber: offer.addressBuildingNumber,
           // Scara bloc.
           addressScara: offer.addressScara,
           addressApart: offer.addressApart,
@@ -213,6 +216,7 @@ export class PolicyDataService {
       cnp: offer.userCnp,
       expiry: offer.expireDate,
       emisionDate: offer.emisionDate ? new Date(offer.emisionDate) : '',
+      insurancePrice: offer.insurancePrice
     };
     if (typeId === 'AMPLUS') {
       offerObj.expiry = get(offer, 'offerExpireDate', '');

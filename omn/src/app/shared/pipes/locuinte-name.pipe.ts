@@ -27,7 +27,7 @@ export class LocuinteNamePipe implements PipeTransform {
             'Strada ' +
               get(value, 'addressStreet', null) +
               ' ' +
-              get(value, 'addressBuildingNumber', null),
+              get(value, 'addressStreetNumber', null),
             get(value, 'addressCity', null),
             'jud. ' + get(value, 'addressCounty', ''),
           ].filter((v) => v !== null),
@@ -39,7 +39,7 @@ export class LocuinteNamePipe implements PipeTransform {
             get(value, 'addressStreet', null)
               ? 'Strada ' + get(value, 'addressStreet', '')
               : '' + ' ',
-            get(value, 'addressBuildingNumber', ''),
+            get(value, 'addressStreetNumber', ''),
             get(value, 'addressCity', null),
             get(value, 'addressCounty', null)
               ? 'jud. ' + get(value, 'addressCounty', '')
@@ -57,7 +57,7 @@ export class LocuinteNamePipe implements PipeTransform {
             'Strada ' +
               get(value, 'addressStreet', null) +
               ' ' +
-              get(value, 'addressBuildingNumber', null),
+              get(value, 'addressStreetNumber', null),
             get(value, 'addressCity', null),
             'judetul ' + get(value, 'addressCounty', ''),
             'Cod ' + get(value, 'addressPostalCode', ''),

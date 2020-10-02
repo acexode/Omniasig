@@ -1,4 +1,3 @@
-import { get } from 'lodash';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -9,11 +8,11 @@ import {
 } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { IonContent, NavController } from '@ionic/angular';
+import { get } from 'lodash';
 import { of } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import { LocuinteFormService } from 'src/app/profile/pages/locuinte/services/locuinte-form/locuinte-form.service';
 import { autoCompleteConfigHelper } from 'src/app/shared/data/autocomplete-config-helper';
-import { dateTimeConfigHelper } from 'src/app/shared/data/datetime-config-helper';
 import { inputConfigHelper } from 'src/app/shared/data/input-config-helper';
 import { selectConfigHelper } from 'src/app/shared/data/select-config-helper';
 import { subPageHeaderPrimary } from 'src/app/shared/data/sub-page-header-primary';
@@ -54,11 +53,17 @@ export class ConfirmareIdentitateComponent implements OnInit {
       label: 'Nume',
       type: 'text',
       placeholder: '',
+      custom: {
+        autoCapitalize: 'sentences',
+      }
     }),
     surname: inputConfigHelper({
       label: 'Prenume',
       type: 'text',
       placeholder: '',
+      custom: {
+        autoCapitalize: 'sentences',
+      }
     }),
     cnp: inputConfigHelper({
       label: 'CNP',
@@ -87,8 +92,13 @@ export class ConfirmareIdentitateComponent implements OnInit {
       idKey: 'name',
       labelKey: 'name',
     }),
-    addressBuildingNumber: inputConfigHelper({
+    addressStreetNumber: inputConfigHelper({
       label: 'Număr',
+      type: 'text',
+      placeholder: '',
+    }),
+    addressBuildingNumber: inputConfigHelper({
+      label: 'Bloc (opțional)',
       type: 'text',
       placeholder: '',
     }),
@@ -98,7 +108,7 @@ export class ConfirmareIdentitateComponent implements OnInit {
       placeholder: '',
     }),
     addressApart: inputConfigHelper({
-      label: 'Apartament',
+      label: 'Apartament (opțional)',
       type: 'text',
       placeholder: '',
     }),
@@ -129,14 +139,15 @@ export class ConfirmareIdentitateComponent implements OnInit {
       addressCounty: ['', Validators.required],
       addressCity: ['', Validators.required],
       addressStreet: ['', Validators.required],
-      addressBuildingNumber: ['', Validators.required],
+      addressStreetNumber: ['', Validators.required],
+      addressBuildingNumber: [''],
       addressScara: [''],
-      addressApart: ['', Validators.required],
+      addressApart: [''],
       addressPostalCode: [
         { value: '', disabled: true },
         [Validators.required, Validators.minLength(6), Validators.maxLength(6)],
       ],
-      accept: [false, Validators.required],
+      accept: [false, Validators.requiredTrue],
     });
     this.auth.getAccountData().subscribe((v) => {
       if (v && this.confirmareForm) {
@@ -167,6 +178,13 @@ export class ConfirmareIdentitateComponent implements OnInit {
           })
         )
         .subscribe((v) => {
+          // We need to clear the validator when we have no data on the initial call.
+          if (
+            this.addressStreet &&
+            !get(this.formData, 'addressStreet', [])?.length
+          ) {
+            this.addressStreet.clearValidators();
+          }
           this.cdRef.markForCheck();
           this.cdRef.detectChanges();
         });
@@ -258,7 +276,8 @@ export class ConfirmareIdentitateComponent implements OnInit {
         };
         const locuinte: any = {
           name: 'Domiciliu',
-          addressApart: value.addressApart,
+          addressApart: value.addressApart ? value.addressApart : '',
+          addressStreetNumber: value.addressStreetNumber,
           addressBuildingNumber: value.addressBuildingNumber,
           addressCity: value.addressCity,
           addressCounty: value.addressCounty,
@@ -271,7 +290,10 @@ export class ConfirmareIdentitateComponent implements OnInit {
           .updateUserProfile(user)
           .pipe(
             switchMap(() => {
-              return this.locuintS.addSingleLocuinte(locuinte);
+              return this.locuintS.addSingleLocuinte({
+                ...locuinte,
+                ...this.dataModel,
+              });
             }),
             switchMap(() => {
               return this.auth.refreshProfile();

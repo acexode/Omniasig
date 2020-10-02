@@ -15,6 +15,6 @@ export interface PolicyOffer {
   supportData?: any;
   payData?: any;
   AsiguratedSum?: any;
- // ExpiredDate?: any;
-  InsurancePrice?: any;
+  expireDate?: any;
+  insurancePrice?: any;
 }
