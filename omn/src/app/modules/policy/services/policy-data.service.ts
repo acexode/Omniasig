@@ -170,7 +170,6 @@ export class PolicyDataService {
   }
   // ceate offer obj
   createOffersObj(offer: any, typeId: string) {
-    console.log("OFFER FROM BACKEND BEFORE MAPPIN G TO FRONTEND", offer);
     const offerObj = {
       id: offer.id,
       offerCode: offer.offerCode,

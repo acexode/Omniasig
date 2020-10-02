@@ -48,7 +48,6 @@ export class PolicyVerifyComponent implements OnInit {
       )
       .subscribe(
         (result) => {
-          console.log("CREATE PAD OFFER RESULT", result);
           this.policyS
             .addOfferToStore(this.offerData, result, this.policyID)
             .subscribe(
