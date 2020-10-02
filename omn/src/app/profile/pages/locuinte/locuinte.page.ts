@@ -4,8 +4,6 @@ import { AuthService } from 'src/app/core/services/auth/auth.service';
 import { subPageHeaderDefault } from 'src/app/shared/data/sub-page-header-default';
 import { LocuinteService } from './services/locuinte/locuinte.service';
 import { Locuinte } from 'src/app/shared/models/data/locuinte.interface';
-import { Observable } from 'rxjs';
-import { ActivatedRoute } from '@angular/router';
 
 @Component( {
   selector: 'app-locuinte',
@@ -16,9 +14,8 @@ export class LocuintePage implements OnInit {
   headerConfig = subPageHeaderDefault( 'Locuințe', '/profil' );
   accountActivated = false;
   account$ = this.authS.getAccountData();
-  // cards$ = this.locuinteS.locuinteStore$;
-  // cards: Locuinte[];
-  cards$: Observable<any>;
+  cards$ = this.locuinteS.locuinteStore$;
+  cards: Locuinte[];
 
   constructor(
     public actionSheetController: ActionSheetController,
@@ -26,21 +23,9 @@ export class LocuintePage implements OnInit {
     private locuinteS: LocuinteService,
     private navCtrl: NavController,
     private cdRef: ChangeDetectorRef,
-    private aRoute: ActivatedRoute,
   ) { }
 
   ngOnInit() {
-    this.aRoute.data.subscribe( resolveData => {
-      const { authData, error, cards$ } = resolveData.data;
-      if ( authData && error === null ) {
-        this.cdRef.markForCheck();
-        this.accountActivated = true;
-        this.cards$ = cards$;
-      }
-    } );
-  }
-  /* deprecated */
-  /* _ngOnInit() {
     this.account$.subscribe( ( account ) => {
       if ( account ) {
         // this.accountActivated = this.authS.accountActivated(account);
@@ -54,7 +39,7 @@ export class LocuintePage implements OnInit {
         } );
       }
     } );
-  } */
+  }
 
   reQLocuintes() {
     this.locuinteS.loadAllData();

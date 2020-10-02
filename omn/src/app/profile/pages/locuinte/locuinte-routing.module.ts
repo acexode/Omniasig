@@ -9,13 +9,11 @@ import { LocuinteViewComponent } from './components/locuinte-view/locuinte-view.
 import { LocuintePage } from './locuinte.page';
 import { LocuintaState } from 'src/app/shared/models/data/locuinte.interface';
 import { LocuinteViewRouteResolver } from './services/locuinte-resolver/locuinte-view-route-resolver.service';
-import { LocuintePageRouteResolver } from './services/locuinte-resolver/locuinte-page-resolver.services';
 
 const routes: Routes = [
   {
     path: '',
     component: LocuintePage,
-    resolve: { data: LocuintePageRouteResolver },
   },
   {
     path: 'add',

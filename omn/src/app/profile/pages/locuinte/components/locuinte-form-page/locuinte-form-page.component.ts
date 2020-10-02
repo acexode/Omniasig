@@ -322,6 +322,9 @@ export class LocuinteFormPageComponent implements OnInit {
               header.leadingIcon = null;
               this.headerConfig = header;
               this.buttonVisible = false;
+              /* update locunite data */
+              this.locuinteS.loadAllData();
+              /*  */
               this.refTimer = setTimeout(() => {
                 this.navigateToMain();
               }, 2000);
