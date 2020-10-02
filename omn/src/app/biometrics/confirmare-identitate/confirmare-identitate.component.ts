@@ -54,11 +54,17 @@ export class ConfirmareIdentitateComponent implements OnInit {
       label: 'Nume',
       type: 'text',
       placeholder: '',
+      custom: {
+        autoCapitalize: 'sentences',
+      }
     }),
     surname: inputConfigHelper({
       label: 'Prenume',
       type: 'text',
       placeholder: '',
+      custom: {
+        autoCapitalize: 'sentences',
+      }
     }),
     cnp: inputConfigHelper({
       label: 'CNP',
