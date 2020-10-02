@@ -215,7 +215,8 @@ export class PolicyDataService {
       cnp: offer.userCnp,
       expiry: offer.expireDate,
       emisionDate: offer.emisionDate ? new Date(offer.emisionDate) : '',
-      insurancePrice: offer.insurancePrice
+      // insurancePrice: offer.insurancePrice,
+      insurancePrice: offer.offerPrima || 0,
     };
     if (typeId === 'AMPLUS') {
       offerObj.expiry = get(offer, 'offerExpireDate', '');
