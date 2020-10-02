@@ -794,6 +794,13 @@ export class PolicyFormPage implements OnInit, OnDestroy {
               'Ceva nu a funcționat corect. Va rugam sa verificati data de nastere.',
           } );
         }
+        if ( data.startDatePassed === false ) {
+          this.errMsg.push( {
+            classes: 'ion-text-center w-100 mb-16',
+            text:
+              'Data de start este invalida pentru acest tip de asigurare.',
+          } );
+        }
       } else {
         this.errMsg = this.defaultErrMsg;
       }
