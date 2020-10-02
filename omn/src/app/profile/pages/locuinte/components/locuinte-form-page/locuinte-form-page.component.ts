@@ -34,7 +34,7 @@ export class LocuinteFormPageComponent implements OnInit {
   buttonText = 'Continuă';
   headerConfig = null;
   buttonVisible = true;
-  dataModel: Locuinte;
+  dataModel: any = { id: null };
   formMode: LocuinteFormModes;
   formType: LocuinteFormType;
   formModes = LocuinteFormModes;
@@ -177,6 +177,13 @@ export class LocuinteFormPageComponent implements OnInit {
           })
         )
         .subscribe((v) => {
+          // We need to clear the validator when we have no data on the initial call.
+          if (
+            this.addressStreet &&
+            !get(this.formInstance.data, 'addressStreet', [])?.length
+          ) {
+            this.addressStreet.clearValidators();
+          }
           this.cdRef.markForCheck();
           this.cdRef.detectChanges();
         });
@@ -207,6 +214,7 @@ export class LocuinteFormPageComponent implements OnInit {
           this.addressStreet.patchValue('');
           this.addressStreet.updateValueAndValidity();
         }
+
         this.formS
           .updateCity(this.addressCity, this.formInstance.data, this.dataModel)
           .subscribe((v) => {
@@ -387,7 +395,7 @@ export class LocuinteFormPageComponent implements OnInit {
         );
         this.formSubmitting = true;
         this.cdRef.markForCheck();
-        if (this.dataModel) {
+        if (get(this.dataModel, 'id', null) !== null) {
           return this.locuinteS.updateSingleLocuinte(model2).pipe(
             finalize(() => {
               this.formSubmitting = false;

@@ -43,7 +43,7 @@ export class LocuinteFormService {
         Validators.required
       ),
       yearConstruction: this.fb.control(
-        get( model, 'yearConstruction', 0 ),
+        get(model, 'yearConstruction', null),
         Validators.required
       ),
       valueCurrency: this.fb.control(
@@ -95,15 +95,19 @@ export class LocuinteFormService {
         get( model, 'addressStreet', '' ),
         Validators.required
       ),
+      addressStreetNumber: this.fb.control(
+        get(model, 'addressStreetNumber', '') !== 0
+          ? get(model, 'addressStreetNumber', '')
+          : '',
+        Validators.required
+      ),
       addressBuildingNumber: this.fb.control(
-        get( model, 'addressBuildingNumber', '' ),
-        Validators.required
+        get(model, 'addressBuildingNumber', '') !== 0
+          ? get(model, 'addressBuildingNumber', '')
+          : ''
       ),
-      addressScara: this.fb.control( get( model, 'addressScara', '' ) ),
-      addressApart: this.fb.control(
-        get( model, 'addressApart', '' ),
-        Validators.required
-      ),
+      addressScara: this.fb.control(get(model, 'addressScara', '')),
+      addressApart: this.fb.control(get(model, 'addressApart', '')),
       addressPostalCode: this.fb.control(
         {
           value: get( model, 'addressPostalCode', '' ),
@@ -112,18 +116,8 @@ export class LocuinteFormService {
         [ Validators.required, Validators.minLength( 6 ), Validators.maxLength( 6 ) ]
       ),
       // Additional - add validator after build
-      name: this.fb.control( get( model, 'name', '' ) ),
-    } );
-
-    group.addControl(
-      'padAvailable',
-      this.fb.control( get( model, 'pad.padAvailable', '' ), Validators.required )
-    );
-    group.addControl( 'padNr', this.fb.control( get( model, 'pad.padNr', '' ) ) );
-    group.addControl(
-      'padSerie',
-      this.fb.control( get( model, 'pad.padSerie', '' ) )
-    );
+      name: this.fb.control(get(model, 'name', '')),
+    });
     return group;
   }
 
@@ -151,21 +145,27 @@ export class LocuinteFormService {
             dataServiceSource: this.streets$,
             idKey: 'name',
             labelKey: 'name',
-          } ),
-          addressBuildingNumber: inputConfigHelper( {
+          }),
+          addressStreetNumber: inputConfigHelper({
             label: 'Număr',
             type: 'text',
             placeholder: '',
             disabled: isDisabled,
-          } ),
-          addressScara: inputConfigHelper( {
+          }),
+          addressBuildingNumber: inputConfigHelper({
+            label: 'Bloc (opțional)',
+            type: 'text',
+            placeholder: '',
+            disabled: isDisabled,
+          }),
+          addressScara: inputConfigHelper({
             label: 'Scara (opțional)',
             type: 'text',
             placeholder: '',
             disabled: isDisabled,
-          } ),
-          addressApart: inputConfigHelper( {
-            label: 'Apartament',
+          }),
+          addressApart: inputConfigHelper({
+            label: 'Apartament (opțional)',
             type: 'text',
             placeholder: '',
             disabled: isDisabled,
@@ -190,22 +190,6 @@ export class LocuinteFormService {
             },
           } ),
         };
-        configModel.padAvailable = radiosConfigHelper( {
-          label: 'Ai deja o poliță PAD valabilă pentru această adresă?',
-          mode: 'item',
-        } );
-        configModel.padAvailable.itemClasses = 'w-50 inline-flex';
-        configModel.padAvailable.inputLabel.classes = 'mb-16';
-        configModel.padSerie = inputConfigHelper( {
-          label: 'Serie',
-          type: 'text',
-          placeholder: '',
-        } );
-        configModel.padNr = inputConfigHelper( {
-          label: 'Număr',
-          type: 'text',
-          placeholder: '',
-        } );
         break;
 
       case LocuinteFormType.PLACE:
@@ -492,21 +476,25 @@ export class LocuinteFormService {
         locuintaState: null,
       };
 
-    forOwn( formGroupValue, ( val, key ) => {
-      switch ( key ) {
-        case 'addressApart':
+    forOwn(formGroupValue, (val, key) => {
+      switch (key) {
         case 'addressCity':
         case 'addressCounty':
         case 'name':
-        case 'addressBuildingNumber':
+        case 'addressStreetNumber':
         case 'addressScara':
         case 'addressPostalCode':
-        case 'addressStreet':
         case 'addressStreetType':
           set( newModel, key, val );
           break;
         case 'yearConstruction':
-          val ? set( newModel, key, parseInt( val, 10 ) ) : set( newModel, key, val );
+          const v = val ? parseInt(val, 10) : val;
+          set(newModel, key, val > 0 ? val : 2000);
+          break;
+        case 'addressStreet':
+        case 'addressApart':
+        case 'addressBuildingNumber':
+          set(newModel, key, val ? val : '');
           break;
         case 'hasAlarmSystem':
         case 'floors':
@@ -515,21 +503,8 @@ export class LocuinteFormService {
         case 'area':
         case 'valueCurrency':
         case 'value':
-          set( newModel, key, val );
-          break;
         case 'structure':
-          set( newModel, key, val );
-          break;
         case 'type':
-          set( newModel, key, val );
-          break;
-
-        case 'valueCurrency':
-          set( newModel, key, val );
-          break;
-        case 'padAvailable':
-        case 'padNr':
-        case 'padSerie':
           set( newModel, key, val );
           break;
 
@@ -537,8 +512,7 @@ export class LocuinteFormService {
         case 'addressCountyCode':
         case 'addressStreetCode':
         case 'addressCityCode':
-          // Ignore.
-          break;
+        // Ignore.
         default:
           set( newModel, key, val );
           break;
