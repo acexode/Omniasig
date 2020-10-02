@@ -170,10 +170,10 @@ export class LocuinteViewComponent implements OnInit {
       id,
       disabledReason: 'Disabled by user',
     };
-    /* update locuinte */
-    this.locuinteS.loadAllData();
-    /*  */
     this.locuinteS.disableLocationForAddressId( obj ).subscribe( ( v ) => {
+      /* update locuinte */
+      this.locuinteS.loadAllData();
+      /*  route to locuinte page*/
       this.navCtrl.navigateRoot( [ '/profil', 'locuinte' ] );
     } );
   }
