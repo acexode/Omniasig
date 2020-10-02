@@ -37,6 +37,7 @@
     "@ngx-translate/core": "^13.0.0",
     "@ngx-translate/http-loader": "^6.0.0",
     "com-darryncampbell-cordova-plugin-intent": "^2.0.0",
+    "cordova-android": "9.0.0",
     "cordova-browser": "6.0.0",
     "cordova-plugin-app-launcher": "^0.4.0",
     "cordova-plugin-app-version": "^0.1.9",
@@ -118,13 +119,9 @@
       "cordova-plugin-file": {}
     },
     "platforms": [
-<<<<<<< HEAD
-      "browser"
-=======
       "browser",
-      "android",
-      "ios"
->>>>>>> 12c5438506446bf6864ced924948cdb5f3b6cfd1
+      "ios",
+      "android"
     ]
   },
   "main": "karma.conf.js",
