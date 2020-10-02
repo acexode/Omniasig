@@ -95,12 +95,13 @@ export class OfferViewComponent implements OnInit {
   }
 
   getPolicyById(id) {
+    console.log("POLICY OFFER VIEW ID for the request", id, this.policyType);
     this.policyDataService.getSingleOfferById(id, this.policyType).subscribe((offer) => {
       this.offer = offer;
       if (offer && has(offer, 'policy.typeId')) {
         this.policyType = get(offer, 'policy.typeId', this.policyType);
       }
-      // console.log("POLICY GOTTEN BY ID", this.offer);
+      console.log("POLICY GOTTEN BY ID", this.offer);
       this.setCalEntry(this.offer);
     });
   }
