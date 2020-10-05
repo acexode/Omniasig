@@ -77,12 +77,10 @@ export class AppComponent {
   handleKeyboard() {
     this.platform.keyboardDidShow.subscribe((ev) => {
       this.cdRef.markForCheck();
-      this.cdRef.detectChanges();
     });
 
     this.platform.keyboardDidHide.subscribe(() => {
       this.cdRef.markForCheck();
-      this.cdRef.detectChanges();
     });
   }
 }
