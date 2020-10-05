@@ -8,7 +8,8 @@
             </ion-text>
         </div>
         <div class="ion-text-center pt-32">
-            <app-passcode-field [errorLogin]="InvalidCode" (doDigitLength)="digLength($event)" (doPassForm)="continue($event)" (doClearErr)="clearErr($event)"></app-passcode-field>
+            <app-passcode-field [errorLogin]="InvalidCode" (doDigitLength)="digLength($event)"
+                (doPassForm)="continue($event)" (doClearErr)="clearErr($event)"></app-passcode-field>
         </div>
         <div *ngIf="InvalidCode" class="ion-text-center mt-32">
             <ion-label class="text-small color-red">Codul este prea usor</ion-label>

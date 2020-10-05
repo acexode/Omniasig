@@ -1,14 +1,7 @@
-import {
-  Component,
-  HostBinding,
-  OnDestroy,
-  OnInit,
-  ViewChild,
-} from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, HostBinding, OnInit } from '@angular/core';
+import { FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
-import { IonInput } from '@ionic/angular';
-import { Subscription, throwError } from 'rxjs';
+import { throwError } from 'rxjs';
 import { switchMap, take } from 'rxjs/operators';
 import { AuthService } from 'src/app/core/services/auth/auth.service';
 import { subPageHeaderDefault } from 'src/app/shared/data/sub-page-header-default';
@@ -20,6 +13,7 @@ import { ChangeCodeService } from '../services/change-code.service';
   selector: 'app-cod-actual',
   templateUrl: './cod-actual.component.html',
   styleUrls: ['./cod-actual.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CodActualComponent implements OnInit {
   @HostBinding('class') color = 'ion-color-white-page';
@@ -33,12 +27,12 @@ export class CodActualComponent implements OnInit {
   };
   constructor(
     private router: Router,
-    private formBuilder: FormBuilder,
     private authS: AuthService,
-    private changeCodeS: ChangeCodeService
-  ) {}
+    private changeCodeS: ChangeCodeService,
+    private cdRef: ChangeDetectorRef
+  ) { }
 
-  ngOnInit() {}
+  ngOnInit() { }
 
   continue(passForm: FormGroup) {
     const value = passForm.get('passcode').value;
@@ -59,7 +53,7 @@ export class CodActualComponent implements OnInit {
         })
       )
       .subscribe(
-        (v) => {
+        () => {
           this.InvalidCode = false;
           const resetObj: UpdatePassword = {
             oldPassword: value,
@@ -69,9 +63,10 @@ export class CodActualComponent implements OnInit {
           this.changeCodeS.setUpdatePassObj(resetObj);
           this.proceed();
         },
-        (err) => {
+        () => {
           passForm.reset();
           this.InvalidCode = true;
+          this.cdRef.markForCheck();
         }
       );
   }
@@ -81,6 +76,10 @@ export class CodActualComponent implements OnInit {
   }
 
   clearErr(_) {
-    this.InvalidCode = null;
+    if (this.InvalidCode) {
+      this.InvalidCode = null;
+      this.cdRef.markForCheck();
+    }
+
   }
 }
