@@ -108,11 +108,13 @@
         <config-file parent="com.apple.developer.associated-domains" target="*-Debug.plist">
             <array>
                 <string>applinks:omn-test.ciceu.io</string>
+                <string>applinks:omn-core-dev.azure.softescu.com</string>
             </array>
         </config-file>
         <config-file parent="com.apple.developer.associated-domains" target="*-Release.plist">
             <array>
                 <string>applinks:omn-test.ciceu.io</string>
+                <string>applinks:omn-core-dev.azure.softescu.com</string>
             </array>
         </config-file>
     </platform>
