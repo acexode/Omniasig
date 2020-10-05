@@ -161,6 +161,8 @@ export class OfferViewComponent implements OnInit {
   pay() {
     // Starting the payment workflow here
     this.busy = true;
+    console.log(this.offer);
+    
     const data = {
       ibaN_1: this.offer.iban,
       amount_IBAN_1: this.offer.offerPrice,
