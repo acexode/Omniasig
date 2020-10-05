@@ -11,7 +11,7 @@ import { ActivatedRoute } from '@angular/router';
 import { IonContent, NavController } from '@ionic/angular';
 import { get } from 'lodash';
 import { combineLatest, Observable, of } from 'rxjs';
-import { finalize, switchMap } from 'rxjs/operators';
+import { finalize, switchMap, take } from 'rxjs/operators';
 import { CustomRouterService } from 'src/app/core/services/custom-router/custom-router.service';
 import { subPageHeaderDefault } from 'src/app/shared/data/sub-page-header-default';
 import { Locuinte } from 'src/app/shared/models/data/locuinte.interface';
@@ -34,7 +34,7 @@ export class LocuinteFormPageComponent implements OnInit {
   buttonText = 'Continuă';
   headerConfig = null;
   buttonVisible = true;
-  dataModel: Locuinte;
+  dataModel: any = { id: null };
   formMode: LocuinteFormModes;
   formType: LocuinteFormType;
   formModes = LocuinteFormModes;
@@ -117,22 +117,25 @@ export class LocuinteFormPageComponent implements OnInit {
           break;
         case this.formModes.EDIT_FULL:
           if (id) {
-            this.locuinteS.getSingleLocuinta(id).subscribe(
-              (val: Locuinte) => {
-                if (val) {
-                  this.dataModel = val;
-                  this.buildFormAdd();
-                  observer.next(true);
-                } else {
+            this.locuinteS
+              .getSingleLocuinta(id)
+              .pipe(take(1))
+              .subscribe(
+                (val: Locuinte) => {
+                  if (val) {
+                    this.dataModel = val;
+                    this.buildFormAdd();
+                    observer.next(true);
+                  } else {
+                    this.navCtrl.navigateRoot(['/profil', 'locuinte']);
+                    observer.next(false);
+                  }
+                },
+                () => {
                   this.navCtrl.navigateRoot(['/profil', 'locuinte']);
                   observer.next(false);
                 }
-              },
-              () => {
-                this.navCtrl.navigateRoot(['/profil', 'locuinte']);
-                observer.next(false);
-              }
-            );
+              );
           }
           break;
       }
@@ -174,6 +177,13 @@ export class LocuinteFormPageComponent implements OnInit {
           })
         )
         .subscribe((v) => {
+          // We need to clear the validator when we have no data on the initial call.
+          if (
+            this.addressStreet &&
+            !get(this.formInstance.data, 'addressStreet', [])?.length
+          ) {
+            this.addressStreet.clearValidators();
+          }
           this.cdRef.markForCheck();
           this.cdRef.detectChanges();
         });
@@ -204,6 +214,7 @@ export class LocuinteFormPageComponent implements OnInit {
           this.addressStreet.patchValue('');
           this.addressStreet.updateValueAndValidity();
         }
+
         this.formS
           .updateCity(this.addressCity, this.formInstance.data, this.dataModel)
           .subscribe((v) => {
@@ -366,7 +377,7 @@ export class LocuinteFormPageComponent implements OnInit {
     switch (this.formMode) {
       case this.formModes.EDIT_FULL:
         const model = this.formS.processFormModel(
-          this.formInstance.group.value,
+          this.formInstance.group.getRawValue(),
           this.dataModel
         );
         this.formSubmitting = true;
@@ -379,12 +390,12 @@ export class LocuinteFormPageComponent implements OnInit {
         );
       case this.formModes.ADD_NEW_FULL:
         const model2 = this.formS.processFormModel(
-          this.formInstance.group.value,
+          this.formInstance.group.getRawValue(),
           this.dataModel
         );
         this.formSubmitting = true;
         this.cdRef.markForCheck();
-        if (this.dataModel) {
+        if (get(this.dataModel, 'id', null) !== null) {
           return this.locuinteS.updateSingleLocuinte(model2).pipe(
             finalize(() => {
               this.formSubmitting = false;

@@ -18,6 +18,7 @@ export interface Locuinte {
   addressCity: string;
   addressStreet: string;
   addressStreetType?: string;
+  addressStreetNumber: string;
   // Scara bloc.
   addressScara: string;
   addressBuildingNumber: string;
@@ -45,6 +46,7 @@ export interface Locuinte {
   // PAID data.
   paidExternalSeriePolita?: string;
   paidExternalNumarPolita?: string;
+  PaidExternalDataPolita?: string | Date;
   paidExternalDataStartValabilitatePolita?: string | Date;
   paidExternalDataStopValabilitatePolita?: string | Date;
   // Temp - prefilled data.

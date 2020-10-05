@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { get } from 'lodash';
 import { BehaviorSubject, Observable, of } from 'rxjs';
-import { catchError, map, switchMap, take } from 'rxjs/operators';
+import { catchError, map, switchMap, take, tap } from 'rxjs/operators';
 import { locuinteEndpoints } from 'src/app/core/configs/endpoints';
 import { AuthService } from 'src/app/core/services/auth/auth.service';
 import { RequestService } from 'src/app/core/services/request/request.service';
@@ -51,7 +51,6 @@ export class LocuinteService {
         this.multipleLoading.next(false);
       }
     );
-
     this.getCounties().subscribe((vals) => {
       if (vals instanceof Array && vals.length) {
         this.countyStore$.next(vals);
@@ -102,7 +101,11 @@ export class LocuinteService {
       ...data,
       id: 0,
     };
-    return this.reqS.post<any>(this.endpoints.add, address);
+    return this.reqS.post<any>(this.endpoints.add, address).pipe(
+      tap(() => {
+        this.loadAllData();
+      })
+    );
   }
 
   makeHomeAddress(data) {
@@ -110,7 +113,11 @@ export class LocuinteService {
   }
 
   updateSingleLocuinte(data: Locuinte) {
-    return this.reqS.post<Locuinte>(this.endpoints.updateAddress, data);
+    return this.reqS.post<Locuinte>(this.endpoints.updateAddress, data).pipe(
+      tap(() => {
+        this.loadAllData();
+      })
+    );
   }
 
   getLocuinteWithPolicy(policyTypeID: string) {
@@ -133,7 +140,13 @@ export class LocuinteService {
   }
 
   disableLocationForAddressId(addressId) {
-    return this.reqS.post<Locuinte>(this.endpoints.disAbleLocation, addressId);
+    return this.reqS
+      .post<Locuinte>(this.endpoints.disAbleLocation, addressId)
+      .pipe(
+        tap(() => {
+          this.loadAllData();
+        })
+      );
   }
 
   getCounties() {
@@ -184,6 +197,7 @@ export class LocuinteService {
       addressCity: get(entry, 'addressCity', ''),
       addressStreet: get(entry, 'addressStreet', ''),
       addressStreetType: get(entry, 'addressStreetType', ''),
+      addressStreetNumber: get(entry, 'addressStreetNumber', ''),
       addressBuildingNumber: get(entry, 'addressBuildingNumber', ''),
       // Scara bloc.
       addressScara: get(entry, 'addressScara', ''),
@@ -204,6 +218,19 @@ export class LocuinteService {
       addressStreetCode: get(entry, 'addressStreetCode', ''),
       addressCityCode: get(entry, 'addressCityCode', ''),
       isHomeAddress: get(entry, 'isHomeAddress', false),
+      paidExternalSeriePolita: get(entry, 'paidExternalSeriePolita', ''),
+      paidExternalNumarPolita: get(entry, 'paidExternalNumarPolita', ''),
+      PaidExternalDataPolita: get(entry, 'paidExternalDataPolita', ''),
+      paidExternalDataStartValabilitatePolita: get(
+        entry,
+        'paidExternalDataStartValabilitatePolita',
+        ''
+      ),
+      paidExternalDataStopValabilitatePolita: get(
+        entry,
+        'paidExternalDataStopValabilitatePolita',
+        ''
+      ),
     };
   }
 }
