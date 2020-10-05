@@ -60,15 +60,24 @@ export class PasscodeFieldComponent implements OnInit, AfterViewInit {
     if (this.digitsLength === 6 && !this.busy) {
       this.emitForm();
     }
+    if (this.digitsLength > 6) {
+      const value = this.passCode.value ? this.passCode.value : '';
+      try {
+        this.passCode.setValue(value.substring(0, 6), { emitEvent: false });
+      } catch (e) {}
+    }
     this.clearErr();
   }
 
+  get passCode() {
+    return this.passForm.get('passcode');
+  }
   public emitForm(): void {
     this.doPassForm.emit(this.passForm);
   }
 
   public emitDigitLength(): void {
-    this.doDigitLength.emit(this.digitsLength);
+    this.doDigitLength.emit(this.digitsLength > 6 ? 6 : this.digitsLength);
   }
 
   clearErr() {

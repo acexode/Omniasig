@@ -1,4 +1,6 @@
+import { NavController } from '@ionic/angular';
 import {
+  AfterViewInit,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
@@ -21,7 +23,7 @@ import { ChangeCodeService } from '../services/change-code.service';
   styleUrls: ['./cod-actual.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CodActualComponent implements OnInit {
+export class CodActualComponent implements AfterViewInit {
   @HostBinding('class') color = 'ion-color-white-page';
   headerConfig = subPageHeaderDefault('Cod actual');
   digitsLength = 0;
@@ -33,13 +35,15 @@ export class CodActualComponent implements OnInit {
     inputMode: 'number',
   };
   constructor(
-    private router: Router,
+    private navCtrl: NavController,
     private authS: AuthService,
     private changeCodeS: ChangeCodeService,
     private cdRef: ChangeDetectorRef
   ) {}
 
-  ngOnInit() {}
+  ngAfterViewInit() {
+    this.lock = false;
+  }
 
   continue(passForm: FormGroup) {
     const value = passForm.get('passcode').value;
@@ -82,9 +86,10 @@ export class CodActualComponent implements OnInit {
   }
 
   proceed() {
-    this.router.navigate(['cod-acces/nou']).then((v) => {
+    this.navCtrl.navigateForward(['cod-acces/nou']).then((v) => {
       this.lock = false;
     });
+    this.lock = false;
   }
 
   clearErr(_) {

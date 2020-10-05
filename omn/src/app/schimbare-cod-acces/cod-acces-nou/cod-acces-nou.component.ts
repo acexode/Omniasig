@@ -1,6 +1,10 @@
-import { Component, HostBinding, OnDestroy, OnInit } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  HostBinding,
+  OnDestroy,
+} from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { Router } from '@angular/router';
 import { NavController } from '@ionic/angular';
 import { Subscription } from 'rxjs';
 import { unsubscriberHelper } from 'src/app/core/helpers/unsubscriber.helper';
@@ -14,7 +18,7 @@ import { ChangeCodeService } from '../services/change-code.service';
   templateUrl: './cod-acces-nou.component.html',
   styleUrls: ['./cod-acces-nou.component.scss'],
 })
-export class CodAccesNouComponent implements OnInit, OnDestroy {
+export class CodAccesNouComponent implements AfterViewInit, OnDestroy {
   @HostBinding('class') color = 'ion-color-white-page';
   headerConfig = subPageHeaderDefault('Cod de acces nou');
   digitsLength = 0;
@@ -26,15 +30,17 @@ export class CodAccesNouComponent implements OnInit, OnDestroy {
   };
   InvalidCode = false;
   constructor(
-    private router: Router,
     private navCtrl: NavController,
     private changeCodeS: ChangeCodeService
   ) {}
 
-  ngOnInit() {}
+  ngAfterViewInit() {
+    this.lock = false;
+  }
 
   continue(passForm: FormGroup) {
     if (!this.lock) {
+      this.lock = true;
       const { value } = passForm.controls.passcode;
       if (value === '000000') {
         passForm.reset();
@@ -55,6 +61,7 @@ export class CodAccesNouComponent implements OnInit, OnDestroy {
     this.navCtrl.navigateForward(['cod-acces/confirmare']).then((v) => {
       this.lock = false;
     });
+    this.lock = false;
   }
 
   clearErr(_) {
