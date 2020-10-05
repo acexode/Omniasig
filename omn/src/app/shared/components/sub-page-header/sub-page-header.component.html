@@ -21,6 +21,7 @@
         [ngClass]="config?.leadingIcon?.classes"
       ></ion-icon>
     </ion-buttons>
+    <div *ngIf="!config?.leadingIcon" class="p-16"></div>
     <ion-title
       *ngIf="config?.title"
       class="header-title alt-font"
@@ -44,6 +45,7 @@
         [ngClass]="config?.trailingIcon?.classes"
         (click)="trailingAction()"
       ></ion-icon>
+      <div *ngIf="!config?.trailingIcon" class="p-16"></div>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>

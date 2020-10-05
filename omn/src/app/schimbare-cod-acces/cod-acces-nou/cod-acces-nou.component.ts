@@ -19,6 +19,7 @@ export class CodAccesNouComponent implements OnInit, OnDestroy {
   headerConfig = subPageHeaderDefault('Cod de acces nou');
   digitsLength = 0;
   sub: Subscription;
+  lock = false;
   config: IonInputConfig = {
     type: 'number',
     inputMode: 'number',
@@ -33,25 +34,31 @@ export class CodAccesNouComponent implements OnInit, OnDestroy {
   ngOnInit() {}
 
   continue(passForm: FormGroup) {
-    const { value } = passForm.controls.passcode;
-    if (value === '000000') {
-      passForm.reset();
-      this.InvalidCode = true;
-    } else {
-      const resetObj: UpdatePassword = {
-        ...this.changeCodeS.getUpdatePassObj,
-        newPassword: value,
-      };
-      this.changeCodeS.setUpdatePassObj(resetObj);
-      this.proceed();
+    if (!this.lock) {
+      const { value } = passForm.controls.passcode;
+      if (value === '000000') {
+        passForm.reset();
+        this.InvalidCode = true;
+      } else {
+        const resetObj: UpdatePassword = {
+          ...this.changeCodeS.getUpdatePassObj,
+          newPassword: value,
+        };
+        this.changeCodeS.setUpdatePassObj(resetObj);
+        this.proceed();
+      }
     }
   }
 
   proceed() {
-    this.navCtrl.navigateForward(['cod-acces/confirmare']);
+    this.lock = true;
+    this.navCtrl.navigateForward(['cod-acces/confirmare']).then((v) => {
+      this.lock = false;
+    });
   }
 
   clearErr(_) {
+    this.lock = false;
     if (this.digitsLength > 0) {
       this.InvalidCode = null;
     }
