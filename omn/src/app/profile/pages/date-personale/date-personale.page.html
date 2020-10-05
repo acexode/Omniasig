@@ -1,118 +1,66 @@
 <app-sub-page-header [config]="headerConfig"> </app-sub-page-header>
 
 <ion-content>
-  <ion-grid class="mx-0 pt-48 pb-24 h-100 px-0 flex flex-1">
-    <ion-col class="flex flex-1 flex-column w-100 ion-no-padding">
-      <ion-row class="ion-no-padding flex w-100 flex-column">
-        <ion-item class="mb-18" lines="none">
-          <ion-label class="ion-text-wrap">
-            <div class="input-label">Nume</div>
-            <ion-text>{{ accountData?.name }}</ion-text>
-          </ion-label>
-        </ion-item>
+    <ion-grid class="mx-0 pt-48 pb-24 h-100 px-0 flex flex-1">
+        <ion-col class="flex flex-1 flex-column w-100 ion-no-padding">
+            <ion-row class="ion-no-padding flex w-100 flex-column">
+                <ion-item class="mb-18" lines="none">
+                    <ion-label class="ion-text-wrap">
+                        <div class="input-label">Nume</div>
+                        <ion-text>{{ accountData?.name }}</ion-text>
+                    </ion-label>
+                </ion-item>
 
-        <ion-item class="mb-18" lines="none">
-          <ion-label class="ion-text-wrap">
-            <div class="input-label">Prenume</div>
-            <ion-text>{{ accountData?.surname}}</ion-text>
-          </ion-label>
-        </ion-item>
+                <ion-item class="mb-18" lines="none">
+                    <ion-label class="ion-text-wrap">
+                        <div class="input-label">Prenume</div>
+                        <ion-text>{{ accountData?.surname}}</ion-text>
+                    </ion-label>
+                </ion-item>
 
-        <ion-item class="mb-18" lines="none">
-          <ion-label class="ion-text-wrap">
-            <div class="input-label">CNP</div>
-            <ion-text>{{ accountData?.cnp | cnp}}</ion-text>
-          </ion-label>
-          <ion-button
-            mode="ios"
-            *ngIf="!accountActivated"
-            size="small"
-            shape="round"
-            class="active ion-align-self-end"
-            [routerLink]="['edit-cnp']"
-            >Schimba</ion-button
-          >
-        </ion-item>
+                <ion-item class="mb-18" lines="none">
+                    <ion-label class="ion-text-wrap">
+                        <div class="input-label">CNP</div>
+                        <ion-text>{{ accountData?.cnp | cnp}}</ion-text>
+                    </ion-label>
+                    <ion-button mode="ios" *ngIf="!accountActivated" size="small" shape="round" class="active ion-align-self-end" [routerLink]="['edit-cnp']">Schimba</ion-button>
+                </ion-item>
 
-        <ion-item class="mb-18" lines="none">
-          <ion-label class="ion-text-wrap">
-            <div class="input-label">Email</div>
-            <ion-text>{{ accountData?.email }}</ion-text>
-          </ion-label>
-          <ion-button
-            *ngIf="!accountActivated"
-            mode="ios"
-            size="small"
-            shape="round"
-            class="inactive"
-            [routerLink]="['validate-email']"
-            >Validează</ion-button
-          >
-          <ion-button
-            *ngIf="accountActivated"
-            mode="ios"
-            size="small"
-            shape="round"
-            class="active ion-align-self-end"
-            [routerLink]="['edit-email']"
-            >Schimba</ion-button
-          >
-        </ion-item>
+                <ion-item class="mb-18" lines="none">
+                    <ion-label class="ion-text-wrap">
+                        <div class="input-label">Email</div>
+                        <ion-text>{{ accountData?.email }}</ion-text>
+                    </ion-label>
+                    <ion-button *ngIf="!accountActivated" mode="ios" size="small" shape="round" class="inactive ion-align-self-end" [routerLink]="['validate-email']">Validează</ion-button>
+                    <ion-button mode="ios" size="small" shape="round" class="active ion-align-self-end" [routerLink]="['edit-email']">Schimba</ion-button>
+                </ion-item>
 
-        <ion-item
-          class="mb-18"
-          *ngIf="accountActivated && domiciliu"
-          lines="none"
-        >
-          <ion-label class="ion-text-wrap">
-            <div class="input-label">Domiciliu</div>
-            <ion-text>{{domiciliu| locuinteName:'domiciliu-list'}}</ion-text>
-          </ion-label>
-        </ion-item>
+                <ion-item class="mb-18" *ngIf="accountActivated && domiciliu" lines="none">
+                    <ion-label class="ion-text-wrap">
+                        <div class="input-label">Domiciliu</div>
+                        <ion-text>{{domiciliu| locuinteName:'domiciliu-list'}}</ion-text>
+                    </ion-label>
+                </ion-item>
 
-        <ion-item
-          class="mb-18"
-          *ngIf="accountActivated && accountData?.addresses"
-          lines="none"
-        >
-          <ion-label class="ion-text-wrap">
-            <div class="input-label">Alte adrese</div>
-            <ion-text> {{accountData?.addresses[1]}}</ion-text>
-          </ion-label>
-          <ion-button
-            mode="ios"
-            size="small"
-            [disabled]="true"
-            shape="round"
-            class="active ion-align-self-end"
-            >Schimba</ion-button
-          >
-        </ion-item>
-      </ion-row>
-      <ion-row class="ion-no-padding flex w-100 flex-1">
-        <ion-col
-          class="ion-no-padding flex flex-1 w-100 flex-column ion-justify-content-end px-32"
-        >
-          <ion-text
-            *ngIf="!accountActivated"
-            class="activation-msg ion-text-center w-100 right-padding vertical-spacing mb-18 mt-auto"
-          >
-            Activează-ți contul pentru a te bucura de serviciile noastre rapid
-            și sigur direct din aplicație.
-          </ion-text>
-          <ion-button
-            *ngIf="!accountActivated"
-            class="activate-btn"
-            color="success"
-            expand="full"
-            shape="round"
-            [routerLink]="'./validate'"
-            mode="ios"
-          >
-            Verifică identitatea
-          </ion-button>
+                <ion-item class="mb-18" *ngIf="accountActivated && accountData?.addresses" lines="none">
+                    <ion-label class="ion-text-wrap">
+                        <div class="input-label">Alte adrese</div>
+                        <ion-text> {{accountData?.addresses[1]}}</ion-text>
+                    </ion-label>
+                    <ion-button mode="ios" size="small" [disabled]="true" shape="round" class="active ion-align-self-end">Schimba
+                    </ion-button>
+                </ion-item>
+            </ion-row>
+            <ion-row class="ion-no-padding flex w-100 flex-1">
+                <ion-col class="ion-no-padding flex flex-1 w-100 flex-column ion-justify-content-end px-32">
+                    <ion-text *ngIf="!accountActivated" class="activation-msg ion-text-center w-100 right-padding vertical-spacing mb-18 mt-auto">
+                        Activează-ți contul pentru a te bucura de serviciile noastre rapid și sigur direct din aplicație.
+                    </ion-text>
+                    <ion-button *ngIf="!accountActivated" class="activate-btn" color="success" expand="full" shape="round" [routerLink]="'./validate'" mode="ios">
+                        Verifică identitatea
+                    </ion-button>
+                </ion-col>
+            </ion-row>
         </ion-col>
-      </ion-row>
-    </ion-col>
-  </ion-grid>
+    </ion-grid>
 </ion-content>
