@@ -1,13 +1,6 @@
-import {
-  Component,
-  HostBinding,
-  OnDestroy,
-  OnInit,
-  ViewChild,
-} from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
-import { IonInput, NavController } from '@ionic/angular';
+import { Component, HostBinding, OnDestroy, OnInit } from '@angular/core';
+import { FormGroup } from '@angular/forms';
+import { NavController } from '@ionic/angular';
 import { Subscription } from 'rxjs';
 import { unsubscriberHelper } from 'src/app/core/helpers/unsubscriber.helper';
 import { CustomStorageService } from 'src/app/core/services/custom-storage/custom-storage.service';
@@ -35,8 +28,6 @@ export class ConfirmareCodAccesComponent implements OnInit, OnDestroy {
   busy = false;
 
   constructor(
-    private router: Router,
-    private formBuilder: FormBuilder,
     private navCtrl: NavController,
     private storeS: CustomStorageService,
     private changeCodeS: ChangeCodeService
@@ -85,7 +76,7 @@ export class ConfirmareCodAccesComponent implements OnInit, OnDestroy {
   }
 
   proceed() {
-    this.navCtrl.navigateForward(['/cod-acces/change-success']);
+    this.navCtrl.navigateRoot(['/cod-acces/change-success']);
   }
 
   ngOnDestroy() {

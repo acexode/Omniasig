@@ -1,6 +1,7 @@
 import { Component, HostBinding, OnDestroy, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
+import { NavController } from '@ionic/angular';
 import { Subscription } from 'rxjs';
 import { unsubscriberHelper } from 'src/app/core/helpers/unsubscriber.helper';
 import { subPageHeaderDefault } from 'src/app/shared/data/sub-page-header-default';
@@ -25,7 +26,7 @@ export class CodAccesNouComponent implements OnInit, OnDestroy {
   InvalidCode = false;
   constructor(
     private router: Router,
-    private formBuilder: FormBuilder,
+    private navCtrl: NavController,
     private changeCodeS: ChangeCodeService
   ) {}
 
@@ -47,7 +48,7 @@ export class CodAccesNouComponent implements OnInit, OnDestroy {
   }
 
   proceed() {
-    this.router.navigate(['cod-acces/confirmare']);
+    this.navCtrl.navigateForward(['cod-acces/confirmare']);
   }
 
   clearErr(_) {
