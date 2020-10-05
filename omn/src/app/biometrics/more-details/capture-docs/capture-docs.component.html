@@ -30,7 +30,8 @@
         color="success"
         fill="solid"
         expand="block"
-        class="m-0 w-100 flex mt-auto"        
+        class="m-0 w-100 flex mt-auto"
+        [disabled]="saving"        
         (click)="uploadPhoto()"
       >
       <ion-spinner
