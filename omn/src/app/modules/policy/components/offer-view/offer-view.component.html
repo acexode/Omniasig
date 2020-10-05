@@ -19,7 +19,7 @@
                 {{ offer?.insurancePrice }} lei
               </ion-label>
               <ion-label class="text-normal text-weight-medium">
-                20 Euro la cursul de - lei/Euro
+                20 Euro la cursul de {{ offer?.insurancePrice/20 | number: '1.4-4' }} lei/Euro
               </ion-label>
             </ion-card-content>
           </ion-card>
