@@ -3,7 +3,6 @@ import {
   Component,
   EventEmitter,
   Input,
-  OnDestroy,
   OnInit,
   Output,
   ViewChild,
@@ -16,8 +15,7 @@ import { IonInput } from '@ionic/angular';
   templateUrl: './passcode-field.component.html',
   styleUrls: ['./passcode-field.component.scss'],
 })
-export class PasscodeFieldComponent
-  implements OnInit, AfterViewInit, OnDestroy {
+export class PasscodeFieldComponent implements OnInit, AfterViewInit {
   @ViewChild('inputField') inputField: IonInput;
   digitsLength = 0;
   @Input() errorLogin: string | null | boolean;
@@ -76,19 +74,6 @@ export class PasscodeFieldComponent
   clearErr() {
     if (this.errorLogin != null || typeof this.errorLogin != null) {
       this.doClearErr.emit(null);
-    }
-  }
-  ngOnDestroy(): void {
-    if (this.inputField) {
-      this.inputField.getInputElement().then((iE) => {
-        if (iE) {
-          try {
-            iE.blur();
-          } catch (err) {
-            // do nothing.
-          }
-        }
-      });
     }
   }
 }
