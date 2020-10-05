@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 
-import { LocuinteRouteResolverService } from './locuinte-route-resolver.service';
+import { LocuinteRouteResolverService } from './locuinte-view-route-resolver.service';
 
 describe('LocuinteRouteResolverService', () => {
   let service: LocuinteRouteResolverService;
