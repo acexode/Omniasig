@@ -16,7 +16,7 @@ import { IonInput } from '@ionic/angular';
   styleUrls: ['./passcode-field.component.scss'],
 })
 export class PasscodeFieldComponent implements OnInit, AfterViewInit {
-  @ViewChild('inputField') inputField: IonInput;
+  @ViewChild('inputField', { static: true }) inputField: IonInput;
   digitsLength = 0;
   @Input() errorLogin: string | null | boolean;
   @Input() busy: boolean;
