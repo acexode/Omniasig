@@ -350,9 +350,7 @@ export class LocuinteViewComponent implements OnInit {
           {
             text: 'Renunță',
             role: 'cancel',
-            handler: () => {
-              
-            },
+            handler: () => {},
             cssClass:
               'm-0 w-100 no-shadow ion-color-secondary button button-block button-large button-solid',
           },
