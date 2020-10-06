@@ -33,7 +33,7 @@ export class CapturePhotoComponent implements OnInit {
       this.photoService.processPicture().subscribe(d => {
         this.saving = false;
         this.router.navigate(['../complete-verification'], { relativeTo: this.route });
-      },error => {
+      }, error => {
         this.saving = false;
       });
     });

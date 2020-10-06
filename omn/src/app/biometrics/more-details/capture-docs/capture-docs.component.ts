@@ -35,7 +35,7 @@ export class CaptureDocsComponent implements OnInit {
     this.photoService.uploadImage(blob, false).subscribe(data => {
       this.saving = false;
       this.router.navigate(['../capture-photo'], { relativeTo: this.route });
-    },error => {
+    }, error => {
       this.saving = false;
     });
   }
