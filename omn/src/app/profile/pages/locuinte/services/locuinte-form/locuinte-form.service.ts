@@ -43,7 +43,7 @@ export class LocuinteFormService {
         Validators.required
       ),
       yearConstruction: this.fb.control(
-        get(model, 'yearConstruction', null),
+        get(model, 'yearConstruction', 1980),
         Validators.required
       ),
       valueCurrency: this.fb.control(
@@ -489,7 +489,7 @@ export class LocuinteFormService {
           break;
         case 'yearConstruction':
           const v = val ? parseInt(val, 10) : val;
-          set(newModel, key, val > 0 ? val : 2000);
+          set(newModel, key, val > 0 ? val : 1980);
           break;
         case 'addressStreet':
         case 'addressApart':
