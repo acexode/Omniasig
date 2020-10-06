@@ -1,6 +1,6 @@
 {
   "name": "omniasig",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "author": "Omniasig",
   "homepage": "https://www.omniasig.ro/",
   "scripts": {
@@ -108,7 +108,6 @@
         "DEEPLINK_3_HOST": " "
       },
       "cordova-plugin-calendar": {},
-
       "cordova-plugin-ionic-webview": {},
       "cordova-plugin-app-launcher": {},
       "cordova-plugin-app-version": {},
