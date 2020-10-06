@@ -336,7 +336,7 @@ export class LocuinteViewComponent implements OnInit {
     let actionSheet = null;
     this.actionSheetController
       .create({
-        cssClass: 'locuinte-sheet s24-h32',
+        cssClass: 'locuinte-sheet s24-h32 red-title',
         header: 'Esti sigur ca doresti sa stergi adresa?',
         buttons: [
           {
