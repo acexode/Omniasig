@@ -109,11 +109,11 @@ export class LocuinteViewComponent implements OnInit {
               this.initForm();
               this.cdRef.markForCheck();
             } else {
-              this.navCtrl.navigateRoot(['/profil', 'locuinte']);
+              this.navCtrl.navigateRoot( [ '/profil', 'locuinte' ] );
             }
           } );
         } else {
-          this.navCtrl.navigateRoot(['/profil', 'locuinte']);
+          this.navCtrl.navigateRoot( [ '/profil', 'locuinte' ] );
         }
       } );
   }
