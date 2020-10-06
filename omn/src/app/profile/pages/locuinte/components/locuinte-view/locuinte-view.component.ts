@@ -7,7 +7,7 @@ import {
 } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { IonContent, ModalController, NavController } from '@ionic/angular';
+import { ActionSheetController, IonContent, ModalController, NavController } from '@ionic/angular';
 import { BehaviorSubject, combineLatest, Observable, of } from 'rxjs';
 import { finalize, switchMap } from 'rxjs/operators';
 import { CustomRouterService } from 'src/app/core/services/custom-router/custom-router.service';
@@ -76,6 +76,7 @@ export class LocuinteViewComponent implements OnInit {
     private formS: LocuinteFormService,
     public modalController: ModalController,
     private paidES: PaidExternalService,
+    public actionSheetController: ActionSheetController
   ) { }
 
   ngOnInit() {
@@ -330,6 +331,37 @@ export class LocuinteViewComponent implements OnInit {
       data: this.formData.place,
     };
     this.formType = LocuinteFormType.PLACE;
+  }
+  async openConfirmDeleteModal(id) {
+    let actionSheet = null;
+    this.actionSheetController
+      .create({
+        cssClass: 'locuinte-sheet s24-h32',
+        header: 'Esti sigur ca doresti sa stergi adresa?',
+        buttons: [
+          {
+            text: 'Da',
+            cssClass:
+              'm-0 w-100 no-shadow ion-color text-weight-medium ion-color-success flat button button-block button-large button-solid',
+            handler: () => {
+              this.deleteAddress(id);
+            },
+          },
+          {
+            text: 'Renunță',
+            role: 'cancel',
+            handler: () => {
+              
+            },
+            cssClass:
+              'm-0 w-100 no-shadow ion-color-secondary button button-block button-large button-solid',
+          },
+        ],
+      })
+      .then((v) => {
+        actionSheet = v;
+        actionSheet.present();
+      });
   }
 
   async confirmModal( v ) {
