@@ -16,11 +16,10 @@
                 Prețul poliței*
               </ion-label>
               <ion-label class="x-large text-weight-bold alt-font mb-8">
-                {{ offer?.policy?.locuintaData?.value * 4.9 }} lei
+                {{ offer?.insurancePrice }} lei
               </ion-label>
               <ion-label class="text-normal text-weight-medium">
-                {{ offer?.policy?.locuintaData?.value }} Euro la cursul de 4,9
-                lei/Euro
+                20 Euro la cursul de {{ offer?.insurancePrice/20 | number: '1.4-4' }} lei/Euro
               </ion-label>
             </ion-card-content>
           </ion-card>
@@ -106,7 +105,13 @@
               <div class="link-small text-weight-medium color-tertiary-grey">
                 Suma asigurată
               </div>
-              <ion-text class="s18-h24"> - Euro</ion-text>
+              <ion-text class="s18-h24">
+                {{ offer?.policy?.locuintaData?.value }}
+                {{
+                  offer?.policy?.locuintaData?.valueCurrency
+                    | locuinteField: 'valueCurrency'
+                }}</ion-text
+              >
             </ion-label>
           </ion-item>
           <ion-item class="ion-no-padding" lines="none">
