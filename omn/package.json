@@ -98,22 +98,17 @@
       "ionic-plugin-deeplinks": {
         "URL_SCHEME": "omniasig-app",
         "DEEPLINK_SCHEME": "https",
-        "DEEPLINK_HOST": "omn-test.ciceu.io",
+        "DEEPLINK_HOST": "omn-core-dev.azure.softescu.com",
         "ANDROID_PATH_PREFIX": "/api/UserProfile/ConfirmEmailForRegisterUserProfile",
         "DEEPLINK_2_SCHEME": "https",
-        "DEEPLINK_2_HOST": "omn-test.ciceu.io",
-        "ANDROID_2_PATH_PREFIX": "/api/UserProfile/ConfirmationNewEmailChange",
-        "DEEPLINK_3_SCHEME": "https",
-        "DEEPLINK_3_HOST": "omn-core-dev.azure.softescu.com",
-        "ANDROID_3_PATH_PREFIX": "/api/UserProfile/ConfirmEmailForRegisterUserProfile",
-        "DEEPLINK_4_SCHEME": "https",
-        "DEEPLINK_4_HOST": "omn-core-dev.azure.softescu.com",
+        "DEEPLINK_2_HOST": "omn-core-dev.azure.softescu.com",
         "ANDROID_4_PATH_PREFIX": "/api/UserProfile/ConfirmationNewEmailChange",
-        "ANDROID_5_PATH_PREFIX": "/",
-        "DEEPLINK_5_SCHEME": " ",
-        "DEEPLINK_5_HOST": " "
+        "ANDROID_3_PATH_PREFIX": "/",
+        "DEEPLINK_3_SCHEME": " ",
+        "DEEPLINK_3_HOST": " "
       },
       "cordova-plugin-calendar": {},
+
       "cordova-plugin-ionic-webview": {},
       "cordova-plugin-app-launcher": {},
       "cordova-plugin-app-version": {},

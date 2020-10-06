@@ -39,8 +39,6 @@
                 <data android:host="$DEEPLINK_HOST" android:pathPrefix="$ANDROID_PATH_PREFIX" android:scheme="$DEEPLINK_SCHEME" />
                 <data android:host="$DEEPLINK_2_HOST" android:pathPrefix="$ANDROID_2_PATH_PREFIX" android:scheme="$DEEPLINK_2_SCHEME" />
                 <data android:host="$DEEPLINK_3_HOST" android:pathPrefix="$ANDROID_3_PATH_PREFIX" android:scheme="$DEEPLINK_3_SCHEME" />
-                <data android:host="$DEEPLINK_4_HOST" android:pathPrefix="$ANDROID_4_PATH_PREFIX" android:scheme="$DEEPLINK_4_SCHEME" />
-                <data android:host="$DEEPLINK_5_HOST" android:pathPrefix="$ANDROID_5_PATH_PREFIX" android:scheme="$DEEPLINK_5_SCHEME" />
             </intent-filter>
             <preference name="AndroidLaunchMode" value="singleTask" />
         </edit-config>
@@ -107,13 +105,11 @@
         <splash height="480" src="resources/ios/splash/Default~iphone.png" width="320" />
         <config-file parent="com.apple.developer.associated-domains" target="*-Debug.plist">
             <array>
-                <string>applinks:omn-test.ciceu.io</string>
                 <string>applinks:omn-core-dev.azure.softescu.com</string>
             </array>
         </config-file>
         <config-file parent="com.apple.developer.associated-domains" target="*-Release.plist">
             <array>
-                <string>applinks:omn-test.ciceu.io</string>
                 <string>applinks:omn-core-dev.azure.softescu.com</string>
             </array>
         </config-file>
