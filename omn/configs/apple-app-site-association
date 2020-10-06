@@ -1,0 +1,14 @@
+{
+  "applinks": {
+    "apps": [],
+    "details": [
+      {
+        "appID": "JJVD4JE4AD.com.softescu.omn",
+        "paths": [
+          "/api/UserProfile/ConfirmEmailForRegisterUserProfile/*",
+	  "/api/UserProfile/ConfirmationNewEmailChange/*"
+        ]
+      }
+    ]
+  }
+}
