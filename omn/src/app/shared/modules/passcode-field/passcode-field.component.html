@@ -74,13 +74,11 @@
 </div>
 <form [formGroup]="passForm">
   <ion-input
-    [autofocus]="true"
     #inputField
     formControlName="passcode"
     class="position-absolute bg-white text-center opacity-hide ion-no-border"
     [readonly]="busy"
     type="tel"
-    autofocus="true"
     inputmode="tel"
   ></ion-input>
 </form>

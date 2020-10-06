@@ -1,6 +1,11 @@
-import { Component, HostBinding, OnDestroy, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
-import { Router } from '@angular/router';
+import {
+  AfterViewInit,
+  Component,
+  HostBinding,
+  OnDestroy,
+} from '@angular/core';
+import { FormGroup } from '@angular/forms';
+import { NavController } from '@ionic/angular';
 import { Subscription } from 'rxjs';
 import { unsubscriberHelper } from 'src/app/core/helpers/unsubscriber.helper';
 import { subPageHeaderDefault } from 'src/app/shared/data/sub-page-header-default';
@@ -13,44 +18,54 @@ import { ChangeCodeService } from '../services/change-code.service';
   templateUrl: './cod-acces-nou.component.html',
   styleUrls: ['./cod-acces-nou.component.scss'],
 })
-export class CodAccesNouComponent implements OnInit, OnDestroy {
+export class CodAccesNouComponent implements AfterViewInit, OnDestroy {
   @HostBinding('class') color = 'ion-color-white-page';
   headerConfig = subPageHeaderDefault('Cod de acces nou');
   digitsLength = 0;
   sub: Subscription;
+  lock = false;
   config: IonInputConfig = {
     type: 'number',
     inputMode: 'number',
   };
   InvalidCode = false;
   constructor(
-    private router: Router,
-    private formBuilder: FormBuilder,
+    private navCtrl: NavController,
     private changeCodeS: ChangeCodeService
   ) {}
 
-  ngOnInit() {}
+  ngAfterViewInit() {
+    this.lock = false;
+  }
 
   continue(passForm: FormGroup) {
-    const { value } = passForm.controls.passcode;
-    if (value === '000000') {
-      passForm.reset();
-      this.InvalidCode = true;
-    } else {
-      const resetObj: UpdatePassword = {
-        ...this.changeCodeS.getUpdatePassObj,
-        newPassword: value,
-      };
-      this.changeCodeS.setUpdatePassObj(resetObj);
-      this.proceed();
+    if (!this.lock) {
+      this.lock = true;
+      const { value } = passForm.controls.passcode;
+      if (value === '000000') {
+        passForm.reset();
+        this.InvalidCode = true;
+      } else {
+        const resetObj: UpdatePassword = {
+          ...this.changeCodeS.getUpdatePassObj,
+          newPassword: value,
+        };
+        this.changeCodeS.setUpdatePassObj(resetObj);
+        this.proceed();
+      }
     }
   }
 
   proceed() {
-    this.router.navigate(['cod-acces/confirmare']);
+    this.lock = true;
+    this.navCtrl.navigateForward(['cod-acces/confirmare']).then((v) => {
+      this.lock = false;
+    });
+    this.lock = false;
   }
 
   clearErr(_) {
+    this.lock = false;
     if (this.digitsLength > 0) {
       this.InvalidCode = null;
     }
