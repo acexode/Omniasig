@@ -108,16 +108,13 @@ export class OfferViewComponent implements OnInit {
   }
 
   getPolicyById(id) {
-    this.policyDataService
-      .getSingleOfferById(id, this.policyType)
-      .subscribe((offer) => {
-        this.offer = offer;
-        if (offer && has(offer, 'policy.typeId')) {
-          this.policyType = get(offer, 'policy.typeId', this.policyType);
-        }
-
-        this.setCalEntry(this.offer);
-      });
+    this.policyDataService.getSingleOfferById(id, this.policyType).subscribe((offer) => {
+      this.offer = offer;
+      if (offer && has(offer, 'policy.typeId')) {
+        this.policyType = get(offer, 'policy.typeId', this.policyType);
+      }
+      this.setCalEntry(this.offer);
+    });
   }
 
   closeOffer() {
@@ -190,6 +187,7 @@ export class OfferViewComponent implements OnInit {
 
   openIAB(url, type) {
     const browser = this.iab.create(url, type, { usewkwebview: 'no', location: 'no' });
+    browser.show();
     // TODO: linter complains, this is to be retested.
     if (browser) {
       this.sub = browser.on('loadstart').subscribe((e) => {

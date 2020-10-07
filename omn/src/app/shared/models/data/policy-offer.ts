@@ -17,6 +17,7 @@ export interface PolicyOffer {
   ratePlanList?: RatePlan[];
   offerPrice?: number;
   firstPaymentValue?: number;
+  insurancePrice?: any;
 }
 
 export interface RatePlan {
@@ -25,4 +26,6 @@ export interface RatePlan {
   currency: string;
   rateNumber: number;
   dueDatea: Date;
+  AsiguratedSum?: any;
+  expireDate?: any;
 }
