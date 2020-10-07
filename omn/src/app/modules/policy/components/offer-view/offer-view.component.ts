@@ -16,6 +16,7 @@ import { PolicyDataService } from '../../services/policy-data.service';
 import { CalendarEntry } from '../models/calendar-entry';
 import { PaymentStatusComponent } from './../payment-status/payment-status.component';
 import { Subscription } from 'rxjs';
+import { isPlatform } from '@ionic/angular';
 
 @Component({
   selector: 'app-offer-view',
@@ -175,7 +176,11 @@ export class OfferViewComponent implements OnInit {
     this.sub = this.policyDataService.makePayment(data).subscribe(
       (dataV) => {
         this.busy = false;
-        this.openIAB(dataV.url);
+        if (isPlatform('ios')) {
+        this.openIAB(dataV.url, '_self');
+      } else {
+        this.openIAB(dataV.url, '_blank');
+      }
       },
       (err) => (this.busy = false)
     );
@@ -183,8 +188,8 @@ export class OfferViewComponent implements OnInit {
     return;
   }
 
-  openIAB(url) {
-    const browser = this.iab.create(url, '_blank', 'location=no');
+  openIAB(url, type) {
+    const browser = this.iab.create(url, type, { usewkwebview: 'no', location: 'no' });
     // TODO: linter complains, this is to be retested.
     if (browser) {
       this.sub = browser.on('loadstart').subscribe((e) => {
