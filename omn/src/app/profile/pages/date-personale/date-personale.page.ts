@@ -20,7 +20,7 @@ export class DatePersonalePage implements OnInit {
   accountActivated: boolean;
   account$ = this.authS.getAccountData();
   accountData: Account;
-  headerConfig = subPageHeaderDefault('Date Personale');
+  headerConfig = subPageHeaderDefault( 'Date Personale', '/profil');
   domiciliu: Locuinte;
   otherAddresses: Array<Locuinte>;
   domiciliu$ = this.locuinteService.locuinteStore$.pipe(

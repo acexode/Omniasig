@@ -34,6 +34,7 @@ export class DatePersonaleFormComponent implements OnInit, OnDestroy {
   timerSubs: Subscription;
   timer$ = new BehaviorSubject(0);
   formSubmitting = false;
+  routeBackLink = '/profil/date-personale';
 
   constructor(
     private fb: FormBuilder,
@@ -63,10 +64,10 @@ export class DatePersonaleFormComponent implements OnInit, OnDestroy {
 
   setTitles() {
     if (this.formMode === this.formModes.EDIT_EMAIL) {
-      this.headerConfig = subPageHeaderDefault('Schimbare adresă e-mail');
+      this.headerConfig = subPageHeaderDefault( 'Schimbare adresă e-mail', this.routeBackLink);
     }
     if (this.formMode === this.formModes.EDIT_CNP) {
-      this.headerConfig = subPageHeaderDefault('Introdu CNP');
+      this.headerConfig = subPageHeaderDefault('Introdu CNP', this.routeBackLink);
     }
   }
 
