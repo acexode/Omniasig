@@ -1,8 +1,8 @@
 <ion-content class="bg-white">
     <app-sub-page-header [config]="headerConfig"> </app-sub-page-header>
-    <div class="px-32">
-        <ion-col>
-            <div class="ion-text-center pb-42 pt-14">
+    <ion-row size="12" class="px-32 pt-16">
+        <ion-col class="ion-no-padding">
+            <div class="ion-text-center pb-32">
                 <ion-text class="text-small">
                     Creează un cod nou de acces
                 </ion-text>
@@ -11,5 +11,5 @@
                 <app-passcode-field [errorLogin]="errorLogin" (doPassForm)="verifyPincode($event)" (doClearErr)="clearErr($event)"></app-passcode-field>
             </div>
         </ion-col>
-    </div>
+    </ion-row>
 </ion-content>
