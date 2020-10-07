@@ -1,0 +1,5 @@
+[{
+  "relation": ["delegate_permission/common.handle_all_urls"],
+  "target" : { "namespace": "android_app", "package_name": "com.omniasig.app",
+               "sha256_cert_fingerprints": ["72:A0:6D:1C:AC:97:98:88:F2:D1:30:24:C3:5C:16:C8:02:BB:2E:2F:C1:47:16:D2:FE:3D:5A:3C:CB:45:71:63"] }
+}]
