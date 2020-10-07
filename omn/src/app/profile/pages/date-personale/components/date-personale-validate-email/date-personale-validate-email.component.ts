@@ -85,7 +85,6 @@ export class DatePersonaleValidateEmailComponent implements OnInit, OnDestroy {
           this.email = get(vM, '1.email', this.email);
           this.queryParams = get(vM, '2', null);
         }
-        
         if (!this.init) {
           this.handleEventData();
           this.init = true;
