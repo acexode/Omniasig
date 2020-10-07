@@ -17,4 +17,5 @@ export interface PolicyOffer {
   AsiguratedSum?: any;
   expireDate?: any;
   insurancePrice?: any;
+  firstPaymentValue?: any;
 }
