@@ -170,13 +170,13 @@ export class PolicyDataService {
   }
   // ceate offer obj
   createOffersObj(offer: any, typeId: string) {
-    console.log(offer);
     const offerObj = {
       id: offer.id,
       offerCode: offer.offerCode,
       iban: offer.offerIBAN,
       ratePlanList: offer.ratePlanList,
       offerPrice: offer.offerPrima,
+      firstPaymentValue: offer.firstPaymentValue,
       policy: {
         id: offer.id,
         name: offer.offerCode,

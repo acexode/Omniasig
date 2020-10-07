@@ -16,6 +16,7 @@ export class InsuranceConditionsComponent {
   @HostBinding('class') color = 'ion-color-white-page';
   @Input() policyType;
   @Output() emitPay: EventEmitter<any> = new EventEmitter();
+  @Input() busy;
   formG: FormGroup = this.fb.group({
     accept: this.fb.control(false, Validators.requiredTrue),
   });

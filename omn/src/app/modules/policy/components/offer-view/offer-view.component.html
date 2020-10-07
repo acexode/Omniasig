@@ -220,7 +220,8 @@
                 </ion-col>
             </ion-row>
             <ion-row class="px-32 mb-24 ion-no-padding">
-                <ion-button class="s18-h24 text-weight-medium activate-btn w-100 m-0" size="large" color="success" expand="full" shape="round" (click)="pay()">Plătește</ion-button>
+                <ion-button class="s18-h24 text-weight-medium activate-btn w-100 m-0" [disabled]="busy" size="large" color="success" expand="full" shape="round" (click)="pay()">
+                    <ion-spinner name="crescent" *ngIf="busy" class="icon-20"></ion-spinner> Plătește</ion-button>
             </ion-row>
             <ion-row class="flex flex-column ion-no-padding w-100 shadow-3 mt-32" *ngIf="calEntry">
                 <ion-row>
@@ -1240,6 +1241,6 @@
         </ion-grid>
     </ng-container>
     <ng-container *ngIf="viewMode === 'C'">
-        <app-insurance-conditions [policyType]="policyType" (emitPay)="pay()"></app-insurance-conditions>
+        <app-insurance-conditions [policyType]="policyType" [busy]="busy" (emitPay)="pay()"></app-insurance-conditions>
     </ng-container>
 </ion-content>

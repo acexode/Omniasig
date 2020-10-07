@@ -7,7 +7,7 @@ import {
 } from '@ionic-native/in-app-browser/ngx';
 import { ModalController, NavController } from '@ionic/angular';
 import { get, has } from 'lodash';
-import { take } from 'rxjs/operators';
+import { first, take } from 'rxjs/operators';
 import { dateHelperDMY } from 'src/app/core/helpers/date.helper';
 import { subPageHeaderSecondary } from 'src/app/shared/data/sub-page-header-secondary';
 import { PolicyOffer } from 'src/app/shared/models/data/policy-offer';
@@ -15,6 +15,7 @@ import { PadService } from '../../services/pad.service';
 import { PolicyDataService } from '../../services/policy-data.service';
 import { CalendarEntry } from '../models/calendar-entry';
 import { PaymentStatusComponent } from './../payment-status/payment-status.component';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-offer-view',
@@ -88,6 +89,7 @@ export class OfferViewComponent implements OnInit {
 
   calEntry: CalendarEntry;
   busy = false;
+  sub: Subscription;
   constructor(
     private route: ActivatedRoute,
     private policyDataService: PolicyDataService,
@@ -161,21 +163,19 @@ export class OfferViewComponent implements OnInit {
   pay() {
     // Starting the payment workflow here
     this.busy = true;
-    console.log(this.offer);
-    
     const data = {
       ibaN_1: this.offer.iban,
-      amount_IBAN_1: this.offer.offerPrice,
+      amount_IBAN_1: this.offer.firstPaymentValue,
       areTermsAccepted: true,
       currencyToPay: this.offer.policy.locuintaData.valueCurrency,
       policyCurrency: this.offer.policy.locuintaData.valueCurrency,
       policyCode: this.offer.offerCode,
       isMobilePayment: true,
     };
-    this.policyDataService.makePayment(data).subscribe(
+    this.sub = this.policyDataService.makePayment(data).subscribe(
       (dataV) => {
-        this.openIAB(dataV.url);
         this.busy = false;
+        this.openIAB(dataV.url);
       },
       (err) => (this.busy = false)
     );
@@ -187,16 +187,20 @@ export class OfferViewComponent implements OnInit {
     const browser = this.iab.create(url, '_blank', 'location=no');
     // TODO: linter complains, this is to be retested.
     if (browser) {
-      browser.on('loadstart').subscribe((e) => {
+      this.sub = browser.on('loadstart').subscribe((e) => {
         if (e && e.url.includes('tok')) {
           this.confirmToken(e.url, browser);
         }
       });
-      browser.on('loaderror').subscribe((e) => {
+      this.sub = browser.on('loaderror').subscribe((e) => {
         browser.close();
       });
+      browser.on('exit').pipe(first()).subscribe(
+        (e) => {
+          this.sub.unsubscribe();
+        });
     }
-  }
+}
 
   confirmToken(urlPath, browser: InAppBrowserObject) {
     const url = new URL(urlPath).search;

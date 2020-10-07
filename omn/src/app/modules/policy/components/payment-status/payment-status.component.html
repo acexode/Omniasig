@@ -1,50 +1,30 @@
-<ng-container *ngIf="paymentStatus == 'failed'">
-    <ion-content class="bg-white">
-        <ion-header [translucent]="false" class="header-element">
-            <ion-toolbar size="small" color="omn-transparent-white" class="header-toolbar">
-                <ion-buttons slot="start" class="header-buttons"> </ion-buttons>
-            </ion-toolbar>
-        </ion-header>
-        <div class="px-32">
-            <div class="align-items-center ion-text-center ion-text-capitalize pt-32">
-                <ion-icon class="mr-auto ml-auto text-center ion-icon icon-60" name="warning-red"></ion-icon>
-            </div>
+<!-- real part -->
+<ion-grid class="px-32 pt-32 pb-24 flex flex-1 mh-100p flex-column">
+    <ion-col class="ion-no-padding flex flex-1 flex-column">
+        <ion-row class="ion-no-padding flex flex-1 ion-justify-content-center ion-align-items-center">
+            <ion-row class="radius-50-perc bg-ultra-light-green p-16">
+                <ion-icon *ngIf="paymentStatus == 'failed'" name="sm-warning" class="d-flex icon-60 color-red bg-white radius-50-perc shadow-3"></ion-icon>
+                <ion-icon *ngIf="paymentStatus == 'success'" class="d-flex check-icon-lg" name="lg-check-il"></ion-icon>
+            </ion-row>
+        </ion-row>
+        <ion-row class="flex ion-no-padding ion-align-items-center ion-justify-content-center flex-0">
+            <!-- if failed -->
+            <ion-text *ngIf="paymentStatus == 'failed'" class="alt-font color-red h2 mb-16 text-center text-weight-bold border-bottom-1 border-red pb-8">
+                Plata nu a putut fi efectuată
+            </ion-text>
 
-            <div class="text-center mb-8 ion-text-center pt-48">
-                <ion-text class="alt-font color-red h2 mb-16 text-center text-weight-bold border-bottom-1 border-red pb-8">
-                    Plata nu a putut fi efectuată
-                </ion-text>
-            </div>
-
-            <div *ngIf="failureReason" class="text-center mb-8 ion-text-center pt-16 pb-90">
-                <ion-text class="s16-h22 text-center"> {{failureReason}} </ion-text>
-            </div>
-            <div class="pt-90">
-                <ion-button class="s18-h24 text-weight-medium activate-btn m-0" size="large" color="success" expand="full" (click)="goHome()" shape="round">Acasă</ion-button>
-            </div>
-        </div>
-    </ion-content>
-</ng-container>
-<ng-container *ngIf="paymentStatus == 'success'">
-    <ion-content class="bg-white">
-        <ion-header [translucent]="false" class="header-element">
-            <ion-toolbar size="small" color="omn-transparent-white" class="header-toolbar">
-                <ion-buttons slot="start" class="header-buttons"> </ion-buttons>
-            </ion-toolbar>
-        </ion-header>
-        <div class="px-32">
-            <div class="align-items-center ion-text-center ion-text-capitalize pt-32">
-                <ion-icon class="mr-auto ml-auto text-center check-icon-lg" name="lg-check-il"></ion-icon>
-            </div>
-
-            <div class="text-center mb-8 ion-text-center pt-48 pb-90">
-                <ion-text class="alt-font color-dark-green h2 mb-16 text-center text-weight-bold border-bottom-1 border-red pb-8">
-                    Plata a fost facută cu succes!
-                </ion-text>
-            </div>
-            <div class="pt-90">
-                <ion-button class="s18-h24 text-weight-medium activate-btn m-0" size="large" color="success" expand="full" (click)="goHome()" shape="round">Acasă</ion-button>
-            </div>
-        </div>
-    </ion-content>
-</ng-container>
+            <!-- if successful -->
+            <ion-text *ngIf="paymentStatus == 'success'" class="alt-font color-dark-green h2 mb-16 text-center text-weight-bold border-bottom-1 border-red pb-8">
+                Plata a fost facută cu succes!
+            </ion-text>
+        </ion-row>
+        <ion-row class="ion-no-padding my-16 flex flex-1 flex-column ion-align-items-center w-100">
+            <ion-text *ngIf="failureReason" class="s16-h22 text-center"> {{failureReason}} </ion-text>
+        </ion-row>
+        <ion-row class="mt-auto">
+            <ion-button (click)="goHome()" class="flat w-100 no-shadow color-white ion-color-success text-weight-medium m-0" size="large" shape="round" mode="md">
+                Acasă
+            </ion-button>
+        </ion-row>
+    </ion-col>
+</ion-grid>
