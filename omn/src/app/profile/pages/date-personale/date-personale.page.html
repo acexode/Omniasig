@@ -31,8 +31,10 @@
                         <div class="input-label">Email</div>
                         <ion-text>{{ accountData?.email }}</ion-text>
                     </ion-label>
-                    <ion-button *ngIf="!accountActivated" mode="ios" size="small" shape="round" class="inactive ion-align-self-end" [routerLink]="['validate-email']">Validează</ion-button>
-                    <ion-button mode="ios" size="small" shape="round" class="active ion-align-self-end" [routerLink]="['edit-email']">Schimba</ion-button>
+                    <ion-item-group>
+                        <ion-button *ngIf="!accountActivated" mode="ios" size="small" shape="round" class="inactive ion-align-self-end" [routerLink]="['validate-email']">Validează</ion-button>
+                        <ion-button mode="ios" size="small" shape="round" class="active ion-align-self-end" [routerLink]="['edit-email']">Schimba</ion-button>
+                    </ion-item-group>
                 </ion-item>
 
                 <ion-item class="mb-18" *ngIf="accountActivated && domiciliu" lines="none">
