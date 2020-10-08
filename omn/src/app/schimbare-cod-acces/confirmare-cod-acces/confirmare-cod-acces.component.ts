@@ -1,13 +1,13 @@
+import { AuthService } from 'src/app/core/services/auth/auth.service';
 import {
   Component,
   HostBinding,
   OnDestroy,
   OnInit,
-  ViewChild,
+  AfterViewInit,
 } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
-import { IonInput, NavController } from '@ionic/angular';
+import { FormGroup } from '@angular/forms';
+import { NavController } from '@ionic/angular';
 import { Subscription } from 'rxjs';
 import { unsubscriberHelper } from 'src/app/core/helpers/unsubscriber.helper';
 import { CustomStorageService } from 'src/app/core/services/custom-storage/custom-storage.service';
@@ -21,7 +21,7 @@ import { ChangeCodeService } from '../services/change-code.service';
   templateUrl: './confirmare-cod-acces.component.html',
   styleUrls: ['./confirmare-cod-acces.component.scss'],
 })
-export class ConfirmareCodAccesComponent implements OnInit, OnDestroy {
+export class ConfirmareCodAccesComponent implements AfterViewInit, OnDestroy {
   @HostBinding('class') color = 'ion-color-white-page';
   headerConfig = subPageHeaderDefault('Confirmare cod de acces');
   digitsLength = 0;
@@ -35,10 +35,8 @@ export class ConfirmareCodAccesComponent implements OnInit, OnDestroy {
   busy = false;
 
   constructor(
-    private router: Router,
-    private formBuilder: FormBuilder,
     private navCtrl: NavController,
-    private storeS: CustomStorageService,
+    private authS: AuthService,
     private changeCodeS: ChangeCodeService
   ) {
     if (this.changeCodeS.getUpdatePassObj?.newPassword) {
@@ -48,25 +46,31 @@ export class ConfirmareCodAccesComponent implements OnInit, OnDestroy {
     }
   }
 
-  ngOnInit() {}
+  ngAfterViewInit() {
+    this.busy = false;
+  }
 
   continue(passForm: FormGroup) {
-    const { value } = passForm.controls.passcode;
-    if (value === this.accessCode) {
-      this.busy = true;
-      this.storeS.getItem<string>('phoneNumber').subscribe((phoneNumber) => {
-        if (phoneNumber) {
-          const resetObj: UpdatePassword = {
-            ...this.changeCodeS.getUpdatePassObj,
-            userName: phoneNumber,
-          };
-          this.changeCodeS.setUpdatePassObj(resetObj);
-          this.changeAccessCode();
-        }
-      });
-    } else {
-      this.InvalidCode = true;
-      this.navCtrl.navigateBack('/cod-acces/nou');
+    if (!this.busy) {
+      const { value } = passForm.controls.passcode;
+      if (value === this.accessCode) {
+        this.busy = true;
+        this.authS.getPhoneNumber().subscribe((phoneNumber: any) => {
+          if (phoneNumber) {
+            const resetObj: UpdatePassword = {
+              ...this.changeCodeS.getUpdatePassObj,
+              userName: phoneNumber,
+            };
+            this.changeCodeS.setUpdatePassObj(resetObj);
+            this.changeAccessCode();
+          }
+        });
+      } else {
+        console.log(value);
+        console.log(this.accessCode);
+        this.InvalidCode = true;
+        this.navCtrl.navigateBack('/cod-acces/nou');
+      }
     }
   }
 
@@ -85,7 +89,8 @@ export class ConfirmareCodAccesComponent implements OnInit, OnDestroy {
   }
 
   proceed() {
-    this.navCtrl.navigateForward(['/cod-acces/change-success']);
+    this.navCtrl.navigateRoot(['/cod-acces/change-success']);
+    this.busy = false;
   }
 
   ngOnDestroy() {

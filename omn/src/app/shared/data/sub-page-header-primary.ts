@@ -1,12 +1,13 @@
 import { SubPageHeader } from '../models/component/sub-page-header';
 
-export const subPageHeaderPrimary = (title: string): SubPageHeader => {
+export const subPageHeaderPrimary = ( title: string, toRouteTolink: string = ''): SubPageHeader => {
   const item: SubPageHeader = {
     toolbarClasses: 'header-toolbar',
     toolbarColor: 'omn-transparent-green',
     leadingIcon: {
       name: 'md-back',
       classes: 'icon-16 mt-2 omn-green',
+      routerLink: toRouteTolink ?? null
     },
     title: {
       text: title,
