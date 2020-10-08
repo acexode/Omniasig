@@ -58,7 +58,9 @@ export class LocuinteFormComponent implements OnInit {
   }
 
   doSubmit() {
-    if (this.fG.valid) {
+    // Angular considers disabled as invalid, tweak this if any issues.
+    // Make sure the template button is also working.
+    if (this.fG.valid || this.fG.disabled) {
       this.eventSubmit.emit(true);
     } else {
       this.fG.updateValueAndValidity();

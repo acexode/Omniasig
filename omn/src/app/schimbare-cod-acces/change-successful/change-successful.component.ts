@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { Router } from '@angular/router';
 
 @Component({
@@ -6,16 +6,12 @@ import { Router } from '@angular/router';
   templateUrl: './change-successful.component.html',
   styleUrls: ['./change-successful.component.scss'],
 })
-export class ChangeSuccessfulComponent implements OnInit {
+export class ChangeSuccessfulComponent implements AfterViewInit {
+  constructor(private router: Router) {}
 
-  constructor(
-    private router: Router,
-  ) { }
-
-  ngOnInit() {
+  ngAfterViewInit() {
     setTimeout(() => {
       this.router.navigate(['/home']);
     }, 3000);
   }
-
 }

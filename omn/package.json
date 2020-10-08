@@ -1,6 +1,6 @@
 {
   "name": "omniasig",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "author": "Omniasig",
   "homepage": "https://www.omniasig.ro/",
   "scripts": {
@@ -39,6 +39,7 @@
     "com-darryncampbell-cordova-plugin-intent": "^2.0.0",
     "cordova-android": "9.0.0",
     "cordova-browser": "6.0.0",
+    "cordova-ios": "6.1.1",
     "cordova-plugin-app-launcher": "^0.4.0",
     "cordova-plugin-app-version": "^0.1.9",
     "cordova-plugin-calendar": "^5.1.5",
@@ -68,10 +69,8 @@
     "@types/jasminewd2": "~2.0.3",
     "@types/node": "^12.11.1",
     "codelyzer": "^5.1.2",
-    "cordova-ios": "^6.1.1",
     "cordova-plugin-device": "2.0.2",
     "cordova-plugin-ionic-keyboard": "^2.0.5",
-    "cordova-plugin-ionic-webview": "^4.2.1",
     "cordova-plugin-statusbar": "2.4.2",
     "cordova-plugin-whitelist": "1.3.3",
     "jasmine-core": "~3.5.0",
@@ -97,31 +96,24 @@
       "ionic-plugin-deeplinks": {
         "URL_SCHEME": "omniasig-app",
         "DEEPLINK_SCHEME": "https",
-        "DEEPLINK_HOST": "omn-test.ciceu.io",
+        "DEEPLINK_HOST": "omn-core-dev.azure.softescu.com",
         "ANDROID_PATH_PREFIX": "/api/UserProfile/ConfirmEmailForRegisterUserProfile",
         "DEEPLINK_2_SCHEME": "https",
-        "DEEPLINK_2_HOST": "omn-test.ciceu.io",
-        "ANDROID_2_PATH_PREFIX": "/api/UserProfile/ConfirmationNewEmailChange",
-        "DEEPLINK_3_SCHEME": "https",
-        "DEEPLINK_3_HOST": "omn-core-dev.azure.softescu.com",
-        "ANDROID_3_PATH_PREFIX": "/api/UserProfile/ConfirmEmailForRegisterUserProfile",
-        "DEEPLINK_4_SCHEME": "https",
-        "DEEPLINK_4_HOST": "omn-core-dev.azure.softescu.com",
+        "DEEPLINK_2_HOST": "omn-core-dev.azure.softescu.com",
         "ANDROID_4_PATH_PREFIX": "/api/UserProfile/ConfirmationNewEmailChange",
-        "ANDROID_5_PATH_PREFIX": "/",
-        "DEEPLINK_5_SCHEME": " ",
-        "DEEPLINK_5_HOST": " "
+        "ANDROID_3_PATH_PREFIX": "/",
+        "DEEPLINK_3_SCHEME": " ",
+        "DEEPLINK_3_HOST": " "
       },
       "cordova-plugin-calendar": {},
-      "cordova-plugin-ionic-webview": {},
       "cordova-plugin-app-launcher": {},
       "cordova-plugin-app-version": {},
       "cordova-plugin-file": {}
     },
     "platforms": [
       "browser",
-      "ios",
-      "android"
+      "android",
+      "ios"
     ]
   },
   "main": "karma.conf.js",

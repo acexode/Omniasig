@@ -80,8 +80,8 @@ export class PolicyDataService {
         cnp: policy.userCnp,
       },
       dates: {
-        from: policy.emisionDate,
-        to: policy.expireDate,
+        from: policy.offerDate,
+        to: policy.expirationDate,
       },
       listingSubtitle: `${policy.addressStreet}, ${policy.addressStreetNumber} ${policy.addressCity}`,
       locuintaData: {
@@ -107,7 +107,7 @@ export class PolicyDataService {
         addressApart: policy.addressApart,
         addressPostalCode: policy.addressPostalCode,
       },
-      expiry: policy.expireDate,
+      expiry: policy.expirationDate,
     };
   }
 
@@ -180,8 +180,8 @@ export class PolicyDataService {
         state: 1,
         listingSubtitle: `${offer.addressStreet}, ${offer.addressStreetNumber} ${offer.addressCity}`,
         dates: {
-          from: offer.emisionDate,
-          to: offer.expireDate,
+          from: offer.offerDate,
+          to: offer.expirationDate,
         },
         locuintaData: {
           id: offer.locuintaId,
@@ -191,7 +191,7 @@ export class PolicyDataService {
           yearConstruction: offer.locationYearConstruction,
           valueCurrency: offer.locationValueCurrency,
           value: offer.locationValue,
-          typeUse: offer.locationArea,
+          typeUse: offer.locationTypeUse,
           area: offer.locationArea,
           floors: offer.locationFloors,
           rooms: offer.locationRooms,
@@ -213,11 +213,17 @@ export class PolicyDataService {
       },
       nume: `${offer.userName} ${offer.userSurname}`,
       cnp: offer.userCnp,
-      expiry: offer.expireDate,
-      emisionDate: offer.emisionDate ? new Date(offer.emisionDate) : '',
+      expiry: offer.expirationDate,
+      emisionDate: offer.offerDate ? new Date(offer.offerDate) : '',
+      insurancePrice: offer.offerPrima || 0,
+      firstPaymentValue: offer.firstPaymentValue,
     };
     if (typeId === 'AMPLUS') {
       offerObj.expiry = get(offer, 'offerExpireDate', '');
+      const isGold = get(offer, 'isGold', false);
+      const isVip = get(offer, 'isVip', false);
+      set(offerObj, 'supportData', isGold ? 'GOLD' : isVip ? 'VIP' : '-');
+      set(offerObj, 'ratePlanList', get(offer, 'ratePlanList', []));
     }
     return offerObj;
   }
