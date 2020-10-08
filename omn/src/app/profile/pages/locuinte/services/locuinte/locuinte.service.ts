@@ -185,7 +185,6 @@ export class LocuinteService {
   getStreets(obj) {
     return this.reqS.post(this.endpoints.getStreets, obj).pipe(
       map((vals: any) => {
-        console.log("AVAILABLE STREETS", vals, vals.length);
         if(vals.length === 0){
           this.  toggleStreetInput = true;
           console.log('CREATEING A NEW STORE',)

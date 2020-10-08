@@ -112,11 +112,9 @@ export class LocuinteFormService {
       ),
       addressType: this.fb.control(
         get(model, 'addressType', ''),
-        Validators.required
       ),
       addressName: this.fb.control(
         get(model, 'addressName', ''),
-        Validators.required
       ),
       addressStreetNumber: this.fb.control(
         get(model, 'addressStreetNumber', '') !== 0
@@ -185,6 +183,7 @@ export class LocuinteFormService {
             dataServiceSource: this.streets$,
             idKey: 'name',
             labelKey: 'name',
+            streetType: 'streetType'
           }),
           addressType: autoCompleteConfigHelper({
             label: 'Tip strada',
@@ -370,7 +369,6 @@ export class LocuinteFormService {
   }
 
   handleStreetProcessing(id, fieldsData, dataModel = {}) {
-    console.log('HANDLING STREET PROCESSING', fieldsData)
     const vvv = fieldsData.addressStreet ? fieldsData.addressStreet : [];
     const f = vvv.find((v) => {
       try {
@@ -382,6 +380,7 @@ export class LocuinteFormService {
         return false;
       }
     });
+    
     set(dataModel, 'addressStreetType', get(f, 'streetType', 'Strada'));
     set(dataModel, 'addressStreetCode', get(f, 'id', null));
   }
@@ -505,6 +504,8 @@ export class LocuinteFormService {
               } catch (e) {
                 id = null;
               }
+
+              console.log("LOOKUP DATA22222222222", name, streetType, id)
               return (
                 name.includes(keywords.toLowerCase()) ||
                 id.includes(keywords.toLowerCase()) ||
@@ -512,6 +513,7 @@ export class LocuinteFormService {
               );
             });
           } else {
+            console.log("LOOKUP DATA11111111111", data)
             return data;
           }
         })
