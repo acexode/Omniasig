@@ -287,6 +287,7 @@ export class LocuinteFormPageComponent implements OnInit {
   }
 
   buildFormAdd() {
+    const disabledAddress = get(this.dataModel, 'isHomeAddress', false);
     this.formConfigs.address = this.formS.buildFormConfig(
       LocuinteFormType.ADDRESS
     );
@@ -295,7 +296,12 @@ export class LocuinteFormPageComponent implements OnInit {
       this.formConfigs.address
     );
     this.formData.place = this.formS.getFormFieldsData(this.formConfigs.place);
-    this.formGroups.address = this.formS.buildAddressSubform(this.dataModel);
+    // We want to disable the Address input for the Home address.
+    this.formGroups.address = this.formS.buildAddressSubform(
+      this.dataModel,
+      null,
+      disabledAddress
+    );
     this.formGroups.place = this.formS.buildLocuinteSubform(this.dataModel);
   }
 
@@ -376,12 +382,26 @@ export class LocuinteFormPageComponent implements OnInit {
   submitData(): Observable<Locuinte> {
     switch (this.formMode) {
       case this.formModes.EDIT_FULL:
-        const model = this.formS.processFormModel(
-          this.formInstance.group.getRawValue(),
-          this.dataModel
-        );
+        // Don't proces
+        const donTProcessAddress =
+          this.formType === LocuinteFormType.ADDRESS &&
+          get(this.dataModel, 'isHomeAddress', false);
+        const model = donTProcessAddress
+          ? this.dataModel
+          : this.formS.processFormModel(
+              this.formInstance.group.getRawValue(),
+              this.dataModel
+            );
         this.formSubmitting = true;
         this.cdRef.markForCheck();
+        if (donTProcessAddress) {
+          return of(this.dataModel).pipe(
+            finalize(() => {
+              this.formSubmitting = false;
+              this.cdRef.markForCheck();
+            })
+          );
+        }
         return this.locuinteS.updateSingleLocuinte(model).pipe(
           finalize(() => {
             this.formSubmitting = false;
