@@ -185,7 +185,7 @@ export class LocuinteService {
   getStreets(obj) {
     return this.reqS.post(this.endpoints.getStreets, obj).pipe(
       map((vals: any) => {
-        if(vals.length === 0) {
+        if (vals.length === 0) {
           this.toggleStreetInput = true;
           const tipVals = [{name: 'Alee'}, {name: 'Bulevard'}, {name: 'Cale'},
           {name: 'Camp'}, {name: 'Canal'}, {name: 'Canton'}, {name: 'Cartier'},
@@ -196,13 +196,11 @@ export class LocuinteService {
           {name: 'Poteca'}, {name: 'Prelungire'}, {name: 'Rampa'}, {name: 'Scuar'},
           {name: 'Sir'}, {name: 'Sosea'}, {name: 'Splai'}, {name: 'Statia'},
           {name: 'Strada'}, {name: 'Stradela'}, {name: 'Suis'}, {name: 'Trecatoare'},
-          {name: 'Ulita'}, {name: 'Vad'}, {name: 'Varianta'}, {name: 'Zona'}];
-           
+          {name: 'Ulita'}, {name: 'Vad'}, {name: 'Varianta'}, {name: 'Zona'}];       
           this.tipStreetStore$.next(tipVals);
-        }else{
+        } else {
           this.  toggleStreetInput = false;
         }
-        
         this.streetStore$.next(vals);
         return vals;
       })

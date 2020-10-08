@@ -20,8 +20,8 @@ export class AutocompleteProviderService implements AutoCompleteService {
 
   getItemLabel = (item: any) => {
     // return item ? get(item, this.labelAttribute, get(item, 'label', ''), this.detailAttribute, get(item, 'label', '')) : '';
-    let labelKey = get(item, this.labelAttribute, get(item, 'label', ''));
-    let detailKey = get(item, this.detailAttribute, get(item, 'label', ''));
+    const labelKey = get(item, this.labelAttribute, get(item, 'label', ''));
+    const detailKey = get(item, this.detailAttribute, get(item, 'label', ''));
     return item ? `${labelKey}          ${detailKey}` : '';
   }
 
