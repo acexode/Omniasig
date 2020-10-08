@@ -14,14 +14,14 @@ import { selectConfigHelper } from 'src/app/shared/data/select-config-helper';
 import { Locuinte } from 'src/app/shared/models/data/locuinte.interface';
 import { LocuinteFormType } from 'src/app/shared/models/modes/locuinte-form-modes';
 
-@Injectable( {
+@Injectable({
   providedIn: 'root',
-} )
+})
 export class LocuinteFormService {
   streets$ = this.locuinteS.streetStore$;
-  constructor( private fb: FormBuilder, protected locuinteS: LocuinteService ) { }
+  constructor(private fb: FormBuilder, protected locuinteS: LocuinteService) {}
 
-  buildLocuinteSubform( model: Locuinte, policyType?: string ) {
+  buildLocuinteSubform(model: Locuinte, policyType?: string) {
     // info: {
     //   type: string;
     //   structure: string;
@@ -36,10 +36,10 @@ export class LocuinteFormService {
     //   rooms: number;
     //   hasAlarmSystem: boolean;
     // }
-    return this.fb.group( {
-      type: this.fb.control( get( model, 'type', '' ), Validators.required ),
+    return this.fb.group({
+      type: this.fb.control(get(model, 'type', ''), Validators.required),
       structure: this.fb.control(
-        get( model, 'structure', '' ),
+        get(model, 'structure', ''),
         Validators.required
       ),
       yearConstruction: this.fb.control(
@@ -47,7 +47,7 @@ export class LocuinteFormService {
         Validators.required
       ),
       valueCurrency: this.fb.control(
-        get( model, 'valueCurrency', '' ),
+        get(model, 'valueCurrency', ''),
         Validators.required
       ),
       value: this.fb.control( get( model, 'value', 0 ), [
@@ -56,7 +56,7 @@ export class LocuinteFormService {
         Validators.max( 200000 )
       ] ),
       typeUse: this.fb.control(
-        get( model, 'typeUse', null ),
+        get(model, 'typeUse', null),
         Validators.required
       ),
       area: this.fb.control( Number( get( model, 'area', 0 ) ), [
@@ -75,15 +75,19 @@ export class LocuinteFormService {
         Validators.max( 20 ),
       ] ),
       hasAlarmSystem: this.fb.control(
-        get( model, 'hasAlarmSystem', false ),
+        get(model, 'hasAlarmSystem', false),
         Validators.required
       ),
       // Additional - add validator after build
       // name: this.fb.control(get(model, 'name', '')),
-    } );
+    });
   }
 
-  buildAddressSubform( model: Locuinte, policyType?: string ) {
+  buildAddressSubform(
+    model: Locuinte,
+    policyType?: string,
+    disabled?: boolean
+  ) {
     // address: {
     //   addressCounty: string;
     //   addressCity: string;
@@ -92,17 +96,17 @@ export class LocuinteFormService {
     //   // Scara bloc.
     //   addressScara: string;
     // }
-    const group = this.fb.group( {
+    const group = this.fb.group({
       addressCounty: this.fb.control(
-        get( model, 'addressCounty', '' ),
+        get(model, 'addressCounty', ''),
         Validators.required
       ),
       addressCity: this.fb.control(
-        get( model, 'addressCity', '' ),
+        get(model, 'addressCity', ''),
         Validators.required
       ),
       addressStreet: this.fb.control(
-        get( model, 'addressStreet', '' ),
+        get(model, 'addressStreet', ''),
         Validators.required
       ),
       addressStreetNumber: this.fb.control(
@@ -120,35 +124,38 @@ export class LocuinteFormService {
       addressApart: this.fb.control(get(model, 'addressApart', '')),
       addressPostalCode: this.fb.control(
         {
-          value: get( model, 'addressPostalCode', '' ),
+          value: get(model, 'addressPostalCode', ''),
           disabled: true,
         },
-        [ Validators.required, Validators.minLength( 6 ), Validators.maxLength( 6 ) ]
+        [Validators.required, Validators.minLength(6), Validators.maxLength(6)]
       ),
       // Additional - add validator after build
       name: this.fb.control(get(model, 'name', '')),
     });
+    if (disabled) {
+      group.disable();
+    }
     return group;
   }
 
-  buildFormConfig( formType, policyType?: string, isDisabled?: boolean ) {
+  buildFormConfig(formType, policyType?: string, isDisabled?: boolean) {
     let configModel = null;
-    switch ( formType ) {
+    switch (formType) {
       case LocuinteFormType.ADDRESS:
         configModel = {
-          addressCounty: selectConfigHelper( {
+          addressCounty: selectConfigHelper({
             label: 'Județ',
             disabled: isDisabled,
             idKey: 'name',
             labelKey: 'name',
-          } ),
-          addressCity: selectConfigHelper( {
+          }),
+          addressCity: selectConfigHelper({
             label: 'Localitate',
             disabled: isDisabled,
             idKey: 'name',
             labelKey: 'name',
-          } ),
-          addressStreet: autoCompleteConfigHelper( {
+          }),
+          addressStreet: autoCompleteConfigHelper({
             label: 'Strada',
             disabled: isDisabled,
             dataServiceCb: this.streetLookup,
@@ -179,8 +186,8 @@ export class LocuinteFormService {
             type: 'text',
             placeholder: '',
             disabled: isDisabled,
-          } ),
-          addressPostalCode: inputConfigHelper( {
+          }),
+          addressPostalCode: inputConfigHelper({
             label: 'Cod poștal',
             type: 'number',
             placeholder: '',
@@ -189,8 +196,8 @@ export class LocuinteFormService {
               minLength: 6,
             },
             disabled: true,
-          } ),
-          name: inputConfigHelper( {
+          }),
+          name: inputConfigHelper({
             label: 'Vrei să dai o denumire acestui profil? (opțional)',
             type: 'text',
             placeholder: 'Ex: Casa de vacanță',
@@ -198,64 +205,64 @@ export class LocuinteFormService {
             custom: {
               autoCapitalize: 'sentences',
             },
-          } ),
+          }),
         };
         break;
 
       case LocuinteFormType.PLACE:
         configModel = {
-          type: radiosConfigHelper( {
+          type: radiosConfigHelper({
             label: 'Tip',
             mode: 'chip',
-          } ),
-          structure: selectConfigHelper( {
+          }),
+          structure: selectConfigHelper({
             label: 'Structură de rezistență',
             disabled: isDisabled,
-          } ),
-          yearConstruction: dateTimeConfigHelper( {
+          }),
+          yearConstruction: dateTimeConfigHelper({
             label: 'Anul construcției',
             displayFormat: 'YYYY',
             pickerFormat: 'YYYY',
             disabled: isDisabled,
-          } ),
-          valueCurrency: radiosConfigHelper( {
+          }),
+          valueCurrency: radiosConfigHelper({
             label: 'Monedă',
             mode: 'chip',
-          } ),
-          value: inputConfigHelper( {
+          }),
+          value: inputConfigHelper({
             label: 'Suma',
             type: 'number',
             placeholder: 'Completează',
             disabled: isDisabled,
-          } ),
-          typeUse: radiosConfigHelper( {
+          }),
+          typeUse: radiosConfigHelper({
             label: 'Ocupare',
             mode: 'chip',
-          } ),
-          area: inputConfigHelper( {
+          }),
+          area: inputConfigHelper({
             label: 'Suprafața utilă în metri pătrați',
             type: 'number',
             placeholder: 'Completează',
             disabled: isDisabled,
-          } ),
-          floors: inputConfigHelper( {
+          }),
+          floors: inputConfigHelper({
             label: 'Regim de înălțime',
             type: 'number',
             placeholder: '',
             disabled: isDisabled,
-          } ),
-          rooms: inputConfigHelper( {
+          }),
+          rooms: inputConfigHelper({
             label: 'Număr de camere',
             type: 'number',
             placeholder: '',
             disabled: isDisabled,
-          } ),
+          }),
 
-          hasAlarmSystem: radiosConfigHelper( {
+          hasAlarmSystem: radiosConfigHelper({
             label: 'Alarmă antiefracție sau pază permanentă',
             mode: 'chip',
-          } ),
-          name: inputConfigHelper( {
+          }),
+          name: inputConfigHelper({
             label: 'Vrei să dai o denumire acestui profil? (opțional)',
             type: 'text',
             placeholder: 'Ex: Casa de vacanță',
@@ -263,7 +270,7 @@ export class LocuinteFormService {
             custom: {
               autoCapitalize: 'sentences',
             },
-          } ),
+          }),
         };
 
         configModel.area.spinnerConfig = { step: 1 };
@@ -288,138 +295,138 @@ export class LocuinteFormService {
     return configModel;
   }
 
-  getFormFieldsData( fieldsObj, defaultV: { [ key: string ]: any; } = {} ) {
+  getFormFieldsData(fieldsObj, defaultV: { [key: string]: any } = {}) {
     const data = {};
     const fData = { ...locuinteFieldsData };
-    forOwn( fieldsObj, ( v, k ) => {
-      set( data, k, get( fData, k, get( defaultV, k, null ) ) );
-    } );
+    forOwn(fieldsObj, (v, k) => {
+      set(data, k, get(fData, k, get(defaultV, k, null)));
+    });
     return data;
   }
 
-  handleInitialCityAndStreets( countyField, cityField, fieldData ) {
+  handleInitialCityAndStreets(countyField, cityField, fieldData) {
     const countyValue = countyField.value;
-    if ( countyValue ) {
-      return new Observable( ( observer ) => {
-        this.updateCounty( countyField, fieldData ).subscribe( ( vals ) => {
+    if (countyValue) {
+      return new Observable((observer) => {
+        this.updateCounty(countyField, fieldData).subscribe((vals) => {
           const cityValue = cityField.value;
-          if ( cityValue ) {
-            this.updateCity( cityField, fieldData ).subscribe( ( v ) =>
-              observer.next( true )
+          if (cityValue) {
+            this.updateCity(cityField, fieldData).subscribe((v) =>
+              observer.next(true)
             );
           }
-          observer.next( true );
-        } );
-      } ).pipe( take( 1 ) );
+          observer.next(true);
+        });
+      }).pipe(take(1));
     } else {
-      return of( true );
+      return of(true);
     }
   }
 
-  handleInitialCounty( field, fieldsData ) {
+  handleInitialCounty(field, fieldsData) {
     return this.locuinteS.getCounties().pipe(
-      map( ( vals: any ) => {
+      map((vals: any) => {
         fieldsData.addressCounty = vals;
         return vals;
-      } )
+      })
     );
   }
 
-  handleStreetProcessing( id, fieldsData, dataModel = {} ) {
+  handleStreetProcessing(id, fieldsData, dataModel = {}) {
     const vvv = fieldsData.addressStreet ? fieldsData.addressStreet : [];
-    const f = vvv.find( ( v ) => {
+    const f = vvv.find((v) => {
       try {
         const vName = v.name.toString();
         const vId = v.id.toString();
         const vF = id.toString();
         return vName === vF || vId === vF;
-      } catch ( err ) {
+      } catch (err) {
         return false;
       }
-    } );
-    set( dataModel, 'addressStreetType', get( f, 'streetType', 'Strada' ) );
-    set( dataModel, 'addressStreetCode', get( f, 'id', null ) );
+    });
+    set(dataModel, 'addressStreetType', get(f, 'streetType', 'Strada'));
+    set(dataModel, 'addressStreetCode', get(f, 'id', null));
   }
 
-  handlePostalCode( id, fieldsData, addressPostalCode, cityValue = null ) {
+  handlePostalCode(id, fieldsData, addressPostalCode, cityValue = null) {
     const vvv = fieldsData.addressStreet ? fieldsData.addressStreet : [];
-    const f = vvv.find( ( v ) => {
+    const f = vvv.find((v) => {
       try {
         const vName = v.name.toString();
         const vId = v.id.toString();
         const vF = id.toString();
         return vName === vF || vId === vF;
-      } catch ( err ) {
+      } catch (err) {
         return false;
       }
-    } );
-    let postCode = get( f, 'postCode', null );
+    });
+    let postCode = get(f, 'postCode', null);
     // Default to a city value, if available.
-    if ( !vvv.length || ( cityValue && !postCode ) ) {
+    if (!vvv.length || (cityValue && !postCode)) {
       const vv = fieldsData.addressCity ? fieldsData.addressCity : [];
       const cV = cityValue ? cityValue : null;
-      const f2 = vv.find( ( v ) => {
+      const f2 = vv.find((v) => {
         try {
           const vName = v.name.toString();
           const vId = v.id.toString();
           const vF = cV.toString();
           return vName === vF || vId === vF;
-        } catch ( err ) {
+        } catch (err) {
           return false;
         }
-      } );
-      postCode = get( f2, 'postCode', null );
+      });
+      postCode = get(f2, 'postCode', null);
     }
     try {
       postCode =
         postCode.toString().trim().length > 0 ? postCode.toString() : null;
-    } catch ( e ) {
+    } catch (e) {
       postCode = null;
     }
-    addressPostalCode.patchValue( postCode );
+    addressPostalCode.patchValue(postCode);
   }
 
-  updateCounty( field, fieldsData, dataModel = {} ) {
+  updateCounty(field, fieldsData, dataModel = {}) {
     const vvv = fieldsData.addressCounty ? fieldsData.addressCounty : [];
-    const addressCounty = vvv.find( ( v ) => {
+    const addressCounty = vvv.find((v) => {
       try {
         const vName = v.name.toString();
         const vId = v.id.toString();
         const vF = field.value.toString();
         return vName === vF || vId === vF;
-      } catch ( err ) {
+      } catch (err) {
         return false;
       }
-    } );
-    if ( addressCounty ) {
-      set( dataModel, 'addressCountyCode', addressCounty.id );
-      return this.locuinteS.getCities( addressCounty.id ).pipe(
-        take( 1 ),
-        map( ( data: any ) => {
+    });
+    if (addressCounty) {
+      set(dataModel, 'addressCountyCode', addressCounty.id);
+      return this.locuinteS.getCities(addressCounty.id).pipe(
+        take(1),
+        map((data: any) => {
           fieldsData.addressCity = data;
           return data;
-        } )
+        })
       );
     }
-    return of( [] );
+    return of([]);
   }
 
-  updateCity( field, fieldsData, dataModel = {} ) {
-    const addressCity = ( fieldsData.addressCity
+  updateCity(field, fieldsData, dataModel = {}) {
+    const addressCity = (fieldsData.addressCity
       ? fieldsData.addressCity
       : []
-    ).find( ( v ) => {
+    ).find((v) => {
       try {
         const vName = v.name.toString();
         const vId = v.id.toString();
         const vF = field.value.toString();
         return vName === vF || vId === vF;
-      } catch ( err ) {
+      } catch (err) {
         return false;
       }
-    } );
-    if ( addressCity ) {
-      set( dataModel, 'addressCityCode', addressCity.id );
+    });
+    if (addressCity) {
+      set(dataModel, 'addressCityCode', addressCity.id);
       const obj = {
         countryId: addressCity.countryId,
         countyId: addressCity.countyId,
@@ -427,16 +434,16 @@ export class LocuinteFormService {
         postCode: null,
         statedId: addressCity.statedId,
       };
-      return this.locuinteS.getStreets( obj ).pipe(
-        map( ( v ) => {
-          this.locuinteS.streetStore$.next( v );
+      return this.locuinteS.getStreets(obj).pipe(
+        map((v) => {
+          this.locuinteS.streetStore$.next(v);
           fieldsData.addressStreet = v;
           return v;
-        } )
+        })
       );
     } else {
       fieldsData.addressStreet = [];
-      return of( null );
+      return of(null);
     }
   }
 
@@ -446,49 +453,49 @@ export class LocuinteFormService {
   ): Observable<Array<any>> {
     const keywords = input ? input.toString() : null;
 
-    if ( source && source instanceof BehaviorSubject ) {
+    if (source && source instanceof BehaviorSubject) {
       return source.pipe(
-        map( ( data ) => {
+        map((data) => {
           // Filter whole list in here based on text input.
-          if ( keywords ) {
-            return data.filter( ( dV ) => {
-              const name = get( dV, 'name', '' ).toLowerCase();
-              let id = get( dV, 'id', '' );
+          if (keywords) {
+            return data.filter((dV) => {
+              const name = get(dV, 'name', '').toLowerCase();
+              let id = get(dV, 'id', '');
               try {
                 id = id.toString().toLowerCase();
-              } catch ( e ) {
+              } catch (e) {
                 id = null;
               }
               return (
-                name.includes( keywords.toLowerCase() ) ||
-                id.includes( keywords.toLowerCase() )
+                name.includes(keywords.toLowerCase()) ||
+                id.includes(keywords.toLowerCase())
               );
-            } );
+            });
           } else {
             return data;
           }
-        } )
+        })
       );
     } else {
-      return of( [] );
+      return of([]);
     }
   }
 
-  processFormModel( formGroupValue, existingModel?: Locuinte ): Locuinte {
+  processFormModel(formGroupValue, existingModel?: Locuinte): Locuinte {
     const newModel: Locuinte = existingModel
-      ? existingModel.hasOwnProperty( 'response' )
-        ? { ...get( existingModel, 'response', {} ) }
+      ? existingModel.hasOwnProperty('response')
+        ? { ...get(existingModel, 'response', {}) }
         : { ...existingModel }
       : {
-        id: null,
-        // name: null,
-        info: null,
-        address: null,
-        policyData: [],
-        tipLocuinta: null,
-        pad: null,
-        locuintaState: null,
-      };
+          id: null,
+          // name: null,
+          info: null,
+          address: null,
+          policyData: [],
+          tipLocuinta: null,
+          pad: null,
+          locuintaState: null,
+        };
 
     forOwn(formGroupValue, (val, key) => {
       switch (key) {
@@ -499,7 +506,7 @@ export class LocuinteFormService {
         case 'addressScara':
         case 'addressPostalCode':
         case 'addressStreetType':
-          set( newModel, key, val );
+          set(newModel, key, val);
           break;
         case 'yearConstruction':
           const v = val ? parseInt(val, 10) : val;
@@ -519,7 +526,7 @@ export class LocuinteFormService {
         case 'value':
         case 'structure':
         case 'type':
-          set( newModel, key, val );
+          set(newModel, key, val);
           break;
 
         case 'addressStreetType':
@@ -528,10 +535,10 @@ export class LocuinteFormService {
         case 'addressCityCode':
         // Ignore.
         default:
-          set( newModel, key, val );
+          set(newModel, key, val);
           break;
       }
-    } );
+    });
     return newModel;
   }
 }
