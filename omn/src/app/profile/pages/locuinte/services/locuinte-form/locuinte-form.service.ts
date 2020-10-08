@@ -50,19 +50,29 @@ export class LocuinteFormService {
         get( model, 'valueCurrency', '' ),
         Validators.required
       ),
-      value: this.fb.control( get( model, 'value', 0 ), Validators.required ),
+      value: this.fb.control( get( model, 'value', 0 ), [
+        Validators.required,
+        Validators.min( 21000 ),
+        Validators.max( 200000 )
+      ] ),
       typeUse: this.fb.control(
         get( model, 'typeUse', null ),
         Validators.required
       ),
-      area: this.fb.control( Number( get( model, 'area', 0 ) ), Validators.required ),
+      area: this.fb.control( Number( get( model, 'area', 0 ) ), [
+        Validators.required,
+        Validators.min( 10 ),
+        Validators.max( 600 )
+      ] ),
       floors: this.fb.control( Number( get( model, 'floors', 1 ) ), [
         Validators.required,
         Validators.min( 1 ),
+        Validators.max( 20 ),
       ] ),
       rooms: this.fb.control( Number( get( model, 'rooms', 1 ) ), [
         Validators.required,
         Validators.min( 1 ),
+        Validators.max( 20 ),
       ] ),
       hasAlarmSystem: this.fb.control(
         get( model, 'hasAlarmSystem', false ),
@@ -257,14 +267,18 @@ export class LocuinteFormService {
         };
 
         configModel.area.spinnerConfig = { step: 1 };
-        configModel.area.min = 0;
+        configModel.area.min = 10;
+        configModel.area.max = 600;
         configModel.floors.spinnerConfig = { step: 1 };
         configModel.floors.min = 1;
+        configModel.floors.max = 20;
         configModel.rooms.spinnerConfig = { step: 1 };
         configModel.value.spinnerConfig = { step: 1 };
-        configModel.value.min = 1;
+        configModel.value.min = 21000;
+        configModel.value.min = 200000;
         configModel.rooms.min = 1;
-        configModel.yearConstruction.min = 1800;
+        configModel.rooms.max = 20;
+        configModel.yearConstruction.min = 1700;
         configModel.yearConstruction.max = new Date().getFullYear();
         break;
 
