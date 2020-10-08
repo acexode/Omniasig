@@ -18,4 +18,5 @@ export interface PolicyOffer {
   expireDate?: any;
   insurancePrice?: any;
   firstPaymentValue?: any;
+  ratePlanList?: Array<any>;
 }

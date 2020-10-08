@@ -19,7 +19,8 @@
                 {{ offer?.insurancePrice }} lei
               </ion-label>
               <ion-label class="text-normal text-weight-medium">
-                20 Euro la cursul de {{ offer?.insurancePrice/20 | number: '1.4-4' }} lei/Euro
+                20 Euro la cursul de
+                {{ offer?.insurancePrice / 20 | number: '1.4-4' }} lei/Euro
               </ion-label>
             </ion-card-content>
           </ion-card>
@@ -405,7 +406,7 @@
               <div class="link-small text-weight-medium color-tertiary-grey">
                 Data emiterii
               </div>
-              <ion-text class="s18-h24"> 
+              <ion-text class="s18-h24">
                 {{ offer?.emisionDate | date: 'dd.MM.yyyy' }}
               </ion-text>
             </ion-label>
@@ -576,14 +577,33 @@
               </ion-text>
             </ion-label>
           </ion-item>
-          <ion-item class="ion-no-padding no-paddings mb-13" lines="none">
+          <ion-item
+            class="ion-no-padding no-paddings mb-13"
+            lines="none"
+            lines="none"
+            *ngIf="offer?.policy?.cesiune?.length"
+          >
             <ion-label class="ion-text-wrap ion-no-margin">
               <div class="link-small text-weight-medium color-tertiary-grey">
                 Cesiune
               </div>
-              <ion-text class="s18-h24"
-                >Banca Cutarescu, CUI: 321654, Procent: 99%</ion-text
-              >
+              <ng-container *ngFor="let cesiune of offer?.policy?.cesiune">
+                <div class="w-100">
+                  <ion-text class="s18-h24"
+                    >Denumire cesionar: {{ cesiune?.denumireCesionar || '-' }}
+                  </ion-text>
+                </div>
+                <div class="w-100">
+                  <ion-text class="s18-h24 w-100"
+                    >CUI: {{ cesiune?.cui || '-' }}
+                  </ion-text>
+                </div>
+                <div class="w-100">
+                  <ion-text class="s18-h24 w-100"
+                    >Procent: {{ cesiune?.procent || '-' }}%
+                  </ion-text>
+                </div>
+              </ng-container>
             </ion-label>
           </ion-item>
           <ion-item class="ion-no-padding no-paddings mb-13" lines="none">
@@ -591,7 +611,7 @@
               <div class="link-small text-weight-medium color-tertiary-grey">
                 Asistenţă tehnică la locaţia asigurată
               </div>
-              <ion-text class="s18-h24">GOLD</ion-text>
+              <ion-text class="s18-h24">{{ offer?.supportData }}</ion-text>
             </ion-label>
           </ion-item>
           <ion-item class="ion-no-padding no-paddings" lines="none">
@@ -599,7 +619,14 @@
               <div class="link-small text-weight-medium color-tertiary-grey">
                 Modalitatea de plata
               </div>
-              <ion-text class="s18-h24">In rate (2)</ion-text>
+              <ion-text class="s18-h24" *ngIf="offer?.ratePlanList?.length > 1"
+                >In rate ({{ offer?.ratePlanList?.length }})</ion-text
+              >
+              <ion-text
+                class="s18-h24"
+                *ngIf="!(offer?.ratePlanList?.length > 1)"
+                >O singura plata</ion-text
+              >
             </ion-label>
           </ion-item>
         </ion-row>
@@ -614,8 +641,23 @@
                 Obiectul asigurării
               </div>
               <ion-text class="s18-h24"
-                >Locuința Suma asigurată: 70.000 Euro (Valoare de înlocuire)
-                Bunuri conţinute (prim risc)* Suma asigurată: 7.000 Euro
+                >Locuința Suma asigurată:
+                {{ offer?.policy?.locuintaData?.value || '-' }}
+                {{
+                  offer?.policy?.locuintaData?.valueCurrency
+                    | locuinteField: 'valueCurrency' || '-'
+                }}
+                (Valoare de înlocuire) Bunuri conţinute (prim risc)* Suma
+                asigurată:
+                {{
+                  offer?.policy?.locuintaData?.value > 0
+                    ? offer?.policy?.locuintaData?.value / 10
+                    : (0 | number: '0-0')
+                }}
+                {{
+                  offer?.policy?.locuintaData?.valueCurrency
+                    | locuinteField: 'valueCurrency' || '-'
+                }}
                 (Valoare de înlocuire)</ion-text
               >
             </ion-label>
@@ -1103,8 +1145,8 @@
               </div>
               <ion-text class="s18-h24"
                 >{{ offer?.policy?.dates?.from | date: 'dd.MM.yyyy' }} -
-                {{ offer?.policy?.dates?.to | date: 'dd.MM.yyyy' }} </ion-text
-              >
+                {{ offer?.policy?.dates?.to | date: 'dd.MM.yyyy' }}
+              </ion-text>
             </ion-label>
           </ion-item>
           <ion-item class="ion-no-padding mb-21" lines="none">
