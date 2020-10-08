@@ -34,6 +34,7 @@ export class LocuinteFormPageComponent implements OnInit {
   buttonText = 'Continuă';
   headerConfig = null;
   buttonVisible = true;
+  toggleStreetInput = false;
   dataModel: any = { id: null };
   formMode: LocuinteFormModes;
   formType: LocuinteFormType;
@@ -218,6 +219,7 @@ export class LocuinteFormPageComponent implements OnInit {
         this.formS
           .updateCity(this.addressCity, this.formInstance.data, this.dataModel)
           .subscribe((v) => {
+            this.toggleStreetInput = this.locuinteS.toggleStreetInput;
             if (v && v.length) {
               this.addressStreet.setValidators([Validators.required]);
               this.formS.handleStreetProcessing(
