@@ -87,7 +87,7 @@ export class ProfilPage implements OnInit {
     {
       mainIcon: {
         name: 'md-email-light-ling',
-        color: 'green-gradient',
+        color: this.disableMesaje ? 'medium' : 'green-gradient',
         classes: 'icon-40 mt-16 mb-8 ion-align-self-start',
       },
       textContent: [
@@ -98,7 +98,7 @@ export class ProfilPage implements OnInit {
       id: 'msg',
       itemClass: 'mh-104 shadow-page-item',
       isButton: true,
-      isDisabled: true,
+      isDisabled: this.disableMesaje,
     },
   ];
   constructor( private menu: MenuController ) { }
@@ -108,5 +108,8 @@ export class ProfilPage implements OnInit {
   openCustom() {
     this.menu.enable( true, 'omn-menu' );
     this.menu.open( 'omn-menu' );
+  }
+  get disableMesaje() {
+    return true;
   }
 }
