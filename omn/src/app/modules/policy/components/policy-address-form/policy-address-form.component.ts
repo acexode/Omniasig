@@ -64,7 +64,7 @@ export class PolicyAddressFormComponent implements OnInit {
     address: {},
     place: {},
   };
-
+  toggleStreetInput = false;
   formSubmitting = false;
   formInstance: { group: FormGroup; config: any; data: any } = null;
   checkPAD = false;
@@ -192,6 +192,7 @@ export class PolicyAddressFormComponent implements OnInit {
         this.formS
           .updateCity(this.addressCity, this.formInstance.data, this.dataModel)
           .subscribe((v) => {
+            this.toggleStreetInput = this.locuinteS.toggleStreetInput;
             if (v && v.length) {
               this.addressStreet.setValidators([Validators.required]);
               this.formS.handleStreetProcessing(

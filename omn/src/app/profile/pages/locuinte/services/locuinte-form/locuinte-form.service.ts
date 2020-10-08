@@ -19,6 +19,7 @@ import { LocuinteFormType } from 'src/app/shared/models/modes/locuinte-form-mode
 })
 export class LocuinteFormService {
   streets$ = this.locuinteS.streetStore$;
+  tipStreets$ = this.locuinteS.tipStreetStore$;
   constructor(private fb: FormBuilder, protected locuinteS: LocuinteService) {}
 
   buildLocuinteSubform(model: Locuinte, policyType?: string) {
@@ -109,6 +110,14 @@ export class LocuinteFormService {
         get(model, 'addressStreet', ''),
         Validators.required
       ),
+      addressType: this.fb.control(
+        get(model, 'addressType', ''),
+        Validators.required
+      ),
+      addressName: this.fb.control(
+        get(model, 'addressName', ''),
+        Validators.required
+      ),
       addressStreetNumber: this.fb.control(
         get(model, 'addressStreetNumber', '') !== 0
           ? get(model, 'addressStreetNumber', '')
@@ -132,6 +141,20 @@ export class LocuinteFormService {
       // Additional - add validator after build
       name: this.fb.control(get(model, 'name', '')),
     });
+
+  //   if(this.streets$){
+  //     console.log('TYPE OF STREET HOLDER', typeof(this.streets$))
+  //     group['addressStreet'] = this.fb.control(
+  //       get(model, 'addressStreet', ''),
+  //       Validators.required
+  //     )
+  //   }else{
+  //     group['addressType'] = this.fb.control(
+  //       get(model, 'addressType', ''),
+  //       Validators.required
+  //     )
+  //  }
+
     if (disabled) {
       group.disable();
     }
@@ -162,6 +185,20 @@ export class LocuinteFormService {
             dataServiceSource: this.streets$,
             idKey: 'name',
             labelKey: 'name',
+          }),
+          addressType: autoCompleteConfigHelper({
+            label: 'Tip strada',
+            disabled: isDisabled,
+            dataServiceCb: this.streetLookup,
+            dataServiceSource: this.tipStreets$,
+            idKey: 'name',
+            labelKey: 'name',
+          }),
+          addressName: inputConfigHelper({
+            label: 'Nume strada',
+            type: 'text',
+            placeholder: 'Completează',
+            disabled: isDisabled,
           }),
           addressStreetNumber: inputConfigHelper({
             label: 'Număr',
@@ -333,6 +370,7 @@ export class LocuinteFormService {
   }
 
   handleStreetProcessing(id, fieldsData, dataModel = {}) {
+    console.log('HANDLING STREET PROCESSING', fieldsData)
     const vvv = fieldsData.addressStreet ? fieldsData.addressStreet : [];
     const f = vvv.find((v) => {
       try {
@@ -460,6 +498,7 @@ export class LocuinteFormService {
           if (keywords) {
             return data.filter((dV) => {
               const name = get(dV, 'name', '').toLowerCase();
+              const streetType = get(dV, 'streetType', '').toLowerCase();
               let id = get(dV, 'id', '');
               try {
                 id = id.toString().toLowerCase();
@@ -468,7 +507,8 @@ export class LocuinteFormService {
               }
               return (
                 name.includes(keywords.toLowerCase()) ||
-                id.includes(keywords.toLowerCase())
+                id.includes(keywords.toLowerCase()) ||
+                streetType.includes(keywords.toLowerCase())
               );
             });
           } else {

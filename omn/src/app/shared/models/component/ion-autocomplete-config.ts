@@ -9,6 +9,7 @@ export interface IonAutocompleteConfig {
   clearInvalid?: boolean;
   idKey?: string;
   labelKey?: string;
+  streetType?: string;
   placeholder?: string;
   disabled?: boolean;
   dataServiceCb: ( text: string ) => Observable<Array<any>>;

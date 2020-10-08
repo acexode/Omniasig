@@ -20,7 +20,7 @@ export class LocuinteFormComponent implements OnInit {
   private fG: FormGroup;
   formTypes = LocuinteFormType;
   padSubs;
-
+  @Input() toggleStreetInput = false;
   @Input() formType: LocuinteFormType = null;
   @Input() buttonVisible = true;
   @Input() buttonText = 'Continuă';
@@ -42,7 +42,8 @@ export class LocuinteFormComponent implements OnInit {
   // Only used for custom policy displays.
   @Input() policyType = null;
   @Output() eventSubmit: EventEmitter<any> = new EventEmitter();
-  constructor(private cdRef: ChangeDetectorRef) {}
+  constructor(private cdRef: ChangeDetectorRef) {
+  }
 
   ngOnInit() {}
 

@@ -275,6 +275,18 @@ export class LocuinteFormPageComponent implements OnInit {
       : null;
   }
 
+  get addressType() {
+    return this.formInstance && this.formInstance.group
+      ? this.formInstance.group.get('addressType')
+      : null;
+  }
+
+  get addressName() {
+    return this.formInstance && this.formInstance.group
+      ? this.formInstance.group.get('addressName')
+      : null;
+  }
+
   get addressStreet() {
     return this.formInstance && this.formInstance.group
       ? this.formInstance.group.get('addressStreet')

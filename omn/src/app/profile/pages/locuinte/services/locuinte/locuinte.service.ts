@@ -15,8 +15,10 @@ export class LocuinteService {
   multipleLoading: BehaviorSubject<boolean> = new BehaviorSubject(false);
   locuinteStore$: BehaviorSubject<Array<Locuinte>> = new BehaviorSubject(null);
   streetStore$: BehaviorSubject<Array<any>> = new BehaviorSubject([]);
+  tipStreetStore$: BehaviorSubject<Array<any>> = new BehaviorSubject([]);
   countyStore$: BehaviorSubject<Array<any>> = new BehaviorSubject(null);
   cityStore$: BehaviorSubject<Array<any>> = new BehaviorSubject(null);
+    toggleStreetInput: boolean = false;
   endpoints = locuinteEndpoints;
   emptyV: Array<Locuinte> = [];
 
@@ -183,6 +185,26 @@ export class LocuinteService {
   getStreets(obj) {
     return this.reqS.post(this.endpoints.getStreets, obj).pipe(
       map((vals: any) => {
+        console.log("AVAILABLE STREETS", vals, vals.length);
+        if(vals.length === 0){
+          this.  toggleStreetInput = true;
+          console.log('CREATEING A NEW STORE',)
+           let tipVals = [{"name": "Alee"}, {"name": "Bulevard"}, {"name": "Cale"},
+           {"name": "Camp"},{"name": "Canal"},{"name": "Canton"},{"name": "Cartier"},
+           {"name": "Colonie"},{"name": "Curte"},{"name": "Cvartal"},{"name": "Drum"},
+           {"name": "Fundac"},{"name": "Fundatura"},{"name": "Hotar"},{"name": "Intare"},
+           {"name": "Parc"},{"name": "Pasaj"},{"name": "Piata"},{"name": "Piateta"},
+           {"name": "Pietonal"},{"name": "Platou"},{"name": "Pod"},{"name": "Poligon"},
+           {"name": "Poteca"},{"name": "Prelungire"},{"name": "Rampa"},{"name": "Scuar"},
+           {"name": "Sir"},{"name": "Sosea"},{"name": "Splai"},{"name": "Statia"},
+           {"name": "Strada"},{"name": "Stradela"},{"name": "Suis"},{"name": "Trecatoare"},
+           {"name": "Ulita"},{"name": "Vad"},{"name": "Varianta"},{"name": "Zona"}]
+           
+          this.tipStreetStore$.next(tipVals);
+        }else{
+          this.  toggleStreetInput = false;
+        }
+        
         this.streetStore$.next(vals);
         return vals;
       })
@@ -195,7 +217,7 @@ export class LocuinteService {
       name: get(entry, 'name', ''),
       addressCounty: get(entry, 'addressCounty', ''),
       addressCity: get(entry, 'addressCity', ''),
-      addressStreet: get(entry, 'addressStreet', ''),
+      addressStreet: get(entry, 'addressStreet', '') || get(entry, 'addressName', ''),
       addressStreetType: get(entry, 'addressStreetType', ''),
       addressStreetNumber: get(entry, 'addressStreetNumber', ''),
       addressBuildingNumber: get(entry, 'addressBuildingNumber', ''),
