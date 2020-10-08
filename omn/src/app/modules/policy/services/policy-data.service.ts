@@ -124,8 +124,8 @@ export class PolicyDataService {
         map((ov) => {
           return ov
             ? ov.map((ovi) =>
-              this.mapOfferPolicyType(this.createOffersObj(ovi, 'PAD'))
-            )
+                this.mapOfferPolicyType(this.createOffersObj(ovi, 'PAD'))
+              )
             : [];
         }),
         switchMap((padOffers) =>
@@ -138,10 +138,10 @@ export class PolicyDataService {
               map((ov) => {
                 return ov
                   ? ov.map((ovi) =>
-                    this.mapOfferPolicyType(
-                      this.createOffersObj(ovi, 'AMPLUS')
+                      this.mapOfferPolicyType(
+                        this.createOffersObj(ovi, 'AMPLUS')
+                      )
                     )
-                  )
                   : [];
               }),
               map((amplusOffers) => {
@@ -391,8 +391,8 @@ export class PolicyDataService {
         calEntry.options
       )
       .then(
-        (msg) => { },
-        (err) => { }
+        (msg) => {},
+        (err) => {}
       );
   }
 
@@ -400,9 +400,33 @@ export class PolicyDataService {
     return this.reqS.post<any>(this.endpoints.initiatePayment, data);
   }
 
-  confirmPayment(token) {
-    return this.reqS.get<any>(
-      `${this.endpoints.confirmPayment}?urlHash=${token}`
-    );
+  confirmPayment(token, policyType: string = null) {
+    return this.reqS
+      .get<any>(`${this.endpoints.confirmPayment}?urlHash=${token}`)
+      .pipe(
+        map((res) => {
+          if (policyType === 'PAD') {
+            const dataRes = get(
+              res,
+              'padPolitaResponse.emiterePolitaResponse1',
+              null
+            );
+            if (dataRes) {
+              if (get(dataRes, 'eroare', false)) {
+                throw new Error(get(dataRes, 'mesaj', 'Eroare validare plata'));
+              }
+            }
+          }
+          if (policyType === 'AMPLUS') {
+            const dataRes = get(res, 'amplusPolitaResponse.politaOut', null);
+            if (dataRes) {
+              if (get(dataRes, 'eroare', false)) {
+                throw new Error(get(dataRes, 'mesaj', 'Eroare validare plata'));
+              }
+            }
+          }
+          return res;
+        })
+      );
   }
 }
