@@ -196,7 +196,7 @@ export class LocuinteService {
           {name: 'Poteca'}, {name: 'Prelungire'}, {name: 'Rampa'}, {name: 'Scuar'},
           {name: 'Sir'}, {name: 'Sosea'}, {name: 'Splai'}, {name: 'Statia'},
           {name: 'Strada'}, {name: 'Stradela'}, {name: 'Suis'}, {name: 'Trecatoare'},
-          {name: 'Ulita'}, {name: 'Vad'}, {name: 'Varianta'}, {name: 'Zona'}];       
+          {name: 'Ulita'}, {name: 'Vad'}, {name: 'Varianta'}, {name: 'Zona'}];
           this.tipStreetStore$.next(tipVals);
         } else {
           this.  toggleStreetInput = false;
