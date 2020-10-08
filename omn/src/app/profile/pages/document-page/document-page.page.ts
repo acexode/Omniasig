@@ -11,7 +11,7 @@ import { ToastController } from '@ionic/angular';
   styleUrls: ['./document-page.page.scss'],
 })
 export class DocumentPagePage implements OnInit {
-  headerConfig = subPageHeaderPrimary('OMNIASIG Vânzări');
+  headerConfig = subPageHeaderPrimary( 'OMNIASIG Vânzări', '/profil');
   doc;
   successMsg = 'Fișier descărcat cu succes';
   errorMsg = 'descărcarea fișierului nu a reușit';
