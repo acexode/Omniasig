@@ -98,7 +98,7 @@ export class OfferViewComponent implements OnInit {
     private navCtrl: NavController,
     public modalController: ModalController,
     private iab: InAppBrowser
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.route.params.pipe(take(1)).subscribe((params: any) => {
@@ -151,7 +151,7 @@ export class OfferViewComponent implements OnInit {
           calendarName: 'offer',
         },
       };
-    } catch (e) {}
+    } catch (e) { }
   }
 
   addCalendarEntry() {
@@ -174,10 +174,10 @@ export class OfferViewComponent implements OnInit {
       (dataV) => {
         this.busy = false;
         if (isPlatform('ios')) {
-        this.openIAB(dataV.url, '_self');
-      } else {
-        this.openIAB(dataV.url, '_blank');
-      }
+          this.openIAB(dataV.url, '_blank');
+        } else {
+          this.openIAB(dataV.url, '_blank');
+        }
       },
       (err) => (this.busy = false)
     );
@@ -186,7 +186,7 @@ export class OfferViewComponent implements OnInit {
   }
 
   openIAB(url, type) {
-    const browser = this.iab.create(url, type, { usewkwebview: 'no', location: 'no' });
+    const browser = this.iab.create(url, type, { location: 'no' });
     browser.show();
     // TODO: linter complains, this is to be retested.
     if (browser) {
@@ -203,7 +203,7 @@ export class OfferViewComponent implements OnInit {
           this.sub.unsubscribe();
         });
     }
-}
+  }
 
   confirmToken(urlPath, browser: InAppBrowserObject) {
     const url = new URL(urlPath).search;
