@@ -44,7 +44,6 @@ export class AutocompleteComponent implements OnInit, ControlValueAccessor {
     this.aConfig = conf;
     if (conf) {
       this.autocompleteProvider.updateConfig({
-        //labelAttribute: get(conf, 'streetType', 'label'),
         labelAttribute: get(conf, 'labelKey', 'label'),
         detailAttribute: get(conf, 'streetType', 'label'),
         formValueAttribute: get(conf, 'idKey', 'label'),

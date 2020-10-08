@@ -18,7 +18,7 @@ export class LocuinteService {
   tipStreetStore$: BehaviorSubject<Array<any>> = new BehaviorSubject([]);
   countyStore$: BehaviorSubject<Array<any>> = new BehaviorSubject(null);
   cityStore$: BehaviorSubject<Array<any>> = new BehaviorSubject(null);
-    toggleStreetInput: boolean = false;
+  toggleStreetInput = false;
   endpoints = locuinteEndpoints;
   emptyV: Array<Locuinte> = [];
 
@@ -185,19 +185,18 @@ export class LocuinteService {
   getStreets(obj) {
     return this.reqS.post(this.endpoints.getStreets, obj).pipe(
       map((vals: any) => {
-        if(vals.length === 0){
-          this.  toggleStreetInput = true;
-          console.log('CREATEING A NEW STORE',)
-           let tipVals = [{"name": "Alee"}, {"name": "Bulevard"}, {"name": "Cale"},
-           {"name": "Camp"},{"name": "Canal"},{"name": "Canton"},{"name": "Cartier"},
-           {"name": "Colonie"},{"name": "Curte"},{"name": "Cvartal"},{"name": "Drum"},
-           {"name": "Fundac"},{"name": "Fundatura"},{"name": "Hotar"},{"name": "Intare"},
-           {"name": "Parc"},{"name": "Pasaj"},{"name": "Piata"},{"name": "Piateta"},
-           {"name": "Pietonal"},{"name": "Platou"},{"name": "Pod"},{"name": "Poligon"},
-           {"name": "Poteca"},{"name": "Prelungire"},{"name": "Rampa"},{"name": "Scuar"},
-           {"name": "Sir"},{"name": "Sosea"},{"name": "Splai"},{"name": "Statia"},
-           {"name": "Strada"},{"name": "Stradela"},{"name": "Suis"},{"name": "Trecatoare"},
-           {"name": "Ulita"},{"name": "Vad"},{"name": "Varianta"},{"name": "Zona"}]
+        if(vals.length === 0) {
+          this.toggleStreetInput = true;
+          const tipVals = [{name: 'Alee'}, {name: 'Bulevard'}, {name: 'Cale'},
+          {name: 'Camp'}, {name: 'Canal'}, {name: 'Canton'}, {name: 'Cartier'},
+          {name: 'Colonie'}, {name: 'Curte'}, {name: 'Cvartal'}, {name: 'Drum'},
+          {name: 'Fundac'}, {name: 'Fundatura'}, {name: 'Hotar'}, {name: 'Intare'},
+          {name: 'Parc'}, {name: 'Pasaj'}, {name: 'Piata'}, {name: 'Piateta'},
+          {name: 'Pietonal'}, {name: 'Platou'}, {name: 'Pod'}, {name: 'Poligon'},
+          {name: 'Poteca'}, {name: 'Prelungire'}, {name: 'Rampa'}, {name: 'Scuar'},
+          {name: 'Sir'}, {name: 'Sosea'}, {name: 'Splai'}, {name: 'Statia'},
+          {name: 'Strada'}, {name: 'Stradela'}, {name: 'Suis'}, {name: 'Trecatoare'},
+          {name: 'Ulita'}, {name: 'Vad'}, {name: 'Varianta'}, {name: 'Zona'}];
            
           this.tipStreetStore$.next(tipVals);
         }else{

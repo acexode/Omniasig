@@ -11,7 +11,6 @@ export const autoCompleteConfigHelper = (conf: {
   streetType?: string;
   autoCapitalize?: string;
 }): IonAutocompleteConfig => {
-  console.log("AUTO COMPLETE CONFIG", conf)
   const config: IonAutocompleteConfig = {
     inputLabel: {
       classes: 'mb-8 input-label',

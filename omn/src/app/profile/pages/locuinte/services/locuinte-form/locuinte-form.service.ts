@@ -380,7 +380,6 @@ export class LocuinteFormService {
         return false;
       }
     });
-    
     set(dataModel, 'addressStreetType', get(f, 'streetType', 'Strada'));
     set(dataModel, 'addressStreetCode', get(f, 'id', null));
   }
@@ -504,16 +503,11 @@ export class LocuinteFormService {
               } catch (e) {
                 id = null;
               }
-
-              console.log("LOOKUP DATA22222222222", name, streetType, id)
               return (
-                name.includes(keywords.toLowerCase()) ||
-                id.includes(keywords.toLowerCase()) ||
-                streetType.includes(keywords.toLowerCase())
+                name.includes(keywords.toLowerCase()) || id.includes(keywords.toLowerCase()) || streetType.includes(keywords.toLowerCase())
               );
             });
           } else {
-            console.log("LOOKUP DATA11111111111", data)
             return data;
           }
         })
