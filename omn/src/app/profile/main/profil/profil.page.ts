@@ -92,7 +92,7 @@ export class ProfilPage implements OnInit {
       },
       textContent: [
         {
-          text: 'Mesaje',
+          text: 'Mesaje (în curând)',
         },
       ],
       id: 'msg',
