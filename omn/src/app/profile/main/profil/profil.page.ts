@@ -98,7 +98,7 @@ export class ProfilPage implements OnInit {
       id: 'msg',
       itemClass: 'mh-104 shadow-page-item',
       isButton: true,
-      isDisabled: true,
+      isDisabled: true
     },
   ];
   constructor( private menu: MenuController ) { }
