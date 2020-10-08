@@ -194,7 +194,7 @@ export class PolicyDataService {
           yearConstruction: offer.locationYearConstruction,
           valueCurrency: offer.locationValueCurrency,
           value: offer.locationValue,
-          typeUse: offer.locationArea,
+          typeUse: offer.locationTypeUse,
           area: offer.locationArea,
           floors: offer.locationFloors,
           rooms: offer.locationRooms,
@@ -217,11 +217,14 @@ export class PolicyDataService {
       cnp: offer.userCnp,
       expiry: offer.expirationDate,
       emisionDate: offer.offerDate ? new Date(offer.offerDate) : '',
-      // insurancePrice: offer.insurancePrice,
       insurancePrice: offer.offerPrima || 0,
     };
     if (typeId === 'AMPLUS') {
       offerObj.expiry = get(offer, 'offerExpireDate', '');
+      const isGold = get(offer, 'isGold', false);
+      const isVip = get(offer, 'isVip', false);
+      set(offerObj, 'supportData', isGold ? 'GOLD' : isVip ? 'VIP' : '-');
+      set(offerObj, 'ratePlanList', get(offer, 'ratePlanList', []));
     }
     return offerObj;
   }

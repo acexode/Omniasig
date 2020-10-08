@@ -28,4 +28,7 @@ export interface RatePlan {
   dueDatea: Date;
   AsiguratedSum?: any;
   expireDate?: any;
+  insurancePrice?: any;
+  firstPaymentValue?: any;
+  ratePlanList?: Array<any>;
 }

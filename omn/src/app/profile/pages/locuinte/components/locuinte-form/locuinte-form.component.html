@@ -26,7 +26,10 @@
       fill="solid"
       expand="block"
       (click)="doSubmit()"
-      [disabled]="!formGroupInstance?.valid || formSubmitting"
+      [disabled]="
+        (!formGroupInstance?.valid && !formGroupInstance?.disabled) ||
+        formSubmitting
+      "
       size="large"
       class="m-0 w-100 flex mt-auto"
     >

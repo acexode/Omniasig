@@ -638,7 +638,7 @@ export class PolicyFormPage implements OnInit, OnDestroy {
     if ( !policy ) {
       this.minPeriodStartDate = null;
     } else {
-      this.minPeriodStartDate = get( policy, 'dates.to', null );
+      this.minPeriodStartDate = get( policy, 'dates.from', null );
     }
     this.maxPeriodStartDate = null;
     if ( this.minPeriodStartDate ) {
