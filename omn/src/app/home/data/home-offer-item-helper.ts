@@ -20,6 +20,7 @@ export const offerHomeItemHelper = ( offer: PolicyOffer ) => {
         classes: 'mb-2',
       },
       footer: {
+        textA: '',
         prefix: 'Expira la: ',
         text: '',
       },
@@ -41,6 +42,13 @@ export const offerHomeItemHelper = ( offer: PolicyOffer ) => {
       ? offer.expiry
         ? dateHelperDMY( offer.expiry )
         : ''
+      : '';
+    baseItem.textContent.footer.text = offer.supportData
+      ? offer.supportData === 'GOLD'
+        ? 'Plan: GOLD ● plata integrală ● 450,8 lei/an'
+        : offer.supportData === 'VIP'
+          ? 'Plan: VIP ● plata în două rate ● 540,3 lei/an'
+          : ''
       : '';
   }
   return baseItem;
