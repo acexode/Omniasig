@@ -140,19 +140,6 @@ export class LocuinteFormService {
       name: this.fb.control(get(model, 'name', '')),
     });
 
-  //   if(this.streets$){
-  //     console.log('TYPE OF STREET HOLDER', typeof(this.streets$))
-  //     group['addressStreet'] = this.fb.control(
-  //       get(model, 'addressStreet', ''),
-  //       Validators.required
-  //     )
-  //   }else{
-  //     group['addressType'] = this.fb.control(
-  //       get(model, 'addressType', ''),
-  //       Validators.required
-  //     )
-  //  }
-
     if (disabled) {
       group.disable();
     }
