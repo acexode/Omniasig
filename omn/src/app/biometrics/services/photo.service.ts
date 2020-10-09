@@ -12,22 +12,20 @@ export class PhotoService {
 
   options: CameraOptions = {
     quality: 100,
-    destinationType: this.camera.DestinationType.FILE_URI,
+    destinationType: this.camera.DestinationType.DATA_URL,
     encodingType: this.camera.EncodingType.JPEG,
     mediaType: this.camera.MediaType.PICTURE,
-    saveToPhotoAlbum: true,
+    sourceType: this.camera.PictureSourceType.CAMERA,
   };
-  constructor(private reqS: RequestService, private camera: Camera) { }
+  constructor(private reqS: RequestService, private camera: Camera) {}
 
   public async addNewToGallery() {
     // Take a photo
     try {
       const capturedPhoto = await this.camera.getPicture(this.options);
-
-      // add the newly captured photo to our array
       this.photos.unshift({
         filepath: '',
-        webviewPath: capturedPhoto.webPath,
+        webviewPath: 'data:image/jpeg;base64,' + capturedPhoto,
       });
 
       return true;
@@ -36,7 +34,7 @@ export class PhotoService {
     }
   }
 
-  public getPhotos() { }
+  public getPhotos() {}
 
   public removePhoto() {
     this.photos.shift();
@@ -46,7 +44,10 @@ export class PhotoService {
     const timeStamp = Math.round(new Date().getTime() / 1000);
     formData.append('imageFile', blobData, `file-${timeStamp}.jpg`);
     formData.append('type', blobData.type);
-    return this.reqS.post(this.endpoints.uploadPicture + '?isSelfie=' + isSelfie, formData);
+    return this.reqS.post(
+      this.endpoints.uploadPicture + '?isSelfie=' + isSelfie,
+      formData
+    );
   }
   processPicture() {
     return this.reqS.get(this.endpoints.processPicture);
