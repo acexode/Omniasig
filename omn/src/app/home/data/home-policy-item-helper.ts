@@ -2,6 +2,7 @@ import { PolicyItem } from 'src/app/shared/models/data/policy-item';
 import { PolicyListItem } from 'src/app/shared/models/component/policy-list-item';
 import { PolicyStates } from 'src/app/shared/models/data/policy-states';
 import { IonIconItem } from 'src/app/shared/models/component/ion-icon-item';
+import { dateHelperDMY } from 'src/app/core/helpers/date.helper';
 
 const payIcon: IonIconItem = {
   name: 'md-plata-light',
@@ -53,6 +54,11 @@ export const policyHomeItemHelper = ( policy: PolicyItem ): PolicyListItem => {
     if ( policy.state === PolicyStates.PAY ) {
       baseItem.rightIcon = { ...payIcon };
     }
+    baseItem.textContent.footer.expiresAt = policy.expiry
+      ? policy.expiry
+        ? dateHelperDMY( policy.expiry )
+        : ''
+      : '';
   }
   return baseItem;
 };

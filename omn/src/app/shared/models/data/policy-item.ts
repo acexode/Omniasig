@@ -27,4 +27,6 @@ export interface PolicyItem {
   listingSubtitle?: string;
   locationValueCurrency?: any;
   locationValue?: any;
+  /*expiry*/
+  expiry: Date | string;
 }

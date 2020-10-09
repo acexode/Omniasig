@@ -22,7 +22,7 @@ export const offerHomeItemHelper = ( offer: PolicyOffer ) => {
       },
       footer: {
         expiresAt: '',
-        prefix: 'Expira la: ',
+        // prefix: 'Expira la: ',
         text: '',
       },
     },
