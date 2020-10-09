@@ -21,7 +21,7 @@ export const offerHomeItemHelper = ( offer: PolicyOffer ) => {
         classes: 'mb-2',
       },
       footer: {
-        plan: '',
+        expiresAt: '',
         prefix: 'Expira la: ',
         text: '',
       },
@@ -39,12 +39,12 @@ export const offerHomeItemHelper = ( offer: PolicyOffer ) => {
         : ''; */
       baseItem.textContent.body.text = 'Oferta ' + offer?.offerCode;
     }
-    baseItem.textContent.footer.text = offer.expiry
+    baseItem.textContent.footer.expiresAt = offer.expiry
       ? offer.expiry
         ? dateHelperDMY( offer.expiry )
         : ''
       : '';
-    baseItem.textContent.footer.plan = offer.supportData && offer.offerPrice
+    baseItem.textContent.footer.text = offer.supportData && offer.offerPrice
       ? offer.supportData === 'GOLD'
         ? 'Plan: GOLD ● plata integrală ● ' + replaceHelper( offer.offerPrice, '.', ',' ) + ' lei/an'
         : offer.supportData === 'VIP'

@@ -14,7 +14,7 @@ const chevronIcon = {
   classes: 'chevron mr-2 icon-16',
 };
 
-export const policyHomeItemHelper = (policy: PolicyItem): PolicyListItem => {
+export const policyHomeItemHelper = ( policy: PolicyItem ): PolicyListItem => {
   const baseItem: PolicyListItem = {
     id: null,
     routerLink: null,
@@ -33,13 +33,15 @@ export const policyHomeItemHelper = (policy: PolicyItem): PolicyListItem => {
       },
       footer: {
         text: '',
+        expiresAt: '',
       },
     },
   };
-  if (policy) {
+  if ( policy ) {
+    console.log( policy );
     baseItem.id = policy.id;
     baseItem.routerLink = '/policy/' + policy.id;
-    if (policy.type) {
+    if ( policy.type ) {
       baseItem.textContent.head.text = policy.type.name ? policy.type.name : '';
       baseItem.textContent.body.text = policy.type.shortDescription
         ? policy.type.shortDescription
@@ -48,7 +50,7 @@ export const policyHomeItemHelper = (policy: PolicyItem): PolicyListItem => {
     baseItem.textContent.footer.text = policy.listingSubtitle
       ? policy.listingSubtitle
       : '';
-    if (policy.state === PolicyStates.PAY) {
+    if ( policy.state === PolicyStates.PAY ) {
       baseItem.rightIcon = { ...payIcon };
     }
   }
