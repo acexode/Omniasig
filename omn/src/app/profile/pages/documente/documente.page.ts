@@ -10,7 +10,7 @@ import { DocumenteService } from './services/documente.service';
 })
 export class DocumentePage implements OnInit {
   @HostBinding('class') color = 'ion-color-white-page';
-  headerConfig = subPageHeaderPrimary( 'Documente', '/profil');
+  headerConfig = subPageHeaderPrimary('Documente', '/profil');
   items: any = [];
   itemHeight = 0;
   offer: [];
@@ -22,5 +22,9 @@ export class DocumentePage implements OnInit {
       this.offer = v.filter((e) => e.offerCode != null);
       this.policy = v.filter((e) => e.offerCode == null);
     });
+  }
+
+  closeAction() {
+    this.navCtrl.navigateRoot('/profil');
   }
 }

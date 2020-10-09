@@ -1,10 +1,9 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { AsistentaTechnicaPage } from './components/asistenta-technica/asistenta-technica.page';
+import { InsuranceConditionsComponent } from './components/insurance-conditions/insurance-conditions.component';
 import { OfferViewComponent } from './components/offer-view/offer-view.component';
 import { PolicyViewComponent } from './components/policy-view/policy-view.component';
 import { PolicyComponent } from './components/policy/policy.component';
-import { InsuranceConditionsComponent } from './components/insurance-conditions/insurance-conditions.component';
 import { PolicyPage } from './page/policy.page';
 
 const routes: Routes = [
@@ -25,10 +24,6 @@ const routes: Routes = [
         component: PolicyComponent,
       },
       {
-        path: 'asistenta',
-        component: AsistentaTechnicaPage,
-      },
-      {
         path: 'offer/:id',
         component: OfferViewComponent,
       },
@@ -40,6 +35,10 @@ const routes: Routes = [
         path: ':id',
         component: PolicyViewComponent,
       },
+      // {
+      //   path: 'payment-status',
+      //   component: PaymentStatusComponent,
+      // },
     ],
   },
 
