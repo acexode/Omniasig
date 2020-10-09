@@ -34,7 +34,7 @@ export const policyHomeItemHelper = ( policy: PolicyItem ): PolicyListItem => {
       },
       footer: {
         text: '',
-        expiresAt: '',
+        additionalText: '',
       },
     },
   };
@@ -54,9 +54,9 @@ export const policyHomeItemHelper = ( policy: PolicyItem ): PolicyListItem => {
     if ( policy.state === PolicyStates.PAY ) {
       baseItem.rightIcon = { ...payIcon };
     }
-    baseItem.textContent.footer.expiresAt = policy.expiry
+    baseItem.textContent.footer.additionalText = policy.expiry
       ? policy.expiry
-        ? dateHelperDMY( policy.expiry )
+        ? 'Expiră la: ' + dateHelperDMY( policy.expiry )
         : ''
       : '';
   }

@@ -21,7 +21,7 @@ export const offerHomeItemHelper = ( offer: PolicyOffer ) => {
         classes: 'mb-2',
       },
       footer: {
-        expiresAt: '',
+        additionalText: '',
         // prefix: 'Expira la: ',
         text: '',
       },
@@ -39,9 +39,9 @@ export const offerHomeItemHelper = ( offer: PolicyOffer ) => {
         : ''; */
       baseItem.textContent.body.text = 'Oferta ' + offer?.offerCode;
     }
-    baseItem.textContent.footer.expiresAt = offer.expiry
+    baseItem.textContent.footer.additionalText = offer.expiry
       ? offer.expiry
-        ? dateHelperDMY( offer.expiry )
+        ? 'Expiră la: ' + dateHelperDMY( offer.expiry )
         : ''
       : '';
     baseItem.textContent.footer.text = offer.supportData && offer.offerPrice
