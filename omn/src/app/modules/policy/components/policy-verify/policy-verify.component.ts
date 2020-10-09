@@ -36,6 +36,7 @@ export class PolicyVerifyComponent implements OnInit {
 
   ngOnInit() {
     this.policyID = this.aRoute.snapshot.queryParamMap.get('policyID');
+    console.log("TYPE------", this.policyID);
   }
 
   addOffer() {
@@ -87,6 +88,7 @@ export class PolicyVerifyComponent implements OnInit {
   }
 
   calculatePrice() {
+    console.log("is it Amplus OR Amplus+PAD", this.policyID);
     this.createOfferEvent.emit();
     const payload = {
       isVip: this.offerData?.supportData?.plan === 'vip' ? true : false,
