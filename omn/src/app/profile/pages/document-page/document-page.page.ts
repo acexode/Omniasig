@@ -28,7 +28,7 @@ export class DocumentPagePage implements OnInit {
   ngOnInit() {
     this.route.params.subscribe( ( params ) => {
       if ( has(params, 'id') ) {
-        this.docService.GetDocumentById( params.id ).subscribe( ( e ) => {  
+        this.docService.GetDocumentById( params.id ).subscribe( ( e ) => {
           this.doc = e;
         } );
       }
