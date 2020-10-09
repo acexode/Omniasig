@@ -1,17 +1,14 @@
-<app-sub-page-header [config]="headerConfig"></app-sub-page-header>
+<app-sub-page-header
+  [config]="headerConfig"
+  (trailingActionEv)="closeAction()"
+></app-sub-page-header>
 
 <ion-content padding>
   <ion-grid class="pt-32 pb-16 px-0">
-    <ion-row  class="ion-no-padding">
+    <ion-row class="ion-no-padding">
       <ion-col class="ion-no-padding">
-        <app-expandable          
-          name="Oferte"
-          [doc]="offer"
-        ></app-expandable>
-        <app-expandable          
-          name="Asigurări"
-          [doc]="policy"
-        ></app-expandable>
+        <app-expandable name="Oferte" [doc]="offer"></app-expandable>
+        <app-expandable name="Asigurări" [doc]="policy"></app-expandable>
       </ion-col>
     </ion-row>
   </ion-grid>

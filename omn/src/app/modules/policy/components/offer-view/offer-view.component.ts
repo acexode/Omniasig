@@ -1,22 +1,20 @@
-import { subPageHeaderDefault } from 'src/app/shared/data/sub-page-header-default';
 import { Component, HostBinding, OnInit } from '@angular/core';
-import { ActivatedRoute, NavigationExtras } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import {
   InAppBrowser,
   InAppBrowserObject,
 } from '@ionic-native/in-app-browser/ngx';
-import { ModalController, NavController } from '@ionic/angular';
+import { isPlatform, ModalController, NavController } from '@ionic/angular';
 import { get, has } from 'lodash';
+import { Subscription } from 'rxjs';
 import { first, take } from 'rxjs/operators';
 import { dateHelperDMY } from 'src/app/core/helpers/date.helper';
+import { subPageHeaderDefault } from 'src/app/shared/data/sub-page-header-default';
 import { subPageHeaderSecondary } from 'src/app/shared/data/sub-page-header-secondary';
 import { PolicyOffer } from 'src/app/shared/models/data/policy-offer';
-import { PadService } from '../../services/pad.service';
 import { PolicyDataService } from '../../services/policy-data.service';
 import { CalendarEntry } from '../models/calendar-entry';
 import { PaymentStatusComponent } from './../payment-status/payment-status.component';
-import { Subscription } from 'rxjs';
-import { isPlatform } from '@ionic/angular';
 
 @Component({
   selector: 'app-offer-view',
@@ -94,11 +92,10 @@ export class OfferViewComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private policyDataService: PolicyDataService,
-    private padS: PadService,
     private navCtrl: NavController,
     public modalController: ModalController,
     private iab: InAppBrowser
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     this.route.params.pipe(take(1)).subscribe((params: any) => {
@@ -108,13 +105,15 @@ export class OfferViewComponent implements OnInit {
   }
 
   getPolicyById(id) {
-    this.policyDataService.getSingleOfferById(id, this.policyType).subscribe((offer) => {
-      this.offer = offer;
-      if (offer && has(offer, 'policy.typeId')) {
-        this.policyType = get(offer, 'policy.typeId', this.policyType);
-      }
-      this.setCalEntry(this.offer);
-    });
+    this.policyDataService
+      .getSingleOfferById(id, this.policyType)
+      .subscribe((offer) => {
+        this.offer = offer;
+        if (offer && has(offer, 'policy.typeId')) {
+          this.policyType = get(offer, 'policy.typeId', this.policyType);
+        }
+        this.setCalEntry(this.offer);
+      });
   }
 
   closeOffer() {
@@ -151,7 +150,7 @@ export class OfferViewComponent implements OnInit {
           calendarName: 'offer',
         },
       };
-    } catch (e) { }
+    } catch (e) {}
   }
 
   addCalendarEntry() {
@@ -165,19 +164,25 @@ export class OfferViewComponent implements OnInit {
       ibaN_1: this.offer.iban,
       amount_IBAN_1: this.offer.firstPaymentValue,
       areTermsAccepted: true,
-      currencyToPay: this.offer.policy.locuintaData.valueCurrency,
-      policyCurrency: this.offer.policy.locuintaData.valueCurrency,
+      currencyToPay:
+        this.policyType === 'PAD'
+          ? 'RON'
+          : this.offer.policy.locuintaData.valueCurrency,
+      policyCurrency:
+        this.policyType === 'PAD'
+          ? 'RON'
+          : this.offer.policy.locuintaData.valueCurrency,
       policyCode: this.offer.offerCode,
       isMobilePayment: true,
     };
     this.sub = this.policyDataService.makePayment(data).subscribe(
       (dataV) => {
-        this.busy = false;
         if (isPlatform('ios')) {
           this.openIAB(dataV.url, '_blank');
         } else {
           this.openIAB(dataV.url, '_blank');
         }
+        this.busy = false;
       },
       (err) => (this.busy = false)
     );
@@ -198,8 +203,10 @@ export class OfferViewComponent implements OnInit {
       this.sub = browser.on('loaderror').subscribe((e) => {
         browser.close();
       });
-      browser.on('exit').pipe(first()).subscribe(
-        (e) => {
+      browser
+        .on('exit')
+        .pipe(first())
+        .subscribe((e) => {
           this.sub.unsubscribe();
         });
     }
@@ -209,14 +216,26 @@ export class OfferViewComponent implements OnInit {
     const url = new URL(urlPath).search;
     const urlParams = new URLSearchParams(url);
     const token = urlParams.get('tok');
-    this.policyDataService.confirmPayment(token).subscribe(
+    this.policyDataService.confirmPayment(token, this.policyType).subscribe(
       (data) => {
         browser.close();
-        this.presentModal('success');
+        if (
+          (this.policyType === 'PAD' && get(data, 'padPolitaResponse', null)) ||
+          (this.policyType === 'AMPLUS' &&
+            get(data, 'amplusPolitaResponse', null))
+        ) {
+          this.presentModal('success');
+          this.policyDataService.initData();
+        } else {
+          this.presentModal('failed', 'Plata a esuat!');
+        }
       },
       (err) => {
         browser.close();
-        this.presentModal('failed', err.error);
+        this.presentModal(
+          'failed',
+          err.error ? err.error : err.message ? err.message : ''
+        );
       }
     );
   }
