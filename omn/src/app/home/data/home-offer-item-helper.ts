@@ -1,3 +1,4 @@
+import { replaceHelper } from 'src/app/core/helpers/basic.helpers';
 import { dateHelperDMY } from 'src/app/core/helpers/date.helper';
 import { PolicyOffer } from 'src/app/shared/models/data/policy-offer';
 
@@ -20,7 +21,7 @@ export const offerHomeItemHelper = ( offer: PolicyOffer ) => {
         classes: 'mb-2',
       },
       footer: {
-        textA: '',
+        plan: '',
         prefix: 'Expira la: ',
         text: '',
       },
@@ -43,11 +44,11 @@ export const offerHomeItemHelper = ( offer: PolicyOffer ) => {
         ? dateHelperDMY( offer.expiry )
         : ''
       : '';
-    baseItem.textContent.footer.textA = offer.supportData
+    baseItem.textContent.footer.plan = offer.supportData
       ? offer.supportData === 'GOLD'
-        ? 'Plan: GOLD ● plata integrală ● 450,8 lei/an'
+        ? 'Plan: GOLD ● plata integrală ● ' + replaceHelper(offer.offerPrice, '.', ',') + ' lei/an'
         : offer.supportData === 'VIP'
-          ? 'Plan: VIP ● plata în două rate ● 540,3 lei/an'
+          ? 'Plan: VIP ● plata în două rate ● ' + replaceHelper( offer.offerPrice, '.', ',' ) + ' lei/an'
           : ''
       : '';
   }
