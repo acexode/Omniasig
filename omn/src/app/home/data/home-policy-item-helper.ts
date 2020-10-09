@@ -39,6 +39,7 @@ export const policyHomeItemHelper = ( policy: PolicyItem ): PolicyListItem => {
     },
   };
   if ( policy ) {
+    console.log( 'policy: ', policy );
     baseItem.id = policy.id;
     baseItem.routerLink = '/policy/' + policy.id;
     if ( policy.type ) {
