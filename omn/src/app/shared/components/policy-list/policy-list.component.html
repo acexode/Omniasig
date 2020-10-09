@@ -85,6 +85,9 @@
       [ngClass]="{ 'ion-hide': !item?.textContent?.footer }"
     >
       <ion-label *ngIf="item?.textContent?.footer">
+        <div class="text-small white-space-normal" [ngClass]="item?.textContent?.footer?.classes">
+          {{ item?.textContent?.footer?.textA }}
+        </div>
         <div
           class="text-small white-space-normal"
           [ngClass]="item?.textContent?.footer?.classes"
@@ -92,10 +95,6 @@
           {{ item?.textContent?.footer?.prefix
           }}{{ item?.textContent?.footer?.text
           }}{{ item?.textContent?.footer?.suffix }}
-        </div>
-        <div class="text-small white-space-normal" 
-        [ngClass]="item?.textContent?.footer?.classes">
-          {{ item?.textContent?.footer?.textA }}
         </div>
       </ion-label>
     </ion-item>
