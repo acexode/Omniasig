@@ -22,7 +22,7 @@ export class CapturePhotoComponent implements OnInit {
   }
 
   addPhotoToGallery() {
-    this.photoService.addNewToGallery();
+    Promise.resolve(this.photoService.addNewToGallery());
   }
 
   ngOnInit() {}

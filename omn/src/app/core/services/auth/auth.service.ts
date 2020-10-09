@@ -232,10 +232,12 @@ export class AuthService {
   }
 
   accountActivated(acc: Account) {
-    return acc
-      ? get(acc, 'isBiometricValid', false) === true &&
-          get(acc, 'isEmailConfirmed', false) === true
-      : true;
+    // return acc
+    //   ? get(acc, 'isBiometricValid', false) === true &&
+    //       get(acc, 'isEmailConfirmed', false) === true
+    //   : true;
+    console.log('remove this');
+    return false;
   }
 
   /**

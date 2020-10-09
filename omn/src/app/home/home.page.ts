@@ -209,6 +209,10 @@ export class HomePage implements OnInit {
       // biometrics
       cardList.push( { ...this.biometricCard } );
     }
+
+    console.log('remove this');
+    cardList.push( { ...this.biometricCard } );
+
     if ( !this.account.isEmailConfirmed ) {
       // email
       cardList.push( {

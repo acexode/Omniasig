@@ -1,15 +1,7 @@
 import { biometricsEndpoints } from './../../core/configs/endpoints';
 import { Injectable } from '@angular/core';
-import {
-  Plugins,
-  CameraResultType,
-  Capacitor,
-  FilesystemDirectory,
-  CameraPhoto,
-  CameraSource,
-} from '@capacitor/core';
+import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
 import { RequestService } from 'src/app/core/services/request/request.service';
-const { Camera, Filesystem, Storage } = Plugins;
 
 @Injectable({
   providedIn: 'root',
@@ -17,16 +9,20 @@ const { Camera, Filesystem, Storage } = Plugins;
 export class PhotoService {
   public photos: Photo[] = [];
   endpoints = biometricsEndpoints;
-  constructor(private reqS: RequestService) {}
+
+  options: CameraOptions = {
+    quality: 100,
+    destinationType: this.camera.DestinationType.FILE_URI,
+    encodingType: this.camera.EncodingType.JPEG,
+    mediaType: this.camera.MediaType.PICTURE,
+    saveToPhotoAlbum: true,
+  };
+  constructor(private reqS: RequestService, private camera: Camera) { }
 
   public async addNewToGallery() {
     // Take a photo
     try {
-      const capturedPhoto = await Camera.getPhoto({
-        resultType: CameraResultType.Uri,
-        source: CameraSource.Camera,
-        quality: 100,
-      });
+      const capturedPhoto = await this.camera.getPicture(this.options);
 
       // add the newly captured photo to our array
       this.photos.unshift({
@@ -40,7 +36,7 @@ export class PhotoService {
     }
   }
 
-  public getPhotos() {}
+  public getPhotos() { }
 
   public removePhoto() {
     this.photos.shift();
@@ -52,7 +48,7 @@ export class PhotoService {
     formData.append('type', blobData.type);
     return this.reqS.post(this.endpoints.uploadPicture + '?isSelfie=' + isSelfie, formData);
   }
-  processPicture(){
+  processPicture() {
     return this.reqS.get(this.endpoints.processPicture);
   }
 }
