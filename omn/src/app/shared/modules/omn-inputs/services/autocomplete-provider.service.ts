@@ -23,7 +23,7 @@ export class AutocompleteProviderService implements AutoCompleteService {
     const detailKey = get(item, this.detailAttribute, get(item, 'label', ''));
     const val = {
       name: [ labelKey, detailKey ]
-    }
+    };
     return item ? val : '';
   }
 
