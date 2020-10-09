@@ -5,14 +5,14 @@ import { DocumenteService } from '../documente/services/documente.service';
 import { ActivatedRoute } from '@angular/router';
 import { File } from '@ionic-native/file/ngx';
 import { ToastController } from '@ionic/angular';
-@Component({
+@Component( {
   selector: 'app-document-page',
   templateUrl: './document-page.page.html',
-  styleUrls: ['./document-page.page.scss'],
-})
+  styleUrls: [ './document-page.page.scss' ],
+} )
 export class DocumentPagePage implements OnInit {
-  headerConfig = subPageHeaderPrimary('OMNIASIG Vânzări');
-  doc;
+  headerConfig = subPageHeaderPrimary( 'OMNIASIG Vânzări', '/profil' );
+  doc: any;
   successMsg = 'Fișier descărcat cu succes';
   errorMsg = 'descărcarea fișierului nu a reușit';
   downloading = 'Descărcare...';
@@ -22,31 +22,31 @@ export class DocumentPagePage implements OnInit {
     private route: ActivatedRoute,
     private file: File,
     public toastController: ToastController
-  ) {}
+  ) { }
 
   ngOnInit() {
-    this.route.params.subscribe((params) => {
-      if (params.hasOwnProperties('id')) {
-        this.docService.GetDocumentById(params.id).subscribe((e) => {
+    this.route.params.subscribe( ( params ) => {
+      if ( params.hasOwnProperties( 'id' ) ) {
+        this.docService.GetDocumentById( params.id ).subscribe( ( e ) => {
           this.doc = e;
-        });
+        } );
       }
-    });
+    } );
   }
-  async presentToast(msg) {
-    const toast = await this.toastController.create({
+  async presentToast( msg ) {
+    const toast = await this.toastController.create( {
       message: msg,
       duration: 2000,
-    });
+    } );
     toast.present();
   }
-  downloadFile(file, name) {
-    this.presentToast(this.downloading);
-    fetch('data:application/pdf;base64,' + file, {
+  downloadFile( file, name ) {
+    this.presentToast( this.downloading );
+    fetch( 'data:application/pdf;base64,' + file, {
       method: 'GET',
-    })
-      .then((res) => res.blob())
-      .then((blob) => {
+    } )
+      .then( ( res ) => res.blob() )
+      .then( ( blob ) => {
         this.file
           .writeFile(
             // this.file.externalApplicationStorageDirectory,
@@ -55,16 +55,16 @@ export class DocumentPagePage implements OnInit {
             blob,
             { replace: true }
           )
-          .then((res) => {
-            this.presentToast(this.successMsg);
-          })
-          .catch((err) => {
-            this.presentToast(this.errorMsg);
-          });
-      })
-      .catch((err) => {});
+          .then( ( res ) => {
+            this.presentToast( this.successMsg );
+          } )
+          .catch( ( err ) => {
+            this.presentToast( this.errorMsg );
+          } );
+      } )
+      .catch( ( err ) => { } );
   }
   mainPage() {
-    this.navCtrl.navigateBack(['/profil', 'documente']);
+    this.navCtrl.navigateBack( [ '/profil', 'documente' ] );
   }
 }
