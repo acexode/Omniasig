@@ -396,6 +396,10 @@ export class PolicyAddressFormComponent implements OnInit {
         this.formSubmitting = true;
         this.cdRef.markForCheck();
         if (this.dataModel && get(this.dataModel, 'id', null)) {
+          if(model2.addressStreet === ""){
+            model2.addressStreet = model2.addressName;
+            model2.addressStreetType = model2.addressType;
+          }
           return this.locuinteS.updateSingleLocuinte(model2).pipe(
             finalize(() => {
               this.formSubmitting = false;
@@ -403,6 +407,10 @@ export class PolicyAddressFormComponent implements OnInit {
             })
           );
         } else {
+          if(model2.addressStreet === ""){
+            model2.addressStreet = model2.addressName;
+            model2.addressStreetType = model2.addressType;
+          }
           return this.locuinteS.addSingleLocuinte(model2).pipe(
             switchMap((data) => {
               return this.paidS

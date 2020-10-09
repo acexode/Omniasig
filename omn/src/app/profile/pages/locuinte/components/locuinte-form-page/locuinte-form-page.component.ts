@@ -283,16 +283,10 @@ export class LocuinteFormPageComponent implements OnInit {
       : null;
   }
 
-  get addressName() {
-    return this.formInstance && this.formInstance.group
-      ? this.formInstance.group.get('addressName')
-      : null;
-  }
-
   get addressStreet() {
     return this.formInstance && this.formInstance.group
       ? this.formInstance.group.get('addressStreet')
-      : null;
+      : this.formInstance.group.get('addressName');
   }
   get addressPostalCode() {
     return this.formInstance && this.formInstance.group
@@ -416,6 +410,10 @@ export class LocuinteFormPageComponent implements OnInit {
             })
           );
         }
+        if(model.addressStreet === ""){
+          model.addressStreet = model.addressName;
+          model.addressStreetType = model.addressType;
+        }
         return this.locuinteS.updateSingleLocuinte(model).pipe(
           finalize(() => {
             this.formSubmitting = false;
@@ -430,6 +428,10 @@ export class LocuinteFormPageComponent implements OnInit {
         this.formSubmitting = true;
         this.cdRef.markForCheck();
         if (get(this.dataModel, 'id', null) !== null) {
+          if(model2.addressStreet === ""){
+            model2.addressStreet = model2.addressName;
+            model2.addressStreetType = model2.addressType;
+          }
           return this.locuinteS.updateSingleLocuinte(model2).pipe(
             finalize(() => {
               this.formSubmitting = false;
@@ -437,6 +439,10 @@ export class LocuinteFormPageComponent implements OnInit {
             })
           );
         } else {
+          if(model2.addressStreet === ""){
+            model2.addressStreet = model2.addressName;
+            model2.addressStreetType = model2.addressType;
+          }
           return this.locuinteS.addSingleLocuinte(model2).pipe(
             finalize(() => {
               this.formSubmitting = false;
