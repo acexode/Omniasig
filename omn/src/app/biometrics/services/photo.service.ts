@@ -19,10 +19,18 @@ export class PhotoService {
   };
   constructor(private reqS: RequestService, private camera: Camera) {}
 
-  public async addNewToGallery() {
+  public async addNewToGallery(newF = false) {
+    const nOptions = {
+      ...this.options,
+      ...{
+        sourceType: newF
+          ? this.camera.PictureSourceType.CAMERA
+          : this.camera.PictureSourceType.PHOTOLIBRARY,
+      },
+    };
     // Take a photo
     try {
-      const capturedPhoto = await this.camera.getPicture(this.options);
+      const capturedPhoto = await this.camera.getPicture(nOptions);
       this.photos.unshift({
         filepath: '',
         webviewPath: 'data:image/jpeg;base64,' + capturedPhoto,

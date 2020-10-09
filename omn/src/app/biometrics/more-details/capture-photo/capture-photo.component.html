@@ -2,7 +2,7 @@
 <ion-content>
   <ion-grid
     *ngIf="photo.length <= 1"
-    class="ion-no-padding flex flex-1 flex-column w-100 mh-100 h-100"
+    class="ion-no-padding flex flex-1 flex-column w-100 mh-100p"
   >
     <ion-row class="ion-justify-content-center mt-28 mx-24">
       <ion-img
@@ -27,7 +27,7 @@
       </div>
     </ion-row>
     <ion-row
-      class="ion-justify-content-end mt-112 mb-24 mx-24 flex flex-1 mh-100 flex-column ion-align-items-center"
+      class="ion-justify-content-end mt-auto mb-24 mx-24 flex flex-1 mh-100 flex-column ion-align-items-center"
     >
       <ion-button
         class="activate-btn"
@@ -36,7 +36,7 @@
         fill="solid"
         expand="block"
         class="m-0 w-100 flex mt-auto"
-        (click)="addPhotoToGallery()"
+        (click)="openChoice()"
       >
         Continuă
       </ion-button>
