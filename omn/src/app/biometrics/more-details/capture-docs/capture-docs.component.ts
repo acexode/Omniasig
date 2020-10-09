@@ -15,6 +15,7 @@ export class CaptureDocsComponent implements OnInit {
   photo = this.photoService.photos;
   step = 1;
   captured;
+  hasErr = false;
   saving = false;
   constructor(
     private photoService: PhotoService,
@@ -78,13 +79,16 @@ export class CaptureDocsComponent implements OnInit {
 
   async uploadPhoto() {
     this.saving = true;
+    this.hasErr = false;
     const blob = await fetch(this.photo[0].webviewPath).then((r) => r.blob());
     this.photoService.uploadImage(blob, false).subscribe(
       (data) => {
+        this.hasErr = false;
         this.saving = false;
         this.router.navigate(['../capture-photo'], { relativeTo: this.route });
       },
       (error) => {
+        this.hasErr = true;
         this.saving = false;
       }
     );

@@ -14,6 +14,7 @@ export class CapturePhotoComponent implements OnInit {
   photo = this.photoService.photos;
   headerConfig = subPageHeaderDefault('Fotografia ta');
   saving = false;
+  hasErr = false;
   constructor(
     private photoService: PhotoService,
     private router: Router,
@@ -69,19 +70,31 @@ export class CapturePhotoComponent implements OnInit {
   ngOnInit() {}
   async uploadPhoto() {
     this.saving = true;
+    this.hasErr = false;
     const blob = await fetch(this.photo[0].webviewPath).then((r) => r.blob());
-    this.photoService.uploadImage(blob, true).subscribe((data) => {
-      this.photoService.processPicture().subscribe(
-        (d) => {
-          this.saving = false;
-          this.router.navigate(['../complete-verification'], {
-            relativeTo: this.route,
-          });
-        },
-        (error) => {
-          this.saving = false;
-        }
-      );
-    });
+    this.photoService.uploadImage(blob, true).subscribe(
+      (data) => {
+        this.hasErr = false;
+        this.saving = false;
+        this.router.navigate(['../complete-verification'], {
+          relativeTo: this.route,
+        });
+        // this.photoService.processPicture().subscribe(
+        //   (d) => {
+        //     this.saving = false;
+        //     this.router.navigate(['../complete-verification'], {
+        //       relativeTo: this.route,
+        //     });
+        //   },
+        //   (error) => {
+        //     this.saving = false;
+        //   }
+        // );
+      },
+      (err) => {
+        this.hasErr = true;
+        this.saving = false;
+      }
+    );
   }
 }
