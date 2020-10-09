@@ -561,18 +561,22 @@ export class PolicyFormPage implements OnInit, OnDestroy {
     this.next();
   }
 
+  buildOfferDetails(){
+    return this.policyFs.buildOfferItem( {
+      locuintaItem: this.selectedAddressItem,
+      account: this.userAccount,
+      pType: this.typeItem as PolicyType,
+      cesiune: get( this.cesiuneData, 'cesionar', [] ),
+      fromDate: this.periodStartData,
+      payData: this.wayPayFormData,
+      supportData: this.assistFormData,
+    } );
+  }
   periodSubmit( startDate ) {
+    console.log("the flow type", this.policyID);
     this.periodStartData = startDate;
-    if ( this.policyID === 'PAD' ) {
-      this.offerData = this.policyFs.buildOfferItem( {
-        locuintaItem: this.selectedAddressItem,
-        account: this.userAccount,
-        pType: this.typeItem as PolicyType,
-        cesiune: get( this.cesiuneData, 'cesionar', [] ),
-        fromDate: this.periodStartData,
-        payData: this.wayPayFormData,
-        supportData: this.assistFormData,
-      } );
+    if ( this.policyID === 'PAD') {
+      this.offerData = this.buildOfferDetails();
       this.loaderTitle = 'Verificăm corectitudinea datelor…';
       this.changeStep( this.policySteps.POLICY_VERIFY_CHECK );
       // checks if offer can be created before going to the verify page
@@ -586,6 +590,31 @@ export class PolicyFormPage implements OnInit, OnDestroy {
           ( result ) => {
             if ( result ) {
               this.changeStep( this.policySteps.POLICY_VERIFY );
+            } else {
+              this.handleError( null );
+            }
+          },
+          ( err ) => {
+            this.processErrorMessage( err.error, 'emitereOfertaResponse1' );
+          }
+        );
+      return;
+    }else if ( this.policyID === 'Garant AMPLUS+ PAD' ) {
+      this.offerData = this.buildOfferDetails();
+      console.log("OFFER DATA", this.offerData);
+      //this.loaderTitle = 'Verificăm corectitudinea datelor…';
+      //this.changeStep( this.policySteps.POLICY_VERIFY_CHECK );
+      // checks if offer can be created before going to the verify page
+      this.padS
+        .CreatePADInsuranceOffer(
+          this.offerData.policy.locuintaData.id,
+          this.offerData.policy.dates.from,
+          false
+        )
+        .subscribe(
+          ( result ) => {
+            if ( result ) {
+              this.changeStep( this.policySteps.TECHNICAL_SUPPORT );
             } else {
               this.handleError( null );
             }
@@ -688,9 +717,11 @@ export class PolicyFormPage implements OnInit, OnDestroy {
       supportData: this.assistFormData,
     } );
     this.loaderTitle = 'Verificăm corectitudinea datelor…';
+    console.log("policy Type222", this.policyID, this.offerData);
     this.changeStep( this.policySteps.POLICY_VERIFY_CHECK );
     // checks if offer can be created before going to the verify page
-    if ( this.policyID === 'AMPLUS' ) {
+    if ( this.policyID === 'AMPLUS' || this.policyID === 'Garant AMPLUS+ PAD' ) {
+      console.log("policy Type3333", this.policyID, this.offerData);
       const payload = {
         isVip: this.offerData?.supportData?.plan === 'vip' ? true : false,
         isGold: this.offerData?.supportData?.plan === 'gold' ? true : false,
@@ -702,6 +733,7 @@ export class PolicyFormPage implements OnInit, OnDestroy {
         paymentCurrency: this.offerData?.payData?.type,
         propertyCessionList: null,
       };
+      console.log("AMPLUS + PAD FLOW")
       this.amplusS
         .CreateAmplusInsuranceOffer(
           this.offerData.policy.locuintaData.id,
@@ -736,6 +768,7 @@ export class PolicyFormPage implements OnInit, OnDestroy {
     this.headerConfig = null;
     if (
       this.policyID === 'AMPLUS' &&
+      this.policyID === 'Garant AMPLUS+ PAD' &&
       this.currentStep !== this.policySteps.POLICY_VERIFY_CHECK &&
       this.currentStep !== this.policySteps.OFFER_EMIT_CHECK
     ) {
