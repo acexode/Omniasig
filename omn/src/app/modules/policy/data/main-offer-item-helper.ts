@@ -40,13 +40,13 @@ export const offerItemHelper = (
     queryParams: { policyType: offer.policy.typeId },
   };
   baseItem.headerIcon = policyHeaderIcons.plus;
-  if (has(baseItem, 'mainIcon.classes')) {
+  if ( has( baseItem, 'mainIcon.classes' ) ) {
     baseItem.mainIcon.classes =
       baseItem.mainIcon.classes +
       ' ' +
       'position-absolute bottom-0 right-0 svg-absolute-right';
   }
-  if (containerRefItem) {
+  if ( containerRefItem ) {
     baseItem.contentRef = {
       item: containerRefItem,
       classes: 'flex flex-1 flex-column ion-justify-content-end w-100 pl-8',
@@ -60,7 +60,7 @@ export const offerItemHelper = (
         },
         rightLabel: {
           text:
-            'Expira la: ' + (offer.expiry ? dateHelperDMY(offer.expiry) : ''),
+            'Expira la: ' + ( offer.expiry ? dateHelperDMY( offer.expiry ) : '' ),
           classes:
             'flex ion-align-items-end ion-justify-content-end ' +
             'mr-n16 pl-8 pr-16 text-small bg-green-08 color-white ' +

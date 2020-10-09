@@ -1,7 +1,7 @@
 import { dateHelperDMY } from 'src/app/core/helpers/date.helper';
 import { PolicyOffer } from 'src/app/shared/models/data/policy-offer';
 
-export const offerHomeItemHelper = (offer: PolicyOffer) => {
+export const offerHomeItemHelper = ( offer: PolicyOffer ) => {
   const baseItem = {
     id: null,
     routerLink: null,
@@ -25,11 +25,12 @@ export const offerHomeItemHelper = (offer: PolicyOffer) => {
       },
     },
   };
-  if (offer) {
+  if ( offer ) {
+    console.log( offer );
     baseItem.id = offer.id;
     baseItem.routerLink = '/policy/offer/' + offer.id;
     baseItem.queryParams = { policyType: offer.policy.typeId };
-    if (offer.policy && offer.policy.type) {
+    if ( offer.policy && offer.policy.type ) {
       const t = offer.policy.type;
       baseItem.textContent.head.text = t.name ? t.name : '';
       baseItem.textContent.body.text = t.shortDescription
@@ -38,7 +39,7 @@ export const offerHomeItemHelper = (offer: PolicyOffer) => {
     }
     baseItem.textContent.footer.text = offer.expiry
       ? offer.expiry
-        ? dateHelperDMY(offer.expiry)
+        ? dateHelperDMY( offer.expiry )
         : ''
       : '';
   }
