@@ -28,7 +28,6 @@ export const offerHomeItemHelper = ( offer: PolicyOffer ) => {
     },
   };
   if ( offer ) {
-    console.log( offer );
     baseItem.id = offer.id;
     baseItem.routerLink = '/policy/offer/' + offer.id;
     baseItem.queryParams = { policyType: offer.policy.typeId };
@@ -38,7 +37,7 @@ export const offerHomeItemHelper = ( offer: PolicyOffer ) => {
       /* baseItem.textContent.body.text = t.shortDescription
         ? t.shortDescription
         : ''; */
-      baseItem.textContent.body.text = 'Oferta ' + offer.offerCode ? offer.offerCode : '';
+      baseItem.textContent.body.text = 'Oferta ' + offer?.offerCode;
     }
     baseItem.textContent.footer.text = offer.expiry
       ? offer.expiry
