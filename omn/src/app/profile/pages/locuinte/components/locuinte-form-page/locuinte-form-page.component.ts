@@ -439,7 +439,7 @@ export class LocuinteFormPageComponent implements OnInit {
             })
           );
         } else {
-          if(model2.addressStreet === ""){
+          if (model2.addressStreet === ''){
             model2.addressStreet = model2.addressName;
             model2.addressStreetType = model2.addressType;
           }
