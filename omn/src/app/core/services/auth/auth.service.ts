@@ -235,7 +235,7 @@ export class AuthService {
     return acc
       ? get(acc, 'isBiometricValid', false) === true &&
           get(acc, 'isEmailConfirmed', false) === true
-      : false;
+      : true;
   }
 
   /**
