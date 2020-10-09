@@ -20,21 +20,23 @@ import { addDaune, dauneDisabled, testDauneData } from './data/home-daune-data';
 import { offerHomeItemHelper } from './data/home-offer-item-helper';
 import { policyHomeItemHelper } from './data/home-policy-item-helper';
 import { Keyboard } from '@ionic-native/keyboard/ngx';
-@Component({
+@Component( {
   selector: 'app-home',
   templateUrl: 'home.page.html',
-  styleUrls: ['home.page.scss'],
+  styleUrls: [ 'home.page.scss' ],
   changeDetection: ChangeDetectionStrategy.OnPush,
-})
+} )
 export class HomePage implements OnInit {
   release = this.configS.release();
   dauneDisabled = dauneDisabled;
   hasOffers = false;
   accountActivated = false;
-  offers$: BehaviorSubject<Array<PolicyListItem>> = new BehaviorSubject([]);
-  policies$: BehaviorSubject<Array<PolicyListItem>> = new BehaviorSubject([]);
+  offers$: BehaviorSubject<Array<PolicyListItem>> = new BehaviorSubject( [] );
+  policies$: BehaviorSubject<Array<PolicyListItem>> = new BehaviorSubject( [] );
   account = null;
   daune: Array<ImageCard> = null;
+
+  isDisableNotificationIcon = true;
 
   // Default title configs.
   oferteTitle: IonTextItem = {
@@ -128,7 +130,7 @@ export class HomePage implements OnInit {
     itemClass: 'flex-1 mt-n16 p-16 mb-12',
     isButton: true,
     isHidden: false,
-    routerLink: ['/biometrics'],
+    routerLink: [ '/biometrics' ],
   };
   emailCard = {
     mainIcon: {
@@ -140,7 +142,7 @@ export class HomePage implements OnInit {
     id: 'email',
     isButton: true,
     isHidden: false,
-    routerLink: ['/profil', 'date-personale', 'validate-email'],
+    routerLink: [ '/profil', 'date-personale', 'validate-email' ],
     itemClass: 'flex-1 mt-n16 p-16 mb-12',
   };
   accountNotActivated: DisabledPlaceholderCard = {
@@ -171,52 +173,52 @@ export class HomePage implements OnInit {
     private configS: ConfigService,
     private keyboard: Keyboard
   ) {
-    if (this.release === 2) {
-      this.daune = testDauneData.concat(addDaune);
+    if ( this.release === 2 ) {
+      this.daune = testDauneData.concat( addDaune );
     }
   }
 
   ngOnInit(): void {
     // TODO: next time this issue shows up, move it to a navigation-based check.
-    if (this.keyboard.isVisible) {
+    if ( this.keyboard.isVisible ) {
       this.keyboard.hide();
     }
-    this.authS.getAccountData().subscribe((account) => {
+    this.authS.getAccountData().subscribe( ( account ) => {
       this.account = account;
-      if (account) {
+      if ( account ) {
         // activate display for what needs validation from user
-        this.displayWhatNeedsToBeValidated(this.account);
+        this.displayWhatNeedsToBeValidated( this.account );
 
-        this.accountActivated = this.authS.accountActivated(account);
-        if (this.accountActivated) {
-          this.policyS.policyStore$.subscribe((v) =>
-            this.policies$.next(this.mapPolicies(v))
+        this.accountActivated = this.authS.accountActivated( account );
+        if ( this.accountActivated ) {
+          this.policyS.policyStore$.subscribe( ( v ) =>
+            this.policies$.next( this.mapPolicies( v ) )
           );
-          this.policyS.offerStore$.subscribe((v) =>
-            this.offers$.next(this.mapOffers(v))
+          this.policyS.offerStore$.subscribe( ( v ) =>
+            this.offers$.next( this.mapOffers( v ) )
           );
         }
       }
       this.cdRef.markForCheck();
-    });
+    } );
   }
 
-  displayWhatNeedsToBeValidated(acc: Account) {
+  displayWhatNeedsToBeValidated( acc: Account ) {
     const cardList = [];
-    if (!this.account.isBiometricValid) {
+    if ( !this.account.isBiometricValid ) {
       // biometrics
-      cardList.push({ ...this.biometricCard });
+      cardList.push( { ...this.biometricCard } );
     }
-    if (!this.account.isEmailConfirmed) {
+    if ( !this.account.isEmailConfirmed ) {
       // email
-      cardList.push({
+      cardList.push( {
         ...this.emailCard,
         ...{
           itemClass: !this.account.isBiometricValid
             ? 'p-16 flex-1 mb-16'
             : 'flex-1 mt-n16 p-16 mb-12',
         },
-      });
+      } );
     }
 
     this.accountNotActivated.cards = cardList;
@@ -225,9 +227,9 @@ export class HomePage implements OnInit {
   /**
    * Preprocess user Policies data.
    */
-  mapPolicies(policies: Array<PolicyItem>) {
-    if (policies) {
-      return policies.map((p) => policyHomeItemHelper(p));
+  mapPolicies( policies: Array<PolicyItem> ) {
+    if ( policies ) {
+      return policies.map( ( p ) => policyHomeItemHelper( p ) );
     } else {
       return [];
     }
@@ -236,10 +238,10 @@ export class HomePage implements OnInit {
   /**
    * Preprocess user Offers data.
    */
-  mapOffers(offers: Array<PolicyOffer>) {
+  mapOffers( offers: Array<PolicyOffer> ) {
     let newOff = [];
-    if (offers && offers.length > 0) {
-      newOff = offers.map((o) => offerHomeItemHelper(o));
+    if ( offers && offers.length > 0 ) {
+      newOff = offers.map( ( o ) => offerHomeItemHelper( o ) );
       this.asigTitle.classes = 'color-dark-green';
       this.hasOffers = true;
     } else {
@@ -253,7 +255,7 @@ export class HomePage implements OnInit {
   }
 
   openCustom() {
-    this.menu.enable(true, 'omn-menu');
-    this.menu.open('omn-menu');
+    this.menu.enable( true, 'omn-menu' );
+    this.menu.open( 'omn-menu' );
   }
 }
