@@ -20,11 +20,7 @@
     <preference name="FadeSplashScreenDuration" value="1000" />
     <preference name="SplashShowOnlyFirstTime" value="false" />
     <preference name="SplashScreen" value="screen" />
-<<<<<<< HEAD
-    <preference name="SplashScreenDelay" value="7*000" />
-=======
     <preference name="SplashScreenDelay" value="1000" />
->>>>>>> develop
     <preference name="FadeSplashScreen" value="true" />
     <preference name="AutoHideSplashScreen" value="false" />
     <preference name="ShowSplashScreenSpinner" value="false" />
@@ -108,7 +104,6 @@
         <splash height="1024" src="resources/ios/splash/Default-Portrait~ipad.png" width="768" />
         <splash height="960" src="resources/ios/splash/Default@2x~iphone.png" width="640" />
         <splash height="480" src="resources/ios/splash/Default~iphone.png" width="320" />
-<<<<<<< HEAD
         <edit-config file="*-Info.plist" mode="merge" target="NSCameraUsageDescription">
             <string>need camera access to take pictures</string>
         </edit-config>
@@ -121,7 +116,6 @@
         <edit-config file="*-Info.plist" mode="merge" target="NSPhotoLibraryAddUsageDescription">
             <string>need photo library access to save pictures there</string>
         </edit-config>
-=======
         <config-file parent="com.apple.developer.associated-domains" target="*-Debug.plist">
             <array>
                 <string>applinks:omn-core-dev.azure.softescu.com</string>
@@ -132,6 +126,5 @@
                 <string>applinks:omn-core-dev.azure.softescu.com</string>
             </array>
         </config-file>
->>>>>>> develop
     </platform>
 </widget>
