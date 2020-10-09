@@ -93,7 +93,9 @@
           }}{{ item?.textContent?.footer?.text
           }}{{ item?.textContent?.footer?.suffix }}
         </div>
-        <div class="text-small white-space-normal" [ngClass]="item?.textContent?.footer?.classes">
+        <div class="text-small white-space-normal" 
+          [ngClass]="item?.textContent?.footer?.classes"
+          *ngIf="item?.textContent?.footer?.additionalText">
           {{ item?.textContent?.footer?.additionalText}}
         </div>
       </ion-label>
