@@ -410,7 +410,7 @@ export class LocuinteFormPageComponent implements OnInit {
             })
           );
         }
-        if(model.addressStreet === ""){
+        if (model.addressStreet === ''){
           model.addressStreet = model.addressName;
           model.addressStreetType = model.addressType;
         }
@@ -428,7 +428,7 @@ export class LocuinteFormPageComponent implements OnInit {
         this.formSubmitting = true;
         this.cdRef.markForCheck();
         if (get(this.dataModel, 'id', null) !== null) {
-          if(model2.addressStreet === ""){
+          if (model2.addressStreet === ''){
             model2.addressStreet = model2.addressName;
             model2.addressStreetType = model2.addressType;
           }
