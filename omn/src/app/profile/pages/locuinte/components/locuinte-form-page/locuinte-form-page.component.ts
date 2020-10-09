@@ -179,11 +179,16 @@ export class LocuinteFormPageComponent implements OnInit {
         )
         .subscribe((v) => {
           // We need to clear the validator when we have no data on the initial call.
+          this.toggleStreetInput =
+            get(this.formInstance.data.addressStreet, 'length', 0) === 0;
           if (
             this.addressStreet &&
             !get(this.formInstance.data, 'addressStreet', [])?.length
           ) {
             this.addressStreet.clearValidators();
+            if (this.toggleStreetInput) {
+              this.addressStreet.updateValueAndValidity();
+            }
           }
           if (this.addressStreet) {
             this.formS.setInitialStreetValue(
@@ -193,8 +198,6 @@ export class LocuinteFormPageComponent implements OnInit {
             );
           }
 
-          this.toggleStreetInput =
-            get(this.formInstance.data.addressStreet, 'length', 0) === 0;
           this.cdRef.markForCheck();
           this.cdRef.detectChanges();
         });

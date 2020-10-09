@@ -383,7 +383,7 @@ export class LocuinteFormService {
       }
     });
     if (f && streetField) {
-      streetField.setValue(get(f, 'name', null));
+      streetField.patchValue(get(f, 'name', null));
     }
   }
 
