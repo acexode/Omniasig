@@ -192,7 +192,8 @@ export class PolicyAddressFormComponent implements OnInit {
         this.formS
           .updateCity(this.addressCity, this.formInstance.data, this.dataModel)
           .subscribe((v) => {
-            this.toggleStreetInput = this.locuinteS.toggleStreetInput;
+            this.toggleStreetInput =
+              get(this.formInstance.data.addressStreet, 'length', 0) === 0;
             if (v && v.length) {
               this.addressStreet.setValidators([Validators.required]);
               this.formS.handleStreetProcessing(
@@ -215,6 +216,8 @@ export class PolicyAddressFormComponent implements OnInit {
               );
               this.addressStreet.clearValidators();
             }
+            this.toggleStreetInput =
+              get(this.formInstance.data.addressStreet, 'length', 0) === 0;
             this.addressStreet.updateValueAndValidity({ emitEvent: true });
             this.cdRef.markForCheck();
             this.cdRef.detectChanges();
@@ -396,9 +399,8 @@ export class PolicyAddressFormComponent implements OnInit {
         this.formSubmitting = true;
         this.cdRef.markForCheck();
         if (this.dataModel && get(this.dataModel, 'id', null)) {
-          if (model2.addressStreet === ''){
+          if (model2.addressStreet === '') {
             model2.addressStreet = model2.addressName;
-            model2.addressStreetType = model2.addressType;
           }
           return this.locuinteS.updateSingleLocuinte(model2).pipe(
             finalize(() => {
@@ -407,9 +409,8 @@ export class PolicyAddressFormComponent implements OnInit {
             })
           );
         } else {
-          if (model2.addressStreet === ''){
+          if (model2.addressStreet === '') {
             model2.addressStreet = model2.addressName;
-            model2.addressStreetType = model2.addressType;
           }
           return this.locuinteS.addSingleLocuinte(model2).pipe(
             switchMap((data) => {

@@ -185,6 +185,8 @@ export class LocuinteFormPageComponent implements OnInit {
           ) {
             this.addressStreet.clearValidators();
           }
+          this.toggleStreetInput =
+            get(this.formInstance.data.addressStreet, 'length', 0) === 0;
           this.cdRef.markForCheck();
           this.cdRef.detectChanges();
         });
@@ -219,7 +221,8 @@ export class LocuinteFormPageComponent implements OnInit {
         this.formS
           .updateCity(this.addressCity, this.formInstance.data, this.dataModel)
           .subscribe((v) => {
-            this.toggleStreetInput = this.locuinteS.toggleStreetInput;
+            this.toggleStreetInput =
+              get(this.formInstance.data.addressStreet, 'length', 0) === 0;
             if (v && v.length) {
               this.addressStreet.setValidators([Validators.required]);
               this.formS.handleStreetProcessing(
@@ -277,9 +280,9 @@ export class LocuinteFormPageComponent implements OnInit {
       : null;
   }
 
-  get addressType() {
+  get addressStreetType() {
     return this.formInstance && this.formInstance.group
-      ? this.formInstance.group.get('addressType')
+      ? this.formInstance.group.get('addressStreetType')
       : null;
   }
 
@@ -410,9 +413,8 @@ export class LocuinteFormPageComponent implements OnInit {
             })
           );
         }
-        if (model.addressStreet === ''){
+        if (model.addressStreet === '') {
           model.addressStreet = model.addressName;
-          model.addressStreetType = model.addressType;
         }
         return this.locuinteS.updateSingleLocuinte(model).pipe(
           finalize(() => {
@@ -428,9 +430,8 @@ export class LocuinteFormPageComponent implements OnInit {
         this.formSubmitting = true;
         this.cdRef.markForCheck();
         if (get(this.dataModel, 'id', null) !== null) {
-          if (model2.addressStreet === ''){
+          if (model2.addressStreet === '') {
             model2.addressStreet = model2.addressName;
-            model2.addressStreetType = model2.addressType;
           }
           return this.locuinteS.updateSingleLocuinte(model2).pipe(
             finalize(() => {
@@ -439,9 +440,8 @@ export class LocuinteFormPageComponent implements OnInit {
             })
           );
         } else {
-          if (model2.addressStreet === ''){
+          if (model2.addressStreet === '') {
             model2.addressStreet = model2.addressName;
-            model2.addressStreetType = model2.addressType;
           }
           return this.locuinteS.addSingleLocuinte(model2).pipe(
             finalize(() => {

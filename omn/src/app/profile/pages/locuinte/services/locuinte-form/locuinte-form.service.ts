@@ -51,30 +51,30 @@ export class LocuinteFormService {
         get(model, 'valueCurrency', ''),
         Validators.required
       ),
-      value: this.fb.control( get( model, 'value', 0 ), [
+      value: this.fb.control(get(model, 'value', 0), [
         Validators.required,
-        Validators.min( 21000 ),
-        Validators.max( 200000 )
-      ] ),
+        Validators.min(21000),
+        Validators.max(200000),
+      ]),
       typeUse: this.fb.control(
         get(model, 'typeUse', null),
         Validators.required
       ),
-      area: this.fb.control( Number( get( model, 'area', 0 ) ), [
+      area: this.fb.control(Number(get(model, 'area', 0)), [
         Validators.required,
-        Validators.min( 10 ),
-        Validators.max( 600 )
-      ] ),
-      floors: this.fb.control( Number( get( model, 'floors', 1 ) ), [
+        Validators.min(10),
+        Validators.max(600),
+      ]),
+      floors: this.fb.control(Number(get(model, 'floors', 1)), [
         Validators.required,
-        Validators.min( 1 ),
-        Validators.max( 20 ),
-      ] ),
-      rooms: this.fb.control( Number( get( model, 'rooms', 1 ) ), [
+        Validators.min(1),
+        Validators.max(20),
+      ]),
+      rooms: this.fb.control(Number(get(model, 'rooms', 1)), [
         Validators.required,
-        Validators.min( 1 ),
-        Validators.max( 20 ),
-      ] ),
+        Validators.min(1),
+        Validators.max(20),
+      ]),
       hasAlarmSystem: this.fb.control(
         get(model, 'hasAlarmSystem', false),
         Validators.required
@@ -110,12 +110,8 @@ export class LocuinteFormService {
         get(model, 'addressStreet', ''),
         Validators.required
       ),
-      addressType: this.fb.control(
-        get(model, 'addressType', ''),
-      ),
-      addressName: this.fb.control(
-        get(model, 'addressName', ''),
-      ),
+      addressStreetType: this.fb.control(get(model, 'addressStreetType', '')),
+      addressName: this.fb.control(get(model, 'addressName', '')),
       addressStreetNumber: this.fb.control(
         get(model, 'addressStreetNumber', '') !== 0
           ? get(model, 'addressStreetNumber', '')
@@ -170,13 +166,11 @@ export class LocuinteFormService {
             dataServiceSource: this.streets$,
             idKey: 'name',
             labelKey: 'name',
-            streetType: 'streetType'
+            detailAttribute: 'streetType',
           }),
-          addressType: autoCompleteConfigHelper({
+          addressStreetType: selectConfigHelper({
             label: 'Tip strada',
             disabled: isDisabled,
-            dataServiceCb: this.streetLookup,
-            dataServiceSource: this.tipStreets$,
             idKey: 'name',
             labelKey: 'name',
           }),
@@ -491,7 +485,9 @@ export class LocuinteFormService {
                 id = null;
               }
               return (
-                name.includes(keywords.toLowerCase()) || id.includes(keywords.toLowerCase()) || streetType.includes(keywords.toLowerCase())
+                name.includes(keywords.toLowerCase()) ||
+                id.includes(keywords.toLowerCase()) ||
+                streetType.includes(keywords.toLowerCase())
               );
             });
           } else {

@@ -17,7 +17,6 @@ export interface Locuinte {
   addressCounty: string;
   addressCity: string;
   addressStreet?: string;
-  addressType?: string;
   addressName?: string;
   addressStreetType?: string;
   addressStreetNumber: string;

@@ -1,3 +1,4 @@
+import { locuinteFieldsData } from 'src/app/shared/data/locuinte-field-data';
 import { Injectable } from '@angular/core';
 import { get } from 'lodash';
 import { BehaviorSubject, Observable, of } from 'rxjs';
@@ -18,7 +19,6 @@ export class LocuinteService {
   tipStreetStore$: BehaviorSubject<Array<any>> = new BehaviorSubject([]);
   countyStore$: BehaviorSubject<Array<any>> = new BehaviorSubject(null);
   cityStore$: BehaviorSubject<Array<any>> = new BehaviorSubject(null);
-  toggleStreetInput = false;
   endpoints = locuinteEndpoints;
   emptyV: Array<Locuinte> = [];
 
@@ -185,22 +185,6 @@ export class LocuinteService {
   getStreets(obj) {
     return this.reqS.post(this.endpoints.getStreets, obj).pipe(
       map((vals: any) => {
-        if (vals.length === 0) {
-          this.toggleStreetInput = true;
-          const tipVals = [{name: 'Alee'}, {name: 'Bulevard'}, {name: 'Cale'},
-          {name: 'Camp'}, {name: 'Canal'}, {name: 'Canton'}, {name: 'Cartier'},
-          {name: 'Colonie'}, {name: 'Curte'}, {name: 'Cvartal'}, {name: 'Drum'},
-          {name: 'Fundac'}, {name: 'Fundatura'}, {name: 'Hotar'}, {name: 'Intare'},
-          {name: 'Parc'}, {name: 'Pasaj'}, {name: 'Piata'}, {name: 'Piateta'},
-          {name: 'Pietonal'}, {name: 'Platou'}, {name: 'Pod'}, {name: 'Poligon'},
-          {name: 'Poteca'}, {name: 'Prelungire'}, {name: 'Rampa'}, {name: 'Scuar'},
-          {name: 'Sir'}, {name: 'Sosea'}, {name: 'Splai'}, {name: 'Statia'},
-          {name: 'Strada'}, {name: 'Stradela'}, {name: 'Suis'}, {name: 'Trecatoare'},
-          {name: 'Ulita'}, {name: 'Vad'}, {name: 'Varianta'}, {name: 'Zona'}];
-          this.tipStreetStore$.next(tipVals);
-        } else {
-          this.  toggleStreetInput = false;
-        }
         this.streetStore$.next(vals);
         return vals;
       })
@@ -213,7 +197,8 @@ export class LocuinteService {
       name: get(entry, 'name', ''),
       addressCounty: get(entry, 'addressCounty', ''),
       addressCity: get(entry, 'addressCity', ''),
-      addressStreet: get(entry, 'addressStreet', '') || get(entry, 'addressName', ''),
+      addressStreet:
+        get(entry, 'addressStreet', '') || get(entry, 'addressName', ''),
       addressStreetType: get(entry, 'addressStreetType', ''),
       addressStreetNumber: get(entry, 'addressStreetNumber', ''),
       addressBuildingNumber: get(entry, 'addressBuildingNumber', ''),

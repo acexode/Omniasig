@@ -4,6 +4,7 @@ import {
   Component,
   Input,
   OnInit,
+  TemplateRef,
   ViewChild,
 } from '@angular/core';
 import {
@@ -45,7 +46,7 @@ export class AutocompleteComponent implements OnInit, ControlValueAccessor {
     if (conf) {
       this.autocompleteProvider.updateConfig({
         labelAttribute: get(conf, 'labelKey', 'label'),
-        detailAttribute: get(conf, 'streetType', 'label'),
+        detailAttribute: get(conf, 'detailAttribute', 'label'),
         formValueAttribute: get(conf, 'idKey', 'label'),
         dataServiceCb: conf.dataServiceCb,
         dataServiceSource: conf.dataServiceSource,
@@ -53,10 +54,13 @@ export class AutocompleteComponent implements OnInit, ControlValueAccessor {
     }
     this.cdRef.markForCheck();
   }
-
   get config() {
     return this.aConfig;
   }
+
+  @Input() template: TemplateRef<any>;
+  @Input() selectionTemplate: TemplateRef<any>;
+
   formGroup = this.fb.group({
     text: this.fb.control(null),
   });

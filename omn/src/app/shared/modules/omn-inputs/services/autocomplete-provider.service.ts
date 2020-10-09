@@ -19,12 +19,7 @@ export class AutocompleteProviderService implements AutoCompleteService {
   }
 
   getItemLabel = (item: any) => {
-    const labelKey = get(item, this.labelAttribute, get(item, 'label', ''));
-    const detailKey = get(item, this.detailAttribute, get(item, 'label', ''));
-    const val = {
-      name: [ labelKey, detailKey ]
-    };
-    return item ? val : '';
+    return item ? get(item, this.labelAttribute, get(item, 'label', '')) : '';
   }
 
   updateConfig(conf: {
