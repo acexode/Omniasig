@@ -1,6 +1,6 @@
 import { take } from 'rxjs/internal/operators/take';
 import { Injectable } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, Validators } from '@angular/forms';
 import { forOwn, get, set } from 'lodash';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -106,10 +106,7 @@ export class LocuinteFormService {
         get(model, 'addressCity', ''),
         Validators.required
       ),
-      addressStreet: this.fb.control(
-        get(model, 'addressStreet', ''),
-        Validators.required
-      ),
+      addressStreet: this.fb.control('', Validators.required),
       addressStreetType: this.fb.control(get(model, 'addressStreetType', '')),
       addressName: this.fb.control(get(model, 'addressName', '')),
       addressStreetNumber: this.fb.control(
@@ -331,8 +328,9 @@ export class LocuinteFormService {
             this.updateCity(cityField, fieldData).subscribe((v) =>
               observer.next(true)
             );
+          } else {
+            observer.next(true);
           }
-          observer.next(true);
         });
       }).pipe(take(1));
     } else {
@@ -361,8 +359,32 @@ export class LocuinteFormService {
         return false;
       }
     });
+
     set(dataModel, 'addressStreetType', get(f, 'streetType', 'Strada'));
+    set(dataModel, 'addressName', get(f, 'shortName', ''));
     set(dataModel, 'addressStreetCode', get(f, 'id', null));
+  }
+
+  setInitialStreetValue(
+    addressModel,
+    streetField: AbstractControl,
+    fieldsData
+  ) {
+    const vvv = fieldsData.addressStreet ? fieldsData.addressStreet : [];
+    const name = get(addressModel, 'addressStreet', '');
+    const code = get(addressModel, 'addressStreetCode', null);
+    const f = vvv.find((v) => {
+      try {
+        const vName = v.name.toString();
+        const vId = v.id.toString();
+        return vName === name || vId === code;
+      } catch (err) {
+        return false;
+      }
+    });
+    if (f && streetField) {
+      streetField.setValue(get(f, 'name', null));
+    }
   }
 
   handlePostalCode(id, fieldsData, addressPostalCode, cityValue = null) {
@@ -478,6 +500,7 @@ export class LocuinteFormService {
             return data.filter((dV) => {
               const name = get(dV, 'name', '').toLowerCase();
               const streetType = get(dV, 'streetType', '').toLowerCase();
+              const sName = get(dV, 'shortName', '').toLowerCase();
               let id = get(dV, 'id', '');
               try {
                 id = id.toString().toLowerCase();
@@ -487,7 +510,8 @@ export class LocuinteFormService {
               return (
                 name.includes(keywords.toLowerCase()) ||
                 id.includes(keywords.toLowerCase()) ||
-                streetType.includes(keywords.toLowerCase())
+                streetType.includes(keywords.toLowerCase()) ||
+                sName.includes(keywords.toLowerCase())
               );
             });
           } else {

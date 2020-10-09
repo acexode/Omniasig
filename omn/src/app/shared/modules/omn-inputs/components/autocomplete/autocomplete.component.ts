@@ -77,7 +77,7 @@ export class AutocompleteComponent implements OnInit, ControlValueAccessor {
 
   getFieldValue() {
     const field = this.formGroup.get('text');
-    return field ? field.value : null;
+    return field ? get(field.value, 'label', field.value) : null;
   }
 
   ngOnInit() {

@@ -185,6 +185,14 @@ export class LocuinteFormPageComponent implements OnInit {
           ) {
             this.addressStreet.clearValidators();
           }
+          if (this.addressStreet) {
+            this.formS.setInitialStreetValue(
+              this.dataModel,
+              this.addressStreet,
+              this.formInstance.data
+            );
+          }
+
           this.toggleStreetInput =
             get(this.formInstance.data.addressStreet, 'length', 0) === 0;
           this.cdRef.markForCheck();
@@ -413,9 +421,7 @@ export class LocuinteFormPageComponent implements OnInit {
             })
           );
         }
-        if (model.addressStreet === '') {
-          model.addressStreet = model.addressName;
-        }
+        model.addressStreet = model.addressName;
         return this.locuinteS.updateSingleLocuinte(model).pipe(
           finalize(() => {
             this.formSubmitting = false;
@@ -430,9 +436,7 @@ export class LocuinteFormPageComponent implements OnInit {
         this.formSubmitting = true;
         this.cdRef.markForCheck();
         if (get(this.dataModel, 'id', null) !== null) {
-          if (model2.addressStreet === '') {
-            model2.addressStreet = model2.addressName;
-          }
+          model2.addressStreet = model2.addressName;
           return this.locuinteS.updateSingleLocuinte(model2).pipe(
             finalize(() => {
               this.formSubmitting = false;
@@ -440,9 +444,7 @@ export class LocuinteFormPageComponent implements OnInit {
             })
           );
         } else {
-          if (model2.addressStreet === '') {
-            model2.addressStreet = model2.addressName;
-          }
+          model2.addressStreet = model2.addressName;
           return this.locuinteS.addSingleLocuinte(model2).pipe(
             finalize(() => {
               this.formSubmitting = false;
