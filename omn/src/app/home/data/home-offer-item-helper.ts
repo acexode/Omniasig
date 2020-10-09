@@ -35,18 +35,19 @@ export const offerHomeItemHelper = ( offer: PolicyOffer ) => {
     if ( offer.policy && offer.policy.type ) {
       const t = offer.policy.type;
       baseItem.textContent.head.text = t.name ? t.name : '';
-      baseItem.textContent.body.text = t.shortDescription
+      /* baseItem.textContent.body.text = t.shortDescription
         ? t.shortDescription
-        : '';
+        : ''; */
+      baseItem.textContent.body.text = 'Oferta ' + offer.offerCode ? offer.offerCode : '';
     }
     baseItem.textContent.footer.text = offer.expiry
       ? offer.expiry
         ? dateHelperDMY( offer.expiry )
         : ''
       : '';
-    baseItem.textContent.footer.plan = offer.supportData
+    baseItem.textContent.footer.plan = offer.supportData && offer.offerPrice
       ? offer.supportData === 'GOLD'
-        ? 'Plan: GOLD ● plata integrală ● ' + replaceHelper(offer.offerPrice, '.', ',') + ' lei/an'
+        ? 'Plan: GOLD ● plata integrală ● ' + replaceHelper( offer.offerPrice, '.', ',' ) + ' lei/an'
         : offer.supportData === 'VIP'
           ? 'Plan: VIP ● plata în două rate ● ' + replaceHelper( offer.offerPrice, '.', ',' ) + ' lei/an'
           : ''
