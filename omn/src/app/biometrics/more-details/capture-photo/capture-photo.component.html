@@ -2,7 +2,7 @@
 <ion-content>
   <ion-grid
     *ngIf="photo.length <= 1"
-    class="ion-no-padding flex flex-1 flex-column w-100 mh-100 h-100"
+    class="ion-no-padding flex flex-1 flex-column w-100 mh-100p"
   >
     <ion-row class="ion-justify-content-center mt-28 mx-24">
       <ion-img
@@ -27,7 +27,7 @@
       </div>
     </ion-row>
     <ion-row
-      class="ion-justify-content-end mt-112 mb-24 mx-24 flex flex-1 mh-100 flex-column ion-align-items-center"
+      class="ion-justify-content-end mt-auto mb-24 mx-24 flex flex-1 mh-100 flex-column ion-align-items-center"
     >
       <ion-button
         class="activate-btn"
@@ -36,7 +36,7 @@
         fill="solid"
         expand="block"
         class="m-0 w-100 flex mt-auto"
-        (click)="addPhotoToGallery()"
+        (click)="openChoice()"
       >
         Continuă
       </ion-button>
@@ -53,14 +53,25 @@
     <ion-row
       class="ion-justify-content-center mt-auto flex flex-1 flex-column ion-justify-content-end mt-40 mx-32 mb-24"
     >
+      <div class="ion-text-center py-4 w-100" *ngIf="hasErr">
+        <ion-text class="text-small color-red">
+          A fost întâmpinată o problemă!
+        </ion-text>
+      </div>
       <ion-button
         class="activate-btn m-0 w-100 flex mt-auto"
         size="large"
         color="success"
         fill="solid"
         expand="block"
-        routerLink="../complete-verification"
+        [disabled]="saving"
+        (click)="uploadPhoto()"
       >
+        <ion-spinner
+          name="crescent"
+          *ngIf="saving"
+          class="icon-20"
+        ></ion-spinner>
         Continuă
       </ion-button>
 
@@ -69,6 +80,7 @@
           expand="block"
           fill="clear"
           (click)="removePhoto()"
+          [disabled]="saving"
           class="mh-40"
           ><span
             class="button-text s16-h22 ls-01 color-green text-weight-normal"

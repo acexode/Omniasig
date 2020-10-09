@@ -98,3 +98,7 @@ export const documenteEndpoints = {
     serverBaseUrl + '/Documents/GetAllDocumentsForCurrentUser',
   GetDocumentById: serverBaseUrl + '/Documents/GetDocumentById',
 };
+export const biometricsEndpoints = {
+  uploadPicture:  serverBaseUrl + '/UserProfile/UploadPicture',
+  processPicture: serverBaseUrl + '/UserProfile/IsIdenticalPictures',
+};
