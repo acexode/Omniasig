@@ -52,7 +52,7 @@
     "cordova-res": "^0.15.1",
     "ionic-plugin-deeplinks": "^1.0.20",
     "ionic4-auto-complete": "^2.8.1",
-    "lodash": "^4.17.19",
+    "lodash": "^4.17.20",
     "qs": "^6.9.4",
     "rxjs": "~6.5.1",
     "tslib": "^1.10.0",

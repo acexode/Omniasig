@@ -28,6 +28,7 @@
           shape="round"
           size="large"
           fill="clear"
+          *ngIf="!locuinta?.isHomeAddress"
           (click)="openConfirmDeleteModal(locuinta.id)"
           class="m-0 w-auto mr-16 fond color-dark-green no-shadow"
         >
