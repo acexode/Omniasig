@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Calendar } from '@ionic-native/calendar/ngx';
-import { random, get, set } from 'lodash';
+import { get, set } from 'lodash';
 import { BehaviorSubject, Observable, of, throwError } from 'rxjs';
-import { catchError, map, switchMap, filter } from 'rxjs/operators';
+import { catchError, filter, map, switchMap } from 'rxjs/operators';
 import { policyEndpoints } from 'src/app/core/configs/endpoints';
 import { AuthService } from 'src/app/core/services/auth/auth.service';
 import { RequestService } from 'src/app/core/services/request/request.service';
@@ -173,6 +173,10 @@ export class PolicyDataService {
     const offerObj = {
       id: offer.id,
       offerCode: offer.offerCode,
+      iban: offer.offerIBAN,
+      ratePlanList: offer.ratePlanList,
+      offerPrice: offer.offerPrima,
+      firstPaymentValue: offer.firstPaymentValue,
       policy: {
         id: offer.id,
         name: offer.offerCode,
@@ -185,7 +189,6 @@ export class PolicyDataService {
         },
         locuintaData: {
           id: offer.locuintaId,
-
           type: offer.locationType,
           structure: offer.locationStructure,
           yearConstruction: offer.locationYearConstruction,
@@ -196,7 +199,6 @@ export class PolicyDataService {
           floors: offer.locationFloors,
           rooms: offer.locationRooms,
           hasAlarmSystem: offer.locationHasAlarmSystem,
-
           name: offer.locationName,
           addressCounty: offer.addressCounty,
           addressCity: offer.addressCity,
@@ -216,7 +218,6 @@ export class PolicyDataService {
       expiry: offer.expirationDate,
       emisionDate: offer.offerDate ? new Date(offer.offerDate) : '',
       insurancePrice: offer.offerPrima || 0,
-      firstPaymentValue: offer.firstPaymentValue,
     };
     if (typeId === 'AMPLUS') {
       offerObj.expiry = get(offer, 'offerExpireDate', '');
@@ -392,6 +393,40 @@ export class PolicyDataService {
       .then(
         (msg) => {},
         (err) => {}
+      );
+  }
+
+  makePayment(data) {
+    return this.reqS.post<any>(this.endpoints.initiatePayment, data);
+  }
+
+  confirmPayment(token, policyType: string = null) {
+    return this.reqS
+      .get<any>(`${this.endpoints.confirmPayment}?urlHash=${token}`)
+      .pipe(
+        map((res) => {
+          if (policyType === 'PAD') {
+            const dataRes = get(
+              res,
+              'padPolitaResponse.emiterePolitaResponse1',
+              null
+            );
+            if (dataRes) {
+              if (get(dataRes, 'eroare', false)) {
+                throw new Error(get(dataRes, 'mesaj', 'Eroare validare plata'));
+              }
+            }
+          }
+          if (policyType === 'AMPLUS') {
+            const dataRes = get(res, 'amplusPolitaResponse.politaOut', null);
+            if (dataRes) {
+              if (get(dataRes, 'eroare', false)) {
+                throw new Error(get(dataRes, 'mesaj', 'Eroare validare plata'));
+              }
+            }
+          }
+          return res;
+        })
       );
   }
 }

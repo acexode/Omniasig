@@ -10,5 +10,9 @@
     }
   },
   "linuxAndroidStudioPath": "/home/maxciceu/Documents/android-studio/bin/studio.sh",
-  "cordova": {}
+  "cordova": {},
+  "server": {
+    "url": "http://192.168.8.100:8100",
+    "cleartext": true
+  }
 }
