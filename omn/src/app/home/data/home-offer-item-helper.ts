@@ -43,7 +43,7 @@ export const offerHomeItemHelper = ( offer: PolicyOffer ) => {
         ? dateHelperDMY( offer.expiry )
         : ''
       : '';
-    baseItem.textContent.footer.text = offer.supportData
+    baseItem.textContent.footer.textA = offer.supportData
       ? offer.supportData === 'GOLD'
         ? 'Plan: GOLD ● plata integrală ● 450,8 lei/an'
         : offer.supportData === 'VIP'
