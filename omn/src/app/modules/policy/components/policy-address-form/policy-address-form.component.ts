@@ -151,11 +151,24 @@ export class PolicyAddressFormComponent implements OnInit {
         )
         .subscribe((v) => {
           // We need to clear the validator when we have no data on the initial call.
+          this.toggleStreetInput =
+            get(this.formInstance.data.addressStreet, 'length', 0) === 0;
           if (
             this.addressStreet &&
             !get(this.formInstance.data, 'addressStreet', [])?.length
           ) {
             this.addressStreet.clearValidators();
+            if (this.toggleStreetInput) {
+              this.addressStreet.updateValueAndValidity();
+            }
+          }
+          if (this.addressStreet || this.addressName) {
+            this.formS.setInitialStreetValue(
+              this.dataModel,
+              this.addressStreet,
+              this.addressName,
+              this.formInstance.data
+            );
           }
           this.cdRef.markForCheck();
           this.cdRef.detectChanges();
@@ -172,30 +185,38 @@ export class PolicyAddressFormComponent implements OnInit {
             this.dataModel
           )
           .subscribe((v) => {
-            this.cdRef.markForCheck();
-            this.cdRef.detectChanges();
             if (this.addressCity) {
               this.addressCity.updateValueAndValidity({
                 onlySelf: true,
               });
             }
+            this.cdRef.markForCheck();
+            this.cdRef.detectChanges();
           });
       });
     }
     if (this.addressCity) {
       this.addressCity.valueChanges.subscribe((val) => {
-        if (this.addressStreet) {
-          this.addressStreet.setValidators([Validators.required]);
-          this.addressStreet.patchValue('');
-          this.addressStreet.updateValueAndValidity();
-        }
+        this.formS.resetStreetFieldValues(
+          this.addressStreet,
+          this.addressName,
+          this.addressStreetType,
+          !this.toggleStreetInput,
+          true
+        );
         this.formS
           .updateCity(this.addressCity, this.formInstance.data, this.dataModel)
           .subscribe((v) => {
             this.toggleStreetInput =
               get(this.formInstance.data.addressStreet, 'length', 0) === 0;
             if (v && v.length) {
-              this.addressStreet.setValidators([Validators.required]);
+              this.formS.resetStreetFieldValues(
+                this.addressStreet,
+                this.addressName,
+                this.addressStreetType,
+                !this.toggleStreetInput,
+                true
+              );
               this.formS.handleStreetProcessing(
                 val,
                 this.formData,
@@ -214,11 +235,14 @@ export class PolicyAddressFormComponent implements OnInit {
                 this.addressPostalCode,
                 this.addressCity ? this.addressCity.value : null
               );
-              this.addressStreet.clearValidators();
+              this.formS.resetStreetFieldValues(
+                this.addressStreet,
+                this.addressName,
+                this.addressStreetType,
+                !this.toggleStreetInput,
+                true
+              );
             }
-            this.toggleStreetInput =
-              get(this.formInstance.data.addressStreet, 'length', 0) === 0;
-            this.addressStreet.updateValueAndValidity({ emitEvent: true });
             this.cdRef.markForCheck();
             this.cdRef.detectChanges();
           });
@@ -240,7 +264,6 @@ export class PolicyAddressFormComponent implements OnInit {
       });
     }
   }
-
   get addressCounty() {
     return this.formInstance && this.formInstance.group
       ? this.formInstance.group.get('addressCounty')
@@ -253,9 +276,20 @@ export class PolicyAddressFormComponent implements OnInit {
       : null;
   }
 
+  get addressStreetType() {
+    return this.formInstance && this.formInstance.group
+      ? this.formInstance.group.get('addressStreetType')
+      : null;
+  }
+
   get addressStreet() {
     return this.formInstance && this.formInstance.group
       ? this.formInstance.group.get('addressStreet')
+      : null;
+  }
+  get addressName() {
+    return this.formInstance && this.formInstance.group
+      ? this.formInstance.group.get('addressName')
       : null;
   }
   get addressPostalCode() {
@@ -295,12 +329,13 @@ export class PolicyAddressFormComponent implements OnInit {
           this.formType = LocuinteFormType.PAD_CHECK;
           this.submitData().subscribe((v) => {
             if (v) {
-              this.dataModel = get(v, 'response', {});
+              const resModel = get(v, 'response', {});
               this.formInstance = {
                 config: this.formConfigs.place,
                 group: this.formGroups.place,
                 data: this.formData.place,
               };
+              this.dataModel = { ...this.dataModel, ...resModel };
               const policy = this.paidResponseData
                 ? {
                     dates: {
@@ -400,9 +435,7 @@ export class PolicyAddressFormComponent implements OnInit {
         this.formSubmitting = true;
         this.cdRef.markForCheck();
         if (this.dataModel && get(this.dataModel, 'id', null)) {
-          if (model2.addressStreet === '') {
-            model2.addressStreet = model2.addressName;
-          }
+          this.dataModel.addressName = model2.addressName;
           return this.locuinteS.updateSingleLocuinte(model2).pipe(
             finalize(() => {
               this.formSubmitting = false;
@@ -410,9 +443,7 @@ export class PolicyAddressFormComponent implements OnInit {
             })
           );
         } else {
-          if (model2.addressStreet === '') {
-            model2.addressStreet = model2.addressName;
-          }
+          this.dataModel.addressName = model2.addressName;
           return this.locuinteS.addSingleLocuinte(model2).pipe(
             switchMap((data) => {
               return this.paidS
