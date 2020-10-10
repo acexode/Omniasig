@@ -394,7 +394,8 @@ export class PolicyAddressFormComponent implements OnInit {
       case this.formModes.ADD_NEW_POLICY:
         const model2 = this.formS.processFormModel(
           this.formInstance.group.getRawValue(),
-          this.dataModel
+          this.dataModel,
+          this.toggleStreetInput
         );
         this.formSubmitting = true;
         this.cdRef.markForCheck();

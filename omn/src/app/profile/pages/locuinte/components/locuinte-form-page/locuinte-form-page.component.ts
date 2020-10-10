@@ -9,7 +9,7 @@ import {
 import { FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { IonContent, NavController } from '@ionic/angular';
-import { get } from 'lodash';
+import { get, has } from 'lodash';
 import { combineLatest, Observable, of } from 'rxjs';
 import { finalize, switchMap, take } from 'rxjs/operators';
 import { CustomRouterService } from 'src/app/core/services/custom-router/custom-router.service';
@@ -34,7 +34,7 @@ export class LocuinteFormPageComponent implements OnInit {
   buttonText = 'Continuă';
   headerConfig = null;
   buttonVisible = true;
-  toggleStreetInput = false;
+  toggleStreetInput = null;
   dataModel: any = { id: null };
   formMode: LocuinteFormModes;
   formType: LocuinteFormType;
@@ -190,14 +190,14 @@ export class LocuinteFormPageComponent implements OnInit {
               this.addressStreet.updateValueAndValidity();
             }
           }
-          if (this.addressStreet) {
+          if (this.addressStreet || this.addressName) {
             this.formS.setInitialStreetValue(
               this.dataModel,
               this.addressStreet,
+              this.addressName,
               this.formInstance.data
             );
           }
-
           this.cdRef.markForCheck();
           this.cdRef.detectChanges();
         });
@@ -223,11 +223,13 @@ export class LocuinteFormPageComponent implements OnInit {
     }
     if (this.addressCity) {
       this.addressCity.valueChanges.subscribe((val) => {
-        if (this.addressStreet) {
-          this.addressStreet.setValidators([Validators.required]);
-          this.addressStreet.patchValue('');
-          this.addressStreet.updateValueAndValidity();
-        }
+        this.formS.resetStreetFieldValues(
+          this.addressStreet,
+          this.addressName,
+          this.addressStreetType,
+          !this.toggleStreetInput,
+          true
+        );
 
         this.formS
           .updateCity(this.addressCity, this.formInstance.data, this.dataModel)
@@ -235,7 +237,13 @@ export class LocuinteFormPageComponent implements OnInit {
             this.toggleStreetInput =
               get(this.formInstance.data.addressStreet, 'length', 0) === 0;
             if (v && v.length) {
-              this.addressStreet.setValidators([Validators.required]);
+              this.formS.resetStreetFieldValues(
+                this.addressStreet,
+                this.addressName,
+                this.addressStreetType,
+                !this.toggleStreetInput,
+                true
+              );
               this.formS.handleStreetProcessing(
                 val,
                 this.formData,
@@ -254,9 +262,14 @@ export class LocuinteFormPageComponent implements OnInit {
                 this.addressPostalCode,
                 this.addressCity ? this.addressCity.value : null
               );
-              this.addressStreet.clearValidators();
+              this.formS.resetStreetFieldValues(
+                this.addressStreet,
+                this.addressName,
+                this.addressStreetType,
+                !this.toggleStreetInput,
+                true
+              );
             }
-            this.addressStreet.updateValueAndValidity({ emitEvent: true });
             this.cdRef.markForCheck();
             this.cdRef.detectChanges();
           });
@@ -300,7 +313,12 @@ export class LocuinteFormPageComponent implements OnInit {
   get addressStreet() {
     return this.formInstance && this.formInstance.group
       ? this.formInstance.group.get('addressStreet')
-      : this.formInstance.group.get('addressName');
+      : null;
+  }
+  get addressName() {
+    return this.formInstance && this.formInstance.group
+      ? this.formInstance.group.get('addressName')
+      : null;
   }
   get addressPostalCode() {
     return this.formInstance && this.formInstance.group
@@ -335,9 +353,11 @@ export class LocuinteFormPageComponent implements OnInit {
         if (this.formType === LocuinteFormType.ADDRESS) {
           this.submitData().subscribe((v) => {
             if (v) {
-              this.dataModel = v.hasOwnProperty('response')
+              const resModel = v.hasOwnProperty('response')
                 ? get(v, 'response', {})
                 : v;
+
+              this.dataModel = { ...this.dataModel, ...resModel };
               this.formType = LocuinteFormType.PLACE;
               this.buttonText = 'Salvează';
               const header = subPageHeaderDefault('Adresa');
@@ -353,9 +373,10 @@ export class LocuinteFormPageComponent implements OnInit {
         } else if (this.formType === LocuinteFormType.PLACE) {
           this.submitData().subscribe((v) => {
             if (v) {
-              this.dataModel = v.hasOwnProperty('response')
+              const resModel = v.hasOwnProperty('response')
                 ? get(v, 'response', {})
                 : v;
+              this.dataModel = { ...this.dataModel, ...resModel };
               this.formType = LocuinteFormType.SUCCESS_MSG;
               const header = subPageHeaderDefault('');
               header.leadingIcon = null;
@@ -412,8 +433,10 @@ export class LocuinteFormPageComponent implements OnInit {
           ? this.dataModel
           : this.formS.processFormModel(
               this.formInstance.group.getRawValue(),
-              this.dataModel
+              this.dataModel,
+              this.toggleStreetInput
             );
+        this.dataModel.addressName = model.addressName;
         this.formSubmitting = true;
         this.cdRef.markForCheck();
         if (donTProcessAddress) {
@@ -424,7 +447,7 @@ export class LocuinteFormPageComponent implements OnInit {
             })
           );
         }
-        model.addressStreet = model.addressName;
+
         return this.locuinteS.updateSingleLocuinte(model).pipe(
           finalize(() => {
             this.formSubmitting = false;
@@ -434,12 +457,13 @@ export class LocuinteFormPageComponent implements OnInit {
       case this.formModes.ADD_NEW_FULL:
         const model2 = this.formS.processFormModel(
           this.formInstance.group.getRawValue(),
-          this.dataModel
+          this.dataModel,
+          this.toggleStreetInput
         );
         this.formSubmitting = true;
+        this.dataModel.addressName = model2.addressName;
         this.cdRef.markForCheck();
         if (get(this.dataModel, 'id', null) !== null) {
-          model2.addressStreet = model2.addressName;
           return this.locuinteS.updateSingleLocuinte(model2).pipe(
             finalize(() => {
               this.formSubmitting = false;
@@ -447,7 +471,6 @@ export class LocuinteFormPageComponent implements OnInit {
             })
           );
         } else {
-          model2.addressStreet = model2.addressName;
           return this.locuinteS.addSingleLocuinte(model2).pipe(
             finalize(() => {
               this.formSubmitting = false;

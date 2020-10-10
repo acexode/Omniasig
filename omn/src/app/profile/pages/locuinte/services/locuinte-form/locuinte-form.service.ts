@@ -1,7 +1,7 @@
 import { take } from 'rxjs/internal/operators/take';
 import { Injectable } from '@angular/core';
 import { AbstractControl, FormBuilder, Validators } from '@angular/forms';
-import { forOwn, get, set } from 'lodash';
+import { forOwn, get, set, has } from 'lodash';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { LocuinteService } from 'src/app/profile/pages/locuinte/services/locuinte/locuinte.service';
@@ -359,7 +359,6 @@ export class LocuinteFormService {
         return false;
       }
     });
-
     set(dataModel, 'addressStreetType', get(f, 'streetType', 'Strada'));
     set(dataModel, 'addressName', get(f, 'shortName', ''));
     set(dataModel, 'addressStreetCode', get(f, 'id', null));
@@ -368,6 +367,7 @@ export class LocuinteFormService {
   setInitialStreetValue(
     addressModel,
     streetField: AbstractControl,
+    streetNameField: AbstractControl,
     fieldsData
   ) {
     const vvv = fieldsData.addressStreet ? fieldsData.addressStreet : [];
@@ -376,6 +376,7 @@ export class LocuinteFormService {
     const f = vvv.find((v) => {
       try {
         const vName = v.name.toString();
+        const sName = v.shortName.toString();
         const vId = v.id.toString();
         return vName === name || vId === code;
       } catch (err) {
@@ -384,6 +385,10 @@ export class LocuinteFormService {
     });
     if (f && streetField) {
       streetField.patchValue(get(f, 'name', null));
+      streetField.updateValueAndValidity();
+    } else if (streetNameField) {
+      streetNameField.patchValue(name);
+      streetNameField.updateValueAndValidity();
     }
   }
 
@@ -423,6 +428,39 @@ export class LocuinteFormService {
       postCode = null;
     }
     addressPostalCode.patchValue(postCode);
+  }
+
+  resetStreetFieldValues(
+    streetField: AbstractControl,
+    streetNameField: AbstractControl,
+    streetTypeField: AbstractControl,
+    singleField = true,
+    reset = false
+  ) {
+    if (streetField) {
+      if (singleField) {
+        streetField.setValidators([Validators.required]);
+      } else {
+        streetField.clearValidators();
+      }
+      if (reset) {
+        streetField.patchValue('');
+      }
+      streetField.updateValueAndValidity();
+    }
+    [streetNameField, streetTypeField].forEach((f: AbstractControl) => {
+      if (f) {
+        if (singleField) {
+          f.clearValidators();
+        } else {
+          f.setValidators([Validators.required]);
+        }
+        if (reset) {
+          f.patchValue('');
+        }
+        f.updateValueAndValidity();
+      }
+    });
   }
 
   updateCounty(field, fieldsData, dataModel = {}) {
@@ -524,7 +562,11 @@ export class LocuinteFormService {
     }
   }
 
-  processFormModel(formGroupValue, existingModel?: Locuinte): Locuinte {
+  processFormModel(
+    formGroupValue,
+    existingModel?: Locuinte,
+    separateInputs = false
+  ): Locuinte {
     const newModel: Locuinte = existingModel
       ? existingModel.hasOwnProperty('response')
         ? { ...get(existingModel, 'response', {}) }
@@ -548,7 +590,6 @@ export class LocuinteFormService {
         case 'addressStreetNumber':
         case 'addressScara':
         case 'addressPostalCode':
-        case 'addressStreetType':
           set(newModel, key, val);
           break;
         case 'yearConstruction':
@@ -571,17 +612,26 @@ export class LocuinteFormService {
         case 'type':
           set(newModel, key, val);
           break;
-
         case 'addressStreetType':
-        case 'addressCountyCode':
         case 'addressStreetCode':
+        case 'addressName':
+          if (separateInputs) {
+            set(newModel, key, val);
+          }
+          break;
+        case 'addressCountyCode':
         case 'addressCityCode':
-        // Ignore.
+          // Ignore.
+          break;
+
         default:
           set(newModel, key, val);
           break;
       }
     });
+    if (has(newModel, 'addressName')) {
+      newModel.addressStreet = newModel.addressName;
+    }
     return newModel;
   }
 }

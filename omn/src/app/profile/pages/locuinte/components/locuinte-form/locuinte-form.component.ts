@@ -20,7 +20,7 @@ export class LocuinteFormComponent implements OnInit {
   private fG: FormGroup;
   formTypes = LocuinteFormType;
   padSubs;
-  @Input() toggleStreetInput = false;
+  @Input() toggleStreetInput = null;
   @Input() formType: LocuinteFormType = null;
   @Input() buttonVisible = true;
   @Input() buttonText = 'Continuă';
