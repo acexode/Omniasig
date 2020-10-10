@@ -14,6 +14,7 @@ import { switchMap } from 'rxjs/operators';
 import { LocuinteFormService } from 'src/app/profile/pages/locuinte/services/locuinte-form/locuinte-form.service';
 import { autoCompleteConfigHelper } from 'src/app/shared/data/autocomplete-config-helper';
 import { inputConfigHelper } from 'src/app/shared/data/input-config-helper';
+import { locuinteFieldsData } from 'src/app/shared/data/locuinte-field-data';
 import { selectConfigHelper } from 'src/app/shared/data/select-config-helper';
 import { subPageHeaderPrimary } from 'src/app/shared/data/sub-page-header-primary';
 import { SubPageHeader } from 'src/app/shared/models/component/sub-page-header';
@@ -33,17 +34,19 @@ export class ConfirmareIdentitateComponent implements OnInit {
     ...subPageHeaderPrimary(''),
     trailingIcon: null,
   };
+  toggleStreetInput = null;
   confirmareForm: FormGroup;
   buttonText = 'Continuă';
   userId;
   streets$ = this.locuintS.streetStore$;
   cnpInvalid = false;
 
-  dataModel = {};
+  dataModel: any = { id: null };
   formData = {
     addressCounty: [],
     addressCity: [],
     addressStreet: [],
+    addressStreetType: locuinteFieldsData.addressStreetType,
   };
 
   formSubmitting = false;
@@ -55,7 +58,7 @@ export class ConfirmareIdentitateComponent implements OnInit {
       placeholder: '',
       custom: {
         autoCapitalize: 'sentences',
-      }
+      },
     }),
     surname: inputConfigHelper({
       label: 'Prenume',
@@ -63,7 +66,7 @@ export class ConfirmareIdentitateComponent implements OnInit {
       placeholder: '',
       custom: {
         autoCapitalize: 'sentences',
-      }
+      },
     }),
     cnp: inputConfigHelper({
       label: 'CNP',
@@ -91,6 +94,17 @@ export class ConfirmareIdentitateComponent implements OnInit {
       dataServiceSource: this.locuinteF.streets$,
       idKey: 'name',
       labelKey: 'name',
+      detailAttribute: 'streetType',
+    }),
+    addressStreetType: selectConfigHelper({
+      label: 'Tip strada',
+      idKey: 'name',
+      labelKey: 'name',
+    }),
+    addressName: inputConfigHelper({
+      label: 'Nume strada',
+      type: 'text',
+      placeholder: 'Completează',
     }),
     addressStreetNumber: inputConfigHelper({
       label: 'Număr',
@@ -139,6 +153,8 @@ export class ConfirmareIdentitateComponent implements OnInit {
       addressCounty: ['', Validators.required],
       addressCity: ['', Validators.required],
       addressStreet: ['', Validators.required],
+      addressStreetType: [''],
+      addressName: [''],
       addressStreetNumber: ['', Validators.required],
       addressBuildingNumber: [''],
       addressScara: [''],
@@ -179,11 +195,24 @@ export class ConfirmareIdentitateComponent implements OnInit {
         )
         .subscribe((v) => {
           // We need to clear the validator when we have no data on the initial call.
+          this.toggleStreetInput =
+            get(this.formData.addressStreet, 'length', 0) === 0;
           if (
             this.addressStreet &&
             !get(this.formData, 'addressStreet', [])?.length
           ) {
             this.addressStreet.clearValidators();
+            if (this.toggleStreetInput) {
+              this.addressStreet.updateValueAndValidity();
+            }
+          }
+          if (this.addressStreet || this.addressName) {
+            this.locuinteF.setInitialStreetValue(
+              this.dataModel,
+              this.addressStreet,
+              this.addressName,
+              this.formData
+            );
           }
           this.cdRef.markForCheck();
           this.cdRef.detectChanges();
@@ -208,26 +237,36 @@ export class ConfirmareIdentitateComponent implements OnInit {
     }
     if (this.addressCity) {
       this.addressCity.valueChanges.subscribe((val) => {
-        if (this.addressStreet) {
-          this.addressStreet.setValidators([Validators.required]);
-          this.addressStreet.patchValue('');
-          this.addressStreet.updateValueAndValidity();
-        }
+        this.locuinteF.resetStreetFieldValues(
+          this.addressStreet,
+          this.addressName,
+          this.addressStreetType,
+          !this.toggleStreetInput,
+          true
+        );
         this.locuinteF
           .updateCity(this.addressCity, this.formData, this.dataModel)
           .subscribe((v) => {
+            this.toggleStreetInput =
+              get(this.formData.addressStreet, 'length', 0) === 0;
             if (v && v.length) {
-              this.addressStreet.setValidators([Validators.required]);
+              this.locuinteF.resetStreetFieldValues(
+                this.addressStreet,
+                this.addressName,
+                this.addressStreetType,
+                !this.toggleStreetInput,
+                true
+              );
               this.locuinteF.handleStreetProcessing(
-                null,
+                val,
                 this.formData,
                 this.dataModel
               );
               this.locuinteF.handlePostalCode(
-                val,
+                null,
                 this.formData,
                 this.addressPostalCode,
-                this.addressCity.value
+                this.addressCity ? this.addressCity.value : null
               );
             } else {
               this.locuinteF.handlePostalCode(
@@ -236,9 +275,14 @@ export class ConfirmareIdentitateComponent implements OnInit {
                 this.addressPostalCode,
                 this.addressCity ? this.addressCity.value : null
               );
-              this.addressStreet.clearValidators();
+              this.locuinteF.resetStreetFieldValues(
+                this.addressStreet,
+                this.addressName,
+                this.addressStreetType,
+                !this.toggleStreetInput,
+                true
+              );
             }
-            this.addressStreet.updateValueAndValidity({ emitEvent: true });
             this.cdRef.markForCheck();
             this.cdRef.detectChanges();
           });
@@ -274,17 +318,17 @@ export class ConfirmareIdentitateComponent implements OnInit {
           cnp: value.cnp,
           surname: value.surname,
         };
+        const locuinteModel = this.locuinteF.processFormModel(
+          this.confirmareForm.getRawValue(),
+          this.dataModel,
+          this.toggleStreetInput
+        );
         const locuinte: any = {
-          name: 'Domiciliu',
-          addressApart: value.addressApart ? value.addressApart : '',
-          addressStreetNumber: value.addressStreetNumber,
-          addressBuildingNumber: value.addressBuildingNumber,
-          addressCity: value.addressCity,
-          addressCounty: value.addressCounty,
-          addressScara: value.addressScara,
-          addressPostalCode: value.addressPostalCode,
-          addressStreet: value.addressStreet,
-          isHomeAddress: true,
+          ...locuinteModel,
+          ...{
+            name: 'Domiciliu',
+            isHomeAddress: true,
+          },
         };
         this.auth
           .updateUserProfile(user)
@@ -308,26 +352,32 @@ export class ConfirmareIdentitateComponent implements OnInit {
       this.scrollTop();
     }
   }
-
   get addressCounty() {
-    return this.confirmareForm && this.confirmareForm
+    return this.confirmareForm
       ? this.confirmareForm.get('addressCounty')
       : null;
   }
 
   get addressCity() {
-    return this.confirmareForm && this.confirmareForm
-      ? this.confirmareForm.get('addressCity')
+    return this.confirmareForm ? this.confirmareForm.get('addressCity') : null;
+  }
+
+  get addressStreetType() {
+    return this.confirmareForm
+      ? this.confirmareForm.get('addressStreetType')
       : null;
   }
 
   get addressStreet() {
-    return this.confirmareForm && this.confirmareForm
+    return this.confirmareForm
       ? this.confirmareForm.get('addressStreet')
       : null;
   }
+  get addressName() {
+    return this.confirmareForm ? this.confirmareForm.get('addressName') : null;
+  }
   get addressPostalCode() {
-    return this.confirmareForm && this.confirmareForm
+    return this.confirmareForm
       ? this.confirmareForm.get('addressPostalCode')
       : null;
   }

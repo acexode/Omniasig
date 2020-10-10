@@ -564,7 +564,7 @@ export class LocuinteFormService {
 
   processFormModel(
     formGroupValue,
-    existingModel?: Locuinte,
+    existingModel?: Locuinte | any,
     separateInputs = false
   ): Locuinte {
     const newModel: Locuinte = existingModel
