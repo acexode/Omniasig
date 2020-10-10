@@ -16,7 +16,8 @@ export interface Locuinte {
   name: string;
   addressCounty: string;
   addressCity: string;
-  addressStreet: string;
+  addressStreet?: string;
+  addressName?: string;
   addressStreetType?: string;
   addressStreetNumber: string;
   // Scara bloc.
