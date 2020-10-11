@@ -28,7 +28,8 @@
           shape="round"
           size="large"
           fill="clear"
-          (click)="deleteAddress(locuinta.id)"
+          *ngIf="!locuinta?.isHomeAddress"
+          (click)="openConfirmDeleteModal(locuinta.id)"
           class="m-0 w-auto mr-16 fond color-dark-green no-shadow"
         >
           <span class="text-weight-normal pr-16 mr-auto">Șterge</span>

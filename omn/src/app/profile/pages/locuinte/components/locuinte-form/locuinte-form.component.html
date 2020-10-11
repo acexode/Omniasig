@@ -26,7 +26,10 @@
       fill="solid"
       expand="block"
       (click)="doSubmit()"
-      [disabled]="!formGroupInstance?.valid || formSubmitting"
+      [disabled]="
+        (!formGroupInstance?.valid && !formGroupInstance?.disabled) ||
+        formSubmitting
+      "
       size="large"
       class="m-0 w-100 flex mt-auto"
     >
@@ -62,12 +65,29 @@
         formControlName="addressCity"
       ></app-select>
     </ion-row>
-    <ion-row class="ion-no-padding strada mb-24">
+    <ion-row class="ion-no-padding strada mb-24" *ngIf="!toggleStreetInput">
       <app-autocomplete
         class="w-100"
         formControlName="addressStreet"
         [config]="fieldConfig?.addressStreet"
+        [template]="withaddressStreetType"
+        [selectionTemplate]="withaddressStreetType"
       ></app-autocomplete>
+    </ion-row>
+    <ion-row class="ion-no-padding strada mb-24" *ngIf="toggleStreetInput">
+      <app-select
+        class="w-100"
+        formControlName="addressStreetType"
+        [options]="fieldConfigData?.addressStreetType"
+        [config]="fieldConfig?.addressStreetType"
+      ></app-select>
+    </ion-row>
+    <ion-row class="ion-no-padding mb-24" *ngIf="toggleStreetInput">
+      <app-input
+        class="w-100"
+        [config]="fieldConfig?.addressName"
+        formControlName="addressName"
+      ></app-input>
     </ion-row>
     <ion-row class="ion-no-padding numar-bloc mb-24">
       <ion-col size="6" class="pr-16">
@@ -148,6 +168,17 @@
         [config]="fieldConfig?.yearConstruction"
         formControlName="yearConstruction"
       ></app-datepicker>
+      <ion-item class="form-description p-0 no-paddings mt-12" lines="none">
+        <ion-icon
+          slot="start"
+          name="md-info"
+          class="icon-20 position-absolute top-0 m-0 color-secondary-blue"
+        ></ion-icon>
+        <ion-text class="text-small ml-32"
+          >Valoarea minima pentru o polita PAD este anul 1700 iar pentru polita
+          AMPLUS este anul 1941.
+        </ion-text>
+      </ion-item>
     </ion-row>
     <ion-row class="ion-no-padding valoare flex-column mb-24">
       <ion-label class="text-weight-medium mb-16">Valoarea locuinței</ion-label>
@@ -165,6 +196,17 @@
           [config]="fieldConfig?.value"
           formControlName="value"
         ></app-input>
+        <ion-item class="form-description p-0 no-paddings mt-12" lines="none">
+          <ion-icon
+            slot="start"
+            name="md-info"
+            class="icon-20 position-absolute top-0 m-0 color-secondary-blue"
+          ></ion-icon>
+          <ion-text class="text-small ml-32"
+            >Locuintele sunt asigurabile cu valori intre 21 000 EURO si 200 000
+            EURO.
+          </ion-text>
+        </ion-item>
       </ion-row>
 
       <ng-container *ngIf="policyType === 'AMPLUS'">
@@ -230,6 +272,16 @@
         [config]="fieldConfig?.area"
         formControlName="area"
       ></app-input>
+      <ion-item class="form-description p-0 no-paddings mt-12" lines="none">
+        <ion-icon
+          slot="start"
+          name="md-info"
+          class="icon-20 position-absolute top-0 m-0 color-secondary-blue"
+        ></ion-icon>
+        <ion-text class="text-small ml-32"
+          >Valorile valide sunt intre 10 si 600 mp.
+        </ion-text>
+      </ion-item>
     </ion-row>
     <ion-row class="ion-no-padding regim-inaltime mb-24">
       <app-input
@@ -243,9 +295,9 @@
           name="md-info"
           class="icon-20 position-absolute top-0 m-0 color-secondary-blue"
         ></ion-icon>
-        <ion-text class="text-small ml-32"
-          >Câte etaje are clădirea. Pentru clădirile care au doar parter sau
-          parter și un etaj, regimul de înălțime este 1.
+        <ion-text class="text-small ml-32">
+          Cate etaje are cladirea. Pentru cladirile care au doar parter si un
+          etaj, regimul de inaltime este 1. Valorile valide sunt intre 1 si 20.
         </ion-text>
       </ion-item>
     </ion-row>
@@ -255,6 +307,16 @@
         [config]="fieldConfig?.rooms"
         formControlName="rooms"
       ></app-input>
+      <ion-item class="form-description p-0 no-paddings mt-12" lines="none">
+        <ion-icon
+          slot="start"
+          name="md-info"
+          class="icon-20 position-absolute top-0 m-0 color-secondary-blue"
+        ></ion-icon>
+        <ion-text class="text-small ml-32"
+          >Valorile valide sunt intre 1 si 20.
+        </ion-text>
+      </ion-item>
     </ion-row>
     <ion-row class="ion-no-padding alarma mb-24">
       <app-radios
@@ -287,4 +349,13 @@
     </div>
     <div class="flex flex-1"></div>
   </ion-col>
+</ng-template>
+
+<ng-template #withaddressStreetType let-attrs="attrs">
+  <div class="flex ion-justify-content-between">
+    <span>{{ attrs?.data?.name }}</span
+    ><span class="color-grey-3 s13-h16 ls-02 mr-8">{{
+      attrs?.data?.streetType
+    }}</span>
+  </div>
 </ng-template>

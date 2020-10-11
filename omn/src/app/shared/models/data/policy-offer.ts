@@ -14,4 +14,21 @@ export interface PolicyOffer {
   // New AMPLUS.
   supportData?: any;
   payData?: any;
+  ratePlanList?: RatePlan[];
+  offerPrice?: number;
+  firstPaymentValue?: number;
+  insurancePrice?: any;
+}
+
+export interface RatePlan {
+  id: string | number;
+  amount: number;
+  currency: string;
+  rateNumber: number;
+  dueDatea: Date;
+  AsiguratedSum?: any;
+  expireDate?: any;
+  insurancePrice?: any;
+  firstPaymentValue?: any;
+  ratePlanList?: Array<any>;
 }

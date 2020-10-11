@@ -141,6 +141,7 @@ export class PolicyFormPage implements OnInit, OnDestroy {
 
   // Load Address + policy combination data. Used in the address picker.
   loadLocuinte() {
+    this.locS.loadAllData();
     this.locS.locuinteStore$.subscribe( ( vals ) => {
       this.policyLocuintaData$.next(
         this.policyFs.buildPolicyLocuintaModel( vals, this.typeItem.id )
@@ -638,7 +639,7 @@ export class PolicyFormPage implements OnInit, OnDestroy {
     if ( !policy ) {
       this.minPeriodStartDate = null;
     } else {
-      this.minPeriodStartDate = get( policy, 'dates.to', null );
+      this.minPeriodStartDate = get( policy, 'dates.from', null );
     }
     this.maxPeriodStartDate = null;
     if ( this.minPeriodStartDate ) {

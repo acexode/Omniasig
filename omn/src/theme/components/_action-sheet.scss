@@ -83,5 +83,25 @@
         }
       }
     }
+    &.red-title {
+      .action-sheet-title {
+        color: $red;
+        font-size: rem(18);
+        line-height: rem(24);
+        font-family: $alt-font;
+        font-weight: 600;
+      }
+    }
+  }
+
+  .locuinte-sheet {
+    display: flex;
+    .action-sheet-container {
+      justify-content: center;
+      align-items: center;
+      .action-sheet-group {
+        width: 100%;
+      }
+    }
   }
 }

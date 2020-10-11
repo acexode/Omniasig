@@ -8,6 +8,7 @@ export const autoCompleteConfigHelper = (conf: {
   dataServiceSource: BehaviorSubject<any>;
   idKey?: string;
   labelKey?: string;
+  detailAttribute?: string;
   autoCapitalize?: string;
 }): IonAutocompleteConfig => {
   const config: IonAutocompleteConfig = {
@@ -26,6 +27,7 @@ export const autoCompleteConfigHelper = (conf: {
     dataServiceSource: conf.dataServiceSource,
     idKey: conf.idKey || 'id',
     labelKey: conf.labelKey || 'label',
+    detailAttribute: conf.detailAttribute,
   };
 
   return config;

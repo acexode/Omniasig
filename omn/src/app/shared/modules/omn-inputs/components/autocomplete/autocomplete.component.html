@@ -16,8 +16,10 @@
       [dataProvider]="autocompleteProvider"
       [options]="config?.autocompleteOptions || {}"
       formControlName="text"
-      [disabled]="config?.disabled"
+      [disabled]="config?.disabled || formGroup?.disabled"
       class="flex"
+      [template]="template"
+      [selectionTemplate]="selectionTemplate"
       #autoField
     ></ion-auto-complete>
     <ion-icon

@@ -20,7 +20,7 @@ export class LocuinteFormComponent implements OnInit {
   private fG: FormGroup;
   formTypes = LocuinteFormType;
   padSubs;
-
+  @Input() toggleStreetInput = null;
   @Input() formType: LocuinteFormType = null;
   @Input() buttonVisible = true;
   @Input() buttonText = 'Continuă';
@@ -42,7 +42,8 @@ export class LocuinteFormComponent implements OnInit {
   // Only used for custom policy displays.
   @Input() policyType = null;
   @Output() eventSubmit: EventEmitter<any> = new EventEmitter();
-  constructor(private cdRef: ChangeDetectorRef) {}
+  constructor(private cdRef: ChangeDetectorRef) {
+  }
 
   ngOnInit() {}
 
@@ -58,7 +59,9 @@ export class LocuinteFormComponent implements OnInit {
   }
 
   doSubmit() {
-    if (this.fG.valid) {
+    // Angular considers disabled as invalid, tweak this if any issues.
+    // Make sure the template button is also working.
+    if (this.fG.valid || this.fG.disabled) {
       this.eventSubmit.emit(true);
     } else {
       this.fG.updateValueAndValidity();

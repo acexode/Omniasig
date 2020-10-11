@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Calendar } from '@ionic-native/calendar/ngx';
-import { random, get, set } from 'lodash';
+import { get, set } from 'lodash';
 import { BehaviorSubject, Observable, of, throwError } from 'rxjs';
-import { catchError, map, switchMap, filter } from 'rxjs/operators';
+import { catchError, filter, map, switchMap } from 'rxjs/operators';
 import { policyEndpoints } from 'src/app/core/configs/endpoints';
 import { AuthService } from 'src/app/core/services/auth/auth.service';
 import { RequestService } from 'src/app/core/services/request/request.service';
@@ -80,8 +80,8 @@ export class PolicyDataService {
         cnp: policy.userCnp,
       },
       dates: {
-        from: policy.emisionDate,
-        to: policy.expireDate,
+        from: policy.offerDate,
+        to: policy.expirationDate,
       },
       listingSubtitle: `${policy.addressStreet}, ${policy.addressStreetNumber} ${policy.addressCity}`,
       locuintaData: {
@@ -107,7 +107,7 @@ export class PolicyDataService {
         addressApart: policy.addressApart,
         addressPostalCode: policy.addressPostalCode,
       },
-      expiry: policy.expireDate,
+      expiry: policy.expirationDate,
     };
   }
 
@@ -173,6 +173,10 @@ export class PolicyDataService {
     const offerObj = {
       id: offer.id,
       offerCode: offer.offerCode,
+      iban: offer.offerIBAN,
+      ratePlanList: offer.ratePlanList,
+      offerPrice: offer.offerPrima,
+      firstPaymentValue: offer.firstPaymentValue,
       policy: {
         id: offer.id,
         name: offer.offerCode,
@@ -180,23 +184,21 @@ export class PolicyDataService {
         state: 1,
         listingSubtitle: `${offer.addressStreet}, ${offer.addressStreetNumber} ${offer.addressCity}`,
         dates: {
-          from: offer.emisionDate,
-          to: offer.expireDate,
+          from: offer.offerDate,
+          to: offer.expirationDate,
         },
         locuintaData: {
           id: offer.locuintaId,
-
           type: offer.locationType,
           structure: offer.locationStructure,
           yearConstruction: offer.locationYearConstruction,
           valueCurrency: offer.locationValueCurrency,
           value: offer.locationValue,
-          typeUse: offer.locationArea,
+          typeUse: offer.locationTypeUse,
           area: offer.locationArea,
           floors: offer.locationFloors,
           rooms: offer.locationRooms,
           hasAlarmSystem: offer.locationHasAlarmSystem,
-
           name: offer.locationName,
           addressCounty: offer.addressCounty,
           addressCity: offer.addressCity,
@@ -213,11 +215,16 @@ export class PolicyDataService {
       },
       nume: `${offer.userName} ${offer.userSurname}`,
       cnp: offer.userCnp,
-      expiry: offer.expireDate,
-      emisionDate: offer.emisionDate ? new Date(offer.emisionDate) : '',
+      expiry: offer.expirationDate,
+      emisionDate: offer.offerDate ? new Date(offer.offerDate) : '',
+      insurancePrice: offer.offerPrima || 0,
     };
     if (typeId === 'AMPLUS') {
       offerObj.expiry = get(offer, 'offerExpireDate', '');
+      const isGold = get(offer, 'isGold', false);
+      const isVip = get(offer, 'isVip', false);
+      set(offerObj, 'supportData', isGold ? 'GOLD' : isVip ? 'VIP' : '-');
+      set(offerObj, 'ratePlanList', get(offer, 'ratePlanList', []));
     }
     return offerObj;
   }
@@ -386,6 +393,40 @@ export class PolicyDataService {
       .then(
         (msg) => {},
         (err) => {}
+      );
+  }
+
+  makePayment(data) {
+    return this.reqS.post<any>(this.endpoints.initiatePayment, data);
+  }
+
+  confirmPayment(token, policyType: string = null) {
+    return this.reqS
+      .get<any>(`${this.endpoints.confirmPayment}?urlHash=${token}`)
+      .pipe(
+        map((res) => {
+          if (policyType === 'PAD') {
+            const dataRes = get(
+              res,
+              'padPolitaResponse.emiterePolitaResponse1',
+              null
+            );
+            if (dataRes) {
+              if (get(dataRes, 'eroare', false)) {
+                throw new Error(get(dataRes, 'mesaj', 'Eroare validare plata'));
+              }
+            }
+          }
+          if (policyType === 'AMPLUS') {
+            const dataRes = get(res, 'amplusPolitaResponse.politaOut', null);
+            if (dataRes) {
+              if (get(dataRes, 'eroare', false)) {
+                throw new Error(get(dataRes, 'mesaj', 'Eroare validare plata'));
+              }
+            }
+          }
+          return res;
+        })
       );
   }
 }

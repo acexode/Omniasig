@@ -1,14 +1,20 @@
 import { Component, HostBinding, OnInit } from '@angular/core';
-import { ActivatedRoute, NavigationExtras } from '@angular/router';
-import { NavController } from '@ionic/angular';
+import { ActivatedRoute } from '@angular/router';
+import {
+  InAppBrowser,
+  InAppBrowserObject,
+} from '@ionic-native/in-app-browser/ngx';
+import { isPlatform, ModalController, NavController } from '@ionic/angular';
 import { get, has } from 'lodash';
-import { take } from 'rxjs/operators';
+import { Subscription } from 'rxjs';
+import { first, take } from 'rxjs/operators';
 import { dateHelperDMY } from 'src/app/core/helpers/date.helper';
+import { subPageHeaderDefault } from 'src/app/shared/data/sub-page-header-default';
 import { subPageHeaderSecondary } from 'src/app/shared/data/sub-page-header-secondary';
 import { PolicyOffer } from 'src/app/shared/models/data/policy-offer';
 import { PolicyDataService } from '../../services/policy-data.service';
 import { CalendarEntry } from '../models/calendar-entry';
-import { PadService } from '../../services/pad.service';
+import { PaymentStatusComponent } from './../payment-status/payment-status.component';
 
 @Component({
   selector: 'app-offer-view',
@@ -19,6 +25,7 @@ export class OfferViewComponent implements OnInit {
   policyType;
   offer: PolicyOffer = null;
   headerConfig = subPageHeaderSecondary('Oferta de asigurare');
+  viewMode: 'V' | 'C' = 'V';
   @HostBinding('class') color = 'ion-color-white-page';
 
   risksCovered = [
@@ -80,11 +87,14 @@ export class OfferViewComponent implements OnInit {
   ];
 
   calEntry: CalendarEntry;
+  busy = false;
+  sub: Subscription;
   constructor(
     private route: ActivatedRoute,
     private policyDataService: PolicyDataService,
-    private padS: PadService,
-    private navCtrl: NavController
+    private navCtrl: NavController,
+    public modalController: ModalController,
+    private iab: InAppBrowser
   ) {}
 
   ngOnInit(): void {
@@ -95,30 +105,31 @@ export class OfferViewComponent implements OnInit {
   }
 
   getPolicyById(id) {
-    this.policyDataService.getSingleOfferById(id, this.policyType).subscribe((offer) => {
-      this.offer = offer;
-      if (offer && has(offer, 'policy.typeId')) {
-        this.policyType = get(offer, 'policy.typeId', this.policyType);
-      }
-
-      this.setCalEntry(this.offer);
-    });
+    this.policyDataService
+      .getSingleOfferById(id, this.policyType)
+      .subscribe((offer) => {
+        this.offer = offer;
+        if (offer && has(offer, 'policy.typeId')) {
+          this.policyType = get(offer, 'policy.typeId', this.policyType);
+        }
+        this.setCalEntry(this.offer);
+      });
   }
 
   closeOffer() {
     this.navCtrl.navigateRoot('/policy');
   }
 
-  gotoConditions() {
-    const navigationExtras: NavigationExtras = {
-      queryParams: {
-        policyType: this.policyType,
-      },
-    };
-    this.navCtrl.navigateForward(['/policy', 'conditions'], navigationExtras);
+  backToOffer() {
+    this.viewMode = 'V';
+    this.headerConfig = subPageHeaderSecondary('Oferta de asigurare');
   }
 
-  back() {}
+  gotoConditions() {
+    this.viewMode = 'C';
+    this.headerConfig = subPageHeaderDefault('Condiţii de asigurare');
+    this.headerConfig.leadingIcon.routerLink = false;
+  }
 
   setCalEntry(offer: PolicyOffer) {
     const date = get(offer, 'expiry', null);
@@ -147,21 +158,100 @@ export class OfferViewComponent implements OnInit {
   }
 
   pay() {
-    /*
-      method to call payment web service when the pay(plateste) button is clicked,
-      which also calls create PAD Insurance policy web service
-    */
-    const offerId = parseInt(this.offer.id, 10);
-    this.padS.CreatePADInsurancePolicy(offerId).subscribe(
-      (result) => {
-        this.policyDataService.initData();
-        this.navCtrl.navigateRoot('/policy');
-        // next thing to do after creating PAD Insurance policy
+    // Starting the payment workflow here
+    this.busy = true;
+    const data = {
+      ibaN_1: this.offer.iban,
+      amount_IBAN_1: this.offer.firstPaymentValue,
+      areTermsAccepted: true,
+      currencyToPay:
+        this.policyType === 'PAD'
+          ? 'RON'
+          : this.offer.policy.locuintaData.valueCurrency,
+      policyCurrency:
+        this.policyType === 'PAD'
+          ? 'RON'
+          : this.offer.policy.locuintaData.valueCurrency,
+      policyCode: this.offer.offerCode,
+      isMobilePayment: true,
+    };
+    this.sub = this.policyDataService.makePayment(data).subscribe(
+      (dataV) => {
+        if (isPlatform('ios')) {
+          this.openIAB(dataV.url, '_blank');
+        } else {
+          this.openIAB(dataV.url, '_blank');
+        }
+        this.busy = false;
       },
-      (error) => {
-        // handle error
-        this.navCtrl.navigateRoot('/policy');
+      (err) => (this.busy = false)
+    );
+
+    return;
+  }
+
+  openIAB(url, type) {
+    const browser = this.iab.create(url, type, { location: 'no' });
+    browser.show();
+    // TODO: linter complains, this is to be retested.
+    if (browser) {
+      this.sub = browser.on('loadstart').subscribe((e) => {
+        if (e && e.url.includes('tok')) {
+          this.confirmToken(e.url, browser);
+        }
+      });
+      this.sub = browser.on('loaderror').subscribe((e) => {
+        browser.close();
+      });
+      browser
+        .on('exit')
+        .pipe(first())
+        .subscribe((e) => {
+          this.sub.unsubscribe();
+        });
+    }
+  }
+
+  confirmToken(urlPath, browser: InAppBrowserObject) {
+    const url = new URL(urlPath).search;
+    const urlParams = new URLSearchParams(url);
+    const token = urlParams.get('tok');
+    this.policyDataService.confirmPayment(token, this.policyType).subscribe(
+      (data) => {
+        browser.close();
+        if (
+          (this.policyType === 'PAD' && get(data, 'padPolitaResponse', null)) ||
+          (this.policyType === 'AMPLUS' &&
+            get(data, 'amplusPolitaResponse', null))
+        ) {
+          this.presentModal('success');
+          this.policyDataService.initData();
+        } else {
+          this.presentModal('failed', 'Plata a esuat!');
+        }
+      },
+      (err) => {
+        browser.close();
+        this.presentModal(
+          'failed',
+          err.error ? err.error : err.message ? err.message : ''
+        );
       }
     );
+  }
+
+  async presentModal(
+    paymentStatus: 'failed' | 'success',
+    failureReason?: string
+  ) {
+    const modal = await this.modalController.create({
+      component: PaymentStatusComponent,
+      cssClass: 'my-custom-class',
+      componentProps: {
+        paymentStatus,
+        failureReason,
+      },
+    });
+    return await modal.present();
   }
 }
