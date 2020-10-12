@@ -111,7 +111,13 @@ export class OfferViewComponent implements OnInit {
       .getSingleOfferById(id, this.policyType)
       .subscribe((offer) => {
         this.offer = offer;
-        this.leiCurrency = (locuinteFieldsData.valueCurrency[1].id === this.offer?.policy?.locuintaData?.valueCurrency) ? true : false;
+        this.leiCurrency =
+          this.policyType === 'PAD'
+            ? true
+            : locuinteFieldsData.valueCurrency[1].id ===
+              this.offer?.policy?.locuintaData?.valueCurrency
+            ? true
+            : false;
         if (offer && has(offer, 'policy.typeId')) {
           this.policyType = get(offer, 'policy.typeId', this.policyType);
         }
@@ -194,7 +200,8 @@ export class OfferViewComponent implements OnInit {
   }
 
   openIAB(url, type) {
-    const options = 'location=no,footer=no,hardwareback=no,hidenavigationbuttons=yes,clearcache=yes,clearsessioncache=yes,toolbar=no';
+    const options =
+      'location=no,footer=no,hardwareback=no,hidenavigationbuttons=yes,clearcache=yes,clearsessioncache=yes,toolbar=no';
     const browser = this.iab.create(url, type, options);
     browser.show();
     // TODO: linter complains, this is to be retested.

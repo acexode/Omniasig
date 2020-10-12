@@ -21,11 +21,16 @@
                 <ion-label class="x-large text-weight-bold alt-font mb-8">
                   {{ offer?.insurancePrice }}
                   {{
-                    offer?.policy?.locuintaData?.valueCurrency
-                      | locuinteField: 'valueCurrency' || '-'
+                    (policyType === 'PAD'
+                      ? 'RON'
+                      : offer?.policy?.locuintaData?.valueCurrency
+                    ) | locuinteField: 'valueCurrency' || '-'
                   }}
                 </ion-label>
-                <ion-label class="text-normal text-weight-medium" *ngIf="leiCurrency">
+                <ion-label
+                  class="text-normal text-weight-medium"
+                  *ngIf="leiCurrency"
+                >
                   20 Euro la cursul de
                   {{ offer?.insurancePrice / 20 | number: '1.4-4' }} lei/Euro
                 </ion-label>
@@ -361,13 +366,16 @@
                   Prețul asigurării:
                 </ion-label>
                 <ion-label class="x-large text-weight-bold alt-font mb-8">
-                  {{ offer?.insurancePrice }} 
+                  {{ offer?.insurancePrice }}
                   {{
                     offer?.policy?.locuintaData?.valueCurrency
                       | locuinteField: 'valueCurrency' || '-'
                   }}
                 </ion-label>
-                <ion-label class="text-normal text-weight-medium" *ngIf="leiCurrency">
+                <ion-label
+                  class="text-normal text-weight-medium"
+                  *ngIf="leiCurrency"
+                >
                   ... Euro la cursul de ... lei/Euro
                 </ion-label>
               </ion-card-content>
@@ -389,7 +397,10 @@
                       | locuinteField: 'valueCurrency' || '-'
                   }}
                 </ion-label>
-                <ion-label class="text-normal text-weight-medium" *ngIf="leiCurrency">
+                <ion-label
+                  class="text-normal text-weight-medium"
+                  *ngIf="leiCurrency"
+                >
                   ... Euro la cursul de ... lei/Euro
                 </ion-label>
               </ion-card-content>
