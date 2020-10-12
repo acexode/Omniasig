@@ -52,9 +52,9 @@ export class DocumentPagePage implements OnInit {
       .then( ( blob ) => {
         let storageLocation;
         if ( this.platform.is('android')){
-          storageLocation = cordova.file.externalDataDirectory;
+          storageLocation = this.file.externalDataDirectory;
         }else if (this.platform.is('ios')){
-          storageLocation = cordova.file.documentsDirectory;
+          storageLocation = this.file.documentsDirectory;
         }
         this.file
           .writeFile(
