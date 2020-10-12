@@ -49,7 +49,7 @@ export class DocumentPagePage implements OnInit {
       method: 'GET',
     } )
       .then( ( res ) => res.blob() )
-      .then( ( blob ) => { 
+      .then( ( blob ) => {
         let storageLocation;
         if ( this.platform.is('android')){
           storageLocation = cordova.file.externalDataDirectory;
