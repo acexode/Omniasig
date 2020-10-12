@@ -49,11 +49,11 @@ export class DocumentPagePage implements OnInit {
       method: 'GET',
     } )
       .then( ( res ) => res.blob() )
-      .then( ( blob ) => {        
-        let storageLocation 
-        if( this.platform.is('android')){
+      .then( ( blob ) => { 
+        let storageLocation;
+        if ( this.platform.is('android')){
           storageLocation = cordova.file.externalDataDirectory;
-        }else if(this.platform.is('ios')){
+        }else if (this.platform.is('ios')){
           storageLocation = cordova.file.documentsDirectory;
         }
         this.file
@@ -67,7 +67,7 @@ export class DocumentPagePage implements OnInit {
           .then( ( res ) => {
             this.presentToast( this.successMsg );
           } )
-          .catch( ( err ) => {  
+          .catch( ( err ) => {
             this.presentToast( this.errorMsg );
           } );
       } )
