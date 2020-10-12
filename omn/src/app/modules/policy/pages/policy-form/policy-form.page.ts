@@ -573,7 +573,7 @@ export class PolicyFormPage implements OnInit, OnDestroy {
     } );
   }
   periodSubmit( startDate ) {
-    console.log("the flow type", this.policyID);
+    console.log("the flow type", this.policyID, startDate);
     this.periodStartData = startDate;
     if ( this.policyID === 'PAD') {
       this.offerData = this.buildOfferDetails();
@@ -727,6 +727,7 @@ export class PolicyFormPage implements OnInit, OnDestroy {
         isGold: this.offerData?.supportData?.plan === 'gold' ? true : false,
         mentiuni: 'self',
         startDate: this.offerData?.policy?.dates?.from,
+        //startDate: "2020-10-10",
         numberOfMonths: '12',
         insurancePrice: 100000,
         numberOfPayments: this.offerData?.payData?.rate,
@@ -749,6 +750,7 @@ export class PolicyFormPage implements OnInit, OnDestroy {
             }
           },
           ( err ) => {
+            console.log("AMPLUS ERROR", err)
             this.processErrorMessage( err.error, 'ofertaResponse' );
           }
         );
