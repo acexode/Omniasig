@@ -12,6 +12,7 @@ import { dateHelperDMY } from 'src/app/core/helpers/date.helper';
 import { subPageHeaderDefault } from 'src/app/shared/data/sub-page-header-default';
 import { subPageHeaderSecondary } from 'src/app/shared/data/sub-page-header-secondary';
 import { PolicyOffer } from 'src/app/shared/models/data/policy-offer';
+import { locuinteFieldsData } from 'src/app/shared/data/locuinte-field-data';
 import { PolicyDataService } from '../../services/policy-data.service';
 import { CalendarEntry } from '../models/calendar-entry';
 import { PaymentStatusComponent } from './../payment-status/payment-status.component';
@@ -24,6 +25,7 @@ import { PaymentStatusComponent } from './../payment-status/payment-status.compo
 export class OfferViewComponent implements OnInit {
   policyType;
   offer: PolicyOffer = null;
+  leiCurrency;
   headerConfig = subPageHeaderSecondary('Oferta de asigurare');
   viewMode: 'V' | 'C' = 'V';
   @HostBinding('class') color = 'ion-color-white-page';
@@ -109,6 +111,13 @@ export class OfferViewComponent implements OnInit {
       .getSingleOfferById(id, this.policyType)
       .subscribe((offer) => {
         this.offer = offer;
+        this.leiCurrency =
+          this.policyType === 'PAD'
+            ? true
+            : locuinteFieldsData.valueCurrency[1].id ===
+              this.offer?.policy?.locuintaData?.valueCurrency
+            ? true
+            : false;
         if (offer && has(offer, 'policy.typeId')) {
           this.policyType = get(offer, 'policy.typeId', this.policyType);
         }
@@ -191,7 +200,8 @@ export class OfferViewComponent implements OnInit {
   }
 
   openIAB(url, type) {
-    const options = 'location=no,footer=no,hardwareback=no,hidenavigationbuttons=yes,clearcache=yes,clearsessioncache=yes,toolbar=no';
+    const options =
+      'location=no,footer=no,hardwareback=no,hidenavigationbuttons=yes,clearcache=yes,clearsessioncache=yes,toolbar=no';
     const browser = this.iab.create(url, type, options);
     browser.show();
     // TODO: linter complains, this is to be retested.
