@@ -82,7 +82,8 @@ export class DatePersonaleValidateEmailComponent implements OnInit, OnDestroy {
       .subscribe((vM) => {
         if (vM) {
           this.displayMode = get(vM, '0', this.defaultDisplayMode);
-          this.email = get(vM, '1.email', this.email);
+          this.email = get(vM, '1.newEmail', this.email);
+          if (!this.email) { this.email = get(vM, '1.email', this.email); }
           this.queryParams = get(vM, '2', null);
         }
         if (!this.init) {

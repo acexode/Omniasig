@@ -107,9 +107,7 @@ export class DatePersonaleFormComponent implements OnInit, OnDestroy {
           .doChangeEmail(this.email.value)
           .pipe(
             finalize(() => {
-              this.authS.refreshProfile();
-          //  TODO: replaced this function cause it overrides the exisiting email...
-              // this.authS.doUpdateAccount({ email: this.email.value });
+              this.authS.doUpdateAccount({ newEmail: this.email.value });
 
               this.navCtrl.navigateForward(
                 this.formMode === this.formModes.EDIT_EMAIL
