@@ -1,93 +1,105 @@
-<app-sub-page-header [config]="headerConfig"> </app-sub-page-header>
-<ion-content>
-  <ion-grid
-    *ngIf="photo.length <= 1"
-    class="ion-no-padding flex flex-1 flex-column w-100 mh-100p"
-  >
-    <ion-row class="ion-justify-content-center mt-28 mx-24">
-      <ion-img
-        src="assets/custom-ion-icons/selfie.svg"
-        alt="verification image"
-      ></ion-img>
-    </ion-row>
-    <ion-row class="ion-justify-content-center mt-30 mx-24">
-      <div class="level s16-h22 ls-01 my-0">2/2</div>
-    </ion-row>
-    <ion-row class="ion-justify-content-center mt-14 mx-24">
-      <div
-        class="border-red alt-font border-bottom-1 color-dark-green s24-h32 ls-02 text-weight-bold my-0 pb-6"
-      >
-        Fă-ți o fotografie!
-      </div>
-    </ion-row>
-    <ion-row class="ion-justify-content-center mt-16 mx-24">
-      <div class="text-block s16-h22 ls-01 ion-text-center">
-        Vom compara această fotografie cu cea din cartea de identitate.
-        Păstrează o postură serioasă și asigură-te că ți se văd ochii.
-      </div>
-    </ion-row>
-    <ion-row
-      class="ion-justify-content-end mt-auto mb-24 mx-24 flex flex-1 mh-100 flex-column ion-align-items-center"
+<app-sub-page-header [config]="headerConfig" *ngIf="!hasVerificationError">
+</app-sub-page-header>
+<ion-content [fullscreen]="hasVerificationError">
+  <ng-container *ngIf="!hasVerificationError">
+    <ion-grid
+      *ngIf="photo.length <= 1"
+      class="ion-no-padding flex flex-1 flex-column w-100 mh-100p"
     >
-      <ion-button
-        class="activate-btn"
-        size="large"
-        color="success"
-        fill="solid"
-        expand="block"
-        class="m-0 w-100 flex mt-auto"
-        (click)="openChoice()"
-      >
-        Continuă
-      </ion-button>
-    </ion-row>
-  </ion-grid>
-
-  <ion-grid
-    *ngIf="photo.length > 1"
-    class="ion-no-padding flex flex-1 flex-column w-100 mh-100 h-100"
-  >
-    <ion-row class="ion-justify-content-center mt-16 mx-40">
-      <ion-img class="doc mt-10" src="{{ photo[0].webviewPath }}"></ion-img>
-    </ion-row>
-    <ion-row
-      class="ion-justify-content-center mt-auto flex flex-1 flex-column ion-justify-content-end mt-40 mx-32 mb-24"
-    >
-      <div class="ion-text-center py-4 w-100" *ngIf="hasErr">
-        <ion-text class="text-small color-red">
-          A fost întâmpinată o problemă!
-        </ion-text>
-      </div>
-      <ion-button
-        class="activate-btn m-0 w-100 flex mt-auto"
-        size="large"
-        color="success"
-        fill="solid"
-        expand="block"
-        [disabled]="saving"
-        (click)="uploadPhoto()"
-      >
-        <ion-spinner
-          name="crescent"
-          *ngIf="saving"
-          class="icon-20"
-        ></ion-spinner>
-        Continuă
-      </ion-button>
-
-      <ion-row class="ion-justify-content-center mt-16 mx-24">
-        <ion-button
-          expand="block"
-          fill="clear"
-          (click)="removePhoto()"
-          [disabled]="saving"
-          class="mh-40"
-          ><span
-            class="button-text s16-h22 ls-01 color-green text-weight-normal"
-            >Fă o fotografie nouă</span
-          ></ion-button
-        >
+      <ion-row class="ion-justify-content-center mt-28 mx-24">
+        <ion-img
+          src="assets/custom-ion-icons/selfie.svg"
+          alt="verification image"
+        ></ion-img>
       </ion-row>
-    </ion-row>
-  </ion-grid>
+      <ion-row class="ion-justify-content-center mt-30 mx-24">
+        <div class="level s16-h22 ls-01 my-0">2/2</div>
+      </ion-row>
+      <ion-row class="ion-justify-content-center mt-14 mx-24">
+        <div
+          class="border-red alt-font border-bottom-1 color-dark-green s24-h32 ls-02 text-weight-bold my-0 pb-6"
+        >
+          Fă-ți o fotografie!
+        </div>
+      </ion-row>
+      <ion-row class="ion-justify-content-center mt-16 mx-24">
+        <div class="text-block s16-h22 ls-01 ion-text-center">
+          Vom compara această fotografie cu cea din cartea de identitate.
+          Păstrează o postură serioasă și asigură-te că ți se văd ochii.
+        </div>
+      </ion-row>
+      <ion-row
+        class="ion-justify-content-end mt-auto mb-24 mx-24 flex flex-1 mh-100 flex-column ion-align-items-center"
+      >
+        <ion-button
+          class="activate-btn"
+          size="large"
+          color="success"
+          fill="solid"
+          expand="block"
+          class="m-0 w-100 flex mt-auto"
+          (click)="openChoice()"
+        >
+          Continuă
+        </ion-button>
+      </ion-row>
+    </ion-grid>
+
+    <ion-grid
+      *ngIf="photo.length > 1"
+      class="ion-no-padding flex flex-1 flex-column w-100 mh-100 h-100"
+    >
+      <ion-row class="ion-justify-content-center mt-16 mx-40">
+        <ion-img class="doc mt-10" src="{{ photo[0].webviewPath }}"></ion-img>
+      </ion-row>
+      <ion-row
+        class="ion-justify-content-center mt-auto flex flex-1 flex-column ion-justify-content-end mt-40 mx-32 mb-24"
+      >
+        <div class="ion-text-center py-4 w-100" *ngIf="hasErr">
+          <ion-text class="text-small color-red">
+            A fost întâmpinată o problemă!
+          </ion-text>
+        </div>
+        <ion-button
+          class="activate-btn m-0 w-100 flex mt-auto"
+          size="large"
+          color="success"
+          fill="solid"
+          expand="block"
+          [disabled]="saving"
+          (click)="uploadPhoto()"
+        >
+          <ion-spinner
+            name="crescent"
+            *ngIf="saving"
+            class="icon-20"
+          ></ion-spinner>
+          Continuă
+        </ion-button>
+
+        <ion-row class="ion-justify-content-center mt-16 mx-24">
+          <ion-button
+            expand="block"
+            fill="clear"
+            (click)="removePhoto()"
+            [disabled]="saving"
+            class="mh-40"
+            ><span
+              class="button-text s16-h22 ls-01 color-green text-weight-normal"
+              >Fă o fotografie nouă</span
+            ></ion-button
+          >
+        </ion-row>
+      </ion-row>
+    </ion-grid>
+  </ng-container>
+  <ng-container *ngIf="hasVerificationError">
+    <app-general-error
+      (goBack)="backError()"
+      [doNavigate]="false"
+      [title]="errTitle"
+      [texts]="errMsg"
+      buttonText="Reincearca"
+    ></app-general-error>
+  </ng-container>
 </ion-content>
