@@ -18,6 +18,8 @@
       formControlName="text"
       [disabled]="config?.disabled || formGroup?.disabled"
       class="flex"
+      [template]="template"
+      [selectionTemplate]="selectionTemplate"
       #autoField
     ></ion-auto-complete>
     <ion-icon
