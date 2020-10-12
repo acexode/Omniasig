@@ -29,4 +29,5 @@ export interface PolicyItem {
   locationValue?: any;
   /*expiry*/
   expiry?: Date | string;
+  noOfPayments?: number;
 }

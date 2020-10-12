@@ -10,16 +10,16 @@ import { PolicyItem } from 'src/app/shared/models/data/policy-item';
 import { PolicyOffer } from 'src/app/shared/models/data/policy-offer';
 import { policyTypes } from 'src/app/shared/models/data/policy-types';
 
-@Injectable({
+@Injectable( {
   providedIn: 'root',
-})
+} )
 export class PolicyDataService {
   endpoints = policyEndpoints;
-  policyStore$: BehaviorSubject<Array<PolicyItem>> = new BehaviorSubject([]);
+  policyStore$: BehaviorSubject<Array<PolicyItem>> = new BehaviorSubject( [] );
   policyArchiveStore$: BehaviorSubject<Array<PolicyItem>> = new BehaviorSubject(
     []
   );
-  offerStore$: BehaviorSubject<Array<PolicyOffer>> = new BehaviorSubject(null);
+  offerStore$: BehaviorSubject<Array<PolicyOffer>> = new BehaviorSubject( null );
 
   constructor(
     private reqS: RequestService,
@@ -30,40 +30,40 @@ export class PolicyDataService {
   }
 
   initData() {
-    this.authS.getAccountData().subscribe((account) => {
-      if (this.authS.accountActivated(account)) {
-        this.getUserPolicies(account.userId).subscribe((vv) => {
-          this.policyStore$.next(vv ? vv : []);
-        });
+    this.authS.getAccountData().subscribe( ( account ) => {
+      if ( this.authS.accountActivated( account ) ) {
+        this.getUserPolicies( account.userId ).subscribe( ( vv ) => {
+          this.policyStore$.next( vv ? vv : [] );
+        } );
         // this.getUserPoliciesArchive(account.userId).subscribe((vv) => {
         //   this.policyArchiveStore$.next(vv ? vv : []);
         // });
-        this.getUserOffers().subscribe((v) =>
-          this.offerStore$.next(v ? v : [])
+        this.getUserOffers().subscribe( ( v ) =>
+          this.offerStore$.next( v ? v : [] )
         );
       }
-    });
+    } );
   }
 
   // get user policy offer
-  getUserPolicies(id: number | string) {
+  getUserPolicies( id: number | string ) {
     const emptyV: Array<PolicyItem> = [];
     return this.reqS
-      .get<Array<PolicyItem>>(this.endpoints.GetActivePADPolicies)
+      .get<Array<PolicyItem>>( this.endpoints.GetActivePADPolicies )
       .pipe(
-        catchError((e) => {
-          return of(emptyV);
-        }),
-        map((pv) =>
+        catchError( ( e ) => {
+          return of( emptyV );
+        } ),
+        map( ( pv ) =>
           pv
-            ? pv.map((pvi) => this.mapPolicyType(this.createPolicyObj(pvi)))
+            ? pv.map( ( pvi ) => this.mapPolicyType( this.createPolicyObj( pvi ) ) )
             : []
         )
       );
   }
 
   // create policy object to suit display data
-  createPolicyObj(policy: any) {
+  createPolicyObj( policy: any ) {
     return {
       id: policy.id,
       typeId: 'PAD',
@@ -76,14 +76,14 @@ export class PolicyDataService {
       userId: null,
       locuintaId: null,
       userData: {
-        fullName: `${policy.userName} ${policy.userSurname}`,
+        fullName: `${ policy.userName } ${ policy.userSurname }`,
         cnp: policy.userCnp,
       },
       dates: {
         from: policy.offerDate,
         to: policy.expirationDate,
       },
-      listingSubtitle: `${policy.addressStreet}, ${policy.addressStreetNumber} ${policy.addressCity}`,
+      listingSubtitle: `${ policy.addressStreet }, ${ policy.addressStreetNumber } ${ policy.addressCity }`,
       locuintaData: {
         id: policy.locuintaId,
         type: policy.locationType,
@@ -116,61 +116,60 @@ export class PolicyDataService {
     const emptyV: Array<PolicyOffer> = [];
 
     return this.reqS
-      .get<Array<PolicyOffer>>(this.endpoints.GetActivePADOffers)
+      .get<Array<PolicyOffer>>( this.endpoints.GetActivePADOffers )
       .pipe(
-        catchError((e) => {
-          return of(emptyV);
+        catchError( ( e ) => {
+          return of( emptyV );
         } ),
-        tap(d => console.log(d)),
-        map((ov) => {
+        map( ( ov ) => {
           return ov
-            ? ov.map((ovi) =>
-                this.mapOfferPolicyType(this.createOffersObj(ovi, 'PAD'))
-              )
+            ? ov.map( ( ovi ) =>
+              this.mapOfferPolicyType( this.createOffersObj( ovi, 'PAD' ) )
+            )
             : [];
-        }),
-        switchMap((padOffers) =>
+        } ),
+        switchMap( ( padOffers ) =>
           this.reqS
-            .get<Array<PolicyOffer>>(this.endpoints.GetActiveAmplusOffers)
+            .get<Array<PolicyOffer>>( this.endpoints.GetActiveAmplusOffers )
             .pipe(
-              catchError((e) => {
-                return of(emptyV);
-              }),
-              map((ov) => {
+              catchError( ( e ) => {
+                return of( emptyV );
+              } ),
+              map( ( ov ) => {
                 return ov
-                  ? ov.map((ovi) =>
-                      this.mapOfferPolicyType(
-                        this.createOffersObj(ovi, 'AMPLUS')
-                      )
+                  ? ov.map( ( ovi ) =>
+                    this.mapOfferPolicyType(
+                      this.createOffersObj( ovi, 'AMPLUS' )
                     )
+                  )
                   : [];
-              }),
-              map((amplusOffers) => {
-                return [...amplusOffers, ...padOffers];
-              })
+              } ),
+              map( ( amplusOffers ) => {
+                return [ ...amplusOffers, ...padOffers ];
+              } )
             )
         )
       );
   }
 
-  getUserPoliciesArchive(id: number | string) {
+  getUserPoliciesArchive( id: number | string ) {
     const emptyV: Array<PolicyItem> = [];
     return this.reqS
-      .get<Array<PolicyItem>>(this.endpoints.userPoliciesArchive + '/' + id)
+      .get<Array<PolicyItem>>( this.endpoints.userPoliciesArchive + '/' + id )
       .pipe(
-        catchError((e) => {
-          return of(emptyV);
-        }),
-        map((pv) => (pv ? pv.map((pvi) => this.mapPolicyType(pvi)) : []))
+        catchError( ( e ) => {
+          return of( emptyV );
+        } ),
+        map( ( pv ) => ( pv ? pv.map( ( pvi ) => this.mapPolicyType( pvi ) ) : [] ) )
       );
   }
 
-  mapOfferPolicyType(o: PolicyOffer) {
-    o.policy = this.mapPolicyType(o.policy);
+  mapOfferPolicyType( o: PolicyOffer ) {
+    o.policy = this.mapPolicyType( o.policy );
     return o;
   }
   // ceate offer obj
-  createOffersObj(offer: any, typeId: string) {
+  createOffersObj( offer: any, typeId: string ) {
     const offerObj = {
       id: offer.id,
       offerCode: offer.offerCode,
@@ -183,7 +182,7 @@ export class PolicyDataService {
         name: offer.offerCode,
         typeId,
         state: 1,
-        listingSubtitle: `${offer.addressStreet}, ${offer.addressStreetNumber} ${offer.addressCity}`,
+        listingSubtitle: `${ offer.addressStreet }, ${ offer.addressStreetNumber } ${ offer.addressCity }`,
         dates: {
           from: offer.offerDate,
           to: offer.expirationDate,
@@ -214,74 +213,75 @@ export class PolicyDataService {
         userId: null,
         locuintaId: null,
       },
-      nume: `${offer.userName} ${offer.userSurname}`,
+      nume: `${ offer.userName } ${ offer.userSurname }`,
       cnp: offer.userCnp,
       expiry: offer.expirationDate,
-      emisionDate: offer.offerDate ? new Date(offer.offerDate) : '',
+      emisionDate: offer.offerDate ? new Date( offer.offerDate ) : '',
       insurancePrice: offer.offerPrima || 0,
+      noOfPayments: offer.noOfPayments || -1,
     };
-    if (typeId === 'AMPLUS') {
-      offerObj.expiry = get(offer, 'offerExpireDate', '');
-      const isGold = get(offer, 'isGold', false);
-      const isVip = get(offer, 'isVip', false);
-      set(offerObj, 'supportData', isGold ? 'GOLD' : isVip ? 'VIP' : '-');
-      set(offerObj, 'ratePlanList', get(offer, 'ratePlanList', []));
+    if ( typeId === 'AMPLUS' ) {
+      offerObj.expiry = get( offer, 'offerExpireDate', '' );
+      const isGold = get( offer, 'isGold', false );
+      const isVip = get( offer, 'isVip', false );
+      set( offerObj, 'supportData', isGold ? 'GOLD' : isVip ? 'VIP' : '-' );
+      set( offerObj, 'ratePlanList', get( offer, 'ratePlanList', [] ) );
     }
     return offerObj;
   }
 
-  getSingleOfferById(id: number | string, type = 'PAD') {
+  getSingleOfferById( id: number | string, type = 'PAD' ) {
     return this.offerStore$.pipe(
-      filter((v) => v !== null),
-      switchMap((vals) => {
-        if (vals instanceof Array) {
+      filter( ( v ) => v !== null ),
+      switchMap( ( vals ) => {
+        if ( vals instanceof Array ) {
           const existing = vals.find(
-            (v) =>
+            ( v ) =>
               v.id.toString() === id.toString() &&
-              get(v, 'policy.typeId', 'PAD') === type
+              get( v, 'policy.typeId', 'PAD' ) === type
           );
-          if (existing) {
-            return of(existing);
+          if ( existing ) {
+            return of( existing );
           } else {
-            return of(null);
+            return of( null );
           }
         } else {
-          return of(null);
+          return of( null );
         }
-      })
+      } )
     );
   }
 
-  mapPolicyType(p: PolicyItem) {
-    const typeV = policyTypes[p.typeId] ? policyTypes[p.typeId] : null;
-    if (typeV) {
+  mapPolicyType( p: PolicyItem ) {
+    const typeV = policyTypes[ p.typeId ] ? policyTypes[ p.typeId ] : null;
+    if ( typeV ) {
       p.type = { ...typeV };
     }
     return p;
   }
 
-  getSinglePolicyById(id) {
+  getSinglePolicyById( id ) {
     return this.policyStore$.pipe(
-      switchMap((vals) => {
-        if (vals instanceof Array) {
-          const existing = vals.find((v) => v.id.toString() === id.toString());
-          if (existing) {
-            return of(existing);
+      switchMap( ( vals ) => {
+        if ( vals instanceof Array ) {
+          const existing = vals.find( ( v ) => v.id.toString() === id.toString() );
+          if ( existing ) {
+            return of( existing );
           } else {
-            return this.getSinglePolicy(id);
+            return this.getSinglePolicy( id );
           }
         } else {
-          return this.getSinglePolicy(id);
+          return this.getSinglePolicy( id );
         }
-      })
+      } )
     );
   }
 
-  private getSinglePolicy(id): Observable<PolicyItem> {
-    return this.reqS.get<PolicyItem>(this.endpoints.base + '/' + id).pipe(
-      catchError((e) => {
-        return of(null);
-      })
+  private getSinglePolicy( id ): Observable<PolicyItem> {
+    return this.reqS.get<PolicyItem>( this.endpoints.base + '/' + id ).pipe(
+      catchError( ( e ) => {
+        return of( null );
+      } )
     );
   }
 
@@ -292,42 +292,42 @@ export class PolicyDataService {
   ): Observable<PolicyOffer> {
     const { iban, codOferta, moneda, prima, eroare, mesaj } =
       policyType === 'PAD'
-        ? this.processPadOffer(offerResponse)
-        : this.processAmplusOffer(offerResponse);
+        ? this.processPadOffer( offerResponse )
+        : this.processAmplusOffer( offerResponse );
 
-    if (eroare) {
-      return throwError(mesaj);
+    if ( eroare ) {
+      return throwError( mesaj );
     }
     return this.getUserOffers().pipe(
-      switchMap((offers) => {
-        this.offerStore$.next(offers ? offers : []);
-        return of(offers);
-      }),
-      map((vals) => {
-        if (vals instanceof Array && codOferta && moneda && prima && !eroare) {
-          const existing = vals.find((vvv) => {
+      switchMap( ( offers ) => {
+        this.offerStore$.next( offers ? offers : [] );
+        return of( offers );
+      } ),
+      map( ( vals ) => {
+        if ( vals instanceof Array && codOferta && moneda && prima && !eroare ) {
+          const existing = vals.find( ( vvv ) => {
             // not all offers has an offercode -- add check to avoid throwing error
-            if (vvv.offerCode) {
+            if ( vvv.offerCode ) {
               return vvv.offerCode.toString() === codOferta.toString();
             }
-          });
-          if (existing) {
+          } );
+          if ( existing ) {
             // TODO: map more data in here.
-            set(existing, 'iban', iban);
-            set(existing, 'prima', prima);
-            set(existing, 'currency', moneda);
+            set( existing, 'iban', iban );
+            set( existing, 'prima', prima );
+            set( existing, 'currency', moneda );
           }
           return existing;
         } else {
           return null;
         }
-      }),
-      catchError((err) => of(null))
+      } ),
+      catchError( ( err ) => of( null ) )
     );
   }
 
-  processPadOffer(offerResponse) {
-    const iban = get(offerResponse, 'iban', null);
+  processPadOffer( offerResponse ) {
+    const iban = get( offerResponse, 'iban', null );
     const codOferta = get(
       offerResponse,
       'response.emitereOfertaResponse1.codOferta',
@@ -357,31 +357,31 @@ export class PolicyDataService {
     return { iban, codOferta, moneda, prima, eroare, mesaj };
   }
 
-  processAmplusOffer(offerResponse) {
-    const iban = get(offerResponse, 'iban', null);
+  processAmplusOffer( offerResponse ) {
+    const iban = get( offerResponse, 'iban', null );
     const codOferta = get(
       offerResponse,
       'response.ofertaResponse.codOferta',
       null
     );
-    const moneda = get(offerResponse, 'response.ofertaResponse.moneda', null);
-    const prima = get(offerResponse, 'response.ofertaResponse.prima', null);
-    const eroare = get(offerResponse, 'response.ofertaResponse.eroare', true);
-    const mesaj = get(offerResponse, 'response.ofertaResponse.mesaj', '');
+    const moneda = get( offerResponse, 'response.ofertaResponse.moneda', null );
+    const prima = get( offerResponse, 'response.ofertaResponse.prima', null );
+    const eroare = get( offerResponse, 'response.ofertaResponse.eroare', true );
+    const mesaj = get( offerResponse, 'response.ofertaResponse.mesaj', '' );
 
     return { iban, codOferta, moneda, prima, eroare, mesaj };
   }
 
   /* for Notification */
-  getEightDayBeforeExpiryDate(date: string) {
-    const expiryDate = new Date(date);
+  getEightDayBeforeExpiryDate( date: string ) {
+    const expiryDate = new Date( date );
     const eightDaysFromExpiryDate = new Date(
       expiryDate.getTime() - 8 * 24 * 60 * 60 * 1000
     );
     return eightDaysFromExpiryDate;
   }
 
-  addExpiryCalendarEntry(calEntry) {
+  addExpiryCalendarEntry( calEntry ) {
     this.calendar
       .createEventInteractivelyWithOptions(
         calEntry.title,
@@ -392,42 +392,42 @@ export class PolicyDataService {
         calEntry.options
       )
       .then(
-        (msg) => {},
-        (err) => {}
+        ( msg ) => { },
+        ( err ) => { }
       );
   }
 
-  makePayment(data) {
-    return this.reqS.post<any>(this.endpoints.initiatePayment, data);
+  makePayment( data ) {
+    return this.reqS.post<any>( this.endpoints.initiatePayment, data );
   }
 
-  confirmPayment(token, policyType: string = null) {
+  confirmPayment( token, policyType: string = null ) {
     return this.reqS
-      .get<any>(`${this.endpoints.confirmPayment}?urlHash=${token}`)
+      .get<any>( `${ this.endpoints.confirmPayment }?urlHash=${ token }` )
       .pipe(
-        map((res) => {
-          if (policyType === 'PAD') {
+        map( ( res ) => {
+          if ( policyType === 'PAD' ) {
             const dataRes = get(
               res,
               'padPolitaResponse.emiterePolitaResponse1',
               null
             );
-            if (dataRes) {
-              if (get(dataRes, 'eroare', false)) {
-                throw new Error(get(dataRes, 'mesaj', 'Eroare validare plata'));
+            if ( dataRes ) {
+              if ( get( dataRes, 'eroare', false ) ) {
+                throw new Error( get( dataRes, 'mesaj', 'Eroare validare plata' ) );
               }
             }
           }
-          if (policyType === 'AMPLUS') {
-            const dataRes = get(res, 'amplusPolitaResponse.politaOut', null);
-            if (dataRes) {
-              if (get(dataRes, 'eroare', false)) {
-                throw new Error(get(dataRes, 'mesaj', 'Eroare validare plata'));
+          if ( policyType === 'AMPLUS' ) {
+            const dataRes = get( res, 'amplusPolitaResponse.politaOut', null );
+            if ( dataRes ) {
+              if ( get( dataRes, 'eroare', false ) ) {
+                throw new Error( get( dataRes, 'mesaj', 'Eroare validare plata' ) );
               }
             }
           }
           return res;
-        })
+        } )
       );
   }
 }

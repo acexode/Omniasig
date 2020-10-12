@@ -28,7 +28,6 @@ export const offerHomeItemHelper = ( offer: PolicyOffer ) => {
     },
   };
   if ( offer ) {
-    console.log( offer );
     baseItem.id = offer.id;
     baseItem.routerLink = '/policy/offer/' + offer.id;
     baseItem.queryParams = { policyType: offer.policy.typeId };
@@ -44,11 +43,19 @@ export const offerHomeItemHelper = ( offer: PolicyOffer ) => {
       : '';
     baseItem.textContent.footer.text = offer.supportData && offer.offerPrice
       ? offer.supportData === 'GOLD'
-        ? 'Plan: GOLD ● plata integrală ● ' + replaceHelper( offer.offerPrice, '.', ',' ) + ' lei/an'
+        ? 'Plan: GOLD ● ' + plataOption( offer.noOfPayments ) + ' ● ' + replaceHelper( offer.offerPrice, '.', ',' ) + ' lei/an'
         : offer.supportData === 'VIP'
-          ? 'Plan: VIP ● plata în două rate ● ' + replaceHelper( offer.offerPrice, '.', ',' ) + ' lei/an'
+          ? 'Plan: VIP ● ' + plataOption( offer.noOfPayments ) + ' ● ' + replaceHelper( offer.offerPrice, '.', ',' ) + ' lei/an'
           : ''
       : '';
   }
   return baseItem;
+};
+
+const plataOption = ( noOfPayments: number ) => {
+  return noOfPayments !== 0
+    ? noOfPayments === 0 ? 'plata integrală'
+      : 'plata în ' + noOfPayments + ' rate' // plata în două rate
+    :
+    '';
 };
