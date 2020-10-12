@@ -65,19 +65,7 @@
       ></ion-col>
     </ion-row>
 
-    <ion-row
-      class="ion-no-padding archive mr-n32"
-      *ngIf="policyArchive$ | async as aItems"
-      ><ion-col
-        class="ion-no-padding pb-16"
-        *ngIf="accountActivated && aItems?.length"
-      >
-        <app-policy-archive-list
-          [items]="aItems"
-          [title]="titles?.archiveList"
-        ></app-policy-archive-list>
-      </ion-col>
-    </ion-row>
+  
 
     <ion-row
       class="ion-no-padding flex w-100 flex-1 pb-16"
