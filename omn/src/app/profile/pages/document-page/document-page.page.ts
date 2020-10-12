@@ -6,6 +6,7 @@ import { DocumenteService } from '../documente/services/documente.service';
 import { ActivatedRoute } from '@angular/router';
 import { File } from '@ionic-native/file/ngx';
 import { ToastController } from '@ionic/angular';
+import { Platform } from '@ionic/angular';
 @Component( {
   selector: 'app-document-page',
   templateUrl: './document-page.page.html',
@@ -22,7 +23,8 @@ export class DocumentPagePage implements OnInit {
     private docService: DocumenteService,
     private route: ActivatedRoute,
     private file: File,
-    public toastController: ToastController
+    public toastController: ToastController,
+    private platform: Platform
   ) { }
 
   ngOnInit() {
@@ -47,11 +49,17 @@ export class DocumentPagePage implements OnInit {
       method: 'GET',
     } )
       .then( ( res ) => res.blob() )
-      .then( ( blob ) => {
+      .then( ( blob ) => {        
+        let storageLocation 
+        if( this.platform.is('android')){
+          storageLocation = cordova.file.externalDataDirectory;
+        }else if(this.platform.is('ios')){
+          storageLocation = cordova.file.documentsDirectory;
+        }        
         this.file
           .writeFile(
             // this.file.externalApplicationStorageDirectory,
-            this.file.externalDataDirectory,
+            storageLocation + "/Download",
             name + '.pdf',
             blob,
             { replace: true }
@@ -60,6 +68,7 @@ export class DocumentPagePage implements OnInit {
             this.presentToast( this.successMsg );
           } )
           .catch( ( err ) => {
+            console.log(err)
             this.presentToast( this.errorMsg );
           } );
       } )
