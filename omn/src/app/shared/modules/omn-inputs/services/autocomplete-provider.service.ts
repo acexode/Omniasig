@@ -7,6 +7,7 @@ import { Observable, of, BehaviorSubject } from 'rxjs';
 export class AutocompleteProviderService implements AutoCompleteService {
   constructor() {}
   labelAttribute;
+  detailAttribute;
   formValueAttribute?: any;
   currentData: any[] = [];
   dataServiceSource = new BehaviorSubject([]);
@@ -23,6 +24,7 @@ export class AutocompleteProviderService implements AutoCompleteService {
 
   updateConfig(conf: {
     labelAttribute: string;
+    detailAttribute: string;
     formValueAttribute?: any;
     currentData?: any[];
     dataServiceCb?: (filter: any) => Observable<Array<any>>;
@@ -30,6 +32,9 @@ export class AutocompleteProviderService implements AutoCompleteService {
   }) {
     if (has(conf, 'labelAttribute')) {
       this.labelAttribute = conf.labelAttribute;
+    }
+    if (has(conf, 'detailAttribute')) {
+      this.detailAttribute = conf.detailAttribute;
     }
     if (has(conf, 'formValueAttribute')) {
       this.formValueAttribute = conf.formValueAttribute;

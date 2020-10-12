@@ -1,3 +1,4 @@
+import { has } from 'lodash';
 import { NavController } from '@ionic/angular';
 import { Component, OnInit } from '@angular/core';
 import { subPageHeaderPrimary } from 'src/app/shared/data/sub-page-header-primary';
@@ -26,7 +27,7 @@ export class DocumentPagePage implements OnInit {
 
   ngOnInit() {
     this.route.params.subscribe( ( params ) => {
-      if ( params.hasOwnProperties( 'id' ) ) {
+      if ( has(params, 'id') ) {
         this.docService.GetDocumentById( params.id ).subscribe( ( e ) => {
           this.doc = e;
         } );

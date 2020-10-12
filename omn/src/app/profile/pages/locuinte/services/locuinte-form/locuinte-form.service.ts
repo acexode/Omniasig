@@ -1,7 +1,7 @@
 import { take } from 'rxjs/internal/operators/take';
 import { Injectable } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
-import { forOwn, get, set } from 'lodash';
+import { AbstractControl, FormBuilder, Validators } from '@angular/forms';
+import { forOwn, get, set, has } from 'lodash';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { LocuinteService } from 'src/app/profile/pages/locuinte/services/locuinte/locuinte.service';
@@ -19,6 +19,7 @@ import { LocuinteFormType } from 'src/app/shared/models/modes/locuinte-form-mode
 })
 export class LocuinteFormService {
   streets$ = this.locuinteS.streetStore$;
+  tipStreets$ = this.locuinteS.tipStreetStore$;
   constructor(private fb: FormBuilder, protected locuinteS: LocuinteService) {}
 
   buildLocuinteSubform(model: Locuinte, policyType?: string) {
@@ -50,30 +51,30 @@ export class LocuinteFormService {
         get(model, 'valueCurrency', ''),
         Validators.required
       ),
-      value: this.fb.control( get( model, 'value', 0 ), [
+      value: this.fb.control(get(model, 'value', 0), [
         Validators.required,
-        Validators.min( 21000 ),
-        Validators.max( 200000 )
-      ] ),
+        Validators.min(21000),
+        Validators.max(200000),
+      ]),
       typeUse: this.fb.control(
         get(model, 'typeUse', null),
         Validators.required
       ),
-      area: this.fb.control( Number( get( model, 'area', 0 ) ), [
+      area: this.fb.control(Number(get(model, 'area', 0)), [
         Validators.required,
-        Validators.min( 10 ),
-        Validators.max( 600 )
-      ] ),
-      floors: this.fb.control( Number( get( model, 'floors', 1 ) ), [
+        Validators.min(10),
+        Validators.max(600),
+      ]),
+      floors: this.fb.control(Number(get(model, 'floors', 1)), [
         Validators.required,
-        Validators.min( 1 ),
-        Validators.max( 20 ),
-      ] ),
-      rooms: this.fb.control( Number( get( model, 'rooms', 1 ) ), [
+        Validators.min(1),
+        Validators.max(20),
+      ]),
+      rooms: this.fb.control(Number(get(model, 'rooms', 1)), [
         Validators.required,
-        Validators.min( 1 ),
-        Validators.max( 20 ),
-      ] ),
+        Validators.min(1),
+        Validators.max(20),
+      ]),
       hasAlarmSystem: this.fb.control(
         get(model, 'hasAlarmSystem', false),
         Validators.required
@@ -105,10 +106,9 @@ export class LocuinteFormService {
         get(model, 'addressCity', ''),
         Validators.required
       ),
-      addressStreet: this.fb.control(
-        get(model, 'addressStreet', ''),
-        Validators.required
-      ),
+      addressStreet: this.fb.control('', Validators.required),
+      addressStreetType: this.fb.control(get(model, 'addressStreetType', '')),
+      addressName: this.fb.control(get(model, 'addressName', '')),
       addressStreetNumber: this.fb.control(
         get(model, 'addressStreetNumber', '') !== 0
           ? get(model, 'addressStreetNumber', '')
@@ -132,6 +132,7 @@ export class LocuinteFormService {
       // Additional - add validator after build
       name: this.fb.control(get(model, 'name', '')),
     });
+
     if (disabled) {
       group.disable();
     }
@@ -162,6 +163,19 @@ export class LocuinteFormService {
             dataServiceSource: this.streets$,
             idKey: 'name',
             labelKey: 'name',
+            detailAttribute: 'streetType',
+          }),
+          addressStreetType: selectConfigHelper({
+            label: 'Tip strada',
+            disabled: isDisabled,
+            idKey: 'name',
+            labelKey: 'name',
+          }),
+          addressName: inputConfigHelper({
+            label: 'Nume strada',
+            type: 'text',
+            placeholder: 'Completează',
+            disabled: isDisabled,
           }),
           addressStreetNumber: inputConfigHelper({
             label: 'Număr',
@@ -314,8 +328,9 @@ export class LocuinteFormService {
             this.updateCity(cityField, fieldData).subscribe((v) =>
               observer.next(true)
             );
+          } else {
+            observer.next(true);
           }
-          observer.next(true);
         });
       }).pipe(take(1));
     } else {
@@ -345,7 +360,36 @@ export class LocuinteFormService {
       }
     });
     set(dataModel, 'addressStreetType', get(f, 'streetType', 'Strada'));
+    set(dataModel, 'addressName', get(f, 'shortName', ''));
     set(dataModel, 'addressStreetCode', get(f, 'id', null));
+  }
+
+  setInitialStreetValue(
+    addressModel,
+    streetField: AbstractControl,
+    streetNameField: AbstractControl,
+    fieldsData
+  ) {
+    const vvv = fieldsData.addressStreet ? fieldsData.addressStreet : [];
+    const name = get(addressModel, 'addressStreet', '');
+    const code = get(addressModel, 'addressStreetCode', null);
+    const f = vvv.find((v) => {
+      try {
+        const vName = v.name.toString();
+        const sName = v.shortName.toString();
+        const vId = v.id.toString();
+        return vName === name || vId === code;
+      } catch (err) {
+        return false;
+      }
+    });
+    if (f && streetField) {
+      streetField.patchValue(get(f, 'name', null));
+      streetField.updateValueAndValidity();
+    } else if (streetNameField) {
+      streetNameField.patchValue(name);
+      streetNameField.updateValueAndValidity();
+    }
   }
 
   handlePostalCode(id, fieldsData, addressPostalCode, cityValue = null) {
@@ -384,6 +428,39 @@ export class LocuinteFormService {
       postCode = null;
     }
     addressPostalCode.patchValue(postCode);
+  }
+
+  resetStreetFieldValues(
+    streetField: AbstractControl,
+    streetNameField: AbstractControl,
+    streetTypeField: AbstractControl,
+    singleField = true,
+    reset = false
+  ) {
+    if (streetField) {
+      if (singleField) {
+        streetField.setValidators([Validators.required]);
+      } else {
+        streetField.clearValidators();
+      }
+      if (reset) {
+        streetField.patchValue('');
+      }
+      streetField.updateValueAndValidity();
+    }
+    [streetNameField, streetTypeField].forEach((f: AbstractControl) => {
+      if (f) {
+        if (singleField) {
+          f.clearValidators();
+        } else {
+          f.setValidators([Validators.required]);
+        }
+        if (reset) {
+          f.patchValue('');
+        }
+        f.updateValueAndValidity();
+      }
+    });
   }
 
   updateCounty(field, fieldsData, dataModel = {}) {
@@ -460,6 +537,8 @@ export class LocuinteFormService {
           if (keywords) {
             return data.filter((dV) => {
               const name = get(dV, 'name', '').toLowerCase();
+              const streetType = get(dV, 'streetType', '').toLowerCase();
+              const sName = get(dV, 'shortName', '').toLowerCase();
               let id = get(dV, 'id', '');
               try {
                 id = id.toString().toLowerCase();
@@ -468,7 +547,9 @@ export class LocuinteFormService {
               }
               return (
                 name.includes(keywords.toLowerCase()) ||
-                id.includes(keywords.toLowerCase())
+                id.includes(keywords.toLowerCase()) ||
+                streetType.includes(keywords.toLowerCase()) ||
+                sName.includes(keywords.toLowerCase())
               );
             });
           } else {
@@ -481,7 +562,11 @@ export class LocuinteFormService {
     }
   }
 
-  processFormModel(formGroupValue, existingModel?: Locuinte): Locuinte {
+  processFormModel(
+    formGroupValue,
+    existingModel?: Locuinte | any,
+    separateInputs = false
+  ): Locuinte {
     const newModel: Locuinte = existingModel
       ? existingModel.hasOwnProperty('response')
         ? { ...get(existingModel, 'response', {}) }
@@ -505,7 +590,6 @@ export class LocuinteFormService {
         case 'addressStreetNumber':
         case 'addressScara':
         case 'addressPostalCode':
-        case 'addressStreetType':
           set(newModel, key, val);
           break;
         case 'yearConstruction':
@@ -528,17 +612,26 @@ export class LocuinteFormService {
         case 'type':
           set(newModel, key, val);
           break;
-
         case 'addressStreetType':
-        case 'addressCountyCode':
         case 'addressStreetCode':
+        case 'addressName':
+          if (separateInputs) {
+            set(newModel, key, val);
+          }
+          break;
+        case 'addressCountyCode':
         case 'addressCityCode':
-        // Ignore.
+          // Ignore.
+          break;
+
         default:
           set(newModel, key, val);
           break;
       }
     });
+    if (has(newModel, 'addressName')) {
+      newModel.addressStreet = newModel.addressName;
+    }
     return newModel;
   }
 }

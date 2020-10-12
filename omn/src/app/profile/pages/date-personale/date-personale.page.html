@@ -25,7 +25,7 @@
           </ion-label>
           <ion-button
             mode="ios"
-            *ngIf="!accountActivated"
+            *ngIf="!accountData.isBiometricValid"
             size="small"
             shape="round"
             class="active ion-align-self-end"
