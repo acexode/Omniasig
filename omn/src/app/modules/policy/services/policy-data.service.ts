@@ -35,9 +35,9 @@ export class PolicyDataService {
         this.getUserPolicies(account.userId).subscribe((vv) => {
           this.policyStore$.next(vv ? vv : []);
         });
-        this.getUserPoliciesArchive(account.userId).subscribe((vv) => {
-          this.policyArchiveStore$.next(vv ? vv : []);
-        });
+        // this.getUserPoliciesArchive(account.userId).subscribe((vv) => {
+        //   this.policyArchiveStore$.next(vv ? vv : []);
+        // });
         this.getUserOffers().subscribe((v) =>
           this.offerStore$.next(v ? v : [])
         );
