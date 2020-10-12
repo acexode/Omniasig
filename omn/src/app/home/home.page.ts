@@ -190,12 +190,17 @@ export class HomePage implements OnInit {
         this.displayWhatNeedsToBeValidated( this.account );
 
         this.accountActivated = this.authS.accountActivated( account );
+        console.log( this.accountActivated );
         if ( this.accountActivated ) {
-          this.policyS.policyStore$.subscribe( ( v ) =>
-            this.policies$.next( this.mapPolicies( v ) )
+          this.policyS.policyStore$.subscribe( ( v ) => {
+            console.log( v );
+            this.policies$.next( this.mapPolicies( v ) );
+          }
           );
-          this.policyS.offerStore$.subscribe( ( v ) =>
-            this.offers$.next( this.mapOffers( v ) )
+          this.policyS.offerStore$.subscribe( ( v ) => {
+            console.log( v );
+            this.offers$.next( this.mapOffers( v ) );
+          }
           );
         }
       }
