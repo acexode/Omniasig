@@ -19,9 +19,13 @@
                   Prețul poliței*
                 </ion-label>
                 <ion-label class="x-large text-weight-bold alt-font mb-8">
-                  {{ offer?.insurancePrice }} lei
+                  {{ offer?.insurancePrice }}
+                  {{
+                    offer?.policy?.locuintaData?.valueCurrency
+                      | locuinteField: 'valueCurrency' || '-'
+                  }}
                 </ion-label>
-                <ion-label class="text-normal text-weight-medium">
+                <ion-label class="text-normal text-weight-medium" *ngIf="currency">
                   20 Euro la cursul de
                   {{ offer?.insurancePrice / 20 | number: '1.4-4' }} lei/Euro
                 </ion-label>
@@ -357,9 +361,13 @@
                   Prețul asigurării:
                 </ion-label>
                 <ion-label class="x-large text-weight-bold alt-font mb-8">
-                  {{ offer?.insurancePrice }} lei
+                  {{ offer?.insurancePrice }} 
+                  {{
+                    offer?.policy?.locuintaData?.valueCurrency
+                      | locuinteField: 'valueCurrency' || '-'
+                  }}
                 </ion-label>
-                <ion-label class="text-normal text-weight-medium">
+                <ion-label class="text-normal text-weight-medium" *ngIf="currency">
                   ... Euro la cursul de ... lei/Euro
                 </ion-label>
               </ion-card-content>
@@ -375,9 +383,13 @@
                   Valoarea primei rate:
                 </ion-label>
                 <ion-label class="x-large text-weight-bold alt-font mb-8">
-                  {{ offer?.firstPaymentValue }} lei
+                  {{ offer?.firstPaymentValue }}
+                  {{
+                    offer?.policy?.locuintaData?.valueCurrency
+                      | locuinteField: 'valueCurrency' || '-'
+                  }}
                 </ion-label>
-                <ion-label class="text-normal text-weight-medium">
+                <ion-label class="text-normal text-weight-medium" *ngIf="currency">
                   ... Euro la cursul de ... lei/Euro
                 </ion-label>
               </ion-card-content>
@@ -665,7 +677,7 @@
                   {{
                     offer?.policy?.locuintaData?.value > 0
                       ? offer?.policy?.locuintaData?.value / 10
-                      : (0 | number: '0-0')
+                      : (0 | number: '1.0-0')
                   }}
                   {{
                     offer?.policy?.locuintaData?.valueCurrency

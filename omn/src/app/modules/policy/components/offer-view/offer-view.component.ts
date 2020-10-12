@@ -12,6 +12,7 @@ import { dateHelperDMY } from 'src/app/core/helpers/date.helper';
 import { subPageHeaderDefault } from 'src/app/shared/data/sub-page-header-default';
 import { subPageHeaderSecondary } from 'src/app/shared/data/sub-page-header-secondary';
 import { PolicyOffer } from 'src/app/shared/models/data/policy-offer';
+import { locuinteFieldsData } from 'src/app/shared/data/locuinte-field-data';
 import { PolicyDataService } from '../../services/policy-data.service';
 import { CalendarEntry } from '../models/calendar-entry';
 import { PaymentStatusComponent } from './../payment-status/payment-status.component';
@@ -24,6 +25,7 @@ import { PaymentStatusComponent } from './../payment-status/payment-status.compo
 export class OfferViewComponent implements OnInit {
   policyType;
   offer: PolicyOffer = null;
+  currency;
   headerConfig = subPageHeaderSecondary('Oferta de asigurare');
   viewMode: 'V' | 'C' = 'V';
   @HostBinding('class') color = 'ion-color-white-page';
@@ -102,6 +104,7 @@ export class OfferViewComponent implements OnInit {
       this.policyType = this.route.snapshot.queryParamMap.get('policyType');
       this.getPolicyById(params.id);
     });
+  
   }
 
   getPolicyById(id) {
@@ -109,6 +112,7 @@ export class OfferViewComponent implements OnInit {
       .getSingleOfferById(id, this.policyType)
       .subscribe((offer) => {
         this.offer = offer;
+        this.currency = (locuinteFieldsData.valueCurrency[1].id === this.offer?.policy?.locuintaData?.valueCurrency) ? true : false;
         if (offer && has(offer, 'policy.typeId')) {
           this.policyType = get(offer, 'policy.typeId', this.policyType);
         }
