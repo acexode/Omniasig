@@ -1,11 +1,11 @@
 import { Component, OnInit, HostBinding, Input } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 
-@Component({
+@Component( {
   selector: 'app-price-modal',
   templateUrl: './price-modal.component.html',
-  styleUrls: ['./price-modal.component.scss'],
-})
+  styleUrls: [ './price-modal.component.scss' ],
+} )
 export class PriceModalComponent implements OnInit {
   // @HostBinding('class') color = 'ion-color-white-page';
   item: any;
@@ -15,9 +15,9 @@ export class PriceModalComponent implements OnInit {
   @Input() variant: string;
   @Input() currency: string;
 
-  constructor(public modalCtrl: ModalController) {}
+  constructor( public modalCtrl: ModalController ) { }
 
-  ngOnInit() { console.log( this.variant ); }
+  ngOnInit() { }
 
   dismissModal() {
     this.modalCtrl.dismiss();
