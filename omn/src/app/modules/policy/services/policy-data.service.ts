@@ -218,7 +218,6 @@ export class PolicyDataService {
       expiry: offer.expirationDate,
       emisionDate: offer.offerDate ? new Date( offer.offerDate ) : '',
       insurancePrice: offer.offerPrima || 0,
-      noOfPayments: offer.noOfPayments || -1,
     };
     if ( typeId === 'AMPLUS' ) {
       offerObj.expiry = get( offer, 'offerExpireDate', '' );
@@ -226,6 +225,7 @@ export class PolicyDataService {
       const isVip = get( offer, 'isVip', false );
       set( offerObj, 'supportData', isGold ? 'GOLD' : isVip ? 'VIP' : '-' );
       set( offerObj, 'ratePlanList', get( offer, 'ratePlanList', [] ) );
+      set( offerObj, 'noOfPayments', get( offer, 'noOfPayments', -1 ) ); // -1 means no payment
     }
     return offerObj;
   }

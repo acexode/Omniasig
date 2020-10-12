@@ -28,6 +28,7 @@ export const offerHomeItemHelper = ( offer: PolicyOffer ) => {
     },
   };
   if ( offer ) {
+    console.log( 'offer: ', offer );
     baseItem.id = offer.id;
     baseItem.routerLink = '/policy/offer/' + offer.id;
     baseItem.queryParams = { policyType: offer.policy.typeId };
@@ -41,16 +42,17 @@ export const offerHomeItemHelper = ( offer: PolicyOffer ) => {
         ? 'Expiră la: ' + dateHelperDMY( offer.expiry )
         : ''
       : '';
-    baseItem.textContent.footer.text = offer.supportData && offer.offerPrice
+    baseItem.textContent.footer.text = offer.policy.typeId === 'AMPLUS' && offer.supportData && offer.offerPrice
       ? offer.supportData === 'GOLD'
         ? 'Plan: GOLD ● ' + plataOption( offer.noOfPayments, offer.offerPrice )
         : offer.supportData === 'VIP'
           ? 'Plan: VIP ● ' + plataOption( offer.noOfPayments, offer.offerPrice )
           : ''
-      : '';
+      : plataOption( offer.noOfPayments, offer.offerPrice ) + 'lei/an';
   }
   return baseItem;
 };
+
 
 const plataOption = ( noOfPayments: number, offerPrice: any ) => {
   return noOfPayments !== 0
