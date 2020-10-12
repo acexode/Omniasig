@@ -97,7 +97,7 @@ export class ProfilPage implements OnInit {
       ],
       id: 'msg',
       itemClass: 'mh-104 shadow-page-item',
-      isButton: true,
+      isButton: false,
       isDisabled: this.disableMesaje,
     },
   ];

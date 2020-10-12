@@ -30,6 +30,7 @@ export class GeneralErrorComponent implements OnInit, OnChanges {
         'Ceva nu a funcționat corect. Vei fi redirecționat spre pagina de pornire.',
     },
   ];
+  @Input() buttonText = 'Înapoi';
   @Input() routeRedirect = '/home';
   @Input() doNavigate = true;
   @Output() goBack: EventEmitter<any> = new EventEmitter();

@@ -1,6 +1,6 @@
 {
   "name": "omniasig",
-  "version": "0.0.8",
+  "version": "0.1.0",
   "author": "Omniasig",
   "homepage": "https://www.omniasig.ro/",
   "scripts": {
@@ -72,6 +72,7 @@
     "@types/jasminewd2": "~2.0.3",
     "@types/node": "^12.11.1",
     "codelyzer": "^5.1.2",
+    "cordova-android": "^9.0.0",
     "cordova-ios": "^6.1.1",
     "cordova-plugin-device": "2.0.2",
     "cordova-plugin-ionic-keyboard": "^2.0.5",
@@ -105,10 +106,7 @@
         "ANDROID_PATH_PREFIX": "/api/UserProfile/ConfirmEmailForRegisterUserProfile",
         "DEEPLINK_2_SCHEME": "https",
         "DEEPLINK_2_HOST": "omn-core-dev.azure.softescu.com",
-        "ANDROID_4_PATH_PREFIX": "/api/UserProfile/ConfirmationNewEmailChange",
-        "ANDROID_3_PATH_PREFIX": "/",
-        "DEEPLINK_3_SCHEME": " ",
-        "DEEPLINK_3_HOST": " "
+        "ANDROID_2_PATH_PREFIX": "/api/UserProfile/ConfirmationNewEmailChange"
       },
       "cordova-plugin-calendar": {},
       "cordova-plugin-app-launcher": {},

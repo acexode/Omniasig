@@ -18,6 +18,8 @@ export interface PolicyOffer {
   offerPrice?: number;
   firstPaymentValue?: number;
   insurancePrice?: any;
+  /* noOfPayments: AMPLUS */
+  noOfPayments?: number;
 }
 
 export interface RatePlan {

@@ -47,6 +47,7 @@ export class PhotoService {
   public removePhoto() {
     this.photos.shift();
   }
+
   uploadImage(blobData, isSelfie) {
     const formData = new FormData();
     const timeStamp = Math.round(new Date().getTime() / 1000);
@@ -57,6 +58,7 @@ export class PhotoService {
       formData
     );
   }
+
   processPicture() {
     return this.reqS.get(this.endpoints.processPicture);
   }

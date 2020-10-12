@@ -73,11 +73,11 @@ export class PolicyComponent implements OnInit, OnDestroy {
               })
             );
             // TODO: Proper list
-            this.subsList.push(
-              this.policyS.policyStore$.subscribe((v) =>
-                this.policyArchive$.next(this.mapPoliciesArchive(v))
-              )
-            );
+            // this.subsList.push(
+            //   this.policyS.policyStore$.subscribe((v) =>
+            //     this.policyArchive$.next(this.mapPoliciesArchive(v))
+            //   )
+            // );
             this.subsList.push(
               this.policyS.offerStore$.subscribe((v) =>
                 this.offers$.next(this.mapOffers(v, account))
