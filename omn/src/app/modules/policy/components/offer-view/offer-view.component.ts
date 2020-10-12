@@ -25,7 +25,7 @@ import { PaymentStatusComponent } from './../payment-status/payment-status.compo
 export class OfferViewComponent implements OnInit {
   policyType;
   offer: PolicyOffer = null;
-  currency;
+  leiCurrency;
   headerConfig = subPageHeaderSecondary('Oferta de asigurare');
   viewMode: 'V' | 'C' = 'V';
   @HostBinding('class') color = 'ion-color-white-page';
@@ -112,7 +112,7 @@ export class OfferViewComponent implements OnInit {
       .getSingleOfferById(id, this.policyType)
       .subscribe((offer) => {
         this.offer = offer;
-        this.currency = (locuinteFieldsData.valueCurrency[1].id === this.offer?.policy?.locuintaData?.valueCurrency) ? true : false;
+        this.leiCurrency = (locuinteFieldsData.valueCurrency[1].id === this.offer?.policy?.locuintaData?.valueCurrency) ? true : false;
         if (offer && has(offer, 'policy.typeId')) {
           this.policyType = get(offer, 'policy.typeId', this.policyType);
         }

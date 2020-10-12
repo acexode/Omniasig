@@ -25,7 +25,7 @@
                       | locuinteField: 'valueCurrency' || '-'
                   }}
                 </ion-label>
-                <ion-label class="text-normal text-weight-medium" *ngIf="currency">
+                <ion-label class="text-normal text-weight-medium" *ngIf="leiCurrency">
                   20 Euro la cursul de
                   {{ offer?.insurancePrice / 20 | number: '1.4-4' }} lei/Euro
                 </ion-label>
@@ -367,7 +367,7 @@
                       | locuinteField: 'valueCurrency' || '-'
                   }}
                 </ion-label>
-                <ion-label class="text-normal text-weight-medium" *ngIf="currency">
+                <ion-label class="text-normal text-weight-medium" *ngIf="leiCurrency">
                   ... Euro la cursul de ... lei/Euro
                 </ion-label>
               </ion-card-content>
@@ -389,7 +389,7 @@
                       | locuinteField: 'valueCurrency' || '-'
                   }}
                 </ion-label>
-                <ion-label class="text-normal text-weight-medium" *ngIf="currency">
+                <ion-label class="text-normal text-weight-medium" *ngIf="leiCurrency">
                   ... Euro la cursul de ... lei/Euro
                 </ion-label>
               </ion-card-content>
