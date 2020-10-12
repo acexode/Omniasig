@@ -17,18 +17,18 @@ import { PolicyDataService } from '../../services/policy-data.service';
 import { CalendarEntry } from '../models/calendar-entry';
 import { PaymentStatusComponent } from './../payment-status/payment-status.component';
 
-@Component({
+@Component( {
   selector: 'app-offer-view',
   templateUrl: './offer-view.component.html',
-  styleUrls: ['./offer-view.component.scss'],
-})
+  styleUrls: [ './offer-view.component.scss' ],
+} )
 export class OfferViewComponent implements OnInit {
   policyType;
   offer: PolicyOffer = null;
   leiCurrency;
   headerConfig = subPageHeaderSecondary('Oferta de asigurare');
   viewMode: 'V' | 'C' = 'V';
-  @HostBinding('class') color = 'ion-color-white-page';
+  @HostBinding( 'class' ) color = 'ion-color-white-page';
 
   risksCovered = [
     'incendiu, trăsnet, explozie, căderi de corpuri aeriene',
@@ -97,19 +97,19 @@ export class OfferViewComponent implements OnInit {
     private navCtrl: NavController,
     public modalController: ModalController,
     private iab: InAppBrowser
-  ) {}
+  ) { }
 
   ngOnInit(): void {
-    this.route.params.pipe(take(1)).subscribe((params: any) => {
-      this.policyType = this.route.snapshot.queryParamMap.get('policyType');
-      this.getPolicyById(params.id);
-    });
+    this.route.params.pipe( take( 1 ) ).subscribe( ( params: any ) => {
+      this.policyType = this.route.snapshot.queryParamMap.get( 'policyType' );
+      this.getPolicyById( params.id );
+    } );
   }
 
-  getPolicyById(id) {
+  getPolicyById( id ) {
     this.policyDataService
-      .getSingleOfferById(id, this.policyType)
-      .subscribe((offer) => {
+      .getSingleOfferById( id, this.policyType )
+      .subscribe( ( offer ) => {
         this.offer = offer;
         this.leiCurrency =
           this.policyType === 'PAD'
@@ -121,49 +121,49 @@ export class OfferViewComponent implements OnInit {
         if (offer && has(offer, 'policy.typeId')) {
           this.policyType = get(offer, 'policy.typeId', this.policyType);
         }
-        this.setCalEntry(this.offer);
-      });
+        this.setCalEntry( this.offer );
+      } );
   }
 
   closeOffer() {
-    this.navCtrl.navigateRoot('/policy');
+    this.navCtrl.navigateRoot( '/policy' );
   }
 
   backToOffer() {
     this.viewMode = 'V';
-    this.headerConfig = subPageHeaderSecondary('Oferta de asigurare');
+    this.headerConfig = subPageHeaderSecondary( 'Oferta de asigurare' );
   }
 
   gotoConditions() {
     this.viewMode = 'C';
-    this.headerConfig = subPageHeaderDefault('Condiţii de asigurare');
+    this.headerConfig = subPageHeaderDefault( 'Condiţii de asigurare' );
     this.headerConfig.leadingIcon.routerLink = false;
   }
 
-  setCalEntry(offer: PolicyOffer) {
-    const date = get(offer, 'expiry', null);
+  setCalEntry( offer: PolicyOffer ) {
+    const date = get( offer, 'expiry', null );
     let processedDate;
     try {
-      processedDate = Date.parse(date);
+      processedDate = Date.parse( date );
       this.calEntry = {
-        title: 'Expirare oferta ' + get(offer, 'policy.name', ''),
+        title: 'Expirare oferta ' + get( offer, 'policy.name', '' ),
         location: 'Romania',
         notes:
-          'Oferta ' + offer.id + ' expira la ' + dateHelperDMY(processedDate),
+          'Oferta ' + offer.id + ' expira la ' + dateHelperDMY( processedDate ),
         startDate: this.policyDataService.getEightDayBeforeExpiryDate(
           processedDate
         ),
-        endDate: new Date(processedDate),
+        endDate: new Date( processedDate ),
         options: {
           firstReminderMinutes: 15,
           calendarName: 'offer',
         },
       };
-    } catch (e) {}
+    } catch ( e ) { }
   }
 
   addCalendarEntry() {
-    this.policyDataService.addExpiryCalendarEntry(this.calEntry);
+    this.policyDataService.addExpiryCalendarEntry( this.calEntry );
   }
 
   pay() {
@@ -184,16 +184,16 @@ export class OfferViewComponent implements OnInit {
       policyCode: this.offer.offerCode,
       isMobilePayment: true,
     };
-    this.sub = this.policyDataService.makePayment(data).subscribe(
-      (dataV) => {
-        if (isPlatform('ios')) {
-          this.openIAB(dataV.url, '_blank');
+    this.sub = this.policyDataService.makePayment( data ).subscribe(
+      ( dataV ) => {
+        if ( isPlatform( 'ios' ) ) {
+          this.openIAB( dataV.url, '_blank' );
         } else {
-          this.openIAB(dataV.url, '_blank');
+          this.openIAB( dataV.url, '_blank' );
         }
         this.busy = false;
       },
-      (err) => (this.busy = false)
+      ( err ) => ( this.busy = false )
     );
 
     return;
@@ -205,47 +205,47 @@ export class OfferViewComponent implements OnInit {
     const browser = this.iab.create(url, type, options);
     browser.show();
     // TODO: linter complains, this is to be retested.
-    if (browser) {
-      this.sub = browser.on('loadstart').subscribe((e) => {
-        browser.insertCSS({ code: '.header__cancel{ display: none;}' });
-        if (e && e.url.includes('tok')) {
-          this.confirmToken(e.url, browser);
+    if ( browser ) {
+      this.sub = browser.on( 'loadstart' ).subscribe( ( e ) => {
+        browser.insertCSS( { code: '.header__cancel{ display: none;}' } );
+        if ( e && e.url.includes( 'tok' ) ) {
+          this.confirmToken( e.url, browser );
         }
-      });
-      this.sub = browser.on('loadstop').subscribe((e) => {
-        browser.insertCSS({ code: '.header__cancel{ display: none;}' });
-      });
-      this.sub = browser.on('loaderror').subscribe((e) => {
+      } );
+      this.sub = browser.on( 'loadstop' ).subscribe( ( e ) => {
+        browser.insertCSS( { code: '.header__cancel{ display: none;}' } );
+      } );
+      this.sub = browser.on( 'loaderror' ).subscribe( ( e ) => {
         browser.close();
-      });
+      } );
       browser
-        .on('exit')
-        .pipe(first())
-        .subscribe((e) => {
+        .on( 'exit' )
+        .pipe( first() )
+        .subscribe( ( e ) => {
           this.sub.unsubscribe();
-        });
+        } );
     }
   }
 
-  confirmToken(urlPath, browser: InAppBrowserObject) {
-    const url = new URL(urlPath).search;
-    const urlParams = new URLSearchParams(url);
-    const token = urlParams.get('tok');
-    this.policyDataService.confirmPayment(token, this.policyType).subscribe(
-      (data) => {
+  confirmToken( urlPath, browser: InAppBrowserObject ) {
+    const url = new URL( urlPath ).search;
+    const urlParams = new URLSearchParams( url );
+    const token = urlParams.get( 'tok' );
+    this.policyDataService.confirmPayment( token, this.policyType ).subscribe(
+      ( data ) => {
         browser.close();
         if (
-          (this.policyType === 'PAD' && get(data, 'padPolitaResponse', null)) ||
-          (this.policyType === 'AMPLUS' &&
-            get(data, 'amplusPolitaResponse', null))
+          ( this.policyType === 'PAD' && get( data, 'padPolitaResponse', null ) ) ||
+          ( this.policyType === 'AMPLUS' &&
+            get( data, 'amplusPolitaResponse', null ) )
         ) {
-          this.presentModal('success');
+          this.presentModal( 'success' );
           this.policyDataService.initData();
         } else {
-          this.presentModal('failed', 'Plata a esuat!');
+          this.presentModal( 'failed', 'Plata a esuat!' );
         }
       },
-      (err) => {
+      ( err ) => {
         browser.close();
         this.presentModal(
           'failed',
@@ -259,14 +259,14 @@ export class OfferViewComponent implements OnInit {
     paymentStatus: 'failed' | 'success',
     failureReason?: string
   ) {
-    const modal = await this.modalController.create({
+    const modal = await this.modalController.create( {
       component: PaymentStatusComponent,
       cssClass: 'my-custom-class',
       componentProps: {
         paymentStatus,
         failureReason,
       },
-    });
+    } );
     return await modal.present();
   }
 }
