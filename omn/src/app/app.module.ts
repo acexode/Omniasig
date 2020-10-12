@@ -4,6 +4,8 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouteReuseStrategy } from '@angular/router';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
+import { FileTransfer, FileTransferObject } from "@ionic-native/file-transfer";
+import { File} from "@ionic-native/file";
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 import {
   IonicModule,
@@ -22,6 +24,7 @@ import { SharedModule } from './shared/shared.module';
   entryComponents: [],
   imports: [
     BrowserModule,
+    FileTransferObject,
     IonicModule.forRoot({
       mode: 'md',
       rippleEffect: false,
@@ -39,6 +42,7 @@ import { SharedModule } from './shared/shared.module';
     SplashScreen,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     Deeplinks,
+    FileTransferObject
   ],
   bootstrap: [AppComponent],
 })

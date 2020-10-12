@@ -33,6 +33,7 @@ export const baseEndpoints = {
   pad: serverBaseUrl + '/PADInsurance',
   amplus: serverBaseUrl + '/AmplusInsurance',
   paidExtS: serverBaseUrl + '/PAIDExternalService',
+  downloadDocs: serverBaseUrl + '/Documents', 
 };
 
 export const policyEndpoints = {
@@ -49,6 +50,10 @@ export const policyEndpoints = {
   GetActiveAmplusOffers:
     serverBaseUrl + '/AmplusInsurance/GetActiveAmplusOffers',
 };
+
+export const documentEndpoint = {
+  getDocument: baseEndpoints.downloadDocs + '/GetDocumentById',
+}
 
 export const locuinteEndpoints = {
   base: serverBaseUrl + '/locuinte',

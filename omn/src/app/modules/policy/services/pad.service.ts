@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { padEndpoints } from '../../../core/configs/endpoints';
+import { padEndpoints, documentEndpoint } from '../../../core/configs/endpoints';
 import { RequestService } from '../../../core/services/request/request.service';
 
 @Injectable( {
@@ -29,5 +29,17 @@ export class PadService {
     return this.reqS.get<any>(
       `${ padEndpoints.CreatePADInsurancePolicy }?padOfferId=${ padOfferId }`
     );
+  }
+
+  getPadOfferDocument(padOfferDocumentId: number){
+    return this.reqS.get<any>(
+      `${ documentEndpoint.getDocument }?documentId=${ padOfferDocumentId }`
+    )
+  }
+
+  getPadPolicyDocument(padPolicyDocumentId: number){
+    return this.reqS.get<any>(
+      `${ documentEndpoint.getDocument }?documentId=${ padPolicyDocumentId }`
+    )
   }
 }

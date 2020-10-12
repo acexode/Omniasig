@@ -5,6 +5,8 @@ import {
   InAppBrowserObject,
 } from '@ionic-native/in-app-browser/ngx';
 import { isPlatform, ModalController, NavController } from '@ionic/angular';
+import { FileTransfer, FileUploadOptions, FileTransferObject } from '@ionic-native/file-transfer/ngx';
+import { File } from '@ionic-native/file';
 import { get, has } from 'lodash';
 import { Subscription } from 'rxjs';
 import { first, take } from 'rxjs/operators';
@@ -13,6 +15,8 @@ import { subPageHeaderDefault } from 'src/app/shared/data/sub-page-header-defaul
 import { subPageHeaderSecondary } from 'src/app/shared/data/sub-page-header-secondary';
 import { PolicyOffer } from 'src/app/shared/models/data/policy-offer';
 import { PolicyDataService } from '../../services/policy-data.service';
+import { AmplusService } from '../../services/amplus.service';
+import { PadService } from '../../services/pad.service';
 import { CalendarEntry } from '../models/calendar-entry';
 import { PaymentStatusComponent } from './../payment-status/payment-status.component';
 
@@ -89,13 +93,24 @@ export class OfferViewComponent implements OnInit {
   calEntry: CalendarEntry;
   busy = false;
   sub: Subscription;
+  fileTransfer: FileTransferObject;
+  // transfer;
+  // file;
   constructor(
     private route: ActivatedRoute,
     private policyDataService: PolicyDataService,
     private navCtrl: NavController,
     public modalController: ModalController,
-    private iab: InAppBrowser
-  ) {}
+    private iab: InAppBrowser,
+    private amplusService: AmplusService,
+    private padService: PadService,
+    //private transfer: FileTransfer, 
+    private file: File,
+  ) {
+    //fileTransfer: FileTransferObject = this.transfer.;
+    this.fileTransfer = FileTransfer.create();
+
+  }
 
   ngOnInit(): void {
     this.route.params.pipe(take(1)).subscribe((params: any) => {
@@ -258,5 +273,60 @@ export class OfferViewComponent implements OnInit {
       },
     });
     return await modal.present();
+  }
+
+  downloadAmplusOffer(){
+    const id = parseInt(this.offer.id);
+    console.log("amplus id", id);
+    this.amplusService
+      .getAmplusOfferDocument(id)
+      .subscribe((offerDocument) => {
+        console.log(offerDocument);
+        if (offerDocument) {
+          //
+        }else{
+          console.log("NO SHOW")
+        }
+      });
+  }
+
+  downloadPadOffer(){
+    const id = parseInt(this.offer.id);
+    let url = `Documents/GetDocumentById?documentId=${this.offer.id}`;
+    console.log("pad id", id);
+    this.download(url);
+    // this.padService
+    //   .getPadOfferDocument(id)
+    //   .subscribe((offerDocument) => {
+    //     console.log(offerDocument);
+    //     if (offerDocument) {
+          
+    //     }
+    //   });
+  }
+
+  
+
+// this.transfer.
+
+// // Download a file:
+// this.transfer.download(..).then(..).catch(..);
+
+// // Abort active transfer:
+// fileTransfer.abort();
+
+  download(url) {
+    this.fileTransfer.download(url, this.file.lastModified + 'file.pdf').then((entry) => {
+      console.log('download complete: ' + entry.toURL());
+    }, (error) => {
+      // handle error
+      console.log('download failed: ' + error);
+    });
+
+    // this.transfer.download(url, this.file.lastModified + 'file.pdf', (entry) => {
+    //   console.log('download complete: ' + entry.toURL())},  (error) => {
+    //     // handle error
+    //     console.log('download failed: ' + error);
+    //   })
   }
 }

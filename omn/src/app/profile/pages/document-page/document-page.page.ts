@@ -41,30 +41,30 @@ export class DocumentPagePage implements OnInit {
     } );
     toast.present();
   }
-  downloadFile( file, name ) {
-    this.presentToast( this.downloading );
-    fetch( 'data:application/pdf;base64,' + file, {
-      method: 'GET',
-    } )
-      .then( ( res ) => res.blob() )
-      .then( ( blob ) => {
-        this.file
-          .writeFile(
-            // this.file.externalApplicationStorageDirectory,
-            this.file.externalDataDirectory,
-            name + '.pdf',
-            blob,
-            { replace: true }
-          )
-          .then( ( res ) => {
-            this.presentToast( this.successMsg );
-          } )
-          .catch( ( err ) => {
-            this.presentToast( this.errorMsg );
-          } );
-      } )
-      .catch( ( err ) => { } );
-  }
+  // downloadFile( file, name ) {
+  //   this.presentToast( this.downloading );
+  //   fetch( 'data:application/pdf;base64,' + file, {
+  //     method: 'GET',
+  //   } )
+  //     .then( ( res ) => res.blob() )
+  //     .then( ( blob ) => {
+  //       this.file
+  //         .writeFile(
+  //           // this.file.externalApplicationStorageDirectory,
+  //           this.file.externalDataDirectory,
+  //           name + '.pdf',
+  //           blob,
+  //           { replace: true }
+  //         )
+  //         .then( ( res ) => {
+  //           this.presentToast( this.successMsg );
+  //         } )
+  //         .catch( ( err ) => {
+  //           this.presentToast( this.errorMsg );
+  //         } );
+  //     } )
+  //     .catch( ( err ) => { } );
+  // }
   mainPage() {
     this.navCtrl.navigateBack( [ '/profil', 'documente' ] );
   }
