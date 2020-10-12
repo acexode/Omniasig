@@ -28,7 +28,6 @@ export const offerHomeItemHelper = ( offer: PolicyOffer ) => {
     },
   };
   if ( offer ) {
-    console.log( 'offer: ', offer );
     baseItem.id = offer.id;
     baseItem.routerLink = '/policy/offer/' + offer.id;
     baseItem.queryParams = { policyType: offer.policy.typeId };
