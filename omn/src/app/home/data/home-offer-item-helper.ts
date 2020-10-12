@@ -34,9 +34,6 @@ export const offerHomeItemHelper = ( offer: PolicyOffer ) => {
     if ( offer.policy && offer.policy.type ) {
       const t = offer.policy.type;
       baseItem.textContent.head.text = t.name ? t.name : '';
-      /* baseItem.textContent.body.text = t.shortDescription
-        ? t.shortDescription
-        : ''; */
       baseItem.textContent.body.text = 'Oferta ' + offer?.offerCode;
     }
     baseItem.textContent.footer.additionalText = offer.expiry
