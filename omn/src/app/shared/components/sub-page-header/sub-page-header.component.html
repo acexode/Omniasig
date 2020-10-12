@@ -20,8 +20,9 @@
         [color]="config?.leadingIcon?.color"
         [ngClass]="config?.leadingIcon?.classes"
       ></ion-icon>
+       <div *ngIf="!config?.leadingIcon" class="p-16"></div>
     </ion-buttons>
-    <div *ngIf="!config?.leadingIcon" class="p-16"></div>
+   
     <ion-title
       *ngIf="config?.title"
       class="header-title alt-font px-8"
