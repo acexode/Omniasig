@@ -104,7 +104,6 @@ export class OfferViewComponent implements OnInit {
       this.policyType = this.route.snapshot.queryParamMap.get('policyType');
       this.getPolicyById(params.id);
     });
-  
   }
 
   getPolicyById(id) {
