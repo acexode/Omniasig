@@ -3,26 +3,31 @@
     <ion-col class="ion-no-padding flex flex-1 flex-column">
         <ion-row class="ion-no-padding flex flex-1 ion-justify-content-center ion-align-items-center">
             <ion-row class="radius-50-perc bg-ultra-light-green p-16">
-                <ion-icon *ngIf="paymentStatus == 'failed'" name="sm-warning" class="d-flex icon-60 color-red bg-white radius-50-perc shadow-3"></ion-icon>
+                <ion-icon *ngIf="paymentStatus == 'failed'" name="sm-warning"
+                    class="d-flex icon-60 color-red bg-white radius-50-perc shadow-3"></ion-icon>
                 <ion-icon *ngIf="paymentStatus == 'success'" class="d-flex check-icon-lg" name="lg-check-il"></ion-icon>
             </ion-row>
         </ion-row>
-        <ion-row class="flex ion-no-padding ion-align-items-center ion-justify-content-center flex-0 pb-16">
+        <ion-row class="flex flex-column ion-no-padding ion-align-items-center ion-justify-content-center flex-0 pb-16">
             <!-- if failed -->
-            <ion-label *ngIf="paymentStatus == 'failed'" class="alt-font color-red h2 text-center text-weight-bold border-bottom-1 border-red pb-8">
+            <ion-label *ngIf="paymentStatus == 'failed'"
+                class="w-100 alt-font color-red h2 text-center ion-text-center text-weight-bold border-bottom-1 border-red pb-8">
                 Plata nu a putut fi efectuată
             </ion-label>
 
             <!-- if successful -->
-            <ion-label *ngIf="paymentStatus == 'success'" class="alt-font color-dark-green h2 text-center text-weight-bold border-bottom-1 border-red pb-8">
+            <ion-label *ngIf="paymentStatus == 'success'"
+                class="w-100 alt-font color-dark-green h2 text-center ion-text-center text-weight-bold border-bottom-1 border-red pb-8">
                 Plata a fost facută cu succes!
             </ion-label>
         </ion-row>
-        <ion-row class="ion-no-padding py-16 flex-1 flex-column ion-align-items-center w-100">
-            <ion-label *ngIf="failureReason" class="s16-h22 text-center"> {{failureReason}} </ion-label>
+        <ion-row class="ion-no-padding py-16 flex flex-1 flex-column ion-align-items-center w-100">
+            <ion-label *ngIf="failureReason" class="s16-h22 text-center ion-text-center w-100 text-color"> {{failureReason}} </ion-label>
         </ion-row>
-        <ion-row class="mt-auto">
-            <ion-button (click)="goHome()" class="flat w-100 no-shadow color-white ion-color-success text-weight-medium m-0" size="large" shape="round" mode="md">
+        <ion-row class="mt-auto flex flex-column w-100">
+            <ion-button (click)="goHome()"
+                class="flat w-100 no-shadow color-white ion-color-success text-weight-medium m-0" size="large"
+                shape="round" mode="md">
                 Acasă
             </ion-button>
         </ion-row>
