@@ -1,15 +1,7 @@
 import { biometricsEndpoints } from './../../core/configs/endpoints';
 import { Injectable } from '@angular/core';
-import {
-  Plugins,
-  CameraResultType,
-  Capacitor,
-  FilesystemDirectory,
-  CameraPhoto,
-  CameraSource,
-} from '@capacitor/core';
+import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
 import { RequestService } from 'src/app/core/services/request/request.service';
-const { Camera, Filesystem, Storage } = Plugins;
 
 @Injectable({
   providedIn: 'root',
@@ -17,21 +9,31 @@ const { Camera, Filesystem, Storage } = Plugins;
 export class PhotoService {
   public photos: Photo[] = [];
   endpoints = biometricsEndpoints;
-  constructor(private reqS: RequestService) {}
 
-  public async addNewToGallery() {
+  options: CameraOptions = {
+    quality: 100,
+    destinationType: this.camera.DestinationType.DATA_URL,
+    encodingType: this.camera.EncodingType.JPEG,
+    mediaType: this.camera.MediaType.PICTURE,
+    sourceType: this.camera.PictureSourceType.CAMERA,
+  };
+  constructor(private reqS: RequestService, private camera: Camera) {}
+
+  public async addNewToGallery(newF = false) {
+    const nOptions = {
+      ...this.options,
+      ...{
+        sourceType: newF
+          ? this.camera.PictureSourceType.CAMERA
+          : this.camera.PictureSourceType.PHOTOLIBRARY,
+      },
+    };
     // Take a photo
     try {
-      const capturedPhoto = await Camera.getPhoto({
-        resultType: CameraResultType.Uri,
-        source: CameraSource.Camera,
-        quality: 100,
-      });
-
-      // add the newly captured photo to our array
+      const capturedPhoto = await this.camera.getPicture(nOptions);
       this.photos.unshift({
         filepath: '',
-        webviewPath: capturedPhoto.webPath,
+        webviewPath: 'data:image/jpeg;base64,' + capturedPhoto,
       });
 
       return true;
@@ -50,9 +52,12 @@ export class PhotoService {
     const timeStamp = Math.round(new Date().getTime() / 1000);
     formData.append('imageFile', blobData, `file-${timeStamp}.jpg`);
     formData.append('type', blobData.type);
-    return this.reqS.post(this.endpoints.uploadPicture + '?isSelfie=' + isSelfie, formData);
+    return this.reqS.post(
+      this.endpoints.uploadPicture + '?isSelfie=' + isSelfie,
+      formData
+    );
   }
-  processPicture(){
+  processPicture() {
     return this.reqS.get(this.endpoints.processPicture);
   }
 }

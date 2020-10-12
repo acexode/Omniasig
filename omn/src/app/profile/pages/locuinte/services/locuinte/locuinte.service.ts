@@ -1,3 +1,4 @@
+import { locuinteFieldsData } from 'src/app/shared/data/locuinte-field-data';
 import { Injectable } from '@angular/core';
 import { get } from 'lodash';
 import { BehaviorSubject, Observable, of } from 'rxjs';
@@ -15,6 +16,7 @@ export class LocuinteService {
   multipleLoading: BehaviorSubject<boolean> = new BehaviorSubject(false);
   locuinteStore$: BehaviorSubject<Array<Locuinte>> = new BehaviorSubject(null);
   streetStore$: BehaviorSubject<Array<any>> = new BehaviorSubject([]);
+  tipStreetStore$: BehaviorSubject<Array<any>> = new BehaviorSubject([]);
   countyStore$: BehaviorSubject<Array<any>> = new BehaviorSubject(null);
   cityStore$: BehaviorSubject<Array<any>> = new BehaviorSubject(null);
   endpoints = locuinteEndpoints;
@@ -195,7 +197,10 @@ export class LocuinteService {
       name: get(entry, 'name', ''),
       addressCounty: get(entry, 'addressCounty', ''),
       addressCity: get(entry, 'addressCity', ''),
-      addressStreet: get(entry, 'addressStreet', ''),
+      addressStreet:
+        get(entry, 'addressStreet', '') || get(entry, 'addressName', ''),
+      addressName:
+        get(entry, 'addressName', '') || get(entry, 'addressStreet', ''),
       addressStreetType: get(entry, 'addressStreetType', ''),
       addressStreetNumber: get(entry, 'addressStreetNumber', ''),
       addressBuildingNumber: get(entry, 'addressBuildingNumber', ''),
