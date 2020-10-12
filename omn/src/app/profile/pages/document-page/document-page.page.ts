@@ -55,11 +55,11 @@ export class DocumentPagePage implements OnInit {
           storageLocation = cordova.file.externalDataDirectory;
         }else if(this.platform.is('ios')){
           storageLocation = cordova.file.documentsDirectory;
-        }        
+        }
         this.file
           .writeFile(
             // this.file.externalApplicationStorageDirectory,
-            storageLocation + "/Download",
+            storageLocation + '/Download',
             name + '.pdf',
             blob,
             { replace: true }
@@ -67,8 +67,7 @@ export class DocumentPagePage implements OnInit {
           .then( ( res ) => {
             this.presentToast( this.successMsg );
           } )
-          .catch( ( err ) => {
-            console.log(err)
+          .catch( ( err ) => {  
             this.presentToast( this.errorMsg );
           } );
       } )
