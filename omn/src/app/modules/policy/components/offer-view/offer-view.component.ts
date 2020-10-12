@@ -191,14 +191,19 @@ export class OfferViewComponent implements OnInit {
   }
 
   openIAB(url, type) {
-    const browser = this.iab.create(url, type, { location: 'no' });
+    const options = 'location=no,footer=no,hardwareback=no,hidenavigationbuttons=yes,clearcache=yes,clearsessioncache=yes,toolbar=no';
+    const browser = this.iab.create(url, type, options);
     browser.show();
     // TODO: linter complains, this is to be retested.
     if (browser) {
       this.sub = browser.on('loadstart').subscribe((e) => {
+        browser.insertCSS({ code: '.header__cancel{ display: none;}' });
         if (e && e.url.includes('tok')) {
           this.confirmToken(e.url, browser);
         }
+      });
+      this.sub = browser.on('loadstop').subscribe((e) => {
+        browser.insertCSS({ code: '.header__cancel{ display: none;}' });
       });
       this.sub = browser.on('loaderror').subscribe((e) => {
         browser.close();
