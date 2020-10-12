@@ -48,7 +48,7 @@ export const offerHomeItemHelper = ( offer: PolicyOffer ) => {
         : offer.supportData === 'VIP'
           ? 'Plan: VIP ● ' + plataOption( offer.noOfPayments, offer.offerPrice )
           : ''
-      : plataOption( offer.noOfPayments, offer.offerPrice ) + 'lei/an';
+      : replaceHelper( offer.offerPrice, '.', ',' ) + ' lei/an';
   }
   return baseItem;
 };
