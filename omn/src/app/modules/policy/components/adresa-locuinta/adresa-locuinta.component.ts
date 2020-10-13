@@ -1,3 +1,5 @@
+import { NavigationExtras, Router } from '@angular/router';
+
 import {
   ChangeDetectorRef,
   Component,
@@ -31,6 +33,7 @@ export class AdresaLocuintaComponent implements OnInit {
     // Split based on policy availability.
     this.vLocuinteList = lV.filter((vv) => !vv.policy).map((v) => v);
     this.vLocuinteListP = lV.filter((vv) => vv.policy).map((v) => v);
+    console.log(this.vLocuinteList)
     this.initLocuintaMainForm();
     this.cdRef.markForCheck();
   }
@@ -50,7 +53,8 @@ export class AdresaLocuintaComponent implements OnInit {
     private cdRef: ChangeDetectorRef,
     private fb: FormBuilder,
     private authS: AuthService,
-    private paidS: PaidExternalService
+    private paidS: PaidExternalService,
+    protected router : Router
   ) {
     this.authS.getAuthState().subscribe((authData) => {
       this.userId = authData.account.userId;
@@ -69,13 +73,23 @@ export class AdresaLocuintaComponent implements OnInit {
     this.checkPAD = true;
     if (this.locuintaForm.valid) {
       const controlS = this.locuintaForm.get('selection');
-      if (controlS) {
+      let selected = this.vLocuinteList.filter(e => e.locuinta.id == controlS.value)[0]
+      console.log(controlS)
+      console.log(selected)
+      if (selected.locuinta.yearConstruction != 0) {
         const value = controlS.value;
         if (value !== 'ADD_NEW') {
           this.emitLocuintaItemById(value);
         } else {
           this.selectionDone.emit(value);
         }
+      }else{
+        const navigationExtras: NavigationExtras = {
+          state: {
+            data: selected,
+          }
+        };
+        this.router.navigateByUrl('/profil/locuinte/add',navigationExtras)
       }
     }
   }

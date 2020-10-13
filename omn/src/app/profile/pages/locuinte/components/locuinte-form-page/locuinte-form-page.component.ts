@@ -7,7 +7,7 @@ import {
   ViewChild,
 } from '@angular/core';
 import { FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { IonContent, NavController } from '@ionic/angular';
 import { get, has } from 'lodash';
 import { combineLatest, Observable, of } from 'rxjs';
@@ -70,29 +70,39 @@ export class LocuinteFormPageComponent implements OnInit {
     private cdRef: ChangeDetectorRef,
     private formS: LocuinteFormService,
     private navCtrl: NavController,
-    private locuinteS: LocuinteService
+    private locuinteS: LocuinteService,
+    private router: Router
   ) {}
 
   ngOnInit() {
-    this.routerS
-      .getNavigationEndEvent()
-      .pipe(
-        switchMap(() => {
-          return combineLatest([
-            this.routerS.processChildDataAsync(this.aRoute, 'formMode'),
-            this.routerS.processChildParamsAsync(this.aRoute, 'id'),
-          ]);
-        })
-      )
-      .subscribe((vals: any) => {
-        this.formMode = vals[0];
-        const id = vals[1];
-        this.setTitles();
-        this.initConfigs(id).subscribe((v) => {
-          this.initForm();
-          this.cdRef.markForCheck();
+    console.log(this.router.getCurrentNavigation())
+    if(this.router.getCurrentNavigation().extras.state){
+      console.log(this.router.getCurrentNavigation().extras.state)
+      this.formType = LocuinteFormType.PLACE
+      console.log(this.routerS.processChildDataAsync(this.aRoute, 'formMode'),
+      this.routerS.processChildParamsAsync(this.aRoute, 'id'))
+    }else{
+      this.routerS
+        .getNavigationEndEvent()
+        .pipe(
+          switchMap(() => {
+            return combineLatest([
+              this.routerS.processChildDataAsync(this.aRoute, 'formMode'),
+              this.routerS.processChildParamsAsync(this.aRoute, 'id'),
+            ]);
+          })
+        )
+        .subscribe((vals: any) => {
+          console.log(vals)
+          this.formMode = vals[0];
+          const id = vals[1];
+          this.setTitles();
+          this.initConfigs(id).subscribe((v) => {
+            this.initForm();
+            this.cdRef.markForCheck();
+          });
         });
-      });
+    }
   }
 
   setTitles() {

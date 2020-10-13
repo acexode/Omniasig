@@ -45,7 +45,9 @@ export class LocuinteFormComponent implements OnInit {
   constructor(private cdRef: ChangeDetectorRef) {
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    console.log(this.formType)
+  }
 
   setValidatorSubs() {
     unsubscriberHelper(this.validatorSubs);
