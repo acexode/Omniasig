@@ -91,6 +91,7 @@ export class OfferViewComponent implements OnInit {
   calEntry: CalendarEntry;
   busy = false;
   sub: Subscription;
+  disableNotificationSection = true;
   constructor(
     private route: ActivatedRoute,
     private policyDataService: PolicyDataService,
