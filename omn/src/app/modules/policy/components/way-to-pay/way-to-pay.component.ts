@@ -16,6 +16,7 @@ export class WayToPayComponent implements OnInit {
 
   amplusPadGroup = this.fb.group({
     rate: this.fb.control(null, Validators.required),
+    type: this.fb.control(null, Validators.required),
   });
 
   fieldConfig = {
@@ -62,7 +63,8 @@ export class WayToPayComponent implements OnInit {
       }
     } else {
       if (this.amplusPadGroup.valid) {
-        this.eventSubmit.emit(this.formGroup.value);
+        console.log(this.amplusPadGroup.value)
+        this.eventSubmit.emit(this.amplusPadGroup.value);
       }
     }
   }

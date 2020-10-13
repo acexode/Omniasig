@@ -49,6 +49,15 @@
     >
     </app-radios>
   </ion-row>
+  <ion-row class="ion-no-padding tip-casa">
+    <app-radios
+      class="w-100"
+      [config]="fieldConfig?.currency"
+      formControlName="type"
+      [options]="fieldConfigData?.currency || []"
+    >
+    </app-radios>
+  </ion-row>
   <ion-row class="ion-no-padding mt-auto w-100 mb-24">
     <ion-button
       class="activate-btn m-0 w-100"
