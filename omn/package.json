@@ -97,9 +97,7 @@
       "cordova-plugin-statusbar": {},
       "cordova-plugin-device": {},
       "cordova-plugin-splashscreen": {},
-      "cordova-plugin-camera": {
-        "ANDROID_SUPPORT_V4_VERSION": "27.+"
-      },
+      "cordova-plugin-camera": {},
       "cordova-plugin-ionic-keyboard": {},
       "ionic-plugin-deeplinks": {
         "URL_SCHEME": "omniasig-app",
@@ -114,10 +112,7 @@
         "ANDROID_3_PATH_PREFIX": "/api/UserProfile/ConfirmationNewEmailChange",
         "DEEPLINK_4_SCHEME": "https",
         "DEEPLINK_4_HOST": "omn-core.azure.softescu.com",
-        "ANDROID_4_PATH_PREFIX": "/api/UserProfile/ConfirmEmailForRegisterUserProfile",
-        "ANDROID_5_PATH_PREFIX": "/",
-        "DEEPLINK_5_SCHEME": " ",
-        "DEEPLINK_5_HOST": " "
+        "ANDROID_4_PATH_PREFIX": "/api/UserProfile/ConfirmEmailForRegisterUserProfile"
       },
       "cordova-plugin-calendar": {},
       "cordova-plugin-app-launcher": {},
