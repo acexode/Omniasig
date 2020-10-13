@@ -99,4 +99,7 @@ export class PasscodeComponent implements OnInit, OnDestroy {
     unsubscriberHelper(this.sub);
     unsubscriberHelper(this.navESub);
   }
+  doLogout() {
+    this.authService.doLogout();
+  }
 }
