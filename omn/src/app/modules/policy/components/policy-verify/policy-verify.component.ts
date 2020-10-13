@@ -88,7 +88,7 @@ export class PolicyVerifyComponent implements OnInit {
   }
 
   calculatePrice() {
-    console.log("is it Amplus OR Amplus+PAD", this.policyID);
+    console.log("is it Amplus OR Amplus+PAD", this.policyID, this.offerData);
     this.createOfferEvent.emit();
     const payload = {
       isVip: this.offerData?.supportData?.plan === 'vip' ? true : false,
@@ -101,11 +101,60 @@ export class PolicyVerifyComponent implements OnInit {
       paymentCurrency: this.offerData?.payData?.type,
       propertyCessionList: null,
     };
-    this.amplusS
-      .CreateAmplusInsuranceOffer(
+
+    if(this.policyID === 'AMPLUS'){
+      this.amplusS
+        .CreateAmplusInsuranceOffer(
+          this.offerData.policy.locuintaData.id,
+          true,
+          payload
+        )
+        .subscribe(
+          (result) => {
+            this.policyS
+              .addOfferToStore(this.offerData, result, this.policyID)
+              .subscribe(
+                (v) => {
+                  if (v) {
+                    const id = get(v, 'id', null);
+                    if (id) {
+                      const navigationExtras: NavigationExtras = {
+                        queryParams: {
+                          policyType: this.policyID,
+                        },
+                      };
+                      this.navCtrl.navigateForward(
+                        ['/policy', 'offer', id],
+                        navigationExtras
+                      );
+                    } else {
+                      this.navCtrl.navigateRoot(['/policy']);
+                    }
+                  } else {
+                    // We'll probably only show an error in here.
+                  }
+                },
+                (err) => {
+                  this.goToErrorHandler.emit(err);
+                }
+              );
+          },
+          (error) => {
+            const eroare = get(error, 'error.ofertaResponse.eroare', false);
+            const mesaj = get(error, 'error.ofertaResponse.mesaj', '');
+            if (eroare && mesaj) {
+              this.goToErrorHandler.emit(mesaj);
+            } else {
+              this.goToErrorHandler.emit();
+            }
+          }
+        );
+    }else{
+      this.padS
+      .CreatePADInsuranceOffer(
         this.offerData.policy.locuintaData.id,
-        true,
-        payload
+        this.offerData.policy.dates.from,
+        true
       )
       .subscribe(
         (result) => {
@@ -113,18 +162,59 @@ export class PolicyVerifyComponent implements OnInit {
             .addOfferToStore(this.offerData, result, this.policyID)
             .subscribe(
               (v) => {
-                if (v) {
+                if (result) {
+                  console.log('DATA FROM BE', v)
                   const id = get(v, 'id', null);
                   if (id) {
-                    const navigationExtras: NavigationExtras = {
-                      queryParams: {
-                        policyType: this.policyID,
-                      },
-                    };
-                    this.navCtrl.navigateForward(
-                      ['/policy', 'offer', id],
-                      navigationExtras
-                    );
+                    console.log('pad oofer id before going for amplus', id)
+                    // FOR AMPLUS
+                    this.amplusS
+                      .CreateAmplusPadInsuranceOffer(
+                        this.offerData.policy.locuintaData.id,
+                        true,
+                        payload,
+                        id
+                      )
+                      .subscribe(
+                        (result) => {
+                          this.policyS
+                            .addOfferToStore(this.offerData, result, this.policyID)
+                            .subscribe(
+                              (v) => {
+                                if (v) {
+                                  const id = get(v, 'id', null);
+                                  if (id) {
+                                    const navigationExtras: NavigationExtras = {
+                                      queryParams: {
+                                        policyType: this.policyID,
+                                      },
+                                    };
+                                    this.navCtrl.navigateForward(
+                                      ['/policy', 'offer', id],
+                                      navigationExtras
+                                    );
+                                  } else {
+                                    this.navCtrl.navigateRoot(['/policy']);
+                                  }
+                                } else {
+                                  // We'll probably only show an error in here.
+                                }
+                              },
+                              (err) => {
+                                this.goToErrorHandler.emit(err);
+                              }
+                            );
+                        },
+                        (error) => {
+                          const eroare = get(error, 'error.ofertaResponse.eroare', false);
+                          const mesaj = get(error, 'error.ofertaResponse.mesaj', '');
+                          if (eroare && mesaj) {
+                            this.goToErrorHandler.emit(mesaj);
+                          } else {
+                            this.goToErrorHandler.emit();
+                          }
+                        }
+                      );
                   } else {
                     this.navCtrl.navigateRoot(['/policy']);
                   }
@@ -138,14 +228,9 @@ export class PolicyVerifyComponent implements OnInit {
             );
         },
         (error) => {
-          const eroare = get(error, 'error.ofertaResponse.eroare', false);
-          const mesaj = get(error, 'error.ofertaResponse.mesaj', '');
-          if (eroare && mesaj) {
-            this.goToErrorHandler.emit(mesaj);
-          } else {
-            this.goToErrorHandler.emit();
-          }
+          this.processErrorMessage(error);
         }
       );
+    }
   }
 }

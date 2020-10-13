@@ -614,7 +614,25 @@ export class PolicyFormPage implements OnInit, OnDestroy {
         .subscribe(
           ( result ) => {
             if ( result ) {
-              this.changeStep( this.policySteps.TECHNICAL_SUPPORT );
+              // this.padS
+              //   .CreatePADInsuranceOffer(
+              //     this.offerData.policy.locuintaData.id,
+              //     this.offerData.policy.dates.from,
+              //     true
+              //   )
+              //   .subscribe(
+              //     ( result ) => {
+              //       if ( result ) {
+              //         console.log("LOOKING FOR PAD OFFER ID")
+                      this.changeStep( this.policySteps.TECHNICAL_SUPPORT );
+                //     } else {
+                //       this.handleError( null );
+                //     }
+                //   },
+                //   ( err ) => {
+                //     this.processErrorMessage( err.error, 'emitereOfertaResponse1' );
+                //   }
+                // );
             } else {
               this.handleError( null );
             }
@@ -720,7 +738,7 @@ export class PolicyFormPage implements OnInit, OnDestroy {
     console.log("policy Type222", this.policyID, this.offerData);
     this.changeStep( this.policySteps.POLICY_VERIFY_CHECK );
     // checks if offer can be created before going to the verify page
-    if ( this.policyID === 'AMPLUS' || this.policyID === 'Garant AMPLUS+ PAD' ) {
+    if ( this.policyID === 'AMPLUS' ) {
       console.log("policy Type3333", this.policyID, this.offerData);
       const payload = {
         isVip: this.offerData?.supportData?.plan === 'vip' ? true : false,
@@ -755,6 +773,10 @@ export class PolicyFormPage implements OnInit, OnDestroy {
           }
         );
       return;
+    }
+    else{
+      console.log('SKIPPED AMPLUS')
+      this.changeStep( this.policySteps.POLICY_VERIFY );
     }
   }
 
