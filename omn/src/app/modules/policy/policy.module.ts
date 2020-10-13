@@ -18,6 +18,9 @@ import { PolicyComponent } from './components/policy/policy.component';
 import { PolicyPage } from './page/policy.page';
 import { PolicyRoutingModule } from './policy-routing.module';
 import { PolicySharedModule } from './policy-shared.module';
+import { File } from '@ionic-native/file/ngx';
+import { FileOpener } from '@ionic-native/file-opener/ngx';
+
 @NgModule({
   declarations: [
     PolicyPage,
@@ -44,6 +47,6 @@ import { PolicySharedModule } from './policy-shared.module';
     OmnInputsModule,
   ],
   exports: [AsistentaModalPagePage],
-  providers: [InAppBrowser],
+  providers: [InAppBrowser, File, FileOpener],
 })
 export class PolicyModule {}

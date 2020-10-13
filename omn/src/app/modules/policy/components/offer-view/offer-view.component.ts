@@ -17,6 +17,9 @@ import { AmplusService } from '../../services/amplus.service';
 import { PadService } from '../../services/pad.service';
 import { CalendarEntry } from '../models/calendar-entry';
 import { PaymentStatusComponent } from './../payment-status/payment-status.component';
+import { CustomStorageService } from 'src/app/core/services/custom-storage/custom-storage.service';
+import { File , FileEntry} from '@ionic-native/file/ngx';
+import { FileOpener } from '@ionic-native/file-opener/ngx';
 
 @Component({
   selector: 'app-offer-view',
@@ -91,6 +94,7 @@ export class OfferViewComponent implements OnInit {
   calEntry: CalendarEntry;
   busy = false;
   sub: Subscription;
+  downloading = false;
   constructor(
     private route: ActivatedRoute,
     private policyDataService: PolicyDataService,
@@ -99,6 +103,9 @@ export class OfferViewComponent implements OnInit {
     private iab: InAppBrowser,
     private amplusService: AmplusService,
     private padService: PadService,
+    private file: File,
+    private storeS: CustomStorageService,
+    private fileOpener: FileOpener
   ) {
   }
 
@@ -274,13 +281,74 @@ export class OfferViewComponent implements OnInit {
       });
   }
 
-  downloadPadOffer(){
-    const id = parseInt( this.offer.padOfferDocumentId, 10 );
-    this.padService.getPadOfferDocument(id, true)
-      .subscribe((offerDocument) => {
-        if (offerDocument) {
-          // log result and see the pdf in ascii format inside the json
+  downloadPadOffer() {
+    console.log('.......');
+    this.storeS.getItem('pdfFile').subscribe(
+      (fileObj) => {
+        if (fileObj) {
+          this.prepareDoc();
+        } else {
+          this.downloading = true;
+          const id = parseInt(this.offer.padOfferDocumentId, 10);
+          this.padService.getPadOfferDocument(id, true)
+            .subscribe((offerDocument) => {
+              if (offerDocument) {
+                this.storeS.setItem('pdfFile', offerDocument);
+                this.prepareDoc();
+                // log result and see the pdf in ascii format inside the json
+              }
+            });
         }
-      });
+      }
+    );
+  }
+
+  prepareDoc() {
+    this.storeS.getItem('pdfFile').subscribe(
+      (fileObj: any) => {
+        const blobPdfFromBase64String = () => {
+          const byteArray = Uint8Array.from(
+            atob(fileObj.file)
+              .split('')
+              .map(char => char.charCodeAt(0))
+          );
+          return new Blob([byteArray], { type: 'application/pdf' });
+        };
+        this.savefile(blobPdfFromBase64String());
+        this.downloading = false;
+      }
+    );
+    return;
+  }
+
+  savefile(blob: Blob) {
+      //  Determine a native file path to save to
+    let filePath: any;
+    if (isPlatform('android')) {
+      filePath = this.file.dataDirectory;
+    }
+    if (isPlatform('ios')) {
+      filePath = this.file.documentsDirectory;
+    }
+    else {
+      filePath = this.file.dataDirectory;
+    }
+    this.file.createDir(filePath,'fly', true)
+       // Write the file
+    this.file.writeFile(filePath, 'omnfile.pdf', blob, { replace: true }).then((fileEntry: FileEntry) => {
+      console.log(filePath);
+      console.log(fileEntry);
+      fileEntry.createWriter((FileWriter) => {
+        FileWriter.write(blob);
+      },
+        (err) => {
+          console.log(err);
+        }
+      );
+      console.log('File created!');
+       })
+         .catch((err) => {
+           console.error('Error creating file: ' + err);
+         });
   }
 }
