@@ -265,24 +265,21 @@ export class OfferViewComponent implements OnInit {
   }
 
   downloadAmplusOffer(){
-    const id = parseInt(this.offer.amplusOfferDocumentId);
-    this.amplusService
-      .getAmplusOfferDocument(id, true)
+    const id = parseInt( this.offer.amplusOfferDocumentId );
+    this.amplusService.getAmplusOfferDocument(id, true)
       .subscribe((offerDocument) => {
         if (offerDocument) {
           //
-        }else{
-        }
+        }else{}
       });
   }
 
   downloadPadOffer(){
-    const id = parseInt(this.offer.padOfferDocumentId);;
-    this.padService
-      .getPadOfferDocument(id, true)
+    const id = parseInt( this.offer.padOfferDocumentId );
+    this.padService.getPadOfferDocument(id, true)
       .subscribe((offerDocument) => {
         if (offerDocument) {
-          //log result and see the pdf in ascii format inside the json 
+          // log result and see the pdf in ascii format inside the json 
         }
       });
   }

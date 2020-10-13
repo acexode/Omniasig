@@ -22,12 +22,12 @@ export class AmplusService {
   getAmplusOfferDocument(amplusOfferDocumentId: number, isAscii: boolean){
     return this.reqS.get<any>(
       `${ documentEndpoint.getDocument }?documentId=${ amplusOfferDocumentId }&isAscii=${ isAscii }`
-    )
-  };
+    );
+  }
 
   getAmplusPolicyDocument(amplusPolicyDocumentId: number, isAscii: boolean){
     return this.reqS.get<any>(
       `${ documentEndpoint.getDocument }?documentId=${ amplusPolicyDocumentId }&isAscii=${ isAscii }`
-    )
-  };
+    );
+  }
 }
