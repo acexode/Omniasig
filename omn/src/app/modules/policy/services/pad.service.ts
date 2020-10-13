@@ -35,11 +35,11 @@ export class PadService {
     return this.reqS.get<any>(
       `${ documentEndpoint.getDocument }?documentId=${ padOfferDocumentId }&isAscii=${ isAscii }`
     )
-  }
+  };
 
   getPadPolicyDocument(padPolicyDocumentId: number, isAscii: boolean){
     return this.reqS.get<any>(
       `${ documentEndpoint.getDocument }?documentId=${ padPolicyDocumentId }&isAscii=${ isAscii }`
     )
-  }
+  };
 }

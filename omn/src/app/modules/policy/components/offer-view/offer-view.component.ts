@@ -5,8 +5,6 @@ import {
   InAppBrowserObject,
 } from '@ionic-native/in-app-browser/ngx';
 import { isPlatform, ModalController, NavController } from '@ionic/angular';
-import { FileTransfer, FileUploadOptions, FileTransferObject } from '@ionic-native/file-transfer/ngx';
-import { File } from '@ionic-native/file';
 import { get, has } from 'lodash';
 import { Subscription } from 'rxjs';
 import { first, take } from 'rxjs/operators';
@@ -93,9 +91,6 @@ export class OfferViewComponent implements OnInit {
   calEntry: CalendarEntry;
   busy = false;
   sub: Subscription;
-  fileTransfer: FileTransferObject;
-  // transfer;
-  // file;
   constructor(
     private route: ActivatedRoute,
     private policyDataService: PolicyDataService,
@@ -104,12 +99,7 @@ export class OfferViewComponent implements OnInit {
     private iab: InAppBrowser,
     private amplusService: AmplusService,
     private padService: PadService,
-    //private transfer: FileTransfer, 
-    private file: File,
   ) {
-    //fileTransfer: FileTransferObject = this.transfer.;
-    this.fileTransfer = FileTransfer.create();
-
   }
 
   ngOnInit(): void {
@@ -201,7 +191,6 @@ export class OfferViewComponent implements OnInit {
       },
       (err) => (this.busy = false)
     );
-
     return;
   }
 

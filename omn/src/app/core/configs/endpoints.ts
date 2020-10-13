@@ -3,8 +3,7 @@ import { environment } from '../../../environments/environment';
 export const serverBaseUrl = environment.serverUrl;
 export const authEndpoints = {
   login: serverBaseUrl + '/User/LoginAndCreateToken',
-  findUserByPhoneNumber:
-    serverBaseUrl + '/UserProfile/GetUserNameByPhoneNumber',
+  findUserByPhoneNumber: serverBaseUrl + '/UserProfile/GetUserNameByPhoneNumber',
   getUserProfile: serverBaseUrl + '/UserProfile/GetUserProfile',
   sendPhoneNumberSms: serverBaseUrl + '/UserProfile/SmsPhoneNumberVerification',
   confirmPhoneNumberSms: serverBaseUrl + '/UserProfile/SmsPhoneNumberConfirm',
@@ -53,7 +52,7 @@ export const policyEndpoints = {
 
 export const documentEndpoint = {
   getDocument: baseEndpoints.downloadDocs + '/GetDocumentById',
-}
+};
 
 export const locuinteEndpoints = {
   base: serverBaseUrl + '/locuinte',
