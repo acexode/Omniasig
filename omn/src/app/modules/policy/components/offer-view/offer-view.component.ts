@@ -276,57 +276,25 @@ export class OfferViewComponent implements OnInit {
   }
 
   downloadAmplusOffer(){
-    const id = parseInt(this.offer.id);
-    console.log("amplus id", id);
+    const id = parseInt(this.offer.amplusOfferDocumentId);
     this.amplusService
-      .getAmplusOfferDocument(id)
+      .getAmplusOfferDocument(id, true)
       .subscribe((offerDocument) => {
-        console.log(offerDocument);
         if (offerDocument) {
           //
         }else{
-          console.log("NO SHOW")
         }
       });
   }
 
   downloadPadOffer(){
-    const id = parseInt(this.offer.id);
-    let url = `Documents/GetDocumentById?documentId=${this.offer.id}`;
-    console.log("pad id", id);
-    this.download(url);
-    // this.padService
-    //   .getPadOfferDocument(id)
-    //   .subscribe((offerDocument) => {
-    //     console.log(offerDocument);
-    //     if (offerDocument) {
-          
-    //     }
-    //   });
-  }
-
-  
-
-// this.transfer.
-
-// // Download a file:
-// this.transfer.download(..).then(..).catch(..);
-
-// // Abort active transfer:
-// fileTransfer.abort();
-
-  download(url) {
-    this.fileTransfer.download(url, this.file.lastModified + 'file.pdf').then((entry) => {
-      console.log('download complete: ' + entry.toURL());
-    }, (error) => {
-      // handle error
-      console.log('download failed: ' + error);
-    });
-
-    // this.transfer.download(url, this.file.lastModified + 'file.pdf', (entry) => {
-    //   console.log('download complete: ' + entry.toURL())},  (error) => {
-    //     // handle error
-    //     console.log('download failed: ' + error);
-    //   })
+    const id = parseInt(this.offer.padOfferDocumentId);;
+    this.padService
+      .getPadOfferDocument(id, true)
+      .subscribe((offerDocument) => {
+        if (offerDocument) {
+          //log result and see the pdf in ascii format inside the json 
+        }
+      });
   }
 }

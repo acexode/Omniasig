@@ -218,12 +218,16 @@ export class PolicyDataService {
       expiry: offer.expirationDate,
       emisionDate: offer.offerDate ? new Date(offer.offerDate) : '',
       insurancePrice: offer.offerPrima || 0,
+      padOfferDocumentId: offer.padOfferDocumentId,
+      padPolicyDocumentId: offer.padPolicyDocumentId,
     };
     if (typeId === 'AMPLUS') {
       offerObj.expiry = get(offer, 'offerExpireDate', '');
       const isGold = get(offer, 'isGold', false);
       const isVip = get(offer, 'isVip', false);
       set(offerObj, 'supportData', isGold ? 'GOLD' : isVip ? 'VIP' : '-');
+      set(offerObj, 'amplusOfferDocumentId', get(offer, 'amplusOfferDocumentId', []));
+      set(offerObj, 'amplusPolicyDocumentId', get(offer, 'amplusPolicyDocumentId', []));
       set(offerObj, 'ratePlanList', get(offer, 'ratePlanList', []));
     }
     return offerObj;
