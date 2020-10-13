@@ -265,7 +265,7 @@ export class OfferViewComponent implements OnInit {
   }
 
   downloadAmplusOffer(){
-    const id = parseInt( this.offer.amplusOfferDocumentId );
+    const id = parseInt( this.offer.amplusOfferDocumentId, 10 );
     this.amplusService.getAmplusOfferDocument(id, true)
       .subscribe((offerDocument) => {
         if (offerDocument) {
@@ -275,11 +275,11 @@ export class OfferViewComponent implements OnInit {
   }
 
   downloadPadOffer(){
-    const id = parseInt( this.offer.padOfferDocumentId );
+    const id = parseInt( this.offer.padOfferDocumentId, 10 );
     this.padService.getPadOfferDocument(id, true)
       .subscribe((offerDocument) => {
         if (offerDocument) {
-          // log result and see the pdf in ascii format inside the json 
+          // log result and see the pdf in ascii format inside the json
         }
       });
   }

@@ -32,7 +32,7 @@ export const baseEndpoints = {
   pad: serverBaseUrl + '/PADInsurance',
   amplus: serverBaseUrl + '/AmplusInsurance',
   paidExtS: serverBaseUrl + '/PAIDExternalService',
-  downloadDocs: serverBaseUrl + '/Documents', 
+  downloadDocs: serverBaseUrl + '/Documents',
 };
 
 export const policyEndpoints = {
