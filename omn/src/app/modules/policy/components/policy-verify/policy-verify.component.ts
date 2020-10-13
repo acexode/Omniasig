@@ -173,20 +173,20 @@ export class PolicyVerifyComponent implements OnInit {
                         payload,
                         id
                       )
-                      .subscribe((result) => {
+                      .subscribe((amplusPadOfferResponse) => {
                           this.policyS
-                            .addOfferToStore(this.offerData, result, this.policyID)
-                            .subscribe((v) => {
-                                if (v) {
-                                  const id = get(v, 'id', null);
-                                  if (id) {
+                            .addOfferToStore(this.offerData, amplusPadOfferResponse, this.policyID)
+                            .subscribe((val) => {
+                                if (val) {
+                                  const idV = get(val, 'id', null);
+                                  if (idV) {
                                     const navigationExtras: NavigationExtras = {
                                       queryParams: {
                                         policyType: this.policyID,
                                       },
                                     };
                                     this.navCtrl.navigateForward(
-                                      ['/policy', 'offer', id],
+                                      ['/policy', 'offer', idV],
                                       navigationExtras
                                     );
                                   } else {

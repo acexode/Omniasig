@@ -723,7 +723,7 @@ export class PolicyFormPage implements OnInit, OnDestroy {
   }
 
   paySubmit( payData ) {
-    console.log('policy Type', this.policyID)
+    console.log('policy Type', this.policyID);
     this.wayPayFormData = payData;
     this.offerData = this.policyFs.buildOfferItem( {
       locuintaItem: this.selectedAddressItem,
