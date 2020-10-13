@@ -36,7 +36,6 @@ export class PolicyVerifyComponent implements OnInit {
 
   ngOnInit() {
     this.policyID = this.aRoute.snapshot.queryParamMap.get('policyID');
-    console.log("TYPE------", this.policyID);
   }
 
   addOffer() {
@@ -88,7 +87,7 @@ export class PolicyVerifyComponent implements OnInit {
   }
 
   calculatePrice() {
-    console.log("is it Amplus OR Amplus+PAD", this.policyID, this.offerData);
+    console.log('is it Amplus OR Amplus+PAD', this.policyID, this.offerData);
     this.createOfferEvent.emit();
     const payload = {
       isVip: this.offerData?.supportData?.plan === 'vip' ? true : false,
@@ -102,9 +101,8 @@ export class PolicyVerifyComponent implements OnInit {
       propertyCessionList: null,
     };
 
-    if(this.policyID === 'AMPLUS'){
-      this.amplusS
-        .CreateAmplusInsuranceOffer(
+    if (this.policyID === 'AMPLUS') {
+      this.amplusS.CreateAmplusInsuranceOffer(
           this.offerData.policy.locuintaData.id,
           true,
           payload
@@ -163,10 +161,10 @@ export class PolicyVerifyComponent implements OnInit {
             .subscribe(
               (v) => {
                 if (result) {
-                  console.log('DATA FROM BE', v)
+                  console.log('DATA FROM BE', v);
                   const id = get(v, 'id', null);
                   if (id) {
-                    console.log('pad oofer id before going for amplus', id)
+                    console.log('pad oofer id before going for amplus', id);
                     // FOR AMPLUS
                     this.amplusS
                       .CreateAmplusPadInsuranceOffer(
@@ -175,12 +173,10 @@ export class PolicyVerifyComponent implements OnInit {
                         payload,
                         id
                       )
-                      .subscribe(
-                        (result) => {
+                      .subscribe((result) => {
                           this.policyS
                             .addOfferToStore(this.offerData, result, this.policyID)
-                            .subscribe(
-                              (v) => {
+                            .subscribe((v) => {
                                 if (v) {
                                   const id = get(v, 'id', null);
                                   if (id) {

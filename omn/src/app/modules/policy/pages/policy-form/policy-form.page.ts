@@ -573,7 +573,7 @@ export class PolicyFormPage implements OnInit, OnDestroy {
     } );
   }
   periodSubmit( startDate ) {
-    console.log("the flow type", this.policyID, startDate);
+    console.log('the flow type', this.policyID, startDate);
     this.periodStartData = startDate;
     if ( this.policyID === 'PAD') {
       this.offerData = this.buildOfferDetails();
@@ -601,9 +601,9 @@ export class PolicyFormPage implements OnInit, OnDestroy {
       return;
     }else if ( this.policyID === 'Garant AMPLUS+ PAD' ) {
       this.offerData = this.buildOfferDetails();
-      console.log("OFFER DATA", this.offerData);
-      //this.loaderTitle = 'Verificăm corectitudinea datelor…';
-      //this.changeStep( this.policySteps.POLICY_VERIFY_CHECK );
+      console.log('OFFER DATA', this.offerData);
+      // this.loaderTitle = 'Verificăm corectitudinea datelor…';
+      // this.changeStep( this.policySteps.POLICY_VERIFY_CHECK );
       // checks if offer can be created before going to the verify page
       this.padS
         .CreatePADInsuranceOffer(
@@ -723,7 +723,7 @@ export class PolicyFormPage implements OnInit, OnDestroy {
   }
 
   paySubmit( payData ) {
-    console.log("policy Type", this.policyID)
+    console.log('policy Type', this.policyID)
     this.wayPayFormData = payData;
     this.offerData = this.policyFs.buildOfferItem( {
       locuintaItem: this.selectedAddressItem,
@@ -735,26 +735,24 @@ export class PolicyFormPage implements OnInit, OnDestroy {
       supportData: this.assistFormData,
     } );
     this.loaderTitle = 'Verificăm corectitudinea datelor…';
-    console.log("policy Type222", this.policyID, this.offerData);
+    console.log('policy Type222', this.policyID, this.offerData);
     this.changeStep( this.policySteps.POLICY_VERIFY_CHECK );
     // checks if offer can be created before going to the verify page
     if ( this.policyID === 'AMPLUS' ) {
-      console.log("policy Type3333", this.policyID, this.offerData);
+      console.log('policy Type3333', this.policyID, this.offerData);
       const payload = {
         isVip: this.offerData?.supportData?.plan === 'vip' ? true : false,
         isGold: this.offerData?.supportData?.plan === 'gold' ? true : false,
         mentiuni: 'self',
         startDate: this.offerData?.policy?.dates?.from,
-        //startDate: "2020-10-10",
+        // startDate: "2020-10-10",
         numberOfMonths: '12',
         insurancePrice: 100000,
         numberOfPayments: this.offerData?.payData?.rate,
         paymentCurrency: this.offerData?.payData?.type,
         propertyCessionList: null,
       };
-      console.log("AMPLUS + PAD FLOW")
-      this.amplusS
-        .CreateAmplusInsuranceOffer(
+      this.amplusS.CreateAmplusInsuranceOffer(
           this.offerData.policy.locuintaData.id,
           false,
           payload
@@ -768,14 +766,14 @@ export class PolicyFormPage implements OnInit, OnDestroy {
             }
           },
           ( err ) => {
-            console.log("AMPLUS ERROR", err)
+            console.log('AMPLUS ERROR', err);
             this.processErrorMessage( err.error, 'ofertaResponse' );
           }
         );
       return;
     }
     else{
-      console.log('SKIPPED AMPLUS')
+      console.log('SKIPPED AMPLUS');
       this.changeStep( this.policySteps.POLICY_VERIFY );
     }
   }

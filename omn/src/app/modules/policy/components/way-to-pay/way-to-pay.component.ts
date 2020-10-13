@@ -63,7 +63,6 @@ export class WayToPayComponent implements OnInit {
       }
     } else {
       if (this.amplusPadGroup.valid) {
-        console.log(this.amplusPadGroup.value)
         this.eventSubmit.emit(this.amplusPadGroup.value);
       }
     }
