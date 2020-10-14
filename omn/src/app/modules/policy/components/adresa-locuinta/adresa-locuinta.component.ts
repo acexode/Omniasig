@@ -1,4 +1,4 @@
-import { NavigationExtras, Router } from '@angular/router';
+import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
 
 import {
   ChangeDetectorRef,
@@ -33,7 +33,6 @@ export class AdresaLocuintaComponent implements OnInit {
     // Split based on policy availability.
     this.vLocuinteList = lV.filter((vv) => !vv.policy).map((v) => v);
     this.vLocuinteListP = lV.filter((vv) => vv.policy).map((v) => v);
-    console.log(this.vLocuinteList)
     this.initLocuintaMainForm();
     this.cdRef.markForCheck();
   }
@@ -54,7 +53,8 @@ export class AdresaLocuintaComponent implements OnInit {
     private fb: FormBuilder,
     private authS: AuthService,
     private paidS: PaidExternalService,
-    protected router : Router
+    protected router : Router,
+    private route: ActivatedRoute
   ) {
     this.authS.getAuthState().subscribe((authData) => {
       this.userId = authData.account.userId;
@@ -71,12 +71,12 @@ export class AdresaLocuintaComponent implements OnInit {
 
   submitForm() {
     this.checkPAD = true;
+    const param = this.route.snapshot.queryParamMap.get('policyID')
+    console.log(param)
     if (this.locuintaForm.valid) {
       const controlS = this.locuintaForm.get('selection');
-      let selected = this.vLocuinteList.filter(e => e.locuinta.id == controlS.value)[0]
-      console.log(controlS)
-      console.log(selected)
-      if (selected.locuinta.yearConstruction != 0) {
+      let selected = this.vLocuinteList.filter(e => e.locuinta.id == controlS.value)[0]; 
+      if (selected.locuinta.yearConstruction != 0 || selected.locuinta.value != 0) {
         const value = controlS.value;
         if (value !== 'ADD_NEW') {
           this.emitLocuintaItemById(value);
@@ -87,9 +87,10 @@ export class AdresaLocuintaComponent implements OnInit {
         const navigationExtras: NavigationExtras = {
           state: {
             data: selected,
+            policyID: param
           }
         };
-        this.router.navigateByUrl('/profil/locuinte/add',navigationExtras)
+        this.router.navigateByUrl('/profil/locuinte/add',navigationExtras);
       }
     }
   }

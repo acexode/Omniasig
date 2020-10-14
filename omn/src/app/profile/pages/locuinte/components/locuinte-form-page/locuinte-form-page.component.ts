@@ -35,6 +35,8 @@ export class LocuinteFormPageComponent implements OnInit {
   headerConfig = null;
   buttonVisible = true;
   toggleStreetInput = null;
+  continueFlow =  false;
+  policyID = null;
   dataModel: any = { id: null };
   formMode: LocuinteFormModes;
   formType: LocuinteFormType;
@@ -75,12 +77,27 @@ export class LocuinteFormPageComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    console.log(this.router.getCurrentNavigation())
-    if(this.router.getCurrentNavigation().extras.state){
-      console.log(this.router.getCurrentNavigation().extras.state)
-      this.formType = LocuinteFormType.PLACE
-      console.log(this.routerS.processChildDataAsync(this.aRoute, 'formMode'),
-      this.routerS.processChildParamsAsync(this.aRoute, 'id'))
+    let extras = this.router.getCurrentNavigation().extras.state;
+    if(extras){      
+      this.dataModel = extras.data.locuinta;
+      this.policyID = extras.policyID;
+      console.log(this.policyID)
+      this.formMode = 0;
+      const id = this.dataModel.id;
+      this.setTitles();
+      this.initConfigs(this.dataModel.id).subscribe((v) => {
+        if (!this.formInstance) {          
+          this.formInstance = {
+            config: this.formConfigs.place,
+            group: this.formGroups.place,
+            data: this.formData.place,
+          };
+        }
+        this.formType = LocuinteFormType.PLACE
+        this.continueFlow = true
+        this.cdRef.detectChanges()
+        this.cdRef.markForCheck();
+      });     
     }else{
       this.routerS
         .getNavigationEndEvent()
@@ -92,8 +109,7 @@ export class LocuinteFormPageComponent implements OnInit {
             ]);
           })
         )
-        .subscribe((vals: any) => {
-          console.log(vals)
+        .subscribe((vals: any) => {          
           this.formMode = vals[0];
           const id = vals[1];
           this.setTitles();
@@ -153,6 +169,7 @@ export class LocuinteFormPageComponent implements OnInit {
     });
   }
   initForm() {
+    console.log(this.formMode)
     switch (this.formMode) {
       case this.formModes.ADD_NEW_FULL:
       case this.formModes.EDIT_FULL:
@@ -387,14 +404,18 @@ export class LocuinteFormPageComponent implements OnInit {
                 ? get(v, 'response', {})
                 : v;
               this.dataModel = { ...this.dataModel, ...resModel };
-              this.formType = LocuinteFormType.SUCCESS_MSG;
-              const header = subPageHeaderDefault('');
-              header.leadingIcon = null;
-              this.headerConfig = header;
-              this.buttonVisible = false;
-              this.refTimer = setTimeout(() => {
-                this.navigateToMain();
-              }, 2000);
+              if(this.continueFlow){
+                this.router.navigateByUrl('/policy/form?policyID='+this.policyID);
+              }else{
+                this.formType = LocuinteFormType.SUCCESS_MSG;
+                const header = subPageHeaderDefault('');
+                header.leadingIcon = null;
+                this.headerConfig = header;
+                this.buttonVisible = false;
+                this.refTimer = setTimeout(() => {
+                  this.navigateToMain();
+                }, 2000);
+              }
             }
           });
         }
