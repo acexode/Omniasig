@@ -19,15 +19,15 @@ export class AmplusService {
     );
   }
 
-  getAmplusOfferDocument(amplusOfferDocumentId: number, isAscii: boolean){
+  getAmplusOfferDocument(amplusOfferDocumentId: number){
     return this.reqS.get<any>(
-      `${ documentEndpoint.getDocument }?documentId=${ amplusOfferDocumentId }&isAscii=${ isAscii }`
+      `${ documentEndpoint.getDocument }?documentId=${ amplusOfferDocumentId }`
     );
   }
 
-  getAmplusPolicyDocument(amplusPolicyDocumentId: number, isAscii: boolean){
+  getAmplusPolicyDocument(amplusPolicyDocumentId: number){
     return this.reqS.get<any>(
-      `${ documentEndpoint.getDocument }?documentId=${ amplusPolicyDocumentId }&isAscii=${ isAscii }`
+      `${ documentEndpoint.getDocument }?documentId=${ amplusPolicyDocumentId }`
     );
   }
 }

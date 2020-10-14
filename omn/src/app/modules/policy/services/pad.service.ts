@@ -31,13 +31,13 @@ export class PadService {
     );
   }
 
-  getPadOfferDocument(padOfferDocumentId: number, isAscii: boolean){
+  getPadOfferDocument(padOfferDocumentId: number){
     return this.reqS.get<any>(
       `${ documentEndpoint.getDocument }?documentId=${ padOfferDocumentId }`
     );
   }
 
-  getPadPolicyDocument(padPolicyDocumentId: number, isAscii: boolean){
+  getPadPolicyDocument(padPolicyDocumentId: number){
     return this.reqS.get<any>(
       `${ documentEndpoint.getDocument }?documentId=${ padPolicyDocumentId }`
     );

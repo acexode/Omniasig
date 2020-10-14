@@ -18,7 +18,7 @@ import { PadService } from '../../services/pad.service';
 import { CalendarEntry } from '../models/calendar-entry';
 import { PaymentStatusComponent } from './../payment-status/payment-status.component';
 import { CustomStorageService } from 'src/app/core/services/custom-storage/custom-storage.service';
-import { File , FileEntry} from '@ionic-native/file/ngx';
+import { File, FileEntry } from '@ionic-native/file/ngx';
 import { FileOpener } from '@ionic-native/file-opener/ngx';
 
 @Component({
@@ -105,9 +105,8 @@ export class OfferViewComponent implements OnInit {
     private padService: PadService,
     private file: File,
     private storeS: CustomStorageService,
-    private fileOpener: FileOpener
-  ) {
-  }
+    private fileOpener: FileOpener,
+  ) {}
 
   ngOnInit(): void {
     this.route.params.pipe(take(1)).subscribe((params: any) => {
@@ -202,7 +201,8 @@ export class OfferViewComponent implements OnInit {
   }
 
   openIAB(url, type) {
-    const options = 'location=no,footer=no,hardwareback=no,hidenavigationbuttons=yes,clearcache=yes,clearsessioncache=yes,toolbar=no';
+    const options =
+      'location=no,footer=no,hardwareback=no,hidenavigationbuttons=yes,clearcache=yes,clearsessioncache=yes,toolbar=no';
     const browser = this.iab.create(url, type, options);
     browser.show();
     // TODO: linter complains, this is to be retested.
@@ -271,84 +271,95 @@ export class OfferViewComponent implements OnInit {
     return await modal.present();
   }
 
-  downloadAmplusOffer(){
-    const id = parseInt( this.offer.amplusOfferDocumentId, 10 );
-    this.amplusService.getAmplusOfferDocument(id, true)
-      .subscribe((offerDocument) => {
-        if (offerDocument) {
-          //
-        }else{}
+  downloadAmplusOffer() {
+    const title = `amplus-offer-${this.offer.amplusOfferDocumentId}.pdf`;
+    const id = parseInt(this.offer.amplusOfferDocumentId, 10);
+    this.storeS.getItem(title).subscribe((fileObj) => {
+        if (fileObj) {
+          this.prepareDoc(title);
+        } else {
+          this.downloading = true;
+          this.amplusService
+          .getAmplusOfferDocument(id)
+          .subscribe((offerDocument) => {
+            if (offerDocument) {
+                this.storeS.setItem(title, offerDocument).subscribe((_) => {
+                  this.prepareDoc(title);
+                });
+              }
+            this.downloading = false;
+            });
+        }
       });
   }
 
   downloadPadOffer() {
-    console.log('.......');
-    this.storeS.getItem('pdfFile').subscribe(
-      (fileObj) => {
-        if (fileObj) {
-          this.prepareDoc();
-        } else {
-          this.downloading = true;
-          const id = parseInt(this.offer.padOfferDocumentId, 10);
-          this.padService.getPadOfferDocument(id, true)
-            .subscribe((offerDocument) => {
-              if (offerDocument) {
-                this.storeS.setItem('pdfFile', offerDocument);
-                this.prepareDoc();
-                // log result and see the pdf in ascii format inside the json
-              }
-            });
-        }
+    // TODO checked if doc has been downloaded earlier or fetch do from WS...
+    const title = `offer-${this.offer.padOfferDocumentId}.pdf`;
+    this.storeS.getItem(title).subscribe((fileObj) => {
+      if (fileObj) {
+        this.prepareDoc(title);
+      } else {
+        this.downloading = true;
+        const id = parseInt(this.offer.padOfferDocumentId, 10);
+        this.padService
+          .getPadOfferDocument(id)
+          .subscribe((offerDocument) => {
+            if (offerDocument) {
+              this.storeS.setItem(title, offerDocument).subscribe((_) => {
+                this.prepareDoc(title);
+              });
+            }
+            this.downloading = false;
+          });
       }
-    );
+    });
   }
 
-  prepareDoc() {
-    this.storeS.getItem('pdfFile').subscribe(
-      (fileObj: any) => {
-        const blobPdfFromBase64String = () => {
-          const byteArray = Uint8Array.from(
-            atob(fileObj.file)
-              .split('')
-              .map(char => char.charCodeAt(0))
-          );
-          return new Blob([byteArray], { type: 'application/pdf' });
-        };
-        this.savefile(blobPdfFromBase64String());
-        this.downloading = false;
-      }
-    );
-    return;
+  /**
+   *
+   * @param docTitle  title you want to name the doc when the user saves it;
+   * Also Note that a title should always end with the file extenstion type. (e.g) 'title.pdf'
+   */
+  prepareDoc(docTitle: string) {
+    // TODO converts base64 to blob data so it can be read: this algorithms makes data processing easy... as the conversion is graudal
+    this.storeS.getItem(docTitle).subscribe((fileObj: any) => {
+      const blobPdfFromBase64String = () => {
+        const byteArray = Uint8Array.from(
+          atob(fileObj.file)
+            .split('')
+            .map((char) => char.charCodeAt(0))
+        );
+        return new Blob([byteArray], { type: 'application/pdf' });
+      };
+      this.openFile(blobPdfFromBase64String(), docTitle);
+    });
   }
 
-  savefile(blob: Blob) {
-      //  Determine a native file path to save to
+  openFile(blob: Blob, docTitle: string) {
+    //  Determine a native file path to save to
     let filePath: any;
     if (isPlatform('android')) {
-      filePath = this.file.dataDirectory;
+      filePath = this.file.externalDataDirectory;
     }
     if (isPlatform('ios')) {
       filePath = this.file.documentsDirectory;
-    }
-    else {
+    } else {
       filePath = this.file.dataDirectory;
     }
-    this.file.createDir(filePath,'fly', true)
-       // Write the file
-    this.file.writeFile(filePath, 'omnfile.pdf', blob, { replace: true }).then((fileEntry: FileEntry) => {
-      console.log(filePath);
-      console.log(fileEntry);
-      fileEntry.createWriter((FileWriter) => {
-        FileWriter.write(blob);
-      },
-        (err) => {
-          console.log(err);
-        }
-      );
-      console.log('File created!');
-       })
-         .catch((err) => {
-           console.error('Error creating file: ' + err);
-         });
+    this.file
+      .writeFile(filePath, docTitle, blob, { replace: true })
+      .then((fileEntry: FileEntry) => {
+          this.fileOpener.showOpenWithDialog(fileEntry.toURL(), 'application/pdf')
+            .then(() => {
+            // TODO nothing should be done here
+          })
+            .catch(e => {
+            // TODO: error handling maybe needed here...
+          });
+      })
+      .catch((err) => {
+        // TODO: error handling may be needed here too...
+      });
   }
 }
