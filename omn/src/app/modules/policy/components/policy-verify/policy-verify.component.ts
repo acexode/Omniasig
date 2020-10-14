@@ -35,7 +35,6 @@ export class PolicyVerifyComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    console.log(this.offerData)
     this.policyID = this.aRoute.snapshot.queryParamMap.get('policyID');
   }
 
@@ -148,7 +147,7 @@ export class PolicyVerifyComponent implements OnInit {
           }
         );
     }else{
-      this.padS.CreatePADInsuranceOffer(this.offerData.policy.locuintaData.id,this.offerData.policy.dates.from,true)
+      this.padS.CreatePADInsuranceOffer(this.offerData.policy.locuintaData.id, this.offerData.policy.dates.from, true)
         .subscribe((result) => {
           this.policyS.addOfferToStore(this.offerData, result, 'PAD')
             .subscribe((v) => {
@@ -156,7 +155,7 @@ export class PolicyVerifyComponent implements OnInit {
                   const id = get(v, 'id', null);
                   if (id) {
                     // FOR AMPLUS+PAD
-                    this.amplusS.CreateAmplusPadInsuranceOffer(this.offerData.policy.locuintaData.id,true,payload,id)
+                    this.amplusS.CreateAmplusPadInsuranceOffer(this.offerData.policy.locuintaData.id, true, payload, id)
                       .subscribe((amplusPadOfferResponse) => {
                           this.policyS.addOfferToStore(this.offerData, amplusPadOfferResponse, this.policyID)
                             .subscribe((val) => {
