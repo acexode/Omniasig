@@ -73,6 +73,7 @@ export class PolicyDataService {
       policyNrPolita: policy.policyNrPolita,
       policyNrChitanta: policy.policyNrChitanta,
       policyIdIncasareOMN: policy.policyIdIncasareOMN,
+      padPolicyDocumentId: policy.padPolicyDocumentId,
       userId: null,
       locuintaId: null,
       userData: {
