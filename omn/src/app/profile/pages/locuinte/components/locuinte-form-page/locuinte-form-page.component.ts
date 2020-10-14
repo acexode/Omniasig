@@ -78,26 +78,25 @@ export class LocuinteFormPageComponent implements OnInit {
 
   ngOnInit() {
     let extras = this.router.getCurrentNavigation().extras.state;
-    if(extras){      
+    if(extras){
       this.dataModel = extras.data.locuinta;
       this.policyID = extras.policyID;
-      console.log(this.policyID)
       this.formMode = 0;
       const id = this.dataModel.id;
       this.setTitles();
       this.initConfigs(this.dataModel.id).subscribe((v) => {
-        if (!this.formInstance) {          
+        if (!this.formInstance) { 
           this.formInstance = {
             config: this.formConfigs.place,
             group: this.formGroups.place,
             data: this.formData.place,
           };
         }
-        this.formType = LocuinteFormType.PLACE
-        this.continueFlow = true
-        this.cdRef.detectChanges()
+        this.formType = LocuinteFormType.PLACE;
+        this.continueFlow = true;
+        this.cdRef.detectChanges();
         this.cdRef.markForCheck();
-      });     
+      });  
     }else{
       this.routerS
         .getNavigationEndEvent()
@@ -109,7 +108,7 @@ export class LocuinteFormPageComponent implements OnInit {
             ]);
           })
         )
-        .subscribe((vals: any) => {          
+        .subscribe((vals: any) => {    
           this.formMode = vals[0];
           const id = vals[1];
           this.setTitles();
