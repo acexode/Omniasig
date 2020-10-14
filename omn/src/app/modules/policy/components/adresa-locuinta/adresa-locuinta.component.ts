@@ -72,11 +72,11 @@ export class AdresaLocuintaComponent implements OnInit {
   submitForm() {
     this.checkPAD = true;
     const param = this.route.snapshot.queryParamMap.get('policyID')
-    console.log(param)
+    
     if (this.locuintaForm.valid) {
       const controlS = this.locuintaForm.get('selection');
       let selected = this.vLocuinteList.filter(e => e.locuinta.id == controlS.value)[0]; 
-      if (selected.locuinta.yearConstruction != 0 || selected.locuinta.value != 0) {
+      if (selected.locuinta.yearConstruction !== 0 || selected.locuinta.value !== 0) {
         const value = controlS.value;
         if (value !== 'ADD_NEW') {
           this.emitLocuintaItemById(value);

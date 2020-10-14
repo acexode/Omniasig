@@ -77,8 +77,8 @@ export class LocuinteFormPageComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    let extras = this.router.getCurrentNavigation().extras.state;
-    if(extras){
+    const extras = this.router.getCurrentNavigation().extras.state;
+    if (extras){
       this.dataModel = extras.data.locuinta;
       this.policyID = extras.policyID;
       this.formMode = 0;
@@ -108,7 +108,7 @@ export class LocuinteFormPageComponent implements OnInit {
             ]);
           })
         )
-        .subscribe((vals: any) => { 
+        .subscribe((vals: any) => {
           this.formMode = vals[0];
           const id = vals[1];
           this.setTitles();
