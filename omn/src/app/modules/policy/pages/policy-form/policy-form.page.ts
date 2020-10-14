@@ -635,29 +635,43 @@ export class PolicyFormPage implements OnInit, OnDestroy {
   }
 
   setMinDate(policy: PolicyItem) {
+    this.maxPeriodStartDate = null;
     if (!policy) {
       this.minPeriodStartDate = null;
-    } else {
-      this.minPeriodStartDate = get(policy, 'dates.to', null);
-    }
-    this.maxPeriodStartDate = null;
-    if (this.minPeriodStartDate) {
-      const initV = Date.parse(this.minPeriodStartDate);
+    } else if (this.policyID === 'PAD') {
+      try {
+        this.minPeriodStartDate = get(policy, 'dates.to', null);
+        const initV = Date.parse(this.minPeriodStartDate);
 
-      if (initV && !isNaN(initV)) {
-        this.maxPeriodStartDate = new Date(
-          new Date(initV).setFullYear(new Date(initV).getFullYear() + 1)
-        ).toISOString();
-      } else {
-        this.maxPeriodStartDate = new Date(
-          new Date().setFullYear(new Date().getFullYear() + 1)
-        ).toISOString();
-      }
+        if (initV && !isNaN(initV)) {
+          this.maxPeriodStartDate = new Date(
+            new Date(initV).setFullYear(new Date(initV).getFullYear() + 1)
+          ).toISOString();
+        } else {
+          this.maxPeriodStartDate = new Date(
+            new Date().setFullYear(new Date().getFullYear() + 1)
+          ).toISOString();
+        }
+      } catch (e) {}
     } else {
-      this.minPeriodStartDate = new Date();
-      this.maxPeriodStartDate = new Date(
-        new Date().setFullYear(new Date().getFullYear() + 1)
-      ).toISOString();
+      try {
+        this.minPeriodStartDate = new Date().setDate(new Date().getDate() + 1);
+        const maxD = Date.parse(get(policy, 'dates.to', null));
+        this.maxPeriodStartDate = maxD
+          ? new Date(maxD).toISOString()
+          : new Date(this.minPeriodStartDate).setFullYear(
+              new Date(this.minPeriodStartDate).getFullYear() + 1
+            );
+      } catch (e) {}
+    }
+
+    if (!this.minPeriodStartDate) {
+      this.minPeriodStartDate = new Date().setDate(new Date().getDate() + 1);
+    }
+    if (!this.maxPeriodStartDate) {
+      this.maxPeriodStartDate = new Date(this.minPeriodStartDate).setFullYear(
+        new Date(this.minPeriodStartDate).getFullYear() + 1
+      );
     }
   }
 
