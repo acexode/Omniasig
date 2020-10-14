@@ -7,11 +7,11 @@ import { AmplusService } from 'src/app/modules/policy/services/amplus.service';
 import { Locuinte } from 'src/app/shared/models/data/locuinte.interface';
 import { PriceModalComponent } from '../../../components/modals/price-modal/price-modal.component';
 
-@Component({
+@Component( {
   selector: 'app-locuinte-view-card',
   templateUrl: './locuinte-view-card.component.html',
-  styleUrls: ['./locuinte-view-card.component.scss'],
-})
+  styleUrls: [ './locuinte-view-card.component.scss' ],
+} )
 export class LocuinteViewCardComponent implements OnInit {
   @Input() variant: string;
   @Input() locuintaData: Locuinte;
@@ -19,9 +19,9 @@ export class LocuinteViewCardComponent implements OnInit {
   constructor(
     public modalController: ModalController,
     private ampS: AmplusService
-  ) {}
+  ) { }
 
-  ngOnInit() {}
+  ngOnInit() { }
 
   getAmplus() {
     this.checking = true;
@@ -40,19 +40,19 @@ export class LocuinteViewCardComponent implements OnInit {
       propertyCessionList: null,
     };
     this.ampS
-      .CreateAmplusInsuranceOffer(this.locuintaData.id, generateOffer, payload)
+      .CreateAmplusInsuranceOffer( this.locuintaData.id, generateOffer, payload )
       .subscribe(
-        (data) => {
+        ( data ) => {
           Promise.resolve(
             this.presentModal(
-              get(data, 'response.ofertaResponse.prima', null),
-              get(data, 'response.ofertaResponse.moneda', null)
+              get( data, 'response.ofertaResponse.prima', null ),
+              get( data, 'response.ofertaResponse.moneda', null )
             )
           );
           this.checking = false;
         },
-        (err) => {
-          Promise.resolve(this.presentModal(null, null));
+        ( err ) => {
+          Promise.resolve( this.presentModal( null, null ) );
           this.checking = false;
         },
         () => {
@@ -61,14 +61,14 @@ export class LocuinteViewCardComponent implements OnInit {
       );
   }
 
-  async presentModal(prima = 0, currency = 'RON') {
-    const findC = locuinteFieldsData.valueCurrency.find((cc) => {
-      return get(cc, 'id', '') === currency;
-    });
-    if (findC) {
-      currency = get(findC, 'label', currency);
+  async presentModal( prima = 0, currency = 'RON' ) {
+    const findC = locuinteFieldsData.valueCurrency.find( ( cc ) => {
+      return get( cc, 'id', '' ) === currency;
+    } );
+    if ( findC ) {
+      currency = get( findC, 'label', currency );
     }
-    const modal = await this.modalController.create({
+    const modal = await this.modalController.create( {
       component: PriceModalComponent,
       cssClass: 'disabled-message-modal-class',
       componentProps: {
@@ -76,7 +76,7 @@ export class LocuinteViewCardComponent implements OnInit {
         prima,
         currency: currency ? currency.toLowerCase() : null,
       },
-    });
+    } );
     return await modal.present();
   }
 }

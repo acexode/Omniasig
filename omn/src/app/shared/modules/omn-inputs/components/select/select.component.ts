@@ -11,9 +11,9 @@ import {
   NG_VALUE_ACCESSOR,
 } from '@angular/forms';
 import { get, has } from 'lodash';
+import { BehaviorSubject } from 'rxjs';
 import { IonSelectConfig } from 'src/app/shared/models/component/ion-select-config';
 import { IonSelectListOption } from 'src/app/shared/models/component/ion-select-list-option';
-import { BehaviorSubject } from 'rxjs';
 
 @Component({
   selector: 'app-select',
@@ -29,8 +29,15 @@ import { BehaviorSubject } from 'rxjs';
   ],
 })
 export class SelectComponent implements OnInit, ControlValueAccessor {
+  private vConfig: IonSelectConfig;
   @Input()
-  config: IonSelectConfig;
+  set config(c: IonSelectConfig) {
+    this.vConfig = c;
+    this.updateItems();
+  }
+  get config() {
+    return this.vConfig;
+  }
   @Input() set options(opts: Array<IonSelectListOption>) {
     this.opts = opts ? opts : [];
     this.updateItems();

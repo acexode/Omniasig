@@ -83,7 +83,7 @@ export class HomePage implements OnInit {
         },
       ],
       id: '0',
-      routerLink: '/home',
+      routerLink: '/contact',
       itemClass: 'mh-104',
     },
     {
@@ -209,6 +209,7 @@ export class HomePage implements OnInit {
       // biometrics
       cardList.push( { ...this.biometricCard } );
     }
+
     if ( !this.account.isEmailConfirmed ) {
       // email
       cardList.push( {
