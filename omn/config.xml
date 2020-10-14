@@ -137,4 +137,7 @@
             </array>
         </config-file>
     </platform>
+    <engine name="ios" />
+    <engine name="browser" spec="6.0.0" />
+    <engine name="android" spec="~9.0.0" />
 </widget>
