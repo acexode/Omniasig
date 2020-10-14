@@ -1,5 +1,4 @@
 import { FileOpener } from '@ionic-native/file-opener/ngx';
-import { WebView } from '@ionic-native/ionic-webview/ngx';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -21,7 +20,6 @@ import { PolicyPage } from './page/policy.page';
 import { PolicyRoutingModule } from './policy-routing.module';
 import { PolicySharedModule } from './policy-shared.module';
 import { File } from '@ionic-native/file/ngx';
-import { Downloader } from '@ionic-native/downloader/ngx';
 
 @NgModule({
   declarations: [

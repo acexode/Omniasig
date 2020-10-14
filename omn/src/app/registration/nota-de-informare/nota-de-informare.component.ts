@@ -1,6 +1,7 @@
 import { Component, HostBinding, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { AuthService } from 'src/app/core/services/auth/auth.service';
 
 @Component({
   selector: 'app-nota-de-informare',
@@ -10,7 +11,11 @@ import { Router } from '@angular/router';
 export class NotaDeInformareComponent implements OnInit {
   termsForm: FormGroup;
   @HostBinding('class') color = 'ion-color-white-page';
-  constructor(private router: Router, private formBuilder: FormBuilder) {}
+  constructor(
+    private router: Router,
+    private formBuilder: FormBuilder,
+    private authService: AuthService,
+  ) { }
 
   ngOnInit() {
     this.initForm();
@@ -25,5 +30,9 @@ export class NotaDeInformareComponent implements OnInit {
 
   proceed() {
     this.router.navigate(['registration/create-passcode']);
+  }
+
+  doLogout() {
+    this.authService.doLogout();
   }
 }

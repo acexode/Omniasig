@@ -83,7 +83,7 @@ export class HomePage implements OnInit {
         },
       ],
       id: '0',
-      routerLink: '/home',
+      routerLink: '/contact',
       itemClass: 'mh-104',
     },
     {

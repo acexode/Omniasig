@@ -16,7 +16,7 @@ export interface PolicyItem {
     from: Date | string;
     to: Date | string;
   };
-  cesiune?: Array<{ cui: string; procent: number; denumireCesionar: string }>;
+  cesiune?: Array<{ cui: string; procent: number; denumireCesionar: string; }>;
   // additional fields from the BE
   serial?: string;
   policyNrPolita?: string;
@@ -28,4 +28,7 @@ export interface PolicyItem {
   listingSubtitle?: string;
   locationValueCurrency?: any;
   locationValue?: any;
+  /*expiry*/
+  expiry?: Date | string;
+  noOfPayments?: number;
 }

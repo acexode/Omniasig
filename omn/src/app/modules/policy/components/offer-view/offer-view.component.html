@@ -11,9 +11,9 @@
                                     Prețul poliței*
                                 </ion-label>
                                 <ion-label class="x-large text-weight-bold alt-font mb-8">
-                                    {{ offer?.insurancePrice }} lei
+                                    {{ offer?.insurancePrice }} {{ (policyType === 'PAD' ? 'RON' : offer?.policy?.locuintaData?.valueCurrency ) | locuinteField: 'valueCurrency' || '-' }}
                                 </ion-label>
-                                <ion-label class="text-normal text-weight-medium">
+                                <ion-label class="text-normal text-weight-medium" *ngIf="leiCurrency">
                                     20 Euro la cursul de {{ offer?.insurancePrice / 20 | number: '1.4-4' }} lei/Euro
                                 </ion-label>
                             </ion-card-content>
@@ -225,7 +225,7 @@
                     <ion-spinner name="crescent" *ngIf="busy" class="icon-20"></ion-spinner>
                     Plătește</ion-button>
             </ion-row>
-            <ion-row class="flex flex-column ion-no-padding w-100 shadow-3 mt-32" *ngIf="calEntry">
+            <ion-row class="flex flex-column ion-no-padding w-100 shadow-3 mt-32" *ngIf="calEntry && !disableNotificationSection">
                 <ion-row>
                     <ion-col class="ion-no-padding flex flex-1 w-100 flex-column ion-justify-content-center ion-align-items-center">
                         <ion-icon name="notificare" class="radius-50-perc p-10 bg-secondary-blue color-white icon-20 mt-n20"></ion-icon>
@@ -264,9 +264,9 @@
                                     Prețul asigurării:
                                 </ion-label>
                                 <ion-label class="x-large text-weight-bold alt-font mb-8">
-                                    {{ offer?.insurancePrice }} lei
+                                    {{ offer?.insurancePrice }} {{ offer?.policy?.locuintaData?.valueCurrency | locuinteField: 'valueCurrency' || '-' }}
                                 </ion-label>
-                                <ion-label class="text-normal text-weight-medium">
+                                <ion-label class="text-normal text-weight-medium" *ngIf="leiCurrency">
                                     ... Euro la cursul de ... lei/Euro
                                 </ion-label>
                             </ion-card-content>
@@ -280,9 +280,9 @@
                                     Valoarea primei rate:
                                 </ion-label>
                                 <ion-label class="x-large text-weight-bold alt-font mb-8">
-                                    {{ offer?.firstPaymentValue }} lei
+                                    {{ offer?.firstPaymentValue }} {{ offer?.policy?.locuintaData?.valueCurrency | locuinteField: 'valueCurrency' || '-' }}
                                 </ion-label>
-                                <ion-label class="text-normal text-weight-medium">
+                                <ion-label class="text-normal text-weight-medium" *ngIf="leiCurrency">
                                     ... Euro la cursul de ... lei/Euro
                                 </ion-label>
                             </ion-card-content>
@@ -519,7 +519,7 @@
                                     Obiectul asigurării
                                 </div>
                                 <ion-text class="s18-h24">Locuința Suma asigurată: {{ offer?.policy?.locuintaData?.value || '-' }} {{ offer?.policy?.locuintaData?.valueCurrency | locuinteField: 'valueCurrency' || '-' }} (Valoare de înlocuire) Bunuri conţinute (prim risc)* Suma
-                                    asigurată: {{ offer?.policy?.locuintaData?.value > 0 ? offer?.policy?.locuintaData?.value / 10 : (0 | number: '0-0') }} {{ offer?.policy?.locuintaData?.valueCurrency | locuinteField: 'valueCurrency' || '-' }} (Valoare
+                                    asigurată: {{ offer?.policy?.locuintaData?.value > 0 ? offer?.policy?.locuintaData?.value / 10 : (0 | number: '1.0-0') }} {{ offer?.policy?.locuintaData?.valueCurrency | locuinteField: 'valueCurrency' || '-' }} (Valoare
                                     de înlocuire)</ion-text>
                             </ion-label>
                         </ion-item>
@@ -640,7 +640,7 @@
             <ion-row class="px-32 mb-24 ion-no-padding">
                 <ion-button (click)="gotoConditions()" class="s18-h24 text-weight-medium activate-btn w-100 m-0" size="large" color="success" expand="full" shape="round">Continuă</ion-button>
             </ion-row>
-            <ion-row class="flex flex-column ion-no-padding w-100 shadow-3 mt-32" *ngIf="calEntry">
+            <ion-row class="flex flex-column ion-no-padding w-100 shadow-3 mt-32" *ngIf="calEntry && !disableNotificationSection">
                 <ion-row>
                     <ion-col class="ion-no-padding flex flex-1 w-100 flex-column ion-justify-content-center ion-align-items-center">
                         <ion-icon name="notificare" class="radius-50-perc p-10 bg-secondary-blue color-white icon-20 mt-n20"></ion-icon>
@@ -1233,7 +1233,7 @@
             <ion-row class="px-32 mb-24 ion-no-padding">
                 <ion-button (click)="gotoConditions()" class="s18-h24 text-weight-medium activate-btn w-100 m-0" size="large" color="success" expand="full" shape="round">Continuă</ion-button>
             </ion-row>
-            <ion-row class="flex flex-column ion-no-padding w-100 shadow-3 mt-32" *ngIf="calEntry">
+            <ion-row class="flex flex-column ion-no-padding w-100 shadow-3 mt-32" *ngIf="calEntry && !disableNotificationSection">
                 <ion-row>
                     <ion-col class="ion-no-padding flex flex-1 w-100 flex-column ion-justify-content-center ion-align-items-center">
                         <ion-icon name="notificare" class="radius-50-perc p-10 bg-secondary-blue color-white icon-20 mt-n20"></ion-icon>
