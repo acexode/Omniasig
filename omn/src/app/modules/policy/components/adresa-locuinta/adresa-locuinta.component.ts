@@ -53,7 +53,7 @@ export class AdresaLocuintaComponent implements OnInit {
     private fb: FormBuilder,
     private authS: AuthService,
     private paidS: PaidExternalService,
-    protected router : Router,
+    protected router: Router,
     private route: ActivatedRoute
   ) {
     this.authS.getAuthState().subscribe((authData) => {
@@ -89,7 +89,7 @@ export class AdresaLocuintaComponent implements OnInit {
             policyID: param
           }
         };
-        this.router.navigateByUrl('/profil/locuinte/add',navigationExtras);
+        this.router.navigateByUrl('/profil/locuinte/add', navigationExtras);
       }
     }
   }
