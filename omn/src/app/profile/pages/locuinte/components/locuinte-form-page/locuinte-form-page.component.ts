@@ -169,7 +169,6 @@ export class LocuinteFormPageComponent implements OnInit {
     });
   }
   initForm() {
-    console.log(this.formMode)
     switch (this.formMode) {
       case this.formModes.ADD_NEW_FULL:
       case this.formModes.EDIT_FULL:
@@ -404,8 +403,8 @@ export class LocuinteFormPageComponent implements OnInit {
                 ? get(v, 'response', {})
                 : v;
               this.dataModel = { ...this.dataModel, ...resModel };
-              if(this.continueFlow){
-                this.router.navigateByUrl('/policy/form?policyID='+this.policyID);
+              if (this.continueFlow){
+                this.router.navigateByUrl('/policy/form?policyID=' + this.policyID);
               }else{
                 this.formType = LocuinteFormType.SUCCESS_MSG;
                 const header = subPageHeaderDefault('');
