@@ -85,7 +85,7 @@ export class LocuinteFormPageComponent implements OnInit {
       const id = this.dataModel.id;
       this.setTitles();
       this.initConfigs(this.dataModel.id).subscribe((v) => {
-        if (!this.formInstance) { 
+        if (!this.formInstance) {
           this.formInstance = {
             config: this.formConfigs.place,
             group: this.formGroups.place,
@@ -96,7 +96,7 @@ export class LocuinteFormPageComponent implements OnInit {
         this.continueFlow = true;
         this.cdRef.detectChanges();
         this.cdRef.markForCheck();
-      });  
+      });
     }else{
       this.routerS
         .getNavigationEndEvent()
@@ -108,7 +108,7 @@ export class LocuinteFormPageComponent implements OnInit {
             ]);
           })
         )
-        .subscribe((vals: any) => {    
+        .subscribe((vals: any) => { 
           this.formMode = vals[0];
           const id = vals[1];
           this.setTitles();
