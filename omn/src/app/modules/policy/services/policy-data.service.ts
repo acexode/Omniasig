@@ -112,6 +112,46 @@ export class PolicyDataService {
   }
 
   // get user offers
+  // getUserOffers() {
+  //   const emptyV: Array<PolicyOffer> = [];
+
+  //   return this.reqS
+  //     .get<Array<PolicyOffer>>(this.endpoints.GetActivePADOffers)
+  //     .pipe(
+  //       catchError((e) => {
+  //         return of(emptyV);
+  //       }),
+  //       map((ov) => {
+  //         return ov
+  //           ? ov.map((ovi) =>
+  //               this.mapOfferPolicyType(this.createOffersObj(ovi, 'PAD'))
+  //             )
+  //           : [];
+  //       }),
+  //       switchMap((padOffers) =>
+  //         this.reqS
+  //           .get<Array<PolicyOffer>>(this.endpoints.GetActiveAmplusOffers)
+  //           .pipe(
+  //             catchError((e) => {
+  //               return of(emptyV);
+  //             }),
+  //             map((ov) => {
+  //               return ov
+  //                 ? ov.map((ovi) =>
+  //                     this.mapOfferPolicyType(
+  //                       this.createOffersObj(ovi, 'AMPLUS')
+  //                     )
+  //                   )
+  //                 : [];
+  //             }),
+  //             map((amplusOffers) => {
+  //               return [...amplusOffers, ...padOffers];
+  //             })
+  //           )
+  //       )
+  //     );
+  // }
+
   getUserOffers() {
     const emptyV: Array<PolicyOffer> = [];
 
@@ -146,6 +186,27 @@ export class PolicyDataService {
               }),
               map((amplusOffers) => {
                 return [...amplusOffers, ...padOffers];
+              })
+            )
+        ),
+        switchMap((singleOffers) =>
+          this.reqS
+            .get<Array<PolicyOffer>>(this.endpoints.GetActiveAmplusPadOffers)
+            .pipe(
+              catchError((e) => {
+                return of(emptyV);
+              }),
+              map((ov) => {
+                return ov
+                  ? ov.map((ovi) =>
+                      this.mapOfferPolicyType(
+                        this.createOffersObj(ovi, 'AMPLUS_PAD')
+                      )
+                    )
+                  : [];
+              }),
+              map((padAmplusOffers) => {
+                return [...padAmplusOffers, ...singleOffers];
               })
             )
         )
@@ -218,7 +279,7 @@ export class PolicyDataService {
       insurancePrice: offer.offerPrima || 0,
       firstPaymentValue: offer.firstPaymentValue,
     };
-    if (typeId === 'AMPLUS') {
+    if (typeId === 'AMPLUS' || typeId === 'Garant AMPLUS+ PAD') {
       offerObj.expiry = get(offer, 'offerExpireDate', '');
       const isGold = get(offer, 'isGold', false);
       const isVip = get(offer, 'isVip', false);

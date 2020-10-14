@@ -100,6 +100,7 @@ export class OfferViewComponent implements OnInit {
       if (offer && has(offer, 'policy.typeId')) {
         this.policyType = get(offer, 'policy.typeId', this.policyType);
       }
+      console.log('OFFER DETAILS FOR VIEW', this.offer);
       this.setCalEntry(this.offer);
     });
   }

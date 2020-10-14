@@ -46,6 +46,10 @@ export const policyEndpoints = {
   GetActivePADPolicies: serverBaseUrl + '/PADInsurance/GetActivePADPolicies',
   GetActiveAmplusOffers:
     serverBaseUrl + '/AmplusInsurance/GetActiveAmplusOffers',
+  GetActiveAmplusPadOffers:
+    serverBaseUrl + '/AmplusInsurance/GetActiveAmplusPadOffers',
+  GetActiveAmplusPadPolicies:
+    serverBaseUrl + '/AmplusInsurance/GetActiveAmplusPadPolicies',
 };
 
 export const locuinteEndpoints = {
