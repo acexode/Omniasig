@@ -1,41 +1,63 @@
 <ion-content class="">
-    <ion-header [translucent]="false" class="header-element">
-        <ion-toolbar size="small" color="omn-transparent-white" class="header-toolbar">
-            <ion-buttons slot="start" class="header-buttons">
-                <ion-button class="header-button">
-                    <ion-icon slot="icon-only" name="md-close-2" class="icon-20 header-button-icon"></ion-icon>
-                </ion-button>
-            </ion-buttons>
-        </ion-toolbar>
-    </ion-header>
-    <div class="px-32">
-        <ion-col>
-            <div class="text-center mb-8 ion-text-center">
-                <ion-text class="alt-font color-dark-green x-large mb-17 text-center">
-                    Cod de verificare
-                </ion-text>
-            </div>
-            <div class="ion-text-center pb-42">
-                <ion-text class="text-small">
-                    Am trimis un cod de verificare la {{ phoneNumber }}
-                </ion-text>
-            </div>
-            <div class="ion-text-center pb-80">
-                <app-passcode-field [errorLogin]="InvalidCode" (doPassForm)="verifyDigit($event)" (doClearErr)="clearErr($event)"></app-passcode-field>
-            </div>
-            <div class="ion-text-center pt-80">
-                <ion-text *ngIf="InvalidCode" class="text-small color-red">
-                    {{InvalidCode}}
-                </ion-text>
-                <ion-text *ngIf="!InvalidCode" class="text-small">
-                    Poți solicita un alt cod în {{ min }}:{{ sec }}
-                </ion-text>
-                <div *ngIf="sec < 1 || sec == 0" class="ion-align-items-center ion-text-center mt-8">
-                    <ion-button (click)="resendSMS()" class="success-gradient ion-color-success" expand="block" size="large" shape="round" mode="md">
-                        Retrimite cod
-                    </ion-button>
-                </div>
-            </div>
-        </ion-col>
-    </div>
+  <ion-header [translucent]="false" class="header-element">
+    <ion-toolbar
+      size="small"
+      color="omn-transparent-white"
+      class="header-toolbar"
+    >
+      <ion-buttons slot="start" class="header-buttons">
+        <ion-button class="header-button" (click)="doLogout()">
+          <ion-icon
+            slot="icon-only"
+            name="md-close-2"
+            class="icon-20 header-button-icon"
+          ></ion-icon>
+        </ion-button>
+      </ion-buttons>
+    </ion-toolbar>
+  </ion-header>
+  <div class="px-32">
+    <ion-col>
+      <div class="text-center mb-8 ion-text-center">
+        <ion-text class="alt-font color-dark-green x-large mb-17 text-center">
+          Cod de verificare
+        </ion-text>
+      </div>
+      <div class="ion-text-center pb-42">
+        <ion-text class="text-small">
+          Am trimis un cod de verificare la {{ phoneNumber }}
+        </ion-text>
+      </div>
+      <div class="ion-text-center pb-80">
+        <app-passcode-field
+          [errorLogin]="InvalidCode"
+          (doPassForm)="verifyDigit($event)"
+          (doClearErr)="clearErr($event)"
+        ></app-passcode-field>
+      </div>
+      <div class="ion-text-center pt-80">
+        <ion-text *ngIf="InvalidCode" class="text-small color-red">
+          {{ InvalidCode }}
+        </ion-text>
+        <ion-text *ngIf="!InvalidCode" class="text-small">
+          Poți solicita un alt cod în {{ min }}:{{ sec }}
+        </ion-text>
+        <div
+          *ngIf="sec < 1 || sec == 0"
+          class="ion-align-items-center ion-text-center mt-8"
+        >
+          <ion-button
+            (click)="resendSMS()"
+            class="success-gradient ion-color-success"
+            expand="block"
+            size="large"
+            shape="round"
+            mode="md"
+          >
+            Retrimite cod
+          </ion-button>
+        </div>
+      </div>
+    </ion-col>
+  </div>
 </ion-content>
