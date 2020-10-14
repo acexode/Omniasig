@@ -289,10 +289,10 @@ export class PolicyDataService {
     policyType: string
   ): Observable<PolicyOffer> {
     const { iban, codOferta, moneda, prima, eroare, mesaj } =
-      (policyType === 'PAD' || policyType === 'Garant AMPLUS+ PAD')
+      (policyType === 'PAD' )
         ? this.processPadOffer(offerResponse)
         : this.processAmplusOffer(offerResponse);
-
+        // || policyType === 'Garant AMPLUS+ PAD'
     if (eroare) {
       return throwError(mesaj);
     }

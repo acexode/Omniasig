@@ -87,7 +87,6 @@ export class PolicyVerifyComponent implements OnInit {
   }
 
   calculatePrice() {
-    console.log('is it Amplus OR Amplus+PAD', this.policyID, this.offerData);
     this.createOfferEvent.emit();
     const payload = {
       isVip: this.offerData?.supportData?.plan === 'vip' ? true : false,
@@ -157,17 +156,14 @@ export class PolicyVerifyComponent implements OnInit {
       .subscribe(
         (result) => {
           this.policyS
-            .addOfferToStore(this.offerData, result, this.policyID)
+            .addOfferToStore(this.offerData, result, 'PAD')
             .subscribe(
               (v) => {
                 if (result) {
-                  console.log('DATA FROM BE', v);
                   const id = get(v, 'id', null);
                   if (id) {
-                    console.log('pad oofer id before going for amplus', id);
-                    // FOR AMPLUS
-                    this.amplusS
-                      .CreateAmplusPadInsuranceOffer(
+                    // FOR AMPLUS+PAD
+                    this.amplusS.CreateAmplusPadInsuranceOffer(
                         this.offerData.policy.locuintaData.id,
                         true,
                         payload,

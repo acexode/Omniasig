@@ -97,6 +97,7 @@ export class OfferViewComponent implements OnInit {
   getPolicyById(id) {
     this.policyDataService.getSingleOfferById(id, this.policyType).subscribe((offer) => {
       this.offer = offer;
+      console.log("MY OFFER OOO", this.offer, id)
       if (offer && has(offer, 'policy.typeId')) {
         this.policyType = get(offer, 'policy.typeId', this.policyType);
       }

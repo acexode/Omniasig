@@ -16,7 +16,6 @@ export class WayToPayComponent implements OnInit {
 
   amplusPadGroup = this.fb.group({
     rate: this.fb.control(null, Validators.required),
-    type: this.fb.control(null, Validators.required),
   });
 
   fieldConfig = {
