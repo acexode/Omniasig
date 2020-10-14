@@ -20,6 +20,7 @@ import { PolicyPage } from './page/policy.page';
 import { PolicyRoutingModule } from './policy-routing.module';
 import { PolicySharedModule } from './policy-shared.module';
 import { File } from '@ionic-native/file/ngx';
+import { DownloadErrorModalComponent } from './components/modals/download-error-modal/download-error-modal.component';
 
 @NgModule({
   declarations: [
@@ -33,6 +34,7 @@ import { File } from '@ionic-native/file/ngx';
     AsistentaModalPagePage,
     PaymentStatusComponent,
     InsuranceConditionsComponent,
+    DownloadErrorModalComponent
   ],
   imports: [
     CommonModule,

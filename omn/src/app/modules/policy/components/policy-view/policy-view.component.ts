@@ -1,7 +1,8 @@
+import { DownloadErrorModalComponent } from './../modals/download-error-modal/download-error-modal.component';
 import { PadService } from './../../services/pad.service';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { isPlatform, NavController } from '@ionic/angular';
+import { isPlatform, NavController, ModalController } from '@ionic/angular';
 import { get } from 'lodash';
 import { dateHelperDMY } from 'src/app/core/helpers/date.helper';
 import { CustomStorageService } from 'src/app/core/services/custom-storage/custom-storage.service';
@@ -11,6 +12,7 @@ import { subPageHeaderCustom } from './../../../../shared/data/sub-page-header-c
 import { PolicyDataService } from './../../services/policy-data.service';
 import { File, FileEntry } from '@ionic-native/file/ngx';
 import { FileOpener } from '@ionic-native/file-opener/ngx';
+import { DisabledMessageModalComponent } from '../modals/disabled-message-modal/disabled-message-modal.component';
 @Component({
   selector: 'app-policy-view',
   templateUrl: './policy-view.component.html',
@@ -30,7 +32,8 @@ export class PolicyViewComponent implements OnInit {
     private file: File,
     private storeS: CustomStorageService,
     private fileOpener: FileOpener,
-    private padService: PadService
+    private padService: PadService,
+    private modalController: ModalController
   ) {
     this.route.params.subscribe((params: any) => {
       this.getPolicyById(params.id);
@@ -80,12 +83,15 @@ export class PolicyViewComponent implements OnInit {
   downloadPolicy() {
     // TODO checked if doc has been downloaded earlier or fetch do from WS...
     const title = `policy-${this.policy.padPolicyDocumentId}.pdf`;
+    const id = this.policy.padPolicyDocumentId;
+    if (id === 0) {
+      return this.presentModal('Documentul nu este disponibil', 'Documentul este in curs de pregatire. Reincercati mai tarziu.');
+    }
     this.storeS.getItem(title).subscribe((fileObj) => {
       if (fileObj) {
         this.prepareDoc(title);
       } else {
         this.downloading = true;
-        const id = this.policy.padPolicyDocumentId;
         this.padService.getPadPolicyDocument(id)
           .subscribe((offerDocument) => {
             if (offerDocument) {
@@ -144,5 +150,18 @@ export class PolicyViewComponent implements OnInit {
       .catch((err) => {
         // TODO: error handling may be needed here too...
       });
+  }
+
+
+  async presentModal(title, description) {
+    const modal = await this.modalController.create({
+      component: DownloadErrorModalComponent,
+      cssClass: 'disabled-message-modal-class',
+      componentProps: {
+        title,
+        description,
+      },
+    });
+    return await modal.present();
   }
 }

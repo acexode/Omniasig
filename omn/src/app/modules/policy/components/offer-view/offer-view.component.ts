@@ -21,6 +21,7 @@ import { PaymentStatusComponent } from './../payment-status/payment-status.compo
 import { CustomStorageService } from 'src/app/core/services/custom-storage/custom-storage.service';
 import { File, FileEntry } from '@ionic-native/file/ngx';
 import { FileOpener } from '@ionic-native/file-opener/ngx';
+import { DownloadErrorModalComponent } from '../modals/download-error-modal/download-error-modal.component';
 
 @Component( {
   selector: 'app-offer-view',
@@ -284,6 +285,9 @@ export class OfferViewComponent implements OnInit {
   downloadAmplusOffer() {
     const title = `amplus-offer-${this.offer.amplusOfferDocumentId}.pdf`;
     const id = parseInt(this.offer.amplusOfferDocumentId, 10);
+    if (id === 0) {
+      return this.presentDocModal('Documentul nu este disponibil', 'Documentul este in curs de pregatire. Reincercati mai tarziu.');
+    }
     this.storeS.getItem(title).subscribe((fileObj) => {
         if (fileObj) {
           this.prepareDoc(title);
@@ -306,12 +310,15 @@ export class OfferViewComponent implements OnInit {
   downloadPadOffer() {
     // TODO checked if doc has been downloaded earlier or fetch do from WS...
     const title = `offer-${this.offer.padOfferDocumentId}.pdf`;
+    const id = parseInt(this.offer.padOfferDocumentId, 10);
+    if (id === 0) {
+      return this.presentDocModal('Documentul nu este disponibil', 'Documentul este in curs de pregatire. Reincercati mai tarziu.');
+    }
     this.storeS.getItem(title).subscribe((fileObj) => {
       if (fileObj) {
         this.prepareDoc(title);
       } else {
         this.downloading = true;
-        const id = parseInt(this.offer.padOfferDocumentId, 10);
         this.padService
           .getPadOfferDocument(id)
           .subscribe((offerDocument) => {
@@ -371,5 +378,17 @@ export class OfferViewComponent implements OnInit {
       .catch((err) => {
         // TODO: error handling may be needed here too...
       });
+  }
+
+  async presentDocModal(title, description) {
+    const modal = await this.modalController.create({
+      component: DownloadErrorModalComponent,
+      cssClass: 'disabled-message-modal-class',
+      componentProps: {
+        title,
+        description,
+      },
+    });
+    return await modal.present();
   }
 }
