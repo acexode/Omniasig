@@ -37,7 +37,7 @@ export class InputSmsComponent implements OnInit, AfterViewInit, OnDestroy {
     private router: Router,
     private timers: CustomTimersService,
     private formBuilder: FormBuilder,
-    private auth: AuthService
+    private auth: AuthService,
   ) { }
 
   ngOnInit() {
@@ -100,5 +100,9 @@ export class InputSmsComponent implements OnInit, AfterViewInit, OnDestroy {
 
   ngOnDestroy() {
     unsubscriberHelper(this.sub);
+  }
+
+  doLogout() {
+    this.auth.doLogout();
   }
 }
