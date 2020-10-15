@@ -334,6 +334,7 @@ export class OfferViewComponent implements OnInit {
             this.downloading = false;
           },
           (err) => {
+            console.log(err);
             Promise.resolve(
               this.presentDocModal(
                 'Nu am putut descarca fisierul',
