@@ -13,7 +13,6 @@ import { locuinteFieldsData } from 'src/app/shared/data/locuinte-field-data';
 import { subPageHeaderDefault } from 'src/app/shared/data/sub-page-header-default';
 import { subPageHeaderSecondary } from 'src/app/shared/data/sub-page-header-secondary';
 import { PolicyOffer } from 'src/app/shared/models/data/policy-offer';
-import { DownloadErrorModalComponent } from 'src/app/shared/modules/shared-file/components/download-error-modal/download-error-modal.component';
 import { AmplusService } from '../../services/amplus.service';
 import { PadService } from '../../services/pad.service';
 import { PolicyDataService } from '../../services/policy-data.service';
@@ -348,14 +347,7 @@ export class OfferViewComponent implements OnInit {
   }
 
   async presentDocModal(title, description) {
-    const modal = await this.modalController.create({
-      component: DownloadErrorModalComponent,
-      cssClass: 'disabled-message-modal-class',
-      componentProps: {
-        title,
-        description,
-      },
-    });
+    const modal = await this.fileS.createErrorModal(title, description);
     return await modal.present();
   }
 }

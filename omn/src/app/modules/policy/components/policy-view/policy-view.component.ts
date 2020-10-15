@@ -1,13 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { FileOpener } from '@ionic-native/file-opener/ngx';
-import { File, FileEntry } from '@ionic-native/file/ngx';
-import { isPlatform, ModalController, NavController } from '@ionic/angular';
+import { ModalController, NavController } from '@ionic/angular';
 import { get } from 'lodash';
 import { dateHelperDMY } from 'src/app/core/helpers/date.helper';
-import { CustomStorageService } from 'src/app/core/services/custom-storage/custom-storage.service';
 import { PolicyItem } from 'src/app/shared/models/data/policy-item';
-import { DownloadErrorModalComponent } from 'src/app/shared/modules/shared-file/components/download-error-modal/download-error-modal.component';
 import { SharedFileService } from 'src/app/shared/modules/shared-file/services/shared-file.service';
 import { CalendarEntry } from '../models/calendar-entry';
 import { subPageHeaderCustom } from './../../../../shared/data/sub-page-header-custom';
@@ -29,9 +25,6 @@ export class PolicyViewComponent implements OnInit {
     private route: ActivatedRoute,
     private policyDataService: PolicyDataService,
     private navCtrl: NavController,
-    private file: File,
-    private storeS: CustomStorageService,
-    private fileOpener: FileOpener,
     private padService: PadService,
     private modalController: ModalController,
     private fileS: SharedFileService
@@ -117,14 +110,7 @@ export class PolicyViewComponent implements OnInit {
   }
 
   async presentModal(title, description) {
-    const modal = await this.modalController.create({
-      component: DownloadErrorModalComponent,
-      cssClass: 'disabled-message-modal-class',
-      componentProps: {
-        title,
-        description,
-      },
-    });
+    const modal = await this.fileS.createErrorModal(title, description);
     return await modal.present();
   }
 }

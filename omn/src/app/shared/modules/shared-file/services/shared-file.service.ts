@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
 import { FileOpener } from '@ionic-native/file-opener/ngx';
 import { File, FileEntry } from '@ionic-native/file/ngx';
-import { isPlatform } from '@ionic/angular';
+import { isPlatform, ModalController } from '@ionic/angular';
 import { Observable, Subject, throwError } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import { CustomStorageService } from 'src/app/core/services/custom-storage/custom-storage.service';
+import { DownloadErrorModalComponent } from '../components/download-error-modal/download-error-modal.component';
 
 @Injectable({
   providedIn: 'root',
@@ -13,7 +14,8 @@ export class SharedFileService {
   constructor(
     private file: File,
     private storeS: CustomStorageService,
-    private fileOpener: FileOpener
+    private fileOpener: FileOpener,
+    private modalController: ModalController
   ) {}
 
   /**
@@ -101,5 +103,16 @@ export class SharedFileService {
         }
       })
     );
+  }
+
+  async createErrorModal(title = '', description = '') {
+    return this.modalController.create({
+      component: DownloadErrorModalComponent,
+      cssClass: 'my-custom-modal-class disabled-message-modal-class',
+      componentProps: {
+        title,
+        description,
+      },
+    });
   }
 }
