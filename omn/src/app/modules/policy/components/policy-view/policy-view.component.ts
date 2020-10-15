@@ -1,13 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { ModalController, NavController } from '@ionic/angular';
+import { NavController } from '@ionic/angular';
 import { get } from 'lodash';
 import { dateHelperDMY } from 'src/app/core/helpers/date.helper';
 import { PolicyItem } from 'src/app/shared/models/data/policy-item';
 import { SharedFileService } from 'src/app/shared/modules/shared-file/services/shared-file.service';
 import { CalendarEntry } from '../models/calendar-entry';
 import { subPageHeaderCustom } from './../../../../shared/data/sub-page-header-custom';
-import { PadService } from './../../services/pad.service';
 import { PolicyDataService } from './../../services/policy-data.service';
 @Component({
   selector: 'app-policy-view',
@@ -25,8 +24,6 @@ export class PolicyViewComponent implements OnInit {
     private route: ActivatedRoute,
     private policyDataService: PolicyDataService,
     private navCtrl: NavController,
-    private padService: PadService,
-    private modalController: ModalController,
     private fileS: SharedFileService
   ) {
     this.route.params.subscribe((params: any) => {
@@ -75,10 +72,16 @@ export class PolicyViewComponent implements OnInit {
   }
 
   downloadPolicy() {
-    // TODO checked if doc has been downloaded earlier or fetch do from WS...
+    // TODO: update this for other policies.
     const title = `policy-${this.policy.padPolicyDocumentId}.pdf`;
-    const id = this.policy.padPolicyDocumentId;
-    if (id === 0) {
+    let id = null;
+    try {
+      id = parseInt(this.policy.padPolicyDocumentId.toString(), 10);
+    } catch (e) {
+      id = null;
+    }
+
+    if (!id) {
       return this.presentModal(
         'Documentul nu este disponibil',
         'Documentul este in curs de pregatire. Reincercati mai tarziu.'
@@ -89,7 +92,9 @@ export class PolicyViewComponent implements OnInit {
         .downloadAndOpenFile({
           fileName: title,
           storeKey: title,
-          downloadService: this.padService.getPadPolicyDocument(id),
+          downloadService: this.policyDataService.getPolicyOfferDocumentById(
+            id
+          ),
           fileFormat: 'application/pdf',
         })
         .subscribe(

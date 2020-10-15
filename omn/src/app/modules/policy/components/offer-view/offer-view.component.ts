@@ -13,8 +13,6 @@ import { locuinteFieldsData } from 'src/app/shared/data/locuinte-field-data';
 import { subPageHeaderDefault } from 'src/app/shared/data/sub-page-header-default';
 import { subPageHeaderSecondary } from 'src/app/shared/data/sub-page-header-secondary';
 import { PolicyOffer } from 'src/app/shared/models/data/policy-offer';
-import { AmplusService } from '../../services/amplus.service';
-import { PadService } from '../../services/pad.service';
 import { PolicyDataService } from '../../services/policy-data.service';
 import { CalendarEntry } from '../models/calendar-entry';
 import { SharedFileService } from './../../../../shared/modules/shared-file/services/shared-file.service';
@@ -102,8 +100,6 @@ export class OfferViewComponent implements OnInit {
     private navCtrl: NavController,
     public modalController: ModalController,
     private iab: InAppBrowser,
-    private amplusService: AmplusService,
-    private padService: PadService,
     private fileS: SharedFileService
   ) {}
 
@@ -279,9 +275,14 @@ export class OfferViewComponent implements OnInit {
 
   downloadAmplusOffer() {
     const title = `amplus-offer-${this.offer.amplusOfferDocumentId}.pdf`;
-    const id = parseInt(this.offer.amplusOfferDocumentId, 10);
+    let id = null;
+    try {
+      id = parseInt(this.offer.amplusOfferDocumentId, 10);
+    } catch (e) {
+      id = null;
+    }
 
-    if (id === 0) {
+    if (!id) {
       return this.presentDocModal(
         'Documentul nu este disponibil',
         'Documentul este in curs de pregatire. Reincercati mai tarziu.'
@@ -292,7 +293,9 @@ export class OfferViewComponent implements OnInit {
         .downloadAndOpenFile({
           fileName: title,
           storeKey: title,
-          downloadService: this.amplusService.getAmplusOfferDocument(id),
+          downloadService: this.policyDataService.getPolicyOfferDocumentById(
+            id
+          ),
           fileFormat: 'application/pdf',
         })
         .subscribe(
@@ -314,8 +317,14 @@ export class OfferViewComponent implements OnInit {
 
   downloadPadOffer() {
     const title = `offer-${this.offer.padOfferDocumentId}.pdf`;
-    const id = parseInt(this.offer.padOfferDocumentId, 10);
-    if (id === 0) {
+    let id = null;
+    try {
+      id = parseInt(this.offer.padOfferDocumentId, 10);
+    } catch (e) {
+      id = null;
+    }
+
+    if (!id) {
       return this.presentDocModal(
         'Documentul nu este disponibil',
         'Documentul este in curs de pregatire. Reincercati mai tarziu.'
@@ -326,7 +335,9 @@ export class OfferViewComponent implements OnInit {
         .downloadAndOpenFile({
           fileName: title,
           storeKey: title,
-          downloadService: this.padService.getPadOfferDocument(id),
+          downloadService: this.policyDataService.getPolicyOfferDocumentById(
+            id
+          ),
           fileFormat: 'application/pdf',
         })
         .subscribe(

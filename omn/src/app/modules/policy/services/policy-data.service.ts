@@ -3,7 +3,10 @@ import { Calendar } from '@ionic-native/calendar/ngx';
 import { get, set } from 'lodash';
 import { BehaviorSubject, Observable, of, throwError } from 'rxjs';
 import { catchError, filter, map, switchMap, tap } from 'rxjs/operators';
-import { policyEndpoints } from 'src/app/core/configs/endpoints';
+import {
+  documentEndpoint,
+  policyEndpoints,
+} from 'src/app/core/configs/endpoints';
 import { AuthService } from 'src/app/core/services/auth/auth.service';
 import { RequestService } from 'src/app/core/services/request/request.service';
 import { PolicyItem } from 'src/app/shared/models/data/policy-item';
@@ -27,6 +30,20 @@ export class PolicyDataService {
     private calendar: Calendar
   ) {
     this.initData();
+  }
+
+  getPolicyOfferDocumentById(
+    documentId,
+    type: 'policy' | 'offer' = null,
+    policyType: string = null
+  ) {
+    return this.reqS
+      .get<any>(`${documentEndpoint.getDocument}?documentId=${documentId}`)
+      .pipe(
+        map((v) => {
+          return get(v, 'file', null);
+        })
+      );
   }
 
   initData() {
@@ -125,8 +142,8 @@ export class PolicyDataService {
         map((ov) => {
           return ov
             ? ov.map((ovi) =>
-              this.mapOfferPolicyType(this.createOffersObj(ovi, 'PAD'))
-            )
+                this.mapOfferPolicyType(this.createOffersObj(ovi, 'PAD'))
+              )
             : [];
         }),
         switchMap((padOffers) =>
@@ -139,10 +156,10 @@ export class PolicyDataService {
               map((ov) => {
                 return ov
                   ? ov.map((ovi) =>
-                    this.mapOfferPolicyType(
-                      this.createOffersObj(ovi, 'AMPLUS')
+                      this.mapOfferPolicyType(
+                        this.createOffersObj(ovi, 'AMPLUS')
+                      )
                     )
-                  )
                   : [];
               }),
               map((amplusOffers) => {
@@ -226,8 +243,16 @@ export class PolicyDataService {
       offerObj.expiry = get(offer, 'offerExpireDate', '');
       const isGold = get(offer, 'isGold', false);
       const isVip = get(offer, 'isVip', false);
-      set(offerObj, 'amplusOfferDocumentId', get(offer, 'amplusOfferDocumentId', null));
-      set(offerObj, 'amplusPolicyDocumentId', get(offer, 'amplusPolicyDocumentId', null));
+      set(
+        offerObj,
+        'amplusOfferDocumentId',
+        get(offer, 'amplusOfferDocumentId', null)
+      );
+      set(
+        offerObj,
+        'amplusPolicyDocumentId',
+        get(offer, 'amplusPolicyDocumentId', null)
+      );
       set(offerObj, 'supportData', isGold ? 'GOLD' : isVip ? 'VIP' : '-');
       set(offerObj, 'ratePlanList', get(offer, 'ratePlanList', []));
       set(offerObj, 'noOfPayments', get(offer, 'noOfPayments', -1)); // -1 means no payment
@@ -397,8 +422,8 @@ export class PolicyDataService {
         calEntry.options
       )
       .then(
-        (msg) => { },
-        (err) => { }
+        (msg) => {},
+        (err) => {}
       );
   }
 
