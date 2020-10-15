@@ -376,9 +376,9 @@ export class LocuinteFormService {
     const f = vvv.find((v) => {
       try {
         const vName = v.name.toString();
-        const sName = v.shortName.toString();
+        const vCode = code ? code.toString() : '';
         const vId = v.id.toString();
-        return vName === name || vId === code;
+        return vName === name || vId === vCode;
       } catch (err) {
         return false;
       }
@@ -512,6 +512,7 @@ export class LocuinteFormService {
         statedId: addressCity.statedId,
       };
       return this.locuinteS.getStreets(obj).pipe(
+        take(1),
         map((v) => {
           this.locuinteS.streetStore$.next(v);
           fieldsData.addressStreet = v;
