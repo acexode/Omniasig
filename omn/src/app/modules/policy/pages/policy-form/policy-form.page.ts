@@ -510,7 +510,7 @@ export class PolicyFormPage implements OnInit, OnDestroy {
     } else if ( type ) {
       console.log(type['locuinta'])
       if (type['locuinta'].yearConstruction === 0 || type['locuinta'].value === 0) {
-        this.locuinteData = type['locuinta']
+        this.locuinteData = type['locuinta'];
         this.changeStep( this.policySteps.LOCATION_FORM );
       }else{
         this.refreshPostAddressSelect( type as PolicyLocuintaListItem );

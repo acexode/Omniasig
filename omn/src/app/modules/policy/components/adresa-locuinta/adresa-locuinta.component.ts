@@ -81,17 +81,6 @@ export class AdresaLocuintaComponent implements OnInit {
       } else {
         this.selectionDone.emit(value);
       }
-      if (selected.locuinta.yearConstruction !== 0 || selected.locuinta.value !== 0) {
-      }else{
-
-        // const navigationExtras: NavigationExtras = {
-        //   state: {
-        //     data: selected,
-        //     policyID: param
-        //   }
-        // };
-        // this.router.navigateByUrl('/profil/locuinte/add', navigationExtras);
-      }
     }
   }
 
