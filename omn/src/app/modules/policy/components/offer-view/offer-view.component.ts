@@ -5,7 +5,7 @@ import {
   InAppBrowserObject,
 } from '@ionic-native/in-app-browser/ngx';
 import { isPlatform, ModalController, NavController } from '@ionic/angular';
-import { get, has } from 'lodash';
+import { get, set, has } from 'lodash';
 import { Subscription } from 'rxjs';
 import { first, take } from 'rxjs/operators';
 import { dateHelperDMY } from 'src/app/core/helpers/date.helper';
@@ -185,9 +185,10 @@ export class OfferViewComponent implements OnInit {
       policyCode: this.offer.offerCode,
       isMobilePayment: true,
     };
-    if(this.policyType === 'AMPLUS_PAD'){
-      data['ibaN_2'] = this.offer.padInsurance.iban;
-      data['amount_IBAN_2'] = this.offer.padInsurance.firstPaymentValue;
+    if (this.policyType === 'AMPLUS_PAD') {
+      let offer = this.offer;
+      set(data, 'ibaN_2', get(offer.padInsurance, 'iban', null));
+      set(data, 'amount_IBAN_2', get(offer.padInsurance, 'firstPaymentValue', null));
     }
     this.sub = this.policyDataService.makePayment( data ).subscribe(
       ( dataV ) => {
