@@ -151,7 +151,11 @@
           </ion-text>
         </div>
         <ion-text class="s18-h24 ion-inherit-color">
-          {{ policy?.locuintaData?.value }} Euro
+          {{ policy?.locuintaData?.value }}
+          {{
+            policy?.locuintaData?.valueCurrency
+              | locuinteField: 'valueCurrency' || '-'
+          }}
         </ion-text>
       </div>
 
@@ -162,8 +166,11 @@
           </ion-text>
         </div>
         <ion-text class="s18-h24 ion-inherit-color">
-          <!-- {{ (policy?.locuintaData?.value || 0) * 4.9 }} Lei -->
-          - Lei
+          {{ policy?.insurancePrice }}
+          {{
+            policy?.currency
+              | locuinteField: 'valueCurrency' || '-'
+          }}
         </ion-text>
       </div>
 

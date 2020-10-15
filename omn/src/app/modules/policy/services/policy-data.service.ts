@@ -142,6 +142,8 @@ export class PolicyDataService {
         addressPostalCode: policy.addressPostalCode,
       },
       expiry: policy.expirationDate,
+      insurancePrice: policy.offerPrima,
+      currency: policy.offerCurrency,
     };
   }
 
@@ -271,7 +273,8 @@ export class PolicyDataService {
       cnp: offer.userCnp,
       expiry: offer.expirationDate,
       emisionDate: offer.offerDate ? new Date( offer.offerDate ) : '',
-      insurancePrice: offer.offerPrima || 0,
+      insurancePrice: offer.insurancePrice || 0,
+      currency: offer.offerCurrency,
     };
     if (typeId === 'AMPLUS' || typeId === 'AMPLUS_PAD') {
       offerObj.expiry = get(offer, 'offerExpireDate', '');
@@ -283,11 +286,11 @@ export class PolicyDataService {
     }
     if (typeId === 'AMPLUS_PAD') {
       // PAD offer fields that are not equal with similar fields in Amplus Offer for Amplus+PAD
-      set(offerObj, 'id', get(offer.padInsurance, 'id', []));
-      set(offerObj, 'offerCode', get(offer.padInsurance, 'offerCode', []));
-      set(offerObj, 'currency', get(offer.padInsurance, '"offerCurrency', []));
-      set(offerObj, 'offerPrice', get(offer.padInsurance, 'offerPrima', []));
-      set(offerObj, 'firstPaymentValue', get(offer.padInsurance, 'firstPaymentValue', []));
+      set(offerObj, 'padInsurance.id', get(offer.padInsurance, 'id', '-'));
+      set(offerObj, 'padInsurance.offerCode', get(offer.padInsurance, 'offerCode', '-'));
+      set(offerObj, 'padInsurance.currency', get(offer.padInsurance, '"offerCurrency', '-'));
+      set(offerObj, 'padInsurance.offerPrice', get(offer.padInsurance, 'offerPrima', '-'));
+      set(offerObj, 'padInsurance.firstPaymentValue', get(offer.padInsurance, 'firstPaymentValue', '-'));
     }
     return offerObj;
   }
