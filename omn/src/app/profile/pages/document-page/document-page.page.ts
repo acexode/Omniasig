@@ -1,12 +1,10 @@
-import { DownloadErrorModalComponent } from './../../../modules/policy/components/modals/download-error-modal/download-error-modal.component';
-import { has } from 'lodash';
-import { NavController } from '@ionic/angular';
 import { Component, OnInit } from '@angular/core';
-import { subPageHeaderPrimary } from 'src/app/shared/data/sub-page-header-primary';
-import { DocumenteService } from '../documente/services/documente.service';
 import { ActivatedRoute } from '@angular/router';
 import { File } from '@ionic-native/file/ngx';
-import { ToastController } from '@ionic/angular';
+import { NavController, ToastController } from '@ionic/angular';
+import { has } from 'lodash';
+import { subPageHeaderPrimary } from 'src/app/shared/data/sub-page-header-primary';
+import { DocumenteService } from '../documente/services/documente.service';
 @Component({
   selector: 'app-document-page',
   templateUrl: './document-page.page.html',
