@@ -36,7 +36,6 @@ export class PolicyViewComponent implements OnInit {
       .subscribe((policy: PolicyItem) => {
         if (policy) {
           this.policy = policy;
-          console.log('SINGLE POLICY', this.policy);
           this.setCalEntry(policy);
         } else {
           this.navCtrl.navigateBack('policy');
