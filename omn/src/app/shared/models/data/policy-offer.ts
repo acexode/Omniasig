@@ -20,12 +20,8 @@ export interface PolicyOffer {
   insurancePrice?: any;
   /* noOfPayments: AMPLUS */
   noOfPayments?: number;
-  /** 
-   * for Amplus+PAD
-   * where some fields in the offer details of Amplus
-   * differs from the offer details of PAD
-  */
-  padInsurance?: UniquePadData; 
+  // for Amplus+PAD where some fields in the offer details of Amplus differs from the offer details of PAD
+  padInsurance?: UniquePadData;
 }
 
 export interface RatePlan {
