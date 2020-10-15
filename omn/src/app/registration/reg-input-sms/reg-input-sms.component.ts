@@ -1,3 +1,4 @@
+import { AuthService } from './../../core/services/auth/auth.service';
 import { AfterViewInit, Component, HostBinding, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -24,7 +25,7 @@ export class RegInputSmsComponent implements OnInit, AfterViewInit {
     private route: ActivatedRoute,
     private router: Router,
     private timers: CustomTimersService,
-    private formBuilder: FormBuilder,
+    private auth: AuthService,
     private regService: RegistrationService
   ) {
     this.checkUserObj();
@@ -80,5 +81,9 @@ export class RegInputSmsComponent implements OnInit, AfterViewInit {
 
   clearErr(_) {
     this.InvalidCode = null;
+  }
+
+  doLogout() {
+    this.auth.doLogout();
   }
 }

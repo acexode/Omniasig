@@ -2,11 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { MenuController } from '@ionic/angular';
 import { ImageCard } from 'src/app/shared/models/component/image-card';
 
-@Component({
+@Component( {
   selector: 'app-profil',
   templateUrl: './profil.page.html',
-  styleUrls: ['./profil.page.scss'],
-})
+  styleUrls: [ './profil.page.scss' ],
+} )
 export class ProfilPage implements OnInit {
   cards: Array<ImageCard> = [
     {
@@ -23,7 +23,7 @@ export class ProfilPage implements OnInit {
       id: 'account',
       itemClass: 'mh-104 shadow-page-item',
       isButton: true,
-      routerLink: ['date-personale'],
+      routerLink: [ 'date-personale' ],
     },
     {
       mainIcon: {
@@ -39,7 +39,7 @@ export class ProfilPage implements OnInit {
       id: 'places',
       itemClass: 'mh-104 shadow-page-item',
       isButton: true,
-      routerLink: ['locuinte'],
+      routerLink: [ 'locuinte' ],
     },
     // {
     //   mainIcon: {
@@ -82,29 +82,34 @@ export class ProfilPage implements OnInit {
       ],
       id: 'docs',
       itemClass: 'mh-104 shadow-page-item',
-      routerLink: ['documente']
+      routerLink: [ 'documente' ]
     },
     {
       mainIcon: {
         name: 'md-email-light-ling',
-        color: 'green-gradient',
+        color: this.disableMesaje ? 'medium' : 'green-gradient',
         classes: 'icon-40 mt-16 mb-8 ion-align-self-start',
       },
       textContent: [
         {
-          text: 'Mesaje',
+          text: 'Mesaje (în curând)',
         },
       ],
       id: 'msg',
       itemClass: 'mh-104 shadow-page-item',
+      isButton: false,
+      isDisabled: this.disableMesaje,
     },
   ];
-  constructor(private menu: MenuController) {}
+  constructor( private menu: MenuController ) { }
 
-  ngOnInit() {}
+  ngOnInit() { }
 
   openCustom() {
-    this.menu.enable(true, 'omn-menu');
-    this.menu.open('omn-menu');
+    this.menu.enable( true, 'omn-menu' );
+    this.menu.open( 'omn-menu' );
+  }
+  get disableMesaje() {
+    return true;
   }
 }

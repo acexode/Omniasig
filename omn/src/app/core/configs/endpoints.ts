@@ -44,8 +44,12 @@ export const policyEndpoints = {
   // real endpoints
   GetActivePADOffers: serverBaseUrl + '/PADInsurance/GetActivePADOffers',
   GetActivePADPolicies: serverBaseUrl + '/PADInsurance/GetActivePADPolicies',
+  initiatePayment: serverBaseUrl + '/GPWebpay',
+  confirmPayment: serverBaseUrl + '/Payment/GetPaymentbyUrlHash',
   GetActiveAmplusOffers:
     serverBaseUrl + '/AmplusInsurance/GetActiveAmplusOffers',
+  GetActiveAmplusPolicies:
+    serverBaseUrl + '/AmplusInsurance/GetActiveAmplusPolicies',
   GetActiveAmplusPadOffers:
     serverBaseUrl + '/AmplusInsurance/GetActiveAmplusPadOffers',
   GetActiveAmplusPadPolicies:
@@ -99,4 +103,8 @@ export const documenteEndpoints = {
   GetAllDocumentsForCurrentUser:
     serverBaseUrl + '/Documents/GetAllDocumentsForCurrentUser',
   GetDocumentById: serverBaseUrl + '/Documents/GetDocumentById',
+};
+export const biometricsEndpoints = {
+  uploadPicture:  serverBaseUrl + '/UserProfile/UploadPicture',
+  processPicture: serverBaseUrl + '/UserProfile/IsIdenticalPictures',
 };
