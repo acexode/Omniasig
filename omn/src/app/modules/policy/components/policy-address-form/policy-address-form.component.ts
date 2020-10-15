@@ -77,6 +77,7 @@ export class PolicyAddressFormComponent implements OnInit {
   @Input() formInputData = null;
   @Output() checkPadResponse: EventEmitter<any> = new EventEmitter();
   @Input() offerData = null;
+  @Input() locuinteData = null;
   @Input() policyId;
   @Output() stepChange: EventEmitter<any> = new EventEmitter();
   @Output() dataAdded: EventEmitter<any> = new EventEmitter();
@@ -97,12 +98,26 @@ export class PolicyAddressFormComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.paidResponseData = null;
-    this.setTitles();
-    this.initConfigs().subscribe((v) => {
-      this.initForm();
+    if(this.locuinteData){
+      this.dataModel = this.locuinteData;
+      this.formType = LocuinteFormType.PLACE;
+      this.buildFormAdd();
+      if (!this.formInstance) {
+        this.formInstance = {
+          config: this.formConfigs.place,
+          group: this.formGroups.place,
+          data: this.formData.place,
+        };
+      }
       this.cdRef.markForCheck();
-    });
+    }else{
+      this.paidResponseData = null;
+      this.setTitles();
+      this.initConfigs().subscribe((v) => {
+        this.initForm();
+        this.cdRef.markForCheck();
+      });
+    }
   }
 
   setTitles() {}

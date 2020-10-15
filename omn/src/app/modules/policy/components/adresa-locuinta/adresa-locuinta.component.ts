@@ -75,21 +75,22 @@ export class AdresaLocuintaComponent implements OnInit {
     if (this.locuintaForm.valid) {
       const controlS = this.locuintaForm.get('selection');
       const selected = this.vLocuinteList.filter(e => e.locuinta.id === controlS.value)[0];
+      const value = controlS.value;
+      if (value !== 'ADD_NEW') {
+        this.emitLocuintaItemById(value);
+      } else {
+        this.selectionDone.emit(value);
+      }
       if (selected.locuinta.yearConstruction !== 0 || selected.locuinta.value !== 0) {
-        const value = controlS.value;
-        if (value !== 'ADD_NEW') {
-          this.emitLocuintaItemById(value);
-        } else {
-          this.selectionDone.emit(value);
-        }
       }else{
-        const navigationExtras: NavigationExtras = {
-          state: {
-            data: selected,
-            policyID: param
-          }
-        };
-        this.router.navigateByUrl('/profil/locuinte/add', navigationExtras);
+
+        // const navigationExtras: NavigationExtras = {
+        //   state: {
+        //     data: selected,
+        //     policyID: param
+        //   }
+        // };
+        // this.router.navigateByUrl('/profil/locuinte/add', navigationExtras);
       }
     }
   }
