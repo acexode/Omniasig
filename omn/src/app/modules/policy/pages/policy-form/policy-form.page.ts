@@ -75,7 +75,7 @@ export class PolicyFormPage implements OnInit, OnDestroy {
   maxPeriodStartDate;
   // This will contain all data needed for an offer.
   offerData: PolicyOffer = null;
-  locuinteData = null
+  locuinteData = null;
   policyID;
   reftime;
   formCheckType: LocuinteFormType;
@@ -507,9 +507,9 @@ export class PolicyFormPage implements OnInit, OnDestroy {
       this.changeStep(this.policySteps.ADDRESS_FORM);
       this.cdRef.markForCheck();
     } else if ( type ) {
-      console.log(type['locuinta'])
-      if (type['locuinta'].yearConstruction === 0 || type['locuinta'].value === 0) {
-        this.locuinteData = type['locuinta'];
+      const key = 'locuinta';
+      if (type[key].yearConstruction === 0 || type[key].value === 0) {
+        this.locuinteData = type[key];
         this.changeStep( this.policySteps.LOCATION_FORM );
       }else{
         this.refreshPostAddressSelect( type as PolicyLocuintaListItem );
