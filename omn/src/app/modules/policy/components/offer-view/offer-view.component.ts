@@ -9,32 +9,30 @@ import { get, has } from 'lodash';
 import { Subscription } from 'rxjs';
 import { first, take } from 'rxjs/operators';
 import { dateHelperDMY } from 'src/app/core/helpers/date.helper';
+import { locuinteFieldsData } from 'src/app/shared/data/locuinte-field-data';
 import { subPageHeaderDefault } from 'src/app/shared/data/sub-page-header-default';
 import { subPageHeaderSecondary } from 'src/app/shared/data/sub-page-header-secondary';
 import { PolicyOffer } from 'src/app/shared/models/data/policy-offer';
-import { locuinteFieldsData } from 'src/app/shared/data/locuinte-field-data';
-import { PolicyDataService } from '../../services/policy-data.service';
 import { AmplusService } from '../../services/amplus.service';
 import { PadService } from '../../services/pad.service';
-import { CalendarEntry } from '../models/calendar-entry';
-import { PaymentStatusComponent } from './../payment-status/payment-status.component';
-import { CustomStorageService } from 'src/app/core/services/custom-storage/custom-storage.service';
-import { File, FileEntry } from '@ionic-native/file/ngx';
-import { FileOpener } from '@ionic-native/file-opener/ngx';
+import { PolicyDataService } from '../../services/policy-data.service';
 import { DownloadErrorModalComponent } from '../modals/download-error-modal/download-error-modal.component';
+import { CalendarEntry } from '../models/calendar-entry';
+import { SharedFileService } from './../../../../shared/modules/shared-file/services/shared-file.service';
+import { PaymentStatusComponent } from './../payment-status/payment-status.component';
 
-@Component( {
+@Component({
   selector: 'app-offer-view',
   templateUrl: './offer-view.component.html',
-  styleUrls: [ './offer-view.component.scss' ],
-} )
+  styleUrls: ['./offer-view.component.scss'],
+})
 export class OfferViewComponent implements OnInit {
   policyType;
   offer: PolicyOffer = null;
   leiCurrency;
   headerConfig = subPageHeaderSecondary('Oferta de asigurare');
   viewMode: 'V' | 'C' = 'V';
-  @HostBinding( 'class' ) color = 'ion-color-white-page';
+  @HostBinding('class') color = 'ion-color-white-page';
 
   risksCovered = [
     'incendiu, trăsnet, explozie, căderi de corpuri aeriene',
@@ -107,22 +105,20 @@ export class OfferViewComponent implements OnInit {
     private iab: InAppBrowser,
     private amplusService: AmplusService,
     private padService: PadService,
-    private file: File,
-    private storeS: CustomStorageService,
-    private fileOpener: FileOpener,
+    private fileS: SharedFileService
   ) {}
 
   ngOnInit(): void {
-    this.route.params.pipe( take( 1 ) ).subscribe( ( params: any ) => {
-      this.policyType = this.route.snapshot.queryParamMap.get( 'policyType' );
-      this.getPolicyById( params.id );
-    } );
+    this.route.params.pipe(take(1)).subscribe((params: any) => {
+      this.policyType = this.route.snapshot.queryParamMap.get('policyType');
+      this.getPolicyById(params.id);
+    });
   }
 
-  getPolicyById( id ) {
+  getPolicyById(id) {
     this.policyDataService
-      .getSingleOfferById( id, this.policyType )
-      .subscribe( ( offer ) => {
+      .getSingleOfferById(id, this.policyType)
+      .subscribe((offer) => {
         this.offer = offer;
         this.leiCurrency =
           this.policyType === 'PAD'
@@ -134,49 +130,49 @@ export class OfferViewComponent implements OnInit {
         if (offer && has(offer, 'policy.typeId')) {
           this.policyType = get(offer, 'policy.typeId', this.policyType);
         }
-        this.setCalEntry( this.offer );
-      } );
+        this.setCalEntry(this.offer);
+      });
   }
 
   closeOffer() {
-    this.navCtrl.navigateRoot( '/policy' );
+    this.navCtrl.navigateRoot('/policy');
   }
 
   backToOffer() {
     this.viewMode = 'V';
-    this.headerConfig = subPageHeaderSecondary( 'Oferta de asigurare' );
+    this.headerConfig = subPageHeaderSecondary('Oferta de asigurare');
   }
 
   gotoConditions() {
     this.viewMode = 'C';
-    this.headerConfig = subPageHeaderDefault( 'Condiţii de asigurare' );
+    this.headerConfig = subPageHeaderDefault('Condiţii de asigurare');
     this.headerConfig.leadingIcon.routerLink = false;
   }
 
-  setCalEntry( offer: PolicyOffer ) {
-    const date = get( offer, 'expiry', null );
+  setCalEntry(offer: PolicyOffer) {
+    const date = get(offer, 'expiry', null);
     let processedDate;
     try {
-      processedDate = Date.parse( date );
+      processedDate = Date.parse(date);
       this.calEntry = {
-        title: 'Expirare oferta ' + get( offer, 'policy.name', '' ),
+        title: 'Expirare oferta ' + get(offer, 'policy.name', ''),
         location: 'Romania',
         notes:
-          'Oferta ' + offer.id + ' expira la ' + dateHelperDMY( processedDate ),
+          'Oferta ' + offer.id + ' expira la ' + dateHelperDMY(processedDate),
         startDate: this.policyDataService.getEightDayBeforeExpiryDate(
           processedDate
         ),
-        endDate: new Date( processedDate ),
+        endDate: new Date(processedDate),
         options: {
           firstReminderMinutes: 15,
           calendarName: 'offer',
         },
       };
-    } catch ( e ) { }
+    } catch (e) {}
   }
 
   addCalendarEntry() {
-    this.policyDataService.addExpiryCalendarEntry( this.calEntry );
+    this.policyDataService.addExpiryCalendarEntry(this.calEntry);
   }
 
   pay() {
@@ -197,16 +193,16 @@ export class OfferViewComponent implements OnInit {
       policyCode: this.offer.offerCode,
       isMobilePayment: true,
     };
-    this.sub = this.policyDataService.makePayment( data ).subscribe(
-      ( dataV ) => {
-        if ( isPlatform( 'ios' ) ) {
-          this.openIAB( dataV.url, '_blank' );
+    this.sub = this.policyDataService.makePayment(data).subscribe(
+      (dataV) => {
+        if (isPlatform('ios')) {
+          this.openIAB(dataV.url, '_blank');
         } else {
-          this.openIAB( dataV.url, '_blank' );
+          this.openIAB(dataV.url, '_blank');
         }
         this.busy = false;
       },
-      ( err ) => ( this.busy = false )
+      (err) => (this.busy = false)
     );
     return;
   }
@@ -217,47 +213,47 @@ export class OfferViewComponent implements OnInit {
     const browser = this.iab.create(url, type, options);
     browser.show();
     // TODO: linter complains, this is to be retested.
-    if ( browser ) {
-      this.sub = browser.on( 'loadstart' ).subscribe( ( e ) => {
-        browser.insertCSS( { code: '.header__cancel{ display: none;}' } );
-        if ( e && e.url.includes( 'tok' ) ) {
-          this.confirmToken( e.url, browser );
+    if (browser) {
+      this.sub = browser.on('loadstart').subscribe((e) => {
+        browser.insertCSS({ code: '.header__cancel{ display: none;}' });
+        if (e && e.url.includes('tok')) {
+          this.confirmToken(e.url, browser);
         }
-      } );
-      this.sub = browser.on( 'loadstop' ).subscribe( ( e ) => {
-        browser.insertCSS( { code: '.header__cancel{ display: none;}' } );
-      } );
-      this.sub = browser.on( 'loaderror' ).subscribe( ( e ) => {
+      });
+      this.sub = browser.on('loadstop').subscribe((e) => {
+        browser.insertCSS({ code: '.header__cancel{ display: none;}' });
+      });
+      this.sub = browser.on('loaderror').subscribe((e) => {
         browser.close();
-      } );
+      });
       browser
-        .on( 'exit' )
-        .pipe( first() )
-        .subscribe( ( e ) => {
+        .on('exit')
+        .pipe(first())
+        .subscribe((e) => {
           this.sub.unsubscribe();
-        } );
+        });
     }
   }
 
-  confirmToken( urlPath, browser: InAppBrowserObject ) {
-    const url = new URL( urlPath ).search;
-    const urlParams = new URLSearchParams( url );
-    const token = urlParams.get( 'tok' );
-    this.policyDataService.confirmPayment( token, this.policyType ).subscribe(
-      ( data ) => {
+  confirmToken(urlPath, browser: InAppBrowserObject) {
+    const url = new URL(urlPath).search;
+    const urlParams = new URLSearchParams(url);
+    const token = urlParams.get('tok');
+    this.policyDataService.confirmPayment(token, this.policyType).subscribe(
+      (data) => {
         browser.close();
         if (
-          ( this.policyType === 'PAD' && get( data, 'padPolitaResponse', null ) ) ||
-          ( this.policyType === 'AMPLUS' &&
-            get( data, 'amplusPolitaResponse', null ) )
+          (this.policyType === 'PAD' && get(data, 'padPolitaResponse', null)) ||
+          (this.policyType === 'AMPLUS' &&
+            get(data, 'amplusPolitaResponse', null))
         ) {
-          this.presentModal( 'success' );
+          this.presentModal('success');
           this.policyDataService.initData();
         } else {
-          this.presentModal( 'failed', 'Plata a esuat!' );
+          this.presentModal('failed', 'Plata a esuat!');
         }
       },
-      ( err ) => {
+      (err) => {
         browser.close();
         this.presentModal(
           'failed',
@@ -271,113 +267,84 @@ export class OfferViewComponent implements OnInit {
     paymentStatus: 'failed' | 'success',
     failureReason?: string
   ) {
-    const modal = await this.modalController.create( {
+    const modal = await this.modalController.create({
       component: PaymentStatusComponent,
       cssClass: 'my-custom-class',
       componentProps: {
         paymentStatus,
         failureReason,
       },
-    } );
+    });
     return await modal.present();
   }
 
   downloadAmplusOffer() {
     const title = `amplus-offer-${this.offer.amplusOfferDocumentId}.pdf`;
     const id = parseInt(this.offer.amplusOfferDocumentId, 10);
+
     if (id === 0) {
-      return this.presentDocModal('Documentul nu este disponibil', 'Documentul este in curs de pregatire. Reincercati mai tarziu.');
-    }
-    this.storeS.getItem(title).subscribe((fileObj) => {
-        if (fileObj) {
-          this.prepareDoc(title);
-        } else {
-          this.downloading = true;
-          this.amplusService
-          .getAmplusOfferDocument(id)
-          .subscribe((offerDocument) => {
-            if (offerDocument) {
-                this.storeS.setItem(title, offerDocument).subscribe((_) => {
-                  this.prepareDoc(title);
-                });
-              }
+      return this.presentDocModal(
+        'Documentul nu este disponibil',
+        'Documentul este in curs de pregatire. Reincercati mai tarziu.'
+      );
+    } else {
+      this.downloading = true;
+      this.fileS
+        .downloadAndOpenFile({
+          fileName: title,
+          storeKey: title,
+          downloadService: this.amplusService.getAmplusOfferDocument(id),
+          fileFormat: 'application/pdf',
+        })
+        .subscribe(
+          (v) => {
             this.downloading = false;
-            });
-        }
-      });
+          },
+          (err) => {
+            Promise.resolve(
+              this.presentDocModal(
+                'Nu am putut descarca fisierul',
+                err ? get(err, 'error', '') : ''
+              )
+            );
+            this.downloading = false;
+          }
+        );
+    }
   }
 
   downloadPadOffer() {
-    // TODO checked if doc has been downloaded earlier or fetch do from WS...
     const title = `offer-${this.offer.padOfferDocumentId}.pdf`;
     const id = parseInt(this.offer.padOfferDocumentId, 10);
     if (id === 0) {
-      return this.presentDocModal('Documentul nu este disponibil', 'Documentul este in curs de pregatire. Reincercati mai tarziu.');
-    }
-    this.storeS.getItem(title).subscribe((fileObj) => {
-      if (fileObj) {
-        this.prepareDoc(title);
-      } else {
-        this.downloading = true;
-        this.padService
-          .getPadOfferDocument(id)
-          .subscribe((offerDocument) => {
-            if (offerDocument) {
-              this.storeS.setItem(title, offerDocument).subscribe((_) => {
-                this.prepareDoc(title);
-              });
-            }
-            this.downloading = false;
-          });
-      }
-    });
-  }
-
-  /**
-   *
-   * @param docTitle  title you want to name the doc when the user saves it;
-   * Also Note that a title should always end with the file extenstion type. (e.g) 'title.pdf'
-   */
-  prepareDoc(docTitle: string) {
-    // TODO converts base64 to blob data so it can be read: this algorithms makes data processing easy... as the conversion is graudal
-    this.storeS.getItem(docTitle).subscribe((fileObj: any) => {
-      const blobPdfFromBase64String = () => {
-        const byteArray = Uint8Array.from(
-          atob(fileObj.file)
-            .split('')
-            .map((char) => char.charCodeAt(0))
-        );
-        return new Blob([byteArray], { type: 'application/pdf' });
-      };
-      this.openFile(blobPdfFromBase64String(), docTitle);
-    });
-  }
-
-  openFile(blob: Blob, docTitle: string) {
-    //  Determine a native file path to save to
-    let filePath: any;
-    if (isPlatform('android')) {
-      filePath = this.file.externalDataDirectory;
-    }
-    if (isPlatform('ios')) {
-      filePath = this.file.documentsDirectory;
+      return this.presentDocModal(
+        'Documentul nu este disponibil',
+        'Documentul este in curs de pregatire. Reincercati mai tarziu.'
+      );
     } else {
-      filePath = this.file.dataDirectory;
+      this.downloading = true;
+      this.fileS
+        .downloadAndOpenFile({
+          fileName: title,
+          storeKey: title,
+          downloadService: this.padService.getPadOfferDocument(id),
+          fileFormat: 'application/pdf',
+        })
+        .subscribe(
+          (v) => {
+            this.downloading = false;
+          },
+          (err) => {
+            Promise.resolve(
+              this.presentDocModal(
+                'Nu am putut descarca fisierul',
+                err ? get(err, 'error', '') : ''
+              )
+            );
+            this.downloading = false;
+          }
+        );
     }
-    this.file
-      .writeFile(filePath, docTitle, blob, { replace: true })
-      .then((fileEntry: FileEntry) => {
-          this.fileOpener.showOpenWithDialog(fileEntry.toURL(), 'application/pdf')
-            .then(() => {
-            // TODO nothing should be done here
-          })
-            .catch(e => {
-            // TODO: error handling maybe needed here...
-          });
-      })
-      .catch((err) => {
-        // TODO: error handling may be needed here too...
-      });
   }
 
   async presentDocModal(title, description) {

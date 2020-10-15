@@ -1,15 +1,17 @@
-import { FileOpener } from '@ionic-native/file-opener/ngx';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
 import { IonicModule } from '@ionic/angular';
+import { SharedFileModule } from 'src/app/shared/modules/shared-file/shared-file.module';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { OmnInputsModule } from './../../shared/modules/omn-inputs/omn-inputs.module';
+import { SharedFileService } from './../../shared/modules/shared-file/services/shared-file.service';
 import { AsistentaModalPagePage } from './components/asistenta-modal-page/asistenta-modal-page.page';
 import { InsuranceConditionsComponent } from './components/insurance-conditions/insurance-conditions.component';
 import { DisabledMessageModalComponent } from './components/modals/disabled-message-modal/disabled-message-modal.component';
+import { DownloadErrorModalComponent } from './components/modals/download-error-modal/download-error-modal.component';
 import { OfferViewComponent } from './components/offer-view/offer-view.component';
 import { PaymentStatusComponent } from './components/payment-status/payment-status.component';
 import { PolicyArchiveListComponent } from './components/policy-archive-list/policy-archive-list.component';
@@ -19,8 +21,6 @@ import { PolicyComponent } from './components/policy/policy.component';
 import { PolicyPage } from './page/policy.page';
 import { PolicyRoutingModule } from './policy-routing.module';
 import { PolicySharedModule } from './policy-shared.module';
-import { File } from '@ionic-native/file/ngx';
-import { DownloadErrorModalComponent } from './components/modals/download-error-modal/download-error-modal.component';
 
 @NgModule({
   declarations: [
@@ -34,7 +34,7 @@ import { DownloadErrorModalComponent } from './components/modals/download-error-
     AsistentaModalPagePage,
     PaymentStatusComponent,
     InsuranceConditionsComponent,
-    DownloadErrorModalComponent
+    DownloadErrorModalComponent,
   ],
   imports: [
     CommonModule,
@@ -47,8 +47,9 @@ import { DownloadErrorModalComponent } from './components/modals/download-error-
     FormsModule,
     ReactiveFormsModule,
     OmnInputsModule,
+    SharedFileModule,
   ],
   exports: [AsistentaModalPagePage],
-  providers: [InAppBrowser, File, FileOpener],
+  providers: [InAppBrowser],
 })
 export class PolicyModule {}
