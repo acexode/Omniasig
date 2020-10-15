@@ -98,7 +98,7 @@ export class PolicyAddressFormComponent implements OnInit {
   }
 
   ngOnInit() {
-    if(this.locuinteData){
+    if (this.locuinteData){
       this.dataModel = this.locuinteData;
       this.formType = LocuinteFormType.PLACE;
       this.buildFormAdd();
