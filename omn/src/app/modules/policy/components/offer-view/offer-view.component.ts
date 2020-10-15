@@ -185,6 +185,10 @@ export class OfferViewComponent implements OnInit {
       policyCode: this.offer.offerCode,
       isMobilePayment: true,
     };
+    if(this.policyType === 'AMPLUS_PAD'){
+      data['ibaN_2'] = this.offer.padInsurance.iban;
+      data['amount_IBAN_2'] = this.offer.padInsurance.firstPaymentValue;
+    }
     this.sub = this.policyDataService.makePayment( data ).subscribe(
       ( dataV ) => {
         if ( isPlatform( 'ios' ) ) {

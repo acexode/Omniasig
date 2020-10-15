@@ -43,4 +43,5 @@ export interface UniquePadData {
   currency?: string;
   offerPrice?: number;
   firstPaymentValue?: number;
+  iban?: any;
 }

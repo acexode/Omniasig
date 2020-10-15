@@ -291,6 +291,7 @@ export class PolicyDataService {
       set(offerObj, 'padInsurance.currency', get(offer.padInsurance, '"offerCurrency', '-'));
       set(offerObj, 'padInsurance.offerPrice', get(offer.padInsurance, 'offerPrima', '-'));
       set(offerObj, 'padInsurance.firstPaymentValue', get(offer.padInsurance, 'firstPaymentValue', '-'));
+      set(offerObj, 'padInsurance.iban', get(offer.padInsurance, 'offerIBAN', '-'));
     }
     return offerObj;
   }
