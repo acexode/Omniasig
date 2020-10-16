@@ -41,7 +41,7 @@ import { ErrorInterceptor } from './interceptors/error.interceptor';
     CustomTimersService,
     MenuService,
     AppVersion,
-    File,
+    // File,
   ],
   exports: [SideMenuComponent],
 })

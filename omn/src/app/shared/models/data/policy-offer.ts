@@ -2,6 +2,10 @@ import { PolicyItem } from './policy-item';
 
 export interface PolicyOffer {
   id: string;
+  padOfferDocumentId?: any;
+  padPolicyDocumentId?: any;
+  amplusOfferDocumentId?: any;
+  amplusPolicyDocumentId?: any;
   policy: PolicyItem;
   expiry: Date | string;
   cnp?: string;
