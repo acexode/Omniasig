@@ -4,7 +4,7 @@ import {
 } from '../models/component/sub-page-header';
 
 export const subPageHeaderTertiary = (
-  config: TertiaryHeader
+  config: TertiaryHeader,
 ): SubPageHeader => {
   const item: SubPageHeader = {
     toolbarClasses: 'header-toolbar',
