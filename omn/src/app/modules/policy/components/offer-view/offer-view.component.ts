@@ -180,11 +180,11 @@ export class OfferViewComponent implements OnInit {
       amount_IBAN_1: this.offer.firstPaymentValue,
       areTermsAccepted: true,
       currencyToPay:
-        this.policyType === 'PAD'
+        this.policyType === 'PAD' || this.policyType === 'AMPLUS_PAD'
           ? 'RON'
           : this.offer.policy.locuintaData.valueCurrency,
       policyCurrency:
-        this.policyType === 'PAD'
+        this.policyType === 'PAD' || this.policyType === 'AMPLUS_PAD'
           ? 'RON'
           : this.offer.policy.locuintaData.valueCurrency,
       policyCode: this.offer.offerCode,

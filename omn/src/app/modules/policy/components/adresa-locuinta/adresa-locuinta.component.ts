@@ -111,7 +111,10 @@ export class AdresaLocuintaComponent implements OnInit {
                 this.checkPadResponse.emit(value2);
               }
               return;
-            } else if (this.policyID === 'PAD') {
+            } else if (
+              this.policyID === 'PAD' ||
+              this.policyID === 'Garant AMPLUS+ PAD'
+            ) {
               if (value2.hasPaid) {
                 this.checkPadResponse.emit(value2);
               } else {
@@ -132,8 +135,6 @@ export class AdresaLocuintaComponent implements OnInit {
                 });
               }
             } else {
-              // TODO: check for AMPLUS+ PAD
-              // To be removed: this allows smooth flow for AMPLUS+ PAD workflow
               this.selectionDone.emit(value);
             }
           },
