@@ -1,12 +1,13 @@
 import { Injectable } from '@angular/core';
 import { Calendar } from '@ionic-native/calendar/ngx';
-import { get, set } from 'lodash';
-import { BehaviorSubject, Observable, of, throwError } from 'rxjs';
+import { get, set, has } from 'lodash';
+import { BehaviorSubject, forkJoin, Observable, of, throwError } from 'rxjs';
 import { catchError, filter, map, switchMap, tap } from 'rxjs/operators';
 import {
   documentEndpoint,
   policyEndpoints,
 } from 'src/app/core/configs/endpoints';
+import { flatten } from 'lodash';
 import { AuthService } from 'src/app/core/services/auth/auth.service';
 import { RequestService } from 'src/app/core/services/request/request.service';
 import { PolicyItem } from 'src/app/shared/models/data/policy-item';
@@ -65,59 +66,75 @@ export class PolicyDataService {
   // get user policy offer
   getUserPolicies(id: number | string) {
     const emptyV: Array<PolicyItem> = [];
-    return this.reqS
-      .get<Array<PolicyItem>>(this.endpoints.GetActivePADPolicies)
-      .pipe(
-        catchError((e) => {
-          return of(emptyV);
-        }),
-        map((pv) =>
-          pv
-            ? pv.map((pvi) => this.mapPolicyType(this.createPolicyObj(pvi)))
-            : []
+    return forkJoin([
+      this.reqS
+        .get<Array<PolicyItem>>(this.endpoints.GetActivePADPolicies)
+        .pipe(
+          catchError((e) => {
+            return of(emptyV);
+          }),
+          map((pv) =>
+            pv
+              ? pv.map((pvi) =>
+                  this.mapPolicyType(this.createPolicyObj(pvi, 'PAD'))
+                )
+              : []
+          )
         ),
-        switchMap( ( padPolicies ) =>
-          this.reqS
-            .get<Array<PolicyItem>>( this.endpoints.GetActiveAmplusPolicies )
-            .pipe(
-              catchError( ( e ) => {
-                return of( emptyV );
-              } ),
-              map( ( pv ) =>
-                pv
-                  ? pv.map( ( pvi ) => this.mapPolicyType( this.createPolicyObj( pvi ) ) )
-                  : []
-              ),
-              map( ( amplusPolicies ) => {
-                return [ ...amplusPolicies, ...padPolicies ];
-              } )
-            )
+      this.reqS
+        .get<Array<PolicyItem>>(this.endpoints.GetActiveAmplusPolicies)
+        .pipe(
+          catchError((e) => {
+            return of(emptyV);
+          }),
+          map((pv) =>
+            pv
+              ? pv.map((pvi) =>
+                  this.mapPolicyType(this.createPolicyObj(pvi, 'AMPLUS'))
+                )
+              : []
+          )
         ),
-        switchMap((padOrAmplusPolicies) =>
-          this.reqS
-            .get<Array<PolicyItem>>(this.endpoints.GetActiveAmplusPadPolicies)
-            .pipe(
-              catchError((e) => {
-                return of(emptyV);
-              }),
-              map( ( pv ) =>
-                pv
-                  ? pv.map( ( pvi ) => this.mapPolicyType( this.createPolicyObj( pvi ) ) )
-                  : []
-              ),
-              map((padAmplusPolicies) => {
-                return [...padAmplusPolicies, ...padOrAmplusPolicies];
-              })
-            )
-        )
-      );
+      this.reqS
+        .get<Array<PolicyItem>>(this.endpoints.GetActiveAmplusPadPolicies)
+        .pipe(
+          catchError((e) => {
+            return of(emptyV);
+          }),
+          map((pv) => {
+            if (pv instanceof Array) {
+              const acc = [];
+              pv.forEach((pol) => {
+                const amplus = this.createPolicyObj(pol, 'AMPLUS');
+                const pad = this.createPolicyObj(
+                  get(pol, 'padInsurance', null),
+                  'PAD'
+                );
+                if (amplus) {
+                  acc.push(this.mapPolicyType(amplus));
+                }
+                if (pad) {
+                  acc.push(this.mapPolicyType(pad));
+                }
+              });
+              return acc;
+            } else {
+              return [];
+            }
+          })
+        ),
+    ]).pipe(
+      map((vals: Array<any>) => {
+        return flatten(vals);
+      })
+    );
   }
 
   // create policy object to suit display data
-  createPolicyObj(policy: any) {
-    return {
+  createPolicyObj(policy: any, typeId) {
+    const policyProcessed = {
       id: policy.id,
-      typeId: 'PAD',
+      typeId,
       state: 1,
       name: policy.policyNrChitanta,
       serial: policy.policySeriePolita,
@@ -125,6 +142,7 @@ export class PolicyDataService {
       policyNrChitanta: policy.policyNrChitanta,
       policyIdIncasareOMN: policy.policyIdIncasareOMN,
       padPolicyDocumentId: policy.padPolicyDocumentId,
+      amplusPolicyDocumentId: policy.amplusPolicyDocumentId,
       userId: null,
       locuintaId: null,
       userData: {
@@ -163,6 +181,9 @@ export class PolicyDataService {
       insurancePrice: policy.offerPrima,
       currency: policy.offerCurrency,
     };
+    if (typeId === 'AMPLUS') {
+    }
+    return policyProcessed;
   }
 
   getUserOffers() {
@@ -177,8 +198,8 @@ export class PolicyDataService {
         map((ov) => {
           return ov
             ? ov.map((ovi) =>
-              this.mapOfferPolicyType(this.createOffersObj(ovi, 'PAD'))
-            )
+                this.mapOfferPolicyType(this.createOffersObj(ovi, 'PAD'))
+              )
             : [];
         }),
         switchMap((padOffers) =>
@@ -191,10 +212,10 @@ export class PolicyDataService {
               map((ov) => {
                 return ov
                   ? ov.map((ovi) =>
-                    this.mapOfferPolicyType(
-                      this.createOffersObj(ovi, 'AMPLUS')
+                      this.mapOfferPolicyType(
+                        this.createOffersObj(ovi, 'AMPLUS')
+                      )
                     )
-                  )
                   : [];
               }),
               map((amplusOffers) => {
@@ -290,7 +311,7 @@ export class PolicyDataService {
       nume: `${offer.userName} ${offer.userSurname}`,
       cnp: offer.userCnp,
       expiry: offer.expirationDate,
-      emisionDate: offer.offerDate ? new Date( offer.offerDate ) : '',
+      emisionDate: offer.offerDate ? new Date(offer.offerDate) : '',
       insurancePrice: offer.insurancePrice || 0,
       currency: offer.offerCurrency,
       padOfferDocumentId: offer.padOfferDocumentId,
@@ -302,7 +323,7 @@ export class PolicyDataService {
       const isVip = get(offer, 'isVip', false);
       set(offerObj, 'supportData', isGold ? 'GOLD' : isVip ? 'VIP' : '-');
       set(offerObj, 'ratePlanList', get(offer, 'ratePlanList', []));
-      set( offerObj, 'noOfPayments', get( offer, 'noOfPayments', -1 ) ); // -1 means no payment
+      set(offerObj, 'noOfPayments', get(offer, 'noOfPayments', -1)); // -1 means no payment
       set(
         offerObj,
         'amplusOfferDocumentId',
@@ -317,11 +338,31 @@ export class PolicyDataService {
     if (typeId === 'AMPLUS_PAD') {
       // PAD offer fields that are not equal with similar fields in Amplus Offer for Amplus+PAD
       set(offerObj, 'padInsurance.id', get(offer.padInsurance, 'id', '-'));
-      set(offerObj, 'padInsurance.offerCode', get(offer.padInsurance, 'offerCode', '-'));
-      set(offerObj, 'padInsurance.currency', get(offer.padInsurance, '"offerCurrency', '-'));
-      set(offerObj, 'padInsurance.offerPrice', get(offer.padInsurance, 'offerPrima', '-'));
-      set(offerObj, 'padInsurance.firstPaymentValue', get(offer.padInsurance, 'firstPaymentValue', '-'));
-      set(offerObj, 'padInsurance.iban', get(offer.padInsurance, 'offerIBAN', '-'));
+      set(
+        offerObj,
+        'padInsurance.offerCode',
+        get(offer.padInsurance, 'offerCode', '-')
+      );
+      set(
+        offerObj,
+        'padInsurance.currency',
+        get(offer.padInsurance, '"offerCurrency', '-')
+      );
+      set(
+        offerObj,
+        'padInsurance.offerPrice',
+        get(offer.padInsurance, 'offerPrima', '-')
+      );
+      set(
+        offerObj,
+        'padInsurance.firstPaymentValue',
+        get(offer.padInsurance, 'firstPaymentValue', '-')
+      );
+      set(
+        offerObj,
+        'padInsurance.iban',
+        get(offer.padInsurance, 'offerIBAN', '-')
+      );
       set(
         offerObj,
         'padOfferDocumentId',
@@ -397,7 +438,7 @@ export class PolicyDataService {
     policyType: string
   ): Observable<PolicyOffer> {
     const { iban, codOferta, moneda, prima, eroare, mesaj } =
-      (policyType === 'PAD' )
+      policyType === 'PAD'
         ? this.processPadOffer(offerResponse)
         : this.processAmplusOffer(offerResponse);
 
@@ -498,8 +539,8 @@ export class PolicyDataService {
         calEntry.options
       )
       .then(
-        (msg) => { },
-        (err) => { }
+        (msg) => {},
+        (err) => {}
       );
   }
 

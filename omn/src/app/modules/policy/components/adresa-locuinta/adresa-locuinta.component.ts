@@ -113,7 +113,7 @@ export class AdresaLocuintaComponent implements OnInit {
               return;
             } else if (
               this.policyID === 'PAD' ||
-              this.policyID === 'Garant AMPLUS+ PAD'
+              this.policyID === 'Garant AMPLUS + PAD'
             ) {
               if (value2.hasPaid) {
                 this.checkPadResponse.emit(value2);

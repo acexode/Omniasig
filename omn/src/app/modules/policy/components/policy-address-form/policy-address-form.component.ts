@@ -465,7 +465,7 @@ export class PolicyAddressFormComponent implements OnInit {
                     }
                     if (
                       this.policyId === 'PAD' ||
-                      this.policyId === 'Garant AMPLUS+ PAD'
+                      this.policyId === 'Garant AMPLUS + PAD'
                     ) {
                       if (v.hasPaid) {
                         this.checkPadResponse.emit(v);

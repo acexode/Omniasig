@@ -112,7 +112,7 @@ export class OfferViewComponent implements OnInit {
 
   getPolicyById(id) {
     this.policyType =
-      this.policyType === 'Garant AMPLUS+ PAD' ? 'AMPLUS_PAD' : this.policyType;
+      this.policyType === 'Garant AMPLUS + PAD' ? 'AMPLUS_PAD' : this.policyType;
     this.policyDataService
       .getSingleOfferById(id, this.policyType)
       .subscribe((offer) => {

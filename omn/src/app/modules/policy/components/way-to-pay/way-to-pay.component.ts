@@ -51,7 +51,7 @@ export class WayToPayComponent implements OnInit {
     if (this.payFormData && this.policyID === 'AMPLUS') {
       this.formGroup.setValue(this.payFormData);
     }
-    if (this.payFormData && this.policyID === 'Garant AMPLUS+ PAD') {
+    if (this.payFormData && this.policyID === 'Garant AMPLUS + PAD') {
       this.amplusPadGroup.setValue(this.payFormData);
     }
   }
