@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget android-packageName="com.omniasig.app" id="com.omniasig.app" ios-CFBundleIdentifier="com.softescu.omn" version="0.1.0" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+<widget android-packageName="com.omniasig.app" id="com.omniasig.app" ios-CFBundleIdentifier="com.softescu.omn" version="0.1.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
     <name>Omniasig</name>
     <description>Omniasig</description>
     <author email="contact@omniasig.ro" href="https://omniasig.ro">Ionic Framework Team</author>
@@ -25,6 +25,12 @@
     <preference name="AutoHideSplashScreen" value="false" />
     <preference name="ShowSplashScreenSpinner" value="false" />
     <preference name="orientation" value="portrait" />
+    <preference name="AndroidPersistentFileLocation" value="Internal" />
+    <preference name="AndroidPersistentFileLocation" value="Compatibility" />
+    <preference name="iosPersistentFileLocation" value="Library" />
+    <preference name="iosPersistentFileLocation" value="Compatibility" />
+    <preference name="iosExtraFilesystems" value="library,library-nosync,documents,documents-nosync,cache,bundle,root" />
+    <preference name="AndroidExtraFilesystems" value="files,files-external,documents,sdcard,cache,cache-external,assets,root" />
     <platform name="android">
         <preference name="AndroidLaunchMode" value="singleTask" />
         <edit-config file="AndroidManifest.xml" mode="merge" target="/manifest/application" xmlns:android="http://schemas.android.com/apk/res/android">
@@ -131,4 +137,8 @@
             </array>
         </config-file>
     </platform>
+    <engine name="ios" />
+    <engine name="browser" spec="6.0.0" />
+    <engine name="android" spec="~9.0.0" />
+    <plugin name="cordova-plugin-camera" spec="^5.0.0" />
 </widget>

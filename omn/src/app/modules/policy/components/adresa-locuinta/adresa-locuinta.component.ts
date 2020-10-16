@@ -99,11 +99,8 @@ export class AdresaLocuintaComponent implements OnInit {
                 const policy = get(value, 'policy', defPolicy)
                   ? get(value, 'policy', defPolicy)
                   : defPolicy;
-                set(
-                  policy,
-                  'dates.to',
-                  get(value2, 'paidMinimStartDate', null)
-                );
+                // Set the max date as the current pad expiry.
+                set(policy, 'dates.to', get(value2, 'paidExpireDate', null));
                 this.selectionDone.emit({
                   ...value,
                   ...{
@@ -121,6 +118,7 @@ export class AdresaLocuintaComponent implements OnInit {
                 const policy = get(value, 'policy', defPolicy)
                   ? get(value, 'policy', defPolicy)
                   : defPolicy;
+                // Set the min date as the server set up date.
                 set(
                   policy,
                   'dates.to',

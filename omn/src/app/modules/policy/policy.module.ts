@@ -4,6 +4,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
 import { IonicModule } from '@ionic/angular';
+import { SharedFileModule } from 'src/app/shared/modules/shared-file/shared-file.module';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { OmnInputsModule } from './../../shared/modules/omn-inputs/omn-inputs.module';
 import { AsistentaModalPagePage } from './components/asistenta-modal-page/asistenta-modal-page.page';
@@ -18,6 +19,7 @@ import { PolicyComponent } from './components/policy/policy.component';
 import { PolicyPage } from './page/policy.page';
 import { PolicyRoutingModule } from './policy-routing.module';
 import { PolicySharedModule } from './policy-shared.module';
+
 @NgModule({
   declarations: [
     PolicyPage,
@@ -42,6 +44,7 @@ import { PolicySharedModule } from './policy-shared.module';
     FormsModule,
     ReactiveFormsModule,
     OmnInputsModule,
+    SharedFileModule,
   ],
   exports: [AsistentaModalPagePage],
   providers: [InAppBrowser],
