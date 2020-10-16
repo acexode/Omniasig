@@ -10,7 +10,12 @@ import { DocumenteService } from './services/documente.service';
 })
 export class DocumentePage implements OnInit {
   @HostBinding('class') color = 'ion-color-white-page';
-  headerConfig = subPageHeaderPrimary('Documente', '/profil');
+  headerConfig = {
+    ...subPageHeaderPrimary('OMNIASIG Vânzări', '/profil'),
+    ...{
+      trailingIcon: null,
+    },
+  };
   items: any = [];
   itemHeight = 0;
   offer: [];
