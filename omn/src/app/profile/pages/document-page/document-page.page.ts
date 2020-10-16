@@ -57,7 +57,7 @@ export class DocumentPagePage implements OnInit {
         .downloadAndOpenFile({
           fileName: get(this.doc, 'title', 'document--' + this.fileId),
           storeKey: get(this.doc, 'title', 'document--' + this.fileId),
-          downloadService: of(this.doc),
+          downloadService: of(file),
           fileFormat: 'application/pdf',
         })
         .subscribe(
