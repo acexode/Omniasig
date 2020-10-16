@@ -5,7 +5,7 @@ import {
   InAppBrowserObject,
 } from '@ionic-native/in-app-browser/ngx';
 import { isPlatform, ModalController, NavController } from '@ionic/angular';
-import { get, set, has } from 'lodash';
+import { get, has, set } from 'lodash';
 import { Subscription } from 'rxjs';
 import { first, take } from 'rxjs/operators';
 import { dateHelperDMY } from 'src/app/core/helpers/date.helper';
@@ -111,7 +111,8 @@ export class OfferViewComponent implements OnInit {
   }
 
   getPolicyById(id) {
-    this.policyType = (this.policyType === 'Garant AMPLUS+ PAD') ? 'AMPLUS_PAD' : this.policyType;
+    this.policyType =
+      this.policyType === 'Garant AMPLUS+ PAD' ? 'AMPLUS_PAD' : this.policyType;
     this.policyDataService
       .getSingleOfferById(id, this.policyType)
       .subscribe((offer) => {
@@ -192,12 +193,16 @@ export class OfferViewComponent implements OnInit {
     if (this.policyType === 'AMPLUS_PAD') {
       const offer = this.offer;
       set(data, 'ibaN_2', get(offer.padInsurance, 'iban', null));
-      set(data, 'amount_IBAN_2', get(offer.padInsurance, 'firstPaymentValue', null));
+      set(
+        data,
+        'amount_IBAN_2',
+        get(offer.padInsurance, 'firstPaymentValue', null)
+      );
     }
-    this.sub = this.policyDataService.makePayment( data ).subscribe(
-      ( dataV ) => {
-        if ( isPlatform( 'ios' ) ) {
-          this.openIAB( dataV.url, '_blank' );
+    this.sub = this.policyDataService.makePayment(data).subscribe(
+      (dataV) => {
+        if (isPlatform('ios')) {
+          this.openIAB(dataV.url, '_blank');
         } else {
           this.openIAB(dataV.url, '_blank');
         }
@@ -280,10 +285,14 @@ export class OfferViewComponent implements OnInit {
   }
 
   downloadAmplusOffer() {
-    const title = `amplus-offer-${this.offer.amplusOfferDocumentId}.pdf`;
+    const title = `amplus-offer-${get(
+      this.offer,
+      'amplusOfferDocumentId',
+      0
+    )}.pdf`;
     let id = null;
     try {
-      id = parseInt(this.offer.amplusOfferDocumentId, 10);
+      id = parseInt(get(this.offer, 'amplusOfferDocumentId', 0), 10);
     } catch (e) {
       id = null;
     }
@@ -322,10 +331,14 @@ export class OfferViewComponent implements OnInit {
   }
 
   downloadPadOffer() {
-    const title = `offer-${this.offer.padOfferDocumentId}.pdf`;
+    const offer =
+      this.policyType === 'AMPLUS_PAD'
+        ? get(this.offer, 'padInsurance', {})
+        : this.offer;
+    const title = `offer-${get(offer, 'padOfferDocumentId', 0)}.pdf`;
     let id = null;
     try {
-      id = parseInt(this.offer.padOfferDocumentId, 10);
+      id = parseInt(get(offer, 'padOfferDocumentId', 0), 10);
     } catch (e) {
       id = null;
     }
