@@ -578,7 +578,7 @@ export class PolicyFormPage implements OnInit, OnDestroy {
     if ( this.policyID === 'PAD' || this.policyID === 'Garant AMPLUS+ PAD' ) {
       this.offerData = this.buildOfferDetails();
       this.loaderTitle = 'Verificăm corectitudinea datelor…';
-      if(this.policyID === 'PAD'){
+      if (this.policyID === 'PAD') {
         this.changeStep(this.policySteps.POLICY_VERIFY_CHECK);
       }
       // checks if offer can be created before going to the verify page

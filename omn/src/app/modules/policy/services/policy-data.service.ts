@@ -313,7 +313,7 @@ export class PolicyDataService {
         'amplusPolicyDocumentId',
         get(offer, 'amplusPolicyDocumentId', 0)
       );
-    };
+    }
     if (typeId === 'AMPLUS_PAD') {
       // PAD offer fields that are not equal with similar fields in Amplus Offer for Amplus+PAD
       set(offerObj, 'padInsurance.id', get(offer.padInsurance, 'id', '-'));
