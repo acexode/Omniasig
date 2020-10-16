@@ -2,7 +2,7 @@
 </app-sub-page-header>
 <ion-content>
     <ng-container *ngIf="viewMode === 'V'">
-        <ion-grid *ngIf="policyType === 'PAD'" class="ion-no-padding">
+        <ion-grid *ngIf="policyType === 'PAD'" [formGroup]="formG" class="ion-no-padding">
             <ion-row class="mx-32 pt-80 pb-40 border-bottom-1 border-medium-green-3">
                 <ion-col class="ion-no-padding">
                     <ion-row class="mb-16">
@@ -220,9 +220,7 @@
 
                     <ion-row class="alt-bg p-16 top-radius-8 bottom-radius-8">
                         <ion-col size="auto" class="ion-no-padding mr-12">
-                            <ion-radio-group>
-                                <ion-radio class="radio-btn radius-0"></ion-radio>
-                            </ion-radio-group>
+                            <ion-checkbox class="check-btn" formControlName="accept"></ion-checkbox>
                         </ion-col>
                         <ion-col class="ion-no-padding flex flex-column link-small">
                             <ion-text class="link-small"> Confirm că: </ion-text>
@@ -239,7 +237,7 @@
                 </ion-col>
             </ion-row>
             <ion-row class="px-32 mb-24 ion-no-padding">
-                <ion-button class="s18-h24 text-weight-medium activate-btn w-100 m-0" [disabled]="busy" size="large"
+                <ion-button class="s18-h24 text-weight-medium activate-btn w-100 m-0" [disabled]="busy || !formG?.valid" size="large"
                     color="success" expand="full" shape="round" (click)="pay()">
                     <ion-spinner name="crescent" *ngIf="busy" class="icon-20"></ion-spinner>
                     Plătește
@@ -279,7 +277,7 @@
                 </ion-row>
             </ion-row>
         </ion-grid>
-        <ion-grid *ngIf="policyType === 'AMPLUS'" class="ion-no-padding">
+        <ion-grid *ngIf="policyType === 'AMPLUS'" [formGroup]="formG" class="ion-no-padding">
             <ion-row class="mx-32 pt-80 pb-40">
                 <ion-col class="ion-no-padding">
                     <ion-row class="mb-16">
@@ -679,9 +677,7 @@
 
                     <ion-row class="alt-bg p-16 top-radius-8 bottom-radius-8">
                         <ion-col size="auto" class="ion-no-padding mr-12">
-                            <ion-radio-group>
-                                <ion-radio class="radio-btn radius-0"></ion-radio>
-                            </ion-radio-group>
+                            <ion-checkbox class="check-btn" formControlName="accept"></ion-checkbox>
                         </ion-col>
                         <ion-col class="ion-no-padding flex flex-column link-small">
                             <ion-text class="link-small"> Confirm că: </ion-text>
@@ -700,7 +696,7 @@
 
             <ion-row class="px-32 mb-24 ion-no-padding">
                 <ion-button (click)="gotoConditions()" class="s18-h24 text-weight-medium activate-btn w-100 m-0"
-                    size="large" color="success" expand="full" shape="round">Continuă</ion-button>
+                    size="large" color="success" expand="full" shape="round" [disabled]="!formG?.valid">Continuă</ion-button>
             </ion-row>
             <ion-row class="flex flex-column ion-no-padding w-100 shadow-3 mt-32"
                 *ngIf="calEntry && !disableNotificationSection">
@@ -737,7 +733,7 @@
             </ion-row>
         </ion-grid>
 
-        <ion-grid *ngIf="policyType === 'Garant AMPLUS+ PAD'" class="ion-no-padding">
+        <ion-grid *ngIf="policyType === 'Garant AMPLUS+ PAD'" [formGroup]="formG" class="ion-no-padding">
             <ion-row class="mx-32 pt-80 pb-40">
                 <ion-col class="ion-no-padding">
                     <ion-row class="mb-16">
@@ -1311,9 +1307,7 @@
 
                     <ion-row class="alt-bg p-16 top-radius-8 bottom-radius-8">
                         <ion-col size="auto" class="ion-no-padding mr-12">
-                            <ion-radio-group>
-                                <ion-radio class="radio-btn radius-0"></ion-radio>
-                            </ion-radio-group>
+                            <ion-checkbox class="check-btn" formControlName="accept"></ion-checkbox>
                         </ion-col>
                         <ion-col class="ion-no-padding flex flex-column link-small">
                             <ion-text class="link-small"> Confirm că: </ion-text>
@@ -1331,7 +1325,7 @@
             </ion-row>
             <ion-row class="px-32 mb-24 ion-no-padding">
                 <ion-button (click)="gotoConditions()" class="s18-h24 text-weight-medium activate-btn w-100 m-0"
-                    size="large" color="success" expand="full" shape="round">Continuă</ion-button>
+                    size="large" color="success" expand="full" shape="round" [disabled]="!formG?.valid">Continuă</ion-button>
             </ion-row>
             <ion-row class="flex flex-column ion-no-padding w-100 shadow-3 mt-32"
                 *ngIf="calEntry && !disableNotificationSection">
