@@ -352,10 +352,11 @@
     <div class="pt-16">
       <ion-text class="s16-h22">
         • prin e-mail - la adresa:
-        <a href="mailto:dpo@omniasig.ro">dpo@omniasig.ro</a>; <br /><br />
+        <a [href]="mailToDpo">dpo@omniasig.ro</a>; <br /><br />
         • prin pagina web a companiei, urmând calea:
         <a
-          href="https://www.omniasig.ro/Formular-petitie-prelucrarea-datelor-cu-caracter-personal.html"
+          [href]="formularPetitiePrelucrareaLink"
+          target="none"
           >https://www.omniasig.ro/Formular-petitie-prelucrarea-datelor-cu-caracter-personal.html</a
         >; <br /><br />
         • personal – la oricare din sediile OMNIASIG VIG; <br /><br />
@@ -364,8 +365,8 @@
         Detalii suplimentare precum și eventuale actualizări ale acestei note de
         informare privind protecția datelor dumneavoastră, puteți găsi urmând
         calea
-        <a href="https://gdpr.omniasig.ro/">https://gdpr.omniasig.ro/</a> și pe
-        pagina web a companiei <a href="www.omniasig.ro">www.omniasig.ro</a> în
+        <a [href]="gdprLink" target="none">https://gdpr.omniasig.ro/</a> și pe
+        pagina web a companiei <a [href]="omniasigLink">www.omniasig.ro</a> în
         secțiunea Protecția Datelor. <br /><br />
         Prezenta notă de informare reprezintă versiunea din data de ZZ.LL.2020
         <br /><br />
@@ -373,12 +374,12 @@
         Supraveghere a Prelucrării Datelor cu Caracter Personal, datele de
         contact sunt: <br /><br />
         Web site:
-        <a href="http://www.dataprotection.ro/"
+        <a [href]="dataprotectionLink" target="none"
           >http://www.dataprotection.ro/</a
         >
         <br /><br />
         E-mail:
-        <a href="mailto:anspdcp@dataprotection.ro">anspdcp@dataprotection.ro</a>
+        <a [href]="mailToDataprotection">anspdcp@dataprotection.ro</a>
         <br /><br />
         Adresa: B-dul G-ral. Gheorghe Magheru 28-30, Sector 1, cod poștal 010336
         București, România <br /><br />

@@ -34,7 +34,7 @@ export class ConfirmCodDeAccesComponent implements OnInit {
     }
   }
 
-  verifyPasscode(passForm: FormGroup) {
+  verifyPasscode( passForm: FormGroup ) {
     if (passForm.get('passcode').value === this.regService.getuserObj.pin) {
       this.navCtrl.navigateRoot(`registration/personal-details`);
     } else {

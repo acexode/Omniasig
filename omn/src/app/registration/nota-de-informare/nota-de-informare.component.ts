@@ -10,7 +10,13 @@ import { AuthService } from 'src/app/core/services/auth/auth.service';
 })
 export class NotaDeInformareComponent implements OnInit {
   termsForm: FormGroup;
-  @HostBinding('class') color = 'ion-color-white-page';
+  @HostBinding( 'class' ) color = 'ion-color-white-page';
+  mailToDpo = 'mailto:dpo@omniasig.ro';
+  formularPetitiePrelucrareaLink = 'https://www.omniasig.ro/Formular-petitie-prelucrarea-datelor-cu-caracter-personal.html';
+  gdprLink = 'https://gdpr.omniasig.ro/';
+  omniasigLink = 'www.omniasig.ro';
+  dataprotectionLink = 'http://www.dataprotection.ro/';
+  mailToDataprotection = 'mailto:anspdcp@dataprotection.ro';
   constructor(
     private router: Router,
     private formBuilder: FormBuilder,
