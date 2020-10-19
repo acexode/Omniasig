@@ -21,60 +21,63 @@ export class CaptureDocsComponent implements OnInit {
     private photoService: PhotoService,
     private router: Router,
     private route: ActivatedRoute,
-    private actionSheetController: ActionSheetController
+    // private actionSheetController: ActionSheetController
   ) {}
 
   removePhoto() {
     this.photoService.removePhoto();
-    this.openChoice();
+    this.addPhotoToGallery(true);
+    // this.openChoice();
   }
 
-  async openChoice() {
-    let actionSheet = null;
-    this.actionSheetController
-      .create({
-        header: 'Selectati sursa',
-        buttons: [
-          {
-            text: 'Fotografie noua',
-            cssClass:
-              'mx-0 mt-0 mb-16 w-100 no-shadow ion-color text-weight-medium ion-color-success flat button button-block button-large button-solid',
-            handler: () => {
-              this.addPhotoToGallery(true);
-            },
-          },
-          {
-            text: 'Galerie de imagini',
-            cssClass:
-              'm-0 w-100 no-shadow ion-color text-weight-medium ion-color-success flat button button-block button-large button-solid',
-            handler: () => {
-              this.addPhotoToGallery(false);
-            },
-          },
-          {
-            text: 'Renunță',
-            role: 'cancel',
-            cssClass:
-              'm-0 w-100 no-shadow ion-color-secondary button button-block button-large button-solid',
-          },
-        ],
-      })
-      .then((v) => {
-        actionSheet = v;
-        actionSheet.present();
-      });
-  }
+  // async openChoice() {
+  //   let actionSheet = null;
+  //   this.actionSheetController
+  //     .create({
+  //       header: 'Selectati sursa',
+  //       buttons: [
+  //         {
+  //           text: 'Fotografie noua',
+  //           cssClass:
+  //             'mx-0 mt-0 mb-16 w-100 no-shadow ion-color text-weight-medium ion-color-success flat button button-block button-large button-solid',
+  //           handler: () => {
+  //             this.addPhotoToGallery(true);
+  //           },
+  //         },
+  //         {
+  //           text: 'Galerie de imagini',
+  //           cssClass:
+  //             'm-0 w-100 no-shadow ion-color text-weight-medium ion-color-success flat button button-block button-large button-solid',
+  //           handler: () => {
+  //             this.addPhotoToGallery(false);
+  //           },
+  //         },
+  //         {
+  //           text: 'Renunță',
+  //           role: 'cancel',
+  //           cssClass:
+  //             'm-0 w-100 no-shadow ion-color-secondary button button-block button-large button-solid',
+  //         },
+  //       ],
+  //     })
+  //     .then((v) => {
+  //       actionSheet = v;
+  //       actionSheet.present();
+  //     });
+  // }
 
   async addPhotoToGallery(newF = false) {
     this.captured = this.photoService.addNewToGallery(newF);
   }
 
   async retake() {
-    this.openChoice();
+    this.addPhotoToGallery(true);
+    // this.openChoice();
   }
 
   async ngOnInit() {
-    this.openChoice();
+    this.addPhotoToGallery(true);
+    // this.openChoice();
   }
 
   async uploadPhoto() {

@@ -16,7 +16,9 @@ export class PhotoService {
     encodingType: this.camera.EncodingType.JPEG,
     mediaType: this.camera.MediaType.PICTURE,
     sourceType: this.camera.PictureSourceType.CAMERA,
+    cameraDirection: this.camera.Direction.FRONT,
   };
+
   constructor(private reqS: RequestService, private camera: Camera) {}
 
   public async addNewToGallery(newF = false) {
@@ -35,7 +37,6 @@ export class PhotoService {
         filepath: '',
         webviewPath: 'data:image/jpeg;base64,' + capturedPhoto,
       });
-
       return true;
     } catch (e) {
       return false;
