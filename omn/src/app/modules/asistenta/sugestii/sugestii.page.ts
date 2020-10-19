@@ -100,13 +100,13 @@ export class SugestiiPage implements OnInit {
         let actionSheet = null;
         this.actionSheetController
           .create({
-            cssClass: 'locuinte-sheet s24-h32 green-title',
+            cssClass: 'locuinte-sheet s24-h32 green-title title-lg',
             header: 'Mulțumim pentru sugestie!',
             buttons: [
               {
                 text: 'Acasă',
                 cssClass:
-                  'm-0 w-100 no-shadow ion-color text-weight-medium ion-color-success flat button button-block button-large button-solid',
+                  'm-0 w-100 mt-48 no-shadow ion-color text-weight-medium ion-color-success flat button button-block button-large button-solid',
                 handler: () => {
                   this.navCtrl.navigateRoot(['/home']);
                 },
