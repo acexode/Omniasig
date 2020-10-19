@@ -1,3 +1,4 @@
+import { policyTypes } from 'src/app/shared/models/data/policy-types';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { NavController } from '@ionic/angular';
@@ -14,6 +15,7 @@ import { PolicyDataService } from './../../services/policy-data.service';
   styleUrls: ['./policy-view.component.scss'],
 })
 export class PolicyViewComponent implements OnInit {
+  policyType;
   headerConfig = subPageHeaderCustom('Polița PAD', 'bg-state');
   isAmplus = false;
   calEntry: CalendarEntry;
@@ -27,15 +29,34 @@ export class PolicyViewComponent implements OnInit {
     private fileS: SharedFileService
   ) {
     this.route.params.subscribe((params: any) => {
+      this.policyType =
+        this.route.snapshot.queryParamMap.get('policyType') || 'PAD';
+      this.buildHeaderConfig();
       this.getPolicyById(params.id);
     });
   }
 
   ngOnInit(): void {}
-
+  buildHeaderConfig() {
+    let fullName = 'Polița PAD';
+    if (!this.policyType || this.policyType === 'PAD') {
+      fullName = 'Polița PAD';
+    } else {
+      const type = policyTypes[this.policyType];
+      if (type) {
+        const name = get(type, 'name', this.policyType);
+        fullName = 'Polița ' + name;
+      }
+    }
+    this.headerConfig = subPageHeaderCustom(fullName, 'bg-state');
+  }
   getPolicyById(id) {
+    this.policyType =
+      this.policyType === 'Garant AMPLUS + PAD'
+        ? 'AMPLUS_PAD'
+        : this.policyType;
     this.policyDataService
-      .getSinglePolicyById(id)
+      .getSinglePolicyById(id, this.policyType)
       .subscribe((policy: PolicyItem) => {
         if (policy) {
           this.policy = policy;
@@ -72,7 +93,6 @@ export class PolicyViewComponent implements OnInit {
   }
 
   downloadPolicy() {
-    // TODO: update this for other policies.
     const title = `policy-${this.policy.padPolicyDocumentId}.pdf`;
     let id = null;
     try {

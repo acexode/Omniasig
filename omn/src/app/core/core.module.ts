@@ -2,10 +2,11 @@ import { CommonModule } from '@angular/common';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
+import { AppVersion } from '@ionic-native/app-version/ngx';
 import { IonicModule } from '@ionic/angular';
 import { IonicStorageModule } from '@ionic/storage';
 import { SideMenuComponent } from './components/side-menu/side-menu.component';
-import { fakeBackendProvider } from './interceptors/fake-backend';
+import { ErrorInterceptor } from './interceptors/error.interceptor';
 import { JwtInterceptor } from './interceptors/JWTInterceptor';
 import { AuthService } from './services/auth/auth.service';
 import { RegistrationService } from './services/auth/registration.service';
@@ -14,9 +15,6 @@ import { CustomStorageService } from './services/custom-storage/custom-storage.s
 import { CustomTimersService } from './services/custom-timers/custom-timers.service';
 import { MenuService } from './services/menu/menu.service';
 import { RequestService } from './services/request/request.service';
-import { AppVersion } from '@ionic-native/app-version/ngx';
-import { File } from '@ionic-native/file/ngx';
-import { ErrorInterceptor } from './interceptors/error.interceptor';
 @NgModule({
   declarations: [SideMenuComponent],
   imports: [
@@ -30,7 +28,6 @@ import { ErrorInterceptor } from './interceptors/error.interceptor';
     }),
   ],
   providers: [
-    fakeBackendProvider,
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
     RequestService,
@@ -41,7 +38,6 @@ import { ErrorInterceptor } from './interceptors/error.interceptor';
     CustomTimersService,
     MenuService,
     AppVersion,
-    // File,
   ],
   exports: [SideMenuComponent],
 })
