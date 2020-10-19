@@ -1,4 +1,5 @@
 import { Component, HostBinding, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import {
   InAppBrowser,
@@ -94,13 +95,17 @@ export class OfferViewComponent implements OnInit {
   sub: Subscription;
   disableNotificationSection = true;
   downloading = false;
+  formG: FormGroup = this.fb.group({
+    accept: this.fb.control(false, Validators.requiredTrue),
+  });
   constructor(
     private route: ActivatedRoute,
     private policyDataService: PolicyDataService,
     private navCtrl: NavController,
     public modalController: ModalController,
     private iab: InAppBrowser,
-    private fileS: SharedFileService
+    private fileS: SharedFileService,
+    private fb: FormBuilder,
   ) {}
 
   ngOnInit(): void {
@@ -176,7 +181,7 @@ export class OfferViewComponent implements OnInit {
     const data = {
       ibaN_1: this.offer.iban,
       amount_IBAN_1: this.offer.firstPaymentValue,
-      areTermsAccepted: true,
+      areTermsAccepted: this.formG.get('accept').value,
       currencyToPay:
         this.policyType === 'PAD'
           ? 'RON'
