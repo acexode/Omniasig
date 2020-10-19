@@ -3,10 +3,11 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
+  OnDestroy,
   OnInit,
 } from '@angular/core';
 import { MenuController } from '@ionic/angular';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Subscription } from 'rxjs';
 import { AuthService } from '../core/services/auth/auth.service';
 import { ConfigService } from '../core/services/config/config.service';
 import { PolicyDataService } from '../modules/policy/services/policy-data.service';
@@ -20,13 +21,14 @@ import { addDaune, dauneDisabled, testDauneData } from './data/home-daune-data';
 import { offerHomeItemHelper } from './data/home-offer-item-helper';
 import { policyHomeItemHelper } from './data/home-policy-item-helper';
 import { Keyboard } from '@ionic-native/keyboard/ngx';
+import { distinctUntilChanged } from 'rxjs/operators';
 @Component( {
   selector: 'app-home',
   templateUrl: 'home.page.html',
   styleUrls: [ 'home.page.scss' ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 } )
-export class HomePage implements OnInit {
+export class HomePage implements OnInit, OnDestroy {
   release = this.configS.release();
   dauneDisabled = dauneDisabled;
   hasOffers = false;
@@ -165,6 +167,7 @@ export class HomePage implements OnInit {
     itemClass: null,
     color: null,
   };
+  sub: Subscription;
   constructor(
     private menu: MenuController,
     private authS: AuthService,
@@ -183,12 +186,11 @@ export class HomePage implements OnInit {
     if ( this.keyboard.isVisible ) {
       this.keyboard.hide();
     }
-    this.authS.getAccountData().subscribe( ( account ) => {
+    this.sub =   this.authS.getAccountData().pipe(distinctUntilChanged()).subscribe( ( account ) => {
       this.account = account;
       if ( account ) {
         // activate display for what needs validation from user
         this.displayWhatNeedsToBeValidated( this.account );
-
         this.accountActivated = this.authS.accountActivated( account );
         if ( this.accountActivated ) {
           this.policyS.policyStore$.subscribe( ( v ) =>
@@ -258,5 +260,9 @@ export class HomePage implements OnInit {
   openCustom() {
     this.menu.enable( true, 'omn-menu' );
     this.menu.open( 'omn-menu' );
+  }
+
+  ngOnDestroy() {
+    this.sub.unsubscribe();
   }
 }
