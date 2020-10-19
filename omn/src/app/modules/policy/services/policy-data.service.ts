@@ -182,6 +182,8 @@ export class PolicyDataService {
       currency: policy.offerCurrency,
     };
     if (typeId === 'AMPLUS') {
+      policyProcessed.expiry = get(policy, 'offerExpireDate', null);
+      policyProcessed.dates.to = get(policy, 'offerExpireDate', null);
     }
     return policyProcessed;
   }

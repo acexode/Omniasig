@@ -138,4 +138,7 @@ export class PolicyViewComponent implements OnInit {
     const modal = await this.fileS.createErrorModal(title, description);
     return await modal.present();
   }
+  navigateRoot() {
+    this.navCtrl.navigateRoot('/policy');
+  }
 }
