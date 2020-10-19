@@ -923,7 +923,11 @@
         </ion-row>
       </ion-row>
     </ion-grid>
-    <ion-grid *ngIf="policyType === 'AMPLUS_PAD'" class="ion-no-padding" [formGroup]="formG">
+    <ion-grid
+      *ngIf="policyType === 'AMPLUS_PAD'"
+      class="ion-no-padding"
+      [formGroup]="formG"
+    >
       <ion-row class="mx-32 pt-80 pb-40">
         <ion-col class="ion-no-padding">
           <ion-row class="mb-16">
