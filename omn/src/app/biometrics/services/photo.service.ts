@@ -21,9 +21,8 @@ export class PhotoService {
 
   constructor(private reqS: RequestService, private camera: Camera) {}
 
-  public async addNewToGallery(newF = false, url) {
-    this.options.cameraDirection = (url === 'capture-docs') ? this.camera.Direction.BACK : this.options.cameraDirection;
-    console.log('DIRECTION: ', this.options.cameraDirection, url);
+  public async addNewToGallery(newF = false, route) {
+    if(route === 'capture-docs') this.options.cameraDirection = this.camera.Direction.BACK;
     const nOptions = {
       ...this.options,
       ...{
