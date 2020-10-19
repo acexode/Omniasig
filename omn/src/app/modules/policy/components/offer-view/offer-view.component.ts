@@ -105,7 +105,7 @@ export class OfferViewComponent implements OnInit {
     public modalController: ModalController,
     private iab: InAppBrowser,
     private fileS: SharedFileService,
-    private fb: FormBuilder,
+    private fb: FormBuilder
   ) {}
 
   ngOnInit(): void {
@@ -117,7 +117,9 @@ export class OfferViewComponent implements OnInit {
 
   getPolicyById(id) {
     this.policyType =
-      this.policyType === 'Garant AMPLUS + PAD' ? 'AMPLUS_PAD' : this.policyType;
+      this.policyType === 'Garant AMPLUS + PAD'
+        ? 'AMPLUS_PAD'
+        : this.policyType;
     this.policyDataService
       .getSingleOfferById(id, this.policyType)
       .subscribe((offer) => {
@@ -254,9 +256,10 @@ export class OfferViewComponent implements OnInit {
       (data) => {
         browser.close();
         if (
-          (this.policyType === 'PAD' && get(data, 'padPolitaResponse', null)) ||
+          (this.policyType === 'PAD' &&
+            get(data, 'emiterePadPolitaResponse', null)) ||
           (this.policyType === 'AMPLUS' &&
-            get(data, 'amplusPolitaResponse', null))
+            get(data, 'emitereAmplusPolitaResponse', null))
         ) {
           this.presentModal('success');
           this.policyDataService.initData();

@@ -831,6 +831,14 @@ export class PolicyFormPage implements OnInit, OnDestroy {
             text: 'Data de start este invalida pentru acest tip de asigurare.',
           });
         }
+        if (data.errorMessage && get(data.errorMessage, 'length', 0)) {
+          data.errorMessage.forEach((v) => {
+            this.errMsg.push({
+              classes: 'ion-text-center w-100 mb-16',
+              text: v,
+            });
+          });
+        }
       } else {
         this.errMsg = this.defaultErrMsg;
       }

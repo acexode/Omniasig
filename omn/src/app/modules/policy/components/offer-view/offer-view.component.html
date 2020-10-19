@@ -595,8 +595,8 @@
                   Perioada de asigurare
                 </div>
                 <ion-text class="s18-h24">
-                  {{ offer?.emisionDate | date: 'dd.MM.yyyy' }} -
-                  {{ offer?.expiry | date: 'dd.MM.yyyy' }}
+                  {{ offer?.policy?.dates?.from | date: 'dd.MM.yyyy' }} -
+                  {{ offer?.policy?.dates?.to | date: 'dd.MM.yyyy' }}
                 </ion-text>
               </ion-label>
             </ion-item>
@@ -846,9 +846,10 @@
 
           <ion-row class="alt-bg p-16 top-radius-8 bottom-radius-8">
             <ion-col size="auto" class="ion-no-padding mr-12">
-              <ion-radio-group>
-                <ion-radio class="radio-btn radius-0"></ion-radio>
-              </ion-radio-group>
+              <ion-checkbox
+                class="check-btn"
+                formControlName="accept"
+              ></ion-checkbox>
             </ion-col>
             <ion-col class="ion-no-padding flex flex-column link-small">
               <ion-text class="link-small"> Confirm că: </ion-text>
@@ -874,6 +875,7 @@
           color="success"
           expand="full"
           shape="round"
+          [disabled]="busy || !formG?.valid"
           >Continuă</ion-button
         >
       </ion-row>
@@ -921,7 +923,7 @@
         </ion-row>
       </ion-row>
     </ion-grid>
-    <ion-grid *ngIf="policyType === 'AMPLUS_PAD'" class="ion-no-padding">
+    <ion-grid *ngIf="policyType === 'AMPLUS_PAD'" class="ion-no-padding" [formGroup]="formG">
       <ion-row class="mx-32 pt-80 pb-40">
         <ion-col class="ion-no-padding">
           <ion-row class="mb-16">
@@ -966,9 +968,7 @@
                 </ion-label>
                 <ion-label class="text-normal text-weight-medium">
                   20 Euro la cursul de
-                  {{
-                    offer?.padInsurance?.offerPrice / 20 | number: '1.4-4'
-                  }}
+                  {{ offer?.padInsurance?.offerPrice / 20 | number: '1.4-4' }}
                   lei/Euro
                 </ion-label>
               </ion-card-content>
@@ -1737,12 +1737,12 @@
       <ion-row class="px-32 mb-24 ion-no-padding">
         <ion-button
           (click)="gotoConditions()"
-          class="s18-h24 text-weight-medium activate-btn w-100 m-0"
+          class="s18-h24 text-weight-medium activate-btn w-100 m-0 z"
           size="large"
           color="success"
           expand="full"
           shape="round"
-          [disabled]="!formG?.valid"
+          [disabled]="busy || !formG?.valid"
           >Continuă</ion-button
         >
       </ion-row>
