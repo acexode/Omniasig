@@ -16,13 +16,14 @@ export interface PolicyItem {
     from: Date | string;
     to: Date | string;
   };
-  cesiune?: Array<{ cui: string; procent: number; denumireCesionar: string; }>;
+  cesiune?: Array<{ cui: string; procent: number; denumireCesionar: string }>;
   // additional fields from the BE
   serial?: string;
   policyNrPolita?: string;
   policyNrChitanta?: string;
   policyIdIncasareOMN?: string;
   padPolicyDocumentId?: number;
+  amplusPolicyDocumentId?: number;
   // Display
   type?: PolicyType;
   listingSubtitle?: string;

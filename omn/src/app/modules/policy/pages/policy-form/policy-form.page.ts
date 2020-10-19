@@ -123,7 +123,7 @@ export class PolicyFormPage implements OnInit, OnDestroy {
           case 'PAD':
             this.typeItem = policyTypes.PAD;
             break;
-          case 'Garant AMPLUS+ PAD':
+          case 'Garant AMPLUS + PAD':
             this.typeItem = policyTypes.AMPLUS_PAD;
             break;
           default:
@@ -302,7 +302,7 @@ export class PolicyFormPage implements OnInit, OnDestroy {
         break;
       case this.policySteps.INFO_DOC:
         const step = get(this.infoDocComp, 'currentStep', 0);
-        if (this.policyID === 'Garant AMPLUS+ PAD' && step > 1) {
+        if (this.policyID === 'Garant AMPLUS + PAD' && step > 1) {
           this.infoDocComp.back();
           return;
         } else if (has(this.typeItem, 'dntConfig', null)) {
@@ -561,21 +561,21 @@ export class PolicyFormPage implements OnInit, OnDestroy {
     this.next();
   }
 
-  buildOfferDetails(){
-    return this.policyFs.buildOfferItem( {
+  buildOfferDetails() {
+    return this.policyFs.buildOfferItem({
       locuintaItem: this.selectedAddressItem,
       account: this.userAccount,
       pType: this.typeItem as PolicyType,
-      cesiune: get( this.cesiuneData, 'cesionar', [] ),
+      cesiune: get(this.cesiuneData, 'cesionar', []),
       fromDate: this.periodStartData,
       payData: this.wayPayFormData,
       supportData: this.assistFormData,
-    } );
+    });
   }
 
-  periodSubmit( startDate ) {
+  periodSubmit(startDate) {
     this.periodStartData = startDate;
-    if ( this.policyID === 'PAD' || this.policyID === 'Garant AMPLUS+ PAD' ) {
+    if (this.policyID === 'PAD' || this.policyID === 'Garant AMPLUS + PAD') {
       this.offerData = this.buildOfferDetails();
       this.loaderTitle = 'Verificăm corectitudinea datelor…';
       if (this.policyID === 'PAD') {
@@ -589,12 +589,12 @@ export class PolicyFormPage implements OnInit, OnDestroy {
           false
         )
         .subscribe(
-          ( result ) => {
-            if ( result ) {
-              if ( this.policyID === 'Garant AMPLUS+ PAD' ) {
-                this.changeStep( this.policySteps.TECHNICAL_SUPPORT );
-              }else{
-                this.changeStep( this.policySteps.POLICY_VERIFY );
+          (result) => {
+            if (result) {
+              if (this.policyID === 'Garant AMPLUS + PAD') {
+                this.changeStep(this.policySteps.TECHNICAL_SUPPORT);
+              } else {
+                this.changeStep(this.policySteps.POLICY_VERIFY);
               }
             } else {
               this.handleError(null);
@@ -648,7 +648,10 @@ export class PolicyFormPage implements OnInit, OnDestroy {
     this.maxPeriodStartDate = null;
     if (!policy) {
       this.minPeriodStartDate = null;
-    } else if (this.policyID === 'PAD') {
+    } else if (
+      this.policyID === 'PAD' ||
+      this.policyID === 'Garant AMPLUS + PAD'
+    ) {
       try {
         this.minPeriodStartDate = get(policy, 'dates.to', null);
         const initV = Date.parse(this.minPeriodStartDate);
@@ -674,7 +677,6 @@ export class PolicyFormPage implements OnInit, OnDestroy {
             );
       } catch (e) {}
     }
-
     if (!this.minPeriodStartDate) {
       this.minPeriodStartDate = new Date().setDate(new Date().getDate() + 1);
     }
@@ -718,7 +720,8 @@ export class PolicyFormPage implements OnInit, OnDestroy {
         paymentCurrency: this.offerData?.payData?.type || 'RON',
         propertyCessionList: null,
       };
-      this.amplusS.CreateAmplusInsuranceOffer(
+      this.amplusS
+        .CreateAmplusInsuranceOffer(
           this.offerData.policy.locuintaData.id,
           false,
           payload
@@ -736,8 +739,8 @@ export class PolicyFormPage implements OnInit, OnDestroy {
           }
         );
       return;
-    }else{
-      this.changeStep( this.policySteps.POLICY_VERIFY );
+    } else {
+      this.changeStep(this.policySteps.POLICY_VERIFY);
     }
   }
 
@@ -753,7 +756,7 @@ export class PolicyFormPage implements OnInit, OnDestroy {
     this.headerConfig = null;
     if (
       this.policyID === 'AMPLUS' &&
-      this.policyID === 'Garant AMPLUS+ PAD' &&
+      this.policyID === 'Garant AMPLUS + PAD' &&
       this.currentStep !== this.policySteps.POLICY_VERIFY_CHECK &&
       this.currentStep !== this.policySteps.OFFER_EMIT_CHECK
     ) {
@@ -849,7 +852,7 @@ export class PolicyFormPage implements OnInit, OnDestroy {
   }
 
   infoDocStep(step: number) {
-    if (this.policyID === 'Garant AMPLUS+ PAD') {
+    if (this.policyID === 'Garant AMPLUS + PAD') {
       this.setTitles();
     }
   }

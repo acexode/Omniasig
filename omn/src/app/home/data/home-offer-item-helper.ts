@@ -55,7 +55,7 @@ export const offerHomeItemHelper = ( offer: PolicyOffer ) => {
 
 const plataOption = ( noOfPayments: number, offerPrice: any ) => {
   return noOfPayments !== 0
-    ? noOfPayments === 0 ? 'plata integrală' + ' ● ' + replaceHelper( offerPrice, '.', ',' ) + ' lei/an'
+    ? noOfPayments === 1 ? 'plata integrală' + ' ● ' + replaceHelper( offerPrice, '.', ',' ) + ' lei/an'
       : 'plata în ' + noOfPayments + ' rate' + ' ● ' + replaceHelper( offerPrice, '.', ',' ) + ' lei/an' // plata în două rate
     :
     '';

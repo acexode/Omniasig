@@ -85,7 +85,6 @@ export class PolicyAddressFormComponent implements OnInit {
     private cdRef: ChangeDetectorRef,
     private formS: LocuinteFormService,
     private locuinteS: LocuinteService,
-    private padS: PadService,
     public modalController: ModalController,
     private authS: AuthService,
     private amplusS: AmplusService,
@@ -464,8 +463,10 @@ export class PolicyAddressFormComponent implements OnInit {
                       }
                       return;
                     }
-
-                    if (this.policyId === 'PAD') {
+                    if (
+                      this.policyId === 'PAD' ||
+                      this.policyId === 'Garant AMPLUS + PAD'
+                    ) {
                       if (v.hasPaid) {
                         this.checkPadResponse.emit(v);
                       } else {
@@ -475,8 +476,6 @@ export class PolicyAddressFormComponent implements OnInit {
                       }
                       return;
                     }
-                    // TODO: check for AMPLUS+ PAD
-                    // To be removed: this allows smooth flow for AMPLUS+ PAD workflow
                     this.formSubmitting = false;
                     return data;
                   }),
