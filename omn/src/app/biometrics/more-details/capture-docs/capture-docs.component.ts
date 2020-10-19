@@ -39,7 +39,7 @@ export class CaptureDocsComponent implements OnInit {
   //         {
   //           text: 'Fotografie noua',
   //           cssClass:
-  //             'mx-0 mt-0 mb-16 w-100 no-shadow ion-color text-weight-medium ion-color-success flat button' + 
+  //             'mx-0 mt-0 mb-16 w-100 no-shadow ion-color text-weight-medium ion-color-success flat button' +
   //             'button-block button-large button-solid',
   //           handler: () => {
   //             this.addPhotoToGallery(true);
