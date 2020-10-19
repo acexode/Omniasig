@@ -24,7 +24,7 @@ const routes: Routes = [
   },
   {
     path: 'notice',
-    // canActivate: [ LoginGuard ],
+    canActivate: [ LoginGuard ],
     component: NotaDeInformareComponent,
   },
   {
