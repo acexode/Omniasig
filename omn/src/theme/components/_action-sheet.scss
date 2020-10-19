@@ -94,11 +94,16 @@
     }
     &.green-title {
       .action-sheet-title {
-        color: $green;
+        color: $dark-green;
         font-size: rem(18);
         line-height: rem(24);
         font-family: $alt-font;
         font-weight: 600;
+      }
+      &.title-lg .action-sheet-title {
+        font-size: rem(24);
+        line-height: rem(32);
+        padding: rem(16) rem(8);
       }
     }
   }
