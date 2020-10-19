@@ -17,6 +17,14 @@ export class NotaDeInformareComponent implements OnInit {
   omniasigLink = 'www.omniasig.ro';
   dataprotectionLink = 'http://www.dataprotection.ro/';
   mailToDataprotection = 'mailto:anspdcp@dataprotection.ro';
+  telefonFix = [
+    'tel:+40.318.059.211',
+    'tel:+40.318.059.212',
+  ];
+  cabinetPrsedinte = [
+    'tel:+40.318.059.220',
+    'tel:+40.318.059.60'
+  ];
   constructor(
     private router: Router,
     private formBuilder: FormBuilder,
