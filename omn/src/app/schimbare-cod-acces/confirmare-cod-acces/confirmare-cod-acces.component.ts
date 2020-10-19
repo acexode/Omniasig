@@ -66,8 +66,6 @@ export class ConfirmareCodAccesComponent implements AfterViewInit, OnDestroy {
           }
         });
       } else {
-        console.log(value);
-        console.log(this.accessCode);
         this.InvalidCode = true;
         this.navCtrl.navigateBack('/cod-acces/nou');
       }

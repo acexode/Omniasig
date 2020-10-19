@@ -1,5 +1,5 @@
 <app-sub-page-header
-  (trailingActionEv)="mainPage()"
+  (click)="mainPage()"
   [config]="headerConfig"
 ></app-sub-page-header>
 <ion-content>
@@ -7,52 +7,66 @@
     color="secondary"
     class="pt-0 ion-no-padding flex flex-1 flex-column w-100 mh-100p"
   >
-    <ion-row class="ion-justify-content-center py-44"></ion-row>
-    <ion-row class="px-32 flex flex-column flex-1 w-100 bg-white">
-      <ion-row
-        class="ion-justify-content-center ion-align-items-center mt-n20 mb-24"
-      >
-        <ion-icon
-          class="mb-0 bg-green flex main-icon p-10 md hydrated icon-20 radius-50-perc"
-          name="sm-file"
-        ></ion-icon>
-      </ion-row>
-      <ion-col class="flex flex-column flex-1 w-100 ion-no-padding">
-        <ion-row class="ion-no-padding mb-4">
-          <ion-label
-            class="ion-text-center text-small w-100 color-tertiary-grey"
-          >
-            {{doc?.date | date:'dd.MM.yyyy, hh:mm'}}
-          </ion-label>
-        </ion-row>
-        <ion-row class="mb-24">
-          <ion-label
-            class="alt-font w-100 ion-text-center s32-h38 text-weight-medium color-dark-green oferta-asigurare-ser"
-          >
-            {{doc?.title}}
-          </ion-label>
-        </ion-row>
-        <ion-row class="mb-24">
-          <ion-text
-            class="doc-details alt-text ion-text-center w-100 right-padding vertical-spacing mb-22 mt-auto ls-min-02"
-            >{{doc?.description}}</ion-text
-          >
-        </ion-row>
+    <ng-container *ngIf="!loading">
+      <ion-row class="ion-justify-content-center py-44"></ion-row>
+      <ion-row class="px-32 flex flex-column flex-1 w-100 bg-white">
         <ion-row
-          class="flex flex-column text-center ion-text-center flex-1 ion-justify-content-end pb-24"
+          class="ion-justify-content-center ion-align-items-center mt-n20 mb-24"
         >
-          <ion-button
-            class="flex w-100"
-            color="success"
-            fill="solid"
-            [disabled]="!(doc?.file && doc?.title)"
-            (click)="downloadFile(doc.file, doc.title)"
-            expand="block"
-            size="large"
-            >Descarca atasament</ion-button
-          >
+          <ion-icon
+            class="mb-0 bg-green flex main-icon p-10 md hydrated icon-20 radius-50-perc"
+            name="sm-file"
+          ></ion-icon>
         </ion-row>
-      </ion-col>
-    </ion-row>
+        <ion-col class="flex flex-column flex-1 w-100 ion-no-padding">
+          <ion-row class="ion-no-padding mb-4">
+            <ion-label
+              class="ion-text-center text-small w-100 color-tertiary-grey"
+            >
+              {{doc?.date | date:'dd.MM.yyyy, hh:mm'}}
+            </ion-label>
+          </ion-row>
+          <ion-row class="mb-24">
+            <ion-label
+              class="alt-font w-100 ion-text-center s32-h38 text-weight-medium color-dark-green oferta-asigurare-ser"
+            >
+              {{doc?.title}}
+            </ion-label>
+          </ion-row>
+          <ion-row class="mb-24">
+            <ion-text
+              class="doc-details alt-text ion-text-center w-100 right-padding vertical-spacing mb-22 mt-auto ls-min-02"
+              >{{doc?.description}}</ion-text
+            >
+          </ion-row>
+          <ion-row
+            class="flex flex-column text-center ion-text-center flex-1 ion-justify-content-end pb-24"
+          >
+            <ion-button
+              class="flex w-100"
+              color="success"
+              fill="solid"
+              [disabled]="loading || downloading"
+              (click)="downloadFile()"
+              expand="block"
+              size="large"
+            >
+              <ion-spinner
+                name="crescent"
+                *ngIf="loading || downloading"
+                class="icon-20"
+              ></ion-spinner
+              >Descarca atasament</ion-button
+            >
+          </ion-row>
+        </ion-col>
+      </ion-row>
+    </ng-container>
+    <ng-container *ngIf="loading">
+      <app-loading-placeholder
+        class="flex flex-column flex-1"
+        [title]="'Descarcam informatiile...'"
+      ></app-loading-placeholder>
+    </ng-container>
   </ion-grid>
 </ion-content>
