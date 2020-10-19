@@ -68,7 +68,7 @@ export class CaptureDocsComponent implements OnInit {
   // }
 
   async addPhotoToGallery(newF = false) {
-    this.captured = this.photoService.addNewToGallery(newF);
+    this.captured = this.photoService.addNewToGallery(newF, this.route.routeConfig.path);
   }
 
   async retake() {

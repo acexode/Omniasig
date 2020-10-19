@@ -83,7 +83,7 @@ export class CapturePhotoComponent implements OnInit {
   // }
 
   async addPhotoToGallery(newF = false) {
-    this.photoService.addNewToGallery(newF);
+    this.photoService.addNewToGallery(newF, this.route.routeConfig.path);
   }
 
   ngOnInit() {}
