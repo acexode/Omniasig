@@ -92,6 +92,15 @@
         font-weight: 600;
       }
     }
+    &.green-title {
+      .action-sheet-title {
+        color: $green;
+        font-size: rem(18);
+        line-height: rem(24);
+        font-family: $alt-font;
+        font-weight: 600;
+      }
+    }
   }
 
   .locuinte-sheet {
