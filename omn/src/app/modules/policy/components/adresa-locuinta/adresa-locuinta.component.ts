@@ -1,5 +1,4 @@
-import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
-
+import { PolicyFormService } from './../../services/policy-form.service';
 import {
   ChangeDetectorRef,
   Component,
@@ -8,9 +7,9 @@ import {
   OnInit,
   Output,
 } from '@angular/core';
-import { set } from 'lodash';
 import { FormBuilder, Validators } from '@angular/forms';
-import { get } from 'lodash';
+import { Router } from '@angular/router';
+import { get, set } from 'lodash';
 import { AuthService } from 'src/app/core/services/auth/auth.service';
 import { PaidExternalService } from '../../services/paid-external-service.service';
 import { PolicyLocuintaListItem } from './../../../../shared/models/component/policy-locuinta-list-item';
@@ -53,8 +52,8 @@ export class AdresaLocuintaComponent implements OnInit {
     private fb: FormBuilder,
     private authS: AuthService,
     private paidS: PaidExternalService,
-    protected router: Router,
-    private route: ActivatedRoute
+    private policyFs: PolicyFormService,
+    protected router: Router
   ) {
     this.authS.getAuthState().subscribe((authData) => {
       this.userId = authData.account.userId;
@@ -71,10 +70,8 @@ export class AdresaLocuintaComponent implements OnInit {
 
   submitForm() {
     this.checkPAD = true;
-    const param = this.route.snapshot.queryParamMap.get('policyID');
     if (this.locuintaForm.valid) {
       const controlS = this.locuintaForm.get('selection');
-      const selected = this.vLocuinteList.filter(e => e.locuinta.id === controlS.value)[0];
       const value = controlS.value;
       if (value !== 'ADD_NEW') {
         this.emitLocuintaItemById(value);
@@ -89,6 +86,12 @@ export class AdresaLocuintaComponent implements OnInit {
     this.checkPAD = true;
     const value = this.fullList.find((lI) => get(lI, 'locuinta.id', -1) === id);
     if (value) {
+      const locuinta = get(value, 'locuinta', {});
+
+      if (this.policyFs.checkEmptyLocuintaItems(locuinta)) {
+        this.selectionDone.emit(value);
+        return;
+      }
       this.paidS
         .CheckPAD({ locationId: value.locuinta.id, userId: this.userId })
         .subscribe(

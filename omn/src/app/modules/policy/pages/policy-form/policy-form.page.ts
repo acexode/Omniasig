@@ -504,23 +504,25 @@ export class PolicyFormPage implements OnInit, OnDestroy {
       supportData: this.assistFormData,
     });
     if (type === 'ADD_NEW') {
+      this.locuinteData = null;
       this.changeStep(this.policySteps.ADDRESS_FORM);
       this.cdRef.markForCheck();
-    } else if ( type ) {
-      const key = 'locuinta';
-      if (type[key].yearConstruction === 0 || type[key].value === 0) {
-        this.locuinteData = type[key];
-        this.changeStep( this.policySteps.LOCATION_FORM );
-      }else{
-        this.refreshPostAddressSelect( type as PolicyLocuintaListItem );
+    } else if (type) {
+      const locuinta = get(type, 'locuinta', {});
+
+      if (this.policyFs.checkEmptyLocuintaItems(locuinta)) {
+        this.locuinteData = locuinta;
+        this.changeStep(this.policySteps.LOCATION_FORM);
+      } else {
+        this.refreshPostAddressSelect(type as PolicyLocuintaListItem);
         this.selectedAddressItem = type as PolicyLocuintaListItem;
-        this.setMinDate( get( this.selectedAddressItem, 'policy', null ) );
-        switch ( this.policyID ) {
+        this.setMinDate(get(this.selectedAddressItem, 'policy', null));
+        switch (this.policyID) {
           case 'PAD':
             this.next();
             break;
           default:
-            this.changeStep( this.policySteps.CESIUNE_FORM );
+            this.changeStep(this.policySteps.CESIUNE_FORM);
             break;
         }
       }

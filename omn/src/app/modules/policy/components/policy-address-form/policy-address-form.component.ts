@@ -98,7 +98,7 @@ export class PolicyAddressFormComponent implements OnInit {
   }
 
   ngOnInit() {
-    if (this.locuinteData){
+    if (this.locuinteData) {
       this.dataModel = this.locuinteData;
       this.formType = LocuinteFormType.PLACE;
       this.buildFormAdd();
@@ -110,7 +110,7 @@ export class PolicyAddressFormComponent implements OnInit {
         };
       }
       this.cdRef.markForCheck();
-    }else{
+    } else {
       this.paidResponseData = null;
       this.setTitles();
       this.initConfigs().subscribe((v) => {
@@ -418,6 +418,10 @@ export class PolicyAddressFormComponent implements OnInit {
       case this.formModes.ADD_NEW_POLICY:
         this.buttonVisible = true;
         if (this.formType === LocuinteFormType.PLACE) {
+          if (this.locuinteData) {
+            this.stepChange.emit('BACK');
+            return;
+          }
           this.formInstance = {
             config: this.formConfigs.address,
             group: this.formGroups.address,
