@@ -66,10 +66,10 @@
   }
   .check-btn {
     --border-radius: 20px;
-    --checkmark-color: var(--ion-color-success);
+    --checkmark-color: var(--app-color-white);
     --border-color: var(--ion-color-success);
     --border-color-checked: var(--ion-color-success);
-    --background-checked:  var(--app-color-white);
+    --background-checked: var(--ion-color-success);
     --border-radius: 0px;
   }
 }

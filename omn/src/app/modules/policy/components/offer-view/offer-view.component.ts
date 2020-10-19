@@ -181,7 +181,7 @@ export class OfferViewComponent implements OnInit {
     const data = {
       ibaN_1: this.offer.iban,
       amount_IBAN_1: this.offer.firstPaymentValue,
-      areTermsAccepted: this.formG.value,
+      areTermsAccepted: this.formG.get('accept').value,
       currencyToPay:
         this.policyType === 'PAD'
           ? 'RON'
