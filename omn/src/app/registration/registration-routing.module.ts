@@ -14,48 +14,48 @@ import { RegPasscodeComponent } from './reg-passcode/reg-passcode.component';
 const routes: Routes = [
   {
     path: '',
-    canActivate: [ LoginGuard ],
+    canActivate: [LoginGuard],
     component: RegNumarTelefonComponent,
   },
   {
     path: 'confirm-number',
-    canActivate: [ LoginGuard ],
+    canActivate: [LoginGuard],
     component: RegInputSmsComponent,
   },
   {
     path: 'notice',
-    canActivate: [  ],
+    canActivate: [LoginGuard],
     component: NotaDeInformareComponent,
   },
   {
     path: 'create-passcode',
-    canActivate: [ LoginGuard ],
+    canActivate: [LoginGuard],
     component: RegPasscodeComponent,
   },
   {
     path: 'confirm-passcode',
-    canActivate: [ LoginGuard ],
+    canActivate: [LoginGuard],
     component: ConfirmCodDeAccesComponent,
   },
   {
     path: 'personal-details',
-    canActivate: [ LoginGuard ],
+    canActivate: [LoginGuard],
     component: DatePersonaleComponent,
   },
   {
     path: 'email',
-    canActivate: [ LoginGuard ],
+    canActivate: [LoginGuard],
     component: AdresaDeEmailComponent,
   },
   {
     path: 'account-created',
-    canActivate: [ AuthGuard ],
+    canActivate: [AuthGuard],
     component: ContCreatComponent,
   },
 ];
 
-@NgModule( {
-  imports: [ RouterModule.forChild( routes ) ],
-  exports: [ RouterModule ],
-} )
-export class RegistrationPageRoutingModule { }
+@NgModule({
+  imports: [RouterModule.forChild(routes)],
+  exports: [RouterModule],
+})
+export class RegistrationPageRoutingModule {}
