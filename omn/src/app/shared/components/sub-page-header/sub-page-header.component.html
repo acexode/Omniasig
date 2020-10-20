@@ -44,7 +44,7 @@
         [name]="config?.trailingIcon?.name"
         [color]="config?.trailingIcon?.color"
         [ngClass]="config?.trailingIcon?.classes"
-        (click)="trailingAction()"
+        (click)="trailingAction(config?.trailingIcon)"
       ></ion-icon>
       <div *ngIf="!config?.trailingIcon" class="p-16"></div>
     </ion-buttons>

@@ -19,6 +19,23 @@ export class SubPageHeaderComponent implements OnInit {
   ngOnInit() {}
 
   backAction(iconConf?: IonIconItem) {
+    this.handleIconNav(iconConf);
+    this.backActionEv.emit();
+  }
+  trailingAction(iconConf?: IonIconItem) {
+    const rLink = iconConf ? get(iconConf, 'routerLink', null) : null;
+    const obsL = get(this.trailingActionEv, 'observers.length', 0);
+    if (rLink !== false) {
+      this.navCtrl.navigateRoot(rLink);
+    } else {
+      this.trailingActionEv.emit();
+      if (!obsL) {
+        this.navCtrl.pop();
+      }
+    }
+  }
+
+  handleIconNav(iconConf) {
     const rLink = iconConf ? get(iconConf, 'routerLink', null) : null;
     if (rLink === null) {
       this.navCtrl.back();
@@ -27,9 +44,5 @@ export class SubPageHeaderComponent implements OnInit {
         this.navCtrl.navigateBack(rLink);
       }
     }
-    this.backActionEv.emit();
-  }
-  trailingAction() {
-    this.trailingActionEv.emit();
   }
 }
