@@ -31,14 +31,15 @@ ion-header {
     margin-inline-end: 0 !important;
     --padding-start: 16px !important;
     --padding-end: 16px !important;
-    --padding-top: 16px !important;
+    --padding-top: 18px !important;
     --padding-bottom: 6px !important;
     --min-height: 32px;
   }
   ion-buttons.header-buttons {
     @include full-reset-header();
     min-height: rem(32);
-
+    margin: rem(-4) rem(-8);
+    padding: rem(8);
     ion-button.header-button,
     ion-back-button.header-button {
       --border-radius: 0 !important;
