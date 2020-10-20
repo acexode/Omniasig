@@ -764,8 +764,7 @@ export class PolicyFormPage implements OnInit, OnDestroy {
   handleError(data) {
     this.headerConfig = null;
     if (
-      this.policyID === 'AMPLUS' &&
-      this.policyID === 'Garant AMPLUS + PAD' &&
+      (this.policyID === 'AMPLUS' || this.policyID === 'Garant AMPLUS + PAD') &&
       this.currentStep !== this.policySteps.POLICY_VERIFY_CHECK &&
       this.currentStep !== this.policySteps.OFFER_EMIT_CHECK
     ) {

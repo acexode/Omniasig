@@ -99,13 +99,13 @@ export class PolicyVerifyComponent implements OnInit {
       paymentCurrency: this.offerData?.payData?.type,
       propertyCessionList: null,
     };
-    if (this.policyID === 'Garant AMPLUS + PAD') {
-      payload.paymentCurrency = get(
-        this.offerData.policy.locuintaData,
-        'valueCurrency',
-        this.offerData?.payData?.type
-      );
-    }
+    // if (this.policyID === 'Garant AMPLUS + PAD') {
+    //   payload.paymentCurrency = get(
+    //     this.offerData.policy.locuintaData,
+    //     'valueCurrency',
+    //     this.offerData?.payData?.type
+    //   );
+    // }
     if (this.policyID === 'AMPLUS') {
       this.amplusS
         .CreateAmplusInsuranceOffer(
