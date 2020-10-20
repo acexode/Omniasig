@@ -20,9 +20,9 @@
         [color]="config?.leadingIcon?.color"
         [ngClass]="config?.leadingIcon?.classes"
       ></ion-icon>
-       <div *ngIf="!config?.leadingIcon" class="p-16"></div>
+      <div *ngIf="!config?.leadingIcon" class="p-16"></div>
     </ion-buttons>
-   
+
     <ion-title
       *ngIf="config?.title"
       class="header-title alt-font px-8"
@@ -38,13 +38,16 @@
       size="small"
       >{{ config?.title?.text }}</ion-title
     >
-    <ion-buttons slot="end" class="m-0 mr-n8">
+    <ion-buttons
+      slot="end"
+      class="m-0 mr-n8"
+      (click)="trailingAction(config?.trailingIcon)"
+    >
       <ion-icon
         *ngIf="config?.trailingIcon"
         [name]="config?.trailingIcon?.name"
         [color]="config?.trailingIcon?.color"
         [ngClass]="config?.trailingIcon?.classes"
-        (click)="trailingAction(config?.trailingIcon)"
       ></ion-icon>
       <div *ngIf="!config?.trailingIcon" class="p-16"></div>
     </ion-buttons>

@@ -25,7 +25,7 @@ export class SubPageHeaderComponent implements OnInit {
   trailingAction(iconConf?: IonIconItem) {
     const rLink = iconConf ? get(iconConf, 'routerLink', null) : null;
     const obsL = get(this.trailingActionEv, 'observers.length', 0);
-    if (rLink !== false) {
+    if (rLink) {
       this.navCtrl.navigateRoot(rLink);
     } else {
       this.trailingActionEv.emit();
