@@ -1,0 +1,53 @@
+<ion-card
+  class="w-100  top-radius-0 bottom-radius-24 py-0 px-16 mt-16 mb-0 mx-0 overflow-visible"
+ 
+  (click)="emitItemEvent('item-click', item)"
+  
+>
+  <ion-row class="ion-no-padding">
+    <ion-col
+      class="ion-no-padding pl-16 pr-0 py-16"
+      
+    >
+      <ion-card-content
+        *ngIf="item?.textContent?.length"
+        class="flex flex-column p-0 mb-6 ion-align-items-end flex-1 ion-text-left text-normal mt-auto"
+      >
+        <ion-col size="12" class="ion-no-padding w-100">
+          <ion-text
+            class="w-100 ion-no-padding"
+            *ngFor="let text of item?.textContent"
+            [ngClass]="text?.classes"
+            [color]="text?.color"
+          >
+            {{ text?.text }}
+          </ion-text>
+          <ng-container *ngFor="let icon of item?.cards">
+            <div class="pt-6  w-100" *ngIf="icon.id == 'email'">
+              <ion-button
+                routerLink="/profil/date-personale/validate-email"                
+                expand="block"
+                size="large"
+                class="m-0 w-100 fond color-dark-green no-shadow"
+                >Validează e-mail
+              </ion-button>            
+            </div>
+            <div class="pb-6  w-100" *ngIf="icon.id != 'email'">
+              <ion-button
+                routerLink="/biometrics"                
+                shape="round"
+                expand="block"
+                size="large"
+                fill="clear"
+                class="m-0 w-auto fond color-dark-green no-shadow"
+                >Verifică identitatea
+              </ion-button>         
+            </div>
+          </ng-container>
+          
+        </ion-col>
+       
+      </ion-card-content>
+    </ion-col>
+  </ion-row>
+</ion-card>
