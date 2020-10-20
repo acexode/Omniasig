@@ -27,7 +27,6 @@ export class DisabledPlaceholderComponent implements OnInit {
   ngOnInit() {}
 
   emitItemEvent(eventName, item) {
-    console.log(item)
     this.itemEvent.emit({ type: eventName, data: item });
   }
 }
