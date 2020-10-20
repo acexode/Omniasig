@@ -5,10 +5,11 @@ import {
   Router,
   UrlTree,
 } from '@angular/router';
-import { get } from 'lodash';
+import { get, has } from 'lodash';
 import * as qs from 'qs';
-import { BehaviorSubject, of, Subscription, throwError } from 'rxjs';
+import { BehaviorSubject, forkJoin, of, Subscription, throwError } from 'rxjs';
 import {
+  catchError,
   distinctUntilChanged,
   filter,
   map,
@@ -134,12 +135,14 @@ export class AuthService {
   }
 
   setExpireTimer() {
+    console.log('timer S');
     // This runs every minute and checks for token expiration.
     unsubscriberHelper(this.sessionExpiryTimer);
     this.sessionExpiryTimer = this.timerS
       .buildIndefiniteTimer(60000)
       .subscribe((v) => {
         // Check expiry status.
+        console.log('timer');
         this.handleAuthCheck().subscribe((aC) => {
           if (aC instanceof UrlTree) {
             this.routerS.navigateByUrl(aC);
@@ -157,21 +160,55 @@ export class AuthService {
       take(1),
       switchMap((isAuthenticated) => {
         if (isAuthenticated) {
+          console.log('t');
           return of(true);
         } else {
-          return this.getAccountData().pipe(
+          console.log('f');
+          return this.tryRelogin().pipe(
             take(1),
-            switchMap((acc) => {
-              if (acc) {
-                this.doLogout(true);
-                return of(false);
-              } else {
-                return this.redirectToLogin();
-              }
+            catchError((v) => {
+              console.log(v);
+              return this.getAccountData().pipe(
+                switchMap((acc) => {
+                  if (acc) {
+                    this.doLogout(true);
+                    return of(false);
+                  } else {
+                    return this.redirectToLogin();
+                  }
+                })
+              );
             })
           );
         }
       })
+    );
+  }
+
+  tryRelogin() {
+    return forkJoin([this.getPhoneNumber(), this.getPassFromStore()]).pipe(
+      switchMap((vals: any) => {
+        console.log(vals);
+        if (vals[0] && vals[1]) {
+          try {
+            const reqData: Login = {
+              userName: vals[0],
+              password: vals[1],
+            };
+            return this.doLoginAndLoadProfile(reqData);
+          } catch (err) {
+            return of(null);
+          }
+        }
+      }),
+      switchMap((res) => {
+        console.log(res);
+        return this.saveToken({
+          key: res.token,
+          expiry: res.expiration,
+        });
+      }),
+      map((v) => true)
     );
   }
 
@@ -309,6 +346,30 @@ export class AuthService {
     );
   }
 
+  updatePassInStore(passValue) {
+    return this.storeS.setSecureItem('authPassword', passValue);
+  }
+
+  getPassFromStore() {
+    return this.storeS.getSecureItem('authPassword');
+  }
+
+  doLoginAndLoadProfile(reqData) {
+    return this.doLogin(reqData).pipe(
+      switchMap((res) => {
+        return this.saveToken({ key: res.token, expiry: res.expiration }).pipe(
+          switchMap(() => {
+            return this.getProfile({
+              token: res.token,
+              phoneNumber: reqData.userName,
+              expiry: res.expiration,
+            });
+          })
+        );
+      })
+    );
+  }
+
   // makes http call to server.
   login(loginData: {
     phone: string;
@@ -320,18 +381,7 @@ export class AuthService {
       password: loginData.password,
     };
 
-    return this.doLogin(reqData).pipe(
-      switchMap((res) => {
-        return this.saveToken({ key: res.token, expiry: res.expiration }).pipe(
-          switchMap(() => {
-            return this.getProfile({
-              token: res.token,
-              phoneNumber: loginData.phone,
-              expiry: res.expiration,
-            });
-          })
-        );
-      }),
+    return this.doLoginAndLoadProfile(reqData).pipe(
       tap((value) => {
         let redirectUrl: any = '/home';
         if (loginData.aRoute instanceof ActivatedRoute) {
@@ -351,9 +401,17 @@ export class AuthService {
   }
 
   doLogin(reqData: Login) {
-    return this.reqS
-      .post<LoginResponse>(authEndpoints.login, reqData)
-      .pipe(take(1));
+    return this.reqS.post<LoginResponse>(authEndpoints.login, reqData).pipe(
+      take(1),
+      switchMap((vv) => {
+        return this.updatePassInStore(reqData.password).pipe(
+          map((vvv) => vv),
+          catchError(() => {
+            return of(vv);
+          })
+        );
+      })
+    );
   }
 
   redirectUrlTree(snapshot: ActivatedRouteSnapshot): UrlTree {

@@ -2,9 +2,12 @@ import { CommonModule } from '@angular/common';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
+import { AppVersion } from '@ionic-native/app-version/ngx';
+import { SecureStorage } from '@ionic-native/secure-storage/ngx';
 import { IonicModule } from '@ionic/angular';
 import { IonicStorageModule } from '@ionic/storage';
 import { SideMenuComponent } from './components/side-menu/side-menu.component';
+import { ErrorInterceptor } from './interceptors/error.interceptor';
 import { fakeBackendProvider } from './interceptors/fake-backend';
 import { JwtInterceptor } from './interceptors/JWTInterceptor';
 import { AuthService } from './services/auth/auth.service';
@@ -14,9 +17,6 @@ import { CustomStorageService } from './services/custom-storage/custom-storage.s
 import { CustomTimersService } from './services/custom-timers/custom-timers.service';
 import { MenuService } from './services/menu/menu.service';
 import { RequestService } from './services/request/request.service';
-import { AppVersion } from '@ionic-native/app-version/ngx';
-import { File } from '@ionic-native/file/ngx';
-import { ErrorInterceptor } from './interceptors/error.interceptor';
 @NgModule({
   declarations: [SideMenuComponent],
   imports: [
@@ -41,7 +41,7 @@ import { ErrorInterceptor } from './interceptors/error.interceptor';
     CustomTimersService,
     MenuService,
     AppVersion,
-    // File,
+    SecureStorage,
   ],
   exports: [SideMenuComponent],
 })
