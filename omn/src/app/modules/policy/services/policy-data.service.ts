@@ -320,7 +320,7 @@ export class PolicyDataService {
       padPolicyDocumentId: offer.padPolicyDocumentId,
     };
     if (typeId === 'AMPLUS' || typeId === 'AMPLUS_PAD') {
-      offerObj.expiry = get(offer, 'offerValidUntilDate', '');
+      offerObj.expiry = get(offer, 'offerExpireDate', '');
       offerObj.policy.dates.to = get(offer, 'offerExpireDate', '');
       const isGold = get(offer, 'isGold', false);
       const isVip = get(offer, 'isVip', false);
