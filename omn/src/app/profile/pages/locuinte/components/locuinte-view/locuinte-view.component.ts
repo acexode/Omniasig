@@ -14,7 +14,7 @@ import {
   NavController,
 } from '@ionic/angular';
 import { BehaviorSubject, combineLatest, Observable, of } from 'rxjs';
-import { finalize, switchMap } from 'rxjs/operators';
+import { finalize, switchMap, take } from 'rxjs/operators';
 import { CustomRouterService } from 'src/app/core/services/custom-router/custom-router.service';
 import { PaidExternalService } from 'src/app/modules/policy/services/paid-external.service';
 import { subPageHeaderDefault } from 'src/app/shared/data/sub-page-header-default';
@@ -110,16 +110,20 @@ export class LocuinteViewComponent implements OnInit {
         this.setTitles();
         const id = vals[2];
         if (id) {
-          this.locuinteS.getSingleLocuinta(id).subscribe((val: Locuinte) => {
-            if (val) {
-              this.dataModel = val;
-              this.buildFormAdd();
-              this.initForm();
-              this.cdRef.markForCheck();
-            } else {
-              this.navCtrl.navigateRoot(['/profil', 'locuinte']);
-            }
-          });
+          this.locuinteS
+            .getSingleLocuinta(id)
+            .pipe(take(1))
+            .subscribe((val: Locuinte) => {
+              if (val) {
+                this.dataModel = val;
+                this.locuinta$.next(val);
+                this.buildFormAdd();
+                this.initForm();
+                this.cdRef.markForCheck();
+              } else {
+                this.navCtrl.navigateRoot(['/profil', 'locuinte']);
+              }
+            });
         } else {
           this.navCtrl.navigateRoot(['/profil', 'locuinte']);
         }

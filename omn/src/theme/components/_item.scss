@@ -124,6 +124,21 @@
         bottom: 0;
         height: auto;
       }
+      .spinner-wrp {
+        margin: 0;
+        margin-inline-end: rem(16);
+        position: absolute;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        height: auto;
+        width: rem(52);
+        ion-spinner {
+          max-width: rem(20);
+          max-height: rem(20);
+          position: relative;
+        }
+      }
       ion-label {
         white-space: normal;
         overflow: visible;

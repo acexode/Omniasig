@@ -22,6 +22,7 @@ export interface PolicyItem {
   policyNrPolita?: string;
   policyNrChitanta?: string;
   policyIdIncasareOMN?: string;
+  padPolicyDocumentId?: number;
   // Display
   type?: PolicyType;
   listingSubtitle?: string;

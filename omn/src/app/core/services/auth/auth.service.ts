@@ -396,9 +396,11 @@ export class AuthService {
       },
     });
     return this.reqS.get(endpointV + '?' + encodedQs).pipe(
-      tap((v) => {
+      switchMap((v) => {
         if (v) {
-          this.refreshProfile().subscribe();
+          return this.refreshProfile();
+        } else {
+          return throwError('');
         }
       })
     );
@@ -411,11 +413,8 @@ export class AuthService {
         if (value && value.email) {
           return this.doChangeEmail(value.email);
         } else {
-          throw throwError('NO_ACCOUNT_EMAIL');
+          return throwError('NO_ACCOUNT_EMAIL');
         }
-      }),
-      switchMap(() => {
-        return this.refreshProfile();
       })
     );
   }
@@ -430,8 +429,11 @@ export class AuthService {
             newEmail,
           });
         } else {
-          throw throwError('NO_NUMBER');
+          return throwError('NO_NUMBER');
         }
+      }),
+      switchMap(() => {
+        return this.refreshProfile();
       })
     );
   }
