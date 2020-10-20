@@ -111,11 +111,16 @@
     </ion-row>
     <!--  -->
 
-    <ion-row class="mt-32 mx-n8" *ngIf="!accountActivated">
+    <!-- <ion-row class="mt-32 mx-n8" *ngIf="!accountActivated">
       <app-disabled-placeholder
         [item]="accountNotActivated"
       ></app-disabled-placeholder>
+    </ion-row> -->
+    <ion-row class="mt-32 mx-n8" *ngIf="!accountActivated">
+      <app-account-not-activated [item]="accountNotActivated">
+      </app-account-not-activated>
     </ion-row>
+
     <ion-row class="mt-32">
       <ion-col class="ion-no-padding">
         <ion-row>

@@ -154,12 +154,14 @@ export class HomePage implements OnInit, OnDestroy {
     textContent: [
       {
         text: 'Activează-ți contul',
-        classes: 'pt-0 px-0 h2 alt-font text-weight-bold mb-8 flex',
+        classes: 'pt-0 px-0 h3 alt-font text-weight-bold mb-8 flex omn-green',
+        color: 'success',
       },
       {
         text:
           'Pentru a activa contul, validează-ți adresa de e-mail și verifică identitatea.',
-        classes: 'p-0 mb-2 ion-text-left text-normal flex',
+        classes: 'p-0 mb-2 ion-text-left link-small text-normal flex',
+        color: 'black',
       },
     ],
     id: null,
@@ -210,7 +212,7 @@ export class HomePage implements OnInit, OnDestroy {
 
   displayWhatNeedsToBeValidated(acc: Account) {
     const cardList = [];
-    if (!this.account.isBiometricValid) {
+    if (this.account.isBiometricValid) {
       // biometrics
       cardList.push({ ...this.biometricCard });
     }

@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
+import { AccountNotActivatedComponent } from './components/account-not-activated/account-not-activated.component';
 import { ArchiveListComponent } from './components/archive-list/archive-list.component';
 import { DisabledPlaceholderComponent } from './components/disabled-placeholder/disabled-placeholder.component';
 import { GeneralErrorComponent } from './components/general-error/general-error.component';
@@ -23,6 +24,7 @@ import { TimePipe } from './pipes/time.pipe';
     TabMenuComponent,
     ImageCardComponent,
     DisabledPlaceholderComponent,
+    AccountNotActivatedComponent,
     PolicyListComponent,
     SubPageHeaderComponent,
     TimePipe,
@@ -43,6 +45,7 @@ import { TimePipe } from './pipes/time.pipe';
     PolicyListComponent,
     TabMenuComponent,
     SubPageHeaderComponent,
+    AccountNotActivatedComponent,
     TimePipe,
     CnpPipe,
     LocuinteFieldPipe,
