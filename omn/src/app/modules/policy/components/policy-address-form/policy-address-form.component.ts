@@ -77,6 +77,7 @@ export class PolicyAddressFormComponent implements OnInit {
   @Input() formInputData = null;
   @Output() checkPadResponse: EventEmitter<any> = new EventEmitter();
   @Input() offerData = null;
+  @Input() locuinteData = null;
   @Input() policyId;
   @Output() stepChange: EventEmitter<any> = new EventEmitter();
   @Output() dataAdded: EventEmitter<any> = new EventEmitter();
@@ -96,12 +97,26 @@ export class PolicyAddressFormComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.paidResponseData = null;
-    this.setTitles();
-    this.initConfigs().subscribe((v) => {
-      this.initForm();
+    if (this.locuinteData) {
+      this.dataModel = this.locuinteData;
+      this.formType = LocuinteFormType.PLACE;
+      this.buildFormAdd();
+      if (!this.formInstance) {
+        this.formInstance = {
+          config: this.formConfigs.place,
+          group: this.formGroups.place,
+          data: this.formData.place,
+        };
+      }
       this.cdRef.markForCheck();
-    });
+    } else {
+      this.paidResponseData = null;
+      this.setTitles();
+      this.initConfigs().subscribe((v) => {
+        this.initForm();
+        this.cdRef.markForCheck();
+      });
+    }
   }
 
   setTitles() {}
@@ -402,6 +417,10 @@ export class PolicyAddressFormComponent implements OnInit {
       case this.formModes.ADD_NEW_POLICY:
         this.buttonVisible = true;
         if (this.formType === LocuinteFormType.PLACE) {
+          if (this.locuinteData) {
+            this.stepChange.emit('BACK');
+            return;
+          }
           this.formInstance = {
             config: this.formConfigs.address,
             group: this.formGroups.address,
@@ -436,55 +455,17 @@ export class PolicyAddressFormComponent implements OnInit {
         if (this.dataModel && get(this.dataModel, 'id', null)) {
           this.dataModel.addressName = model2.addressName;
           return this.locuinteS.updateSingleLocuinte(model2).pipe(
-            finalize(() => {
-              this.formSubmitting = false;
+            switchMap((data) => {
+              this.formType = LocuinteFormType.PAD_CHECK;
               this.cdRef.markForCheck();
+              return this.doReqPaidCheck(data);
             })
           );
         } else {
           this.dataModel.addressName = model2.addressName;
           return this.locuinteS.addSingleLocuinte(model2).pipe(
             switchMap((data) => {
-              return this.paidS
-                .CheckPAD({
-                  locationId: data.response.id,
-                  userId: this.offerData.policy.userData.userId,
-                })
-                .pipe(
-                  map((v) => {
-                    this.paidResponseData = v;
-                    if (this.policyId === 'AMPLUS') {
-                      if (v.canHaveAmplus) {
-                        this.formSubmitting = false;
-                        this.cdRef.markForCheck();
-                        return data;
-                      } else {
-                        this.checkPadResponse.emit(v);
-                      }
-                      return;
-                    }
-                    if (
-                      this.policyId === 'PAD' ||
-                      this.policyId === 'Garant AMPLUS + PAD'
-                    ) {
-                      if (v.hasPaid) {
-                        this.checkPadResponse.emit(v);
-                      } else {
-                        this.formSubmitting = false;
-                        this.cdRef.markForCheck();
-                        return data;
-                      }
-                      return;
-                    }
-                    this.formSubmitting = false;
-                    return data;
-                  }),
-                  catchError((e) => {
-                    this.paidResponseData = null;
-                    this.checkPadResponse.emit(e);
-                    return of(e);
-                  })
-                );
+              return this.doReqPaidCheck(data);
             })
           );
         }
@@ -494,6 +475,48 @@ export class PolicyAddressFormComponent implements OnInit {
     }
   }
 
+  doReqPaidCheck(data) {
+    return this.paidS
+      .CheckPAD({
+        locationId: data.response.id,
+        userId: this.offerData.policy.userData.userId,
+      })
+      .pipe(
+        map((v) => {
+          this.paidResponseData = v;
+          if (this.policyId === 'AMPLUS') {
+            if (v.canHaveAmplus) {
+              this.formSubmitting = false;
+              this.cdRef.markForCheck();
+              return data;
+            } else {
+              this.checkPadResponse.emit(v);
+            }
+            return;
+          }
+          if (
+            this.policyId === 'PAD' ||
+            this.policyId === 'Garant AMPLUS + PAD'
+          ) {
+            if (v.hasPaid) {
+              this.checkPadResponse.emit(v);
+            } else {
+              this.formSubmitting = false;
+              this.cdRef.markForCheck();
+              return data;
+            }
+            return;
+          }
+          this.formSubmitting = false;
+          return data;
+        }),
+        catchError((e) => {
+          this.paidResponseData = null;
+          this.checkPadResponse.emit(e);
+          return of(e);
+        })
+      );
+  }
   trailingAction() {}
   scrollTop() {
     if (this.contentRef) {

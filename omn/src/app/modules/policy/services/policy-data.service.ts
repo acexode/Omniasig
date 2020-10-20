@@ -182,6 +182,8 @@ export class PolicyDataService {
       currency: policy.offerCurrency,
     };
     if (typeId === 'AMPLUS') {
+      policyProcessed.expiry = get(policy, 'offerExpireDate', null);
+      policyProcessed.dates.to = get(policy, 'offerExpireDate', null);
     }
     return policyProcessed;
   }
@@ -318,7 +320,8 @@ export class PolicyDataService {
       padPolicyDocumentId: offer.padPolicyDocumentId,
     };
     if (typeId === 'AMPLUS' || typeId === 'AMPLUS_PAD') {
-      offerObj.expiry = get(offer, 'offerExpireDate', '');
+      offerObj.expiry = get(offer, 'offerValidUntilDate', '');
+      offerObj.policy.dates.to = get(offer, 'offerExpireDate', '');
       const isGold = get(offer, 'isGold', false);
       const isVip = get(offer, 'isVip', false);
       set(offerObj, 'supportData', isGold ? 'GOLD' : isVip ? 'VIP' : '-');
@@ -407,27 +410,23 @@ export class PolicyDataService {
     return p;
   }
 
-  getSinglePolicyById(id) {
+  getSinglePolicyById(id, type = 'PAD') {
     return this.policyStore$.pipe(
       switchMap((vals) => {
         if (vals instanceof Array) {
-          const existing = vals.find((v) => v.id.toString() === id.toString());
+          const existing = vals.find(
+            (v) =>
+              v.id.toString() === id.toString() &&
+              get(v, 'typeId', 'PAD') === type
+          );
           if (existing) {
             return of(existing);
           } else {
-            return this.getSinglePolicy(id);
+            return of(null);
           }
         } else {
-          return this.getSinglePolicy(id);
+          return of(null);
         }
-      })
-    );
-  }
-
-  private getSinglePolicy(id): Observable<PolicyItem> {
-    return this.reqS.get<PolicyItem>(this.endpoints.base + '/' + id).pipe(
-      catchError((e) => {
-        return of(null);
       })
     );
   }

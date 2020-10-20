@@ -1,4 +1,8 @@
-<app-sub-page-header [config]="headerConfig"> </app-sub-page-header>
+<app-sub-page-header
+  [config]="headerConfig"
+  (trailingActionEv)="navigateRoot()"
+>
+</app-sub-page-header>
 <ion-content class="ion-margin-top bg-white">
   <ion-list class="ion-align-items-center ion-text-center pt-24">
     <ion-icon
@@ -177,11 +181,8 @@
           </ion-text>
         </div>
         <ion-text class="s18-h24 ion-inherit-color">
-          {{ policy?.insurancePrice  || 0 }}
-          {{
-            policy?.currency
-              | locuinteField: 'valueCurrency' || '-'
-          }}
+          {{ policy?.insurancePrice || 0 }}
+          {{ policy?.currency | locuinteField: 'valueCurrency' || '-' }}
         </ion-text>
       </div>
 

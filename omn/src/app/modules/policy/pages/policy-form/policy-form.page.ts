@@ -75,6 +75,7 @@ export class PolicyFormPage implements OnInit, OnDestroy {
   maxPeriodStartDate;
   // This will contain all data needed for an offer.
   offerData: PolicyOffer = null;
+  locuinteData = null;
   policyID;
   reftime;
   formCheckType: LocuinteFormType;
@@ -503,19 +504,27 @@ export class PolicyFormPage implements OnInit, OnDestroy {
       supportData: this.assistFormData,
     });
     if (type === 'ADD_NEW') {
+      this.locuinteData = null;
       this.changeStep(this.policySteps.ADDRESS_FORM);
       this.cdRef.markForCheck();
     } else if (type) {
-      this.refreshPostAddressSelect(type as PolicyLocuintaListItem);
-      this.selectedAddressItem = type as PolicyLocuintaListItem;
-      this.setMinDate(get(this.selectedAddressItem, 'policy', null));
-      switch (this.policyID) {
-        case 'PAD':
-          this.next();
-          break;
-        default:
-          this.changeStep(this.policySteps.CESIUNE_FORM);
-          break;
+      const locuinta = get(type, 'locuinta', {});
+
+      if (this.policyFs.checkEmptyLocuintaItems(locuinta)) {
+        this.locuinteData = locuinta;
+        this.changeStep(this.policySteps.LOCATION_FORM);
+      } else {
+        this.refreshPostAddressSelect(type as PolicyLocuintaListItem);
+        this.selectedAddressItem = type as PolicyLocuintaListItem;
+        this.setMinDate(get(this.selectedAddressItem, 'policy', null));
+        switch (this.policyID) {
+          case 'PAD':
+            this.next();
+            break;
+          default:
+            this.changeStep(this.policySteps.CESIUNE_FORM);
+            break;
+        }
       }
     }
   }
@@ -755,8 +764,7 @@ export class PolicyFormPage implements OnInit, OnDestroy {
   handleError(data) {
     this.headerConfig = null;
     if (
-      this.policyID === 'AMPLUS' &&
-      this.policyID === 'Garant AMPLUS + PAD' &&
+      (this.policyID === 'AMPLUS' || this.policyID === 'Garant AMPLUS + PAD') &&
       this.currentStep !== this.policySteps.POLICY_VERIFY_CHECK &&
       this.currentStep !== this.policySteps.OFFER_EMIT_CHECK
     ) {
@@ -820,6 +828,14 @@ export class PolicyFormPage implements OnInit, OnDestroy {
           this.errMsg.push({
             classes: 'ion-text-center w-100 mb-16',
             text: 'Data de start este invalida pentru acest tip de asigurare.',
+          });
+        }
+        if (data.errorMessage && get(data.errorMessage, 'length', 0)) {
+          data.errorMessage.forEach((v) => {
+            this.errMsg.push({
+              classes: 'ion-text-center w-100 mb-16',
+              text: v,
+            });
           });
         }
       } else {

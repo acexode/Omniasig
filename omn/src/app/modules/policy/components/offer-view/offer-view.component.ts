@@ -1,4 +1,5 @@
 import { Component, HostBinding, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import {
   InAppBrowser,
@@ -94,13 +95,17 @@ export class OfferViewComponent implements OnInit {
   sub: Subscription;
   disableNotificationSection = true;
   downloading = false;
+  formG: FormGroup = this.fb.group({
+    accept: this.fb.control(false, Validators.requiredTrue),
+  });
   constructor(
     private route: ActivatedRoute,
     private policyDataService: PolicyDataService,
     private navCtrl: NavController,
     public modalController: ModalController,
     private iab: InAppBrowser,
-    private fileS: SharedFileService
+    private fileS: SharedFileService,
+    private fb: FormBuilder
   ) {}
 
   ngOnInit(): void {
@@ -112,7 +117,9 @@ export class OfferViewComponent implements OnInit {
 
   getPolicyById(id) {
     this.policyType =
-      this.policyType === 'Garant AMPLUS + PAD' ? 'AMPLUS_PAD' : this.policyType;
+      this.policyType === 'Garant AMPLUS + PAD'
+        ? 'AMPLUS_PAD'
+        : this.policyType;
     this.policyDataService
       .getSingleOfferById(id, this.policyType)
       .subscribe((offer) => {
@@ -178,7 +185,7 @@ export class OfferViewComponent implements OnInit {
     const data = {
       ibaN_1: this.offer.iban,
       amount_IBAN_1: this.offer.firstPaymentValue,
-      areTermsAccepted: true,
+      areTermsAccepted: this.formG.get('accept').value,
       currencyToPay:
         this.policyType === 'PAD' || this.policyType === 'AMPLUS_PAD'
           ? 'RON'
@@ -249,9 +256,10 @@ export class OfferViewComponent implements OnInit {
       (data) => {
         browser.close();
         if (
-          (this.policyType === 'PAD' && get(data, 'padPolitaResponse', null)) ||
+          (this.policyType === 'PAD' &&
+            get(data, 'emiterePadPolitaResponse', null)) ||
           (this.policyType === 'AMPLUS' &&
-            get(data, 'amplusPolitaResponse', null))
+            get(data, 'emitereAmplusPolitaResponse', null))
         ) {
           this.presentModal('success');
           this.policyDataService.initData();
