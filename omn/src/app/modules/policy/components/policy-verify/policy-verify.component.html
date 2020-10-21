@@ -155,7 +155,13 @@
               <div class="input-label text-weight-medium mb-3">
                 Suma asigurată
               </div>
-              <ion-text class="input-detail s18-h24">20.000 Euro</ion-text>
+              <ion-text class="input-detail s18-h24">
+                {{ offerData?.policy?.locuintaData?.value || '-' }} 
+                {{
+                  offerData?.policy?.locuintaData?.valueCurrency
+                    | locuinteField: 'valueCurrency' || '-'
+                }}
+              </ion-text>
             </div>
             <div class="mb-13" *ngIf="offerData?.policy?.cesiune?.length > 0">
               <div class="input-label text-weight-medium mb-3">Cesiune</div>
@@ -237,7 +243,7 @@
         </ion-col>
       </ion-row>
       <ion-row
-        *ngIf="policyID === 'AMPLUS' || policyID === 'Garant AMPLUS+ PAD'"
+        *ngIf="policyID === 'AMPLUS' || policyID === 'Garant AMPLUS + PAD'"
         class="ion-no-padding flex w-100 flex-1 mt-37 mb-24"
       >
         <ion-col

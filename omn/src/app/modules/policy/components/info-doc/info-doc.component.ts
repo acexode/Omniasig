@@ -589,7 +589,7 @@ export class InfoDocComponent implements OnInit {
   constructor(public modalController: ModalController) {}
 
   ngOnInit() {
-    if (this.policyID === 'Garant AMPLUS+ PAD') {
+    if (this.policyID === 'Garant AMPLUS + PAD') {
       this.currentStep = 1;
     }
   }
@@ -600,7 +600,7 @@ export class InfoDocComponent implements OnInit {
   }
 
   next() {
-    if (this.policyID === 'Garant AMPLUS+ PAD' && this.currentStep === 1) {
+    if (this.policyID === 'Garant AMPLUS + PAD' && this.currentStep === 1) {
       this.currentStep++;
       this.stepChange.emit(this.currentStep);
       this.scrollTop.emit();
