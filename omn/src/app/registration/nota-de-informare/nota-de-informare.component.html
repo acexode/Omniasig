@@ -193,7 +193,7 @@
     </div>
   </div>
   <div class="bg-default py-32 px-32 ion-text-center">
-    <ion-text class="text-center ion-text-center text-weight-medium h3">
+    <ion-text class="text-center ion-text-center text-weight-bold h3 alt-font">
       Punerea la dispoziția OMNIASIG VIG a datelor dumneavoastră personale este
       necesară în scopurile indicate mai sus la punctele a)-d). În cazul în care
       nu ne puneți la dispoziție aceste date sau dacă nu ni le comunicați în
@@ -313,27 +313,44 @@
         exercită oricare dintre următoarele drepturi:
         <br />
         <br />
-        (1) Dreptul de informare și acces la datele cu caracter personal; (2)
-        Dreptul la rectificare presupune dreptul de a solicită rectificarea sau
+        (1) Dreptul de informare și acces la datele cu caracter personal;
+        <br>
+        (2) Dreptul la rectificare presupune dreptul de a solicită rectificarea sau
         actualizarea datelor cu caracter personal inexacte sau incomplete care
         va privesc sau completarea acestora, atunci când acestea sunt
-        incomplete; (3) Dreptul la ștergerea datelor sau „dreptul de a fi uitat”
+        incomplete;
+        <br>
+        (3) Dreptul la ștergerea datelor sau „dreptul de a fi uitat”
         presupune dreptul de a solicită ștergerea datelor cu caracter personal
         care vă privesc, în anumite circumstanțe, precum (I) datele personale nu
         mai sunt necesare pentru îndeplinirea scopurilor pentru care au fost
         colectate sau prelucrate, (II) datele dumneavoastră au fost prelucrate
         ilegal, (III) prelucrarea datelor a avut loc pe baza consimțământului
-        dumneavoastră, iar acesta a fost retras; (4) Dreptul de a vă retrage
-        consimțământul; (5) Dreptul la restricționarea prelucrării; (6) Dreptul
-        la portabilitatea datelor; (7) Dreptul la opoziție presupune că, în
-        orice moment, aveți dreptul de a vă opune, din motive legate de situația
+        dumneavoastră, iar acesta a fost retras; 
+        <br>
+        (4) Dreptul de a vă retrage consimțământul; 
+        <br>
+        (5) Dreptul la restricționarea prelucrării; 
+        <br>
+        (6) Dreptulla portabilitatea datelor; 
+        <br>
+        (7) Dreptul la opoziție presupune că, înorice moment, aveți dreptul de a vă opune, 
+        din motive legate de situația
         particulară în care va aflați, prelucrării datelor cu caracter personal
-        în anumite circumstanțe; (8) Dreptul de nu face obiectul unei decizii
+        în anumite circumstanțe; 
+        <br>
+        (8) Dreptul de nu face obiectul unei decizii
         bazate exclusiv pe prelucrarea automată a datelor dumneavoastră,
         inclusiv crearea de profiluri care produc efecte juridice sau care vă
-        afectează semnificativ; (9) Dreptul de a depune o plângere la noi și/sau
-        la autoritatea competență privind protecția datelor; (10) Dreptul de a
-        vă adresa justiției; (11) Dreptul de a fi notificat de către OMNIASIG
+        afectează semnificativ; 
+        <br>
+        (9) Dreptul de a depune o plângere la noi și/sau
+        la autoritatea competență privind protecția datelor; 
+        <br>
+        (10) Dreptul de a
+        vă adresa justiției; 
+        <br>
+        (11) Dreptul de a fi notificat de către OMNIASIG
         VIG privind breșe de securitate care au/ar putea avea impact asupra
         datelor dumneavoastră personale;
         <br />
@@ -356,10 +373,11 @@
     <div class="pt-16">
       <ion-text class="s16-h22">
         • prin e-mail - la adresa:
-        <a href="mailto:dpo@omniasig.ro">dpo@omniasig.ro</a>; <br /><br />
+        <a [href]="mailToDpo">dpo@omniasig.ro</a>; <br /><br />
         • prin pagina web a companiei, urmând calea:
         <a
-          href="https://www.omniasig.ro/Formular-petitie-prelucrarea-datelor-cu-caracter-personal.html"
+          [href]="formularPetitiePrelucrareaLink"
+          target="none"
           >https://www.omniasig.ro/Formular-petitie-prelucrarea-datelor-cu-caracter-personal.html</a
         >; <br /><br />
         • personal – la oricare din sediile OMNIASIG VIG; <br /><br />
@@ -368,8 +386,8 @@
         Detalii suplimentare precum și eventuale actualizări ale acestei note de
         informare privind protecția datelor dumneavoastră, puteți găsi urmând
         calea
-        <a href="https://gdpr.omniasig.ro/">https://gdpr.omniasig.ro/</a> și pe
-        pagina web a companiei <a href="www.omniasig.ro">www.omniasig.ro</a> în
+        <a [href]="gdprLink" target="none">https://gdpr.omniasig.ro/</a> și pe
+        pagina web a companiei <a [href]="omniasigLink">www.omniasig.ro</a> în
         secțiunea Protecția Datelor. <br /><br />
         Prezenta notă de informare reprezintă versiunea din data de ZZ.LL.2020
         <br /><br />
@@ -377,17 +395,20 @@
         Supraveghere a Prelucrării Datelor cu Caracter Personal, datele de
         contact sunt: <br /><br />
         Web site:
-        <a href="http://www.dataprotection.ro/"
+        <a [href]="dataprotectionLink" target="none"
           >http://www.dataprotection.ro/</a
         >
         <br /><br />
         E-mail:
-        <a href="mailto:anspdcp@dataprotection.ro">anspdcp@dataprotection.ro</a>
+        <a [href]="mailToDataprotection">anspdcp@dataprotection.ro</a>
         <br /><br />
         Adresa: B-dul G-ral. Gheorghe Magheru 28-30, Sector 1, cod poștal 010336
         București, România <br /><br />
-        Telefon fix: +40.318.059.211, +40.318.059.212 <br /><br />
-        Cabinet Președinte: +40.318.059.220; Fax: +40.318.059.60.
+        Telefon fix: <a [href]="telefonFix[0]">+40.318.059.211</a>, <a [href]="telefonFix[1]">+40.318.059.212</a> 
+        <br /><br />
+        Cabinet Președinte: <a [href]="cabinetPrsedinte[0]">+40.318.059.220</a> 
+        <br>
+        Fax: <a [href]="cabinetPrsedinte[1]">+40.318.059.60</a>.
       </ion-text>
     </div>
   </div>
