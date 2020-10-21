@@ -20,7 +20,5 @@ export class ExpandableComponent implements OnInit {
     this.changeEv.emit(name);
   }
   constructor() {}
-  ngOnInit(): void {
-    console.log(this.noDoc)
-  }
+  ngOnInit(): void {}
 }

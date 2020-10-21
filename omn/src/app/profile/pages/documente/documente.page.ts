@@ -26,8 +26,7 @@ export class DocumentePage implements OnInit {
   ngOnInit(): void {
     this.docs.GetAllDocumentsForCurrentUser().subscribe((v: any) => {
       this.loading = false;
-      console.log(v)
-      if(v.length){
+      if (v.length){
         this.noDoc = false;
         this.offer = v.filter((e) => e.offerCode != null);
         this.policy = v.filter((e) => e.offerCode == null);
