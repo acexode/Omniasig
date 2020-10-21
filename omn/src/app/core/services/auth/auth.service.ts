@@ -19,6 +19,7 @@ import {
   catchError,
   distinctUntilChanged,
   filter,
+  finalize,
   map,
   share,
   switchMap,
@@ -35,6 +36,7 @@ import { RequestService } from '../request/request.service';
 import { unsubscriberHelper } from './../../helpers/unsubscriber.helper';
 import { CustomTimersService } from './../custom-timers/custom-timers.service';
 
+export const __AUTH_PASS_KEY = 'authPassword';
 @Injectable({
   providedIn: 'root',
 })
@@ -283,7 +285,7 @@ export class AuthService {
   accountActivated(acc: Account) {
     return acc
       ? get(acc, 'isBiometricValid', false) === true &&
-          get(acc, 'isEmailConfirmed', false) === true
+      get(acc, 'isEmailConfirmed', false) === true
       : false;
   }
 
@@ -310,28 +312,31 @@ export class AuthService {
     this.authState.next({
       ...this.initialState,
     });
-    if (expired) {
-      // Flag the page with a message to the user.
-      return this.getPhoneNumber()
-        .pipe(take(1))
-        .subscribe((value) => {
-          if (value) {
-            this.routerS.navigate(['/login', 'verify', value], {
-              queryParams: {
-                expired: true,
-              },
-            });
-          } else {
-            this.routerS.navigate(['/login'], {
-              queryParams: {
-                expired: true,
-              },
-            });
-          }
-        });
-    } else {
-      this.routerS.navigateByUrl('/login');
-    }
+    this.removePassFromStore().subscribe(v => {
+      if (expired) {
+        // Flag the page with a message to the user.
+        return this.getPhoneNumber()
+          .pipe(take(1))
+          .subscribe((value) => {
+            if (value) {
+              this.routerS.navigate(['/login', 'verify', value], {
+                queryParams: {
+                  expired: true,
+                },
+              });
+            } else {
+              this.routerS.navigate(['/login'], {
+                queryParams: {
+                  expired: true,
+                },
+              });
+            }
+          });
+      } else {
+        this.routerS.navigateByUrl('/login');
+      }
+    });
+
   }
 
   updateState(newState: AuthState) {
@@ -359,12 +364,17 @@ export class AuthService {
   }
 
   updatePassInStore(passValue) {
-    return this.storeS.setSecureItem('authPassword', passValue);
+    return this.storeS.setSecureItem(__AUTH_PASS_KEY, passValue);
   }
 
   getPassFromStore() {
-    return this.storeS.getSecureItem('authPassword');
+    return this.storeS.getSecureItem(__AUTH_PASS_KEY);
   }
+
+  removePassFromStore() {
+    return this.storeS.removeSecureItem(__AUTH_PASS_KEY).pipe(catchError(err => of(true)));
+  }
+
 
   doLoginAndLoadProfile(reqData) {
     return this.doLogin(reqData).pipe(
