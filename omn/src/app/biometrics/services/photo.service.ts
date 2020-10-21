@@ -16,18 +16,29 @@ export class PhotoService {
     encodingType: this.camera.EncodingType.JPEG,
     mediaType: this.camera.MediaType.PICTURE,
     sourceType: this.camera.PictureSourceType.CAMERA,
+    cameraDirection: this.camera.Direction.FRONT,
   };
-  constructor(private reqS: RequestService, private camera: Camera) {}
 
-  public async addNewToGallery(newF = false) {
+  constructor(private reqS: RequestService, private camera: Camera) { }
+
+  public async addNewToGallery(newF, direction: 'F' | 'B' = 'B') {
+    let dirV = this.options.cameraDirection;
+    if (direction === 'B') {
+      dirV = this.camera.Direction.BACK;
+    } else {
+      dirV = this.camera.Direction.FRONT;
+    }
     const nOptions = {
       ...this.options,
       ...{
-        sourceType: newF
+        sourceType: newF === true
           ? this.camera.PictureSourceType.CAMERA
           : this.camera.PictureSourceType.PHOTOLIBRARY,
+        cameraDirection: dirV
       },
     };
+    console.log(nOptions);
+    console.log(newF);
     // Take a photo
     try {
       const capturedPhoto = await this.camera.getPicture(nOptions);
@@ -35,14 +46,13 @@ export class PhotoService {
         filepath: '',
         webviewPath: 'data:image/jpeg;base64,' + capturedPhoto,
       });
-
       return true;
     } catch (e) {
       return false;
     }
   }
 
-  public getPhotos() {}
+  public getPhotos() { }
 
   public removePhoto() {
     this.photos.shift();
