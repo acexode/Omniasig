@@ -20,12 +20,18 @@ export class DocumentePage implements OnInit {
   itemHeight = 0;
   offer: [];
   policy: [];
-
+  noDoc = true;
+  loading = true;
   constructor(public navCtrl: NavController, private docs: DocumenteService) {}
   ngOnInit(): void {
     this.docs.GetAllDocumentsForCurrentUser().subscribe((v: any) => {
-      this.offer = v.filter((e) => e.offerCode != null);
-      this.policy = v.filter((e) => e.offerCode == null);
+      this.loading = false;
+      console.log(v)
+      if(v.length){
+        this.noDoc = false;
+        this.offer = v.filter((e) => e.offerCode != null);
+        this.policy = v.filter((e) => e.offerCode == null);
+      }
     });
   }
 

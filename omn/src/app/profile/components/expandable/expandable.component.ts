@@ -7,8 +7,10 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 })
 export class ExpandableComponent implements OnInit {
   @Input() name: string;
-  @Input() doc: any;
+  @Input() doc: any;  
+  @Input() noDoc: any;  
   @Output() changeEv: EventEmitter<string> = new EventEmitter();
+  msg = "Nu aveti oferte.";
   public isMenuOpen = false;
 
   public toggleAccordion(): void {
@@ -18,5 +20,7 @@ export class ExpandableComponent implements OnInit {
     this.changeEv.emit(name);
   }
   constructor() {}
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    console.log(this.noDoc)
+  }
 }

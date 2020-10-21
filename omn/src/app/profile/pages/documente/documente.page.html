@@ -5,11 +5,17 @@
 
 <ion-content padding>
   <ion-grid class="pt-32 pb-16 px-0">
-    <ion-row class="ion-no-padding">
+    <ion-row *ngIf="!loading" class="ion-no-padding">
       <ion-col class="ion-no-padding">
-        <app-expandable name="Oferte" [doc]="offer"></app-expandable>
-        <app-expandable name="Asigurări" [doc]="policy"></app-expandable>
+        <app-expandable [noDoc]="noDoc" name="Oferte" [doc]="offer"></app-expandable>
+        <app-expandable [noDoc]="noDoc" name="Asigurări" [doc]="policy"></app-expandable>
       </ion-col>
     </ion-row>
+    <ng-container *ngIf="loading">
+      <app-loading-placeholder
+        class="flex flex-column flex-1"
+        [title]="'...'"
+      ></app-loading-placeholder>
+    </ng-container>
   </ion-grid>
 </ion-content>
