@@ -43,7 +43,7 @@
     "@ngx-translate/core": "^13.0.0",
     "@ngx-translate/http-loader": "^6.0.0",
     "com-darryncampbell-cordova-plugin-intent": "^2.0.0",
-    "cordova-android": "~9.0.0",
+    "cordova-android": "9.0.0",
     "cordova-browser": "6.0.0",
     "cordova-plugin-app-launcher": "^0.4.0",
     "cordova-plugin-app-version": "^0.1.9",
@@ -78,8 +78,9 @@
     "@types/jasminewd2": "~2.0.3",
     "@types/node": "^12.11.1",
     "codelyzer": "^5.1.2",
-    "cordova-android": "9.0.0",
     "cordova-ios": "^6.1.1",
+    "cordova-plugin-androidx": "^3.0.0",
+    "cordova-plugin-androidx-adapter": "^1.1.1",
     "cordova-plugin-device": "^2.0.2",
     "cordova-plugin-ionic-keyboard": "^2.2.0",
     "cordova-plugin-statusbar": "^2.4.2",
@@ -134,12 +135,14 @@
       },
       "cordova-plugin-ionic-webview": {},
       "cordova-plugin-inappbrowser": {},
-      "cordova-plugin-secure-storage-echo": {}
+      "cordova-plugin-secure-storage-echo": {},
+      "cordova-plugin-androidx": {},
+      "cordova-plugin-androidx-adapter": {}
     },
     "platforms": [
       "browser",
-      "android",
-      "ios"
+      "ios",
+      "android"
     ]
   },
   "main": "karma.conf.js",
