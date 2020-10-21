@@ -6,7 +6,7 @@ import {
   SecureStorageObject,
 } from '@ionic-native/secure-storage/ngx';
 import { BehaviorSubject, from, Observable, of } from 'rxjs';
-import { filter, map, switchMap } from 'rxjs/operators';
+import { filter, map, switchMap, tap } from 'rxjs/operators';
 import { CustomMemoryStorage } from './custom-memory-storage';
 
 @Injectable({
@@ -36,11 +36,13 @@ export class CustomStorageService {
           })
           .catch((err) => {
             // Default to not storing secure data.
+            console.log('mem-storage');
             this.secureStorageInstance = new CustomMemoryStorage();
             this.secureStorageInitSuccess.next(true);
           });
       } else {
         // Default to not storing secure data.
+        console.log('mem-storage');
         this.secureStorageInstance = new CustomMemoryStorage();
         this.secureStorageInitSuccess.next(true);
       }
@@ -66,13 +68,21 @@ export class CustomStorageService {
   }
 
   public getSecureItem<T>(key: string): Observable<T> {
+    console.log(this.secureStorageInitSuccess);
     return this.secureStorageInitSuccess.pipe(
       filter((vv) => {
         return vv !== null;
       }),
       switchMap((ss) => {
+        console.log(key);
+        console.log(this.secureStorageInstance);
         if (ss) {
-          from(this.secureStorageInstance.get(key));
+          console.log(Promise.resolve(this.secureStorageInstance.get(key)));
+          return from(this.secureStorageInstance.get(key)).pipe(
+            tap((v) => {
+              console.log(v);
+            })
+          );
         } else {
           return of(null);
         }
@@ -87,6 +97,7 @@ export class CustomStorageService {
       }),
       switchMap((ss) => {
         if (ss) {
+          console.log(data);
           return from(this.secureStorageInstance.set(key, data));
         } else {
           return of(false);

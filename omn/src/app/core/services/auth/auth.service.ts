@@ -7,7 +7,14 @@ import {
 } from '@angular/router';
 import { get, has } from 'lodash';
 import * as qs from 'qs';
-import { BehaviorSubject, forkJoin, of, Subscription, throwError } from 'rxjs';
+import {
+  BehaviorSubject,
+  forkJoin,
+  of,
+  Subscription,
+  throwError,
+  combineLatest,
+} from 'rxjs';
 import {
   catchError,
   distinctUntilChanged,
@@ -105,6 +112,7 @@ export class AuthService {
   // get token to local storage
   getToken() {
     return this.storeS.getItem('token').pipe(
+      take(1),
       map((vM: any) => {
         if (!vM) {
           return null;
@@ -156,19 +164,18 @@ export class AuthService {
    * expirations process to decide if an user login is valid.
    */
   handleAuthCheck() {
+    console.log('check');
     return this.getToken().pipe(
-      take(1),
       switchMap((isAuthenticated) => {
+        console.log(isAuthenticated);
         if (isAuthenticated) {
-          console.log('t');
           return of(true);
         } else {
-          console.log('f');
           return this.tryRelogin().pipe(
             take(1),
             catchError((v) => {
-              console.log(v);
               return this.getAccountData().pipe(
+                take(1),
                 switchMap((acc) => {
                   if (acc) {
                     this.doLogout(true);
@@ -186,7 +193,8 @@ export class AuthService {
   }
 
   tryRelogin() {
-    return forkJoin([this.getPhoneNumber(), this.getPassFromStore()]).pipe(
+    console.log('relogin');
+    return combineLatest([this.getPhoneNumber(), this.getPassFromStore()]).pipe(
       switchMap((vals: any) => {
         console.log(vals);
         if (vals[0] && vals[1]) {
@@ -200,13 +208,17 @@ export class AuthService {
             return of(null);
           }
         }
+        return of(null);
       }),
       switchMap((res) => {
-        console.log(res);
-        return this.saveToken({
-          key: res.token,
-          expiry: res.expiration,
-        });
+        try {
+          return this.saveToken({
+            key: res.token,
+            expiry: res.expiration,
+          });
+        } catch (err) {
+          return throwError(err);
+        }
       }),
       map((v) => true)
     );
@@ -404,9 +416,11 @@ export class AuthService {
     return this.reqS.post<LoginResponse>(authEndpoints.login, reqData).pipe(
       take(1),
       switchMap((vv) => {
+        console.log(vv);
         return this.updatePassInStore(reqData.password).pipe(
           map((vvv) => vv),
-          catchError(() => {
+          catchError((err) => {
+            console.log(err);
             return of(vv);
           })
         );
