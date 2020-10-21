@@ -27,6 +27,7 @@ export class ErrorInterceptor implements HttpInterceptor {
           this.authenticationService.handleAuthCheck().subscribe((v) => {
             if (v instanceof UrlTree) {
               this.routerS.navigateByUrl(v);
+              return throwError('__NO_DATA');
             } else if (!v) {
               return throwError(err);
             }
