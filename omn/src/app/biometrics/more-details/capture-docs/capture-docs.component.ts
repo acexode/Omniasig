@@ -39,7 +39,7 @@ export class CaptureDocsComponent implements OnInit {
     this.captured = await this.photoService.addNewToGallery(newF, 'B');
     this.androidPermissions.checkPermission(this.androidPermissions.PERMISSION.CAMERA).then(
       (result) => {
-        if(!result.hasPermission){
+        if (!result.hasPermission) {
           this.noPermission = true;
         }
       },
