@@ -7,11 +7,11 @@
                 <ion-icon [name]="item?.mainIcon?.name" class="font-128"></ion-icon>
             </ion-row>
             <ion-row class="ion-justify-content-center">
-                <ion-label [color]="(item?.textContent)[1]?.color" class="text-small mt-n18 text-weight-medium ion-text-center w-100">{{ (item?.textContent)[1]?.text }}</ion-label>
+                <ion-label class="text-small mt-n18 text-weight-medium ion-text-center w-100 ion-color-dark">{{ (item?.textContent)[1]?.text }}</ion-label>
 
-                <ion-label color="ion-color-dark" class="s18-h21 text-weight-medium mx-8 mb-10 ion-text-center w-100">{{ (item?.textContent)[0]?.text }}</ion-label>
+                <ion-label color="ion-color-dark" class="s18-h21 text-weight-medium mx-8 mb-10 ion-text-center w-100 ion-color-dark">{{ (item?.textContent)[0]?.text }}</ion-label>
 
-                <ion-text color="ion-color-dark" class="text-small mx-16 w-100 ion-text-center">
+                <ion-text color="ion-color-dark" class="text-small mx-16 w-100 ion-text-center ion-color-dark">
                     {{ description }}
                 </ion-text>
             </ion-row>
