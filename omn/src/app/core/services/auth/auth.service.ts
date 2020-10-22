@@ -176,7 +176,7 @@ export class AuthService {
     );
   }
 
-  refreshProfile() {
+  refreshProfile(override = {}) {
     return this.lastLoginNumber().pipe(
       take(1),
       switchMap((v) => {
@@ -187,10 +187,11 @@ export class AuthService {
         }
       }),
       switchMap((profile) => {
-        return this.storeS.setItem('account', profile).pipe(
+        const p = { ...profile, ...override };
+        return this.storeS.setItem('account', p).pipe(
           take(1),
           map((resV) => {
-            return profile;
+            return p;
           })
         );
       }),
@@ -236,7 +237,7 @@ export class AuthService {
   accountActivated(acc: Account) {
     return acc
       ? get(acc, 'isBiometricValid', false) === true &&
-      get(acc, 'isEmailConfirmed', false) === true
+          get(acc, 'isEmailConfirmed', false) === true
       : false;
   }
 
@@ -432,7 +433,7 @@ export class AuthService {
         }
       }),
       switchMap(() => {
-        return this.refreshProfile();
+        return this.refreshProfile({ email: newEmail });
       })
     );
   }
