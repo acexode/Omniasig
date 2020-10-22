@@ -72,8 +72,9 @@ export class InputComponent implements OnInit, ControlValueAccessor {
     const max = get(this.config, 'max', null);
     const step = get(this.config, 'step', 1);
     let val = this.getFieldValue();
-    val = val !== null && val !== undefined && val !== '' ? val : 0;
+    val = val !== null && val !== undefined && val !== '' ? parseInt(val, 10) : 0;
     const newV = val + step;
+    console.log('INCREMENT STEP', step, typeof(step),'MAX', max, typeof(max),'VAL', val, typeof(val), 'NEWV', newV, typeof(newV));
     if (val !== null && newV >= max) {
       this.writeValue(max ? max : newV);
     } else {
@@ -85,8 +86,9 @@ export class InputComponent implements OnInit, ControlValueAccessor {
     const min = get(this.config, 'min', 0);
     const step = get(this.config.spinnerConfig.step, 'step', 1);
     let val = this.getFieldValue();
-    val = val !== null && val !== undefined && val !== '' ? val : 0;
+    val = val !== null && val !== undefined && val !== '' ? parseInt(val, 10) : 0;
     const newV = val - step;
+    console.log('DECREMENT STEP', step, typeof(step),'MIN', min, typeof(min),'VAL', val, typeof(val), 'NEWV', newV, typeof(newV));
     if (val !== null && newV <= min) {
       this.writeValue(min);
     } else {

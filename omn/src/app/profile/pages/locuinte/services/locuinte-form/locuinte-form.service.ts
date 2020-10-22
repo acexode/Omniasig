@@ -38,9 +38,12 @@ export class LocuinteFormService {
     //   hasAlarmSystem: boolean;
     // }
     return this.fb.group({
-      type: this.fb.control(get(model, 'type', ''), Validators.required),
+      type: this.fb.control(
+        get(model, 'type', 'apartament'),
+        Validators.required
+      ),
       structure: this.fb.control(
-        get(model, 'structure', ''),
+        get(model, 'structure', 'beton_armat'),
         Validators.required
       ),
       yearConstruction: this.fb.control(
@@ -48,19 +51,19 @@ export class LocuinteFormService {
         Validators.required
       ),
       valueCurrency: this.fb.control(
-        get(model, 'valueCurrency', ''),
+        get(model, 'valueCurrency', 'EUR'),
         Validators.required
       ),
-      value: this.fb.control(get(model, 'value', 0), [
+      value: this.fb.control(get(model, 'value', 21000), [
         Validators.required,
         Validators.min(21000),
         Validators.max(200000),
       ]),
       typeUse: this.fb.control(
-        get(model, 'typeUse', null),
+        get(model, 'typeUse', 'permanent'),
         Validators.required
       ),
-      area: this.fb.control(Number(get(model, 'area', 0)), [
+      area: this.fb.control(Number(get(model, 'area', 10)), [
         Validators.required,
         Validators.min(10),
         Validators.max(600),
@@ -296,7 +299,7 @@ export class LocuinteFormService {
         configModel.rooms.spinnerConfig = { step: 1 };
         configModel.value.spinnerConfig = { step: 1 };
         configModel.value.min = 21000;
-        configModel.value.min = 200000;
+        configModel.value.max = 200000;
         configModel.rooms.min = 1;
         configModel.rooms.max = 20;
         configModel.yearConstruction.min = 1700;
