@@ -24,7 +24,7 @@ export class PasscodeFieldComponent implements OnInit, AfterViewInit {
   @Output() doPassForm: EventEmitter<FormGroup> = new EventEmitter();
   @Output() doClearErr: EventEmitter<any> = new EventEmitter();
   @Output() doDigitLength: EventEmitter<number> = new EventEmitter();
-
+  savePin = [];
   constructor(private formBuilder: FormBuilder) {}
 
   ngOnInit() {
@@ -35,7 +35,7 @@ export class PasscodeFieldComponent implements OnInit, AfterViewInit {
     this.inputField.setFocus();
   }
 
-  ngAfterViewInit() {
+  _ngAfterViewInit() {
     setTimeout(() => {
       this.clickInput();
     }, 200);
@@ -50,11 +50,13 @@ export class PasscodeFieldComponent implements OnInit, AfterViewInit {
     });
 
     this.passForm.valueChanges.subscribe((value) => {
-      this.changeInput(value.passcode);
+      console.log( 'on: ', value );
+      this.changeInput( value.passcode );
     });
   }
 
   changeInput(passCode: string) {
+    console.log( passCode );
     this.digitsLength = passCode ? passCode.length : 0;
     this.emitDigitLength();
     if (this.digitsLength === 6 && !this.busy) {
@@ -63,6 +65,7 @@ export class PasscodeFieldComponent implements OnInit, AfterViewInit {
     if (this.digitsLength > 6) {
       const value = this.passCode.value ? this.passCode.value : '';
       try {
+        console.log( 'value: ', value, 'fasf: ', value.substring( 0, 6 ), this.passCode.value );
         this.passCode.setValue(value.substring(0, 6), { emitEvent: false });
       } catch (e) {}
     }
@@ -84,5 +87,17 @@ export class PasscodeFieldComponent implements OnInit, AfterViewInit {
     if (this.errorLogin != null || typeof this.errorLogin != null) {
       this.doClearErr.emit(null);
     }
+  }
+
+  clickingInput( pinKey: any ) {
+    console.log( pinKey );
+    this.changeInput( pinKey.toString() );
+    this.savePin.push( pinKey );
+    this.digitsLength = this.savePin.length;
+    console.log( this.savePin );
+    if ( this.digitsLength === 6 ) {
+      this.passCode.setValue( this.savePin.join(""));
+    }
+    console.log( this.passForm.value );
   }
 }
