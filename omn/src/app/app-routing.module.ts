@@ -91,8 +91,8 @@ const routes: Routes = [
   },
   {
     path: 'biometrics',
-    // canActivateChild: [ AuthGuard ],
-    // canActivate: [ AuthGuard ],
+    canActivateChild: [ AuthGuard ],
+    canActivate: [ AuthGuard ],
     loadChildren: () =>
       import( './biometrics/biometrics.module' ).then( ( m ) => m.BiometricsModule ),
   },
