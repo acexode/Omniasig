@@ -55,7 +55,6 @@ export class PasscodeFieldComponent implements OnInit, AfterViewInit {
   }
 
   changeInput( passCode: string ) {
-    console.log( 'passCode: ', passCode );
     this.digitsLength = passCode ? passCode.length : 0;
     this.emitDigitLength();
     /*  clear savePin*/
@@ -95,7 +94,9 @@ export class PasscodeFieldComponent implements OnInit, AfterViewInit {
   clickingInput( pinKey: any ) {
     switch ( pinKey ) {
       case 'backIcon':
-        this.savePin.pop();
+        if ( this.savePin.length > 0 ) {
+          this.savePin.pop();
+        }
         break;
       default:
         this.savePin.push( pinKey );
