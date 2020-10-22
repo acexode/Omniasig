@@ -37,8 +37,6 @@ export class PhotoService {
         cameraDirection: dirV
       },
     };
-    console.log(nOptions);
-    console.log(newF);
     // Take a photo
     try {
       const capturedPhoto = await this.camera.getPicture(nOptions);
