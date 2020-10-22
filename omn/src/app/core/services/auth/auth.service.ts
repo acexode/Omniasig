@@ -5,21 +5,13 @@ import {
   Router,
   UrlTree,
 } from '@angular/router';
-import { get, has } from 'lodash';
+import { get } from 'lodash';
 import * as qs from 'qs';
-import {
-  BehaviorSubject,
-  forkJoin,
-  of,
-  Subscription,
-  throwError,
-  combineLatest,
-} from 'rxjs';
+import { BehaviorSubject, forkJoin, of, Subscription, throwError } from 'rxjs';
 import {
   catchError,
   distinctUntilChanged,
   filter,
-  finalize,
   map,
   share,
   switchMap,
@@ -27,6 +19,7 @@ import {
   tap,
 } from 'rxjs/operators';
 import { authEndpoints } from '../../configs/endpoints';
+import { distinctCheckObj } from '../../helpers/distinct-check.helper';
 import { Account } from '../../models/account.interface';
 import { AuthState } from '../../models/auth-state.interface';
 import { LoginResponse } from '../../models/login-response.interface';
@@ -51,6 +44,7 @@ export class AuthService {
     this.initialState
   );
   sessionExpiryTimer: Subscription;
+  authCheck$ = this.handleAuthCheck();
   constructor(
     private storeS: CustomStorageService,
     private routerS: Router,
@@ -114,8 +108,8 @@ export class AuthService {
   // get token to local storage
   getToken() {
     return this.storeS.getItem('token').pipe(
-      take(1),
       map((vM: any) => {
+        console.log(vM);
         if (!vM) {
           return null;
         }
@@ -153,7 +147,8 @@ export class AuthService {
       .subscribe((v) => {
         // Check expiry status.
         console.log('timer');
-        this.handleAuthCheck().subscribe((aC) => {
+        this.authCheck$.subscribe((aC) => {
+          console.log(aC);
           if (aC instanceof UrlTree) {
             this.routerS.navigateByUrl(aC);
           }
@@ -174,29 +169,37 @@ export class AuthService {
           return of(true);
         } else {
           return this.tryRelogin().pipe(
-            take(1),
             catchError((v) => {
               return this.getAccountData().pipe(
-                take(1),
                 switchMap((acc) => {
                   if (acc) {
-                    this.doLogout(true);
-                    return of(false);
+                    return this.doLogout(true, false);
                   } else {
                     return this.redirectToLogin();
                   }
                 })
               );
+            }),
+            tap((v) => {
+              console.log(v);
             })
           );
         }
       })
+      // share()
     );
   }
 
   tryRelogin() {
     console.log('relogin');
-    return combineLatest([this.getPhoneNumber(), this.getPassFromStore()]).pipe(
+    return this.getPhoneNumber().pipe(
+      switchMap((pn) => {
+        return this.getPassFromStore().pipe(
+          map((ps) => {
+            return [pn, ps];
+          })
+        );
+      }),
       switchMap((vals: any) => {
         console.log(vals);
         if (vals[0] && vals[1]) {
@@ -222,30 +225,38 @@ export class AuthService {
           return throwError(err);
         }
       }),
-      map((v) => true)
+      map((v) => {
+        return true;
+      })
     );
   }
 
-  refreshProfile() {
+  refreshProfile(override = {}) {
     return this.lastLoginNumber().pipe(
       take(1),
       switchMap((v) => {
         if (!v) {
-          return of(this.doLogout());
+          return this.doLogout(false, false).pipe(
+            map((opv) => {
+              return v;
+            })
+          );
         } else {
           return this.doGetProfile(v);
         }
       }),
-      switchMap((profile) => {
-        return this.storeS.setItem('account', profile).pipe(
+      switchMap((profile: any) => {
+        const p = { ...profile, ...override };
+        return this.storeS.setItem('account', p).pipe(
           take(1),
           map((resV) => {
-            return profile;
+            return p;
           })
         );
       }),
-      tap((value: Account) => {
+      map((value: Account) => {
         this.doUpdateAccount(value);
+        return value;
       })
     );
   }
@@ -285,7 +296,7 @@ export class AuthService {
   accountActivated(acc: Account) {
     return acc
       ? get(acc, 'isBiometricValid', false) === true &&
-      get(acc, 'isEmailConfirmed', false) === true
+          get(acc, 'isEmailConfirmed', false) === true
       : false;
   }
 
@@ -301,42 +312,60 @@ export class AuthService {
     return this.storeS.getItem('phoneNumber').pipe(take(1));
   }
 
-  doLogout(expired = false) {
+  doLogout(expired = false, execObs = true) {
     unsubscriberHelper(this.sessionExpiryTimer);
-    this.storeS.removeItem('account');
-    this.storeS.removeItem('token');
+    const obsList = [
+      this.storeS.removeItem('account'),
+      this.storeS.removeItem('token'),
+      this.removePassFromStore(),
+    ];
+
     if (!expired) {
-      this.storeS.removeItem('phoneNumber');
+      obsList.push(this.storeS.removeItem('phoneNumber'));
     }
 
     this.authState.next({
       ...this.initialState,
     });
-    this.removePassFromStore().subscribe(v => {
-      if (expired) {
-        // Flag the page with a message to the user.
-        return this.getPhoneNumber()
-          .pipe(take(1))
-          .subscribe((value) => {
-            if (value) {
-              this.routerS.navigate(['/login', 'verify', value], {
-                queryParams: {
-                  expired: true,
-                },
-              });
-            } else {
-              this.routerS.navigate(['/login'], {
-                queryParams: {
-                  expired: true,
-                },
-              });
-            }
+    const op = forkJoin(obsList).pipe(
+      switchMap((vvv) => {
+        if (expired) {
+          // Flag the page with a message to the user.
+          return this.getPhoneNumber();
+        } else {
+          return of('/login');
+        }
+      }),
+      map((value) => {
+        if (value === '/login') {
+          return this.routerS.createUrlTree([value]);
+        } else if (value) {
+          return this.routerS.createUrlTree(['/login', 'verify', value], {
+            queryParams: {
+              expired: true,
+            },
           });
-      } else {
-        this.routerS.navigateByUrl('/login');
-      }
-    });
-
+        } else {
+          return this.routerS.createUrlTree(['/login'], {
+            queryParams: {
+              expired: true,
+            },
+          });
+        }
+      })
+    );
+    // Basic calls will have to redirect to the specific login page.
+    if (execObs) {
+      op.subscribe(
+        (rL) => {
+          this.routerS.navigateByUrl(rL);
+        },
+        (err) => {
+          console.log(err);
+        }
+      );
+    }
+    return op;
   }
 
   updateState(newState: AuthState) {
@@ -346,9 +375,7 @@ export class AuthService {
   getAuthState() {
     return this.authState.pipe(
       share(),
-      distinctUntilChanged((a, b) => {
-        return JSON.stringify(a) === JSON.stringify(b);
-      }),
+      distinctUntilChanged(distinctCheckObj),
       filter((val: AuthState) => val && val.hasOwnProperty('init') && val.init),
       distinctUntilChanged()
     );
@@ -356,7 +383,6 @@ export class AuthService {
 
   getAccountData() {
     return this.getAuthState().pipe(
-      share(),
       map((val: AuthState) => {
         return val.account;
       })
@@ -372,9 +398,10 @@ export class AuthService {
   }
 
   removePassFromStore() {
-    return this.storeS.removeSecureItem(__AUTH_PASS_KEY).pipe(catchError(err => of(true)));
+    return this.storeS
+      .removeSecureItem(__AUTH_PASS_KEY)
+      .pipe(catchError((err) => of(true)));
   }
-
 
   doLoginAndLoadProfile(reqData) {
     return this.doLogin(reqData).pipe(
@@ -424,7 +451,6 @@ export class AuthService {
 
   doLogin(reqData: Login) {
     return this.reqS.post<LoginResponse>(authEndpoints.login, reqData).pipe(
-      take(1),
       switchMap((vv) => {
         console.log(vv);
         return this.updatePassInStore(reqData.password).pipe(
@@ -515,7 +541,7 @@ export class AuthService {
         }
       }),
       switchMap(() => {
-        return this.refreshProfile();
+        return this.refreshProfile({ email: newEmail });
       })
     );
   }

@@ -8,7 +8,7 @@ import {
   UrlTree,
 } from '@angular/router';
 import { Observable, of } from 'rxjs';
-import { map, take, switchMap } from 'rxjs/operators';
+import { catchError, take } from 'rxjs/operators';
 import { AuthService } from '../../services/auth/auth.service';
 
 @Injectable({
@@ -24,7 +24,8 @@ export class AuthGuard implements CanActivate, CanActivateChild {
     | Promise<boolean | UrlTree>
     | boolean
     | UrlTree {
-    return this.authS.handleAuthCheck();
+    const subs = this.authS.authCheck$;
+    return subs;
   }
 
   canActivateChild(
@@ -35,6 +36,13 @@ export class AuthGuard implements CanActivate, CanActivateChild {
     | Promise<boolean | UrlTree>
     | boolean
     | UrlTree {
-    return this.authS.handleAuthCheck();
+    console.log('2');
+    const subs = this.authS.authCheck$.pipe(
+      catchError((err) => {
+        console.log(err);
+        return of(false);
+      })
+    );
+    return subs;
   }
 }

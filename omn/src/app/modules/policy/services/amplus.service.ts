@@ -24,6 +24,18 @@ export class AmplusService {
     );
   }
 
+  CreateAmplusPadInsuranceOffer(
+    amplusAddressId: number | string,
+    generateOffer: boolean,
+    payload: any,
+    padOfferId: number | string,
+  ) {
+    return this.reqS.post<any>(
+      `${amplusEndpoints.CreateAmplusInsuranceOffer}?amplusAddressId=${amplusAddressId}&generateOffer=${generateOffer}&padOfferId=${padOfferId}`,
+      payload
+    );
+  }
+
   getAmplusOfferDocument(amplusOfferDocumentId: number) {
     return this.reqS
       .get<any>(

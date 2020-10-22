@@ -1,6 +1,6 @@
 {
   "name": "omniasig",
-  "version": "0.1.1",
+  "version": "0.1.2a",
   "author": "Omniasig",
   "homepage": "https://www.omniasig.ro/",
   "scripts": {
@@ -137,7 +137,8 @@
       "cordova-plugin-inappbrowser": {},
       "cordova-plugin-secure-storage-echo": {},
       "cordova-plugin-androidx": {},
-      "cordova-plugin-androidx-adapter": {}
+      "cordova-plugin-androidx-adapter": {},
+      "com-darryncampbell-cordova-plugin-intent": {}
     },
     "platforms": [
       "browser",

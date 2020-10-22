@@ -41,7 +41,7 @@ export const offerHomeItemHelper = ( offer: PolicyOffer ) => {
         ? 'Expiră la: ' + dateHelperDMY( offer.expiry )
         : ''
       : '';
-    baseItem.textContent.footer.text = offer.policy.typeId === 'AMPLUS' && offer.supportData && offer.offerPrice
+    baseItem.textContent.footer.text = (offer.policy.typeId === 'AMPLUS' || 'AMPLUS_PAD') && offer.supportData && offer.offerPrice
       ? offer.supportData === 'GOLD'
         ? 'Plan: GOLD ● ' + plataOption( offer.noOfPayments, offer.offerPrice )
         : offer.supportData === 'VIP'

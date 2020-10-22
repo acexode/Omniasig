@@ -25,7 +25,7 @@
           </ion-label>
           <ion-button
             mode="ios"
-            *ngIf="!accountData.isBiometricValid"
+            *ngIf="!accountData?.isBiometricValid"
             size="small"
             shape="round"
             class="active ion-align-self-end"
@@ -48,7 +48,7 @@
             </div>
             <div class="flex">
               <ion-button
-                *ngIf="!accountActivated"
+                *ngIf="!accountData?.isEmailConfirmed"
                 mode="ios"
                 size="small"
                 shape="round"
