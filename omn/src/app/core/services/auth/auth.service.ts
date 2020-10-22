@@ -193,8 +193,9 @@ export class AuthService {
           })
         );
       }),
-      tap((value: Account) => {
+      map((value: Account) => {
         this.doUpdateAccount(value);
+        return value;
       })
     );
   }
