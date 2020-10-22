@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
+import { AndroidPermissions } from '@ionic-native/android-permissions/ngx';
 import { OmnInputsModule } from '../../shared/modules/omn-inputs/omn-inputs.module';
 import { SharedModule } from '../../shared/shared.module';
 import { CaptureDocsComponent } from './capture-docs/capture-docs.component';
@@ -25,6 +26,9 @@ import { MoreDetailsComponent } from './more-details.component';
     SharedModule,
     FormsModule,
     ReactiveFormsModule,
+  ],
+  providers: [
+    AndroidPermissions
   ],
 })
 export class MoreDetailsModule {}

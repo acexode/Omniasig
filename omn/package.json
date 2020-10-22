@@ -22,6 +22,7 @@
     "@capacitor/android": "^2.2.1",
     "@capacitor/core": "2.2.1",
     "@capacitor/ios": "^2.2.1",
+    "@ionic-native/android-permissions": "^5.29.0",
     "@ionic-native/app-launcher": "^5.27.0",
     "@ionic-native/app-version": "^5.28.0",
     "@ionic-native/calendar": "^5.28.0",
@@ -77,6 +78,7 @@
     "@types/node": "^12.11.1",
     "codelyzer": "^5.1.2",
     "cordova-ios": "^6.1.1",
+    "cordova-plugin-android-permissions": "^1.1.0",
     "cordova-plugin-androidx": "^3.0.0",
     "cordova-plugin-androidx-adapter": "^1.1.1",
     "cordova-plugin-device": "^2.0.2",
@@ -134,7 +136,8 @@
       "cordova-plugin-ionic-webview": {},
       "cordova-plugin-inappbrowser": {},
       "cordova-plugin-androidx": {},
-      "cordova-plugin-androidx-adapter": {}
+      "cordova-plugin-androidx-adapter": {},
+      "cordova-plugin-android-permissions": {}
     },
     "platforms": [
       "browser",
