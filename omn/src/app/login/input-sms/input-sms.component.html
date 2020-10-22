@@ -32,14 +32,14 @@
           Am trimis un cod de verificare la {{ phoneNumber }}
         </ion-text>
       </div>
-      <div class="ion-text-center pb-80">
+      <div class="ion-text-center">
         <app-passcode-field
           [errorLogin]="errorLogin"
           (doPassForm)="verifyDigit($event)"
           (doClearErr)="clearErr($event)"
         ></app-passcode-field>
       </div>
-      <div class="ion-text-center pt-80">
+      <div class="ion-text-center pt-32">
         <ion-text class="text-small">
           Poți solicita un alt cod în {{ min }}:{{ sec }}
         </ion-text>
