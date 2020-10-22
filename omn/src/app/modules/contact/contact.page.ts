@@ -14,7 +14,7 @@ export class ContactPage implements OnInit {
   headerConfig: SubPageHeader = {
     ...subPageHeaderPrimary('Call Center'),
     // trailingIcon: null,
-    leadingIcon:null
+    leadingIcon: null
   };
 
   constructor() {}
