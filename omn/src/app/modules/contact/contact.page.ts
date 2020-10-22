@@ -1,5 +1,3 @@
-import { subPageHeaderPrimary } from './../../shared/data/sub-page-header-primary';
-import { subPageHeaderSecondary } from './../../shared/data/sub-page-header-secondary';
 import { Component, HostBinding, OnInit } from '@angular/core';
 import { subPageHeaderDefault } from 'src/app/shared/data/sub-page-header-default';
 import { SubPageHeader } from 'src/app/shared/models/component/sub-page-header';
@@ -12,9 +10,8 @@ import { SubPageHeader } from 'src/app/shared/models/component/sub-page-header';
 export class ContactPage implements OnInit {
   @HostBinding('class') color = 'ion-color-white-page';
   headerConfig: SubPageHeader = {
-    ...subPageHeaderPrimary('Call Center'),
-    // trailingIcon: null,
-    leadingIcon: null
+    ...subPageHeaderDefault(''),
+    trailingIcon: null,
   };
 
   constructor() {}
