@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import {
   ControlValueAccessor,
   FormBuilder,
@@ -20,6 +20,7 @@ import { get } from 'lodash';
   ],
 })
 export class InputComponent implements OnInit, ControlValueAccessor {
+  @Output() valueChange: EventEmitter<any> = new EventEmitter();
   @Input() config: IonInputConfig;
 
   onChange: (_: any) => void;
@@ -58,6 +59,17 @@ export class InputComponent implements OnInit, ControlValueAccessor {
 
   getFieldValue() {
     const field = this.formGroup.get('input');
+    if (field) {
+      const val = parseInt(field.value, 10);
+      const max = get(this.config, 'max', null);
+      const min = get(this.config, 'min', 0);
+
+      if (val>=min && val<=max) {
+        this.valueChange.emit(true);
+      }else{
+        this.valueChange.emit(false);
+      }
+    }
     return field ? field.value : null;
   }
   ngOnInit() {
@@ -74,7 +86,6 @@ export class InputComponent implements OnInit, ControlValueAccessor {
     let val = this.getFieldValue();
     val = val !== null && val !== undefined && val !== '' ? parseInt(val, 10) : 0;
     const newV = val + step;
-    console.log('INCREMENT STEP', step, typeof(step),'MAX', max, typeof(max),'VAL', val, typeof(val), 'NEWV', newV, typeof(newV));
     if (val !== null && newV >= max) {
       this.writeValue(max ? max : newV);
     } else {
@@ -88,7 +99,6 @@ export class InputComponent implements OnInit, ControlValueAccessor {
     let val = this.getFieldValue();
     val = val !== null && val !== undefined && val !== '' ? parseInt(val, 10) : 0;
     const newV = val - step;
-    console.log('DECREMENT STEP', step, typeof(step),'MIN', min, typeof(min),'VAL', val, typeof(val), 'NEWV', newV, typeof(newV));
     if (val !== null && newV <= min) {
       this.writeValue(min);
     } else {

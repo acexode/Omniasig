@@ -195,6 +195,7 @@
           class="w-100"
           [config]="fieldConfig?.value"
           formControlName="value"
+          (valueChange)="updateValidity($event, 'amount')"
         ></app-input>
         <ion-item class="form-description p-0 no-paddings mt-12" lines="none">
           <ion-icon
@@ -202,8 +203,13 @@
             name="md-info"
             class="icon-20 position-absolute top-0 m-0 color-secondary-blue"
           ></ion-icon>
-          <ion-text class="text-small ml-32"
-            >Locuintele sunt asigurabile cu valori intre 21 000 EURO si 200 000
+          <ion-text
+            class="text-small ml-32"
+            [(ngModel)]="amountValid"
+            [style.color]="amountValid ? 'black' : 'red'"
+            [ngModelOptions]="{standalone: true}"
+            ngDefaultControl
+          >Locuintele sunt asigurabile cu valori intre 21 000 EURO si 200 000
             EURO.
           </ion-text>
         </ion-item>
@@ -271,6 +277,7 @@
         class="w-100"
         [config]="fieldConfig?.area"
         formControlName="area"
+        (valueChange)="updateValidity($event, 'area')"
       ></app-input>
       <ion-item class="form-description p-0 no-paddings mt-12" lines="none">
         <ion-icon
@@ -278,7 +285,12 @@
           name="md-info"
           class="icon-20 position-absolute top-0 m-0 color-secondary-blue"
         ></ion-icon>
-        <ion-text class="text-small ml-32"
+        <ion-text 
+          class="text-small ml-32"
+          [(ngModel)]="areaValid"
+          [style.color]="areaValid ? 'black' : 'red'"
+          [ngModelOptions]="{standalone: true}"
+          ngDefaultControl
           >Valorile valide sunt intre 10 si 600 mp.
         </ion-text>
       </ion-item>
@@ -288,6 +300,7 @@
         class="w-100 mb-12"
         [config]="fieldConfig?.floors"
         formControlName="floors"
+        (valueChange)="updateValidity($event, 'floors')"
       ></app-input>
       <ion-item class="form-description p-0 no-paddings" lines="none">
         <ion-icon
@@ -295,7 +308,13 @@
           name="md-info"
           class="icon-20 position-absolute top-0 m-0 color-secondary-blue"
         ></ion-icon>
-        <ion-text class="text-small ml-32">
+        <ion-text 
+        class="text-small ml-32"
+        [(ngModel)]="floorsValid"
+        [style.color]="floorsValid ? 'black' : 'red'"
+        [ngModelOptions]="{standalone: true}"
+        ngDefaultControl
+        >
           Cate etaje are cladirea. Pentru cladirile care au doar parter si un
           etaj, regimul de inaltime este 1. Valorile valide sunt intre 1 si 20.
         </ion-text>
@@ -306,6 +325,7 @@
         class="w-100"
         [config]="fieldConfig?.rooms"
         formControlName="rooms"
+        (valueChange)="updateValidity($event, 'rooms')"
       ></app-input>
       <ion-item class="form-description p-0 no-paddings mt-12" lines="none">
         <ion-icon
@@ -313,7 +333,12 @@
           name="md-info"
           class="icon-20 position-absolute top-0 m-0 color-secondary-blue"
         ></ion-icon>
-        <ion-text class="text-small ml-32"
+        <ion-text 
+          class="text-small ml-32"
+          [(ngModel)]="roomsValid"
+          [style.color]="roomsValid ? 'black' : 'red'"
+          [ngModelOptions]="{standalone: true}"
+          ngDefaultControl
           >Valorile valide sunt intre 1 si 20.
         </ion-text>
       </ion-item>
