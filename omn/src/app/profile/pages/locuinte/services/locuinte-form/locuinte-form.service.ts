@@ -19,6 +19,7 @@ import { LocuinteFormType } from 'src/app/shared/models/modes/locuinte-form-mode
 })
 export class LocuinteFormService {
   streets$ = this.locuinteS.streetStore$;
+  city$ = this.locuinteS.cityStore$;
   tipStreets$ = this.locuinteS.tipStreetStore$;
   constructor(private fb: FormBuilder, protected locuinteS: LocuinteService) {}
 
@@ -150,9 +151,11 @@ export class LocuinteFormService {
             idKey: 'name',
             labelKey: 'name',
           }),
-          addressCity: selectConfigHelper({
+          addressCity: autoCompleteConfigHelper({
             label: 'Localitate',
             disabled: isDisabled,
+            dataServiceCb: this.streetLookup,
+            dataServiceSource: this.city$,
             idKey: 'name',
             labelKey: 'name',
           }),
@@ -480,6 +483,7 @@ export class LocuinteFormService {
       return this.locuinteS.getCities(addressCounty.id).pipe(
         take(1),
         map((data: any) => {
+          this.locuinteS.cityStore$.next(data);
           fieldsData.addressCity = data;
           return data;
         })
