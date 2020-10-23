@@ -7,12 +7,19 @@ import {
 } from '@angular/router';
 import { get } from 'lodash';
 import * as qs from 'qs';
-import { BehaviorSubject, forkJoin, of, Subscription, throwError } from 'rxjs';
+import {
+  BehaviorSubject,
+  combineLatest,
+  of,
+  Subscription,
+  throwError,
+} from 'rxjs';
 import {
   catchError,
   distinctUntilChanged,
   filter,
   map,
+  mergeMap,
   share,
   switchMap,
   take,
@@ -43,8 +50,10 @@ export class AuthService {
   authState: BehaviorSubject<AuthState> = new BehaviorSubject(
     this.initialState
   );
+  tokenStore: BehaviorSubject<any> = new BehaviorSubject(null);
   sessionExpiryTimer: Subscription;
-  authCheck$ = this.handleAuthCheck();
+  authCheck$ = of(true).pipe(share());
+  tokenCheck$ = of(true).pipe(share());
   constructor(
     private storeS: CustomStorageService,
     private routerS: Router,
@@ -103,24 +112,39 @@ export class AuthService {
 
   // save token to local storage
   saveToken(token: { key: string; expiry: string }) {
+    this.tokenStore.next(token);
     return this.storeS.setItem('token', token);
   }
   // get token to local storage
   getToken() {
-    return this.storeS.getItem('token').pipe(
+    return this.tokenCheck$.pipe(
+      mergeMap((v1) => this.tokenStore.pipe(take(1))),
+      mergeMap((v2) => {
+        const key = get(v2, 'key', null);
+        return !this.isTokenExpired(get(v2, 'expiry', undefined)) && key
+          ? of(v2)
+          : this.storeS.getItem('token');
+      }),
+      take(1),
       map((vM: any) => {
-        console.log(vM);
         if (!vM) {
+          this.tokenStore.next(null);
           return null;
         }
-        return !this.isTokenExpired(get(vM, 'expiry', undefined))
-          ? get(vM, 'key', null)
-          : null;
+        if (!this.isTokenExpired(get(vM, 'expiry', undefined))) {
+          const key = get(vM, 'key', null);
+          this.tokenStore.next(vM);
+          return key;
+        } else {
+          this.tokenStore.next(null);
+          return null;
+        }
       })
     );
   }
   getProfile(data: { token: string; phoneNumber: string; expiry: string }) {
     return this.doGetProfile(data.phoneNumber).pipe(
+      take(1),
       switchMap((res) => {
         this.setExpireTimer();
         return this.processAuthResponse({
@@ -139,20 +163,19 @@ export class AuthService {
   }
 
   setExpireTimer() {
-    console.log('timer S');
     // This runs every minute and checks for token expiration.
     unsubscriberHelper(this.sessionExpiryTimer);
     this.sessionExpiryTimer = this.timerS
       .buildIndefiniteTimer(60000)
       .subscribe((v) => {
         // Check expiry status.
-        console.log('timer');
-        this.authCheck$.subscribe((aC) => {
-          console.log(aC);
-          if (aC instanceof UrlTree) {
-            this.routerS.navigateByUrl(aC);
-          }
-        });
+        this.handleAuthCheck()
+          .pipe(take(1))
+          .subscribe((aC) => {
+            if (aC instanceof UrlTree) {
+              this.routerS.navigateByUrl(aC);
+            }
+          });
       });
   }
 
@@ -161,11 +184,11 @@ export class AuthService {
    * expirations process to decide if an user login is valid.
    */
   handleAuthCheck() {
-    console.log('check');
-    return this.getToken().pipe(
+    return this.authCheck$.pipe(
+      switchMap((v) => this.getToken()),
       switchMap((isAuthenticated) => {
-        console.log(isAuthenticated);
-        if (isAuthenticated) {
+        const account = get(this.authState.value, 'account', null);
+        if (isAuthenticated && account) {
           return of(true);
         } else {
           return this.tryRelogin().pipe(
@@ -175,23 +198,21 @@ export class AuthService {
                   if (acc) {
                     return this.doLogout(true, false);
                   } else {
-                    return this.redirectToLogin();
+                    if (!isAuthenticated) {
+                      return this.redirectToLogin();
+                    }
+                    return this.doLogout(true);
                   }
                 })
               );
-            }),
-            tap((v) => {
-              console.log(v);
             })
           );
         }
       })
-      // share()
     );
   }
 
   tryRelogin() {
-    console.log('relogin');
     return this.getPhoneNumber().pipe(
       switchMap((pn) => {
         return this.getPassFromStore().pipe(
@@ -201,7 +222,6 @@ export class AuthService {
         );
       }),
       switchMap((vals: any) => {
-        console.log(vals);
         if (vals[0] && vals[1]) {
           try {
             const reqData: Login = {
@@ -327,7 +347,8 @@ export class AuthService {
     this.authState.next({
       ...this.initialState,
     });
-    const op = forkJoin(obsList).pipe(
+    this.tokenStore.next(null);
+    const op = combineLatest(obsList).pipe(
       switchMap((vvv) => {
         if (expired) {
           // Flag the page with a message to the user.
@@ -361,7 +382,7 @@ export class AuthService {
           this.routerS.navigateByUrl(rL);
         },
         (err) => {
-          console.log(err);
+          this.routerS.navigateByUrl('/login');
         }
       );
     }
@@ -374,10 +395,8 @@ export class AuthService {
 
   getAuthState() {
     return this.authState.pipe(
-      share(),
-      distinctUntilChanged(distinctCheckObj),
       filter((val: AuthState) => val && val.hasOwnProperty('init') && val.init),
-      distinctUntilChanged()
+      distinctUntilChanged(distinctCheckObj)
     );
   }
 
@@ -431,6 +450,7 @@ export class AuthService {
     };
 
     return this.doLoginAndLoadProfile(reqData).pipe(
+      take(1),
       tap((value) => {
         let redirectUrl: any = '/home';
         if (loginData.aRoute instanceof ActivatedRoute) {
@@ -452,11 +472,9 @@ export class AuthService {
   doLogin(reqData: Login) {
     return this.reqS.post<LoginResponse>(authEndpoints.login, reqData).pipe(
       switchMap((vv) => {
-        console.log(vv);
         return this.updatePassInStore(reqData.password).pipe(
           map((vvv) => vv),
           catchError((err) => {
-            console.log(err);
             return of(vv);
           })
         );

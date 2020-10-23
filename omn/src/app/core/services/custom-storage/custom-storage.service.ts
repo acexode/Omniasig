@@ -17,6 +17,7 @@ export class CustomStorageService {
     null
   );
   storageInitSuccess: BehaviorSubject<boolean> = new BehaviorSubject(null);
+  storageInitObs$ = this.storageInitSuccess.asObservable;
   secureStorageInstance: SecureStorageObject;
   constructor(
     private storage: Storage,
@@ -28,7 +29,6 @@ export class CustomStorageService {
 
   private initStorage() {
     this.storage.ready().then(() => {
-      console.log(this.storage.driver);
       this.storageInitSuccess.next(true);
     });
     this.platform.ready().then(() => {
@@ -41,13 +41,11 @@ export class CustomStorageService {
           })
           .catch((err) => {
             // Default to not storing secure data.
-            console.log('mem-storage');
             this.secureStorageInstance = new CustomMemoryStorage();
             this.secureStorageInitSuccess.next(true);
           });
       } else {
         // Default to not storing secure data.
-        console.log('mem-storage');
         this.secureStorageInstance = new CustomMemoryStorage();
         this.secureStorageInitSuccess.next(true);
       }
@@ -55,30 +53,29 @@ export class CustomStorageService {
   }
 
   private waitStorageBeforeOp(opObs: Observable<any>) {
-    return this.storageInitSuccess.asObservable().pipe(
+    return this.storageInitSuccess.pipe(
       filter((vv) => {
         return vv !== null;
       }),
       switchMap((ss) => {
         return opObs;
-      }),
-      take(1)
+      })
     );
   }
 
   private waitSecStorageBeforeOp(opObs: Observable<any>) {
-    return this.secureStorageInitSuccess.asObservable().pipe(
+    return this.secureStorageInitSuccess.pipe(
       filter((vv) => {
         return vv !== null;
       }),
       switchMap((ss) => {
         return opObs;
-      }),
-      take(1)
+      })
     );
   }
 
   public getItem<T>(key: string): Observable<T> {
+    console.log('storage');
     return this.waitStorageBeforeOp(from(this.storage.get(key)));
   }
 

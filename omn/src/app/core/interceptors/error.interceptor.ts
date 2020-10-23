@@ -24,7 +24,7 @@ export class ErrorInterceptor implements HttpInterceptor {
     return next.handle(request).pipe(
       catchError((err) => {
         if (err.status === 401) {
-          return this.authenticationService.authCheck$.pipe(
+          return this.authenticationService.handleAuthCheck().pipe(
             take(1),
             switchMap((v) => {
               if (v instanceof UrlTree) {
@@ -33,8 +33,7 @@ export class ErrorInterceptor implements HttpInterceptor {
               } else if (!v) {
                 return throwError(err);
               } else {
-                console.log('check err');
-                console.log(v);
+                return next.handle(request);
               }
             })
           );

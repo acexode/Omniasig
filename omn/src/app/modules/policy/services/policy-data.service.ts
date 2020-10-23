@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Calendar } from '@ionic-native/calendar/ngx';
 import { get, set, has } from 'lodash';
 import { BehaviorSubject, forkJoin, Observable, of, throwError } from 'rxjs';
-import { catchError, filter, map, switchMap, tap } from 'rxjs/operators';
+import { catchError, filter, map, switchMap, take, tap } from 'rxjs/operators';
 import {
   documentEndpoint,
   policyEndpoints,
@@ -48,19 +48,22 @@ export class PolicyDataService {
   }
 
   initData() {
-    this.authS.getAccountData().subscribe((account) => {
-      if (this.authS.accountActivated(account)) {
-        this.getUserPolicies(account.userId).subscribe((vv) => {
-          this.policyStore$.next(vv ? vv : []);
-        });
-        // this.getUserPoliciesArchive(account.userId).subscribe((vv) => {
-        //   this.policyArchiveStore$.next(vv ? vv : []);
-        // });
-        this.getUserOffers().subscribe((v) =>
-          this.offerStore$.next(v ? v : [])
-        );
-      }
-    });
+    this.authS
+      .getAccountData()
+      .pipe(take(1))
+      .subscribe((account) => {
+        if (this.authS.accountActivated(account)) {
+          this.getUserPolicies(account.userId).subscribe((vv) => {
+            this.policyStore$.next(vv ? vv : []);
+          });
+          // this.getUserPoliciesArchive(account.userId).subscribe((vv) => {
+          //   this.policyArchiveStore$.next(vv ? vv : []);
+          // });
+          this.getUserOffers().subscribe((v) =>
+            this.offerStore$.next(v ? v : [])
+          );
+        }
+      });
   }
 
   // get user policy offer
