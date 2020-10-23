@@ -205,10 +205,7 @@
           ></ion-icon>
           <ion-text
             class="text-small ml-32"
-            [(ngModel)]="amountValid"
-            [style.color]="amountValid ? 'black' : 'red'"
-            [ngModelOptions]="{standalone: true}"
-            ngDefaultControl
+            [ngClass]="{'color-red': !amountValid}"
           >Locuintele sunt asigurabile cu valori intre 21 000 EURO si 200 000
             EURO.
           </ion-text>
@@ -287,10 +284,7 @@
         ></ion-icon>
         <ion-text 
           class="text-small ml-32"
-          [(ngModel)]="areaValid"
-          [style.color]="areaValid ? 'black' : 'red'"
-          [ngModelOptions]="{standalone: true}"
-          ngDefaultControl
+          [ngClass]="{'color-red': !areaValid}"
           >Valorile valide sunt intre 10 si 600 mp.
         </ion-text>
       </ion-item>
@@ -310,10 +304,7 @@
         ></ion-icon>
         <ion-text 
         class="text-small ml-32"
-        [(ngModel)]="floorsValid"
-        [style.color]="floorsValid ? 'black' : 'red'"
-        [ngModelOptions]="{standalone: true}"
-        ngDefaultControl
+        [ngClass]="{'color-red': !floorsValid}"
         >
           Cate etaje are cladirea. Pentru cladirile care au doar parter si un
           etaj, regimul de inaltime este 1. Valorile valide sunt intre 1 si 20.
@@ -335,10 +326,7 @@
         ></ion-icon>
         <ion-text 
           class="text-small ml-32"
-          [(ngModel)]="roomsValid"
-          [style.color]="roomsValid ? 'black' : 'red'"
-          [ngModelOptions]="{standalone: true}"
-          ngDefaultControl
+          [ngClass]="{'color-red': !roomsValid}"
           >Valorile valide sunt intre 1 si 20.
         </ion-text>
       </ion-item>
