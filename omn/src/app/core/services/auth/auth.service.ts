@@ -18,6 +18,7 @@ import {
   tap,
 } from 'rxjs/operators';
 import { authEndpoints } from '../../configs/endpoints';
+import { distinctCheckObj } from '../../helpers/distinct-check.helper';
 import { Account } from '../../models/account.interface';
 import { AuthState } from '../../models/auth-state.interface';
 import { LoginResponse } from '../../models/login-response.interface';
@@ -175,7 +176,7 @@ export class AuthService {
     );
   }
 
-  refreshProfile() {
+  refreshProfile(override = {}) {
     return this.lastLoginNumber().pipe(
       take(1),
       switchMap((v) => {
@@ -186,15 +187,17 @@ export class AuthService {
         }
       }),
       switchMap((profile) => {
-        return this.storeS.setItem('account', profile).pipe(
+        const p = { ...profile, ...override };
+        return this.storeS.setItem('account', p).pipe(
           take(1),
           map((resV) => {
-            return profile;
+            return p;
           })
         );
       }),
-      tap((value: Account) => {
+      map((value: Account) => {
         this.doUpdateAccount(value);
+        return value;
       })
     );
   }
@@ -292,9 +295,7 @@ export class AuthService {
   getAuthState() {
     return this.authState.pipe(
       share(),
-      distinctUntilChanged((a, b) => {
-        return JSON.stringify(a) === JSON.stringify(b);
-      }),
+      distinctUntilChanged(distinctCheckObj),
       filter((val: AuthState) => val && val.hasOwnProperty('init') && val.init),
       distinctUntilChanged()
     );
@@ -302,7 +303,6 @@ export class AuthService {
 
   getAccountData() {
     return this.getAuthState().pipe(
-      share(),
       map((val: AuthState) => {
         return val.account;
       })
@@ -433,7 +433,7 @@ export class AuthService {
         }
       }),
       switchMap(() => {
-        return this.refreshProfile();
+        return this.refreshProfile({ email: newEmail });
       })
     );
   }

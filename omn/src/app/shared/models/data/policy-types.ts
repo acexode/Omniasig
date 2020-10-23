@@ -211,7 +211,7 @@ export const policyTypes: { [key: string]: PolicyType } = {
   },
   AMPLUS_PAD: {
     order: 1,
-    id: 'Garant AMPLUS+ PAD',
+    id: 'Garant AMPLUS + PAD',
     typeId: 'AMPLUS_PAD',
     name: 'Pachet asigurare obligatorie + facultativă',
     shortDescription: 'Garant AMPLUS + PAD',
@@ -222,7 +222,7 @@ export const policyTypes: { [key: string]: PolicyType } = {
           classes: 'mh-94',
         },
         topText: dntTopTexts(
-          'Garant AMPLUS+ PAD',
+          'Garant AMPLUS + PAD',
           'Pachet asigurare obligatorie + facultativă'
         ),
         buttons: dntSuccessButton(),
@@ -238,7 +238,7 @@ export const policyTypes: { [key: string]: PolicyType } = {
           classes: 'mh-94',
         },
         topText: dntTopTexts(
-          'Garant AMPLUS+ PAD',
+          'Garant AMPLUS + PAD',
           'Pachet asigurare obligatorie + facultativă'
         ),
         buttons: dntCancelBtn(),
@@ -256,7 +256,7 @@ export const policyTypes: { [key: string]: PolicyType } = {
             classes: 'mh-94',
           },
           topText: dntTopTexts(
-            'Garant AMPLUS+ PAD',
+            'Garant AMPLUS + PAD',
             'Pachet asigurare obligatorie + facultativă'
           ),
           buttons: dntContentButtons,

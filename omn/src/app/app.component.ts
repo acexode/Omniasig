@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component } from '@angular/core';
+import { ChangeDetectorRef, Component, NgZone } from '@angular/core';
 import { Router } from '@angular/router';
 import { Deeplinks } from '@ionic-native/deeplinks/ngx';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
@@ -20,7 +20,8 @@ export class AppComponent {
     private statusBar: StatusBar,
     private cdRef: ChangeDetectorRef,
     private deeplinks: Deeplinks,
-    protected router: Router
+    protected router: Router,
+    private zone: NgZone
   ) {
     this.initializeApp();
   }
@@ -64,7 +65,9 @@ export class AppComponent {
                 })
               );
             } else {
-              this.router.navigateByUrl(match.$route);
+              this.zone.run(() => {
+                this.router.navigateByUrl(match.$route);
+              });
             }
           }
         },

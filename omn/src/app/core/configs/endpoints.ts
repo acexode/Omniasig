@@ -48,6 +48,12 @@ export const policyEndpoints = {
   confirmPayment: serverBaseUrl + '/Payment/GetPaymentbyUrlHash',
   GetActiveAmplusOffers:
     serverBaseUrl + '/AmplusInsurance/GetActiveAmplusOffers',
+  GetActiveAmplusPolicies:
+    serverBaseUrl + '/AmplusInsurance/GetActiveAmplusPolicies',
+  GetActiveAmplusPadOffers:
+    serverBaseUrl + '/AmplusInsurance/GetActiveAmplusPadOffers',
+  GetActiveAmplusPadPolicies:
+    serverBaseUrl + '/AmplusInsurance/GetActiveAmplusPadPolicies',
 };
 
 export const documentEndpoint = {
