@@ -205,7 +205,7 @@
           ></ion-icon>
           <ion-text
             class="text-small ml-32"
-            [ngClass]="{'color-red': !amountValid}"
+            [ngClass]="{'color-red': amount==='INVALID'}"
           >Locuintele sunt asigurabile cu valori intre 21 000 EURO si 200 000
             EURO.
           </ion-text>
@@ -284,7 +284,7 @@
         ></ion-icon>
         <ion-text 
           class="text-small ml-32"
-          [ngClass]="{'color-red': !areaValid}"
+          [ngClass]="{'color-red': area==='INVALID'}"
           >Valorile valide sunt intre 10 si 600 mp.
         </ion-text>
       </ion-item>
@@ -304,7 +304,7 @@
         ></ion-icon>
         <ion-text 
         class="text-small ml-32"
-        [ngClass]="{'color-red': !floorsValid}"
+        [ngClass]="{'color-red': floors==='INVALID'}"
         >
           Cate etaje are cladirea. Pentru cladirile care au doar parter si un
           etaj, regimul de inaltime este 1. Valorile valide sunt intre 1 si 20.
@@ -326,7 +326,7 @@
         ></ion-icon>
         <ion-text 
           class="text-small ml-32"
-          [ngClass]="{'color-red': !roomsValid}"
+          [ngClass]="{'color-red': rooms==='INVALID'}"
           >Valorile valide sunt intre 1 si 20.
         </ion-text>
       </ion-item>

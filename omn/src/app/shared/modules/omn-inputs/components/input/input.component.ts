@@ -60,6 +60,7 @@ export class InputComponent implements OnInit, ControlValueAccessor {
   getFieldValue() {
     const field = this.formGroup.get('input');
     if (field) {
+      //console.log('VALID OR NOT',field);
       const val = parseInt(field.value, 10);
       const max = get(this.config, 'max', null);
       const min = get(this.config, 'min', 0);
@@ -73,6 +74,13 @@ export class InputComponent implements OnInit, ControlValueAccessor {
     return field ? field.value : null;
   }
   ngOnInit() {
+    // this.formGroup.statusChanges.subscribe((vals) => {
+      
+    // })
+    // this.formGroup.get("input").statusChanges.subscribe(newStatus => {
+    //   console.log('INPUT STUFFF', newStatus);
+    // })
+
     this.formGroup.valueChanges.subscribe((vals) => {
       if (this.onChange) {
         this.onChange(this.getFieldValue());

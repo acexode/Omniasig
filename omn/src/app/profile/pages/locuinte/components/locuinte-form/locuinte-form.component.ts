@@ -19,10 +19,10 @@ export class LocuinteFormComponent implements OnInit {
   private fG: FormGroup;
   formTypes = LocuinteFormType;
   padSubs;
-  amountValid = true;
-  areaValid = true;
-  floorsValid = true;
-  roomsValid = true;
+  amount;
+  area;
+  floors;
+  rooms;
   @Input() toggleStreetInput = null;
   @Input() formType: LocuinteFormType = null;
   @Input() buttonVisible = true;
@@ -47,7 +47,18 @@ export class LocuinteFormComponent implements OnInit {
   @Output() eventSubmit: EventEmitter<any> = new EventEmitter();
   constructor(private cdRef: ChangeDetectorRef) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    //console.log('page page page', this.formType)
+    this.setValidatorSubs();
+    // if(this.formType === this.formTypes.PLACE){
+    //   this.formGroupInstance.get("value").statusChanges.subscribe(newStatus => {
+    //     console.log('VALUE', newStatus);
+    //   })
+    //   this.formGroupInstance.get("area").statusChanges.subscribe(newStatus => {
+    //     console.log('AREA', newStatus);
+    //   })
+    // }
+  }
 
   setValidatorSubs() {
     unsubscriberHelper(this.validatorSubs);
@@ -55,9 +66,41 @@ export class LocuinteFormComponent implements OnInit {
       this.validatorSubs = this.fG.statusChanges
         .pipe(distinctUntilChanged())
         .subscribe((st) => {
+          
+          //console.log('I GOT HERE value', this.fG.get('value').status)
+          //console.log('I GOT HERE area', this.fG.get('area').status)
+        this.updateValidity();
+        //  console.log('page page page', this.formType)
           this.cdRef.markForCheck();
         });
     }
+  }
+
+
+  updateValidity(){
+    if(this.formType === 1){
+      this.formGroupInstance.get("value").statusChanges.subscribe(newStatus => {
+        this.amount = newStatus;
+        console.log('VALUE', newStatus);
+      })
+      this.formGroupInstance.get("area").statusChanges.subscribe(newStatus => {
+        this.area = newStatus;
+        console.log('AREA', newStatus);
+      })
+      this.formGroupInstance.get("rooms").statusChanges.subscribe(newStatus => {
+        this.rooms = newStatus;
+        console.log('ROOMS', newStatus);
+      })
+      this.formGroupInstance.get("floors").statusChanges.subscribe(newStatus => {
+        this.floors = newStatus;
+        console.log('FLOORS', newStatus);
+      })
+    }
+    //this.amount = this.fG.get('value').status;
+    //this.area = this.formGroupInstance.get('area').status;
+    // this.rooms = this.formGroupInstance.get('rooms').status;
+    // this.floors = this.formGroupInstance.get('floors').status;
+    // console.log(this.amount, this.area, this.floors, this.rooms);
   }
 
   doSubmit() {
@@ -71,24 +114,24 @@ export class LocuinteFormComponent implements OnInit {
     }
   }
 
-  updateValidity(state, name){
-    switch (name) {
-      case 'amount':
-        this.amountValid = state;
-        break;
-      case 'rooms':
-        this.roomsValid = state;
-        break;
-      case 'floors':
-        this.floorsValid = state;
-        break;
-      case 'area':
-        this.areaValid = state;
-        break;
-      default:
-        break;
-    }
-  }
+  // updateValidity(state, name){
+  //   switch (name) {
+  //     case 'amount':
+  //       this.amountValid = state;
+  //       break;
+  //     case 'rooms':
+  //       this.roomsValid = state;
+  //       break;
+  //     case 'floors':
+  //       this.floorsValid = state;
+  //       break;
+  //     case 'area':
+  //       this.areaValid = state;
+  //       break;
+  //     default:
+  //       break;
+  //   }
+  // }
 
   emitEvents() {
     this.customEvents.emit();
