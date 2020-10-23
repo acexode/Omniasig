@@ -7,10 +7,10 @@
                     Am trimis un cod de verificare la {{ phoneNumber }}
                 </ion-text>
             </div>
-            <div class="ion-text-center pb-80">
+            <div class="ion-text-center">
                 <app-passcode-field [errorLogin]="InvalidCode" (doDigitLength)="digLength($event)" (doPassForm)="verifyPin($event)" (doClearErr)="clearErr($event)"></app-passcode-field>
             </div>
-            <div class="ion-text-center pt-80">
+            <div class="ion-text-center">
                 <ion-text *ngIf="InvalidCode" class="text-small color-red">
                     Cod invalid
                 </ion-text>
