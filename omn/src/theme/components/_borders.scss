@@ -4,6 +4,10 @@
 .radius-50-perc {
   border-radius: 50%;
 }
+.radius-20 {
+  border-radius: rem(20);
+  --border-radius: 20px;
+}
 
 .top-radius-0 {
   border-top-left-radius: 0;
@@ -23,6 +27,10 @@
 .bottom-radius-24 {
   border-bottom-left-radius: rem(24);
   border-bottom-right-radius: rem(24);
+}
+.bottom-radius-44 {
+  border-bottom-left-radius: rem(44);
+  border-bottom-right-radius: rem(44);
 }
 
 .bottom-left-radius-8 {
