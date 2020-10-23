@@ -46,8 +46,8 @@ const routes: Routes = [
   },
   {
     path: 'phone-number',
-    canActivateChild: [ AuthGuard ],
-    canActivate: [ AuthGuard ],
+    // canActivateChild: [ AuthGuard ],
+    // canActivate: [ AuthGuard ],
     loadChildren: () =>
       import( './schimbare-numar-telefon/schimbare-numar-telefon.module' ).then(
         ( m ) => m.SchimbareNumarTelefonPageModule
