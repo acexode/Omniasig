@@ -64,7 +64,7 @@ export class InputComponent implements OnInit, ControlValueAccessor {
       const max = get(this.config, 'max', null);
       const min = get(this.config, 'min', 0);
 
-      if (val>=min && val<=max) {
+      if (val >= min && val <= max) {
         this.valueChange.emit(true);
       }else{
         this.valueChange.emit(false);
