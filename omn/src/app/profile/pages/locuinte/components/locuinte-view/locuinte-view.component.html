@@ -97,7 +97,7 @@
           >Valoarea locuinței</ion-label
         >
         <ion-text class="s18-h24"
-          >{{ locuinta?.value || '-' }}
+          >{{ locuinta?.value || '-' | currency:' ' :'symbol' : '1.0-0' | replace : ',' : '.'  }}
           {{ locuinta?.valueCurrency || '-' }}</ion-text
         >
       </ion-row>
