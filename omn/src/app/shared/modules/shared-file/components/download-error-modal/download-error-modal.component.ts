@@ -9,6 +9,7 @@ import { ModalController } from '@ionic/angular';
 export class DownloadErrorModalComponent implements OnInit {
   @Input() title;
   @Input() description;
+  @Input() alertType: null | 'info' | 'error' | 'success' = null;
   constructor(public modalCtrl: ModalController) {}
 
   ngOnInit() {}

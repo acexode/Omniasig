@@ -105,13 +105,14 @@ export class SharedFileService {
     );
   }
 
-  async createErrorModal(title = '', description = '') {
+  async createErrorModal(title = '', description = '', alertType: 'error'| 'info' = null) {
     return this.modalController.create({
       component: DownloadErrorModalComponent,
       cssClass: 'my-custom-modal-class disabled-message-modal-class',
       componentProps: {
         title,
         description,
+        alertType
       },
     });
   }

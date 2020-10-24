@@ -1,3 +1,4 @@
+import { SharedFileService } from 'src/app/shared/modules/shared-file/services/shared-file.service';
 import { take } from 'rxjs/internal/operators/take';
 import {
   ChangeDetectionStrategy,
@@ -8,7 +9,7 @@ import {
   OnInit,
 } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { ActionSheetController, NavController } from '@ionic/angular';
+import { ActionSheetController, NavController, isPlatform, ModalController } from '@ionic/angular';
 import { get, has } from 'lodash';
 import { BehaviorSubject, combineLatest, Subscription } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
@@ -18,6 +19,8 @@ import { CustomTimersService } from 'src/app/core/services/custom-timers/custom-
 import { EmailValidateModes } from 'src/app/shared/models/modes/email-validate-modes';
 import { OmnAppLauncherService } from 'src/app/shared/modules/omn-app-launcher/services/omn-app-launcher.service';
 import { unsubscriberHelper } from './../../../../../core/helpers/unsubscriber.helper';
+import { EmailComposer } from '@ionic-native/email-composer/ngx';
+import { DownloadErrorModalComponent } from 'src/app/shared/modules/shared-file/components/download-error-modal/download-error-modal.component';
 
 @Component({
   selector: 'app-date-personale-validate-email',
@@ -46,7 +49,8 @@ export class DatePersonaleValidateEmailComponent implements OnInit, OnDestroy {
     private aRoute: ActivatedRoute,
     private navCtrl: NavController,
     private timerS: CustomTimersService,
-    private cdRef: ChangeDetectorRef
+    private cdRef: ChangeDetectorRef,
+    private sharedFileService: SharedFileService
   ) {
     this.subscribeTimer();
   }
@@ -95,6 +99,10 @@ export class DatePersonaleValidateEmailComponent implements OnInit, OnDestroy {
   }
 
   async openVerifyModal() {
+    if (isPlatform('android')) {
+      // tslint:disable-next-line: max-line-length
+      return (await this.sharedFileService.createErrorModal('Email trimis', 'Te rugam deschide clientul de email folosit.', 'info')).present();
+    }
     let actionSheet = null;
     this.actionSheetController
       .create({
@@ -129,7 +137,7 @@ export class DatePersonaleValidateEmailComponent implements OnInit, OnDestroy {
     if (type) {
       // Do nothing in this case.
     } else {
-      this.appS.tryEmailRead().subscribe((v) => console.log(v));
+      this.appS.tryEmailRead();
     }
   }
 
