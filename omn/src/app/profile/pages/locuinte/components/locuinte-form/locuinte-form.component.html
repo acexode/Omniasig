@@ -195,7 +195,7 @@
           class="w-100"
           [config]="fieldConfig?.value"
           formControlName="value"
-          (valueChange)="updateValidity($event, 'amount')"
+          (valueChange)="updateValidity()"
         ></app-input>
         <ion-item class="form-description p-0 no-paddings mt-12" lines="none">
           <ion-icon
@@ -274,7 +274,7 @@
         class="w-100"
         [config]="fieldConfig?.area"
         formControlName="area"
-        (valueChange)="updateValidity($event, 'area')"
+        (valueChange)="updateValidity()"
       ></app-input>
       <ion-item class="form-description p-0 no-paddings mt-12" lines="none">
         <ion-icon
@@ -294,7 +294,7 @@
         class="w-100 mb-12"
         [config]="fieldConfig?.floors"
         formControlName="floors"
-        (valueChange)="updateValidity($event, 'floors')"
+        (valueChange)="updateValidity()"
       ></app-input>
       <ion-item class="form-description p-0 no-paddings" lines="none">
         <ion-icon
@@ -316,7 +316,7 @@
         class="w-100"
         [config]="fieldConfig?.rooms"
         formControlName="rooms"
-        (valueChange)="updateValidity($event, 'rooms')"
+        (valueChange)="updateValidity()"
       ></app-input>
       <ion-item class="form-description p-0 no-paddings mt-12" lines="none">
         <ion-icon
