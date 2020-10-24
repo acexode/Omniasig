@@ -19,7 +19,6 @@ import { CustomTimersService } from 'src/app/core/services/custom-timers/custom-
 import { EmailValidateModes } from 'src/app/shared/models/modes/email-validate-modes';
 import { OmnAppLauncherService } from 'src/app/shared/modules/omn-app-launcher/services/omn-app-launcher.service';
 import { unsubscriberHelper } from './../../../../../core/helpers/unsubscriber.helper';
-import { EmailComposer } from '@ionic-native/email-composer/ngx';
 import { DownloadErrorModalComponent } from 'src/app/shared/modules/shared-file/components/download-error-modal/download-error-modal.component';
 
 @Component({

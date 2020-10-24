@@ -1,7 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { EmailComposer } from '@ionic-native/email-composer/ngx';
 import { IonicModule } from '@ionic/angular';
 import { OmnAppLauncherModule } from 'src/app/shared/modules/omn-app-launcher/omn-app-launcher.module';
 import { SharedFileModule } from 'src/app/shared/modules/shared-file/shared-file.module';
@@ -27,6 +26,6 @@ import { DatePersonalePage } from './date-personale.page';
     DatePersonaleFormComponent,
     DatePersonaleValidateEmailComponent,
   ],
-  providers: [EmailComposer]
+  providers: []
 })
 export class DatePersonalePageModule {}
