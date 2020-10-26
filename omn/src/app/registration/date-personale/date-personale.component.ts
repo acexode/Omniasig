@@ -1,3 +1,4 @@
+import { cnpValidator } from 'src/app/shared/validators/cnp-validator';
 import { Component, HostBinding, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -98,7 +99,9 @@ export class DatePersonaleComponent implements OnInit {
     this.regService.setUserObj( { ...this.detailsForm.value } );
     this.router.navigate( [ 'registration/email' ] );
   }
-
+  get cnp() {
+    return this.detailsForm.get('cnp');
+  }
   initForm() {
     this.detailsForm = this.formBuilder.group( {
       name: [ '', [ Validators.required, Validators.minLength( 2 ) ] ],
@@ -109,6 +112,7 @@ export class DatePersonaleComponent implements OnInit {
           Validators.required,
           Validators.minLength( 13 ),
           Validators.maxLength( 13 ),
+          cnpValidator
         ],
       ],
       isPublicPerson: [ '', [ Validators.required ] ],

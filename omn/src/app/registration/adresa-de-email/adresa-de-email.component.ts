@@ -70,6 +70,7 @@ export class AdresaDeEmailComponent implements OnInit {
         this.logUserIn();
       },
       (err) => {
+        console.log(err)
         this.busy = false;
       }
     );

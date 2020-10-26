@@ -19,12 +19,13 @@
         </div>
         <div class="pt-24">
           <app-input formControlName="cnp" [config]="config.cnp"></app-input>
-          <div class="pt-14">
-            <ion-text class="text-small">
-              CNP-ul este necesar pentru completarea actelor la care vei avea
-              acces din aplicație. Datele tale sunt salvate în condiții de
-              maximă siguranță.
-            </ion-text>
+          <div class="pt-14">            
+            <ion-text
+            [ngClass]="(cnp?.errors?.invalidCnp)?'color-red':''"
+          class="text-small"
+          >CNP-ul este necesar pentru completarea actelor la care vei avea
+          acces din aplicație. Datele tale sunt salvate în condiții de
+          maximă siguranță.</ion-text>
           </div>
         </div>
         <div class="pt-30">
