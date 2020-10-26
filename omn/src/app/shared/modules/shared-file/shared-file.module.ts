@@ -3,14 +3,12 @@ import { ModuleWithProviders, NgModule } from '@angular/core';
 import { FileOpener } from '@ionic-native/file-opener/ngx';
 import { File } from '@ionic-native/file/ngx';
 import { IonicModule } from '@ionic/angular';
-import { DownloadErrorModalComponent } from './components/download-error-modal/download-error-modal.component';
+import { SharedModule } from './../../shared.module';
 import { SharedFileService } from './services/shared-file.service';
 
 @NgModule({
-  declarations: [DownloadErrorModalComponent],
-  imports: [CommonModule, IonicModule],
+  imports: [CommonModule, IonicModule, SharedModule],
   providers: [SharedFileService, File, FileOpener],
-  exports: [DownloadErrorModalComponent],
 })
 export class SharedFileModule {
   static forRoot(): ModuleWithProviders {
