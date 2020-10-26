@@ -61,7 +61,6 @@ export class LocuinteFormComponent implements OnInit {
   }
 
   updateValidity(){
-    if (this.formType === 1) {
       this.formGroupInstance.get('value').statusChanges.subscribe(newStatus => {
         this.amount = newStatus;
       });
@@ -74,7 +73,6 @@ export class LocuinteFormComponent implements OnInit {
       this.formGroupInstance.get('floors').statusChanges.subscribe(newStatus => {
         this.floors = newStatus;
       });
-    }
   }
 
   doSubmit() {
