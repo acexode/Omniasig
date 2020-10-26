@@ -39,6 +39,7 @@ export class ConfirmareIdentitateComponent implements OnInit {
   buttonText = 'Continuă';
   userId;
   streets$ = this.locuintS.streetStore$;
+  city$ = this.locuintS.cityStore$;
   cnpInvalid = false;
 
   dataModel: any = { id: null };
@@ -82,16 +83,21 @@ export class ConfirmareIdentitateComponent implements OnInit {
       idKey: 'name',
       labelKey: 'name',
     }),
-    addressCity: selectConfigHelper({
+    addressCity: autoCompleteConfigHelper({
       label: 'Localitate',
+      disabled: false,
+      dataServiceCb: this.locuinteF.cityLookup,
+      dataServiceSource: this.locuinteF.city$,
+      clearInvalid: true,
       idKey: 'name',
-      labelKey: 'name',
+      labelKey: 'name'
     }),
     addressStreet: autoCompleteConfigHelper({
       label: 'Strada',
       disabled: false,
       dataServiceCb: this.locuinteF.streetLookup,
       dataServiceSource: this.locuinteF.streets$,
+      clearInvalid: true,
       idKey: 'name',
       labelKey: 'name',
       detailAttribute: 'streetType',

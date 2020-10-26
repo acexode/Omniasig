@@ -154,8 +154,9 @@ export class LocuinteFormService {
           addressCity: autoCompleteConfigHelper({
             label: 'Localitate',
             disabled: isDisabled,
-            dataServiceCb: this.streetLookup,
+            dataServiceCb: this.cityLookup,
             dataServiceSource: this.city$,
+            clearInvalid: true,
             idKey: 'name',
             labelKey: 'name',
           }),
@@ -164,6 +165,7 @@ export class LocuinteFormService {
             disabled: isDisabled,
             dataServiceCb: this.streetLookup,
             dataServiceSource: this.streets$,
+            clearInvalid: true,
             idKey: 'name',
             labelKey: 'name',
             detailAttribute: 'streetType',
@@ -566,7 +568,43 @@ export class LocuinteFormService {
       return of([]);
     }
   }
+  cityLookup(
+    input: any,
+    source?: BehaviorSubject<any>
+  ): Observable<Array<any>> {
+    const keywords = input ? input.toString() : null;
 
+    if (source && source instanceof BehaviorSubject) {
+      return source.pipe(
+        map((data) => {
+          // Filter whole list in here based on text input.
+          if (keywords) {
+            return data.filter((dV) => {
+              const name = get(dV, 'name', '').toLowerCase();
+              const streetType = get(dV, 'streetType', '').toLowerCase();
+              const sName = get(dV, 'shortName', '').toLowerCase();
+              let id = get(dV, 'id', '');
+              try {
+                id = id.toString().toLowerCase();
+              } catch (e) {
+                id = null;
+              }
+              return (
+                name.includes(keywords.toLowerCase()) ||
+                id.includes(keywords.toLowerCase()) ||
+                streetType.includes(keywords.toLowerCase()) ||
+                sName.includes(keywords.toLowerCase())
+              );
+            });
+          } else {
+            return data;
+          }
+        })
+      );
+    } else {
+      return of([]);
+    }
+  }
   processFormModel(
     formGroupValue,
     existingModel?: Locuinte | any,
