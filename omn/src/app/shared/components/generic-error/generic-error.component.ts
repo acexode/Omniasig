@@ -2,6 +2,7 @@ import {
   Component,
   EventEmitter,
   Input,
+  OnChanges,
   OnInit,
   Output,
   SimpleChanges,
@@ -13,7 +14,7 @@ import { IonTextItem } from './../../models/component/ion-text-item';
   templateUrl: './generic-error.component.html',
   styleUrls: ['./generic-error.component.scss'],
 })
-export class GenericErrorComponent implements OnInit {
+export class GenericErrorComponent implements OnInit, OnChanges {
   @Input() title = {
     text: 'Ne pare rău...',
     class: '',
