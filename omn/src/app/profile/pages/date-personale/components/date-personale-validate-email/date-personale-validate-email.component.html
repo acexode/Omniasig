@@ -1,109 +1,68 @@
 <ion-content fullscreen="true">
-  <ng-container
-    *ngIf="
+    <ng-container *ngIf="
       displayMode === validateEmailModes.EMAIL_CHANGE_VALIDATE_SUCCESS ||
       displayMode === validateEmailModes.EMAIL_NEW_VALIDATE_SUCCESS
-    "
-  >
-    <ng-container *ngTemplateOutlet="successType"></ng-container>
-  </ng-container>
-  <ng-container
-    *ngIf="
+    ">
+        <ng-container *ngTemplateOutlet="successType"></ng-container>
+    </ng-container>
+    <ng-container *ngIf="
       displayMode === validateEmailModes.EMAIL_CHANGE_VALIDATE ||
       displayMode === validateEmailModes.EMAIL_NEW_VALIDATE
-    "
-  >
-    <ng-container *ngTemplateOutlet="formType"></ng-container>
-  </ng-container>
-  <ng-container
-    *ngIf="
+    ">
+        <ng-container *ngTemplateOutlet="formType"></ng-container>
+    </ng-container>
+    <ng-container *ngIf="
       displayMode === validateEmailModes.EMAIL_CODE_PROCESSING ||
       displayMode === validateEmailModes.EMAIL_CODE_CHANGE_PROCESSING
-    "
-  >
-    <ng-container *ngTemplateOutlet="loadingCheck"></ng-container>
-  </ng-container>
-  <ng-container *ngIf="displayMode === validateEmailModes.EMAIL_VALIDATE_ERROR">
-    <app-general-error></app-general-error
-  ></ng-container>
+    ">
+        <ng-container *ngTemplateOutlet="loadingCheck"></ng-container>
+    </ng-container>
+    <ng-container *ngIf="displayMode === validateEmailModes.EMAIL_VALIDATE_ERROR">
+        <app-general-error></app-general-error>
+    </ng-container>
 </ion-content>
 
 <ng-template #successType>
-  <ion-grid class="px-32 pt-32 pb-24 flex flex-1 h-100">
-    <ion-col class="ion-no-padding flex flex-1 flex-column">
-      <ion-row class="ion-no-padding flex flex-1 ion-justify-content-center">
-        <ion-col
-          class="ion-no-padding flex flex-1 flex-column ion-justify-content-between ion-align-items-center"
-        >
-          <div></div>
-          <ion-icon
-            name="lg-check-il"
-            class="w-100 d-flex check-icon-lg"
-          ></ion-icon>
+    <ion-grid class="px-32 pt-32 pb-24 flex flex-1 h-100">
+        <ion-col class="ion-no-padding flex flex-1 flex-column">
+            <ion-row class="ion-no-padding flex flex-1 ion-justify-content-center">
+                <ion-col class="ion-no-padding flex flex-1 flex-column ion-justify-content-between ion-align-items-center">
+                    <div></div>
+                    <ion-icon name="lg-check-il" class="w-100 d-flex check-icon-lg"></ion-icon>
 
-          <ion-label
-            color="omn-green"
-            class="h2 ls-min-02 alt-font border-danger ion-text-center text-weight-bold w-auto"
-            >Email validat cu succes
-          </ion-label>
+                    <ion-label color="omn-green" class="h2 ls-min-02 alt-font border-danger ion-text-center text-weight-bold w-auto">Email validat cu succes
+                    </ion-label>
+                </ion-col>
+            </ion-row>
+            <ion-row class="ion-no-padding mt-auto flex flex-1 flex-column ion-align-items-end">
+                <ion-col class="ion-no-padding mt-auto flex mt-auto">
+                    <ion-button type="submit" color="success" fill="solid" expand="block" size="large" (click)="continueValidate()" class="m-0 w-100 ion-align-self-end">Continua
+                    </ion-button>
+                </ion-col>
+            </ion-row>
         </ion-col>
-      </ion-row>
-      <ion-row
-        class="ion-no-padding mt-auto flex flex-1 flex-column ion-align-items-end"
-      >
-        <ion-col class="ion-no-padding mt-auto flex mt-auto">
-          <ion-button
-            type="submit"
-            color="success"
-            fill="solid"
-            expand="block"
-            size="large"
-            (click)="continueValidate()"
-            class="m-0 w-100 ion-align-self-end"
-            >Continua
-          </ion-button>
-        </ion-col>
-      </ion-row>
-    </ion-col>
-  </ion-grid>
+    </ion-grid>
 </ng-template>
 
 <ng-template #formType>
-  <ion-grid class="px-32 pt-32 pb-24 flex flex-1 h-100">
-    <ion-col class="ion-no-padding flex flex-1 flex-column">
-      <ion-row class="ion-no-padding ion-justify-content-end flex mb-18">
-        <ion-label
-          (click)="cancelValidate()"
-          class="text-small ls-min-02 mt-8 ion-no-padding"
-          >{{
-            displayMode === validateEmailModes.EMAIL_CHANGE_VALIDATE
-              ? 'Verifică mai târziu'
-              : 'Mai tarziu'
-          }}</ion-label
-        >
-      </ion-row>
-      <ion-row
-        class="ion-no-padding flex ion-justify-content-center ion-align-items-center flex-column flex-1"
-      >
-        <ion-icon
-          name="lg-plic-il"
-          class="w-100 d-flex plic-icon-lg"
-        ></ion-icon>
-      </ion-row>
-      <ion-row class="ion-no-padding ion-justify-content-center flex mb-8">
-        <ion-label
-          color="omn-green"
-          class="h2 ls-min-02 alt-font border-danger ion-text-center text-weight-bold"
-          >Verificare e-mail
-        </ion-label>
-      </ion-row>
-      <ion-row class="flex ion-no-padding flex-1 w-100">
-        <ion-col
-          class="ion-no-padding flex flex-column ion-justify-content-evenly ion-align-items-center w-100"
-        >
-          <ion-row class="ion-no-padding ion-justify-content-center flex">
-            <ion-label class="text-normal ion-text-center">
-              Am trimis un e-mail la adresa <b>{{ email }}</b
+    <ion-grid class="px-32 pt-32 pb-24 flex flex-1 h-100">
+        <ion-col class="ion-no-padding flex flex-1 flex-column">
+            <ion-row class="ion-no-padding ion-justify-content-end flex mb-18">
+                <ion-label (click)="cancelValidate()" class="text-small ls-min-02 mt-8 ion-no-padding">{{ displayMode === validateEmailModes.EMAIL_CHANGE_VALIDATE ? 'Verifică mai târziu' : 'Mai tarziu' }}
+                </ion-label>
+            </ion-row>
+            <ion-row class="ion-no-padding flex ion-justify-content-center ion-align-items-center flex-column flex-1">
+                <ion-icon name="lg-plic-il" class="w-100 d-flex plic-icon-lg"></ion-icon>
+            </ion-row>
+            <ion-row class="ion-no-padding ion-justify-content-center flex mb-8">
+                <ion-label color="omn-green" class="h2 ls-min-02 alt-font border-danger ion-text-center text-weight-bold">Verificare e-mail
+                </ion-label>
+            </ion-row>
+            <ion-row class="flex ion-no-padding flex-1 w-100">
+                <ion-col class="ion-no-padding flex flex-column ion-justify-content-evenly ion-align-items-center w-100">
+                    <ion-row class="ion-no-padding ion-justify-content-center flex">
+                        <ion-label class="text-normal ion-text-center">
+                            Am trimis un e-mail la adresa <b>{{ email }}</b
               >.
             </ion-label>
             <ion-label class="text-normal ion-text-center">

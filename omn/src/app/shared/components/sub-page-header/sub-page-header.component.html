@@ -10,9 +10,8 @@
   >
     <ion-buttons
       slot="start"
-      *ngIf="config?.leadingIcon"
       class="m-0 p-8 ml-n8"
-      (click)="backAction(config?.leadingIcon)"
+      (click)="config?.leadingIcon ? backAction(config?.leadingIcon) : null"
     >
       <ion-icon
         *ngIf="config?.leadingIcon"
