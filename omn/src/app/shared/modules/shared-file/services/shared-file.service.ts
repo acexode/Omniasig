@@ -5,7 +5,7 @@ import { isPlatform, ModalController } from '@ionic/angular';
 import { Observable, Subject, throwError } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import { CustomStorageService } from 'src/app/core/services/custom-storage/custom-storage.service';
-import { DownloadErrorModalComponent } from '../components/download-error-modal/download-error-modal.component';
+import { GeneralMessageModalComponent } from 'src/app/shared/components/general-message-modal/general-message-modal.component';
 
 @Injectable({
   providedIn: 'root',
@@ -105,14 +105,18 @@ export class SharedFileService {
     );
   }
 
-  async createErrorModal(title = '', description = '', alertType: 'error'| 'info' = null) {
+  async createErrorModal(
+    title = '',
+    description = '',
+    alertType: 'error' | 'info' = 'error'
+  ) {
     return this.modalController.create({
-      component: DownloadErrorModalComponent,
+      component: GeneralMessageModalComponent,
       cssClass: 'my-custom-modal-class disabled-message-modal-class',
       componentProps: {
         title,
         description,
-        alertType
+        alertType,
       },
     });
   }

@@ -1,5 +1,3 @@
-import { SharedFileService } from 'src/app/shared/modules/shared-file/services/shared-file.service';
-import { take } from 'rxjs/internal/operators/take';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -9,17 +7,23 @@ import {
   OnInit,
 } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { ActionSheetController, NavController, isPlatform, ModalController } from '@ionic/angular';
+import {
+  ActionSheetController,
+  isPlatform,
+  ModalController,
+  NavController,
+} from '@ionic/angular';
 import { get, has } from 'lodash';
 import { BehaviorSubject, combineLatest, Subscription } from 'rxjs';
-import { switchMap } from 'rxjs/operators';
+import { take } from 'rxjs/internal/operators/take';
+import { catchError, switchMap } from 'rxjs/operators';
 import { AuthService } from 'src/app/core/services/auth/auth.service';
 import { CustomRouterService } from 'src/app/core/services/custom-router/custom-router.service';
 import { CustomTimersService } from 'src/app/core/services/custom-timers/custom-timers.service';
+import { GeneralMessageModalComponent } from 'src/app/shared/components/general-message-modal/general-message-modal.component';
 import { EmailValidateModes } from 'src/app/shared/models/modes/email-validate-modes';
 import { OmnAppLauncherService } from 'src/app/shared/modules/omn-app-launcher/services/omn-app-launcher.service';
 import { unsubscriberHelper } from './../../../../../core/helpers/unsubscriber.helper';
-import { DownloadErrorModalComponent } from 'src/app/shared/modules/shared-file/components/download-error-modal/download-error-modal.component';
 
 @Component({
   selector: 'app-date-personale-validate-email',
@@ -49,7 +53,7 @@ export class DatePersonaleValidateEmailComponent implements OnInit, OnDestroy {
     private navCtrl: NavController,
     private timerS: CustomTimersService,
     private cdRef: ChangeDetectorRef,
-    private sharedFileService: SharedFileService
+    private modalController: ModalController
   ) {
     this.subscribeTimer();
   }
@@ -86,7 +90,9 @@ export class DatePersonaleValidateEmailComponent implements OnInit, OnDestroy {
         if (vM) {
           this.displayMode = get(vM, '0', this.defaultDisplayMode);
           this.email = get(vM, '1.newEmail', this.email);
-          if (!this.email) { this.email = get(vM, '1.email', this.email); }
+          if (!this.email) {
+            this.email = get(vM, '1.email', this.email);
+          }
           this.queryParams = get(vM, '2', null);
         }
         if (!this.init) {
@@ -99,8 +105,13 @@ export class DatePersonaleValidateEmailComponent implements OnInit, OnDestroy {
 
   async openVerifyModal() {
     if (isPlatform('android')) {
-      // tslint:disable-next-line: max-line-length
-      return (await this.sharedFileService.createErrorModal('Email trimis', 'Te rugam deschide clientul de email folosit.', 'info')).present();
+      return (
+        await this.createErrorModal(
+          'Email trimis',
+          'Te rugam deschide clientul de email folosit.',
+          'info'
+        )
+      ).present();
     }
     let actionSheet = null;
     this.actionSheetController
@@ -132,11 +143,23 @@ export class DatePersonaleValidateEmailComponent implements OnInit, OnDestroy {
       });
   }
 
-  tryApp(type = 0) {
+  async tryApp(type = 0) {
+    const errModal = await this.createErrorModal(
+      'Nu am putut deschide clientul de email.',
+      'Te rugam deschide clientul de email folosit.',
+      'error'
+    );
     if (type) {
       // Do nothing in this case.
     } else {
-      this.appS.tryEmailRead();
+      this.appS.tryEmailRead().subscribe(
+        () => {},
+        (err) => {
+          if (errModal) {
+            errModal.present();
+          }
+        }
+      );
     }
   }
 
@@ -236,5 +259,21 @@ export class DatePersonaleValidateEmailComponent implements OnInit, OnDestroy {
     this.init = false;
     unsubscriberHelper(this.timerSubs);
     unsubscriberHelper(this.navS);
+  }
+
+  async createErrorModal(
+    title = '',
+    description = '',
+    alertType: 'error' | 'info' = 'info'
+  ) {
+    return this.modalController.create({
+      component: GeneralMessageModalComponent,
+      cssClass: 'my-custom-modal-class disabled-message-modal-class',
+      componentProps: {
+        title,
+        description,
+        alertType,
+      },
+    });
   }
 }
