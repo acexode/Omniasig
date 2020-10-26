@@ -202,7 +202,11 @@
             name="md-info"
             class="icon-20 position-absolute top-0 m-0 color-secondary-blue"
           ></ion-icon>
-          <ion-text class="text-small ml-32"
+          <ion-text
+            class="text-small ml-32"
+            [ngClass]="{
+              'color-red': formGroupInstance.get('amount')?.status === 'INVALID'
+            }"
             >Locuintele sunt asigurabile cu valori intre 21 000 EURO si 200 000
             EURO.
           </ion-text>
@@ -278,7 +282,11 @@
           name="md-info"
           class="icon-20 position-absolute top-0 m-0 color-secondary-blue"
         ></ion-icon>
-        <ion-text class="text-small ml-32"
+        <ion-text
+          class="text-small ml-32"
+          [ngClass]="{
+            'color-red': formGroupInstance.get('area')?.status === 'INVALID'
+          }"
           >Valorile valide sunt intre 10 si 600 mp.
         </ion-text>
       </ion-item>
@@ -295,7 +303,12 @@
           name="md-info"
           class="icon-20 position-absolute top-0 m-0 color-secondary-blue"
         ></ion-icon>
-        <ion-text class="text-small ml-32">
+        <ion-text
+          class="text-small ml-32"
+          [ngClass]="{
+            'color-red': formGroupInstance.get('floors')?.status === 'INVALID'
+          }"
+        >
           Cate etaje are cladirea. Pentru cladirile care au doar parter si un
           etaj, regimul de inaltime este 1. Valorile valide sunt intre 1 si 20.
         </ion-text>
@@ -313,7 +326,11 @@
           name="md-info"
           class="icon-20 position-absolute top-0 m-0 color-secondary-blue"
         ></ion-icon>
-        <ion-text class="text-small ml-32"
+        <ion-text
+          class="text-small ml-32"
+          [ngClass]="{
+            'color-red': formGroupInstance.get('rooms')?.status === 'INVALID'
+          }"
           >Valorile valide sunt intre 1 si 20.
         </ion-text>
       </ion-item>

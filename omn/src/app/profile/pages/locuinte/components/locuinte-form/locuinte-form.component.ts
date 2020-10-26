@@ -10,7 +10,6 @@ import {
 import { AbstractControl, FormGroup, Validators } from '@angular/forms';
 import { LocuinteFormType } from 'src/app/shared/models/modes/locuinte-form-modes';
 import { distinctUntilChanged } from 'rxjs/operators';
-
 @Component({
   selector: 'app-locuinte-form',
   templateUrl: './locuinte-form.component.html',
@@ -20,6 +19,10 @@ export class LocuinteFormComponent implements OnInit {
   private fG: FormGroup;
   formTypes = LocuinteFormType;
   padSubs;
+  amount;
+  area;
+  floors;
+  rooms;
   @Input() toggleStreetInput = null;
   @Input() formType: LocuinteFormType = null;
   @Input() buttonVisible = true;
@@ -42,8 +45,7 @@ export class LocuinteFormComponent implements OnInit {
   // Only used for custom policy displays.
   @Input() policyType = null;
   @Output() eventSubmit: EventEmitter<any> = new EventEmitter();
-  constructor(private cdRef: ChangeDetectorRef) {
-  }
+  constructor(private cdRef: ChangeDetectorRef) {}
 
   ngOnInit() {}
 
@@ -68,6 +70,7 @@ export class LocuinteFormComponent implements OnInit {
       this.cdRef.markForCheck();
     }
   }
+
   emitEvents() {
     this.customEvents.emit();
   }
