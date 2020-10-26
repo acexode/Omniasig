@@ -1,3 +1,4 @@
+import { GeneralMessageModalComponent } from './components/general-message-modal/general-message-modal.component';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
@@ -39,7 +40,8 @@ import { ReplacePipe } from './pipes/replace.pipe';
     GenericErrorComponent,
     GeneralErrorComponent,
     PolicyNamePipe,
-    ReplacePipe
+    ReplacePipe,
+    GeneralMessageModalComponent,
   ],
   imports: [CommonModule, FormsModule, IonicModule, RouterModule],
   exports: [
@@ -60,7 +62,8 @@ import { ReplacePipe } from './pipes/replace.pipe';
     LocuinteCardComponent,
     LoadingPlaceholderComponent,
     GenericErrorComponent,
-    GeneralErrorComponent
+    GeneralErrorComponent,
+    GeneralMessageModalComponent,
   ],
 })
 export class SharedModule {}
