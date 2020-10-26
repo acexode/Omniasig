@@ -137,11 +137,8 @@
       "cordova-plugin-inappbrowser": {},
       "cordova-plugin-androidx": {},
       "cordova-plugin-androidx-adapter": {},
-<<<<<<< HEAD
-      "cordova-plugin-android-permissions": {}
-=======
+      "cordova-plugin-android-permissions": {},
       "com-darryncampbell-cordova-plugin-intent": {}
->>>>>>> 86b06b8c87b1ffe70ce4f87e9b8323e1606e2d6a
     },
     "platforms": [
       "browser",
