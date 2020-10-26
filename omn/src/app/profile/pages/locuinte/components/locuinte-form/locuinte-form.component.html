@@ -195,7 +195,6 @@
           class="w-100"
           [config]="fieldConfig?.value"
           formControlName="value"
-          (valueChange)="updateValidity()"
         ></app-input>
         <ion-item class="form-description p-0 no-paddings mt-12" lines="none">
           <ion-icon
@@ -205,7 +204,9 @@
           ></ion-icon>
           <ion-text
             class="text-small ml-32"
-            [ngClass]="{ 'color-red': amount === 'INVALID' }"
+            [ngClass]="{
+              'color-red': formGroupInstance.get('amount')?.status === 'INVALID'
+            }"
             >Locuintele sunt asigurabile cu valori intre 21 000 EURO si 200 000
             EURO.
           </ion-text>

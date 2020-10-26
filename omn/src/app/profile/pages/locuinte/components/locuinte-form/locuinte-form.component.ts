@@ -60,23 +60,6 @@ export class LocuinteFormComponent implements OnInit {
     }
   }
 
-  updateValidity() {
-    this.formGroupInstance.get('value').statusChanges.subscribe((newStatus) => {
-      this.amount = newStatus;
-    });
-    this.formGroupInstance.get('area').statusChanges.subscribe((newStatus) => {
-      this.area = newStatus;
-    });
-    this.formGroupInstance.get('rooms').statusChanges.subscribe((newStatus) => {
-      this.rooms = newStatus;
-    });
-    this.formGroupInstance
-      .get('floors')
-      .statusChanges.subscribe((newStatus) => {
-        this.floors = newStatus;
-      });
-  }
-
   doSubmit() {
     // Angular considers disabled as invalid, tweak this if any issues.
     // Make sure the template button is also working.
