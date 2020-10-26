@@ -8,6 +8,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 export class ExpandableComponent implements OnInit {
   @Input() name: string;
   @Input() doc: any;
+  @Input() noDoc: any;
   @Output() changeEv: EventEmitter<string> = new EventEmitter();
   public isMenuOpen = false;
 

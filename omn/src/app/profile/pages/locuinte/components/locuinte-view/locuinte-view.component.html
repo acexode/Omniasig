@@ -67,7 +67,7 @@
 
       <ion-row class="px-32 mb-13 w-100 flex-column">
         <ion-label class="link-small text-weight-medium color-tertiary-grey"
-           >Tip</ion-label
+          >Tip</ion-label
         >
         <ion-text class="s18-h24">{{
           locuinta?.type | locuinteField: 'type' || '-'
@@ -97,7 +97,7 @@
           >Valoarea locuinței</ion-label
         >
         <ion-text class="s18-h24"
-          >{{ locuinta?.value || '-' }}
+          >{{ locuinta?.value || '-' | number: '1.0-0' }}
           {{ locuinta?.valueCurrency || '-' }}</ion-text
         >
       </ion-row>

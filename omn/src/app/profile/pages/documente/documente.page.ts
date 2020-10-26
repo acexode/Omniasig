@@ -1,5 +1,6 @@
 import { Component, HostBinding, OnInit } from '@angular/core';
 import { NavController } from '@ionic/angular';
+import { finalize } from 'rxjs/operators';
 import { subPageHeaderPrimary } from 'src/app/shared/data/sub-page-header-primary';
 import { DocumenteService } from './services/documente.service';
 
@@ -20,13 +21,24 @@ export class DocumentePage implements OnInit {
   itemHeight = 0;
   offer: [];
   policy: [];
-
+  noDoc = true;
+  loading = true;
   constructor(public navCtrl: NavController, private docs: DocumenteService) {}
   ngOnInit(): void {
-    this.docs.GetAllDocumentsForCurrentUser().subscribe((v: any) => {
-      this.offer = v.filter((e) => e.offerCode != null);
-      this.policy = v.filter((e) => e.offerCode == null);
-    });
+    this.docs
+      .GetAllDocumentsForCurrentUser()
+      .pipe(
+        finalize(() => {
+          this.loading = false;
+        })
+      )
+      .subscribe((v: any) => {
+        if (v.length) {
+          this.noDoc = false;
+          this.offer = v.filter((e) => e.offerCode != null);
+          this.policy = v.filter((e) => e.offerCode == null);
+        }
+      });
   }
 
   closeAction() {
