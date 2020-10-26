@@ -251,6 +251,9 @@ export class LocuinteFormService {
             type: 'number',
             placeholder: 'Completează',
             disabled: isDisabled,
+            custom: {
+              clearOnEdit: true,
+            },
           }),
           typeUse: radiosConfigHelper({
             label: 'Ocupare',
@@ -261,18 +264,27 @@ export class LocuinteFormService {
             type: 'number',
             placeholder: 'Completează',
             disabled: isDisabled,
+            custom: {
+              clearOnEdit: true,
+            },
           }),
           floors: inputConfigHelper({
             label: 'Regim de înălțime',
             type: 'number',
             placeholder: '',
             disabled: isDisabled,
+            custom: {
+              clearOnEdit: true,
+            },
           }),
           rooms: inputConfigHelper({
             label: 'Număr de camere',
             type: 'number',
             placeholder: '',
             disabled: isDisabled,
+            custom: {
+              clearOnEdit: true,
+            },
           }),
 
           hasAlarmSystem: radiosConfigHelper({

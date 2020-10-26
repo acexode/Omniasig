@@ -60,17 +60,19 @@ export class LocuinteFormComponent implements OnInit {
     }
   }
 
-  updateValidity(){
-      this.formGroupInstance.get('value').statusChanges.subscribe(newStatus => {
-        this.amount = newStatus;
-      });
-      this.formGroupInstance.get('area').statusChanges.subscribe(newStatus => {
-        this.area = newStatus;
-      });
-      this.formGroupInstance.get('rooms').statusChanges.subscribe(newStatus => {
-        this.rooms = newStatus;
-      });
-      this.formGroupInstance.get('floors').statusChanges.subscribe(newStatus => {
+  updateValidity() {
+    this.formGroupInstance.get('value').statusChanges.subscribe((newStatus) => {
+      this.amount = newStatus;
+    });
+    this.formGroupInstance.get('area').statusChanges.subscribe((newStatus) => {
+      this.area = newStatus;
+    });
+    this.formGroupInstance.get('rooms').statusChanges.subscribe((newStatus) => {
+      this.rooms = newStatus;
+    });
+    this.formGroupInstance
+      .get('floors')
+      .statusChanges.subscribe((newStatus) => {
         this.floors = newStatus;
       });
   }
