@@ -149,17 +149,19 @@ export class HomePage implements OnInit, OnDestroy {
   };
   accountNotActivated: DisabledPlaceholderCard = {
     leftColumnClass: 'flex-0',
-    rightColumnClass: 'pl-16 pr-0 py-16',
+    rightColumnClass: 'pr-0 py-16',
     cards: [],
     textContent: [
       {
         text: 'Activează-ți contul',
-        classes: 'pt-0 px-0 h2 alt-font text-weight-bold mb-8 flex',
+        classes:
+          'pt-0 px-0 h3 alt-font text-weight-bold mb-8 flex color-dark-green',
       },
       {
         text:
           'Pentru a activa contul, validează-ți adresa de e-mail și verifică identitatea.',
-        classes: 'p-0 mb-2 ion-text-left text-normal flex',
+        classes: 'p-0 mb-8 ion-text-left link-small text-normal flex',
+        color: 'black',
       },
     ],
     id: null,
@@ -210,10 +212,6 @@ export class HomePage implements OnInit, OnDestroy {
 
   displayWhatNeedsToBeValidated(acc: Account) {
     const cardList = [];
-    if (!this.account.isBiometricValid) {
-      // biometrics
-      cardList.push({ ...this.biometricCard });
-    }
 
     if (!this.account.isEmailConfirmed) {
       // email
@@ -225,6 +223,10 @@ export class HomePage implements OnInit, OnDestroy {
             : 'flex-1 mt-n16 p-16 mb-12',
         },
       });
+    }
+    if (!this.account.isBiometricValid) {
+      // biometrics
+      cardList.push({ ...this.biometricCard });
     }
 
     this.accountNotActivated.cards = cardList;

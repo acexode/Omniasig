@@ -86,7 +86,6 @@ export class PolicyAddressFormComponent implements OnInit {
     private cdRef: ChangeDetectorRef,
     private formS: LocuinteFormService,
     private locuinteS: LocuinteService,
-    private padS: PadService,
     public modalController: ModalController,
     private authS: AuthService,
     private amplusS: AmplusService,
@@ -456,55 +455,17 @@ export class PolicyAddressFormComponent implements OnInit {
         if (this.dataModel && get(this.dataModel, 'id', null)) {
           this.dataModel.addressName = model2.addressName;
           return this.locuinteS.updateSingleLocuinte(model2).pipe(
-            finalize(() => {
-              this.formSubmitting = false;
+            switchMap((data) => {
+              this.formType = LocuinteFormType.PAD_CHECK;
               this.cdRef.markForCheck();
+              return this.doReqPaidCheck(data);
             })
           );
         } else {
           this.dataModel.addressName = model2.addressName;
           return this.locuinteS.addSingleLocuinte(model2).pipe(
             switchMap((data) => {
-              return this.paidS
-                .CheckPAD({
-                  locationId: data.response.id,
-                  userId: this.offerData.policy.userData.userId,
-                })
-                .pipe(
-                  map((v) => {
-                    this.paidResponseData = v;
-                    if (this.policyId === 'AMPLUS') {
-                      if (v.canHaveAmplus) {
-                        this.formSubmitting = false;
-                        this.cdRef.markForCheck();
-                        return data;
-                      } else {
-                        this.checkPadResponse.emit(v);
-                      }
-                      return;
-                    }
-
-                    if (this.policyId === 'PAD') {
-                      if (v.hasPaid) {
-                        this.checkPadResponse.emit(v);
-                      } else {
-                        this.formSubmitting = false;
-                        this.cdRef.markForCheck();
-                        return data;
-                      }
-                      return;
-                    }
-                    // TODO: check for AMPLUS+ PAD
-                    // To be removed: this allows smooth flow for AMPLUS+ PAD workflow
-                    this.formSubmitting = false;
-                    return data;
-                  }),
-                  catchError((e) => {
-                    this.paidResponseData = null;
-                    this.checkPadResponse.emit(e);
-                    return of(e);
-                  })
-                );
+              return this.doReqPaidCheck(data);
             })
           );
         }
@@ -514,6 +475,48 @@ export class PolicyAddressFormComponent implements OnInit {
     }
   }
 
+  doReqPaidCheck(data) {
+    return this.paidS
+      .CheckPAD({
+        locationId: data.response.id,
+        userId: this.offerData.policy.userData.userId,
+      })
+      .pipe(
+        map((v) => {
+          this.paidResponseData = v;
+          if (this.policyId === 'AMPLUS') {
+            if (v.canHaveAmplus) {
+              this.formSubmitting = false;
+              this.cdRef.markForCheck();
+              return data;
+            } else {
+              this.checkPadResponse.emit(v);
+            }
+            return;
+          }
+          if (
+            this.policyId === 'PAD' ||
+            this.policyId === 'Garant AMPLUS + PAD'
+          ) {
+            if (v.hasPaid) {
+              this.checkPadResponse.emit(v);
+            } else {
+              this.formSubmitting = false;
+              this.cdRef.markForCheck();
+              return data;
+            }
+            return;
+          }
+          this.formSubmitting = false;
+          return data;
+        }),
+        catchError((e) => {
+          this.paidResponseData = null;
+          this.checkPadResponse.emit(e);
+          return of(e);
+        })
+      );
+  }
   trailingAction() {}
   scrollTop() {
     if (this.contentRef) {

@@ -1,12 +1,13 @@
 import { Injectable } from '@angular/core';
 import { Calendar } from '@ionic-native/calendar/ngx';
-import { get, set } from 'lodash';
-import { BehaviorSubject, Observable, of, throwError } from 'rxjs';
+import { get, set, has } from 'lodash';
+import { BehaviorSubject, forkJoin, Observable, of, throwError } from 'rxjs';
 import { catchError, filter, map, switchMap, tap } from 'rxjs/operators';
 import {
   documentEndpoint,
   policyEndpoints,
 } from 'src/app/core/configs/endpoints';
+import { flatten } from 'lodash';
 import { AuthService } from 'src/app/core/services/auth/auth.service';
 import { RequestService } from 'src/app/core/services/request/request.service';
 import { PolicyItem } from 'src/app/shared/models/data/policy-item';
@@ -65,25 +66,75 @@ export class PolicyDataService {
   // get user policy offer
   getUserPolicies(id: number | string) {
     const emptyV: Array<PolicyItem> = [];
-    return this.reqS
-      .get<Array<PolicyItem>>(this.endpoints.GetActivePADPolicies)
-      .pipe(
-        catchError((e) => {
-          return of(emptyV);
-        }),
-        map((pv) =>
-          pv
-            ? pv.map((pvi) => this.mapPolicyType(this.createPolicyObj(pvi)))
-            : []
-        )
-      );
+    return forkJoin([
+      this.reqS
+        .get<Array<PolicyItem>>(this.endpoints.GetActivePADPolicies)
+        .pipe(
+          catchError((e) => {
+            return of(emptyV);
+          }),
+          map((pv) =>
+            pv
+              ? pv.map((pvi) =>
+                  this.mapPolicyType(this.createPolicyObj(pvi, 'PAD'))
+                )
+              : []
+          )
+        ),
+      this.reqS
+        .get<Array<PolicyItem>>(this.endpoints.GetActiveAmplusPolicies)
+        .pipe(
+          catchError((e) => {
+            return of(emptyV);
+          }),
+          map((pv) =>
+            pv
+              ? pv.map((pvi) =>
+                  this.mapPolicyType(this.createPolicyObj(pvi, 'AMPLUS'))
+                )
+              : []
+          )
+        ),
+      this.reqS
+        .get<Array<PolicyItem>>(this.endpoints.GetActiveAmplusPadPolicies)
+        .pipe(
+          catchError((e) => {
+            return of(emptyV);
+          }),
+          map((pv) => {
+            if (pv instanceof Array) {
+              const acc = [];
+              pv.forEach((pol) => {
+                const amplus = this.createPolicyObj(pol, 'AMPLUS');
+                const pad = this.createPolicyObj(
+                  get(pol, 'padInsurance', null),
+                  'PAD'
+                );
+                if (amplus) {
+                  acc.push(this.mapPolicyType(amplus));
+                }
+                if (pad) {
+                  acc.push(this.mapPolicyType(pad));
+                }
+              });
+              return acc;
+            } else {
+              return [];
+            }
+          })
+        ),
+    ]).pipe(
+      map((vals: Array<any>) => {
+        return flatten(vals);
+      })
+    );
   }
 
   // create policy object to suit display data
-  createPolicyObj(policy: any) {
-    return {
+  createPolicyObj(policy: any, typeId) {
+    const policyProcessed = {
       id: policy.id,
-      typeId: 'PAD',
+      typeId,
       state: 1,
       name: policy.policyNrChitanta,
       serial: policy.policySeriePolita,
@@ -91,6 +142,7 @@ export class PolicyDataService {
       policyNrChitanta: policy.policyNrChitanta,
       policyIdIncasareOMN: policy.policyIdIncasareOMN,
       padPolicyDocumentId: policy.padPolicyDocumentId,
+      amplusPolicyDocumentId: policy.amplusPolicyDocumentId,
       userId: null,
       locuintaId: null,
       userData: {
@@ -126,10 +178,16 @@ export class PolicyDataService {
         addressPostalCode: policy.addressPostalCode,
       },
       expiry: policy.expirationDate,
+      insurancePrice: policy.offerPrima,
+      currency: policy.offerCurrency,
     };
+    if (typeId === 'AMPLUS') {
+      policyProcessed.expiry = get(policy, 'offerExpireDate', null);
+      policyProcessed.dates.to = get(policy, 'offerExpireDate', null);
+    }
+    return policyProcessed;
   }
 
-  // get user offers
   getUserOffers() {
     const emptyV: Array<PolicyOffer> = [];
 
@@ -142,8 +200,8 @@ export class PolicyDataService {
         map((ov) => {
           return ov
             ? ov.map((ovi) =>
-              this.mapOfferPolicyType(this.createOffersObj(ovi, 'PAD'))
-            )
+                this.mapOfferPolicyType(this.createOffersObj(ovi, 'PAD'))
+              )
             : [];
         }),
         switchMap((padOffers) =>
@@ -156,14 +214,35 @@ export class PolicyDataService {
               map((ov) => {
                 return ov
                   ? ov.map((ovi) =>
-                    this.mapOfferPolicyType(
-                      this.createOffersObj(ovi, 'AMPLUS')
+                      this.mapOfferPolicyType(
+                        this.createOffersObj(ovi, 'AMPLUS')
+                      )
                     )
-                  )
                   : [];
               }),
               map((amplusOffers) => {
                 return [...amplusOffers, ...padOffers];
+              })
+            )
+        ),
+        switchMap((padOrAmplusOffers) =>
+          this.reqS
+            .get<Array<PolicyOffer>>(this.endpoints.GetActiveAmplusPadOffers)
+            .pipe(
+              catchError((e) => {
+                return of(emptyV);
+              }),
+              map((ov) => {
+                return ov
+                  ? ov.map((ovi) =>
+                      this.mapOfferPolicyType(
+                        this.createOffersObj(ovi, 'AMPLUS_PAD')
+                      )
+                    )
+                  : [];
+              }),
+              map((padAmplusOffers) => {
+                return [...padAmplusOffers, ...padOrAmplusOffers];
               })
             )
         )
@@ -235,27 +314,68 @@ export class PolicyDataService {
       cnp: offer.userCnp,
       expiry: offer.expirationDate,
       emisionDate: offer.offerDate ? new Date(offer.offerDate) : '',
-      insurancePrice: offer.offerPrima || 0,
+      insurancePrice: offer.insurancePrice || 0,
+      currency: offer.offerCurrency,
       padOfferDocumentId: offer.padOfferDocumentId,
       padPolicyDocumentId: offer.padPolicyDocumentId,
     };
-    if (typeId === 'AMPLUS') {
+    if (typeId === 'AMPLUS' || typeId === 'AMPLUS_PAD') {
       offerObj.expiry = get(offer, 'offerExpireDate', '');
+      offerObj.policy.dates.to = get(offer, 'offerExpireDate', '');
       const isGold = get(offer, 'isGold', false);
       const isVip = get(offer, 'isVip', false);
+      set(offerObj, 'supportData', isGold ? 'GOLD' : isVip ? 'VIP' : '-');
+      set(offerObj, 'ratePlanList', get(offer, 'ratePlanList', []));
+      set(offerObj, 'noOfPayments', get(offer, 'noOfPayments', -1)); // -1 means no payment
       set(
         offerObj,
         'amplusOfferDocumentId',
-        get(offer, 'amplusOfferDocumentId', null)
+        get(offer, 'amplusOfferDocumentId', 0)
       );
       set(
         offerObj,
         'amplusPolicyDocumentId',
-        get(offer, 'amplusPolicyDocumentId', null)
+        get(offer, 'amplusPolicyDocumentId', 0)
       );
-      set(offerObj, 'supportData', isGold ? 'GOLD' : isVip ? 'VIP' : '-');
-      set(offerObj, 'ratePlanList', get(offer, 'ratePlanList', []));
-      set(offerObj, 'noOfPayments', get(offer, 'noOfPayments', -1)); // -1 means no payment
+    }
+    if (typeId === 'AMPLUS_PAD') {
+      // PAD offer fields that are not equal with similar fields in Amplus Offer for Amplus+PAD
+      set(offerObj, 'padInsurance.id', get(offer.padInsurance, 'id', '-'));
+      set(
+        offerObj,
+        'padInsurance.offerCode',
+        get(offer.padInsurance, 'offerCode', '-')
+      );
+      set(
+        offerObj,
+        'padInsurance.currency',
+        get(offer.padInsurance, '"offerCurrency', '-')
+      );
+      set(
+        offerObj,
+        'padInsurance.offerPrice',
+        get(offer.padInsurance, 'offerPrima', '-')
+      );
+      set(
+        offerObj,
+        'padInsurance.firstPaymentValue',
+        get(offer.padInsurance, 'firstPaymentValue', '-')
+      );
+      set(
+        offerObj,
+        'padInsurance.iban',
+        get(offer.padInsurance, 'offerIBAN', '-')
+      );
+      set(
+        offerObj,
+        'padOfferDocumentId',
+        get(offer.padInsurance, 'padOfferDocumentId', 0)
+      );
+      set(
+        offerObj,
+        'padPolicyDocumentId',
+        get(offer.padInsurance, 'padPolicyDocumentId', 0)
+      );
     }
     return offerObj;
   }
@@ -290,27 +410,23 @@ export class PolicyDataService {
     return p;
   }
 
-  getSinglePolicyById(id) {
+  getSinglePolicyById(id, type = 'PAD') {
     return this.policyStore$.pipe(
       switchMap((vals) => {
         if (vals instanceof Array) {
-          const existing = vals.find((v) => v.id.toString() === id.toString());
+          const existing = vals.find(
+            (v) =>
+              v.id.toString() === id.toString() &&
+              get(v, 'typeId', 'PAD') === type
+          );
           if (existing) {
             return of(existing);
           } else {
-            return this.getSinglePolicy(id);
+            return of(null);
           }
         } else {
-          return this.getSinglePolicy(id);
+          return of(null);
         }
-      })
-    );
-  }
-
-  private getSinglePolicy(id): Observable<PolicyItem> {
-    return this.reqS.get<PolicyItem>(this.endpoints.base + '/' + id).pipe(
-      catchError((e) => {
-        return of(null);
       })
     );
   }
@@ -422,8 +538,8 @@ export class PolicyDataService {
         calEntry.options
       )
       .then(
-        (msg) => { },
-        (err) => { }
+        (msg) => {},
+        (err) => {}
       );
   }
 
