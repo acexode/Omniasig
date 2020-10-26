@@ -70,6 +70,10 @@ export class InputComponent implements OnInit, ControlValueAccessor {
     });
   }
 
+  onMouseDown() {
+    this.formGroup.get('input').setValue(null);
+  }
+
   increment() {
     const max = get(this.config, 'max', null);
     const step = get(this.config, 'step', 1);
