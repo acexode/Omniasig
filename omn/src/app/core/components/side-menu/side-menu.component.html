@@ -13,7 +13,7 @@
   >
     <ion-label *ngIf="userAccount" class="m-0">
       <ion-text class="alt-font text-weight-bold h2 color-dark-green">
-        {{ userAccount.surname + ' ' + userAccount.name }}
+        {{ userAccount.name + ' ' + userAccount.surname }}
       </ion-text>
       <ion-text [hidden]="isAccountActive">
         <p class="text-small color-light-red">Cont Inactiv</p>
