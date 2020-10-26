@@ -2,11 +2,12 @@ import { locuinteFieldsData } from 'src/app/shared/data/locuinte-field-data';
 import { Injectable } from '@angular/core';
 import { get } from 'lodash';
 import { BehaviorSubject, Observable, of } from 'rxjs';
-import { catchError, map, switchMap, take, tap } from 'rxjs/operators';
+import { catchError, distinctUntilChanged, map, switchMap, take, tap } from 'rxjs/operators';
 import { locuinteEndpoints } from 'src/app/core/configs/endpoints';
 import { AuthService } from 'src/app/core/services/auth/auth.service';
 import { RequestService } from 'src/app/core/services/request/request.service';
 import { Locuinte } from 'src/app/shared/models/data/locuinte.interface';
+import { distinctCheckObj } from 'src/app/core/helpers/distinct-check.helper';
 
 @Injectable({
   providedIn: 'root',
@@ -27,7 +28,7 @@ export class LocuinteService {
   }
 
   initData() {
-    this.authS.getAccountData().subscribe((account) => {
+    this.authS.getAccountData().pipe(distinctUntilChanged(distinctCheckObj)).subscribe((account) => {
       if (this.authS.accountActivated(account)) {
         this.loadAllData();
       } else {

@@ -22,7 +22,12 @@
   [ngClass]="this.isMenuOpen ? 'active' : 'ion-hide'"
   class="document-details mb-8"
 >
-  <ion-list class="w-100 pt-0">
+    <ion-col
+      class="ion-no-padding pl-32 flex ion-nowrap overflow-ellipsis white-space-nowrap"
+    >
+      <ion-label class="text-small text-weight-bold ls-min-02 color-grey-6"*ngIf="noDoc">Nu aveti {{name}} </ion-label>
+    </ion-col>  
+  <ion-list *ngIf="!noDoc" class="w-100 pt-0">
     <ion-item
       *ngFor="let item of doc"
       class="expandable-item ml-32 position-relative flex"
