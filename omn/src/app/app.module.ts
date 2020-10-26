@@ -1,5 +1,6 @@
+import { registerLocaleData } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
-import { NgModule } from '@angular/core';
+import { NgModule, LOCALE_ID } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouteReuseStrategy } from '@angular/router';
 import { Deeplinks } from '@ionic-native/deeplinks/ngx';
@@ -16,7 +17,9 @@ import { CoreModule } from './core/core.module';
 import { PolicySharedModule } from './modules/policy/policy-shared.module';
 import { LocuinteSharedModule } from './profile/pages/locuinte/locuinte-shared.module';
 import { SharedModule } from './shared/shared.module';
+import localeRo from '@angular/common/locales/ro';
 
+registerLocaleData(localeRo);
 @NgModule({
   declarations: [AppComponent],
   entryComponents: [],
@@ -39,6 +42,7 @@ import { SharedModule } from './shared/shared.module';
     SplashScreen,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     Deeplinks,
+    { provide: LOCALE_ID, useValue: 'ro' },
   ],
   bootstrap: [AppComponent],
 })
