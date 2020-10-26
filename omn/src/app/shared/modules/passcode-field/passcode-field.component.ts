@@ -88,13 +88,16 @@ export class PasscodeFieldComponent implements OnInit {
         }
         break;
       default:
-        this.savePin.push(pinKey);
+        if (this.savePin.length < 6) {
+          this.savePin.push(pinKey);
+        }
         break;
     }
     this.digitsLength = this.savePin.length;
     if (this.digitsLength === 6) {
       this.passCode.setValue(this.savePin.join(''), { emitEvent: true });
     }
+    this.clearErr();
   }
   doResetForSavePin() {
     this.savePin = [];
