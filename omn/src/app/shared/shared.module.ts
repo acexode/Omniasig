@@ -6,6 +6,7 @@ import { IonicModule } from '@ionic/angular';
 import { AccountNotActivatedComponent } from './components/account-not-activated/account-not-activated.component';
 import { ArchiveListComponent } from './components/archive-list/archive-list.component';
 import { DisabledPlaceholderComponent } from './components/disabled-placeholder/disabled-placeholder.component';
+import { GenericErrorComponent } from './components/generic-error/generic-error.component';
 import { GeneralErrorComponent } from './components/general-error/general-error.component';
 import { ImageCardComponent } from './components/image-card/image-card.component';
 import { LoadingPlaceholderComponent } from './components/loading-placeholder/loading-placeholder.component';
@@ -35,6 +36,7 @@ import { ReplacePipe } from './pipes/replace.pipe';
     LocuinteCardComponent,
     LocuinteFieldPipe,
     LoadingPlaceholderComponent,
+    GenericErrorComponent,
     GeneralErrorComponent,
     PolicyNamePipe,
     ReplacePipe
@@ -57,6 +59,7 @@ import { ReplacePipe } from './pipes/replace.pipe';
     ArchiveListComponent,
     LocuinteCardComponent,
     LoadingPlaceholderComponent,
+    GenericErrorComponent,
     GeneralErrorComponent
   ],
 })
