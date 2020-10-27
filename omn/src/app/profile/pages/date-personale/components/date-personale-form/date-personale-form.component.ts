@@ -9,7 +9,7 @@ import {
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { NavController } from '@ionic/angular';
-import { switchMap, finalize } from 'rxjs/operators';
+import { switchMap, finalize, take } from 'rxjs/operators';
 import { AuthService } from 'src/app/core/services/auth/auth.service';
 import { CustomRouterService } from 'src/app/core/services/custom-router/custom-router.service';
 import { subPageHeaderDefault } from 'src/app/shared/data/sub-page-header-default';
@@ -64,37 +64,46 @@ export class DatePersonaleFormComponent implements OnInit, OnDestroy {
 
   setTitles() {
     if (this.formMode === this.formModes.EDIT_EMAIL) {
-      this.headerConfig = subPageHeaderDefault( 'Schimbare adresă e-mail', this.routeBackLink);
+      this.headerConfig = subPageHeaderDefault(
+        'Schimbare adresă e-mail',
+        this.routeBackLink
+      );
     }
     if (this.formMode === this.formModes.EDIT_CNP) {
-      this.headerConfig = subPageHeaderDefault('Introdu CNP', this.routeBackLink);
+      this.headerConfig = subPageHeaderDefault(
+        'Introdu CNP',
+        this.routeBackLink
+      );
     }
   }
 
   buildForm() {
-    this.authS.getAccountData().subscribe((acc) => {
-      if (this.formMode === this.formModes.EDIT_EMAIL) {
-        this.formGroup = this.fb.group({
-          email: this.fb.control(acc && acc.email ? acc.email : '', [
-            Validators.email,
-            Validators.required,
-          ]),
-        });
-        this.timerSubs = this.timerS.emailValidateTimer$.subscribe((v) =>
-          this.timer$.next(v)
-        );
-      }
-      if (this.formMode === this.formModes.EDIT_CNP) {
-        this.formGroup = this.fb.group({
-          cnp: this.fb.control(acc && acc.cnp ? acc.cnp : '', [
-            Validators.minLength(13),
-            Validators.maxLength(13),
-            Validators.pattern('[0-9]*'),
-            Validators.required,
-          ]),
-        });
-      }
-    });
+    this.authS
+      .getAccountData()
+      .pipe(take(1))
+      .subscribe((acc) => {
+        if (this.formMode === this.formModes.EDIT_EMAIL) {
+          this.formGroup = this.fb.group({
+            email: this.fb.control(acc && acc.email ? acc.email : '', [
+              Validators.email,
+              Validators.required,
+            ]),
+          });
+          this.timerSubs = this.timerS.emailValidateTimer$.subscribe((v) =>
+            this.timer$.next(v)
+          );
+        }
+        if (this.formMode === this.formModes.EDIT_CNP) {
+          this.formGroup = this.fb.group({
+            cnp: this.fb.control(acc && acc.cnp ? acc.cnp : '', [
+              Validators.minLength(13),
+              Validators.maxLength(13),
+              Validators.pattern('[0-9]*'),
+              Validators.required,
+            ]),
+          });
+        }
+      });
   }
 
   submitForm() {
