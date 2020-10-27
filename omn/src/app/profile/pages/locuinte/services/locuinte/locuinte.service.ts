@@ -32,6 +32,11 @@ export class LocuinteService {
 
   constructor(private reqS: RequestService, private authS: AuthService) {
     this.initData();
+    this.authS.logoutListener.pipe(distinctUntilChanged()).subscribe((v) => {
+      if (v) {
+        this.clearData();
+      }
+    });
   }
 
   initData() {
@@ -45,6 +50,10 @@ export class LocuinteService {
           this.locuinteStore$.next([]);
         }
       });
+  }
+
+  clearData() {
+    this.locuinteStore$.next(null);
   }
 
   loadAllData() {

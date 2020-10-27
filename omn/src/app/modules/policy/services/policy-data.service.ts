@@ -1,13 +1,19 @@
 import { Injectable } from '@angular/core';
 import { Calendar } from '@ionic-native/calendar/ngx';
-import { get, set, has } from 'lodash';
+import { flatten, get, set } from 'lodash';
 import { BehaviorSubject, forkJoin, Observable, of, throwError } from 'rxjs';
-import { catchError, filter, map, switchMap, take, tap } from 'rxjs/operators';
+import {
+  catchError,
+  distinctUntilChanged,
+  filter,
+  map,
+  switchMap,
+  take,
+} from 'rxjs/operators';
 import {
   documentEndpoint,
   policyEndpoints,
 } from 'src/app/core/configs/endpoints';
-import { flatten } from 'lodash';
 import { AuthService } from 'src/app/core/services/auth/auth.service';
 import { RequestService } from 'src/app/core/services/request/request.service';
 import { PolicyItem } from 'src/app/shared/models/data/policy-item';
@@ -31,6 +37,11 @@ export class PolicyDataService {
     private calendar: Calendar
   ) {
     this.initData();
+    this.authS.logoutListener.pipe(distinctUntilChanged()).subscribe((v) => {
+      if (v) {
+        this.clearData();
+      }
+    });
   }
 
   getPolicyOfferDocumentById(
@@ -45,6 +56,12 @@ export class PolicyDataService {
           return get(v, 'file', null);
         })
       );
+  }
+
+  clearData() {
+    this.policyArchiveStore$.next([]);
+    this.policyStore$.next([]);
+    this.offerStore$.next(null);
   }
 
   initData() {

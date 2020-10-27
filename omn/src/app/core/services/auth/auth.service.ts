@@ -51,6 +51,7 @@ export class AuthService {
     this.initialState
   );
   tokenStore: BehaviorSubject<any> = new BehaviorSubject(null);
+  logoutListener: BehaviorSubject<any> = new BehaviorSubject(null);
   sessionExpiryTimer: Subscription;
   authCheck$ = of(true).pipe(share());
   tokenCheck$ = of(true).pipe(share());
@@ -410,6 +411,7 @@ export class AuthService {
         }
       );
     }
+    this.logoutListener.next(new Date().getMilliseconds());
     return op;
   }
 

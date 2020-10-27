@@ -193,6 +193,7 @@ export class HomePage implements OnInit, OnDestroy {
     this.sub = this.authS.getAccountData().subscribe((account) => {
       this.account = account;
       if (account) {
+        this.policyS.initData();
         // activate display for what needs validation from user
         this.displayWhatNeedsToBeValidated(this.account);
         this.accountActivated = this.authS.accountActivated(account);
