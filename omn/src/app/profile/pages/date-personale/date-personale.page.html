@@ -23,9 +23,9 @@
             <div class="input-label">CNP</div>
             <ion-text>{{ accountData?.cnp | cnp}}</ion-text>
           </ion-label>
+          <!-- *ngIf="!accountData?.isBiometricValid" -->
           <ion-button
             mode="ios"
-            *ngIf="!accountData?.isBiometricValid"
             size="small"
             shape="round"
             class="active ion-align-self-end"

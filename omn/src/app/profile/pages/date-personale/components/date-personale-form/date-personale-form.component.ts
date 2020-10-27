@@ -17,6 +17,7 @@ import { DatePersonaleFormModes } from 'src/app/shared/models/modes/date-persona
 import { EmailValidateModes } from 'src/app/shared/models/modes/email-validate-modes';
 import { BehaviorSubject, Subscription } from 'rxjs';
 import { CustomTimersService } from 'src/app/core/services/custom-timers/custom-timers.service';
+import { cnpValidator } from 'src/app/shared/validators/cnp-validator';
 
 @Component({
   selector: 'app-date-personale-form',
@@ -91,6 +92,7 @@ export class DatePersonaleFormComponent implements OnInit, OnDestroy {
             Validators.maxLength(13),
             Validators.pattern('[0-9]*'),
             Validators.required,
+            cnpValidator
           ]),
         });
       }
