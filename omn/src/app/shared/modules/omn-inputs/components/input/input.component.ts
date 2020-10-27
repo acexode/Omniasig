@@ -1,4 +1,11 @@
-import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
+import {
+  ChangeDetectorRef,
+  Component,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
+} from '@angular/core';
 import {
   ControlValueAccessor,
   FormBuilder,
@@ -20,6 +27,7 @@ import { get } from 'lodash';
   ],
 })
 export class InputComponent implements OnInit, ControlValueAccessor {
+  @Output() valueChange: EventEmitter<any> = new EventEmitter();
   @Input() config: IonInputConfig;
 
   onChange: (_: any) => void;
@@ -58,6 +66,7 @@ export class InputComponent implements OnInit, ControlValueAccessor {
 
   getFieldValue() {
     const field = this.formGroup.get('input');
+    this.valueChange.emit();
     return field ? field.value : null;
   }
   ngOnInit() {
@@ -68,11 +77,20 @@ export class InputComponent implements OnInit, ControlValueAccessor {
     });
   }
 
+  onMouseDown() {
+    // Replace this with the clearOnEdit property on ion-input.
+    // If we only want it cleared on input.
+    if (this.config.clearOnEdit) {
+      this.formGroup.get('input').reset(null);
+    }
+  }
+
   increment() {
     const max = get(this.config, 'max', null);
     const step = get(this.config, 'step', 1);
     let val = this.getFieldValue();
-    val = val !== null && val !== undefined && val !== '' ? val : 0;
+    val =
+      val !== null && val !== undefined && val !== '' ? parseInt(val, 10) : 0;
     const newV = val + step;
     if (val !== null && newV >= max) {
       this.writeValue(max ? max : newV);
@@ -85,7 +103,8 @@ export class InputComponent implements OnInit, ControlValueAccessor {
     const min = get(this.config, 'min', 0);
     const step = get(this.config.spinnerConfig.step, 'step', 1);
     let val = this.getFieldValue();
-    val = val !== null && val !== undefined && val !== '' ? val : 0;
+    val =
+      val !== null && val !== undefined && val !== '' ? parseInt(val, 10) : 0;
     const newV = val - step;
     if (val !== null && newV <= min) {
       this.writeValue(min);

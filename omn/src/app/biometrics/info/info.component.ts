@@ -1,4 +1,5 @@
 import { Component, OnInit, HostBinding } from '@angular/core';
+import { NavController } from '@ionic/angular';
 import { subPageHeaderDefault } from 'src/app/shared/data/sub-page-header-default';
 
 @Component({
@@ -10,8 +11,12 @@ export class InfoComponent implements OnInit {
   @HostBinding('class') color = 'ion-color-white-page';
   headerConfig = subPageHeaderDefault('Verificare identitate');
 
-  constructor() {}
+  constructor(private navCtrl: NavController) {}
 
   ngOnInit() {}
+
+  goBack(){
+    this.navCtrl.navigateRoot('/biometrics');
+  }
 }
 

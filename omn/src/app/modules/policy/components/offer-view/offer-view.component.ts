@@ -222,7 +222,7 @@ export class OfferViewComponent implements OnInit {
 
   openIAB(url, type) {
     const options =
-      'location=no,footer=no,hardwareback=no,hidenavigationbuttons=yes,clearcache=yes,clearsessioncache=yes,toolbar=no';
+      'location=no,footer=yes,hardwareback=no,hidenavigationbuttons=yes,clearcache=yes,clearsessioncache=yes,toolbar=yes,closebuttoncaption=Close';
     const browser = this.iab.create(url, type, options);
     browser.show();
     // TODO: linter complains, this is to be retested.

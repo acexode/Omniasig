@@ -86,7 +86,7 @@ export class HomePage implements OnInit, OnDestroy {
         },
       ],
       id: '0',
-      routerLink: '/contact',
+      routerLink: '/call-center',
       itemClass: 'mh-104',
     },
     {
