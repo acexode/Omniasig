@@ -1,0 +1,50 @@
+<ion-content>
+  <app-sub-page-header [config]="headerConfig"> </app-sub-page-header>
+  <ion-grid>
+    <ion-col>
+      <ion-row
+      class="ion-no-padding flex flex-1 ion-justify-content-center ion-align-items-center mt-40"
+      >
+        <ion-icon
+          name="phone"
+          class="d-flex phone-icon"
+        ></ion-icon>
+      </ion-row>
+      <ion-row class="mt-40 mx-32">
+        <ion-text class="s16-h22 ls-02 text-center">
+          Pentru schimbarea numărului de telefon asociat contului tău trebuie să:
+          <br />
+          <br />
+          1. introduci noul număr de telefon;
+          <br />
+          2. îți trimitem pe numărul nou un cod de autentificare;
+          <br />
+          3. introduci codul primit în aplicație
+          <br />
+          <br />
+          Dacă ai aplicația instalată și ești autentificat, poți face schimbarea numărului de telefon după ce introduci noua cartelă SIM.
+        </ion-text>
+      </ion-row>
+      <ion-row class="mt-40 mx-32">
+        <ion-text class="s16-h22 ls-01 info-text text-center">
+          Dacă dorești să continui cu schimbarea numărului de telefon, apasă butonul Continuă.
+        </ion-text>
+      </ion-row>
+      <ion-row
+      class="ion-justify-content-center mt-16 mb-24 mx-32 flex-flex-column ion-align-self-center flex-1"
+      >
+        <ion-button
+          class="activate-btn"
+          size="large"
+          color="success"
+          fill="solid"
+          expand="block"
+          class="m-0 w-100 flex"
+          routerLink="./enter-number"
+        >
+          Continuă
+        </ion-button>
+      </ion-row>
+    </ion-col>
+  </ion-grid>
+</ion-content>

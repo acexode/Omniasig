@@ -17,9 +17,14 @@ import { PhonenumberService } from '../services/phonenumber.service';
 })
 export class ChangePhoneNumberComponent implements OnInit, OnDestroy {
   @HostBinding('class') color = 'ion-color-white-page';
+  pText = 'Introdu noul număr de telefon';
+  fText = 'Numărul tău de telefon';
+  teleForm: FormGroup;
+  sub: Subscription;
+  error = false;
   headerConfig = subPageHeaderDefault('Schimbare număr  telefon');
   label: IonTextItem = {
-    text: 'Introdu noul număr de telefon',
+    text: this.pText,
     classes: 'w-100 pb-8',
     slot: 'end',
   };
@@ -31,12 +36,8 @@ export class ChangePhoneNumberComponent implements OnInit, OnDestroy {
     inputLabel: this.label,
     clearable: true,
     minLength: 10,
-    maxLength: 11,
+    maxLength: 10,
   };
-  teleForm: FormGroup;
-
-  sub: Subscription;
-  error = false;
 
   constructor(
     private router: Router,
@@ -56,7 +57,8 @@ export class ChangePhoneNumberComponent implements OnInit, OnDestroy {
         [
           Validators.required,
           Validators.pattern(/^07[0-9].*$/),
-          Validators.minLength(9),
+          Validators.minLength(10),
+          Validators.maxLength(10),
         ],
       ],
     });
@@ -67,12 +69,14 @@ export class ChangePhoneNumberComponent implements OnInit, OnDestroy {
   }
 
   onUserInput(phoneNumber: number) {
-    if (phoneNumber) {
-      if (phoneNumber.toString().length > 0) {
-        this.error = false;
-      } else {
-        this.error = true;
-      }
+    const val = phoneNumber.toString().length > 1 ? phoneNumber.toString().substr(0,2) : null;
+    const pass = /^[0-9].*$/;
+    if ((phoneNumber.toString().match(pass) && (val === '07' || val === null)) || !phoneNumber) {
+      this.label.text = this.pText;
+      this.error = false;
+    }else{
+      this.label.text = this.fText;
+      this.error = true;
     }
   }
 
