@@ -109,7 +109,7 @@ export class InputComponent implements OnInit, ControlValueAccessor {
     if (val !== null && newV <= min) {
       this.writeValue(min);
     } else {
-      this.writeValue(val - step);
+      this.writeValue(newV);
     }
   }
 }
