@@ -1,5 +1,9 @@
 <ion-content>
-  <app-sub-page-header [config]="headerConfig"> </app-sub-page-header>
+  <app-sub-page-header 
+    (backActionEv)="back()"
+    (trailingActionEv)="exitFlow()" 
+    [config]="headerConfig"
+  > </app-sub-page-header>
   <div class="px-32">
     <ion-col>
       <div class="mt-8 mb-16 s13-h16 ls-02 text-center">

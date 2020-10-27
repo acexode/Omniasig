@@ -12,5 +12,4 @@ export class ChangePhoneNumberInfoComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {}
-
 }

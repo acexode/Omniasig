@@ -4,11 +4,12 @@ import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { unsubscriberHelper } from 'src/app/core/helpers/unsubscriber.helper';
 import { AuthService } from 'src/app/core/services/auth/auth.service';
-import { subPageHeaderDefault } from 'src/app/shared/data/sub-page-header-default';
+import { schimbareNumarSubpageHeader } from 'src/app/schimbare-numar-telefon/data/schimbare-numar-subpage-header';
 import { IonInputConfig } from 'src/app/shared/models/component/ion-input-config';
 import { IonTextItem } from 'src/app/shared/models/component/ion-text-item';
 import { RequestNewPhoneNumberChange } from '../models/RequestNewPhoneNumberChange.interface';
 import { PhonenumberService } from '../services/phonenumber.service';
+import { NavController } from '@ionic/angular';
 
 @Component({
   selector: 'app-change-phone-number',
@@ -22,7 +23,6 @@ export class ChangePhoneNumberComponent implements OnInit, OnDestroy {
   teleForm: FormGroup;
   sub: Subscription;
   error = false;
-  headerConfig = subPageHeaderDefault('Schimbare număr  telefon');
   label: IonTextItem = {
     text: this.pText,
     classes: 'w-100 pb-8',
@@ -38,15 +38,24 @@ export class ChangePhoneNumberComponent implements OnInit, OnDestroy {
     minLength: 10,
     maxLength: 10,
   };
+  headerConfig;
+  //headerConfig = subPageHeaderDefault('Schimbare număr  telefon');
 
   constructor(
     private router: Router,
     private formBuilder: FormBuilder,
     private phS: PhonenumberService,
-    private authS: AuthService
+    private authS: AuthService,
+    private navCtrl: NavController
   ) {}
 
   ngOnInit() {
+    this.headerConfig = schimbareNumarSubpageHeader({
+      title: 'Schimbare număr telefon',
+      hasTrailingIcon: true,
+      hasLeadingIcon: true,
+      backLink: false,
+    });
     this.initForm();
   }
 
@@ -63,7 +72,7 @@ export class ChangePhoneNumberComponent implements OnInit, OnDestroy {
       ],
     });
 
-    this.sub = this.teleForm.valueChanges.subscribe((value) => {
+    this.sub = this.teleForm.valueChanges.subscribe( (value) => {
       this.onUserInput(value.phoneNumber);
     });
   }
@@ -103,6 +112,14 @@ export class ChangePhoneNumberComponent implements OnInit, OnDestroy {
   isError() {
     this.teleForm.reset();
     this.error = true;
+  }
+
+  exitFlow() {
+    this.navCtrl.navigateBack(['/home']);
+  }
+
+  back() {
+    this.navCtrl.navigateBack(['/phone-number']);
   }
 
   ngOnDestroy() {
