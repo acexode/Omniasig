@@ -75,7 +75,6 @@ export class CustomStorageService {
   }
 
   public getItem<T>(key: string): Observable<T> {
-    console.log('storage');
     return this.waitStorageBeforeOp(from(this.storage.get(key)));
   }
 

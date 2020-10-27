@@ -115,12 +115,14 @@ export class AuthService {
     this.tokenStore.next(token);
     return this.storeS.setItem('token', token);
   }
-  // get token to local storage
+  // Get token from local storage.
   getToken() {
+    // Try in memory first, to speed things up.
     return this.tokenCheck$.pipe(
       mergeMap((v1) => this.tokenStore.pipe(take(1))),
       mergeMap((v2) => {
         const key = get(v2, 'key', null);
+        // Default to getting it out of the local storage.
         return !this.isTokenExpired(get(v2, 'expiry', undefined)) && key
           ? of(v2)
           : this.storeS.getItem('token');
@@ -142,6 +144,8 @@ export class AuthService {
       })
     );
   }
+
+  // Get and process an user profile.
   getProfile(data: { token: string; phoneNumber: string; expiry: string }) {
     return this.doGetProfile(data.phoneNumber).pipe(
       take(1),
@@ -185,14 +189,17 @@ export class AuthService {
    */
   handleAuthCheck() {
     return this.authCheck$.pipe(
+      // Get un-expired token.
       switchMap((v) => this.getToken()),
       switchMap((isAuthenticated) => {
         const account = get(this.authState.value, 'account', null);
         if (isAuthenticated && account) {
           return of(true);
         } else {
+          // If token is expired, try to rebuild the token with phone number + passcode.
           return this.tryRelogin().pipe(
             catchError((v) => {
+              // Redirect to clean logout, or pass expiry if account exists.
               return this.getAccountData().pipe(
                 switchMap((acc) => {
                   if (acc) {
@@ -212,9 +219,14 @@ export class AuthService {
     );
   }
 
+  /**
+   * Try to get a new token with the stored account data.
+   */
   tryRelogin() {
+    // Get phone number.
     return this.getPhoneNumber().pipe(
       switchMap((pn) => {
+        // Get a stored password via secure store.
         return this.getPassFromStore().pipe(
           map((ps) => {
             return [pn, ps];
@@ -228,6 +240,7 @@ export class AuthService {
               userName: vals[0],
               password: vals[1],
             };
+            // Try a login and account refresh.
             return this.doLoginAndLoadProfile(reqData);
           } catch (err) {
             return of(null);
@@ -237,6 +250,7 @@ export class AuthService {
       }),
       switchMap((res) => {
         try {
+          // Try saving the new token.
           return this.saveToken({
             key: res.token,
             expiry: res.expiration,
@@ -295,7 +309,7 @@ export class AuthService {
     );
   }
 
-  // svae auth data to storage
+  // save auth data to storage
   processAuthResponse(data: LoginResponse) {
     const account = data.account ? data.account : null;
     const authToken = data.token ? data.token : null;
@@ -332,6 +346,16 @@ export class AuthService {
     return this.storeS.getItem('phoneNumber').pipe(take(1));
   }
 
+  /**
+   * Execute a logout.
+   *
+   * @param expired
+   *  - This should be set up by the atuomatic process that handles token expiration.
+   * @param execObs
+   *  - This will subscribe automatically to the logout process. mostly linked to the button.
+   *
+   * Will return the redirect url observable.
+   */
   doLogout(expired = false, execObs = true) {
     unsubscriberHelper(this.sessionExpiryTimer);
     const obsList = [
