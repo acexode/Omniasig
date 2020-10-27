@@ -39,7 +39,6 @@ export class ChangePhoneNumberComponent implements OnInit, OnDestroy {
     maxLength: 10,
   };
   headerConfig;
-  //headerConfig = subPageHeaderDefault('Schimbare număr  telefon');
 
   constructor(
     private router: Router,
@@ -78,9 +77,10 @@ export class ChangePhoneNumberComponent implements OnInit, OnDestroy {
   }
 
   onUserInput(phoneNumber: number) {
-    const val = phoneNumber.toString().length > 1 ? phoneNumber.toString().substr(0,2) : null;
+    const val = phoneNumber.toString().length > 1 ? phoneNumber.toString().substr(0, 2) : null;
     const pass = /^[0-9].*$/;
-    if ((phoneNumber.toString().match(pass) && (val === '07' || val === null)) || !phoneNumber) {
+
+    if ( (phoneNumber.toString().match(pass) && (val === '07' || val === null)) || !phoneNumber) {
       this.label.text = this.pText;
       this.error = false;
     }else{
