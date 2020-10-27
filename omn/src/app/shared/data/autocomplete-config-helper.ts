@@ -4,7 +4,7 @@ import { IonAutocompleteConfig } from '../models/component/ion-autocomplete-conf
 export const autoCompleteConfigHelper = (conf: {
   label: string;
   disabled: boolean;
-  clearInvalid: boolean;
+  clearInvalid?: boolean;
   dataServiceCb: (filter: any) => Observable<Array<any>>;
   dataServiceSource: BehaviorSubject<any>;
   idKey?: string;
@@ -17,7 +17,7 @@ export const autoCompleteConfigHelper = (conf: {
       classes: 'mb-8 input-label',
       text: conf.label,
     },
-    clearInvalid: false,
+    clearInvalid: conf.clearInvalid,
     autocompleteOptions: {
       placeholder: 'Selectează',
       searchIcon: null,

@@ -1,3 +1,4 @@
+import { distinctCheckObj } from './../../../../../core/helpers/distinct-check.helper';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -13,6 +14,7 @@ import {
   NG_VALUE_ACCESSOR,
 } from '@angular/forms';
 import { get } from 'lodash';
+import { distinctUntilChanged } from 'rxjs/operators';
 import { IonAutocompleteConfig } from 'src/app/shared/models/component/ion-autocomplete-config';
 import { AutocompleteProviderService } from '../../services/autocomplete-provider.service';
 
@@ -81,11 +83,13 @@ export class AutocompleteComponent implements OnInit, ControlValueAccessor {
   }
 
   ngOnInit() {
-    this.formGroup.valueChanges.subscribe((vals) => {
-      if (this.onChange) {
-        this.onChange(this.getFieldValue());
-      }
-    });
+    this.formGroup.valueChanges
+      .pipe(distinctUntilChanged(distinctCheckObj))
+      .subscribe((vals) => {
+        if (this.onChange) {
+          this.onChange(this.getFieldValue());
+        }
+      });
   }
 
   writeValue(obj: any): void {

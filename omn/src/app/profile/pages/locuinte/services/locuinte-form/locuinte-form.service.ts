@@ -106,10 +106,10 @@ export class LocuinteFormService {
         get(model, 'addressCounty', ''),
         Validators.required
       ),
-      addressCity: this.fb.control(
-        get(model, 'addressCity', ''),
-        Validators.required
-      ),
+      addressCity: this.fb.control(get(model, 'addressCity', ''), [
+        Validators.required,
+        Validators.minLength(1),
+      ]),
       addressStreet: this.fb.control('', Validators.required),
       addressStreetType: this.fb.control(get(model, 'addressStreetType', '')),
       addressName: this.fb.control(get(model, 'addressName', '')),
@@ -592,12 +592,13 @@ export class LocuinteFormService {
     if (source && source instanceof BehaviorSubject) {
       return source.pipe(
         map((data) => {
+          if (!data) {
+            return [];
+          }
           // Filter whole list in here based on text input.
           if (keywords) {
             return data.filter((dV) => {
               const name = get(dV, 'name', '').toLowerCase();
-              const streetType = get(dV, 'streetType', '').toLowerCase();
-              const sName = get(dV, 'shortName', '').toLowerCase();
               let id = get(dV, 'id', '');
               try {
                 id = id.toString().toLowerCase();
@@ -606,9 +607,7 @@ export class LocuinteFormService {
               }
               return (
                 name.includes(keywords.toLowerCase()) ||
-                id.includes(keywords.toLowerCase()) ||
-                streetType.includes(keywords.toLowerCase()) ||
-                sName.includes(keywords.toLowerCase())
+                id.includes(keywords.toLowerCase())
               );
             });
           } else {
