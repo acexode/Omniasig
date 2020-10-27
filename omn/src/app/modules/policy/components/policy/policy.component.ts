@@ -62,6 +62,7 @@ export class PolicyComponent implements OnInit, OnDestroy {
           this.accountActivated = this.authS.accountActivated(account);
           this.buildSalesItems(account);
           if (this.accountActivated) {
+            this.policyS.initData();
             this.subsList.push(
               this.policyS.policyStore$.subscribe((v) => {
                 const policies = this.mapPolicies(v, account);

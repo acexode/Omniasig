@@ -1,3 +1,4 @@
+import { unsubscriberHelper } from './../core/helpers/unsubscriber.helper';
 import { get } from 'lodash';
 import {
   ChangeDetectionStrategy,
@@ -188,26 +189,25 @@ export class HomePage implements OnInit, OnDestroy {
     if (this.keyboard.isVisible) {
       this.keyboard.hide();
     }
-    this.sub = this.authS
-      .getAccountData()
-      .pipe(distinctUntilChanged())
-      .subscribe((account) => {
-        this.account = account;
-        if (account) {
-          // activate display for what needs validation from user
-          this.displayWhatNeedsToBeValidated(this.account);
-          this.accountActivated = this.authS.accountActivated(account);
-          if (this.accountActivated) {
-            this.policyS.policyStore$.subscribe((v) =>
-              this.policies$.next(this.mapPolicies(v))
-            );
-            this.policyS.offerStore$.subscribe((v) =>
-              this.offers$.next(this.mapOffers(v))
-            );
-          }
+    unsubscriberHelper(this.sub);
+    this.sub = this.authS.getAccountData().subscribe((account) => {
+      this.account = account;
+      if (account) {
+        this.policyS.initData();
+        // activate display for what needs validation from user
+        this.displayWhatNeedsToBeValidated(this.account);
+        this.accountActivated = this.authS.accountActivated(account);
+        if (this.accountActivated) {
+          this.policyS.policyStore$.subscribe((v) =>
+            this.policies$.next(this.mapPolicies(v))
+          );
+          this.policyS.offerStore$.subscribe((v) =>
+            this.offers$.next(this.mapOffers(v))
+          );
         }
-        this.cdRef.markForCheck();
-      });
+      }
+      this.cdRef.markForCheck();
+    });
   }
 
   displayWhatNeedsToBeValidated(acc: Account) {
