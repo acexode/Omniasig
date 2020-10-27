@@ -8,7 +8,7 @@ import {
   Output,
 } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { get, set } from 'lodash';
 import { AuthService } from 'src/app/core/services/auth/auth.service';
 import { PaidExternalService } from '../../services/paid-external-service.service';
@@ -26,6 +26,7 @@ export class AdresaLocuintaComponent implements OnInit {
   addNew = 'ADD_NEW';
   checkPAD = false;
   userId;
+  locuinteId;
   loaderTitle = 'Verificăm datele în portalul PAID…';
   @Input() set locuinteList(lV) {
     this.fullList = lV;
@@ -53,7 +54,8 @@ export class AdresaLocuintaComponent implements OnInit {
     private authS: AuthService,
     private paidS: PaidExternalService,
     private policyFs: PolicyFormService,
-    protected router: Router
+    protected router: Router,
+    private route: ActivatedRoute
   ) {
     this.authS.getAuthState().subscribe((authData) => {
       this.userId = authData.account.userId;
@@ -61,11 +63,20 @@ export class AdresaLocuintaComponent implements OnInit {
   }
 
   ngOnInit() {
+    console.log(this.vLocuinteList)
+    this.route.queryParamMap
+      .subscribe((params: any) => {
+        this.locuinteId = params.params.id
+        //this.locuinteId = this.vLocuinteList.filter(e => e.locuinta.id == id)[0].locuinta
+        console.log(this.vLocuinteList)
+      }
+    );
     this.authS.getAuthState().subscribe((authData) => {
       this.userId = authData.account.userId;
     });
 
     this.initLocuintaMainForm();
+    console.log(this.selection)
   }
 
   submitForm() {
@@ -156,6 +167,18 @@ export class AdresaLocuintaComponent implements OnInit {
   }
 
   initLocuintaMainForm() {
+    console.log(this.vLocuinteList)
+    if(this.locuinteId){
+      if(this.selection){
+        console.log(this.locuinteId)
+        console.log(this.selection)
+        this.selection.setValue(this.locuinteId)
+        this.selection.updateValueAndValidity();
+        this.cdRef.detectChanges()
+      }
+      this.cdRef.detectChanges()
+      this.cdRef.markForCheck();
+    }
     if (this.initialData && this.initialData.locuinta) {
       if (this.selection) {
         this.selection.setValue(this.initialData.locuinta.id);
