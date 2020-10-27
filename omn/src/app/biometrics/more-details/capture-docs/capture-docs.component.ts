@@ -2,7 +2,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Component, HostBinding, OnInit } from '@angular/core';
 import { subPageHeaderDefault } from 'src/app/shared/data/sub-page-header-default';
 import { PhotoService } from '../../services/photo.service';
-import { AndroidPermissions } from '@ionic-native/android-permissions/ngx';
+import { Diagnostic } from '@ionic-native/diagnostic/ngx';
+//import { AndroidPermissions } from '@ionic-native/android-permissions/ngx';
 import { ActionSheetController } from '@ionic/angular';
 
 @Component({
@@ -27,7 +28,8 @@ export class CaptureDocsComponent implements OnInit {
     private photoService: PhotoService,
     private router: Router,
     private route: ActivatedRoute,
-    private androidPermissions: AndroidPermissions,
+    private diagnostic: Diagnostic,
+    //private androidPermissions: AndroidPermissions,
   ) { }
 
   removePhoto() {
@@ -36,17 +38,37 @@ export class CaptureDocsComponent implements OnInit {
   }
 
   async addPhotoToGallery(newF) {
-    this.captured = await this.photoService.addNewToGallery(newF, 'B');
-    this.androidPermissions.checkPermission(this.androidPermissions.PERMISSION.CAMERA).then(
-      (result) => {
-        if (!result.hasPermission) {
-          this.noPermission = true;
-        }
-      },
-      (err) => {
-        this.router.navigateByUrl('/home');
+    this.diagnostic.isCameraAuthorized()
+    .then(async (authorized) => {
+      if (authorized){
+        this.captured = await this.photoService.addNewToGallery(newF, 'B');
+      } else {
+        this.diagnostic.requestCameraAuthorization()
+        .then(async (status) => {
+          if (status == this.diagnostic.permissionStatus.GRANTED){
+            this.captured = await this.photoService.addNewToGallery(newF, 'B');
+          } else {
+            this.noPermission = true;
+          }
+        }).catch(e => {
+          this.router.navigateByUrl('/home');
+        });
       }
-    );
+    }).catch(e => {
+      this.router.navigateByUrl('/home');
+    });
+
+    //this.captured = await this.photoService.addNewToGallery(newF, 'B');
+    // this.androidPermissions.checkPermission(this.androidPermissions.PERMISSION.CAMERA).then(
+    //   (result) => {
+    //     if (!result.hasPermission) {
+    //       this.noPermission = true;
+    //     }
+    //   },
+    //   (err) => {
+    //     this.router.navigateByUrl('/home');
+    //   }
+    // );
   }
 
   toHome() {

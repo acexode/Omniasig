@@ -141,9 +141,7 @@
       "cordova-plugin-androidx-adapter": {},
       "cordova-plugin-android-permissions": {},
       "com-darryncampbell-cordova-plugin-intent": {},
-      "cordova.plugins.diagnostic": {
-        "ANDROIDX_VERSION": "1.+"
-      }
+      "cordova.plugins.diagnostic": {}
     },
     "platforms": [
       "browser",

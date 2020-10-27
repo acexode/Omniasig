@@ -93,7 +93,7 @@
     </ion-row>
   </ion-grid>
 
-  <ng-container *ngIf="noPermission">
+  <ng-container *ngIf="!captured && noPermission">
     <app-general-error
       (goBack)="toHome($event)"
       [doNavigate]="false"
