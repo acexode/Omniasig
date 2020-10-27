@@ -3,8 +3,6 @@ import { Component, HostBinding, OnInit } from '@angular/core';
 import { subPageHeaderDefault } from 'src/app/shared/data/sub-page-header-default';
 import { PhotoService } from '../../services/photo.service';
 import { Diagnostic } from '@ionic-native/diagnostic/ngx';
-//import { AndroidPermissions } from '@ionic-native/android-permissions/ngx';
-import { ActionSheetController } from '@ionic/angular';
 
 @Component({
   selector: 'app-capture-docs',
@@ -29,7 +27,6 @@ export class CaptureDocsComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     private diagnostic: Diagnostic,
-    //private androidPermissions: AndroidPermissions,
   ) { }
 
   removePhoto() {
@@ -57,19 +54,7 @@ export class CaptureDocsComponent implements OnInit {
     }).catch(e => {
       this.router.navigateByUrl('/home');
     });
-
-    //this.captured = await this.photoService.addNewToGallery(newF, 'B');
-    // this.androidPermissions.checkPermission(this.androidPermissions.PERMISSION.CAMERA).then(
-    //   (result) => {
-    //     if (!result.hasPermission) {
-    //       this.noPermission = true;
-    //     }
-    //   },
-    //   (err) => {
-    //     this.router.navigateByUrl('/home');
-    //   }
-    // );
-  }
+}
 
   toHome() {
     this.router.navigateByUrl('/home');
