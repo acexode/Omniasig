@@ -88,7 +88,7 @@
                 Valoarea locuinței
               </div>
               <ion-text class="input-detail s18-h24"
-                >{{ offerData?.policy?.locuintaData?.value || '-' }}
+                >{{ offerData?.policy?.locuintaData?.value | number: '1.0-0'  }}
                 {{
                   offerData?.policy?.locuintaData?.valueCurrency
                     | locuinteField: 'valueCurrency' || '-'
@@ -156,7 +156,7 @@
                 Suma asigurată
               </div>
               <ion-text class="input-detail s18-h24">
-                {{ offerData?.policy?.locuintaData?.value || '-' }} 
+                {{ offerData?.policy?.locuintaData?.value | number: '1.0-0'  }} 
                 {{
                   offerData?.policy?.locuintaData?.valueCurrency
                     | locuinteField: 'valueCurrency' || '-'

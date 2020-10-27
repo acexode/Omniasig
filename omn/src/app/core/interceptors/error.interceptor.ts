@@ -1,14 +1,14 @@
-import { Injectable } from '@angular/core';
 import {
-  HttpRequest,
-  HttpHandler,
   HttpEvent,
+  HttpHandler,
   HttpInterceptor,
+  HttpRequest,
 } from '@angular/common/http';
-import { Observable, throwError } from 'rxjs';
-import { AuthService } from '../services/auth/auth.service';
-import { catchError } from 'rxjs/operators';
+import { Injectable } from '@angular/core';
 import { Router, UrlTree } from '@angular/router';
+import { Observable, throwError } from 'rxjs';
+import { catchError, take, switchMap } from 'rxjs/operators';
+import { AuthService } from '../services/auth/auth.service';
 
 @Injectable()
 export class ErrorInterceptor implements HttpInterceptor {
@@ -24,13 +24,19 @@ export class ErrorInterceptor implements HttpInterceptor {
     return next.handle(request).pipe(
       catchError((err) => {
         if (err.status === 401) {
-          this.authenticationService.handleAuthCheck().subscribe((v) => {
-            if (v instanceof UrlTree) {
-              this.routerS.navigateByUrl(v);
-            } else if (!v) {
-              return throwError(err);
-            }
-          });
+          return this.authenticationService.handleAuthCheck().pipe(
+            take(1),
+            switchMap((v) => {
+              if (v instanceof UrlTree) {
+                this.routerS.navigateByUrl(v);
+                return throwError('__NO_DATA');
+              } else if (!v) {
+                return throwError(err);
+              } else {
+                return next.handle(request);
+              }
+            })
+          );
         } else {
           return throwError(err);
         }

@@ -165,6 +165,9 @@ export class ConfirmareIdentitateComponent implements OnInit {
       ],
       accept: [false, Validators.requiredTrue],
     });
+  }
+
+  ngOnInit() {
     this.auth.getAccountData().subscribe((v) => {
       if (v && this.confirmareForm) {
         this.confirmareForm.get('name').setValue(get(v, 'name', ''));
@@ -172,9 +175,6 @@ export class ConfirmareIdentitateComponent implements OnInit {
         this.confirmareForm.get('cnp').setValue(get(v, 'cnp', ''));
       }
     });
-  }
-
-  ngOnInit() {
     if (this.addressCounty) {
       this.locuinteF
         .handleInitialCounty(this.addressCounty, this.formData)
