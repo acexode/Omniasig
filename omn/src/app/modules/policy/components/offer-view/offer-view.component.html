@@ -24,7 +24,7 @@
                   Prețul poliței*
                 </ion-label>
                 <ion-label class="x-large text-weight-bold alt-font mb-8">
-                  {{ offer?.offerPrice }}
+                  {{ offer?.offerPrice |number}}
                   {{
                     (policyType === 'PAD' ? 'RON' : offer?.currency)
                       | locuinteField: 'valueCurrency' || '-'
@@ -120,7 +120,7 @@
                   Suma asigurată
                 </div>
                 <ion-text class="s18-h24">
-                  {{ offer?.policy?.locuintaData?.value || '-' }}
+                  {{ offer?.policy?.locuintaData?.value || '-'| number: '1.0-0'  }}
                   {{
                     offer?.policy?.locuintaData?.valueCurrency
                       | locuinteField: 'valueCurrency' || '-'
@@ -395,7 +395,7 @@
                   Prețul asigurării:
                 </ion-label>
                 <ion-label class="x-large text-weight-bold alt-font mb-8">
-                  {{ offer?.offerPrice }}
+                  {{ offer?.offerPrice | number}}
                   {{ offer?.currency | locuinteField: 'valueCurrency' || '-' }}
                 </ion-label>
                 <ion-label
@@ -417,7 +417,7 @@
                   Valoarea primei rate:
                 </ion-label>
                 <ion-label class="x-large text-weight-bold alt-font mb-8">
-                  {{ offer?.firstPaymentValue }}
+                  {{ offer?.firstPaymentValue| number  }}
                   {{ offer?.currency | locuinteField: 'valueCurrency' || '-' }}
                 </ion-label>
                 <ion-label
@@ -525,7 +525,7 @@
                   Valoarea locuinței
                 </div>
                 <ion-text class="s18-h24">
-                  {{ offer?.policy?.locuintaData?.value || '-' }}
+                  {{ offer?.policy?.locuintaData?.value || '-' | number: '1.0-0' }}
                   {{
                     offer?.policy?.locuintaData?.valueCurrency
                       | locuinteField: 'valueCurrency' || '-'
@@ -668,7 +668,7 @@
                 </div>
                 <ion-text class="s18-h24"
                   >Locuința Suma asigurată:
-                  {{ offer?.policy?.locuintaData?.value || '-' }}
+                  {{ offer?.policy?.locuintaData?.value || '-' | number: '1.0-0' }}
                   {{
                     offer?.policy?.locuintaData?.valueCurrency
                       | locuinteField: 'valueCurrency' || '-'
@@ -941,7 +941,7 @@
                   Prețul Poliței Garant AMPLUS:
                 </ion-label>
                 <ion-label class="x-large text-weight-bold alt-font mb-8">
-                  {{ offer?.offerPrice }}
+                  {{ offer?.offerPrice | number}}
                   {{ offer?.currency | locuinteField: 'valueCurrency' || '-' }}
                 </ion-label>
                 <ion-label
@@ -964,7 +964,7 @@
                   Prețul Poliței PAD:
                 </ion-label>
                 <ion-label class="x-large text-weight-bold alt-font mb-8">
-                  {{ offer?.padInsurance?.offerPrice }}
+                  {{ offer?.padInsurance?.offerPrice |number}}
                   {{
                     (policyType === 'AMPLUS_PAD' ? 'RON' : offer?.currency)
                       | locuinteField: 'valueCurrency' || '-'
@@ -1011,7 +1011,7 @@
                   Valoarea primei rate:
                 </ion-label>
                 <ion-label class="x-large text-weight-bold alt-font mb-8">
-                  {{ offer?.firstPaymentValue }}
+                  {{ offer?.firstPaymentValue |number}}
                   {{ offer?.currency | locuinteField: 'valueCurrency' || '-' }}
                 </ion-label>
                 <ion-label class="text-normal text-weight-medium">
@@ -1153,7 +1153,7 @@
                   Valoarea locuinței
                 </div>
                 <ion-text class="s18-h24"
-                  >{{ offer?.policy?.locuintaData?.value || '-' }}
+                  >{{ offer?.policy?.locuintaData?.value || '-' | number: '1.0-0' }}
                   {{
                     offer?.policy?.locuintaData?.valueCurrency
                       | locuinteField: 'valueCurrency' || '-'
@@ -1289,7 +1289,7 @@
                 </div>
                 <ion-text class="s18-h24"
                   >Locuința Suma asigurată:
-                  {{ offer?.policy?.locuintaData?.value || '-' }}
+                  {{ offer?.policy?.locuintaData?.value || '-' | number: '1.0-0' }}
                   {{
                     offer?.policy?.locuintaData?.valueCurrency
                       | locuinteField: 'valueCurrency' || '-'
@@ -1544,7 +1544,7 @@
                   Suma asigurată
                 </div>
                 <ion-text class="s18-h24">
-                  {{ offer?.policy?.locuintaData?.value || '-' }}
+                  {{ offer?.policy?.locuintaData?.value || '-'| number: '1.0-0'  }}
                   {{
                     offer?.policy?.locuintaData?.valueCurrency
                       | locuinteField: 'valueCurrency' || '-'
