@@ -16,7 +16,7 @@ import {
 import { get, has } from 'lodash';
 import { BehaviorSubject, combineLatest, Subscription } from 'rxjs';
 import { take } from 'rxjs/internal/operators/take';
-import { catchError, switchMap } from 'rxjs/operators';
+import { switchMap } from 'rxjs/operators';
 import { AuthService } from 'src/app/core/services/auth/auth.service';
 import { CustomRouterService } from 'src/app/core/services/custom-router/custom-router.service';
 import { CustomTimersService } from 'src/app/core/services/custom-timers/custom-timers.service';
@@ -218,7 +218,11 @@ export class DatePersonaleValidateEmailComponent implements OnInit, OnDestroy {
 
       case this.validateEmailModes.EMAIL_NEW_VALIDATE:
         // We trigger resending the token.
-        this.authS.doReqNewEmailCode().subscribe();
+
+        if (!this.timer$.value) {
+          this.authS.doReqNewEmailCode().subscribe();
+        }
+
         break;
 
       default:
