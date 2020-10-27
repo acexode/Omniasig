@@ -42,7 +42,7 @@ export class CaptureDocsComponent implements OnInit {
       } else {
         this.diagnostic.requestCameraAuthorization()
         .then(async (status) => {
-          if (status == this.diagnostic.permissionStatus.GRANTED){
+          if (status === this.diagnostic.permissionStatus.GRANTED){
             this.captured = await this.photoService.addNewToGallery(newF, 'B');
           } else {
             this.noPermission = true;
