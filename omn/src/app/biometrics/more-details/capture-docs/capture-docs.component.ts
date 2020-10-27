@@ -48,11 +48,11 @@ export class CaptureDocsComponent implements OnInit {
             this.noPermission = true;
           }
         }).catch(e => {
-          this.router.navigateByUrl('/home');
+          this.noPermission = true;
         });
       }
     }).catch(e => {
-      this.router.navigateByUrl('/home');
+      this.noPermission = true;
     });
 }
 
