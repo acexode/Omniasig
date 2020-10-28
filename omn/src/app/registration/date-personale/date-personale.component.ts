@@ -1,5 +1,6 @@
+import { AuthService } from 'src/app/core/services/auth/auth.service';
 import { cnpValidator } from 'src/app/shared/validators/cnp-validator';
-import { Component, HostBinding, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, HostBinding, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { RegistrationService } from 'src/app/core/services/auth/registration.service';
@@ -7,11 +8,13 @@ import { radiosConfigHelper } from 'src/app/shared/data/radios-config-helper';
 import { subPageHeaderTertiary } from 'src/app/shared/data/sub-page-header-tertiary';
 import { IonRadioInputOption } from 'src/app/shared/models/component/ion-radio-input-option';
 import { IonRadiosConfig } from 'src/app/shared/models/component/ion-radios-config';
+import { NavController } from '@ionic/angular';
 
 @Component( {
   selector: 'app-date-personale',
   templateUrl: './date-personale.component.html',
   styleUrls: [ './date-personale.component.scss' ],
+  changeDetection: ChangeDetectionStrategy.OnPush
 } )
 export class DatePersonaleComponent implements OnInit {
   @HostBinding( 'class' ) color = 'ion-color-white-page';
@@ -19,6 +22,9 @@ export class DatePersonaleComponent implements OnInit {
     title: '',
     leadingIconClasses: 'icon-20 mt-2',
   } );
+  errMsg;
+  errTitle;
+  showError = false;
   detailsForm: FormGroup;
   config: any = {
     nume: {
@@ -75,7 +81,10 @@ export class DatePersonaleComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private router: Router,
-    private regService: RegistrationService
+    private regService: RegistrationService,
+    private authS: AuthService,
+    private cdRef: ChangeDetectorRef,
+    private navCtrl: NavController
   ) {
     this.radiosConfig.itemClasses = 'w-40 pr-60 inline-flex';
     this.checkUserObj();
@@ -96,8 +105,36 @@ export class DatePersonaleComponent implements OnInit {
   }
 
   proceed() {
-    this.regService.setUserObj( { ...this.detailsForm.value } );
-    this.router.navigate( [ 'registration/email' ] );
+    const cnp = this.cnp.value;
+    const phone = this.regService.getuserPhone();
+    this.authS.checkCNP(cnp,phone).subscribe(e => {
+      this.regService.setUserObj( { ...this.detailsForm.value } );
+      this.router.navigate( [ 'registration/email' ] );
+    }, (err) => {
+      this.errTitle = {
+        text: 'Ne pare rău...',
+        class: 'color-red',
+      };
+      this.errMsg = [
+        {
+          classes: 'ion-text-center',
+          text: err.error
+        },
+        {
+          classes: 'ion-text-center mt-12',
+          text: 'Te rugăm să iei legătura cu un reprezentant OMNIASIG.'
+            
+        }
+      ];
+      this.showError = true;
+      this.cdRef.detectChanges();
+      setTimeout(() => {
+        this.showError = false;
+        this.navCtrl.navigateBack('/registration');
+      }, 2000);
+      
+    });
+    
   }
   get cnp() {
     return this.detailsForm.get('cnp');

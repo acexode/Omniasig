@@ -32,6 +32,9 @@ export class RegistrationService {
   get getuserObj() {
     return this.userObj;
   }
+  getuserPhone() {
+    return this.userObj.phoneNumber;
+  }
 
   GetUserNameByPhoneNumber(phoneNumber: string) {
     return this.reqS.get<any>(`${authEndpoints.GetUserNameByPhoneNumber}?phoneNumber=${phoneNumber}`);

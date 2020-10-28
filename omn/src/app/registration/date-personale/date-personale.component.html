@@ -1,6 +1,12 @@
 <ion-content class="">
   <app-sub-page-header [config]="headerConfig"> </app-sub-page-header>
-  <div class="px-32">
+  <ng-container *ngIf="showError">
+    <app-general-error      
+      [title]="errTitle"
+      [texts]="errMsg"
+    ></app-general-error>
+  </ng-container>
+  <div *ngIf="!showError" class="px-32">
     <div class="text-center ion-text-center pb-38">
       <ion-text class="alt-font color-dark-green x-large text-center">
         Cont de utilizator

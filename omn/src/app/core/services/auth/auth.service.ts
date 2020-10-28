@@ -81,6 +81,11 @@ export class AuthService {
       `${authEndpoints.findUserByPhoneNumber}?phoneNumber=${phoneNumber}`
     );
   }
+  checkCNP(cnp, phoneNumber) {
+    return this.reqS.get<any>(
+      `${authEndpoints.checkCNP}?cnp=${cnp}&phoneNumber=${phoneNumber}`
+    );
+  }
 
   // request sms during login
   sendPhoneNumberSms(phoneNumber) {
