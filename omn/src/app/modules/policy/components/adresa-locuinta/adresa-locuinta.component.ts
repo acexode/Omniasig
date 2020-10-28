@@ -63,11 +63,11 @@ export class AdresaLocuintaComponent implements OnInit {
   }
 
   ngOnInit() {
-    console.log(this.vLocuinteList)
+    console.log(this.initialData)
     this.route.queryParamMap
       .subscribe((params: any) => {
         this.locuinteId = params.params.id
-        //this.locuinteId = this.vLocuinteList.filter(e => e.locuinta.id == id)[0].locuinta
+        // this.locuinteId = this.vLocuinteList.filter(e => e.locuinta.id == id)[0].locuinta
         console.log(this.vLocuinteList)
       }
     );
@@ -81,15 +81,16 @@ export class AdresaLocuintaComponent implements OnInit {
 
   submitForm() {
     this.checkPAD = true;
-    if (this.locuintaForm.valid) {
-      const controlS = this.locuintaForm.get('selection');
-      const value = controlS.value;
-      if (value !== 'ADD_NEW') {
-        this.emitLocuintaItemById(value);
-      } else {
-        this.selectionDone.emit(value);
-      }
-    }
+    console.log(this.locuintaForm.get('selection'))
+    // if (this.locuintaForm.valid) {
+    //   const controlS = this.locuintaForm.get('selection');
+    //   const value = controlS.value;
+    //   if (value !== 'ADD_NEW') {
+    //     this.emitLocuintaItemById(value);
+    //   } else {
+    //     this.selectionDone.emit(value);
+    //   }
+    // }
   }
 
   emitLocuintaItemById(id) {
@@ -166,19 +167,18 @@ export class AdresaLocuintaComponent implements OnInit {
     return this.locuintaForm.get('selection');
   }
 
-  initLocuintaMainForm() {
-    console.log(this.vLocuinteList)
-    if(this.locuinteId){
-      if(this.selection){
-        console.log(this.locuinteId)
-        console.log(this.selection)
-        this.selection.setValue(this.locuinteId)
-        this.selection.updateValueAndValidity();
-        this.cdRef.detectChanges()
-      }
-      this.cdRef.detectChanges()
-      this.cdRef.markForCheck();
-    }
+  initLocuintaMainForm() {    
+    // if(this.locuinteId){
+    //   if(this.selection){
+    //     console.log(this.locuinteId)
+    //     console.log(this.selection)
+    //     this.selection.setValue(this.locuinteId)
+    //     this.selection.updateValueAndValidity();
+    //     this.cdRef.detectChanges()
+    //   }
+    //   this.cdRef.detectChanges()
+    //   this.cdRef.markForCheck();
+    // }
     if (this.initialData && this.initialData.locuinta) {
       if (this.selection) {
         this.selection.setValue(this.initialData.locuinta.id);

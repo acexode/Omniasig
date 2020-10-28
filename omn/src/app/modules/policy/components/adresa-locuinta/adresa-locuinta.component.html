@@ -12,17 +12,17 @@
                 >Adresele tale:</ion-label
               >
             </ion-row>
-            <ion-row *ngFor="let item of vLocuinteList">              
-                <ion-item class="ion-no-padding ion-align-items-start w-100">
-                  <ion-label class="ion-text-wrap my-24 text-normal">{{
-                    item?.locuinta | locuinteName: 'policy-list'
-                  }}</ion-label>
-                  <ion-radio
-                    class="ml-0 mr-12 my-24 radio-btn"
-                    slot="start"                    
-                    [value]="item?.locuinta?.id"
-                  ></ion-radio>
-                </ion-item>              
+            <ion-row *ngFor="let item of vLocuinteList">
+              <ion-item class="ion-no-padding ion-align-items-start w-100">
+                <ion-label class="ion-text-wrap my-24 text-normal">{{
+                  item?.locuinta | locuinteName: 'policy-list'
+                }}</ion-label>
+                <ion-radio
+                  class="ml-0 mr-12 my-24 radio-btn"
+                  slot="start"
+                  [value]="item?.locuinta?.id"
+                ></ion-radio>
+              </ion-item>
             </ion-row>
           </ion-col>
         </ion-row>
