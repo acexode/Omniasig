@@ -1,30 +1,39 @@
 <ion-content class="bg-white">
-    <app-sub-page-header [config]="headerConfig"> </app-sub-page-header>
-    <div class="px-32">
-        <ion-col>
-            <div class="ion-text-center pb-42 pt-16">
-                <ion-text class="text-small">
-                    Am trimis un cod de verificare la {{ phoneNumber }}
-                </ion-text>
-            </div>
-            <div class="ion-text-center">
-                <app-passcode-field [errorLogin]="InvalidCode" (doDigitLength)="digLength($event)" (doPassForm)="verifyPin($event)" (doClearErr)="clearErr($event)"></app-passcode-field>
-            </div>
-            <div class="ion-text-center">
-                <ion-text *ngIf="InvalidCode" class="text-small color-red">
-                    Cod invalid
-                </ion-text>
-                <ion-text *ngIf="sec > 1 && !InvalidCode" class="text-small">
-                    Poți solicita un alt cod în {{ min }}:{{ sec }}
-                </ion-text>
-                <ion-text *ngIf="sec < 1 && !InvalidCode" class="text-small">
-                    Nu ai primit codul?
-                    <a class="color-dark-green no-decoration" type="button" (click)="resendSMS()">Retrimite email</a
+  <app-sub-page-header [config]="headerConfig"> </app-sub-page-header>
+  <div class="px-32">
+    <ion-col>
+      <div class="ion-text-center pb-42 pt-16">
+        <ion-text class="text-small">
+          Am trimis un cod de verificare la {{ phoneNumber }}
+        </ion-text>
+      </div>
+      <div class="ion-text-center">
+        <app-passcode-field
+          [errorLogin]="InvalidCode"
+          (doDigitLength)="digLength($event)"
+          (doPassForm)="verifyPin($event)"
+          (doClearErr)="clearErr($event)"
+        ></app-passcode-field>
+      </div>
+      <div class="ion-text-center">
+        <ion-text *ngIf="InvalidCode" class="text-small color-red">
+          Cod invalid
+        </ion-text>
+        <ion-text *ngIf="sec > 1 && !InvalidCode" class="text-small">
+          Poți solicita un alt cod în {{ min }}:{{ sec }}
+        </ion-text>
+        <ion-text *ngIf="sec < 1 && !InvalidCode" class="text-small">
+          Nu ai primit codul?
+          <a
+            class="color-dark-green no-decoration"
+            type="button"
+            (click)="resendSMS()"
+            >Retrimite email</a
           >
         </ion-text>
         <div class="ion-align-items-center ion-text-center pt-18">
           <ion-button
-            [disabled]="digitsLength < 6" 
+            [disabled]="digitsLength < 6"
             (click)="continue()"
             color="success"
             expand="block"
