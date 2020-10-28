@@ -15,11 +15,11 @@ import { unsubscriberHelper } from 'src/app/core/helpers/unsubscriber.helper';
 import { AuthService } from 'src/app/core/services/auth/auth.service';
 import { subPageHeaderTertiary } from 'src/app/shared/data/sub-page-header-tertiary';
 
-@Component({
+@Component( {
   selector: 'app-passcode',
   templateUrl: './passcode.component.html',
-  styleUrls: ['./passcode.component.scss'],
-})
+  styleUrls: [ './passcode.component.scss' ],
+} )
 export class PasscodeComponent implements OnInit, OnDestroy {
   min = '00';
   sec: any = 59;
@@ -29,12 +29,12 @@ export class PasscodeComponent implements OnInit, OnDestroy {
   navESub: Subscription;
   busy = false;
   errorLogin: string = null;
-  headerConfig = subPageHeaderTertiary({
+  headerConfig = subPageHeaderTertiary( {
     title: 'Autentificare',
     leadingIconClasses: 'icon-20 mt-2',
-  });
-  @HostBinding('class') color = 'ion-color-white-page';
-  @ViewChild('app-passcode-field') pField;
+  } );
+  @HostBinding( 'class' ) color = 'ion-color-white-page';
+  @ViewChild( 'app-passcode-field' ) pField;
   constructor(
     private navCtrl: NavController,
     private route: ActivatedRoute,
@@ -44,59 +44,64 @@ export class PasscodeComponent implements OnInit, OnDestroy {
     this.getPhoneNumber();
   }
 
-  ngOnInit() {}
+  ngOnInit() { }
   handleNavError() {
-    this.navESub = this.route.queryParams.subscribe((qP) => {
-      if (qP && get(qP, 'expired', false)) {
+    this.navESub = this.route.queryParams.subscribe( ( qP ) => {
+      if ( qP && get( qP, 'expired', false ) ) {
         // This tells the user that the session has expired.
         this.errorLogin =
           'Sesiunea a expirat, autentificati-va pentru a continua...';
       }
-    });
+    } );
   }
   getPhoneNumber() {
-    this.sub = this.route.params.pipe(take(1)).subscribe((params) => {
-      if (params.number) {
+    this.sub = this.route.params.pipe( take( 1 ) ).subscribe( ( params ) => {
+      if ( params.number ) {
         this.phoneNumber = params.number;
       } else {
-        this.navCtrl.navigateForward(['/login']);
+        this.navCtrl.navigateForward( [ '/login' ] );
       }
-    });
+    } );
   }
 
-  verifyPasscode(passForm: FormGroup) {
+  verifyPasscode( passForm: FormGroup ) {
     const data = {
       phone: this.phoneNumber,
       password: passForm.controls.passcode.value,
       aRoute: '/home',
     };
 
-    this.authService.login(data).subscribe(
-      (datav) => {
+    this.authService.login( data ).subscribe(
+      ( datav ) => {
         this.changeCurrentLogin();
         passForm.reset();
       },
-      (error) => this.errLogin(error, passForm)
+      ( error ) => this.errLogin( error, passForm )
     );
   }
 
   changeCurrentLogin() {
-    this.authService.saveLastLoginNumber(this.phoneNumber);
+    this.authService.saveLastLoginNumber( this.phoneNumber );
   }
 
-  errLogin(err, passForm) {
+  errLogin( err, passForm ) {
     passForm.reset();
     this.errorLogin = 'Cod Invalid!';
   }
 
-  clearErr(e) {
+  clearErr( e ) {
     this.errorLogin = null;
+  }
+
+  doLogout() {
+    this.authService.doLogout();
   }
 
   ngOnDestroy(): void {
     // Called once, before the instance is destroyed.
     // Add 'implements OnDestroy' to the class.
-    unsubscriberHelper(this.sub);
-    unsubscriberHelper(this.navESub);
+    unsubscriberHelper( this.sub );
+    unsubscriberHelper( this.navESub );
   }
+
 }

@@ -62,4 +62,21 @@ export class PolicyFormService {
     };
     return offer;
   }
+
+  checkEmptyLocuintaItems(locuinta) {
+    const fields = [
+      'yearConstruction',
+      'valueCurrency',
+      'value',
+      'typeUse',
+      'area',
+      'floors',
+      'rooms',
+      'hasAlarmSystem',
+    ];
+    return fields.find((ff) => {
+      const fieldVal = get(locuinta, ff, null);
+      return fieldVal === undefined || fieldVal === null || fieldVal === '';
+    });
+  }
 }

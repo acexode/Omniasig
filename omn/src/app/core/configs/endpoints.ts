@@ -3,8 +3,7 @@ import { environment } from '../../../environments/environment';
 export const serverBaseUrl = environment.serverUrl;
 export const authEndpoints = {
   login: serverBaseUrl + '/User/LoginAndCreateToken',
-  findUserByPhoneNumber:
-    serverBaseUrl + '/UserProfile/GetUserNameByPhoneNumber',
+  findUserByPhoneNumber: serverBaseUrl + '/UserProfile/GetUserNameByPhoneNumber',
   getUserProfile: serverBaseUrl + '/UserProfile/GetUserProfile',
   sendPhoneNumberSms: serverBaseUrl + '/UserProfile/SmsPhoneNumberVerification',
   confirmPhoneNumberSms: serverBaseUrl + '/UserProfile/SmsPhoneNumberConfirm',
@@ -33,6 +32,7 @@ export const baseEndpoints = {
   pad: serverBaseUrl + '/PADInsurance',
   amplus: serverBaseUrl + '/AmplusInsurance',
   paidExtS: serverBaseUrl + '/PAIDExternalService',
+  downloadDocs: serverBaseUrl + '/Documents',
 };
 
 export const policyEndpoints = {
@@ -48,6 +48,16 @@ export const policyEndpoints = {
   confirmPayment: serverBaseUrl + '/Payment/GetPaymentbyUrlHash',
   GetActiveAmplusOffers:
     serverBaseUrl + '/AmplusInsurance/GetActiveAmplusOffers',
+  GetActiveAmplusPolicies:
+    serverBaseUrl + '/AmplusInsurance/GetActiveAmplusPolicies',
+  GetActiveAmplusPadOffers:
+    serverBaseUrl + '/AmplusInsurance/GetActiveAmplusPadOffers',
+  GetActiveAmplusPadPolicies:
+    serverBaseUrl + '/AmplusInsurance/GetActiveAmplusPadPolicies',
+};
+
+export const documentEndpoint = {
+  getDocument: baseEndpoints.downloadDocs + '/GetDocumentById',
 };
 
 export const locuinteEndpoints = {

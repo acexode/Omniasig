@@ -15,6 +15,7 @@ import { subPageHeaderDefault } from 'src/app/shared/data/sub-page-header-defaul
 import { IonInputConfig } from 'src/app/shared/models/component/ion-input-config';
 import { UpdatePassword } from '../models/UpdatePassword';
 import { ChangeCodeService } from '../services/change-code.service';
+import { finalize } from 'rxjs/operators';
 
 @Component({
   selector: 'app-confirmare-cod-acces',
@@ -66,8 +67,6 @@ export class ConfirmareCodAccesComponent implements AfterViewInit, OnDestroy {
           }
         });
       } else {
-        console.log(value);
-        console.log(this.accessCode);
         this.InvalidCode = true;
         this.navCtrl.navigateBack('/cod-acces/nou');
       }
@@ -77,14 +76,15 @@ export class ConfirmareCodAccesComponent implements AfterViewInit, OnDestroy {
   changeAccessCode() {
     this.changeCodeS
       .changeAccessCode()
-      .toPromise()
-      .then((res) => {
+      .pipe(
+        finalize(() => {
+          this.busy = false;
+        })
+      )
+      .subscribe((res) => {
         if (res) {
           this.proceed();
         }
-      })
-      .finally(() => {
-        this.busy = false;
       });
   }
 

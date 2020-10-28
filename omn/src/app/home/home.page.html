@@ -14,7 +14,11 @@
           ></ion-icon>
         </ion-button>
       </ion-buttons>
-      <ion-buttons slot="end" class="header-buttons" *ngIf="!isDisableNotificationIcon">
+      <ion-buttons
+        slot="end"
+        class="header-buttons"
+        *ngIf="!isDisableNotificationIcon"
+      >
         <ion-button class="header-button">
           <ion-icon
             slot="icon-only"
@@ -25,7 +29,7 @@
       </ion-buttons>
       <ion-title class="ion-text-left header-title">
         <h2 class="alt-font" *ngIf="account">
-          {{account?.surname + ' '+ account?.name}}
+          {{account?.name  + ' ' + account?.surname}}
         </h2>
       </ion-title>
     </ion-toolbar>
@@ -109,13 +113,11 @@
         </ion-row>
       </ion-col>
     </ion-row>
-    <!--  -->
-
     <ion-row class="mt-32 mx-n8" *ngIf="!accountActivated">
-      <app-disabled-placeholder
-        [item]="accountNotActivated"
-      ></app-disabled-placeholder>
+      <app-account-not-activated [item]="accountNotActivated" class="w-100">
+      </app-account-not-activated>
     </ion-row>
+
     <ion-row class="mt-32">
       <ion-col class="ion-no-padding">
         <ion-row>

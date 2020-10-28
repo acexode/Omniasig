@@ -43,6 +43,7 @@ export const policyItemHelper = (
   }
   if (policy) {
     baseItem.routerLink = ['/policy', policy.id];
+    baseItem.queryParams = { policyType: policy.typeId };
   }
   if (containerRefItem) {
     baseItem.contentRef = {

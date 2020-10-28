@@ -6,7 +6,7 @@ import {
     ViewChildren,
 } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { IonIcon } from '@ionic/angular';
+import { ActionSheetController, IonIcon, NavController } from '@ionic/angular';
 import { subPageHeaderDefault } from 'src/app/shared/data/sub-page-header-default';
 import { SugestiiService } from '../services/sugestii.service';
 
@@ -45,7 +45,9 @@ export class SugestiiPage implements OnInit {
     ];
     constructor(
         private formBuilder: FormBuilder,
-        private sugestiiS: SugestiiService
+        private sugestiiS: SugestiiService,
+        public actionSheetController: ActionSheetController,
+        public navCtrl: NavController
     ) { }
 
     ngOnInit() {
@@ -79,6 +81,7 @@ export class SugestiiPage implements OnInit {
                 ( response ) => {
                     // We don't want to submit the same data all over again.
                     this.suggestion.reset();
+                    this.suggestionModal();
                 },
                 ( error ) => { },
                 () => {
@@ -93,4 +96,26 @@ export class SugestiiPage implements OnInit {
     get userRating() {
         return this.suggestion.get( 'userRating' );
     }
+    async suggestionModal() {
+        let actionSheet = null;
+        this.actionSheetController
+          .create({
+            cssClass: 'locuinte-sheet s24-h32 green-title title-lg',
+            header: 'Mulțumim pentru sugestie!',
+            buttons: [
+              {
+                text: 'Acasă',
+                cssClass:
+                  'm-0 w-100 mt-48 no-shadow ion-color text-weight-medium ion-color-success flat button button-block button-large button-solid',
+                handler: () => {
+                  this.navCtrl.navigateRoot(['/home']);
+                },
+              }
+            ]
+          })
+          .then((v) => {
+            actionSheet = v;
+            actionSheet.present();
+          });
+      }
 }

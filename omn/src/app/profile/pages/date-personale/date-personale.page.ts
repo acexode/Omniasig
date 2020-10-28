@@ -1,7 +1,7 @@
 import { Component, HostBinding, OnInit } from '@angular/core';
 import { get } from 'lodash';
-import { combineLatest } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { BehaviorSubject, combineLatest } from 'rxjs';
+import { distinctUntilChanged, map } from 'rxjs/operators';
 import { ConfigService } from 'src/app/core/services/config/config.service';
 import { LocuinteService } from 'src/app/profile/pages/locuinte/services/locuinte/locuinte.service';
 import { subPageHeaderDefault } from 'src/app/shared/data/sub-page-header-default';
@@ -20,37 +20,32 @@ export class DatePersonalePage implements OnInit {
   accountActivated: boolean;
   account$ = this.authS.getAccountData();
   accountData: Account;
-  headerConfig = subPageHeaderDefault( 'Date Personale', '/profil');
+  headerConfig = subPageHeaderDefault('Date Personale', '/profil');
   domiciliu: Locuinte;
   otherAddresses: Array<Locuinte>;
-  domiciliu$ = this.locuinteService.locuinteStore$.pipe(
-    map((vals) => {
-      if (vals instanceof Array) {
-        return vals.find((l) => {
-          return get(l, 'isHomeAddress', false) === true;
-        });
-      } else {
-        return null;
-      }
-    })
-  );
-  otherAddresses$ = this.locuinteService.locuinteStore$.pipe(
-    map((vals) => {
-      if (vals instanceof Array) {
-        return vals.filter((loc) => {
-          return get(loc, 'isHomeAddress', false) === false;
-        });
-      } else {
-        return [];
-      }
-    })
-  );
+  domiciliu$ = new BehaviorSubject(null);
+  otherAddresses$ = new BehaviorSubject([]);
 
   constructor(
     private authS: AuthService,
     private configS: ConfigService,
     private locuinteService: LocuinteService
-  ) {}
+  ) {
+    this.locuinteService.locuinteStore$.pipe(
+      distinctUntilChanged(),
+    ).subscribe((vals) => {
+      if (vals instanceof Array) {
+        this.domiciliu$.next(vals.find((l) => {
+          return get(l, 'isHomeAddress', false) === true;
+        }));
+        this.otherAddresses$.next(vals.filter((loc) => {
+          return get(loc, 'isHomeAddress', false) === false;
+        }));
+      } else {
+        return null;
+      }
+    });
+  }
 
   ngOnInit() {
     combineLatest([

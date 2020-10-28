@@ -1,6 +1,7 @@
 import { Component, HostBinding, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { AuthService } from 'src/app/core/services/auth/auth.service';
 
 @Component({
   selector: 'app-nota-de-informare',
@@ -10,7 +11,25 @@ import { Router } from '@angular/router';
 export class NotaDeInformareComponent implements OnInit {
   termsForm: FormGroup;
   @HostBinding('class') color = 'ion-color-white-page';
-  constructor(private router: Router, private formBuilder: FormBuilder) {}
+  mailToDpo = 'mailto:dpo@omniasig.ro';
+  formularPetitiePrelucrareaLink = 'https://www.omniasig.ro/Formular-petitie-prelucrarea-datelor-cu-caracter-personal.html';
+  gdprLink = 'https://gdpr.omniasig.ro/';
+  omniasigLink = 'https://www.omniasig.ro';
+  dataprotectionLink = 'http://www.dataprotection.ro/';
+  mailToDataprotection = 'mailto:anspdcp@dataprotection.ro';
+  telefonFix = [
+    'tel:+40.318.059.211',
+    'tel:+40.318.059.212',
+  ];
+  cabinetPrsedinte = [
+    'tel:+40.318.059.220',
+    'tel:+40.318.059.60'
+  ];
+  constructor(
+    private router: Router,
+    private formBuilder: FormBuilder,
+    private authService: AuthService,
+  ) { }
 
   ngOnInit() {
     this.initForm();
@@ -25,5 +44,9 @@ export class NotaDeInformareComponent implements OnInit {
 
   proceed() {
     this.router.navigate(['registration/create-passcode']);
+  }
+
+  doLogout() {
+    this.authService.doLogout();
   }
 }

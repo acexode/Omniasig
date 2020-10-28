@@ -1,4 +1,11 @@
-import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
+import {
+  ChangeDetectorRef,
+  Component,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
+} from '@angular/core';
 import {
   ControlValueAccessor,
   FormBuilder,
@@ -20,23 +27,28 @@ import { get } from 'lodash';
   ],
 })
 export class InputComponent implements OnInit, ControlValueAccessor {
+  @Output() valueChange: EventEmitter<any> = new EventEmitter();
   @Input() config: IonInputConfig;
 
   onChange: (_: any) => void;
   onTouched: () => void;
   value: any;
+  clearedOnce = false;
 
   formGroup = this.fb.group({
     input: this.fb.control(null),
   });
 
-  constructor(private fb: FormBuilder, private cdRef: ChangeDetectorRef) {}
+  constructor(private fb: FormBuilder, private cdRef: ChangeDetectorRef) { }
 
-  writeValue(obj: any): void {
+  writeValue(obj: any, selfW = false): void {
     this.value = obj;
     this.formGroup.setValue({ input: obj });
     this.formGroup.updateValueAndValidity();
     this.cdRef.markForCheck();
+    if (!selfW) {
+      this.clearedOnce = false;
+    }
   }
 
   registerOnChange(fn: any): void {
@@ -58,6 +70,7 @@ export class InputComponent implements OnInit, ControlValueAccessor {
 
   getFieldValue() {
     const field = this.formGroup.get('input');
+    this.valueChange.emit();
     return field ? field.value : null;
   }
   ngOnInit() {
@@ -68,16 +81,26 @@ export class InputComponent implements OnInit, ControlValueAccessor {
     });
   }
 
+  onMouseDown() {
+    // Replace this with the clearOnEdit property on ion-input.
+    // If we only want it cleared on input.
+    if (this.config.clearOnEdit && !this.clearedOnce) {
+      this.formGroup.get('input').reset(null);
+      this.clearedOnce = true;
+    }
+  }
+
   increment() {
     const max = get(this.config, 'max', null);
     const step = get(this.config, 'step', 1);
     let val = this.getFieldValue();
-    val = val !== null && val !== undefined && val !== '' ? val : 0;
+    val =
+      val !== null && val !== undefined && val !== '' ? parseInt(val, 10) : 0;
     const newV = val + step;
     if (val !== null && newV >= max) {
-      this.writeValue(max ? max : newV);
+      this.writeValue(max ? max : newV, true);
     } else {
-      this.writeValue(newV);
+      this.writeValue(newV, true);
     }
   }
 
@@ -85,12 +108,13 @@ export class InputComponent implements OnInit, ControlValueAccessor {
     const min = get(this.config, 'min', 0);
     const step = get(this.config.spinnerConfig.step, 'step', 1);
     let val = this.getFieldValue();
-    val = val !== null && val !== undefined && val !== '' ? val : 0;
+    val =
+      val !== null && val !== undefined && val !== '' ? parseInt(val, 10) : 0;
     const newV = val - step;
     if (val !== null && newV <= min) {
-      this.writeValue(min);
+      this.writeValue(min, true);
     } else {
-      this.writeValue(val - step);
+      this.writeValue(newV, true);
     }
   }
 }

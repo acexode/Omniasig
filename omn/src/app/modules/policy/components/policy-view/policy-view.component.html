@@ -1,4 +1,8 @@
-<app-sub-page-header [config]="headerConfig"> </app-sub-page-header>
+<app-sub-page-header
+  [config]="headerConfig"
+  (trailingActionEv)="navigateRoot()"
+>
+</app-sub-page-header>
 <ion-content class="ion-margin-top bg-white">
   <ion-list class="ion-align-items-center ion-text-center pt-24">
     <ion-icon
@@ -23,9 +27,20 @@
       size="large"
       shape="round"
       mode="md"
+      (click)="downloadPolicy()"
+      [disabled]="downloading"
     >
       Trimite
-      <ion-icon class="ml-18 label-large" name="custom-share"></ion-icon>
+      <ion-icon
+        class="ml-18 label-large"
+        name="custom-share"
+        *ngIf="!downloading"
+      ></ion-icon>
+      <ion-spinner
+        name="crescent"
+        class="icon-16 ml-10 label-large"
+        *ngIf="downloading"
+      ></ion-spinner>
     </ion-button>
   </div>
   <div class="mt-16 px-32">
@@ -151,7 +166,11 @@
           </ion-text>
         </div>
         <ion-text class="s18-h24 ion-inherit-color">
-          {{ policy?.locuintaData?.value }} Euro
+          {{ policy?.locuintaData?.value | number: '1.0-0' }}
+          {{
+            policy?.locuintaData?.valueCurrency
+              | locuinteField: 'valueCurrency' || '-'
+          }}
         </ion-text>
       </div>
 
@@ -162,8 +181,8 @@
           </ion-text>
         </div>
         <ion-text class="s18-h24 ion-inherit-color">
-          <!-- {{ (policy?.locuintaData?.value || 0) * 4.9 }} Lei -->
-          - Lei
+          {{ policy?.insurancePrice || 0 | number }}
+          {{ policy?.currency | locuinteField: 'valueCurrency' || '-' }}
         </ion-text>
       </div>
 
@@ -221,13 +240,26 @@
         <ion-item
           fill="block"
           size="icon-button"
+          (click)="downloadPolicy()"
+          [disabled]="downloading"
           class="download-btn bg-green color-white btn-sep icon-info position-relative text-normal border-radius-8 mx-n8"
         >
           <ion-icon
             slot="start"
             name="descarca"
+            *ngIf="!downloading"
             class="icon-20 p-16 bg-dark-green"
           ></ion-icon>
+          <div
+            class="spinner-wrp p-16 bg-dark-green flex ion-align-items-center ion-justify-content-center"
+            *ngIf="downloading"
+            slot="start"
+          >
+            <ion-spinner
+              name="crescent"
+              class="icon-20 p-16 bg-dark-green"
+            ></ion-spinner>
+          </div>
 
           <ion-label class="text-weight-medium text-normal overflow-visible m-0"
             >Acesta este un sumar. Descarcă Polița completă în format PDF.

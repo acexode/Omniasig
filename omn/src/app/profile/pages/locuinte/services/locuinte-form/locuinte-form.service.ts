@@ -38,9 +38,12 @@ export class LocuinteFormService {
     //   hasAlarmSystem: boolean;
     // }
     return this.fb.group({
-      type: this.fb.control(get(model, 'type', ''), Validators.required),
+      type: this.fb.control(
+        get(model, 'type', 'apartament'),
+        Validators.required
+      ),
       structure: this.fb.control(
-        get(model, 'structure', ''),
+        get(model, 'structure', 'beton_armat'),
         Validators.required
       ),
       yearConstruction: this.fb.control(
@@ -48,19 +51,19 @@ export class LocuinteFormService {
         Validators.required
       ),
       valueCurrency: this.fb.control(
-        get(model, 'valueCurrency', ''),
+        get(model, 'valueCurrency', 'EUR'),
         Validators.required
       ),
-      value: this.fb.control(get(model, 'value', 0), [
+      value: this.fb.control(get(model, 'value', 21000), [
         Validators.required,
         Validators.min(21000),
         Validators.max(200000),
       ]),
       typeUse: this.fb.control(
-        get(model, 'typeUse', null),
+        get(model, 'typeUse', 'permanent'),
         Validators.required
       ),
-      area: this.fb.control(Number(get(model, 'area', 0)), [
+      area: this.fb.control(Number(get(model, 'area', 10)), [
         Validators.required,
         Validators.min(10),
         Validators.max(600),
@@ -248,6 +251,9 @@ export class LocuinteFormService {
             type: 'number',
             placeholder: 'Completează',
             disabled: isDisabled,
+            custom: {
+              clearOnEdit: true,
+            },
           }),
           typeUse: radiosConfigHelper({
             label: 'Ocupare',
@@ -258,18 +264,27 @@ export class LocuinteFormService {
             type: 'number',
             placeholder: 'Completează',
             disabled: isDisabled,
+            custom: {
+              clearOnEdit: true,
+            },
           }),
           floors: inputConfigHelper({
             label: 'Regim de înălțime',
             type: 'number',
             placeholder: '',
             disabled: isDisabled,
+            custom: {
+              clearOnEdit: true,
+            },
           }),
           rooms: inputConfigHelper({
             label: 'Număr de camere',
             type: 'number',
             placeholder: '',
             disabled: isDisabled,
+            custom: {
+              clearOnEdit: true,
+            },
           }),
 
           hasAlarmSystem: radiosConfigHelper({
@@ -296,7 +311,7 @@ export class LocuinteFormService {
         configModel.rooms.spinnerConfig = { step: 1 };
         configModel.value.spinnerConfig = { step: 1 };
         configModel.value.min = 21000;
-        configModel.value.min = 200000;
+        configModel.value.max = 200000;
         configModel.rooms.min = 1;
         configModel.rooms.max = 20;
         configModel.yearConstruction.min = 1700;
@@ -376,9 +391,9 @@ export class LocuinteFormService {
     const f = vvv.find((v) => {
       try {
         const vName = v.name.toString();
-        const sName = v.shortName.toString();
+        const vCode = code ? code.toString() : '';
         const vId = v.id.toString();
-        return vName === name || vId === code;
+        return vName === name || vId === vCode;
       } catch (err) {
         return false;
       }
@@ -512,6 +527,7 @@ export class LocuinteFormService {
         statedId: addressCity.statedId,
       };
       return this.locuinteS.getStreets(obj).pipe(
+        take(1),
         map((v) => {
           this.locuinteS.streetStore$.next(v);
           fieldsData.addressStreet = v;

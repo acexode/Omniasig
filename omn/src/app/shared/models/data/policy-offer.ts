@@ -2,6 +2,10 @@ import { PolicyItem } from './policy-item';
 
 export interface PolicyOffer {
   id: string;
+  padOfferDocumentId?: any;
+  padPolicyDocumentId?: any;
+  amplusOfferDocumentId?: any;
+  amplusPolicyDocumentId?: any;
   policy: PolicyItem;
   expiry: Date | string;
   cnp?: string;
@@ -20,6 +24,8 @@ export interface PolicyOffer {
   insurancePrice?: any;
   /* noOfPayments: AMPLUS */
   noOfPayments?: number;
+  // for Amplus+PAD where some fields in the offer details of Amplus differs from the offer details of PAD
+  padInsurance?: UniquePadData;
 }
 
 export interface RatePlan {
@@ -33,4 +39,13 @@ export interface RatePlan {
   insurancePrice?: any;
   firstPaymentValue?: any;
   ratePlanList?: Array<any>;
+}
+
+export interface UniquePadData {
+  id: string;
+  offerCode?: string;
+  currency?: string;
+  offerPrice?: number;
+  firstPaymentValue?: number;
+  iban?: any;
 }

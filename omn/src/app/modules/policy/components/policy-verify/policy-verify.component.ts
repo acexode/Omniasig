@@ -94,56 +94,159 @@ export class PolicyVerifyComponent implements OnInit {
       mentiuni: 'self',
       startDate: this.offerData?.policy?.dates?.from,
       numberOfMonths: '12',
-      insurancePrice: 100000,
+      insurancePrice: get(this.offerData.policy.locuintaData, 'value', 100000),
       numberOfPayments: this.offerData?.payData?.rate,
       paymentCurrency: this.offerData?.payData?.type,
       propertyCessionList: null,
     };
-    this.amplusS
-      .CreateAmplusInsuranceOffer(
-        this.offerData.policy.locuintaData.id,
-        true,
-        payload
-      )
-      .subscribe(
-        (result) => {
-          this.policyS
-            .addOfferToStore(this.offerData, result, this.policyID)
-            .subscribe(
-              (v) => {
-                if (v) {
-                  const id = get(v, 'id', null);
-                  if (id) {
-                    const navigationExtras: NavigationExtras = {
-                      queryParams: {
-                        policyType: this.policyID,
-                      },
-                    };
-                    this.navCtrl.navigateForward(
-                      ['/policy', 'offer', id],
-                      navigationExtras
-                    );
+    // if (this.policyID === 'Garant AMPLUS + PAD') {
+    //   payload.paymentCurrency = get(
+    //     this.offerData.policy.locuintaData,
+    //     'valueCurrency',
+    //     this.offerData?.payData?.type
+    //   );
+    // }
+    if (this.policyID === 'AMPLUS') {
+      this.amplusS
+        .CreateAmplusInsuranceOffer(
+          this.offerData.policy.locuintaData.id,
+          true,
+          payload
+        )
+        .subscribe(
+          (result) => {
+            this.policyS
+              .addOfferToStore(this.offerData, result, this.policyID)
+              .subscribe(
+                (v) => {
+                  if (v) {
+                    const id = get(v, 'id', null);
+                    if (id) {
+                      const navigationExtras: NavigationExtras = {
+                        queryParams: {
+                          policyType: this.policyID,
+                        },
+                      };
+                      this.navCtrl.navigateForward(
+                        ['/policy', 'offer', id],
+                        navigationExtras
+                      );
+                    } else {
+                      this.navCtrl.navigateRoot(['/policy']);
+                    }
                   } else {
-                    this.navCtrl.navigateRoot(['/policy']);
+                    // We'll probably only show an error in here.
                   }
-                } else {
-                  // We'll probably only show an error in here.
+                },
+                (err) => {
+                  this.goToErrorHandler.emit(err);
                 }
-              },
-              (err) => {
-                this.goToErrorHandler.emit(err);
-              }
-            );
-        },
-        (error) => {
-          const eroare = get(error, 'error.ofertaResponse.eroare', false);
-          const mesaj = get(error, 'error.ofertaResponse.mesaj', '');
-          if (eroare && mesaj) {
-            this.goToErrorHandler.emit(mesaj);
-          } else {
-            this.goToErrorHandler.emit();
+              );
+          },
+          (error) => {
+            const eroare = get(error, 'error.ofertaResponse.eroare', false);
+            const mesaj = get(error, 'error.ofertaResponse.mesaj', '');
+            if (eroare && mesaj) {
+              this.goToErrorHandler.emit(mesaj);
+            } else {
+              this.goToErrorHandler.emit();
+            }
           }
-        }
-      );
+        );
+    } else {
+      this.padS
+        .CreatePADInsuranceOffer(
+          this.offerData.policy.locuintaData.id,
+          this.offerData.policy.dates.from,
+          true
+        )
+        .subscribe(
+          (result) => {
+            this.policyS
+              .addOfferToStore(this.offerData, result, 'PAD')
+              .subscribe(
+                (v) => {
+                  if (result) {
+                    const id = get(v, 'id', null);
+                    if (id) {
+                      // FOR AMPLUS+PAD
+                      this.amplusS
+                        .CreateAmplusPadInsuranceOffer(
+                          this.offerData.policy.locuintaData.id,
+                          true,
+                          payload,
+                          id
+                        )
+                        .subscribe(
+                          (amplusPadOfferResponse) => {
+                            this.policyS
+                              .addOfferToStore(
+                                this.offerData,
+                                amplusPadOfferResponse,
+                                this.policyID
+                              )
+                              .subscribe(
+                                (val) => {
+                                  if (val) {
+                                    const idV = get(val, 'id', null);
+                                    if (idV) {
+                                      const navigationExtras: NavigationExtras = {
+                                        queryParams: {
+                                          policyType: this.policyID,
+                                        },
+                                      };
+                                      this.navCtrl.navigateForward(
+                                        ['/policy', 'offer', idV],
+                                        navigationExtras
+                                      );
+                                    } else {
+                                      this.navCtrl.navigateRoot(['/policy']);
+                                    }
+                                  } else {
+                                    // We'll probably only show an error in here.
+                                    this.goToErrorHandler.emit();
+                                  }
+                                },
+                                (err) => {
+                                  this.goToErrorHandler.emit(err);
+                                }
+                              );
+                          },
+                          (error) => {
+                            const eroare = get(
+                              error,
+                              'error.ofertaResponse.eroare',
+                              false
+                            );
+                            const mesaj = get(
+                              error,
+                              'error.ofertaResponse.mesaj',
+                              ''
+                            );
+                            if (eroare && mesaj) {
+                              this.goToErrorHandler.emit(mesaj);
+                            } else {
+                              this.goToErrorHandler.emit();
+                            }
+                          }
+                        );
+                    } else {
+                      this.navCtrl.navigateRoot(['/policy']);
+                    }
+                  } else {
+                    // We'll probably only show an error in here.
+                    this.goToErrorHandler.emit();
+                  }
+                },
+                (err) => {
+                  this.goToErrorHandler.emit(err);
+                }
+              );
+          },
+          (error) => {
+            this.processErrorMessage(error);
+          }
+        );
+    }
   }
 }

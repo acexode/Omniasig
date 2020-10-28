@@ -2,7 +2,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Component, HostBinding, OnInit } from '@angular/core';
 import { subPageHeaderDefault } from 'src/app/shared/data/sub-page-header-default';
 import { PhotoService } from '../../services/photo.service';
-import { ActionSheetController } from '@ionic/angular';
+import { Diagnostic } from '@ionic-native/diagnostic/ngx';
 
 @Component({
   selector: 'app-capture-docs',
@@ -17,64 +17,55 @@ export class CaptureDocsComponent implements OnInit {
   captured;
   hasErr = false;
   saving = false;
+  msg = {
+    text: 'Te rugam sa activezi camera pentru aplicatia OMNIASIG din setarile telefonului.',
+    class: 'color-red',
+  };
+  noPermission = false;
   constructor(
     private photoService: PhotoService,
     private router: Router,
     private route: ActivatedRoute,
-    private actionSheetController: ActionSheetController
-  ) {}
+    private diagnostic: Diagnostic,
+  ) { }
 
   removePhoto() {
     this.photoService.removePhoto();
-    this.openChoice();
+    this.addPhotoToGallery(true);
   }
 
-  async openChoice() {
-    let actionSheet = null;
-    this.actionSheetController
-      .create({
-        header: 'Selectati sursa',
-        buttons: [
-          {
-            text: 'Fotografie noua',
-            cssClass:
-              'mx-0 mt-0 mb-16 w-100 no-shadow ion-color text-weight-medium ion-color-success flat button button-block button-large button-solid',
-            handler: () => {
-              this.addPhotoToGallery(true);
-            },
-          },
-          {
-            text: 'Galerie de imagini',
-            cssClass:
-              'm-0 w-100 no-shadow ion-color text-weight-medium ion-color-success flat button button-block button-large button-solid',
-            handler: () => {
-              this.addPhotoToGallery(false);
-            },
-          },
-          {
-            text: 'Renunță',
-            role: 'cancel',
-            cssClass:
-              'm-0 w-100 no-shadow ion-color-secondary button button-block button-large button-solid',
-          },
-        ],
-      })
-      .then((v) => {
-        actionSheet = v;
-        actionSheet.present();
-      });
-  }
+  async addPhotoToGallery(newF) {
+    this.diagnostic.isCameraAuthorized()
+    .then(async (authorized) => {
+      if (authorized){
+        this.captured = await this.photoService.addNewToGallery(newF, 'B');
+      } else {
+        this.diagnostic.requestCameraAuthorization()
+        .then(async (status) => {
+          if (status === this.diagnostic.permissionStatus.GRANTED){
+            this.captured = await this.photoService.addNewToGallery(newF, 'B');
+          } else {
+            this.noPermission = true;
+          }
+        }).catch(e => {
+          this.noPermission = true;
+        });
+      }
+    }).catch(e => {
+      this.noPermission = true;
+    });
+}
 
-  async addPhotoToGallery(newF = false) {
-    this.captured = this.photoService.addNewToGallery(newF);
+  toHome() {
+    this.router.navigateByUrl('/home');
   }
 
   async retake() {
-    this.openChoice();
+    this.addPhotoToGallery(true);
   }
 
   async ngOnInit() {
-    this.openChoice();
+    this.addPhotoToGallery(true);
   }
 
   async uploadPhoto() {

@@ -72,6 +72,15 @@ const routes: Routes = [
       ),
   },
   {
+    path: 'call-center',
+    canActivateChild: [ AuthGuard ],
+    canActivate: [ AuthGuard ],
+    loadChildren: () =>
+      import( './modules/call-center/call-center.module' ).then(
+        ( m ) => m.CallCenterPageModule
+      ),
+  },
+  {
     path: 'reset-pincode',
     canActivateChild: [ LoginGuard ],
     canActivate: [ LoginGuard ],

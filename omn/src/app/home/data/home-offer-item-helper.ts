@@ -41,7 +41,7 @@ export const offerHomeItemHelper = ( offer: PolicyOffer ) => {
         ? 'Expiră la: ' + dateHelperDMY( offer.expiry )
         : ''
       : '';
-    baseItem.textContent.footer.text = offer.policy.typeId === 'AMPLUS' && offer.supportData && offer.offerPrice
+    baseItem.textContent.footer.text = (offer.policy.typeId === 'AMPLUS' || 'AMPLUS_PAD') && offer.supportData && offer.offerPrice
       ? offer.supportData === 'GOLD'
         ? 'Plan: GOLD ● ' + plataOption( offer.noOfPayments, offer.offerPrice )
         : offer.supportData === 'VIP'
@@ -55,7 +55,7 @@ export const offerHomeItemHelper = ( offer: PolicyOffer ) => {
 
 const plataOption = ( noOfPayments: number, offerPrice: any ) => {
   return noOfPayments !== 0
-    ? noOfPayments === 0 ? 'plata integrală' + ' ● ' + replaceHelper( offerPrice, '.', ',' ) + ' lei/an'
+    ? noOfPayments === 1 ? 'plata integrală' + ' ● ' + replaceHelper( offerPrice, '.', ',' ) + ' lei/an'
       : 'plata în ' + noOfPayments + ' rate' + ' ● ' + replaceHelper( offerPrice, '.', ',' ) + ' lei/an' // plata în două rate
     :
     '';
