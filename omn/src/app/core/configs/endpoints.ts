@@ -24,6 +24,7 @@ export const authEndpoints = {
   confirmEmailChange: serverBaseUrl + '/UserProfile/ConfirmationNewEmailChange',
   changeEmail: serverBaseUrl + '/UserProfile/RequestNewEmailChange',
   updateUserProfile: serverBaseUrl + '/UserProfile/UpdateUserProfile',
+  checkCNP: serverBaseUrl + '/UserProfile/CheckCNP',
 };
 
 export const baseEndpoints = {

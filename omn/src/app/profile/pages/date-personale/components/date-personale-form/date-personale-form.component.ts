@@ -18,6 +18,7 @@ import { EmailValidateModes } from 'src/app/shared/models/modes/email-validate-m
 import { BehaviorSubject, Subscription } from 'rxjs';
 import { CustomTimersService } from 'src/app/core/services/custom-timers/custom-timers.service';
 import { cnpValidator } from 'src/app/shared/validators/cnp-validator';
+import { ThrowStmt } from '@angular/compiler';
 
 @Component({
   selector: 'app-date-personale-form',
@@ -36,7 +37,8 @@ export class DatePersonaleFormComponent implements OnInit, OnDestroy {
   timer$ = new BehaviorSubject(0);
   formSubmitting = false;
   routeBackLink = '/profil/date-personale';
-
+  errorPage = false
+  erroMsg = ''
   constructor(
     private fb: FormBuilder,
     private authS: AuthService,
@@ -121,8 +123,16 @@ export class DatePersonaleFormComponent implements OnInit, OnDestroy {
           )
           .subscribe();
       } else if (this.formMode === this.formModes.EDIT_CNP) {
-        this.authS.doUpdateAccount({ cnp: this.cnp.value });
-        this.navCtrl.navigateBack('/profil/date-personale');
+        this.authS.getPhoneNumber().subscribe(e => {
+          this.authS.checkCNP(this.cnp.value, e).subscribe(e => {            
+              this.authS.doUpdateAccount({ cnp: this.cnp.value });
+              this.navCtrl.navigateBack('/profil/date-personale');
+          }, (err) => {
+            this.errorPage = true;
+            this.errorPage = err.error;
+            this.cdRef.detectChanges();
+          })
+        })
       }
     } else {
       this.formGroup.updateValueAndValidity();
@@ -139,5 +149,9 @@ export class DatePersonaleFormComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.formMode = null;
     this.formSubmitting = false;
+  }
+  goBack(){    
+    this.errorPage = false
+    this.cdRef.detectChanges();
   }
 }
