@@ -40,15 +40,22 @@ ion-header {
     min-height: rem(32);
     margin: rem(-4) rem(-8);
     padding: rem(8);
+    ion-button.header-button {
+      width: rem(40) !important;
+      height: rem(40) !important;
+      --padding-end: 20px !important;
+    }
+    ion-back-button.header-button {
+      width: rem(20) !important;
+      height: rem(20) !important;
+      --padding-end: 0 !important;
+    }
     ion-button.header-button,
     ion-back-button.header-button {
       --border-radius: 0 !important;
-      width: rem(20) !important;
-      height: rem(20) !important;
       --padding-start: 0 !important;
       --padding-bottom: 0 !important;
       --padding-top: 0 !important;
-      --padding-end: 0 !important;
       margin-inline-start: 0;
       margin-right: 0;
       margin-left: 0;
