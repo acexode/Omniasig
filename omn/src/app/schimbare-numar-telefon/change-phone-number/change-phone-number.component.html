@@ -1,8 +1,15 @@
 <ion-content>
-  <app-sub-page-header [config]="headerConfig"> </app-sub-page-header>
-  <div class="px-32 pt-60">
+  <app-sub-page-header 
+    (backActionEv)="back()"
+    (trailingActionEv)="exitFlow()" 
+    [config]="headerConfig"
+  > </app-sub-page-header>
+  <div class="px-32">
     <ion-col>
-      <div class="pt-60 pb-60">
+      <div class="mt-8 mb-16 s13-h16 ls-02 text-center">
+        Vom trimite un cod de verificare către acest număr. 
+      </div>
+      <div class="mt-64 pt-16 mb-76">
         <form [formGroup]="teleForm" (ngSubmit)="proceed()">
           <app-input
             formControlName="phoneNumber"

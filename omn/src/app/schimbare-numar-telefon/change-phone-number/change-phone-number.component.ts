@@ -4,11 +4,12 @@ import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { unsubscriberHelper } from 'src/app/core/helpers/unsubscriber.helper';
 import { AuthService } from 'src/app/core/services/auth/auth.service';
-import { subPageHeaderDefault } from 'src/app/shared/data/sub-page-header-default';
+import { schimbareNumarSubpageHeader } from 'src/app/schimbare-numar-telefon/data/schimbare-numar-subpage-header';
 import { IonInputConfig } from 'src/app/shared/models/component/ion-input-config';
 import { IonTextItem } from 'src/app/shared/models/component/ion-text-item';
 import { RequestNewPhoneNumberChange } from '../models/RequestNewPhoneNumberChange.interface';
 import { PhonenumberService } from '../services/phonenumber.service';
+import { NavController } from '@ionic/angular';
 
 @Component({
   selector: 'app-change-phone-number',
@@ -17,9 +18,13 @@ import { PhonenumberService } from '../services/phonenumber.service';
 })
 export class ChangePhoneNumberComponent implements OnInit, OnDestroy {
   @HostBinding('class') color = 'ion-color-white-page';
-  headerConfig = subPageHeaderDefault('Schimbare număr  telefon');
+  pText = 'Introdu noul număr de telefon';
+  fText = 'Numărul tău de telefon';
+  teleForm: FormGroup;
+  sub: Subscription;
+  error = false;
   label: IonTextItem = {
-    text: 'Introdu noul număr de telefon',
+    text: this.pText,
     classes: 'w-100 pb-8',
     slot: 'end',
   };
@@ -31,21 +36,25 @@ export class ChangePhoneNumberComponent implements OnInit, OnDestroy {
     inputLabel: this.label,
     clearable: true,
     minLength: 10,
-    maxLength: 11,
+    maxLength: 10,
   };
-  teleForm: FormGroup;
-
-  sub: Subscription;
-  error = false;
+  headerConfig;
 
   constructor(
     private router: Router,
     private formBuilder: FormBuilder,
     private phS: PhonenumberService,
-    private authS: AuthService
+    private authS: AuthService,
+    private navCtrl: NavController
   ) {}
 
   ngOnInit() {
+    this.headerConfig = schimbareNumarSubpageHeader({
+      title: 'Schimbare număr telefon',
+      hasTrailingIcon: true,
+      hasLeadingIcon: true,
+      backLink: false,
+    });
     this.initForm();
   }
 
@@ -56,23 +65,27 @@ export class ChangePhoneNumberComponent implements OnInit, OnDestroy {
         [
           Validators.required,
           Validators.pattern(/^07[0-9].*$/),
-          Validators.minLength(9),
+          Validators.minLength(10),
+          Validators.maxLength(10),
         ],
       ],
     });
 
-    this.sub = this.teleForm.valueChanges.subscribe((value) => {
+    this.sub = this.teleForm.valueChanges.subscribe( (value) => {
       this.onUserInput(value.phoneNumber);
     });
   }
 
   onUserInput(phoneNumber: number) {
-    if (phoneNumber) {
-      if (phoneNumber.toString().length > 0) {
-        this.error = false;
-      } else {
-        this.error = true;
-      }
+    const val = phoneNumber.toString().length > 1 ? phoneNumber.toString().substr(0, 2) : null;
+    const pass = /^[0-9]+$/;
+
+    if ((pass.test(phoneNumber.toString()) && (val === '07' || val === null)) || !phoneNumber) {
+      this.label.text = this.pText;
+      this.error = false;
+    }else{
+      this.label.text = this.fText;
+      this.error = true;
     }
   }
 
@@ -99,6 +112,14 @@ export class ChangePhoneNumberComponent implements OnInit, OnDestroy {
   isError() {
     this.teleForm.reset();
     this.error = true;
+  }
+
+  exitFlow() {
+    this.navCtrl.navigateBack(['/home']);
+  }
+
+  back() {
+    this.navCtrl.navigateBack(['/phone-number']);
   }
 
   ngOnDestroy() {
