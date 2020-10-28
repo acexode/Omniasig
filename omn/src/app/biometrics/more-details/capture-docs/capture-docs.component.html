@@ -95,7 +95,7 @@
 
   <ng-container *ngIf="!captured && noPermission">
     <app-general-error
-      (goBack)="toHome($event)"
+      (goBack)="toHome()"
       [doNavigate]="false"
       [title]="msg"
     ></app-general-error>
