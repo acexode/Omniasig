@@ -107,7 +107,7 @@ export class DatePersonaleComponent implements OnInit {
   proceed() {
     const cnp = this.cnp.value;
     const phone = this.regService.getuserPhone();
-    this.authS.checkCNP(cnp,phone).subscribe(e => {
+    this.authS.checkCNP(cnp, phone).subscribe(e => {
       this.regService.setUserObj( { ...this.detailsForm.value } );
       this.router.navigate( [ 'registration/email' ] );
     }, (err) => {
@@ -123,7 +123,6 @@ export class DatePersonaleComponent implements OnInit {
         {
           classes: 'ion-text-center mt-12',
           text: 'Te rugăm să iei legătura cu un reprezentant OMNIASIG.'
-            
         }
       ];
       this.showError = true;
@@ -132,10 +131,9 @@ export class DatePersonaleComponent implements OnInit {
         this.showError = false;
         this.navCtrl.navigateBack('/registration');
       }, 2000);
-      
     });
-    
   }
+  
   get cnp() {
     return this.detailsForm.get('cnp');
   }
