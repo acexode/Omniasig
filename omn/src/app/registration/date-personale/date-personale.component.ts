@@ -133,7 +133,6 @@ export class DatePersonaleComponent implements OnInit {
       }, 2000);
     });
   }
-  
   get cnp() {
     return this.detailsForm.get('cnp');
   }
