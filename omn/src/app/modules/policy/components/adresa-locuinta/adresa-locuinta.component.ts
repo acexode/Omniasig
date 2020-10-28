@@ -168,17 +168,17 @@ export class AdresaLocuintaComponent implements OnInit {
   }
 
   initLocuintaMainForm() {    
-    // if(this.locuinteId){
-    //   if(this.selection){
-    //     console.log(this.locuinteId)
-    //     console.log(this.selection)
-    //     this.selection.setValue(this.locuinteId)
-    //     this.selection.updateValueAndValidity();
-    //     this.cdRef.detectChanges()
-    //   }
-    //   this.cdRef.detectChanges()
-    //   this.cdRef.markForCheck();
-    // }
+    if(this.locuinteId){
+      if(this.selection){
+        console.log(this.locuinteId)
+        console.log(this.selection)
+        this.selection.setValue(this.locuinteId)
+        this.selection.updateValueAndValidity();
+        this.cdRef.detectChanges()
+      }
+      this.cdRef.detectChanges()
+      this.cdRef.markForCheck();
+    }
     if (this.initialData && this.initialData.locuinta) {
       if (this.selection) {
         this.selection.setValue(this.initialData.locuinta.id);
