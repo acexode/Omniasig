@@ -130,15 +130,15 @@ export class DatePersonaleFormComponent implements OnInit, OnDestroy {
           .subscribe();
       } else if (this.formMode === this.formModes.EDIT_CNP) {
         this.authS.getPhoneNumber().subscribe(e => {
-          this.authS.checkCNP(this.cnp.value, e).subscribe(e => {            
+          this.authS.checkCNP(this.cnp.value, e).subscribe(e => {           
               this.authS.doUpdateAccount({ cnp: this.cnp.value });
               this.navCtrl.navigateBack('/profil/date-personale');
           }, (err) => {
             this.errorPage = true;
             this.errorPage = err.error;
             this.cdRef.detectChanges();
-          })
-        })
+          });
+        });
       }
     } else {
       this.formGroup.updateValueAndValidity();
@@ -156,8 +156,8 @@ export class DatePersonaleFormComponent implements OnInit, OnDestroy {
     this.formMode = null;
     this.formSubmitting = false;
   }
-  goBack(){    
-    this.errorPage = false
+  goBack(){
+    this.errorPage = false;
     this.cdRef.detectChanges();
   }
 }
