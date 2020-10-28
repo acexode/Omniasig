@@ -9,7 +9,7 @@ import {
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { NavController } from '@ionic/angular';
-import { switchMap, finalize } from 'rxjs/operators';
+import { switchMap, finalize, take } from 'rxjs/operators';
 import { AuthService } from 'src/app/core/services/auth/auth.service';
 import { CustomRouterService } from 'src/app/core/services/custom-router/custom-router.service';
 import { subPageHeaderDefault } from 'src/app/shared/data/sub-page-header-default';
@@ -67,10 +67,16 @@ export class DatePersonaleFormComponent implements OnInit, OnDestroy {
 
   setTitles() {
     if (this.formMode === this.formModes.EDIT_EMAIL) {
-      this.headerConfig = subPageHeaderDefault( 'Schimbare adresă e-mail', this.routeBackLink);
+      this.headerConfig = subPageHeaderDefault(
+        'Schimbare adresă e-mail',
+        this.routeBackLink
+      );
     }
     if (this.formMode === this.formModes.EDIT_CNP) {
-      this.headerConfig = subPageHeaderDefault('Introdu CNP', this.routeBackLink);
+      this.headerConfig = subPageHeaderDefault(
+        'Introdu CNP',
+        this.routeBackLink
+      );
     }
   }
 
