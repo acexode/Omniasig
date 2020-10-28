@@ -37,8 +37,8 @@ export class DatePersonaleFormComponent implements OnInit, OnDestroy {
   timer$ = new BehaviorSubject(0);
   formSubmitting = false;
   routeBackLink = '/profil/date-personale';
-  errorPage = false
-  erroMsg = ''
+  errorPage = false;
+  erroMsg = '';
   constructor(
     private fb: FormBuilder,
     private authS: AuthService,
@@ -130,7 +130,7 @@ export class DatePersonaleFormComponent implements OnInit, OnDestroy {
           .subscribe();
       } else if (this.formMode === this.formModes.EDIT_CNP) {
         this.authS.getPhoneNumber().subscribe(e => {
-          this.authS.checkCNP(this.cnp.value, e).subscribe(e => {           
+          this.authS.checkCNP(this.cnp.value, e).subscribe(() => {
               this.authS.doUpdateAccount({ cnp: this.cnp.value });
               this.navCtrl.navigateBack('/profil/date-personale');
           }, (err) => {
