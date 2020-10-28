@@ -93,6 +93,10 @@ export class PasscodeComponent implements OnInit, OnDestroy {
     this.errorLogin = null;
   }
 
+  doLogout() {
+    this.authService.doLogout();
+  }
+
   ngOnDestroy(): void {
     // Called once, before the instance is destroyed.
     // Add 'implements OnDestroy' to the class.

@@ -2,7 +2,14 @@ import { locuinteFieldsData } from 'src/app/shared/data/locuinte-field-data';
 import { Injectable } from '@angular/core';
 import { get } from 'lodash';
 import { BehaviorSubject, Observable, of } from 'rxjs';
-import { catchError, distinctUntilChanged, map, switchMap, take, tap } from 'rxjs/operators';
+import {
+  catchError,
+  distinctUntilChanged,
+  map,
+  switchMap,
+  take,
+  tap,
+} from 'rxjs/operators';
 import { locuinteEndpoints } from 'src/app/core/configs/endpoints';
 import { AuthService } from 'src/app/core/services/auth/auth.service';
 import { RequestService } from 'src/app/core/services/request/request.service';
@@ -25,16 +32,28 @@ export class LocuinteService {
 
   constructor(private reqS: RequestService, private authS: AuthService) {
     this.initData();
+    this.authS.logoutListener.pipe(distinctUntilChanged()).subscribe((v) => {
+      if (v) {
+        this.clearData();
+      }
+    });
   }
 
   initData() {
-    this.authS.getAccountData().pipe(distinctUntilChanged(distinctCheckObj)).subscribe((account) => {
-      if (this.authS.accountActivated(account)) {
-        this.loadAllData();
-      } else {
-        this.locuinteStore$.next([]);
-      }
-    });
+    this.authS
+      .getAccountData()
+      .pipe(distinctUntilChanged(distinctCheckObj))
+      .subscribe((account) => {
+        if (this.authS.accountActivated(account)) {
+          this.loadAllData();
+        } else {
+          this.locuinteStore$.next([]);
+        }
+      });
+  }
+
+  clearData() {
+    this.locuinteStore$.next(null);
   }
 
   loadAllData() {

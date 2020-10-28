@@ -166,7 +166,7 @@
           </ion-text>
         </div>
         <ion-text class="s18-h24 ion-inherit-color">
-          {{ policy?.locuintaData?.value }}
+          {{ policy?.locuintaData?.value | number: '1.0-0' }}
           {{
             policy?.locuintaData?.valueCurrency
               | locuinteField: 'valueCurrency' || '-'
@@ -181,7 +181,7 @@
           </ion-text>
         </div>
         <ion-text class="s18-h24 ion-inherit-color">
-          {{ policy?.insurancePrice || 0 }}
+          {{ policy?.insurancePrice || 0 | number }}
           {{ policy?.currency | locuinteField: 'valueCurrency' || '-' }}
         </ion-text>
       </div>
