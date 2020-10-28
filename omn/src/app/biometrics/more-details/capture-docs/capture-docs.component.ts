@@ -2,7 +2,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Component, HostBinding, OnInit } from '@angular/core';
 import { subPageHeaderDefault } from 'src/app/shared/data/sub-page-header-default';
 import { PhotoService } from '../../services/photo.service';
-import { ActionSheetController } from '@ionic/angular';
+import { Diagnostic } from '@ionic-native/diagnostic/ngx';
 
 @Component({
   selector: 'app-capture-docs',
@@ -17,10 +17,16 @@ export class CaptureDocsComponent implements OnInit {
   captured;
   hasErr = false;
   saving = false;
+  msg = {
+    text: 'Te rugam sa activezi camera pentru aplicatia OMNIASIG din setarile telefonului.',
+    class: 'color-red',
+  };
+  noPermission = false;
   constructor(
     private photoService: PhotoService,
     private router: Router,
     private route: ActivatedRoute,
+    private diagnostic: Diagnostic,
   ) { }
 
   removePhoto() {
@@ -29,7 +35,29 @@ export class CaptureDocsComponent implements OnInit {
   }
 
   async addPhotoToGallery(newF) {
-    this.captured = this.photoService.addNewToGallery(newF, 'B');
+    this.diagnostic.isCameraAuthorized()
+    .then(async (authorized) => {
+      if (authorized){
+        this.captured = await this.photoService.addNewToGallery(newF, 'B');
+      } else {
+        this.diagnostic.requestCameraAuthorization()
+        .then(async (status) => {
+          if (status === this.diagnostic.permissionStatus.GRANTED){
+            this.captured = await this.photoService.addNewToGallery(newF, 'B');
+          } else {
+            this.noPermission = true;
+          }
+        }).catch(e => {
+          this.noPermission = true;
+        });
+      }
+    }).catch(e => {
+      this.noPermission = true;
+    });
+}
+
+  toHome() {
+    this.router.navigateByUrl('/home');
   }
 
   async retake() {

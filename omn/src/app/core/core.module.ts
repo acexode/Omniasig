@@ -3,6 +3,7 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { AppVersion } from '@ionic-native/app-version/ngx';
+import { SecureStorage } from '@ionic-native/secure-storage/ngx';
 import { IonicModule } from '@ionic/angular';
 import { IonicStorageModule } from '@ionic/storage';
 import { SideMenuComponent } from './components/side-menu/side-menu.component';
@@ -24,7 +25,7 @@ import { RequestService } from './services/request/request.service';
     IonicModule,
     IonicStorageModule.forRoot({
       name: '__omndb',
-      driverOrder: ['sqlite', 'indexeddb', 'localstorage', 'websql'],
+      driverOrder: ['indexeddb', 'localstorage', 'websql'],
     }),
   ],
   providers: [
@@ -38,6 +39,7 @@ import { RequestService } from './services/request/request.service';
     CustomTimersService,
     MenuService,
     AppVersion,
+    SecureStorage,
   ],
   exports: [SideMenuComponent],
 })
