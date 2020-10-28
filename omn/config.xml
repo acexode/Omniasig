@@ -133,6 +133,14 @@
         <edit-config file="*-Info.plist" mode="merge" target="CFBundleLocalizations">
             <array>
                 <string>ro</string>
+                <string>en</string>
+                <string>fr</string>
+                <string>de</string>
+                <string>it</string>
+                <string>ja</string>
+                <string>ko</string>
+                <string>zh</string>
+                <string>zh_CN</string>
             </array>
         </edit-config>
         <config-file parent="com.apple.developer.associated-domains" target="*-Debug.plist">
