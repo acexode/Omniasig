@@ -17,11 +17,7 @@ export const autoCompleteConfigHelper = (conf: {
       classes: 'mb-8 input-label',
       text: conf.label,
     },
-<<<<<<< HEAD
-    clearInvalid: true,
-=======
     clearInvalid: conf.clearInvalid,
->>>>>>> 0c01ceb476f5e890ab66b4877a2dbcb18a70de1d
     autocompleteOptions: {
       placeholder: 'Selectează',
       searchIcon: null,
