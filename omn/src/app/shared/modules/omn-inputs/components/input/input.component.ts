@@ -33,18 +33,22 @@ export class InputComponent implements OnInit, ControlValueAccessor {
   onChange: (_: any) => void;
   onTouched: () => void;
   value: any;
+  clearedOnce = false;
 
   formGroup = this.fb.group({
     input: this.fb.control(null),
   });
 
-  constructor(private fb: FormBuilder, private cdRef: ChangeDetectorRef) {}
+  constructor(private fb: FormBuilder, private cdRef: ChangeDetectorRef) { }
 
-  writeValue(obj: any): void {
+  writeValue(obj: any, selfW = false): void {
     this.value = obj;
     this.formGroup.setValue({ input: obj });
     this.formGroup.updateValueAndValidity();
     this.cdRef.markForCheck();
+    if (!selfW) {
+      this.clearedOnce = false;
+    }
   }
 
   registerOnChange(fn: any): void {
@@ -80,8 +84,9 @@ export class InputComponent implements OnInit, ControlValueAccessor {
   onMouseDown() {
     // Replace this with the clearOnEdit property on ion-input.
     // If we only want it cleared on input.
-    if (this.config.clearOnEdit) {
+    if (this.config.clearOnEdit && !this.clearedOnce) {
       this.formGroup.get('input').reset(null);
+      this.clearedOnce = true;
     }
   }
 
@@ -93,9 +98,9 @@ export class InputComponent implements OnInit, ControlValueAccessor {
       val !== null && val !== undefined && val !== '' ? parseInt(val, 10) : 0;
     const newV = val + step;
     if (val !== null && newV >= max) {
-      this.writeValue(max ? max : newV);
+      this.writeValue(max ? max : newV, true);
     } else {
-      this.writeValue(newV);
+      this.writeValue(newV, true);
     }
   }
 
@@ -107,9 +112,9 @@ export class InputComponent implements OnInit, ControlValueAccessor {
       val !== null && val !== undefined && val !== '' ? parseInt(val, 10) : 0;
     const newV = val - step;
     if (val !== null && newV <= min) {
-      this.writeValue(min);
+      this.writeValue(min, true);
     } else {
-      this.writeValue(newV);
+      this.writeValue(newV, true);
     }
   }
 }
