@@ -1,0 +1,44 @@
+<ion-grid class="px-32 pb-24 flex flex-1 mh-100p flex-column">
+  <ion-col
+    class="ion-no-padding flex flex-1 flex-column ion-justify-content-around"
+  >
+    <ion-row
+      class="ion-no-padding flex ion-justify-content-center ion-align-items-end flex-1 py-18"
+    >
+      <ion-icon
+        name="generic-error-icon"
+        class="d-flex lg-document-error"
+      ></ion-icon>
+    </ion-row>
+    <ion-row
+      class="flex ion-no-padding ion-align-items-center ion-justify-content-center flex-0"
+    >
+      <ion-label
+        color="omn-green"
+        class="h2 ls-min-02 alt-font border-danger ion-text-center text-weight-bold w-auto"
+        [ngClass]="title?.class"
+        >{{ title?.text }}
+      </ion-label>
+    </ion-row>
+    <ion-row
+      class="ion-no-padding ls-min-01 lh-22 flex flex-1 flex-column ion-align-items-start w-100 pt-16"
+    >
+      <ion-label
+        *ngFor="let item of texts"
+        [color]="item?.color"
+        [ngClass]="item?.classes"
+        class="w-100 ion-text-center"
+        >{{ item?.text }}</ion-label
+      >
+      <ion-row
+        class="ion-justify-content-center mt-auto pt-16 flex flex-1 flex-column ion-justify-content-end w-100"
+      >
+        <ion-button expand="block" fill="clear" (click)="logout()" class="m-0"
+          ><span class="button-text s16-h22 ls-01 text-weight-normal"
+            >Închide</span
+          ></ion-button
+        >
+      </ion-row>
+    </ion-row>
+  </ion-col>
+</ion-grid>
