@@ -1,19 +1,19 @@
 <app-sub-page-header [config]="headerConfig"> </app-sub-page-header>
 
 <ion-content class="ion-no-padding">
-  <ion-row class="px-32 h-100 pt-16">
+  <ion-row class="px-32 h-100 pt-16 pb-24">
     <ion-col size="12" class="ion-no-padding">
-      <div class="ion-text-center pb-32">
+      <div class="ion-text-center">
         <ion-text class="text-small">Introdu codul actual de acces</ion-text>
       </div>
-      <div class="ion-text-center pt-32">
+      <div class="ion-text-center pt-40">
         <app-passcode-field
           [errorLogin]="InvalidCode"
           (doPassForm)="continue($event)"
           (doClearErr)="clearErr($event)"
         ></app-passcode-field>
       </div>
-      <div *ngIf="InvalidCode" class="ion-text-center mt-32">
+      <div *ngIf="InvalidCode" class="ion-text-center">
         <ion-label class="text-small color-red"
           >Codul introdus este invalid</ion-label
         >
