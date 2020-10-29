@@ -1,17 +1,7 @@
 import { Location } from '@angular/common';
-import {
-  AfterViewInit,
-  Component,
-  HostBinding,
-  OnDestroy,
-  OnInit,
-  ViewChild,
-} from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AfterViewInit, Component, HostBinding, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { IonInput } from '@ionic/angular';
-import { Subscription } from 'rxjs';
-import { unsubscriberHelper } from 'src/app/core/helpers/unsubscriber.helper';
 import { AuthService } from 'src/app/core/services/auth/auth.service';
 import { CustomTimersService } from 'src/app/core/services/custom-timers/custom-timers.service';
 import { subPageHeaderDefault } from 'src/app/shared/data/sub-page-header-default';
@@ -24,8 +14,7 @@ import { PhonenumberService } from '../services/phonenumber.service';
   templateUrl: './verify-phone-number.component.html',
   styleUrls: ['./verify-phone-number.component.scss'],
 })
-export class VerifyPhoneNumberComponent
-  implements OnInit, AfterViewInit {
+export class VerifyPhoneNumberComponent implements OnInit, AfterViewInit {
   @HostBinding('class') color = 'ion-color-white-page';
   headerConfig = subPageHeaderDefault('Cod de verificare');
   min = '00';
@@ -56,7 +45,7 @@ export class VerifyPhoneNumberComponent
     });
   }
 
-  ngOnInit() { }
+  ngOnInit() {}
 
   ngAfterViewInit() {
     this.startTimer();
@@ -107,5 +96,4 @@ export class VerifyPhoneNumberComponent
   clearErr(_) {
     this.InvalidCode = null;
   }
-
 }

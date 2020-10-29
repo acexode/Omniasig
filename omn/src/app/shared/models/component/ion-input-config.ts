@@ -17,6 +17,7 @@ export interface IonInputConfig {
 
   // Text types.
   clearable?: boolean;
+  clearOnEdit?: boolean;
 
   // General properties.
   maxLength?: number;
