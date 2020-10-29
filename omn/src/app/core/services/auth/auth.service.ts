@@ -1,5 +1,10 @@
 import { Injectable } from '@angular/core';
 import {
+  AsyncValidatorFn,
+  AbstractControl,
+  ValidationErrors,
+} from '@angular/forms';
+import {
   ActivatedRoute,
   ActivatedRouteSnapshot,
   Router,
@@ -10,6 +15,7 @@ import * as qs from 'qs';
 import {
   BehaviorSubject,
   combineLatest,
+  Observable,
   of,
   Subscription,
   throwError,
@@ -99,6 +105,11 @@ export class AuthService {
     return this.reqS.get<any>(
       `${authEndpoints.checkCNP}?cnp=${cnp}&phoneNumber=${phoneNumber}`
     );
+  }
+
+  // Validate cnp.
+  validateCNP(cnp) {
+    return this.reqS.post<any>(`${authEndpoints.validateCNP}`, { cnp });
   }
 
   // request sms during login
@@ -619,5 +630,18 @@ export class AuthService {
     } catch (e) {
       return null;
     }
+  }
+
+  public cnpValidator(): AsyncValidatorFn {
+    return (control: AbstractControl): Observable<ValidationErrors | null> => {
+      return this.validateCNP(control.value).pipe(
+        catchError((err) => {
+          return of(null);
+        }),
+        map((res) => {
+          return res ? null : { invalidCnp2: true };
+        })
+      );
+    };
   }
 }
