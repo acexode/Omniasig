@@ -1,14 +1,14 @@
+<app-sub-page-header [config]="headerConfig"> </app-sub-page-header>
 <ion-content class="bg-white">
-  <app-sub-page-header [config]="headerConfig"> </app-sub-page-header>
-  <div class="px-24 flex flex-column flex-1 mh-100 pt-16">
+  <div class="px-32 flex flex-column flex-1 mh-100p pt-16 pb-24">
     <ion-col class="flex flex-column flex-1 ion-no-padding">
-      <div class="ion-text-center pb-42">
+      <div class="ion-text-center pb-8">
         <ion-text class="text-small">
           Pe adresa de email asociata contului a fost trimis un cod. Va rugam
           introduceti codul primit pe email:
         </ion-text>
       </div>
-      <div class="ion-text-center pb-80">
+      <div class="ion-text-center pt-32">
         <app-passcode-field
           [errorLogin]="InvalidCode"
           (doClearErr)="clearErr($event)"
@@ -17,9 +17,9 @@
         ></app-passcode-field>
       </div>
       <div
-        class="ion-text-center pt-80 flex flex-column flex-1 ion-justify-content-end ion-align-items-center"
+        class="ion-text-center mt-auto flex flex-column flex-1 ion-justify-content-end ion-align-items-center"
       >
-        <ion-text *ngIf="InvalidCode" class="text-small color-red">
+        <ion-text *ngIf="InvalidCode" class="text-small color-red pb-8">
           Cod invalid
         </ion-text>
         <ion-text *ngIf="sec > 1 && !InvalidCode" class="text-small">
@@ -31,7 +31,7 @@
             >Retrimite email</a
           >
         </ion-text>
-        <div class="ion-align-items-center ion-text-center pt-18 w-100 px-8">
+        <div class="ion-align-items-center ion-text-center pt-18 w-100">
           <ion-button
             [disabled]="digitLength < 6 && passForm?.valid"
             (click)="continue()"

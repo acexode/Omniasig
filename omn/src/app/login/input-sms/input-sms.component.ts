@@ -31,14 +31,15 @@ export class InputSmsComponent implements OnInit, AfterViewInit, OnDestroy {
     type: 'number',
     inputMode: 'number',
   };
+  hasErr = false;
   busy = false;
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     private timers: CustomTimersService,
     private formBuilder: FormBuilder,
-    private auth: AuthService,
-  ) { }
+    private auth: AuthService
+  ) {}
 
   ngOnInit() {
     this.getPhoneNumber();
@@ -69,12 +70,13 @@ export class InputSmsComponent implements OnInit, AfterViewInit, OnDestroy {
       (data) => {
         this.startTimer();
       },
-      (err) => { }
+      (err) => {}
     );
   }
 
   verifyDigit(passForm: FormGroup) {
     this.busy = true;
+    this.hasErr = false;
     const code = passForm.get('passcode').value;
     this.auth.confirmPhoneNumberSms(this.phoneNumber, code).subscribe(
       (data) => {
