@@ -95,13 +95,16 @@ export class DatePersonaleFormComponent implements OnInit, OnDestroy {
       }
       if (this.formMode === this.formModes.EDIT_CNP) {
         this.formGroup = this.fb.group({
-          cnp: this.fb.control(acc && acc.cnp ? acc.cnp : '', [
-            Validators.minLength(13),
-            Validators.maxLength(13),
-            Validators.pattern('[0-9]*'),
-            Validators.required,
-            cnpValidator,
-          ]),
+          cnp: this.fb.control(acc && acc.cnp ? acc.cnp : '', {
+            validators: [
+              Validators.required,
+              Validators.minLength(13),
+              Validators.pattern('[0-9]*'),
+              Validators.maxLength(13),
+              cnpValidator,
+            ],
+            asyncValidators: [this.authS.cnpValidator()],
+          }),
         });
       }
     });

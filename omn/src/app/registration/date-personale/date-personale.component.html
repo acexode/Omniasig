@@ -1,10 +1,11 @@
 <ion-content class="">
   <app-sub-page-header [config]="headerConfig"> </app-sub-page-header>
   <ng-container *ngIf="showError">
-    <app-general-error      
-      [title]="errTitle"
-      [texts]="errMsg"
-    ></app-general-error>
+    <app-generic-error
+      *ngIf="showError"
+      [texts]="errorMsgs"
+      (doClose)="goBack()"
+    ></app-generic-error>
   </ng-container>
   <div *ngIf="!showError" class="px-32">
     <div class="text-center ion-text-center pb-38">
@@ -25,13 +26,18 @@
         </div>
         <div class="pt-24">
           <app-input formControlName="cnp" [config]="config.cnp"></app-input>
-          <div class="pt-14">            
+          <div class="pt-14">
             <ion-text
-            [ngClass]="(cnp?.errors?.invalidCnp)?'color-red':''"
-          class="text-small"
-          >CNP-ul este necesar pentru completarea actelor la care vei avea
-          acces din aplicație. Datele tale sunt salvate în condiții de
-          maximă siguranță.</ion-text>
+              [ngClass]="
+                cnp?.errors?.invalidCnp || cnp?.errors?.invalidCnp2
+                  ? 'color-red'
+                  : ''
+              "
+              class="text-small"
+              >CNP-ul este necesar pentru completarea actelor la care vei avea
+              acces din aplicație. Datele tale sunt salvate în condiții de
+              maximă siguranță.</ion-text
+            >
           </div>
         </div>
         <div class="pt-30">
@@ -71,13 +77,18 @@
           <ion-button
             type="submit"
             (click)="proceed()"
-            [disabled]="!detailsForm.valid"
+            [disabled]="!detailsForm.valid || formSubmitting"
             class="success-gradient ion-color-success"
             expand="full"
             size="large"
             shape="round"
             mode="md"
           >
+            <ion-spinner
+              name="crescent"
+              *ngIf="formSubmitting"
+              class="icon-20"
+            ></ion-spinner>
             Continuă
           </ion-button>
         </div>
