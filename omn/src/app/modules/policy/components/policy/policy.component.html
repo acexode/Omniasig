@@ -4,12 +4,11 @@
     color="omn-transparent-green"
     class="header-toolbar"
   >
-    <ion-buttons slot="start" class="header-buttons">
+    <ion-buttons slot="start" class="header-buttons" (click)="openCustom()">
       <ion-button
         ion-menu-button
         autoHide="false"
         menu="omn-menu"
-        (click)="openCustom()"
         class="header-button omn-green"
       >
         <ion-icon
@@ -64,8 +63,6 @@
         ></app-policy-card-list
       ></ion-col>
     </ion-row>
-
-  
 
     <ion-row
       class="ion-no-padding flex w-100 flex-1 pb-16"

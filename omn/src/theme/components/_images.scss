@@ -1,6 +1,10 @@
 @import '../variables.scss';
 @import '../mixins/mixins';
 ion-icon {
+  &.lg-document-error {
+    height: rem(219);
+    width: rem(157);
+  }
   &.icon-40 {
     height: rem(40);
     width: rem(40);
@@ -12,10 +16,6 @@ ion-icon {
   &.icon-32 {
     height: rem(32);
     width: rem(32);
-  }
-  &.icon-60 {
-    height: rem(60);
-    width: rem(60);
   }
   &.icon-20 {
     font-size: rem(20);
