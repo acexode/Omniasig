@@ -30,7 +30,7 @@ export class GenericErrorComponent implements OnInit, OnChanges {
       text: 'Te rugăm să iei legătura cu un reprezentant OMNIASIG.',
     },
   ];
-  @Output() doLogout: EventEmitter<any> = new EventEmitter();
+  @Output() doClose: EventEmitter<any> = new EventEmitter();
 
   constructor() {}
 
@@ -57,7 +57,7 @@ export class GenericErrorComponent implements OnInit, OnChanges {
     }
   }
 
-  logout() {
-    this.doLogout.emit(true);
+  close() {
+    this.doClose.emit(true);
   }
 }

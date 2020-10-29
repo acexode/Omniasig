@@ -3,22 +3,22 @@ import {
   ChangeDetectorRef,
   Component,
   HostBinding,
-  OnInit,
   OnDestroy,
+  OnInit,
 } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { NavController } from '@ionic/angular';
-import { switchMap, finalize, take } from 'rxjs/operators';
+import { get } from 'lodash';
+import { BehaviorSubject, Subscription } from 'rxjs';
+import { finalize, switchMap } from 'rxjs/operators';
 import { AuthService } from 'src/app/core/services/auth/auth.service';
 import { CustomRouterService } from 'src/app/core/services/custom-router/custom-router.service';
+import { CustomTimersService } from 'src/app/core/services/custom-timers/custom-timers.service';
 import { subPageHeaderDefault } from 'src/app/shared/data/sub-page-header-default';
 import { DatePersonaleFormModes } from 'src/app/shared/models/modes/date-personale-form-modes';
-import { EmailValidateModes } from 'src/app/shared/models/modes/email-validate-modes';
-import { BehaviorSubject, Subscription } from 'rxjs';
-import { CustomTimersService } from 'src/app/core/services/custom-timers/custom-timers.service';
 import { cnpValidator } from 'src/app/shared/validators/cnp-validator';
-import { ThrowStmt } from '@angular/compiler';
+import { genericErrorTexts } from './../../../../../shared/data/generic-error-helper';
 
 @Component({
   selector: 'app-date-personale-form',
@@ -38,7 +38,7 @@ export class DatePersonaleFormComponent implements OnInit, OnDestroy {
   formSubmitting = false;
   routeBackLink = '/profil/date-personale';
   errorPage = false;
-  erroMsg = '';
+  errorMsgs = [];
   constructor(
     private fb: FormBuilder,
     private authS: AuthService,
@@ -100,7 +100,7 @@ export class DatePersonaleFormComponent implements OnInit, OnDestroy {
             Validators.maxLength(13),
             Validators.pattern('[0-9]*'),
             Validators.required,
-            cnpValidator
+            cnpValidator,
           ]),
         });
       }
@@ -129,15 +129,23 @@ export class DatePersonaleFormComponent implements OnInit, OnDestroy {
           )
           .subscribe();
       } else if (this.formMode === this.formModes.EDIT_CNP) {
-        this.authS.getPhoneNumber().subscribe(e => {
-          this.authS.checkCNP(this.cnp.value, e).subscribe(() => {
+        this.authS.getPhoneNumber().subscribe((e) => {
+          this.authS.checkCNP(this.cnp.value, e).subscribe(
+            () => {
               this.authS.doUpdateAccount({ cnp: this.cnp.value });
               this.navCtrl.navigateBack('/profil/date-personale');
-          }, (err) => {
-            this.errorPage = true;
-            this.errorPage = err.error;
-            this.cdRef.detectChanges();
-          });
+            },
+            (err) => {
+              this.errorMsgs = genericErrorTexts(
+                err
+                  ? get(err, 'error', 'A fost identificată o problemă...')
+                  : 'A fost identificată o problemă...',
+                ''
+              );
+              this.errorPage = true;
+              this.cdRef.detectChanges();
+            }
+          );
         });
       }
     } else {
@@ -156,8 +164,9 @@ export class DatePersonaleFormComponent implements OnInit, OnDestroy {
     this.formMode = null;
     this.formSubmitting = false;
   }
-  goBack(){
+  goBack() {
     this.errorPage = false;
+    this.errorMsgs = [];
     this.cdRef.detectChanges();
   }
 }
