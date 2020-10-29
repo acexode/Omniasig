@@ -7,6 +7,7 @@ import {
   Output,
   SimpleChanges,
 } from '@angular/core';
+import { get } from 'lodash';
 import { IonTextItem } from './../../models/component/ion-text-item';
 
 @Component({
@@ -21,10 +22,12 @@ export class GenericErrorComponent implements OnInit, OnChanges {
   };
   @Input() texts: Array<IonTextItem> = [
     {
-      classes: 'ion-text-center',
-      text:
-        `A fost identificată lipsa acordului tău privind procesare datelor personale.
-        Te rugăm să iei legătura cu un reprezentant OMNIASIG.`,
+      classes: 'text-weight-medium  mb-16',
+      text: 'A fost identificată o problema...',
+    },
+    {
+      classes: '',
+      text: 'Te rugăm să iei legătura cu un reprezentant OMNIASIG.',
     },
   ];
   @Output() doLogout: EventEmitter<any> = new EventEmitter();
@@ -39,6 +42,18 @@ export class GenericErrorComponent implements OnInit, OnChanges {
         text: 'Ne pare rău...',
         class: '',
       };
+    }
+    if (!this.texts || get(this.texts, 'length', 0) === 0) {
+      this.texts = [
+        {
+          classes: 'text-weight-medium mb-16',
+          text: 'A fost identificată o problema...',
+        },
+        {
+          classes: '',
+          text: 'Te rugăm să iei legătura cu un reprezentant OMNIASIG.',
+        },
+      ];
     }
   }
 
