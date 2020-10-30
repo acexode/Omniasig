@@ -39,6 +39,7 @@ export class ChangePhoneNumberComponent implements OnInit, OnDestroy {
     maxLength: 10,
   };
   headerConfig;
+  errMsg;
 
   constructor(
     private router: Router,
@@ -77,35 +78,45 @@ export class ChangePhoneNumberComponent implements OnInit, OnDestroy {
   }
 
   onUserInput(phoneNumber: number) {
-    const val = phoneNumber.toString().length > 1 ? phoneNumber.toString().substr(0, 2) : null;
-    const pass = /^[0-9]+$/;
-
-    if ((pass.test(phoneNumber.toString()) && (val === '07' || val === null)) || !phoneNumber) {
-      this.label.text = this.pText;
-      this.error = false;
-    }else{
-      this.label.text = this.fText;
-      this.error = true;
+    if(phoneNumber){
+      const val = phoneNumber.toString().length > 1 ? phoneNumber.toString().substr(0, 2) : null;
+      const pass = /^[0-9]+$/;
+      if ((pass.test(phoneNumber.toString()) && (val === '07' || val === null)) || !phoneNumber) {
+        this.label.text = this.pText;
+        this.error = false;
+      }else{
+        this.errMsg = 'Numărul de telefon nu este corect'
+        this.label.text = this.fText;
+        this.error = true;
+      }
     }
   }
 
   proceed() {
     const newPhoneNumber = this.teleForm.controls.phoneNumber.value;
-
     this.authS.getAuthState().subscribe((authData) => {
       const { userId } = authData.account;
-      const requestNewPhoneDetails: RequestNewPhoneNumberChange = {
-        userNameOrId: userId,
-        newPhoneNumber,
-      };
-      this.phS.updatePhoneNumber(requestNewPhoneDetails).subscribe(
-        (response) => {
-          this.router.navigate(['phone-number/confirm-number', newPhoneNumber]);
+
+      this.phS.checkPhoneNumber(newPhoneNumber).subscribe(
+        (checkResponse) => {
+          const requestNewPhoneDetails: RequestNewPhoneNumberChange = {
+            userNameOrId: userId,
+            newPhoneNumber,
+          };
+          this.phS.updatePhoneNumber(requestNewPhoneDetails).subscribe(
+            (response) => {
+              this.router.navigate(['phone-number/confirm-number', newPhoneNumber]);
+            },
+            (err) => {
+              this.isError();
+            }
+          );
         },
         (err) => {
+          this.errMsg = err.error;
           this.isError();
         }
-      );
+      )
     });
   }
 
