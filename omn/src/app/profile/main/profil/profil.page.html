@@ -4,8 +4,8 @@
     color="omn-transparent-green"
     class="header-toolbar"
   >
-    <ion-buttons slot="start" class="header-buttons">
-      <ion-button (click)="openCustom()" class="header-button omn-green">
+    <ion-buttons slot="start" class="header-buttons" (click)="openCustom()">
+      <ion-button class="header-button omn-green">
         <ion-icon
           slot="icon-only"
           name="md-menu"
@@ -14,9 +14,7 @@
       </ion-button>
     </ion-buttons>
     <ion-title class="ion-text-left header-title omn-green"
-      ><h2 class="alt-font omn-green">
-        Profil
-      </h2>
+      ><h2 class="alt-font omn-green">Profil</h2>
     </ion-title>
   </ion-toolbar>
 </ion-header>

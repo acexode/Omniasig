@@ -5,8 +5,8 @@
       color="omn-transparent-white"
       class="header-toolbar"
     >
-      <ion-buttons slot="start" class="header-buttons">
-        <ion-button (click)="openCustom()" class="header-button">
+      <ion-buttons slot="start" class="header-buttons"  (click)="openCustom()">
+        <ion-button class="header-button">
           <ion-icon
             slot="icon-only"
             name="md-menu"
@@ -29,7 +29,7 @@
       </ion-buttons>
       <ion-title class="ion-text-left header-title">
         <h2 class="alt-font" *ngIf="account">
-          {{account?.name  + ' ' + account?.surname}}
+          {{account?.name + ' ' + account?.surname}}
         </h2>
       </ion-title>
     </ion-toolbar>

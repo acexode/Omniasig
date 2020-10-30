@@ -1,8 +1,9 @@
-<app-sub-page-header [config]="headerConfig"> </app-sub-page-header>
+<app-sub-page-header [config]="headerConfig" (backActionEv)="doLogout()">
+</app-sub-page-header>
 <ion-content class="bg-white">
   <ion-row class="px-24 h-100 pt-16">
     <ion-col size="12" class="ion-no-padding">
-      <div class="ion-text-center pb-18">
+      <div class="ion-text-center mb-6">
         <ion-text class="text-small">
           Introdu codul tău de acces format din 6 cifre.</ion-text
         >
@@ -23,6 +24,7 @@
       <ion-button
         expand="block"
         fill="clear"
+        class="m-0"
         color="omn-green"
         [routerLink]="['/reset-pincode']"
       >

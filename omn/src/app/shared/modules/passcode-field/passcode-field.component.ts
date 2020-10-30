@@ -1,5 +1,4 @@
 import {
-  AfterViewInit,
   Component,
   EventEmitter,
   Input,
@@ -15,7 +14,7 @@ import { IonInput } from '@ionic/angular';
   templateUrl: './passcode-field.component.html',
   styleUrls: ['./passcode-field.component.scss'],
 })
-export class PasscodeFieldComponent implements OnInit, AfterViewInit {
+export class PasscodeFieldComponent implements OnInit {
   @ViewChild('inputField', { static: true }) inputField: IonInput;
   digitsLength = 0;
   @Input() errorLogin: string | null | boolean;
@@ -24,21 +23,11 @@ export class PasscodeFieldComponent implements OnInit, AfterViewInit {
   @Output() doPassForm: EventEmitter<FormGroup> = new EventEmitter();
   @Output() doClearErr: EventEmitter<any> = new EventEmitter();
   @Output() doDigitLength: EventEmitter<number> = new EventEmitter();
-
-  constructor(private formBuilder: FormBuilder) {}
+  savePin = [];
+  constructor(private formBuilder: FormBuilder) { }
 
   ngOnInit() {
     this.initForm();
-  }
-
-  clickInput() {
-    this.inputField.setFocus();
-  }
-
-  ngAfterViewInit() {
-    setTimeout(() => {
-      this.clickInput();
-    }, 200);
   }
 
   initForm() {
@@ -57,6 +46,11 @@ export class PasscodeFieldComponent implements OnInit, AfterViewInit {
   changeInput(passCode: string) {
     this.digitsLength = passCode ? passCode.length : 0;
     this.emitDigitLength();
+    /*  clear savePin*/
+    if (passCode === null && this.savePin.length > 5) {
+      this.doResetForSavePin();
+    }
+    /*  */
     if (this.digitsLength === 6 && !this.busy) {
       this.emitForm();
     }
@@ -64,7 +58,7 @@ export class PasscodeFieldComponent implements OnInit, AfterViewInit {
       const value = this.passCode.value ? this.passCode.value : '';
       try {
         this.passCode.setValue(value.substring(0, 6), { emitEvent: false });
-      } catch (e) {}
+      } catch (e) { }
     }
     this.clearErr();
   }
@@ -84,5 +78,29 @@ export class PasscodeFieldComponent implements OnInit, AfterViewInit {
     if (this.errorLogin != null || typeof this.errorLogin != null) {
       this.doClearErr.emit(null);
     }
+  }
+
+  clickingInput(pinKey: any) {
+    switch (pinKey) {
+      case 'backIcon':
+        if (this.savePin.length > 0) {
+          this.savePin.pop();
+        }
+        break;
+      default:
+        if (this.savePin.length < 6) {
+          this.savePin.push(pinKey);
+        }
+        break;
+    }
+    this.digitsLength = this.savePin.length;
+    if (this.digitsLength === 6) {
+      this.passCode.setValue(this.savePin.join(''), { emitEvent: true });
+    }
+    this.clearErr();
+  }
+  doResetForSavePin() {
+    this.savePin = [];
+    this.digitsLength = 0;
   }
 }
