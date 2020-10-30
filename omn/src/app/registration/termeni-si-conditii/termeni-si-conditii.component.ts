@@ -6,6 +6,8 @@ import { Component, HostBinding, OnInit } from '@angular/core';
   styleUrls: ['./termeni-si-conditii.component.scss'],
 })
 export class TermeniSiConditiiComponent implements OnInit {
+
+  officeMail= 'office@omniasig.ro';
   omniasigLink = 'https://www.omniasig.ro';
   mailtodpo = 'mailto:dpo@omniasig.ro';
   @HostBinding('class') color = 'ion-color-white-page';
