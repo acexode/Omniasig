@@ -368,10 +368,11 @@ export class ConfirmareIdentitateComponent implements OnInit {
                 ''
               );
               this.hasError = true;
+              this.cdRef.markForCheck();
             },
             () => {
               this.formSubmitting = false;
-              this.cdRef.detectChanges();
+              this.cdRef.markForCheck();
             }
           );
       });
@@ -422,6 +423,7 @@ export class ConfirmareIdentitateComponent implements OnInit {
   clearErrors() {
     this.hasError = false;
     this.errorMsgs = [];
-    this.cdRef.detectChanges();
+    this.formSubmitting = false;
+    this.cdRef.markForCheck();
   }
 }
