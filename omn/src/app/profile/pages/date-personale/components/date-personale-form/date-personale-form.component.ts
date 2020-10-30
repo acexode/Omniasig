@@ -1,3 +1,4 @@
+import { Account } from './../../../../../core/models/account.interface';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -10,8 +11,8 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { NavController } from '@ionic/angular';
 import { get } from 'lodash';
-import { BehaviorSubject, Subscription } from 'rxjs';
-import { finalize, switchMap } from 'rxjs/operators';
+import { BehaviorSubject, of, Subscription, throwError } from 'rxjs';
+import { finalize, switchMap, take, tap } from 'rxjs/operators';
 import { AuthService } from 'src/app/core/services/auth/auth.service';
 import { CustomRouterService } from 'src/app/core/services/custom-router/custom-router.service';
 import { CustomTimersService } from 'src/app/core/services/custom-timers/custom-timers.service';
@@ -38,6 +39,7 @@ export class DatePersonaleFormComponent implements OnInit, OnDestroy {
   formSubmitting = false;
   routeBackLink = '/profil/date-personale';
   errorPage = false;
+  account;
   errorMsgs = [];
   constructor(
     private fb: FormBuilder,
@@ -81,33 +83,36 @@ export class DatePersonaleFormComponent implements OnInit, OnDestroy {
   }
 
   buildForm() {
-    this.authS.getAccountData().subscribe((acc) => {
-      if (this.formMode === this.formModes.EDIT_EMAIL) {
-        this.formGroup = this.fb.group({
-          email: this.fb.control(acc && acc.email ? acc.email : '', [
-            Validators.email,
-            Validators.required,
-          ]),
-        });
-        this.timerSubs = this.timerS.emailValidateTimer$.subscribe((v) =>
-          this.timer$.next(v)
-        );
-      }
-      if (this.formMode === this.formModes.EDIT_CNP) {
-        this.formGroup = this.fb.group({
-          cnp: this.fb.control(acc && acc.cnp ? acc.cnp : '', {
-            validators: [
+    this.authS
+      .getAccountData()
+      .pipe(take(1))
+      .subscribe((acc: Account) => {
+        this.account = acc;
+        if (this.formMode === this.formModes.EDIT_EMAIL) {
+          this.formGroup = this.fb.group({
+            email: this.fb.control(acc && acc.email ? acc.email : '', [
+              Validators.email,
               Validators.required,
-              Validators.minLength(13),
-              Validators.pattern('[0-9]*'),
-              Validators.maxLength(13),
-              cnpValidator,
-            ],
-            asyncValidators: [this.authS.cnpValidator()],
-          }),
-        });
-      }
-    });
+            ]),
+          });
+          this.timerSubs = this.timerS.emailValidateTimer$.subscribe((v) =>
+            this.timer$.next(v)
+          );
+        }
+        if (this.formMode === this.formModes.EDIT_CNP) {
+          this.formGroup = this.fb.group({
+            cnp: this.fb.control(acc && acc.cnp ? acc.cnp : '', {
+              validators: [
+                Validators.required,
+                Validators.minLength(13),
+                Validators.pattern('[0-9]*'),
+                Validators.maxLength(13),
+                cnpValidator,
+              ],
+            }),
+          });
+        }
+      });
   }
 
   submitForm() {
@@ -133,22 +138,50 @@ export class DatePersonaleFormComponent implements OnInit, OnDestroy {
           .subscribe();
       } else if (this.formMode === this.formModes.EDIT_CNP) {
         this.authS.getPhoneNumber().subscribe((e) => {
-          this.authS.checkCNP(this.cnp.value, e).subscribe(
-            () => {
-              this.authS.doUpdateAccount({ cnp: this.cnp.value });
-              this.navCtrl.navigateBack('/profil/date-personale');
-            },
-            (err) => {
-              this.errorMsgs = genericErrorTexts(
-                err
-                  ? get(err, 'error', 'A fost identificată o problemă...')
-                  : 'A fost identificată o problemă...',
-                ''
-              );
-              this.errorPage = true;
-              this.cdRef.detectChanges();
+          let obsv = of(true);
+          try {
+            if (this.cnp.value !== this.account.cnp) {
+              obsv = this.authS.checkCNP(this.cnp.value, e);
             }
-          );
+          } catch {}
+          obsv
+            .pipe(
+              switchMap((v) => {
+                let user;
+                try {
+                  user = {
+                    userNameOrId: this.account.userId,
+                    name: this.account.name,
+                    cnp: this.cnp.value,
+                    surname: this.account.surname,
+                  };
+                } catch {
+                  return throwError('');
+                }
+                if (user) {
+                  return this.authS.updateUserProfile(user);
+                }
+                return throwError('');
+              }),
+              tap(() => {
+                this.authS.doUpdateAccount({ cnp: this.cnp.value });
+              })
+            )
+            .subscribe(
+              () => {
+                this.navCtrl.navigateBack('/profil/date-personale');
+              },
+              (err) => {
+                this.errorMsgs = genericErrorTexts(
+                  err
+                    ? get(err, 'error', 'A fost identificată o problemă...')
+                    : 'A fost identificată o problemă...',
+                  ''
+                );
+                this.errorPage = true;
+                this.cdRef.detectChanges();
+              }
+            );
         });
       }
     } else {
