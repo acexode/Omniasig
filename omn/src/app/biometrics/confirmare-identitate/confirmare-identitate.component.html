@@ -4,9 +4,12 @@
 >
   Mai târziu
 </p>
-<app-sub-page-header [config]="headerConfig"></app-sub-page-header>
+<app-sub-page-header
+  [config]="headerConfig"
+  *ngIf="!hasError"
+></app-sub-page-header>
 <ion-content #cnpRef>
-  <ion-grid class="ion-no-padding mh-100p flex flex-column">
+  <ion-grid class="ion-no-padding mh-100p flex flex-column" *ngIf="!hasError">
     <ion-row class="ion-justify-content-center mt-6 mx-24">
       <ion-text
         color="Success"
@@ -47,7 +50,9 @@
       </ion-row>
 
       <ion-row class="ion-no-padding judet mb-24">
-        <span class="mb-16 text-weight-medium">Adresa de domiciliu din buletin</span>
+        <span class="mb-16 text-weight-medium"
+          >Adresa de domiciliu din buletin</span
+        >
         <app-select
           class="w-100"
           [config]="confirmModel?.addressCounty"
@@ -162,6 +167,11 @@
       </ion-row>
     </ion-grid>
   </ion-grid>
+  <app-generic-error
+    *ngIf="hasError"
+    [texts]="errorMsgs"
+    (doClose)="clearErrors()"
+  ></app-generic-error>
 </ion-content>
 <ng-template #withaddressStreetType let-attrs="attrs">
   <div class="flex ion-justify-content-between">
