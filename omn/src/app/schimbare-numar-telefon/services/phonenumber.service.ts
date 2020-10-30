@@ -7,7 +7,7 @@ import { RequestNewPhoneNumberChange } from './../models/RequestNewPhoneNumberCh
 @Injectable({
   providedIn: 'root',
 })
-export class PhonenumberService {CheckNewPhoneNumber
+export class PhonenumberService {
   constructor(private reqS: RequestService) {}
 
   updatePhoneNumber(data: RequestNewPhoneNumberChange): Observable<any> {

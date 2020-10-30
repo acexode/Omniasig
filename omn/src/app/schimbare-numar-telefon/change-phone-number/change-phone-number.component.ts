@@ -78,14 +78,14 @@ export class ChangePhoneNumberComponent implements OnInit, OnDestroy {
   }
 
   onUserInput(phoneNumber: number) {
-    if(phoneNumber){
+    if (phoneNumber) {
       const val = phoneNumber.toString().length > 1 ? phoneNumber.toString().substr(0, 2) : null;
       const pass = /^[0-9]+$/;
       if ((pass.test(phoneNumber.toString()) && (val === '07' || val === null)) || !phoneNumber) {
         this.label.text = this.pText;
         this.error = false;
       }else{
-        this.errMsg = 'Numărul de telefon nu este corect'
+        this.errMsg = 'Numărul de telefon nu este corect';
         this.label.text = this.fText;
         this.error = true;
       }
@@ -116,7 +116,7 @@ export class ChangePhoneNumberComponent implements OnInit, OnDestroy {
           this.errMsg = err.error;
           this.isError();
         }
-      )
+      );
     });
   }
 
