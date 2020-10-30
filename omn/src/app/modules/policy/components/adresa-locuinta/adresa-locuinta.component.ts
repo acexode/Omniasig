@@ -27,6 +27,7 @@ export class AdresaLocuintaComponent implements OnInit {
   checkPAD = false;
   userId;
   locuinteId;
+  preselected = false
   loaderTitle = 'Verificăm datele în portalul PAID…';
   @Input() set locuinteList(lV) {
     this.fullList = lV;
@@ -62,13 +63,13 @@ export class AdresaLocuintaComponent implements OnInit {
     });
   }
 
-  ngOnInit() {
-    console.log(this.initialData)
+  ngOnInit() {  
     this.route.queryParamMap
       .subscribe((params: any) => {
-        this.locuinteId = params.params.id
-        // this.locuinteId = this.vLocuinteList.filter(e => e.locuinta.id == id)[0].locuinta
-        console.log(this.vLocuinteList)
+        this.locuinteId = params.params.id;
+        if(this.locuinteId) {
+          this.preselected = true;
+        }
       }
     );
     this.authS.getAuthState().subscribe((authData) => {
@@ -76,27 +77,26 @@ export class AdresaLocuintaComponent implements OnInit {
     });
 
     this.initLocuintaMainForm();
-    console.log(this.selection)
   }
 
   submitForm() {
     this.checkPAD = true;
-    console.log(this.locuintaForm.get('selection'))
-    // if (this.locuintaForm.valid) {
-    //   const controlS = this.locuintaForm.get('selection');
-    //   const value = controlS.value;
-    //   if (value !== 'ADD_NEW') {
-    //     this.emitLocuintaItemById(value);
-    //   } else {
-    //     this.selectionDone.emit(value);
-    //   }
-    // }
+    if (this.locuintaForm.valid) {
+      const controlS = this.locuintaForm.get('selection');
+      const value = controlS.value;
+      if (value !== 'ADD_NEW') {
+        console.log(value);
+        this.emitLocuintaItemById(value);
+      } else {
+        this.selectionDone.emit(value);
+      }
+    }
   }
 
   emitLocuintaItemById(id) {
     this.changeTitleEvent.emit();
     this.checkPAD = true;
-    const value = this.fullList.find((lI) => get(lI, 'locuinta.id', -1) === id);
+    const value = this.fullList.find((lI) => get(lI, 'locuinta.id', -1) === parseInt(id));
     if (value) {
       const locuinta = get(value, 'locuinta', {});
 
@@ -167,16 +167,14 @@ export class AdresaLocuintaComponent implements OnInit {
     return this.locuintaForm.get('selection');
   }
 
-  initLocuintaMainForm() {    
+  initLocuintaMainForm() {
     if(this.locuinteId){
       if(this.selection){
-        console.log(this.locuinteId)
-        console.log(this.selection)
-        this.selection.setValue(this.locuinteId)
+        this.selection.setValue(this.locuinteId);
         this.selection.updateValueAndValidity();
-        this.cdRef.detectChanges()
+        this.cdRef.detectChanges();
       }
-      this.cdRef.detectChanges()
+      this.cdRef.detectChanges();
       this.cdRef.markForCheck();
     }
     if (this.initialData && this.initialData.locuinta) {
