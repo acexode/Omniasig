@@ -63,11 +63,11 @@ export class AdresaLocuintaComponent implements OnInit {
     });
   }
 
-  ngOnInit() {  
+  ngOnInit() {
     this.route.queryParamMap
       .subscribe((params: any) => {
         this.locuinteId = params.params.id;
-        if(this.locuinteId) {
+        if (this.locuinteId) {
           this.preselected = true;
         }
       }
@@ -96,7 +96,7 @@ export class AdresaLocuintaComponent implements OnInit {
   emitLocuintaItemById(id) {
     this.changeTitleEvent.emit();
     this.checkPAD = true;
-    const value = this.fullList.find((lI) => get(lI, 'locuinta.id', -1) === parseInt(id));
+    const value = this.fullList.find((lI) => get(lI, 'locuinta.id', -1) === parseInt(id, 10));
     if (value) {
       const locuinta = get(value, 'locuinta', {});
 
@@ -168,8 +168,8 @@ export class AdresaLocuintaComponent implements OnInit {
   }
 
   initLocuintaMainForm() {
-    if(this.locuinteId){
-      if(this.selection){
+    if (this.locuinteId){
+      if (this.selection){
         this.selection.setValue(this.locuinteId);
         this.selection.updateValueAndValidity();
         this.cdRef.detectChanges();
