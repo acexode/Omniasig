@@ -1,7 +1,7 @@
 <app-sub-page-header [config]="headerConfig"> </app-sub-page-header>
 <ion-content>
   <ion-grid
-    *ngIf="photo.length > 0 && captured"
+    *ngIf="photo.length > 0 && captured && !noPermission"
     class="ion-no-padding flex flex-1 flex-column w-100 mh-100p"
   >
     <ion-row class="ion-justify-content-center mt-40 mx-0">
@@ -64,7 +64,7 @@
   </ion-grid>
 
   <ion-grid
-    *ngIf="!captured"
+    *ngIf="!captured && !noPermission"
     class="ion-no-padding flex flex-1 flex-column w-100 mh-100 h-100"
   >
     <ion-row class="ion-justify-content-center mt-40 mx-24">
@@ -92,4 +92,12 @@
       >
     </ion-row>
   </ion-grid>
+
+  <ng-container *ngIf="!captured && noPermission">
+    <app-general-error
+      (goBack)="toHome()"
+      [doNavigate]="false"
+      [title]="msg"
+    ></app-general-error>
+  </ng-container>
 </ion-content>
