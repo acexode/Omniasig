@@ -27,7 +27,7 @@ export class AdresaLocuintaComponent implements OnInit {
   checkPAD = false;
   userId;
   locuinteId;
-  preselected = false
+  preselected = false;
   loaderTitle = 'Verificăm datele în portalul PAID…';
   @Input() set locuinteList(lV) {
     this.fullList = lV;
