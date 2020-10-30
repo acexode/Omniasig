@@ -15,8 +15,9 @@ import { TermeniSiConditiiComponent } from './termeni-si-conditii/termeni-si-con
 const routes: Routes = [
   {
     path: '',
-    canActivate: [LoginGuard],
-    component: RegNumarTelefonComponent,
+    // canActivate: [LoginGuard],
+    // component: RegNumarTelefonComponent,
+    component: TermeniSiConditiiComponent,
   },
   {
     path: 'confirm-number',
