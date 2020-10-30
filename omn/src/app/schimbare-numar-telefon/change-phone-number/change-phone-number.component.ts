@@ -1,7 +1,10 @@
+import { take } from 'rxjs/operators';
+import { genericErrorTexts } from './../../shared/data/generic-error-helper';
+import { get } from 'lodash';
 import { Component, HostBinding, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { Subscription } from 'rxjs';
+import { of, Subscription, combineLatest } from 'rxjs';
 import { unsubscriberHelper } from 'src/app/core/helpers/unsubscriber.helper';
 import { AuthService } from 'src/app/core/services/auth/auth.service';
 import { schimbareNumarSubpageHeader } from 'src/app/schimbare-numar-telefon/data/schimbare-numar-subpage-header';
@@ -22,6 +25,7 @@ export class ChangePhoneNumberComponent implements OnInit, OnDestroy {
   fText = 'Numărul tău de telefon';
   teleForm: FormGroup;
   sub: Subscription;
+  formSubmitting = false;
   error = false;
   label: IonTextItem = {
     text: this.pText,
@@ -39,7 +43,7 @@ export class ChangePhoneNumberComponent implements OnInit, OnDestroy {
     maxLength: 10,
   };
   headerConfig;
-  errMsg;
+  errorMsgs = [];
 
   constructor(
     private router: Router,
@@ -71,62 +75,69 @@ export class ChangePhoneNumberComponent implements OnInit, OnDestroy {
         ],
       ],
     });
-
-    this.sub = this.teleForm.valueChanges.subscribe( (value) => {
-      this.onUserInput(value.phoneNumber);
-    });
   }
 
-  onUserInput(phoneNumber: number) {
-    if (phoneNumber) {
-      const val = phoneNumber.toString().length > 1 ? phoneNumber.toString().substr(0, 2) : null;
-      const pass = /^[0-9]+$/;
-      if ((pass.test(phoneNumber.toString()) && (val === '07' || val === null)) || !phoneNumber) {
-        this.label.text = this.pText;
-        this.error = false;
-      }else{
-        this.errMsg = 'Numărul de telefon nu este corect';
-        this.label.text = this.fText;
-        this.error = true;
-      }
-    }
+  get phoneNumber() {
+    return this.teleForm.get('phoneNumber');
   }
 
   proceed() {
-    const newPhoneNumber = this.teleForm.controls.phoneNumber.value;
-    this.authS.getAuthState().subscribe((authData) => {
-      const { userId } = authData.account;
-
-      this.phS.checkPhoneNumber(newPhoneNumber).subscribe(
-        (checkResponse) => {
-          const requestNewPhoneDetails: RequestNewPhoneNumberChange = {
-            userNameOrId: userId,
-            newPhoneNumber,
-          };
-          this.phS.updatePhoneNumber(requestNewPhoneDetails).subscribe(
-            (response) => {
-              this.router.navigate(['phone-number/confirm-number', newPhoneNumber]);
-            },
-            (err) => {
-              this.isError();
-            }
-          );
-        },
-        (err) => {
-          this.errMsg = err.error;
-          this.isError();
-        }
-      );
-    });
+    const newPhoneNumber = this.phoneNumber.value;
+    this.formSubmitting = true;
+    combineLatest([this.authS.getAuthState(), this.authS.getPhoneNumber()])
+      .pipe(take(1))
+      .subscribe((data) => {
+        const authData = data[0];
+        const authNum = data[1];
+        const { userId } = authData.account;
+        let obsv = of(true);
+        try {
+          if (authNum !== newPhoneNumber) {
+            obsv = this.phS.checkPhoneNumber(newPhoneNumber);
+          }
+        } catch {}
+        obsv.subscribe(
+          (checkResponse) => {
+            const requestNewPhoneDetails: RequestNewPhoneNumberChange = {
+              userNameOrId: userId,
+              newPhoneNumber,
+            };
+            this.phS.updatePhoneNumber(requestNewPhoneDetails).subscribe(
+              (response) => {
+                this.formSubmitting = false;
+                this.router.navigate([
+                  'phone-number/confirm-number',
+                  newPhoneNumber,
+                ]);
+              },
+              (err) => this.isError(err)
+            );
+          },
+          (err) => this.isError(err)
+        );
+      });
   }
 
-  isError() {
+  isError(err) {
     this.teleForm.reset();
+    this.errorMsgs = genericErrorTexts(
+      err
+        ? get(err, 'error', 'A fost identificată o problemă...')
+        : 'A fost identificată o problemă...',
+      ''
+    );
+    this.formSubmitting = false;
     this.error = true;
   }
 
   exitFlow() {
     this.navCtrl.navigateBack(['/home']);
+  }
+
+  closeError() {
+    this.teleForm.reset();
+    this.errorMsgs = [];
+    this.error = false;
   }
 
   back() {
