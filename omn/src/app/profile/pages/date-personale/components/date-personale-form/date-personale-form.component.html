@@ -1,6 +1,7 @@
-<app-sub-page-header [config]="headerConfig"> </app-sub-page-header>
+<app-sub-page-header [config]="headerConfig" *ngIf="!errorPage">
+</app-sub-page-header>
 <ion-content>
-  <ion-grid class="mx-32 mt-72 p-0">
+  <ion-grid *ngIf="!errorPage" class="mx-32 mt-72 p-0">
     <ng-container *ngIf="formGroup">
       <ion-col class="ion-no-padding" [formGroup]="formGroup" #form>
         <ion-row class="ion-no-padding">
@@ -64,4 +65,9 @@
       </ion-col>
     </ng-container>
   </ion-grid>
+  <app-generic-error
+    *ngIf="errorPage"
+    [texts]="errorMsgs"
+    (doClose)="goBack()"
+  ></app-generic-error>
 </ion-content>

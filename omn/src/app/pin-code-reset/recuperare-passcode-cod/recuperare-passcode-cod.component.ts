@@ -1,6 +1,7 @@
 import {
   AfterViewInit,
   Component,
+  HostBinding,
   OnDestroy,
   OnInit,
   ViewChild,
@@ -23,6 +24,7 @@ import { ResetPincodeService } from './../services/reset-pincode.service';
 export class RecuperarePasscodeCodComponent
   implements OnInit, AfterViewInit, OnDestroy {
   headerConfig = subPageHeaderDefault('Verificare Email');
+  @HostBinding('class') color = 'ion-color-white-page';
   min = '00';
   sec: any = 59;
   @ViewChild('inputField') inputField: IonInput;
@@ -33,6 +35,7 @@ export class RecuperarePasscodeCodComponent
     inputMode: 'number',
   };
   InvalidCode = false;
+  busy = false;
   digitLength = 0;
   passForm: FormGroup;
   constructor(

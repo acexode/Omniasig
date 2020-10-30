@@ -38,8 +38,8 @@ ion-header {
   ion-buttons.header-buttons {
     @include full-reset-header();
     min-height: rem(32);
-    margin: rem(-4) rem(-8);
-    padding: rem(8);
+    margin: rem(-8) rem(-12);
+    padding: rem(12);
     ion-button.header-button,
     ion-back-button.header-button {
       --border-radius: 0 !important;

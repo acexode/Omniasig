@@ -1,6 +1,7 @@
 import { AbstractControl } from '@angular/forms';
 
 export function cnpValidator(control: AbstractControl) {
+
   return verifyCNP(control);
 }
 

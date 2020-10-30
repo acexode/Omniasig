@@ -1,7 +1,7 @@
 <ion-content class="bg-white">
-  <app-sub-page-header 
+  <app-sub-page-header
     (backActionEv)="back()"
-    (trailingActionEv)="exitFlow()" 
+    (trailingActionEv)="exitFlow()"
     [config]="headerConfig"
   > </app-sub-page-header>
   <div class="px-32">
@@ -11,7 +11,7 @@
           Am trimis un cod de verificare la {{ phoneNumber }}
         </ion-text>
       </div>
-      <div class="ion-text-center pb-80">
+      <div class="ion-text-center">
         <app-passcode-field
           [errorLogin]="InvalidCode"
           (doDigitLength)="digLength($event)"
@@ -19,7 +19,7 @@
           (doClearErr)="clearErr($event)"
         ></app-passcode-field>
       </div>
-      <div class="ion-text-center pt-80">
+      <div class="ion-text-center mt-auto">
         <ion-text *ngIf="InvalidCode" class="text-small color-red">
           Cod invalid
         </ion-text>
@@ -32,7 +32,7 @@
             class="color-dark-green no-decoration"
             type="button"
             (click)="resendSMS()"
-            >Retrimite email</a
+            >Retrimite SMS</a
           >
         </ion-text>
         <div class="ion-align-items-center ion-text-center pt-18">
@@ -41,12 +41,12 @@
             (click)="continue()"
             color="success"
             expand="block"
+            class="m-0"
             size="large"
           >
             Continuă
           </ion-button>
         </div>
       </div>
-    </ion-col>
   </div>
 </ion-content>
