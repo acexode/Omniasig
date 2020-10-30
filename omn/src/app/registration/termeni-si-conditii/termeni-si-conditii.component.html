@@ -1,12 +1,4 @@
-<ion-header [translucent]="false" class="header-element">
-  <ion-toolbar size="small" color="omn-transparent-white" class="header-toolbar">
-    <ion-buttons slot="start" class="header-buttons m-0 p-8 ml-n8">
-      <ion-button class="header-button m-0">
-        <ion-icon slot="icon-only" name="md-close-2" class="icon-20 header-button-icon"></ion-icon>
-      </ion-button>
-    </ion-buttons>
-  </ion-toolbar>
-</ion-header>
+<app-sub-page-header [config]="headerConfig"> </app-sub-page-header>
 <ion-content>
   <div class="px-32">
     <ion-grid>
@@ -25,7 +17,7 @@
 
       <ion-row>
         <ion-col class="pb-64">
-          <ion-text>an/data/versiune</ion-text>
+          <div class="ion-text-center">an/data/versiune</div>
         </ion-col>
       </ion-row>
 
@@ -50,10 +42,10 @@
 
       <ion-row>
         <ion-col>
-          <ion-text>
+          <div class="bg-light-green border-radius-4 py-24 px-18">
             Este necesară parcurgerea întregii pagini.
             Te rugăm să derulezi până la capăt.
-          </ion-text>
+          </div>
         </ion-col>
       </ion-row>
 
