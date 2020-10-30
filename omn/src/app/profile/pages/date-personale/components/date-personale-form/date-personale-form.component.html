@@ -29,6 +29,11 @@
                 minlength="13"
               ></ion-input>
             </ion-item>
+            <ion-label
+              *ngIf="cnp?.errors && cnp?.errors?.invalidCnp"
+              class="mt-4 text-small color-red"
+              >Codul Numeric Personal este invalid!</ion-label
+            >
           </ng-container>
         </ion-row>
         <ion-row
