@@ -10,6 +10,7 @@ import { NotaDeInformareComponent } from './nota-de-informare/nota-de-informare.
 import { RegInputSmsComponent } from './reg-input-sms/reg-input-sms.component';
 import { RegNumarTelefonComponent } from './reg-numar-telefon/reg-numar-telefon.component';
 import { RegPasscodeComponent } from './reg-passcode/reg-passcode.component';
+import { TermeniSiConditiiComponent } from './termeni-si-conditii/termeni-si-conditii.component';
 
 const routes: Routes = [
   {
@@ -26,6 +27,11 @@ const routes: Routes = [
     path: 'notice',
     canActivate: [LoginGuard],
     component: NotaDeInformareComponent,
+  },
+  {
+    path: 'term',
+    canActivate: [LoginGuard],
+    component: TermeniSiConditiiComponent,
   },
   {
     path: 'create-passcode',
