@@ -156,7 +156,6 @@ export class DatePersonaleComponent implements OnInit {
           Validators.maxLength(13),
           cnpValidator,
         ],
-        asyncValidators: [this.authS.cnpValidator()],
       }),
       isPublicPerson: ['', [Validators.required]],
       marketing: [false],
