@@ -64,6 +64,12 @@
             class="m-0 w-100 flex mt-auto"
             [disabled]="!formGroup?.valid || formSubmitting"
             (click)="submitForm()"
+          >
+            <ion-spinner
+              name="crescent"
+              *ngIf="formSubmitting"
+              class="icon-20"
+            ></ion-spinner
             >Salveaza
           </ion-button>
         </ion-row>
