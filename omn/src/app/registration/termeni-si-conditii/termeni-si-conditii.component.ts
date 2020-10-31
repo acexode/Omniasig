@@ -14,6 +14,6 @@ export class TermeniSiConditiiComponent implements OnInit {
   @HostBinding('class') color = 'ion-color-white-page';
   constructor() { }
 
-  ngOnInit() {}
+  ngOnInit() { }
 
 }
