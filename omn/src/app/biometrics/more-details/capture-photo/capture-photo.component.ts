@@ -37,7 +37,7 @@ export class CapturePhotoComponent implements OnInit {
     private navCtrl: NavController,
     private authS: AuthService,
     private actionSheetController: ActionSheetController
-  ) {}
+  ) { }
 
   removePhoto() {
     this.photoService.removePhoto();
@@ -48,12 +48,12 @@ export class CapturePhotoComponent implements OnInit {
     return this.photoService.addNewToGallery(newF, 'F');
   }
 
-  ngOnInit() {}
+  ngOnInit() { }
 
   async uploadPhoto() {
     this.saving = true;
     this.hasErr = false;
-    const blob = await fetch(this.photo[0].webviewPath).then((r) => r.blob());
+    const blob = await fetch(this.photo[1].webviewPath).then((r) => r.blob());
     this.photoService
       .uploadImage(blob, true)
       .pipe(
