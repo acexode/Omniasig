@@ -1,22 +1,25 @@
+import { Account } from './../../../../../core/models/account.interface';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
   HostBinding,
-  OnInit,
   OnDestroy,
+  OnInit,
 } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { NavController } from '@ionic/angular';
-import { switchMap, finalize, take } from 'rxjs/operators';
+import { get } from 'lodash';
+import { BehaviorSubject, of, Subscription, throwError } from 'rxjs';
+import { finalize, switchMap, take, tap, catchError } from 'rxjs/operators';
 import { AuthService } from 'src/app/core/services/auth/auth.service';
 import { CustomRouterService } from 'src/app/core/services/custom-router/custom-router.service';
+import { CustomTimersService } from 'src/app/core/services/custom-timers/custom-timers.service';
 import { subPageHeaderDefault } from 'src/app/shared/data/sub-page-header-default';
 import { DatePersonaleFormModes } from 'src/app/shared/models/modes/date-personale-form-modes';
-import { EmailValidateModes } from 'src/app/shared/models/modes/email-validate-modes';
-import { BehaviorSubject, Subscription } from 'rxjs';
-import { CustomTimersService } from 'src/app/core/services/custom-timers/custom-timers.service';
+import { cnpValidator } from 'src/app/shared/validators/cnp-validator';
+import { genericErrorTexts } from './../../../../../shared/data/generic-error-helper';
 
 @Component({
   selector: 'app-date-personale-form',
@@ -35,7 +38,9 @@ export class DatePersonaleFormComponent implements OnInit, OnDestroy {
   timer$ = new BehaviorSubject(0);
   formSubmitting = false;
   routeBackLink = '/profil/date-personale';
-
+  errorPage = false;
+  account;
+  errorMsgs = [];
   constructor(
     private fb: FormBuilder,
     private authS: AuthService,
@@ -81,7 +86,8 @@ export class DatePersonaleFormComponent implements OnInit, OnDestroy {
     this.authS
       .getAccountData()
       .pipe(take(1))
-      .subscribe((acc) => {
+      .subscribe((acc: Account) => {
+        this.account = acc;
         if (this.formMode === this.formModes.EDIT_EMAIL) {
           this.formGroup = this.fb.group({
             email: this.fb.control(acc && acc.email ? acc.email : '', [
@@ -95,12 +101,15 @@ export class DatePersonaleFormComponent implements OnInit, OnDestroy {
         }
         if (this.formMode === this.formModes.EDIT_CNP) {
           this.formGroup = this.fb.group({
-            cnp: this.fb.control(acc && acc.cnp ? acc.cnp : '', [
-              Validators.minLength(13),
-              Validators.maxLength(13),
-              Validators.pattern('[0-9]*'),
-              Validators.required,
-            ]),
+            cnp: this.fb.control(acc && acc.cnp ? acc.cnp : '', {
+              validators: [
+                Validators.required,
+                Validators.minLength(13),
+                Validators.pattern('[0-9]*'),
+                Validators.maxLength(13),
+                cnpValidator,
+              ],
+            }),
           });
         }
       });
@@ -110,26 +119,79 @@ export class DatePersonaleFormComponent implements OnInit, OnDestroy {
     if (this.formGroup.valid) {
       if (this.formMode === this.formModes.EDIT_EMAIL) {
         this.formSubmitting = true;
-
-        this.formSubmitting = false;
         this.authS
           .doChangeEmail(this.email.value)
           .pipe(
             finalize(() => {
               this.authS.doUpdateAccount({ newEmail: this.email.value });
-
+              this.timerS.startEmailValidateTimer();
               this.navCtrl.navigateForward(
                 this.formMode === this.formModes.EDIT_EMAIL
                   ? '/profil/date-personale/validate-email-change'
                   : '/profil/date-personale/validate-email'
               );
               this.formSubmitting = false;
+            }),
+            catchError((err) => {
+              this.errorMsgs = genericErrorTexts(
+                err
+                  ? get(err, 'error', 'A fost identificată o problemă...')
+                  : 'A fost identificată o problemă...',
+                ''
+              );
+              this.errorPage = true;
+              this.cdRef.detectChanges();
+              return throwError(err);
             })
           )
           .subscribe();
       } else if (this.formMode === this.formModes.EDIT_CNP) {
-        this.authS.doUpdateAccount({ cnp: this.cnp.value });
-        this.navCtrl.navigateBack('/profil/date-personale');
+        this.authS.getPhoneNumber().subscribe((e) => {
+          let obsv = of(true);
+          try {
+            if (this.cnp.value !== this.account.cnp) {
+              obsv = this.authS.checkCNP(this.cnp.value, e);
+            }
+          } catch {}
+          obsv
+            .pipe(
+              switchMap((v) => {
+                let user;
+                try {
+                  user = {
+                    userNameOrId: this.account.userId,
+                    name: this.account.name,
+                    cnp: this.cnp.value,
+                    surname: this.account.surname,
+                  };
+                } catch {
+                  return throwError('');
+                }
+                if (user) {
+                  return this.authS.updateUserProfile(user);
+                }
+                return throwError('');
+              }),
+              tap(() => {
+                this.authS.doUpdateAccount({ cnp: this.cnp.value });
+              })
+            )
+            .subscribe(
+              () => {
+                this.navCtrl.navigateBack('/profil/date-personale');
+              },
+              (err) => {
+                this.errorMsgs = genericErrorTexts(
+                  err
+                    ? get(err, 'error', 'A fost identificată o problemă...')
+                    : 'A fost identificată o problemă...',
+                  ''
+                );
+                this.errorPage = true;
+                this.cdRef.detectChanges();
+              }
+            );
+        });
       }
     } else {
       this.formGroup.updateValueAndValidity();
@@ -143,8 +205,15 @@ export class DatePersonaleFormComponent implements OnInit, OnDestroy {
   get cnp() {
     return this.formGroup ? this.formGroup.get('cnp') : null;
   }
+
   ngOnDestroy() {
     this.formMode = null;
     this.formSubmitting = false;
+  }
+
+  goBack() {
+    this.errorPage = false;
+    this.errorMsgs = [];
+    this.cdRef.detectChanges();
   }
 }

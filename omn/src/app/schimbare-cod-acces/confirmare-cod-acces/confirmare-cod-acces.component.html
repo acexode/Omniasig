@@ -1,14 +1,15 @@
 <app-sub-page-header [config]="headerConfig"> </app-sub-page-header>
 
 <ion-content class="ion-no-padding">
-    <ion-col size="12" class="px-32 pt-16">
-        <div class="ion-text-center pb-32">
-            <ion-text class="text-small">
-                Confimare cod de acces nou
-            </ion-text>
-        </div>
-        <div class="ion-text-center pt-32">
-            <app-passcode-field [errorLogin]="InvalidCode" (doPassForm)="continue($event)"></app-passcode-field>
-        </div>
-    </ion-col>
+  <ion-col size="12" class="px-32 pt-16">
+    <div class="ion-text-center">
+      <ion-text class="text-small"> Confimare cod de acces nou </ion-text>
+    </div>
+    <div class="ion-text-center pt-40 px-32">
+      <app-passcode-field
+        [errorLogin]="InvalidCode"
+        (doPassForm)="continue($event)"
+      ></app-passcode-field>
+    </div>
+  </ion-col>
 </ion-content>

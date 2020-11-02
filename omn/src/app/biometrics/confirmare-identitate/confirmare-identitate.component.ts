@@ -1,3 +1,4 @@
+import { genericErrorTexts } from './../../shared/data/generic-error-helper';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -49,7 +50,7 @@ export class ConfirmareIdentitateComponent implements OnInit {
     addressStreet: [],
     addressStreetType: locuinteFieldsData.addressStreetType,
   };
-
+  account = null;
   formSubmitting = false;
   @ViewChild('cnpRef', { static: true }) cnpRef: IonContent;
   confirmModel = {
@@ -143,6 +144,8 @@ export class ConfirmareIdentitateComponent implements OnInit {
       },
     }),
   };
+  errorMsgs = [];
+  hasError = false;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -176,6 +179,7 @@ export class ConfirmareIdentitateComponent implements OnInit {
   ngOnInit() {
     this.auth.getAccountData().subscribe((v) => {
       if (v && this.confirmareForm) {
+        this.account = v;
         this.confirmareForm.get('name').setValue(get(v, 'name', ''));
         this.confirmareForm.get('surname').setValue(get(v, 'surname', ''));
         this.confirmareForm.get('cnp').setValue(get(v, 'cnp', ''));
@@ -341,9 +345,18 @@ export class ConfirmareIdentitateComponent implements OnInit {
             isHomeAddress: true,
           },
         };
-        this.auth
-          .updateUserProfile(user)
+
+        let obsv = of(true);
+        try {
+          if (this.cnp.value !== this.account.cnp) {
+            obsv = this.auth.checkCNP(this.cnp.value, e);
+          }
+        } catch {}
+        obsv
           .pipe(
+            switchMap((v) => {
+              return this.auth.updateUserProfile(user);
+            }),
             switchMap(() => {
               return this.locuintS.addSingleLocuinte({
                 ...locuinte,
@@ -354,9 +367,25 @@ export class ConfirmareIdentitateComponent implements OnInit {
               return this.auth.refreshProfile();
             })
           )
-          .subscribe(() => {
-            this.navCtrl.navigateRoot('/home');
-          });
+          .subscribe(
+            () => {
+              this.navCtrl.navigateRoot('/home');
+            },
+            (err) => {
+              this.errorMsgs = genericErrorTexts(
+                err
+                  ? get(err, 'error', 'A fost identificată o problemă...')
+                  : 'A fost identificată o problemă...',
+                ''
+              );
+              this.hasError = true;
+              this.cdRef.markForCheck();
+            },
+            () => {
+              this.formSubmitting = false;
+              this.cdRef.markForCheck();
+            }
+          );
       });
     } else {
       this.confirmareForm.updateValueAndValidity();
@@ -401,5 +430,11 @@ export class ConfirmareIdentitateComponent implements OnInit {
 
   get cnp() {
     return this.confirmareForm.get('cnp');
+  }
+  clearErrors() {
+    this.hasError = false;
+    this.errorMsgs = [];
+    this.formSubmitting = false;
+    this.cdRef.markForCheck();
   }
 }
