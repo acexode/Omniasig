@@ -53,10 +53,15 @@ const routes: Routes = [
     canActivate: [AuthGuard],
     component: ContCreatComponent,
   },
+  {
+    path: '',
+    canActivate: [LoginGuard],
+    component: RegNumarTelefonComponent
+  }
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
 })
-export class RegistrationPageRoutingModule {}
+export class RegistrationPageRoutingModule { }
