@@ -8,7 +8,7 @@ import { subPageHeaderDefault } from 'src/app/shared/data/sub-page-header-defaul
 })
 export class TermeniSiConditiiComponent implements OnInit {
   headerConfig = subPageHeaderDefault(' ', 'registration/notice');
-  officeMail = 'office@omniasig.ro';
+  officeMail = 'mailto:office@omniasig.ro';
   omniasigLink = 'https://www.omniasig.ro';
   mailtodpo = 'mailto:dpo@omniasig.ro';
   @HostBinding('class') color = 'ion-color-white-page';

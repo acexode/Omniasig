@@ -14,23 +14,18 @@ import { TermeniSiConditiiComponent } from './termeni-si-conditii/termeni-si-con
 
 const routes: Routes = [
   {
-    path: '',
-    canActivate: [LoginGuard],
-    component: RegNumarTelefonComponent,
-  },
-  {
     path: 'confirm-number',
     canActivate: [LoginGuard],
     component: RegInputSmsComponent,
   },
   {
     path: 'notice',
-    // canActivate: [LoginGuard],
+    canActivate: [LoginGuard],
     component: NotaDeInformareComponent,
   },
   {
     path: 'termsAndCondition',
-    // canActivate: [LoginGuard],
+    canActivate: [LoginGuard],
     component: TermeniSiConditiiComponent,
   },
   {
