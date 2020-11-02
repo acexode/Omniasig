@@ -40,7 +40,7 @@ export class BiometricsComponent implements OnInit {
         this.pathAcord = './more-details';
       } else {
         this.buttonText = 'Confirmare identitate';
-        this.pathAcord = './confirmare-identitate';
+        this.pathAcord = './confirmare-info';
       }
     });
   }
