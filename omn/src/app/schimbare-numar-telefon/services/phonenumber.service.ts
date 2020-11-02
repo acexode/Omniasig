@@ -16,6 +16,13 @@ export class PhonenumberService {
       data
     );
   }
+
+  checkPhoneNumber(newPhoneNumber: string): Observable<any> {
+    return this.reqS.get<any>(
+      `${phoneNumberEndPoints.CheckNewPhoneNumber}?phoneNumber=${newPhoneNumber}`
+    );
+  }
+
   validatePhoneCode(data: ConfirmNewPhoneNumber): Observable<any> {
     return this.reqS.post<any>(
       phoneNumberEndPoints.ConfirmNewPhoneNumber,

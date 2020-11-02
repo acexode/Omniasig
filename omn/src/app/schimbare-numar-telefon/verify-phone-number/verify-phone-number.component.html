@@ -1,7 +1,10 @@
 <ion-content class="bg-white">
-  <app-sub-page-header [config]="headerConfig"> </app-sub-page-header>
-  <div class="px-32 flex flex-column flex-1 pb-24">
-
+  <app-sub-page-header
+    (backActionEv)="back()"
+    (trailingActionEv)="exitFlow()"
+    [config]="headerConfig"
+  > </app-sub-page-header>
+  <div class="px-32">
       <div class="ion-text-center pb-42 pt-16">
         <ion-text class="text-small">
           Am trimis un cod de verificare la {{ phoneNumber }}

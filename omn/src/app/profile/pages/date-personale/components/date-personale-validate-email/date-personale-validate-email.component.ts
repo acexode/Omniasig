@@ -65,9 +65,6 @@ export class DatePersonaleValidateEmailComponent implements OnInit, OnDestroy {
     this.timerSubs = this.timerS.emailValidateTimer$.subscribe((v) =>
       this.timer$.next(v)
     );
-    if (!this.timerS.emailValidateTimer$.value) {
-      this.timerS.startEmailValidateTimer();
-    }
   }
 
   ngOnInit() {
@@ -82,6 +79,7 @@ export class DatePersonaleValidateEmailComponent implements OnInit, OnDestroy {
               'UserNameOrId',
               'ConfirmationToken',
               'RawProperties',
+              'resendEmail',
             ]),
           ]);
         })
@@ -96,7 +94,8 @@ export class DatePersonaleValidateEmailComponent implements OnInit, OnDestroy {
           this.queryParams = get(vM, '2', null);
         }
         if (!this.init) {
-          this.handleEventData();
+          const resendValidation = get(this.queryParams, 'resendEmail', false);
+          this.handleEventData(resendValidation);
           this.init = true;
         }
         this.cdRef.markForCheck();
@@ -195,7 +194,7 @@ export class DatePersonaleValidateEmailComponent implements OnInit, OnDestroy {
     }
   }
 
-  handleEventData() {
+  handleEventData(resubmit = false) {
     switch (this.displayMode) {
       case this.validateEmailModes.EMAIL_CODE_PROCESSING:
         // We trigger the token validation process.
@@ -218,11 +217,12 @@ export class DatePersonaleValidateEmailComponent implements OnInit, OnDestroy {
 
       case this.validateEmailModes.EMAIL_NEW_VALIDATE:
         // We trigger resending the token.
-
-        if (!this.timer$.value) {
+        if (!this.timer$.value && resubmit) {
           this.authS.doReqNewEmailCode().subscribe();
+          if (!this.timerS.emailValidateTimer$.value) {
+            this.timerS.startEmailValidateTimer();
+          }
         }
-
         break;
 
       default:
@@ -259,6 +259,7 @@ export class DatePersonaleValidateEmailComponent implements OnInit, OnDestroy {
       }
     );
   }
+
   ngOnDestroy() {
     this.init = false;
     unsubscriberHelper(this.timerSubs);

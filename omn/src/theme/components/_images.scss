@@ -48,6 +48,10 @@ ion-icon {
     }
   }
   // Custom icon
+  &.phone-icon {
+    height: rem(120);
+    width: rem(70);
+  }
   &.plic-icon-lg {
     height: rem(224);
     width: rem(254);
