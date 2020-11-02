@@ -112,6 +112,11 @@ export class AuthService {
     return this.reqS.post<any>(`${authEndpoints.validateCNP}`, { cnp });
   }
 
+  // check GDPR
+  checkGDPR(userId: string) {
+    return this.reqS.post<any>(`${authEndpoints.checkGDPR}?userId=${userId}`, { });
+  }
+
   // request sms during login
   sendPhoneNumberSms(phoneNumber) {
     const reqData: { phoneNumber: string } = {

@@ -40,6 +40,7 @@ export class DatePersonaleFormComponent implements OnInit, OnDestroy {
   routeBackLink = '/profil/date-personale';
   errorPage = false;
   account;
+  isGDPRokStatus: boolean = false;
   errorMsgs = [];
   constructor(
     private fb: FormBuilder,
@@ -117,8 +118,8 @@ export class DatePersonaleFormComponent implements OnInit, OnDestroy {
 
   submitForm() {
     if (this.formGroup.valid) {
+      this.formSubmitting = true;
       if (this.formMode === this.formModes.EDIT_EMAIL) {
-        this.formSubmitting = true;
         this.authS
           .doChangeEmail(this.email.value)
           .pipe(
@@ -146,52 +147,75 @@ export class DatePersonaleFormComponent implements OnInit, OnDestroy {
           )
           .subscribe();
       } else if (this.formMode === this.formModes.EDIT_CNP) {
-        this.authS.getPhoneNumber().subscribe((e) => {
-          let obsv = of(true);
-          try {
-            if (this.cnp.value !== this.account.cnp) {
-              obsv = this.authS.checkCNP(this.cnp.value, e);
-            }
-          } catch {}
-          obsv
-            .pipe(
-              switchMap((v) => {
-                let user;
+        this.authS.checkGDPR(this.account.userId).subscribe(
+          (isGDPRok)=>{
+            this.isGDPRokStatus = get(isGDPRok, 'isGDPRNotRestricted', null);
+
+            if (this.isGDPRokStatus) {
+              this.authS.getPhoneNumber().subscribe((e) => {
+                let obsv = of(true);
                 try {
-                  user = {
-                    userNameOrId: this.account.userId,
-                    name: this.account.name,
-                    cnp: this.cnp.value,
-                    surname: this.account.surname,
-                  };
-                } catch {
-                  return throwError('');
-                }
-                if (user) {
-                  return this.authS.updateUserProfile(user);
-                }
-                return throwError('');
-              }),
-              tap(() => {
-                this.authS.doUpdateAccount({ cnp: this.cnp.value });
-              })
-            )
-            .subscribe(
-              () => {
-                this.navCtrl.navigateBack('/profil/date-personale');
-              },
-              (err) => {
-                this.errorMsgs = genericErrorTexts(
-                  err
-                    ? get(err, 'error', 'A fost identificată o problemă...')
-                    : 'A fost identificată o problemă...',
-                  ''
-                );
-                this.errorPage = true;
-                this.cdRef.detectChanges();
-              }
+                  if (this.cnp.value !== this.account.cnp) {
+                    obsv = this.authS.checkCNP(this.cnp.value, e);
+                  }
+                } catch {}
+                obsv
+                  .pipe(
+                    switchMap((v) => {
+                      let user;
+                      try {
+                        user = {
+                          userNameOrId: this.account.userId,
+                          name: this.account.name,
+                          cnp: this.cnp.value,
+                          surname: this.account.surname,
+                        };
+                      } catch {
+                        return throwError('');
+                      }
+                      if (user) {
+                        return this.authS.updateUserProfile(user);
+                      }
+                      return throwError('');
+                    }),
+                    tap(() => {
+                      this.authS.doUpdateAccount({ cnp: this.cnp.value });
+                    })
+                  )
+                  .subscribe(
+                    () => {
+                      this.navCtrl.navigateBack('/profil/date-personale');
+                      this.formSubmitting = false;
+                    },
+                    (err) => {
+                      this.errorMsgs = genericErrorTexts(
+                        err
+                          ? get(err, 'error', 'A fost identificată o problemă...')
+                          : 'A fost identificată o problemă...',
+                        ''
+                      );
+                      this.errorPage = true;
+                      this.cdRef.detectChanges();
+                    }
+                  );
+              });
+            } else {
+              this.errorMsgs = genericErrorTexts('lipsa acordului tău privind procesare datelor personale.', '');
+              this.errorPage = true;
+              this.cdRef.detectChanges();
+            }
+          },
+          (err) => {
+            this.errorMsgs = genericErrorTexts(
+              err
+                ? get(err, 'error', 'A fost identificată o problemă...')
+                : 'A fost identificată o problemă...',
+              ''
             );
-        });
+            this.errorPage = true;
+            this.cdRef.detectChanges();
+          }
+        )
       }
     } else {
       this.formGroup.updateValueAndValidity();
@@ -212,8 +236,13 @@ export class DatePersonaleFormComponent implements OnInit, OnDestroy {
   }
 
   goBack() {
-    this.errorPage = false;
-    this.errorMsgs = [];
-    this.cdRef.detectChanges();
+    if(this.isGDPRokStatus){
+      // logout if err is due to isGDPRok===false
+      this.authS.doLogout();
+    } else {
+      this.errorPage = false;
+      this.errorMsgs = [];
+      this.cdRef.detectChanges();
+    }
   }
 }
