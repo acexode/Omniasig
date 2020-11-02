@@ -34,7 +34,7 @@ export class PasscodeComponent implements OnInit, OnDestroy {
     leadingIconClasses: 'icon-20 mt-2',
   } );
   @HostBinding( 'class' ) color = 'ion-color-white-page';
-  @ViewChild( 'app-passcode-field' ) pField;
+  @ViewChild(  'app-passcode-field' ) pField;
   constructor(
     private navCtrl: NavController,
     private route: ActivatedRoute,
@@ -91,6 +91,10 @@ export class PasscodeComponent implements OnInit, OnDestroy {
 
   clearErr( e ) {
     this.errorLogin = null;
+  }
+
+  doLogout() {
+    this.authService.doLogout();
   }
 
   ngOnDestroy(): void {

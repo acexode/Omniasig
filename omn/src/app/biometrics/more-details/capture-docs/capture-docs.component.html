@@ -1,6 +1,7 @@
 <app-sub-page-header [config]="headerConfig"> </app-sub-page-header>
 <ion-content>
-  <ion-grid *ngIf="photo?.card&& captured" class="ion-no-padding flex flex-1 flex-column w-100 mh-100p">
+  <ion-grid *ngIf="photo?.card&& captured && !noPermission"
+    class="ion-no-padding flex flex-1 flex-column w-100 mh-100p">
     <ion-row class="ion-justify-content-center mt-40 mx-0">
       <div class="docs">
         <ion-img *ngIf="photo?.card" class="mt-10" src="{{ photo?.card?.webviewPath }}"></ion-img>
@@ -34,7 +35,7 @@
     </ion-row>
   </ion-grid>
 
-  <ion-grid *ngIf="!captured" class="ion-no-padding flex flex-1 flex-column w-100 mh-100 h-100">
+  <ion-grid *ngIf="!captured && !noPermission" class="ion-no-padding flex flex-1 flex-column w-100 mh-100 h-100">
     <ion-row class="ion-justify-content-center mt-40 mx-24">
       <div class="text-group s16-h22 ls-01">
         Verificarea identității este facută de către o aplicație specializată în
@@ -50,4 +51,8 @@
         <span class="mt-10 mb-8 text-normal">Fă o fotografie nouă</span></ion-button>
     </ion-row>
   </ion-grid>
+
+  <ng-container *ngIf="!captured && noPermission">
+    <app-general-error (goBack)="toHome()" [doNavigate]="false" [title]="msg"></app-general-error>
+  </ng-container>
 </ion-content>

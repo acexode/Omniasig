@@ -90,6 +90,11 @@
             --ion-color-base: var(--app-green-color);
           }
         }
+        &.ion-invalid {
+          ion-label {
+            color: var(--color);
+          }
+        }
       }
     }
     &.no-paddings {

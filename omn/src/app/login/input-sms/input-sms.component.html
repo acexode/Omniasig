@@ -1,55 +1,56 @@
 <ion-content class="bg-white">
-  <ion-header [translucent]="false" class="header-element">
-    <ion-toolbar
-      size="small"
-      color="omn-transparent-white"
-      class="header-toolbar"
-    >
-      <ion-buttons
-        slot="start"
-        class="header-buttons m-0 p-8 ml-n8"
-        (click)="doLogout()"
+  <ion-grid class="flex flex-column flex-1 mh-100p ion-no-padding">
+    <ion-header [translucent]="false" class="header-element">
+      <ion-toolbar
+        size="small"
+        color="omn-transparent-white"
+        class="header-toolbar"
       >
-        <ion-button class="header-button">
-          <ion-icon
-            slot="icon-only"
-            name="md-close-2"
-            class="icon-20 header-button-icon m-0"
-          ></ion-icon>
-        </ion-button>
-      </ion-buttons>
-    </ion-toolbar>
-  </ion-header>
-  <div class="px-32">
-    <ion-col>
+        <ion-buttons slot="start" class="header-buttons" (click)="doLogout()">
+          <ion-button class="header-button">
+            <ion-icon
+              slot="icon-only"
+              name="md-close-2"
+              class="icon-20 header-button-icon m-0"
+            ></ion-icon>
+          </ion-button>
+        </ion-buttons>
+      </ion-toolbar>
+    </ion-header>
+    <div class="px-32 flex flex-column flex-1">
       <div class="text-center mb-8 ion-text-center">
-        <ion-text class="alt-font color-dark-green x-large mb-17 text-center">
+        <ion-text class="alt-font color-dark-green x-large mb-6 text-center">
           Cod de verificare
         </ion-text>
       </div>
-      <div class="ion-text-center pb-42">
+      <div class="ion-text-center pb-32">
         <ion-text class="text-small">
           Am trimis un cod de verificare la {{ phoneNumber }}
         </ion-text>
       </div>
-      <div class="ion-text-center pb-80">
+      <div class="ion-text-center">
         <app-passcode-field
+          class="flex flex-1 w-100 flex-column"
           [errorLogin]="errorLogin"
           (doPassForm)="verifyDigit($event)"
           (doClearErr)="clearErr($event)"
+          [busy]="busy"
         ></app-passcode-field>
       </div>
-      <div class="ion-text-center pt-80">
-        <ion-text class="text-small">
+      <div class="ion-text-center mt-auto mb-24 flex flex-column">
+        <ion-text class="text-small pt-8 color-red w-100" *ngIf="errorLogin">
+          {{ errorLogin }}
+        </ion-text>
+        <ion-text class="text-small pt-8 w-100" *ngIf="sec > 0">
           Poți solicita un alt cod în {{ min }}:{{ sec }}
         </ion-text>
         <div
-          *ngIf="sec < 1 || sec == 0"
-          class="ion-align-items-center ion-text-center mt-8"
+          *ngIf="sec < 1 || sec === 0"
+          class="ion-align-items-center ion-text-center pt-8 w-100"
         >
           <ion-button
             (click)="resendSMS()"
-            class="success-gradient ion-color-success"
+            class="success-gradient ion-color-success m-0"
             expand="block"
             size="large"
             shape="round"
@@ -59,6 +60,6 @@
           </ion-button>
         </div>
       </div>
-    </ion-col>
-  </div>
+    </div>
+  </ion-grid>
 </ion-content>

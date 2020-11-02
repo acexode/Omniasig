@@ -10,13 +10,9 @@ import { NotaDeInformareComponent } from './nota-de-informare/nota-de-informare.
 import { RegInputSmsComponent } from './reg-input-sms/reg-input-sms.component';
 import { RegNumarTelefonComponent } from './reg-numar-telefon/reg-numar-telefon.component';
 import { RegPasscodeComponent } from './reg-passcode/reg-passcode.component';
+import { TermeniSiConditiiComponent } from './termeni-si-conditii/termeni-si-conditii.component';
 
 const routes: Routes = [
-  {
-    path: '',
-    canActivate: [LoginGuard],
-    component: RegNumarTelefonComponent,
-  },
   {
     path: 'confirm-number',
     canActivate: [LoginGuard],
@@ -26,6 +22,11 @@ const routes: Routes = [
     path: 'notice',
     canActivate: [LoginGuard],
     component: NotaDeInformareComponent,
+  },
+  {
+    path: 'termsAndCondition',
+    canActivate: [LoginGuard],
+    component: TermeniSiConditiiComponent,
   },
   {
     path: 'create-passcode',
@@ -52,10 +53,15 @@ const routes: Routes = [
     canActivate: [AuthGuard],
     component: ContCreatComponent,
   },
+  {
+    path: '',
+    canActivate: [LoginGuard],
+    component: RegNumarTelefonComponent
+  }
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
 })
-export class RegistrationPageRoutingModule {}
+export class RegistrationPageRoutingModule { }

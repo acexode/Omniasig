@@ -4,6 +4,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 import { OmnInputsModule } from '../shared/modules/omn-inputs/omn-inputs.module';
 import { SharedModule } from '../shared/shared.module';
+import { ChangePhoneNumberInfoComponent } from './change-phone-number-info/change-phone-number-info.component';
 import { ChangePhoneNumberComponent } from './change-phone-number/change-phone-number.component';
 import { ChangeSuccessfulComponent } from './change-successful/change-successful.component';
 import { SchimbareNumarTelefonPageRoutingModule } from './schimbare-numar-telefon-routing.module';
@@ -21,6 +22,7 @@ import { VerifyPhoneNumberComponent } from './verify-phone-number/verify-phone-n
     OmnInputsModule,
   ],
   declarations: [
+    ChangePhoneNumberInfoComponent,
     ChangePhoneNumberComponent,
     ChangeSuccessfulComponent,
     VerifyPhoneNumberComponent,
