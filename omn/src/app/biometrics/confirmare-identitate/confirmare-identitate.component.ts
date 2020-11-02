@@ -250,12 +250,16 @@ export class ConfirmareIdentitateComponent implements OnInit {
           !this.toggleStreetInput,
           true
         );
+        this.addressStreetType.disable();
+        this.addressStreet.disable();
+        this.cdRef.detectChanges();
         this.locuinteF
           .updateCity(this.addressCity, this.formData, this.dataModel)
           .subscribe((v) => {
             this.toggleStreetInput =
               get(this.formData.addressStreet, 'length', 0) === 0;
             if (v && v.length) {
+              this.addressStreet.enable();
               this.locuinteF.resetStreetFieldValues(
                 this.addressStreet,
                 this.addressName,
@@ -275,6 +279,7 @@ export class ConfirmareIdentitateComponent implements OnInit {
                 this.addressCity ? this.addressCity.value : null
               );
             } else {
+              this.addressStreetType.enable();
               this.locuinteF.handlePostalCode(
                 null,
                 this.formData,

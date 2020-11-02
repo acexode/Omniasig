@@ -218,12 +218,16 @@ export class PolicyAddressFormComponent implements OnInit {
           !this.toggleStreetInput,
           true
         );
+        this.addressStreetType.disable();
+        this.addressStreet.disable();
+        this.cdRef.detectChanges();
         this.formS
           .updateCity(this.addressCity, this.formInstance.data, this.dataModel)
           .subscribe((v) => {
             this.toggleStreetInput =
               get(this.formInstance.data.addressStreet, 'length', 0) === 0;
             if (v && v.length) {
+              this.addressStreet.enable();
               this.formS.resetStreetFieldValues(
                 this.addressStreet,
                 this.addressName,
@@ -243,6 +247,7 @@ export class PolicyAddressFormComponent implements OnInit {
                 this.addressCity ? this.addressCity.value : null
               );
             } else {
+              this.addressStreetType.enable();
               this.formS.handlePostalCode(
                 null,
                 this.formInstance.data,
