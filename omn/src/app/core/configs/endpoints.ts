@@ -82,6 +82,7 @@ export const phoneNumberEndPoints = {
   RequestNewPhoneNumberChange:
     baseEndpoints.userProfile + '/RequestNewPhoneNumberChange',
   ConfirmNewPhoneNumber: baseEndpoints.userProfile + '/ConfirmNewPhoneNumber',
+  CheckNewPhoneNumber: baseEndpoints.userProfile + '/CheckPhone',
 };
 
 export const sugestii = {

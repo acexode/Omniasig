@@ -1,8 +1,21 @@
-<ion-content>
-  <app-sub-page-header [config]="headerConfig"> </app-sub-page-header>
-  <div class="px-32 pt-60">
-    <ion-col>
-      <div class="pt-60 pb-60">
+<ion-content [fullscreen]="true">
+  <ion-grid
+    class="ion-no-padding flex flex-1 flex-column mh-100p"
+    *ngIf="!error"
+  >
+    <app-sub-page-header
+      (backActionEv)="back()"
+      (trailingActionEv)="exitFlow()"
+      (trailingActionEv)="exitFlow()"
+      (trailingActionEv)="exitFlow()"
+      [config]="headerConfig"
+    >
+    </app-sub-page-header>
+    <ion-grid class="ion-no-padding flex flex-1 flex-column pt-0 pb-24 px-32">
+      <div class="mt-8 mb-16 s13-h16 ls-02 text-center">
+        Vom trimite un cod de verificare către acest număr.
+      </div>
+      <div class="mt-64 pt-16 mb-76">
         <form [formGroup]="teleForm" (ngSubmit)="proceed()">
           <app-input
             formControlName="phoneNumber"
@@ -10,34 +23,47 @@
           ></app-input>
         </form>
 
-        <div class="pt-5" [ngStyle]="{'visibility': error ? 'visible' : 'hidden'}">
-
-            <ion-item lines="none" color="none" class="ion-no-padding">
-                <ion-icon name="sm-warning" class="icon-20 mr-20 color-red">
-                </ion-icon>
-                <ion-label class="text-small color-red">
-                    Numărul de telefon nu este corect
-                </ion-label>
-            </ion-item>
-
+        <div
+          class="pt-5"
+          [ngStyle]="{
+            visibility:
+              phoneNumber?.invalid && phoneNumber?.dirty ? 'visible' : 'hidden'
+          }"
+        >
+          <ion-item lines="none" color="none" class="ion-no-padding">
+            <ion-icon name="sm-warning" class="icon-20 mr-20 color-red">
+            </ion-icon>
+            <ion-label class="text-small color-red">
+              Numărul de telefon nu este corect!
+            </ion-label>
+          </ion-item>
         </div>
-
       </div>
-      
-      <div class="ion-align-items-center ion-text-center mt-8">
+
+      <div class="ion-align-items-center ion-text-center mt-auto pt-16">
         <ion-button
           type="submit"
           (click)="proceed()"
-          [disabled]="!teleForm.valid"
+          [disabled]="!teleForm.valid || formSubmitting"
           class="success-gradient ion-color-success"
           expand="full"
           size="large"
           shape="round"
           mode="md"
         >
-          Continuă
+          <ion-spinner
+            name="crescent"
+            *ngIf="formSubmitting"
+            class="icon-20"
+          ></ion-spinner
+          >Continuă
         </ion-button>
       </div>
-    </ion-col>
-  </div>
+    </ion-grid>
+  </ion-grid>
+  <app-generic-error
+    *ngIf="error"
+    [texts]="errorMsgs"
+    (doClose)="closeError()"
+  ></app-generic-error>
 </ion-content>
