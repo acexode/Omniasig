@@ -106,7 +106,7 @@ export class OfferViewComponent implements OnInit {
     private iab: InAppBrowser,
     private fileS: SharedFileService,
     private fb: FormBuilder
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.route.params.pipe(take(1)).subscribe((params: any) => {
@@ -129,13 +129,14 @@ export class OfferViewComponent implements OnInit {
             ? true
             : locuinteFieldsData.valueCurrency[1].id ===
               this.offer?.policy?.locuintaData?.valueCurrency
-            ? true
-            : false;
+              ? true
+              : false;
         if (offer && has(offer, 'policy.typeId')) {
           this.policyType = get(offer, 'policy.typeId', this.policyType);
         }
         this.setCalEntry(this.offer);
       });
+    console.log(this.offer);
   }
 
   closeOffer() {
@@ -172,7 +173,7 @@ export class OfferViewComponent implements OnInit {
           calendarName: 'offer',
         },
       };
-    } catch (e) {}
+    } catch (e) { }
   }
 
   addCalendarEntry() {
@@ -186,14 +187,8 @@ export class OfferViewComponent implements OnInit {
       ibaN_1: this.offer.iban,
       amount_IBAN_1: this.offer.firstPaymentValue,
       areTermsAccepted: this.formG.get('accept').value,
-      currencyToPay:
-        this.policyType === 'PAD' || this.policyType === 'AMPLUS_PAD'
-          ? 'RON'
-          : this.offer.policy.locuintaData.valueCurrency,
-      policyCurrency:
-        this.policyType === 'PAD' || this.policyType === 'AMPLUS_PAD'
-          ? 'RON'
-          : this.offer.policy.locuintaData.valueCurrency,
+      // tslint:disable-next-line: max-line-length
+      currencyToPay: this.policyType === 'PAD' ? 'RON' : (this.policyType === 'AMPLUS_PAD' ? this.offer.currencyUserSelectedToPayIn : this.offer.policy.locuintaData.valueCurrency),
       policyCode: this.offer.offerCode,
       isMobilePayment: true,
     };

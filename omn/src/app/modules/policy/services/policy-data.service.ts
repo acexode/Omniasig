@@ -76,8 +76,8 @@ export class PolicyDataService {
           map((pv) =>
             pv
               ? pv.map((pvi) =>
-                  this.mapPolicyType(this.createPolicyObj(pvi, 'PAD'))
-                )
+                this.mapPolicyType(this.createPolicyObj(pvi, 'PAD'))
+              )
               : []
           )
         ),
@@ -90,8 +90,8 @@ export class PolicyDataService {
           map((pv) =>
             pv
               ? pv.map((pvi) =>
-                  this.mapPolicyType(this.createPolicyObj(pvi, 'AMPLUS'))
-                )
+                this.mapPolicyType(this.createPolicyObj(pvi, 'AMPLUS'))
+              )
               : []
           )
         ),
@@ -200,8 +200,8 @@ export class PolicyDataService {
         map((ov) => {
           return ov
             ? ov.map((ovi) =>
-                this.mapOfferPolicyType(this.createOffersObj(ovi, 'PAD'))
-              )
+              this.mapOfferPolicyType(this.createOffersObj(ovi, 'PAD'))
+            )
             : [];
         }),
         switchMap((padOffers) =>
@@ -214,10 +214,10 @@ export class PolicyDataService {
               map((ov) => {
                 return ov
                   ? ov.map((ovi) =>
-                      this.mapOfferPolicyType(
-                        this.createOffersObj(ovi, 'AMPLUS')
-                      )
+                    this.mapOfferPolicyType(
+                      this.createOffersObj(ovi, 'AMPLUS')
                     )
+                  )
                   : [];
               }),
               map((amplusOffers) => {
@@ -235,10 +235,10 @@ export class PolicyDataService {
               map((ov) => {
                 return ov
                   ? ov.map((ovi) =>
-                      this.mapOfferPolicyType(
-                        this.createOffersObj(ovi, 'AMPLUS_PAD')
-                      )
+                    this.mapOfferPolicyType(
+                      this.createOffersObj(ovi, 'AMPLUS_PAD')
                     )
+                  )
                   : [];
               }),
               map((padAmplusOffers) => {
@@ -266,7 +266,7 @@ export class PolicyDataService {
     return o;
   }
   // ceate offer obj
-  createOffersObj(offer: any, typeId: string) {
+  createOffersObj(offer: any, typeId: string): PolicyOffer {
     const offerObj = {
       id: offer.id,
       offerCode: offer.offerCode,
@@ -274,6 +274,9 @@ export class PolicyDataService {
       ratePlanList: offer.ratePlanList,
       offerPrice: offer.offerPrima,
       firstPaymentValue: offer.firstPaymentValue,
+      firstPaymentValueConverted: offer.firstPaymentValueConverted,
+      euroExchangeRate: offer.euroExchangeRate,
+      currencyUserSelectedToPayIn: offer.currencyUserSelectedToPayIn,
       policy: {
         id: offer.id,
         name: offer.offerCode,
@@ -538,8 +541,8 @@ export class PolicyDataService {
         calEntry.options
       )
       .then(
-        (msg) => {},
-        (err) => {}
+        (msg) => { },
+        (err) => { }
       );
   }
 

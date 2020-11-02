@@ -26,6 +26,11 @@ export interface PolicyOffer {
   noOfPayments?: number;
   // for Amplus+PAD where some fields in the offer details of Amplus differs from the offer details of PAD
   padInsurance?: UniquePadData;
+  euroExchangeRate?: ExchangeRate;
+  currencyUserSelectedToPayIn?: string;
+
+  // payment
+  firstPaymentValueConverted?: number;
 }
 
 export interface RatePlan {
@@ -48,4 +53,16 @@ export interface UniquePadData {
   offerPrice?: number;
   firstPaymentValue?: number;
   iban?: any;
+}
+
+export interface ExchangeRate {
+  currencyFromCode: number;
+  currencyFromDescription: string;
+  currencyFromName: string;
+  currencyToCode: number;
+  currencyToDescription: string;
+  currencyToName: string;
+  exchangeRateForToCurrency: number;
+  exchangedRateDateTime: Date;
+  insertedExchangedRateDateTime: Date;
 }
