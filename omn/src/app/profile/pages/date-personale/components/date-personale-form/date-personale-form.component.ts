@@ -40,7 +40,7 @@ export class DatePersonaleFormComponent implements OnInit, OnDestroy {
   routeBackLink = '/profil/date-personale';
   errorPage = false;
   account;
-  isGDPRokStatus: boolean = false;
+  isGDPRokStatus: boolean = true;
   errorMsgs = [];
   constructor(
     private fb: FormBuilder,
@@ -236,8 +236,8 @@ export class DatePersonaleFormComponent implements OnInit, OnDestroy {
   }
 
   goBack() {
-    if(this.isGDPRokStatus){
-      // logout if err is due to isGDPRok===false
+    if(!this.isGDPRokStatus){
+      // logout if generic error is due to isGDPRok===false
       this.authS.doLogout();
     } else {
       this.errorPage = false;
