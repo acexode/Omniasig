@@ -24,12 +24,12 @@ export class CaptureDocsComponent implements OnInit {
   ) { }
 
   removePhoto() {
-    this.photoService.removePhoto();
+    this.photoService.removePhoto('card');
     this.addPhotoToGallery(true);
   }
 
   async addPhotoToGallery(newF) {
-    this.captured = this.photoService.addNewToGallery(newF, 'B');
+    this.captured = this.photoService.addNewToGallery(newF, 'card', 'B');
   }
 
   async retake() {
@@ -43,17 +43,22 @@ export class CaptureDocsComponent implements OnInit {
   async uploadPhoto() {
     this.saving = true;
     this.hasErr = false;
-    const blob = await fetch(this.photo[0].webviewPath).then((r) => r.blob());
-    this.photoService.uploadImage(blob, false).subscribe(
-      (data) => {
-        this.hasErr = false;
-        this.saving = false;
-        this.router.navigate(['../capture-photo'], { relativeTo: this.route });
-      },
-      (error) => {
-        this.hasErr = true;
-        this.saving = false;
-      }
-    );
+    if (this.photo.card) {
+      const blob = await fetch(this.photo.card.webviewPath).then((r) => r.blob());
+      this.photoService.uploadImage(blob, false).subscribe(
+        (data) => {
+          this.hasErr = false;
+          this.saving = false;
+          this.router.navigate(['../capture-photo'], { relativeTo: this.route });
+        },
+        (error) => {
+          this.hasErr = true;
+          this.saving = false;
+        }
+      );
+    } else {
+      this.hasErr = true;
+      this.saving = false;
+    }
   }
 }

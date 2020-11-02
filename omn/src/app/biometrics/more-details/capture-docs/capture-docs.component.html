@@ -1,16 +1,9 @@
 <app-sub-page-header [config]="headerConfig"> </app-sub-page-header>
 <ion-content>
-  <ion-grid
-    *ngIf="photo.length > 0 && captured"
-    class="ion-no-padding flex flex-1 flex-column w-100 mh-100p"
-  >
+  <ion-grid *ngIf="photo?.card&& captured" class="ion-no-padding flex flex-1 flex-column w-100 mh-100p">
     <ion-row class="ion-justify-content-center mt-40 mx-0">
       <div class="docs">
-        <ion-img
-          *ngIf="photo?.length"
-          class="mt-10"
-          src="{{ photo[0].webviewPath }}"
-        ></ion-img>
+        <ion-img *ngIf="photo?.card" class="mt-10" src="{{ photo?.card?.webviewPath }}"></ion-img>
       </div>
     </ion-row>
 
@@ -21,52 +14,27 @@
       </div>
     </ion-row>
 
-    <ion-row
-      class="ion-justify-content-end mt-16 mx-32 flex flex-1 flex-column ion-align-items-center"
-    >
+    <ion-row class="ion-justify-content-end mt-16 mx-32 flex flex-1 flex-column ion-align-items-center">
       <div class="ion-text-center py-4 w-100" *ngIf="hasErr">
         <ion-text class="text-small color-red">
           A fost întâmpinată o problemă!
         </ion-text>
       </div>
-      <ion-button
-        class="activate-btn"
-        size="large"
-        color="success"
-        fill="solid"
-        expand="block"
-        class="m-0 w-100 flex mt-auto"
-        [disabled]="saving"
-        (click)="uploadPhoto()"
-      >
-        <ion-spinner
-          name="crescent"
-          *ngIf="saving"
-          class="icon-20"
-        ></ion-spinner>
+      <ion-button class="activate-btn" size="large" color="success" fill="solid" expand="block"
+        class="m-0 w-100 flex mt-auto" [disabled]="saving" (click)="uploadPhoto()">
+        <ion-spinner name="crescent" *ngIf="saving" class="icon-20"></ion-spinner>
         Continuă
       </ion-button>
 
       <ion-row class="ion-justify-content-center mt-16 mx-32 mb-24">
-        <ion-button
-          expand="block"
-          fill="clear"
-          color="success"
-          class="color-dark-green text-weight-normal text-normal h-auto mt-auto mx-0 mb-0 p-0"
-          (click)="removePhoto()"
-        >
-          <span class="mt-10 mb-8 text-normal"
-            >Fă o fotografie nouă</span
-          ></ion-button
-        >
+        <ion-button expand="block" fill="clear" color="success"
+          class="color-dark-green text-weight-normal text-normal h-auto mt-auto mx-0 mb-0 p-0" (click)="removePhoto()">
+          <span class="mt-10 mb-8 text-normal">Fă o fotografie nouă</span></ion-button>
       </ion-row>
     </ion-row>
   </ion-grid>
 
-  <ion-grid
-    *ngIf="!captured"
-    class="ion-no-padding flex flex-1 flex-column w-100 mh-100 h-100"
-  >
+  <ion-grid *ngIf="!captured" class="ion-no-padding flex flex-1 flex-column w-100 mh-100 h-100">
     <ion-row class="ion-justify-content-center mt-40 mx-24">
       <div class="text-group s16-h22 ls-01">
         Verificarea identității este facută de către o aplicație specializată în
@@ -75,21 +43,11 @@
         (selfie). Cele două fotografii sunt stocate doar pe durata validării.
       </div>
     </ion-row>
-    <ion-row
-      class="ion-justify-content-end mt-16 mx-32 flex flex-1 flex-column ion-align-items-center"
-    >
-      <ion-button
-        expand="block"
-        fill="clear"
-        color="success"
-        class="color-dark-green text-weight-normal text-normal h-auto mt-auto mx-0 p-0 mb-24 mh-40"
-        (click)="retake()"
-        [disabled]="saving"
-      >
-        <span class="mt-10 mb-8 text-normal"
-          >Fă o fotografie nouă</span
-        ></ion-button
-      >
+    <ion-row class="ion-justify-content-end mt-16 mx-32 flex flex-1 flex-column ion-align-items-center">
+      <ion-button expand="block" fill="clear" color="success"
+        class="color-dark-green text-weight-normal text-normal h-auto mt-auto mx-0 p-0 mb-24 mh-40" (click)="retake()"
+        [disabled]="saving">
+        <span class="mt-10 mb-8 text-normal">Fă o fotografie nouă</span></ion-button>
     </ion-row>
   </ion-grid>
 </ion-content>

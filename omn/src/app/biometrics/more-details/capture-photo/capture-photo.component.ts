@@ -40,12 +40,12 @@ export class CapturePhotoComponent implements OnInit {
   ) { }
 
   removePhoto() {
-    this.photoService.removePhoto();
+    this.photoService.removePhoto('face');
     this.addPhotoToGallery(true);
   }
 
   async addPhotoToGallery(newF) {
-    return this.photoService.addNewToGallery(newF, 'F');
+    return this.photoService.addNewToGallery(newF, 'face', 'F');
   }
 
   ngOnInit() { }
@@ -53,7 +53,8 @@ export class CapturePhotoComponent implements OnInit {
   async uploadPhoto() {
     this.saving = true;
     this.hasErr = false;
-    const blob = await fetch(this.photo[1].webviewPath).then((r) => r.blob());
+    if (this.photo.face) {
+    const blob = await fetch(this.photo.face.webviewPath).then((r) => r.blob());
     this.photoService
       .uploadImage(blob, true)
       .pipe(
@@ -87,6 +88,7 @@ export class CapturePhotoComponent implements OnInit {
           this.saving = false;
         }
       );
+    }
   }
   backError() {
     this.navCtrl.navigateRoot('/biometrics');
