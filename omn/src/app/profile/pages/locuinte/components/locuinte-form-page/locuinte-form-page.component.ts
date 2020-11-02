@@ -238,7 +238,6 @@ export class LocuinteFormPageComponent implements OnInit {
           .subscribe((v) => {
             this.toggleStreetInput =
               get(this.formInstance.data.addressStreet, 'length', 0) === 0;
-            console.log(this.addressStreetType.disabled)
             if (v && v.length) {
               this.addressStreet.enable();
               this.formS.resetStreetFieldValues(
