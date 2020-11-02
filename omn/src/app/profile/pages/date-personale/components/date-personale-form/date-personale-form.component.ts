@@ -40,7 +40,7 @@ export class DatePersonaleFormComponent implements OnInit, OnDestroy {
   routeBackLink = '/profil/date-personale';
   errorPage = false;
   account;
-  isGDPRokStatus: boolean = true;
+  isGDPRokStatus = true;
   errorMsgs = [];
   constructor(
     private fb: FormBuilder,
@@ -148,7 +148,7 @@ export class DatePersonaleFormComponent implements OnInit, OnDestroy {
           .subscribe();
       } else if (this.formMode === this.formModes.EDIT_CNP) {
         this.authS.checkGDPR(this.account.userId).subscribe(
-          (isGDPRok)=>{
+          (isGDPRok) => {
             this.isGDPRokStatus = get(isGDPRok, 'isGDPRNotRestricted', null);
 
             if (this.isGDPRokStatus) {
@@ -215,7 +215,7 @@ export class DatePersonaleFormComponent implements OnInit, OnDestroy {
             this.errorPage = true;
             this.cdRef.detectChanges();
           }
-        )
+        );
       }
     } else {
       this.formGroup.updateValueAndValidity();
@@ -236,7 +236,7 @@ export class DatePersonaleFormComponent implements OnInit, OnDestroy {
   }
 
   goBack() {
-    if(!this.isGDPRokStatus){
+    if (!this.isGDPRokStatus) {
       // logout if generic error is due to isGDPRok===false
       this.authS.doLogout();
     } else {
