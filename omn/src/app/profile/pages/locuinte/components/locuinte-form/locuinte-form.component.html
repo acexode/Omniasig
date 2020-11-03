@@ -136,6 +136,17 @@
         [config]="fieldConfig?.name"
         formControlName="name"
       ></app-input>
+      <ion-item *ngIf="formGroupInstance.get('name')?.value === 'Domiciliu'" class="form-description p-0 no-paddings mt-12" lines="none">
+        <ion-icon
+          slot="start"
+          name="md-info"
+          class="icon-20 position-absolute top-0 m-0 color-secondary-blue"
+        ></ion-icon>
+        <ion-text
+          class="text-small ml-32"          
+          >Adresa de domiciliu nu poate fi modificata, poti sa o completezi in ecranul urmator cu informatii aditionale.
+        </ion-text>
+      </ion-item>
     </ion-row>
   </ion-grid>
 </ng-template>
