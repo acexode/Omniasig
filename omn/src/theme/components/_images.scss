@@ -48,6 +48,10 @@ ion-icon {
     }
   }
   // Custom icon
+  &.phone-icon {
+    height: rem(120);
+    width: rem(70);
+  }
   &.plic-icon-lg {
     height: rem(224);
     width: rem(254);
@@ -56,6 +60,7 @@ ion-icon {
     height: rem(166);
     width: rem(160);
   }
+
   &.svg-absolute-right {
     > {
       position: relative;
@@ -71,5 +76,9 @@ ion-icon {
   }
   &.lg-case-12 {
     height: rem(128);
+  }
+  &.lg-card {
+    height: rem(200);
+    width: rem(254);
   }
 }
