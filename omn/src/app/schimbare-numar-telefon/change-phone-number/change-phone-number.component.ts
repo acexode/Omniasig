@@ -1,14 +1,18 @@
+import { take } from 'rxjs/operators';
+import { genericErrorTexts } from './../../shared/data/generic-error-helper';
+import { get } from 'lodash';
 import { Component, HostBinding, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { Subscription } from 'rxjs';
+import { of, Subscription, combineLatest } from 'rxjs';
 import { unsubscriberHelper } from 'src/app/core/helpers/unsubscriber.helper';
 import { AuthService } from 'src/app/core/services/auth/auth.service';
-import { subPageHeaderDefault } from 'src/app/shared/data/sub-page-header-default';
+import { schimbareNumarSubpageHeader } from 'src/app/schimbare-numar-telefon/data/schimbare-numar-subpage-header';
 import { IonInputConfig } from 'src/app/shared/models/component/ion-input-config';
 import { IonTextItem } from 'src/app/shared/models/component/ion-text-item';
 import { RequestNewPhoneNumberChange } from '../models/RequestNewPhoneNumberChange.interface';
 import { PhonenumberService } from '../services/phonenumber.service';
+import { NavController } from '@ionic/angular';
 
 @Component({
   selector: 'app-change-phone-number',
@@ -17,9 +21,14 @@ import { PhonenumberService } from '../services/phonenumber.service';
 })
 export class ChangePhoneNumberComponent implements OnInit, OnDestroy {
   @HostBinding('class') color = 'ion-color-white-page';
-  headerConfig = subPageHeaderDefault('Schimbare număr  telefon');
+  pText = 'Introdu noul număr de telefon';
+  fText = 'Numărul tău de telefon';
+  teleForm: FormGroup;
+  sub: Subscription;
+  formSubmitting = false;
+  error = false;
   label: IonTextItem = {
-    text: 'Introdu noul număr de telefon',
+    text: this.pText,
     classes: 'w-100 pb-8',
     slot: 'end',
   };
@@ -31,21 +40,26 @@ export class ChangePhoneNumberComponent implements OnInit, OnDestroy {
     inputLabel: this.label,
     clearable: true,
     minLength: 10,
-    maxLength: 11,
+    maxLength: 10,
   };
-  teleForm: FormGroup;
-
-  sub: Subscription;
-  error = false;
+  headerConfig;
+  errorMsgs = [];
 
   constructor(
     private router: Router,
     private formBuilder: FormBuilder,
     private phS: PhonenumberService,
-    private authS: AuthService
+    private authS: AuthService,
+    private navCtrl: NavController
   ) {}
 
   ngOnInit() {
+    this.headerConfig = schimbareNumarSubpageHeader({
+      title: 'Schimbare număr telefon',
+      hasTrailingIcon: true,
+      hasLeadingIcon: true,
+      backLink: false,
+    });
     this.initForm();
   }
 
@@ -56,49 +70,78 @@ export class ChangePhoneNumberComponent implements OnInit, OnDestroy {
         [
           Validators.required,
           Validators.pattern(/^07[0-9].*$/),
-          Validators.minLength(9),
+          Validators.minLength(10),
+          Validators.maxLength(10),
         ],
       ],
     });
-
-    this.sub = this.teleForm.valueChanges.subscribe((value) => {
-      this.onUserInput(value.phoneNumber);
-    });
   }
 
-  onUserInput(phoneNumber: number) {
-    if (phoneNumber) {
-      if (phoneNumber.toString().length > 0) {
-        this.error = false;
-      } else {
-        this.error = true;
-      }
-    }
+  get phoneNumber() {
+    return this.teleForm.get('phoneNumber');
   }
 
   proceed() {
-    const newPhoneNumber = this.teleForm.controls.phoneNumber.value;
-
-    this.authS.getAuthState().subscribe((authData) => {
-      const { userId } = authData.account;
-      const requestNewPhoneDetails: RequestNewPhoneNumberChange = {
-        userNameOrId: userId,
-        newPhoneNumber,
-      };
-      this.phS.updatePhoneNumber(requestNewPhoneDetails).subscribe(
-        (response) => {
-          this.router.navigate(['phone-number/confirm-number', newPhoneNumber]);
-        },
-        (err) => {
-          this.isError();
-        }
-      );
-    });
+    const newPhoneNumber = this.phoneNumber.value;
+    this.formSubmitting = true;
+    combineLatest([this.authS.getAuthState(), this.authS.getPhoneNumber()])
+      .pipe(take(1))
+      .subscribe((data) => {
+        const authData = data[0];
+        const authNum = data[1];
+        const { userId } = authData.account;
+        let obsv = of(true);
+        try {
+          if (authNum !== newPhoneNumber) {
+            obsv = this.phS.checkPhoneNumber(newPhoneNumber);
+          }
+        } catch {}
+        obsv.subscribe(
+          (checkResponse) => {
+            const requestNewPhoneDetails: RequestNewPhoneNumberChange = {
+              userNameOrId: userId,
+              newPhoneNumber,
+            };
+            this.phS.updatePhoneNumber(requestNewPhoneDetails).subscribe(
+              (response) => {
+                this.formSubmitting = false;
+                this.router.navigate([
+                  'phone-number/confirm-number',
+                  newPhoneNumber,
+                ]);
+              },
+              (err) => this.isError(err)
+            );
+          },
+          (err) => this.isError(err)
+        );
+      });
   }
 
-  isError() {
+  isError(err) {
     this.teleForm.reset();
+    this.errorMsgs = genericErrorTexts(
+      err
+        ? get(err, 'error', 'A fost identificată o problemă...')
+        : 'A fost identificată o problemă...',
+      ''
+    );
+    this.formSubmitting = false;
     this.error = true;
+  }
+
+  exitFlow() {
+    this.navCtrl.navigateBack(['/home']);
+  }
+
+  closeError() {
+    this.teleForm.reset();
+    this.errorMsgs = [];
+    this.error = false;
+  }
+
+  back() {
+    this.navCtrl.navigateBack(['/phone-number']);
   }
 
   ngOnDestroy() {

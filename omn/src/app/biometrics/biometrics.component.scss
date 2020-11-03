@@ -12,3 +12,8 @@
 .button-text{
     color: var(--app-dark-green);
 }
+#biometricsIonContent {
+  --overflow: scroll;
+  overflow: scroll;
+  -webkit-overflow-scrolling: touch;
+}

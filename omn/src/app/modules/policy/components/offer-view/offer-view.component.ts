@@ -106,7 +106,7 @@ export class OfferViewComponent implements OnInit {
     private iab: InAppBrowser,
     private fileS: SharedFileService,
     private fb: FormBuilder
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.route.params.pipe(take(1)).subscribe((params: any) => {
@@ -129,8 +129,8 @@ export class OfferViewComponent implements OnInit {
             ? true
             : locuinteFieldsData.valueCurrency[1].id ===
               this.offer?.policy?.locuintaData?.valueCurrency
-            ? true
-            : false;
+              ? true
+              : false;
         if (offer && has(offer, 'policy.typeId')) {
           this.policyType = get(offer, 'policy.typeId', this.policyType);
         }
@@ -172,7 +172,7 @@ export class OfferViewComponent implements OnInit {
           calendarName: 'offer',
         },
       };
-    } catch (e) {}
+    } catch (e) { }
   }
 
   addCalendarEntry() {
@@ -222,7 +222,7 @@ export class OfferViewComponent implements OnInit {
 
   openIAB(url, type) {
     const options =
-      'location=no,footer=no,hardwareback=no,hidenavigationbuttons=yes,clearcache=yes,clearsessioncache=yes,toolbar=no';
+      'location=no,footer=yes,hardwareback=no,hidenavigationbuttons=yes,clearcache=yes,clearsessioncache=yes,toolbar=yes,closebuttoncaption=Close';
     const browser = this.iab.create(url, type, options);
     browser.show();
     // TODO: linter complains, this is to be retested.
@@ -259,7 +259,8 @@ export class OfferViewComponent implements OnInit {
           (this.policyType === 'PAD' &&
             get(data, 'emiterePadPolitaResponse', null)) ||
           (this.policyType === 'AMPLUS' &&
-            get(data, 'emitereAmplusPolitaResponse', null))
+            get(data, 'emitereAmplusPolitaResponse', null)) || (this.policyType === 'AMPLUS_PAD' &&
+              get(data, 'emitereAmplusPolitaResponse', null) && get(data, 'emiterePadPolitaResponse', null))
         ) {
           this.presentModal('success');
           this.policyDataService.initData();

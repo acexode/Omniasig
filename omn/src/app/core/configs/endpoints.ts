@@ -3,7 +3,8 @@ import { environment } from '../../../environments/environment';
 export const serverBaseUrl = environment.serverUrl;
 export const authEndpoints = {
   login: serverBaseUrl + '/User/LoginAndCreateToken',
-  findUserByPhoneNumber: serverBaseUrl + '/UserProfile/GetUserNameByPhoneNumber',
+  findUserByPhoneNumber:
+    serverBaseUrl + '/UserProfile/GetUserNameByPhoneNumber',
   getUserProfile: serverBaseUrl + '/UserProfile/GetUserProfile',
   sendPhoneNumberSms: serverBaseUrl + '/UserProfile/SmsPhoneNumberVerification',
   confirmPhoneNumberSms: serverBaseUrl + '/UserProfile/SmsPhoneNumberConfirm',
@@ -24,6 +25,8 @@ export const authEndpoints = {
   confirmEmailChange: serverBaseUrl + '/UserProfile/ConfirmationNewEmailChange',
   changeEmail: serverBaseUrl + '/UserProfile/RequestNewEmailChange',
   updateUserProfile: serverBaseUrl + '/UserProfile/UpdateUserProfile',
+  checkCNP: serverBaseUrl + '/UserProfile/CheckCNP',
+  validateCNP: serverBaseUrl + '/UserProfile/validateCNP',
 };
 
 export const baseEndpoints = {
@@ -79,6 +82,7 @@ export const phoneNumberEndPoints = {
   RequestNewPhoneNumberChange:
     baseEndpoints.userProfile + '/RequestNewPhoneNumberChange',
   ConfirmNewPhoneNumber: baseEndpoints.userProfile + '/ConfirmNewPhoneNumber',
+  CheckNewPhoneNumber: baseEndpoints.userProfile + '/CheckPhone',
 };
 
 export const sugestii = {

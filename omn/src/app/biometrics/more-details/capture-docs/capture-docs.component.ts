@@ -2,7 +2,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Component, HostBinding, OnInit } from '@angular/core';
 import { subPageHeaderDefault } from 'src/app/shared/data/sub-page-header-default';
 import { PhotoService } from '../../services/photo.service';
-import { ActionSheetController } from '@ionic/angular';
+import { Diagnostic } from '@ionic-native/diagnostic/ngx';
 
 @Component({
   selector: 'app-capture-docs',
@@ -17,19 +17,47 @@ export class CaptureDocsComponent implements OnInit {
   captured;
   hasErr = false;
   saving = false;
+  msg = {
+    text: 'Te rugam sa activezi camera pentru aplicatia OMNIASIG din setarile telefonului.',
+    class: 'color-red',
+  };
+  noPermission = false;
   constructor(
     private photoService: PhotoService,
     private router: Router,
     private route: ActivatedRoute,
+    private diagnostic: Diagnostic,
   ) { }
 
   removePhoto() {
-    this.photoService.removePhoto();
+    this.photoService.removePhoto('card');
     this.addPhotoToGallery(true);
   }
 
   async addPhotoToGallery(newF) {
-    this.captured = this.photoService.addNewToGallery(newF, 'B');
+    this.diagnostic.isCameraAuthorized()
+    .then(async (authorized) => {
+      if (authorized){
+        this.captured = await this.photoService.addNewToGallery(newF, 'card', 'B');
+      } else {
+        this.diagnostic.requestCameraAuthorization()
+        .then(async (status) => {
+          if (status === this.diagnostic.permissionStatus.GRANTED){
+            this.captured = await this.photoService.addNewToGallery(newF, 'card', 'B');
+          } else {
+            this.noPermission = true;
+          }
+        }).catch(e => {
+          this.noPermission = true;
+        });
+      }
+    }).catch(e => {
+      this.noPermission = true;
+    });
+}
+
+  toHome() {
+    this.router.navigateByUrl('/home');
   }
 
   async retake() {
@@ -43,17 +71,22 @@ export class CaptureDocsComponent implements OnInit {
   async uploadPhoto() {
     this.saving = true;
     this.hasErr = false;
-    const blob = await fetch(this.photo[0].webviewPath).then((r) => r.blob());
-    this.photoService.uploadImage(blob, false).subscribe(
-      (data) => {
-        this.hasErr = false;
-        this.saving = false;
-        this.router.navigate(['../capture-photo'], { relativeTo: this.route });
-      },
-      (error) => {
-        this.hasErr = true;
-        this.saving = false;
-      }
-    );
+    if (this.photo.card) {
+      const blob = await fetch(this.photo.card.webviewPath).then((r) => r.blob());
+      this.photoService.uploadImage(blob, false).subscribe(
+        (data) => {
+          this.hasErr = false;
+          this.saving = false;
+          this.router.navigate(['../capture-photo'], { relativeTo: this.route });
+        },
+        (error) => {
+          this.hasErr = true;
+          this.saving = false;
+        }
+      );
+    } else {
+      this.hasErr = true;
+      this.saving = false;
+    }
   }
 }

@@ -132,7 +132,10 @@ h3,
   font-size: rem(24);
   line-height: rem(25);
 }
-
+.s17-h16 {
+  font-size: rem(17);
+  line-height: rem(16);
+}
 .white-space-normal {
   white-space: normal;
 }
@@ -185,6 +188,9 @@ ion-label.input-label,
 }
 .lh-16 {
   line-height: rem(16);
+}
+.lh-22 {
+  line-height: rem(22);
 }
 .ls-min-02 {
   letter-spacing: -0.2px;

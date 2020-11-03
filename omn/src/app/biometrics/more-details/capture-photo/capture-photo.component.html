@@ -3,7 +3,7 @@
 <ion-content [fullscreen]="hasVerificationError">
   <ng-container *ngIf="!hasVerificationError">
     <ion-grid
-      *ngIf="photo.length <= 1"
+      *ngIf="!photo?.face"
       class="ion-no-padding flex flex-1 flex-column w-100 mh-100p"
     >
       <ion-row class="ion-justify-content-center mt-28 mx-24">
@@ -46,11 +46,11 @@
     </ion-grid>
 
     <ion-grid
-      *ngIf="photo.length > 1"
+      *ngIf="photo?.face"
       class="ion-no-padding flex flex-1 flex-column w-100 mh-100 h-100"
     >
       <ion-row class="ion-justify-content-center mt-16 mx-40">
-        <ion-img class="doc mt-10" src="{{ photo[0].webviewPath }}"></ion-img>
+        <ion-img class="doc mt-10" src="{{ photo?.face?.webviewPath }}"></ion-img>
       </ion-row>
       <ion-row
         class="ion-justify-content-center mt-auto flex flex-1 flex-column ion-justify-content-end mt-40 mx-32 mb-24"
