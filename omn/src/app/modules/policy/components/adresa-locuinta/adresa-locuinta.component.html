@@ -1,10 +1,10 @@
 <ion-content>
-  <ng-container *ngIf="!checkPAD">    
+  <ng-container *ngIf="!checkPAD">
     <ion-grid
       class="ion-no-padding flex flex-1 flex-column mh-100p pt-40 pb-24"
       [formGroup]="locuintaForm"
     >
-      <ion-radio-group *ngIf="!preselected" formControlName="selection">
+      <ion-radio-group formControlName="selection">
         <ion-row class="ml-32" *ngIf="vLocuinteList?.length">
           <ion-col class="ion-no-padding">
             <ion-row>
@@ -76,26 +76,6 @@
           </ion-item>
         </ion-row>
       </ion-radio-group>
-      <ion-list class="ml-32" *ngIf="preselected">
-        <ion-radio-group formControlName="selection" value={{locuinteId}}>  
-          <ion-item *ngFor="let item of vLocuinteList">
-            <ion-label>{{
-              item?.locuinta | locuinteName: 'policy-list'
-            }}</ion-label>
-            <ion-radio class="ml-0 mr-12 my-24 radio-btn" slot="start" value={{item?.locuinta?.id}}></ion-radio>
-          </ion-item>
-          <ion-item>
-            <ion-label class="ion-text-wrap my-24 text-normal"
-              >Adaugă o adresă nouă</ion-label
-            >
-            <ion-radio
-              class="ml-0 mr-12 my-24 radio-btn"
-              slot="start"
-              [value]="addNew"
-            ></ion-radio>
-          </ion-item>
-        </ion-radio-group>
-      </ion-list>
       <ion-row class="mt-auto w-100 px-32 flex flex-column ion-no-padding">
         <ion-col class="ion-no-padding flex flex-1 w-100 flex-column">
           <ion-button
