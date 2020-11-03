@@ -152,7 +152,7 @@ export class DatePersonaleFormComponent implements OnInit, OnDestroy {
             if (this.isGDPRokStatus) {
               return this.authS.getPhoneNumber();
             }else{
-              return throwError ({error:'lipsa acordului tău privind procesare datelor personale.'});
+              return throwError({ error: 'lipsa acordului tău privind procesare datelor personale.' });
             }
           }),
           switchMap((e) => {
