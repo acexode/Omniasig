@@ -17,8 +17,6 @@ import { subPageHeaderTertiary } from 'src/app/shared/data/sub-page-header-terti
 import { IonRadioInputOption } from 'src/app/shared/models/component/ion-radio-input-option';
 import { IonRadiosConfig } from 'src/app/shared/models/component/ion-radios-config';
 import { cnpValidator } from 'src/app/shared/validators/cnp-validator';
-import { switchMap } from 'rxjs/operators';
-import { of, throwError } from 'rxjs';
 
 @Component({
   selector: 'app-date-personale-reg',
@@ -34,7 +32,6 @@ export class DatePersonaleComponent implements OnInit {
   });
   errorMsgs = [];
   showError = false;
-  isGDPRokStatus = true;
   formSubmitting = false;
   detailsForm: FormGroup;
   config: any = {
@@ -119,21 +116,7 @@ export class DatePersonaleComponent implements OnInit {
     const cnp = this.cnp.value;
     const phone = this.regService.getuserPhone();
     this.formSubmitting = true;
-    this.authS.checkCNP(cnp, phone).pipe(
-      switchMap((res) => {
-        return this.authS.checkGDPR(this.cnp.value)
-        .pipe(
-          switchMap((isGDPRok) => {
-            this.isGDPRokStatus = get(isGDPRok, 'isGDPRNotRestricted', true);
-            if (this.isGDPRokStatus) {
-              return of(null);
-            } else {
-              return throwError({ error: 'lipsa acordului tău privind procesare datelor personale.' });
-            }
-          })
-        );
-      })
-    ).subscribe(
+    this.authS.checkCNP(cnp, phone).subscribe(
       (e) => {
         this.regService.setUserObj({ ...this.detailsForm.value });
         this.router.navigate(['registration/email']);
@@ -157,14 +140,9 @@ export class DatePersonaleComponent implements OnInit {
     return this.detailsForm.get('cnp');
   }
   goBack() {
-    if (!this.isGDPRokStatus) {
-      // logout if generic error is due to isGDPRok===false
-      this.authS.doLogout();
-    } else {
-      this.showError = false;
-      this.errorMsgs = [];
-      this.navCtrl.navigateBack('/registration');
-    }
+    this.showError = false;
+    this.errorMsgs = [];
+    this.navCtrl.navigateBack('/registration');
   }
   initForm() {
     this.detailsForm = this.formBuilder.group({
