@@ -115,7 +115,6 @@ export class DatePersonaleFormComponent implements OnInit, OnDestroy {
         }
       });
   }
-
   submitForm() {
     if (this.formGroup.valid) {
       this.formSubmitting = true;
@@ -147,63 +146,53 @@ export class DatePersonaleFormComponent implements OnInit, OnDestroy {
           )
           .subscribe();
       } else if (this.formMode === this.formModes.EDIT_CNP) {
-        this.authS.checkGDPR(this.account.userId).subscribe(
-          (isGDPRok) => {
+        this.authS.checkGDPR(this.account.userId).pipe(
+          switchMap((isGDPRok) => {
             this.isGDPRokStatus = get(isGDPRok, 'isGDPRNotRestricted', null);
-
             if (this.isGDPRokStatus) {
-              this.authS.getPhoneNumber().subscribe((e) => {
-                let obsv = of(true);
-                try {
-                  if (this.cnp.value !== this.account.cnp) {
-                    obsv = this.authS.checkCNP(this.cnp.value, e);
-                  }
-                } catch {}
-                obsv
-                  .pipe(
-                    switchMap((v) => {
-                      let user;
-                      try {
-                        user = {
-                          userNameOrId: this.account.userId,
-                          name: this.account.name,
-                          cnp: this.cnp.value,
-                          surname: this.account.surname,
-                        };
-                      } catch {
-                        return throwError('');
-                      }
-                      if (user) {
-                        return this.authS.updateUserProfile(user);
-                      }
-                      return throwError('');
-                    }),
-                    tap(() => {
-                      this.authS.doUpdateAccount({ cnp: this.cnp.value });
-                    })
-                  )
-                  .subscribe(
-                    () => {
-                      this.navCtrl.navigateBack('/profil/date-personale');
-                      this.formSubmitting = false;
-                    },
-                    (err) => {
-                      this.errorMsgs = genericErrorTexts(
-                        err
-                          ? get(err, 'error', 'A fost identificată o problemă...')
-                          : 'A fost identificată o problemă...',
-                        ''
-                      );
-                      this.errorPage = true;
-                      this.cdRef.detectChanges();
-                    }
-                  );
-              });
-            } else {
-              this.errorMsgs = genericErrorTexts('lipsa acordului tău privind procesare datelor personale.', '');
-              this.errorPage = true;
-              this.cdRef.detectChanges();
+              return this.authS.getPhoneNumber();
+            }else{
+              return throwError({error:'lipsa acordului tău privind procesare datelor personale.'});
             }
+          }),
+          switchMap((e) => {
+            let obsv = of(true);
+            try {
+              if (this.cnp.value !== this.account.cnp) {
+                obsv = this.authS.checkCNP(this.cnp.value, e);
+              }
+            } catch {
+              return throwError('');
+            }
+
+            return obsv
+            .pipe(
+              switchMap((v) => {
+                let user;
+                try {
+                  user = {
+                    userNameOrId: this.account.userId,
+                    name: this.account.name,
+                    cnp: this.cnp.value,
+                    surname: this.account.surname,
+                  };
+                } catch {
+                  return throwError('');
+                }
+                if (user) {
+                  return this.authS.updateUserProfile(user);
+                }
+                return throwError('');
+              }),
+              tap(() => {
+                this.authS.doUpdateAccount({ cnp: this.cnp.value });
+              })
+            )
+          }),
+        ).subscribe(
+          () => {
+            this.navCtrl.navigateBack('/profil/date-personale');
+            this.formSubmitting = false;
           },
           (err) => {
             this.errorMsgs = genericErrorTexts(
