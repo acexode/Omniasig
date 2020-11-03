@@ -1,3 +1,4 @@
+import { ConfirmareInfoComponent } from './confirmare-info/confirmare-info.component';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -16,6 +17,7 @@ import { PhotoService } from './services/photo.service';
     BiometricsComponent,
     InfoComponent,
     ConfirmareIdentitateComponent,
+    ConfirmareInfoComponent
   ],
   imports: [
     CommonModule,

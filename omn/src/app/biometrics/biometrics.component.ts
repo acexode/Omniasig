@@ -11,7 +11,7 @@ import { IonRadiosConfig } from '../shared/models/component/ion-radios-config';
 })
 export class BiometricsComponent implements OnInit {
   @HostBinding('class') color = 'ion-color-white-page';
-  buttonText = 'Verifică';
+  buttonText = 'Continuă';
   pathAcord = './more-details';
   formGroup = this.fb.group({
     selection: this.fb.control(null, Validators.required),
@@ -36,11 +36,9 @@ export class BiometricsComponent implements OnInit {
   ngOnInit() {
     this.formGroup.valueChanges.subscribe((val) => {
       if (val.selection) {
-        this.buttonText = 'Verifică';
         this.pathAcord = './more-details';
       } else {
-        this.buttonText = 'Confirmare identitate';
-        this.pathAcord = './confirmare-identitate';
+        this.pathAcord = './confirmare-info';
       }
     });
   }
