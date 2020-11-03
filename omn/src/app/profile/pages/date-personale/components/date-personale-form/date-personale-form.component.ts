@@ -146,15 +146,7 @@ export class DatePersonaleFormComponent implements OnInit, OnDestroy {
           )
           .subscribe();
       } else if (this.formMode === this.formModes.EDIT_CNP) {
-        this.authS.checkGDPR(this.account.userId).pipe(
-          switchMap((isGDPRok) => {
-            this.isGDPRokStatus = get(isGDPRok, 'isGDPRNotRestricted', null);
-            if (this.isGDPRokStatus) {
-              return this.authS.getPhoneNumber();
-            }else{
-              return throwError({ error: 'lipsa acordului tău privind procesare datelor personale.' });
-            }
-          }),
+        this.authS.getPhoneNumber().pipe(
           switchMap((e) => {
             let obsv = of(true);
             try {
@@ -189,6 +181,19 @@ export class DatePersonaleFormComponent implements OnInit, OnDestroy {
               })
             );
           }),
+          switchMap((res) => {
+            return this.authS.checkGDPR(this.cnp.value)
+            .pipe(
+              switchMap((isGDPRok) => {
+                this.isGDPRokStatus = get(isGDPRok, 'isGDPRNotRestricted', true);
+                if (this.isGDPRokStatus) {
+                  return of(null);
+                } else {
+                  return throwError({ error: 'lipsa acordului tău privind procesare datelor personale.' });
+                }
+              })
+            );
+          })
         ).subscribe(
           () => {
             this.navCtrl.navigateBack('/profil/date-personale');
