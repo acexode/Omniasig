@@ -10,7 +10,6 @@ import { get, has, set } from 'lodash';
 import { Subscription } from 'rxjs';
 import { first, take } from 'rxjs/operators';
 import { dateHelperDMY } from 'src/app/core/helpers/date.helper';
-import { locuinteFieldsData } from 'src/app/shared/data/locuinte-field-data';
 import { subPageHeaderDefault } from 'src/app/shared/data/sub-page-header-default';
 import { subPageHeaderSecondary } from 'src/app/shared/data/sub-page-header-secondary';
 import { PolicyOffer } from 'src/app/shared/models/data/policy-offer';
@@ -27,7 +26,6 @@ import { PaymentStatusComponent } from './../payment-status/payment-status.compo
 export class OfferViewComponent implements OnInit {
   policyType;
   offer: PolicyOffer = null;
-  leiCurrency;
   headerConfig = subPageHeaderSecondary('Oferta de asigurare');
   viewMode: 'V' | 'C' = 'V';
   @HostBinding('class') color = 'ion-color-white-page';
@@ -124,13 +122,6 @@ export class OfferViewComponent implements OnInit {
       .getSingleOfferById(id, this.policyType)
       .subscribe((offer) => {
         this.offer = offer;
-        this.leiCurrency =
-          this.policyType === 'PAD'
-            ? true
-            : locuinteFieldsData.valueCurrency[1].id ===
-              this.offer?.policy?.locuintaData?.valueCurrency
-            ? true
-            : false;
         if (offer && has(offer, 'policy.typeId')) {
           this.policyType = get(offer, 'policy.typeId', this.policyType);
         }

@@ -30,9 +30,10 @@ export interface PolicyOffer {
   padInsurance?: UniquePadData;
   euroExchangeRate?: ExchangeRate;
   currencyUserSelectedToPayIn?: string;
-
   // payment
   firstPaymentValueConverted?: number;
+  // Conversion enabled.
+  euroToRonConversion?: boolean;
 }
 
 export interface RatePlan {

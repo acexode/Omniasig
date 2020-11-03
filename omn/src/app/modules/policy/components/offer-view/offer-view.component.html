@@ -29,11 +29,11 @@
                 </ion-label>
                 <ion-label
                   class="text-normal text-weight-medium"
-                  *ngIf="leiCurrency"
+                  *ngIf="offer?.euroToRonConversion"
                 >
                   {{ offer?.firstPaymentValueConverted }} Euro la cursul de
                   {{
-                    offer?.euroExchangeRate.exchangeRateForToCurrency
+                    offer?.euroExchangeRate?.exchangeRateForToCurrency
                       | number: '1.4-4'
                   }}
                   lei/Euro
@@ -400,7 +400,7 @@
                 </ion-label>
                 <ion-label
                   class="text-normal text-weight-medium"
-                  *ngIf="leiCurrency"
+                  *ngIf="offer?.euroToRonConversion"
                 >
                   {{ offer?.firstPaymentValueConverted }} Euro la cursul de
                   {{
@@ -427,7 +427,7 @@
                 </ion-label>
                 <ion-label
                   class="text-normal text-weight-medium"
-                  *ngIf="leiCurrency"
+                  *ngIf="offer?.euroToRonConversion"
                 >
                   {{ offer?.firstPaymentValueConverted }} Euro la cursul de
                   {{
@@ -955,7 +955,7 @@
                 </ion-label>
                 <ion-label
                   class="text-normal text-weight-medium"
-                  *ngIf="leiCurrency"
+                 *ngIf="offer?.euroToRonConversion"
                 >
                   {{ offer?.firstPaymentValueConverted }} Euro la cursul de
                   {{
@@ -1013,7 +1013,7 @@
                   Lei
                 </ion-label>
                 <ion-label
-                  *ngIf="leiCurrency"
+                 *ngIf="offer?.euroToRonConversion"
                   class="text-normal text-weight-medium"
                 >
                   {{ offer?.firstPaymentValueConverted }} Euro la cursul de
