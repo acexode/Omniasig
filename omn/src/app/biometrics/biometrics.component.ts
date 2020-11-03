@@ -1,5 +1,8 @@
+import { take } from 'rxjs/operators';
 import { Component, HostBinding, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
+import { AuthService } from '../core/services/auth/auth.service';
+import { SettingsService } from '../modules/setari/services/settings.service';
 import { radiosConfigHelper } from '../shared/data/radios-config-helper';
 import { IonRadioInputOption } from '../shared/models/component/ion-radio-input-option';
 import { IonRadiosConfig } from '../shared/models/component/ion-radios-config';
@@ -27,21 +30,37 @@ export class BiometricsComponent implements OnInit {
   ];
 
   userAgrees?: number;
-
-  constructor(private fb: FormBuilder) {
+  busy = false;
+  constructor(private fb: FormBuilder, private auth: AuthService, private settingsS: SettingsService) {
     this.radiosConfig.itemClasses = 'w-50 inline-flex';
     this.radiosConfig.inputLabel.classes = 'mb-16';
   }
 
   ngOnInit() {
     this.formGroup.valueChanges.subscribe((val) => {
-      if (val.selection) {
-        this.buttonText = 'Verifică';
-        this.pathAcord = './more-details';
-      } else {
-        this.buttonText = 'Confirmare identitate';
-        this.pathAcord = './confirmare-identitate';
-      }
+      this.updateConsent(val.selection);
     });
+  }
+
+  updateConsent(val) {
+    this.busy = true;
+    this.auth.getAccountData().pipe(take(1)).subscribe(
+      (account) => {
+        this.settingsS.updateConsent({ isEnabled: val, consentDocumentType: 6, userId: account.userId })
+          .subscribe(
+            (obs) => {
+              if (val) {
+                this.buttonText = 'Verifică';
+                this.pathAcord = './more-details';
+              } else {
+                this.buttonText = 'Confirmare identitate';
+                this.pathAcord = './confirmare-identitate';
+              }
+              this.busy = false;
+            },
+            err => this.busy = false
+          );
+      }
+    );
   }
 }

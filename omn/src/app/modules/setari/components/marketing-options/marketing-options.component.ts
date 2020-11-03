@@ -37,7 +37,6 @@ export class MarketingOptionsComponent implements OnInit {
     accept: this.fb.control(false, Validators.required),
   });
   busy = false;
-  userId: any = null;
   constructor(
     private fb: FormBuilder,
     private navCtrl: NavController,
@@ -55,9 +54,6 @@ export class MarketingOptionsComponent implements OnInit {
         .get('accept')
         .patchValue(data.marketing, { emitEvent: false });
     });
-    this.auth.getAccountData().pipe(take(1)).subscribe((account) => {
-      this.userId = account.userId;
-    });
   }
 
   submitForm() {
@@ -73,12 +69,14 @@ export class MarketingOptionsComponent implements OnInit {
 
   updateConsent() {
     this.busy = true;
-    this.settingsS.updateConsent({ isEnabled: this.formGroup.get('accept').value, consentDocumentType: 5, userId: this.userId })
-      .subscribe(
-        (obs) => {
-          this.submitForm();
-        },
-        err => this.busy = false
-      );
+    this.auth.getAccountData().pipe(take(1)).subscribe((account) => {
+      this.settingsS.updateConsent({ isEnabled: this.formGroup.get('accept').value, consentDocumentType: 5, userId: account.userId })
+        .subscribe(
+          (obs) => {
+            this.submitForm();
+          },
+          err => this.busy = false
+        );
+    });
   }
 }

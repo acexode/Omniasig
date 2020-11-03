@@ -56,7 +56,7 @@ export class SettingsService {
     });
   }
 
-  updateConsent(updateObj: { isEnabled: boolean, consentDocumentType: number, userId: string }): Observable<any> {
+  updateConsent(updateObj: { isEnabled: boolean, consentDocumentType: number, userId: string | number }): Observable<any> {
     return this.reqS
       .post(gdprEndpoints.AddUpdateConsent, updateObj);
   }
