@@ -36,10 +36,10 @@ export class BiometricsComponent implements OnInit {
   ngOnInit() {
     this.formGroup.valueChanges.subscribe((val) => {
       if (val.selection) {
-        this.buttonText = 'Verifică';
+        this.buttonText = 'Continuă';
         this.pathAcord = './more-details';
       } else {
-        this.buttonText = 'Confirmare identitate';
+        this.buttonText = 'Continuă';
         this.pathAcord = './confirmare-info';
       }
     });
