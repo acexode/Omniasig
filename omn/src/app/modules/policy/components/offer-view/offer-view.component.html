@@ -25,10 +25,7 @@
                 </ion-label>
                 <ion-label class="x-large text-weight-bold alt-font mb-8">
                   {{ offer?.offerPrice }}
-                  {{
-                    (policyType === 'PAD' ? 'RON' : offer?.currency)
-                      | locuinteField: 'valueCurrency' || '-'
-                  }}
+                  {{ offer?.currency | locuinteField: 'valueCurrency' || '-' }}
                 </ion-label>
                 <ion-label
                   class="text-normal text-weight-medium"
@@ -124,9 +121,9 @@
                   Suma asigurată
                 </div>
                 <ion-text class="s18-h24">
-                  {{ offer?.policy?.locuintaData?.value || '-' }}
+                  {{ offer?.insurancePrice }}
                   {{
-                    offer?.policy?.locuintaData?.valueCurrency
+                    offer?.insurancePriceCurrency
                       | locuinteField: 'valueCurrency' || '-'
                   }}
                 </ion-text>

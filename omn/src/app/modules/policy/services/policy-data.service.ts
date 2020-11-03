@@ -198,7 +198,8 @@ export class PolicyDataService {
         addressPostalCode: policy.addressPostalCode,
       },
       expiry: policy.expirationDate,
-      insurancePrice: policy.offerPrima,
+      insurancePrice: policy.insurancePrice,
+      insurancePriceCurrency: policy.insurancePriceCurrency,
       currency: policy.offerCurrency,
     };
     if (typeId === 'AMPLUS') {
@@ -338,6 +339,7 @@ export class PolicyDataService {
       expiry: offer.expirationDate,
       emisionDate: offer.offerDate ? new Date(offer.offerDate) : '',
       insurancePrice: offer.insurancePrice || 0,
+      insurancePriceCurrency: offer.insurancePriceCurrency,
       currency: offer.offerCurrency,
       padOfferDocumentId: offer.padOfferDocumentId,
       padPolicyDocumentId: offer.padPolicyDocumentId,

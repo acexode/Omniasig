@@ -20,8 +20,10 @@ export interface PolicyOffer {
   payData?: any;
   ratePlanList?: RatePlan[];
   offerPrice?: number;
+  offerCurrency?: number;
   firstPaymentValue?: number;
   insurancePrice?: any;
+  insurancePriceCurrency?: any;
   /* noOfPayments: AMPLUS */
   noOfPayments?: number;
   // for Amplus+PAD where some fields in the offer details of Amplus differs from the offer details of PAD
