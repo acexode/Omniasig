@@ -109,6 +109,11 @@ export const documenteEndpoints = {
   GetDocumentById: serverBaseUrl + '/Documents/GetDocumentById',
 };
 export const biometricsEndpoints = {
-  uploadPicture:  serverBaseUrl + '/UserProfile/UploadPicture',
+  uploadPicture: serverBaseUrl + '/UserProfile/UploadPicture',
   processPicture: serverBaseUrl + '/UserProfile/IsIdenticalPictures',
+};
+
+export const gdprEndpoints = {
+  CheckUserGdpr: serverBaseUrl + '/GDPR/CheckUserGdpr',
+  AddUpdateConsent: serverBaseUrl + '/GDPR/AddUpdateConsent',
 };

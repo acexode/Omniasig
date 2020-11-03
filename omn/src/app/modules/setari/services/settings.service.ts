@@ -3,7 +3,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { AuthService } from 'src/app/core/services/auth/auth.service';
 import { RequestService } from 'src/app/core/services/request/request.service';
-import { authEndpoints } from '../../../core/configs/endpoints';
+import { authEndpoints, gdprEndpoints } from '../../../core/configs/endpoints';
 import { CustomStorageService } from './../../../core/services/custom-storage/custom-storage.service';
 
 @Injectable({
@@ -54,5 +54,10 @@ export class SettingsService {
       };
       this.settings$.next(this.settings);
     });
+  }
+
+  updateConsent(updateObj: { isEnabled: boolean, consentDocumentType: number, userId: string }): Observable<any> {
+    return this.reqS
+      .post(gdprEndpoints.AddUpdateConsent, updateObj);
   }
 }

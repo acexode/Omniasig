@@ -1,3 +1,5 @@
+import { switchMap, switchMapTo, take, tap } from 'rxjs/operators';
+import { AuthService } from 'src/app/core/services/auth/auth.service';
 import { SettingsService } from './../../services/settings.service';
 import { NavController } from '@ionic/angular';
 import { Component, HostBinding, OnInit } from '@angular/core';
@@ -35,11 +37,13 @@ export class MarketingOptionsComponent implements OnInit {
     accept: this.fb.control(false, Validators.required),
   });
   busy = false;
+  userId: any = null;
   constructor(
     private fb: FormBuilder,
     private navCtrl: NavController,
-    private settingsS: SettingsService
-  ) {}
+    private settingsS: SettingsService,
+    private auth: AuthService
+  ) { }
 
   ngOnInit() {
     this.getSettings();
@@ -51,10 +55,12 @@ export class MarketingOptionsComponent implements OnInit {
         .get('accept')
         .patchValue(data.marketing, { emitEvent: false });
     });
+    this.auth.getAccountData().pipe(take(1)).subscribe((account) => {
+      this.userId = account.userId;
+    });
   }
 
   submitForm() {
-    this.busy = true;
     this.settingsS
       .updateSettings({ marketing: this.formGroup.get('accept').value })
       .subscribe(
@@ -62,6 +68,17 @@ export class MarketingOptionsComponent implements OnInit {
           this.navCtrl.navigateRoot('/home');
         },
         (err) => (this.busy = false)
+      );
+  }
+
+  updateConsent() {
+    this.busy = true;
+    this.settingsS.updateConsent({ isEnabled: this.formGroup.get('accept').value, consentDocumentType: 5, userId: this.userId })
+      .subscribe(
+        (obs) => {
+          this.submitForm();
+        },
+        err => this.busy = false
       );
   }
 }
