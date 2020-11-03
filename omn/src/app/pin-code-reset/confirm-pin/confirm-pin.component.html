@@ -1,18 +1,24 @@
 <ion-content class="bg-white">
-    <app-sub-page-header [config]="headerConfig"> </app-sub-page-header>
-    <ion-row size="12" class="px-32 pt-16">
-        <ion-col class="ion-no-padding">
-            <div class="ion-text-center pb-32">
-                <ion-text class="text-small"> Introdu noul tău cod de acces. </ion-text>
-            </div>
-            <div class="ion-text-center pb-80">
-                <app-passcode-field [errorLogin]="errorLogin" (doPassForm)="verifyPin($event)" (doClearErr)="clearErr($event)"></app-passcode-field>
-            </div>
-            <div class="ion-text-center pt-80 flex flex-column flex-1 ion-justify-content-end ion-align-items-center">
-                <ion-text *ngIf="errorLogin" class="text-small color-red">
-                    {{ errorLogin }}
-                </ion-text>
-            </div>
-        </ion-col>
-    </ion-row>
+  <app-sub-page-header [config]="headerConfig"> </app-sub-page-header>
+  <ion-row size="12" class="px-32 pt-16">
+    <ion-col class="ion-no-padding">
+      <div class="ion-text-center">
+        <ion-text class="text-small"> Introdu noul tău cod de acces. </ion-text>
+      </div>
+      <div class="ion-text-center pt-40">
+        <app-passcode-field
+          [errorLogin]="errorLogin"
+          (doPassForm)="verifyPin($event)"
+          (doClearErr)="clearErr($event)"
+        ></app-passcode-field>
+      </div>
+      <div
+        class="ion-text-center mt-auto flex flex-column flex-1 ion-justify-content-end ion-align-items-center"
+      >
+        <ion-text *ngIf="errorLogin" class="text-small color-red">
+          {{ errorLogin }}
+        </ion-text>
+      </div>
+    </ion-col>
+  </ion-row>
 </ion-content>

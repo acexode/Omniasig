@@ -217,7 +217,7 @@ export class OfferViewComponent implements OnInit {
 
   openIAB(url, type) {
     const options =
-      'location=no,footer=no,hardwareback=no,hidenavigationbuttons=yes,clearcache=yes,clearsessioncache=yes,toolbar=no';
+      'location=no,footer=yes,hardwareback=no,hidenavigationbuttons=yes,clearcache=yes,clearsessioncache=yes,toolbar=yes,closebuttoncaption=Close';
     const browser = this.iab.create(url, type, options);
     browser.show();
     // TODO: linter complains, this is to be retested.
@@ -254,7 +254,8 @@ export class OfferViewComponent implements OnInit {
           (this.policyType === 'PAD' &&
             get(data, 'emiterePadPolitaResponse', null)) ||
           (this.policyType === 'AMPLUS' &&
-            get(data, 'emitereAmplusPolitaResponse', null))
+            get(data, 'emitereAmplusPolitaResponse', null)) || (this.policyType === 'AMPLUS_PAD' &&
+              get(data, 'emitereAmplusPolitaResponse', null) && get(data, 'emiterePadPolitaResponse', null))
         ) {
           this.presentModal('success');
           this.policyDataService.initData();

@@ -1,13 +1,19 @@
 import { Injectable } from '@angular/core';
 import { Calendar } from '@ionic-native/calendar/ngx';
-import { get, set, has } from 'lodash';
+import { flatten, get, set } from 'lodash';
 import { BehaviorSubject, forkJoin, Observable, of, throwError } from 'rxjs';
-import { catchError, filter, map, switchMap, tap } from 'rxjs/operators';
+import {
+  catchError,
+  distinctUntilChanged,
+  filter,
+  map,
+  switchMap,
+  take,
+} from 'rxjs/operators';
 import {
   documentEndpoint,
   policyEndpoints,
 } from 'src/app/core/configs/endpoints';
-import { flatten } from 'lodash';
 import { AuthService } from 'src/app/core/services/auth/auth.service';
 import { RequestService } from 'src/app/core/services/request/request.service';
 import { PolicyItem } from 'src/app/shared/models/data/policy-item';
@@ -31,6 +37,11 @@ export class PolicyDataService {
     private calendar: Calendar
   ) {
     this.initData();
+    this.authS.logoutListener.pipe(distinctUntilChanged()).subscribe((v) => {
+      if (v) {
+        this.clearData();
+      }
+    });
   }
 
   getPolicyOfferDocumentById(
@@ -47,20 +58,29 @@ export class PolicyDataService {
       );
   }
 
+  clearData() {
+    this.policyArchiveStore$.next([]);
+    this.policyStore$.next([]);
+    this.offerStore$.next(null);
+  }
+
   initData() {
-    this.authS.getAccountData().subscribe((account) => {
-      if (this.authS.accountActivated(account)) {
-        this.getUserPolicies(account.userId).subscribe((vv) => {
-          this.policyStore$.next(vv ? vv : []);
-        });
-        // this.getUserPoliciesArchive(account.userId).subscribe((vv) => {
-        //   this.policyArchiveStore$.next(vv ? vv : []);
-        // });
-        this.getUserOffers().subscribe((v) =>
-          this.offerStore$.next(v ? v : [])
-        );
-      }
-    });
+    this.authS
+      .getAccountData()
+      .pipe(take(1))
+      .subscribe((account) => {
+        if (this.authS.accountActivated(account)) {
+          this.getUserPolicies(account.userId).subscribe((vv) => {
+            this.policyStore$.next(vv ? vv : []);
+          });
+          // this.getUserPoliciesArchive(account.userId).subscribe((vv) => {
+          //   this.policyArchiveStore$.next(vv ? vv : []);
+          // });
+          this.getUserOffers().subscribe((v) =>
+            this.offerStore$.next(v ? v : [])
+          );
+        }
+      });
   }
 
   // get user policy offer
@@ -572,6 +592,23 @@ export class PolicyDataService {
             if (dataRes) {
               if (get(dataRes, 'eroare', false)) {
                 throw new Error(get(dataRes, 'mesaj', 'Eroare validare plata'));
+              }
+            }
+          }
+          if (policyType === 'AMPLUS_PAD') {
+            const dataRes = get(res, 'emiterePadPolitaResponse.emiterePolitaResponse1', null);
+            const dataRes2 = get(res, 'emitereAmplusPolitaResponse.politaOut', null);
+            if (dataRes || dataRes2) {
+              const mesaje = [];
+              if (get(dataRes, 'eroare', false)) {
+                mesaje.push('PAD: ' + get(dataRes, 'mesaj', 'Eroare'));
+
+              }
+              if (get(dataRes2, 'eroare', false)) {
+                mesaje.push('AMPLUS: ' + get(dataRes2, 'mesaj', 'Eroare'));
+              }
+              if (mesaje.length) {
+                throw new Error('Eroare validare plata: ' + mesaje.join(', '));
               }
             }
           }

@@ -47,6 +47,7 @@
         (selectionDone)="addressSelect($event)"
         (changeTitleEvent)="changeTitle()"
         [initialData]="selectedAddressItem"
+        [preselected]="preselectedAddressItem"
         [locuinteList]="policyLocuintaData$|async"
         [policyID]="policyID"
       >

@@ -1,5 +1,10 @@
 import { Injectable } from '@angular/core';
 import {
+  AsyncValidatorFn,
+  AbstractControl,
+  ValidationErrors,
+} from '@angular/forms';
+import {
   ActivatedRoute,
   ActivatedRouteSnapshot,
   Router,
@@ -7,11 +12,20 @@ import {
 } from '@angular/router';
 import { get } from 'lodash';
 import * as qs from 'qs';
-import { BehaviorSubject, of, Subscription, throwError } from 'rxjs';
 import {
+  BehaviorSubject,
+  combineLatest,
+  Observable,
+  of,
+  Subscription,
+  throwError,
+} from 'rxjs';
+import {
+  catchError,
   distinctUntilChanged,
   filter,
   map,
+  mergeMap,
   share,
   switchMap,
   take,
@@ -28,6 +42,7 @@ import { RequestService } from '../request/request.service';
 import { unsubscriberHelper } from './../../helpers/unsubscriber.helper';
 import { CustomTimersService } from './../custom-timers/custom-timers.service';
 
+export const __AUTH_PASS_KEY = 'authPassword';
 @Injectable({
   providedIn: 'root',
 })
@@ -41,7 +56,11 @@ export class AuthService {
   authState: BehaviorSubject<AuthState> = new BehaviorSubject(
     this.initialState
   );
+  tokenStore: BehaviorSubject<any> = new BehaviorSubject(null);
+  logoutListener: BehaviorSubject<any> = new BehaviorSubject(null);
   sessionExpiryTimer: Subscription;
+  authCheck$ = of(true).pipe(share());
+  tokenCheck$ = of(true).pipe(share());
   constructor(
     private storeS: CustomStorageService,
     private routerS: Router,
@@ -81,6 +100,17 @@ export class AuthService {
       `${authEndpoints.findUserByPhoneNumber}?phoneNumber=${phoneNumber}`
     );
   }
+  // check if user exists
+  checkCNP(cnp, phoneNumber) {
+    return this.reqS.get<any>(
+      `${authEndpoints.checkCNP}?cnp=${cnp}&phoneNumber=${phoneNumber}`
+    );
+  }
+
+  // Validate cnp.
+  validateCNP(cnp) {
+    return this.reqS.post<any>(`${authEndpoints.validateCNP}`, { cnp });
+  }
 
   // request sms during login
   sendPhoneNumberSms(phoneNumber) {
@@ -100,23 +130,43 @@ export class AuthService {
 
   // save token to local storage
   saveToken(token: { key: string; expiry: string }) {
+    this.tokenStore.next(token);
     return this.storeS.setItem('token', token);
   }
-  // get token to local storage
+  // Get token from local storage.
   getToken() {
-    return this.storeS.getItem('token').pipe(
+    // Try in memory first, to speed things up.
+    return this.tokenCheck$.pipe(
+      mergeMap((v1) => this.tokenStore.pipe(take(1))),
+      mergeMap((v2) => {
+        const key = get(v2, 'key', null);
+        // Default to getting it out of the local storage.
+        return !this.isTokenExpired(get(v2, 'expiry', undefined)) && key
+          ? of(v2)
+          : this.storeS.getItem('token');
+      }),
+      take(1),
       map((vM: any) => {
         if (!vM) {
+          this.tokenStore.next(null);
           return null;
         }
-        return !this.isTokenExpired(get(vM, 'expiry', undefined))
-          ? get(vM, 'key', null)
-          : null;
+        if (!this.isTokenExpired(get(vM, 'expiry', undefined))) {
+          const key = get(vM, 'key', null);
+          this.tokenStore.next(vM);
+          return key;
+        } else {
+          this.tokenStore.next(null);
+          return null;
+        }
       })
     );
   }
+
+  // Get and process an user profile.
   getProfile(data: { token: string; phoneNumber: string; expiry: string }) {
     return this.doGetProfile(data.phoneNumber).pipe(
+      take(1),
       switchMap((res) => {
         this.setExpireTimer();
         return this.processAuthResponse({
@@ -141,11 +191,13 @@ export class AuthService {
       .buildIndefiniteTimer(60000)
       .subscribe((v) => {
         // Check expiry status.
-        this.handleAuthCheck().subscribe((aC) => {
-          if (aC instanceof UrlTree) {
-            this.routerS.navigateByUrl(aC);
-          }
-        });
+        this.handleAuthCheck()
+          .pipe(take(1))
+          .subscribe((aC) => {
+            if (aC instanceof UrlTree) {
+              this.routerS.navigateByUrl(aC);
+            }
+          });
       });
   }
 
@@ -154,24 +206,79 @@ export class AuthService {
    * expirations process to decide if an user login is valid.
    */
   handleAuthCheck() {
-    return this.getToken().pipe(
-      take(1),
+    return this.authCheck$.pipe(
+      // Get un-expired token.
+      switchMap((v) => this.getToken()),
       switchMap((isAuthenticated) => {
-        if (isAuthenticated) {
+        const account = get(this.authState.value, 'account', null);
+        if (isAuthenticated && account) {
           return of(true);
         } else {
-          return this.getAccountData().pipe(
-            take(1),
-            switchMap((acc) => {
-              if (acc) {
-                this.doLogout(true);
-                return of(false);
-              } else {
-                return this.redirectToLogin();
-              }
+          // If token is expired, try to rebuild the token with phone number + passcode.
+          return this.tryRelogin().pipe(
+            catchError((v) => {
+              // Redirect to clean logout, or pass expiry if account exists.
+              return this.getAccountData().pipe(
+                switchMap((acc) => {
+                  if (acc) {
+                    return this.doLogout(true, false);
+                  } else {
+                    if (!isAuthenticated) {
+                      return this.redirectToLogin();
+                    }
+                    return this.doLogout(true);
+                  }
+                })
+              );
             })
           );
         }
+      })
+    );
+  }
+
+  /**
+   * Try to get a new token with the stored account data.
+   */
+  tryRelogin() {
+    // Get phone number.
+    return this.getPhoneNumber().pipe(
+      switchMap((pn) => {
+        // Get a stored password via secure store.
+        return this.getPassFromStore().pipe(
+          map((ps) => {
+            return [pn, ps];
+          })
+        );
+      }),
+      switchMap((vals: any) => {
+        if (vals[0] && vals[1]) {
+          try {
+            const reqData: Login = {
+              userName: vals[0],
+              password: vals[1],
+            };
+            // Try a login and account refresh.
+            return this.doLoginAndLoadProfile(reqData);
+          } catch (err) {
+            return of(null);
+          }
+        }
+        return of(null);
+      }),
+      switchMap((res) => {
+        try {
+          // Try saving the new token.
+          return this.saveToken({
+            key: res.token,
+            expiry: res.expiration,
+          });
+        } catch (err) {
+          return throwError(err);
+        }
+      }),
+      map((v) => {
+        return true;
       })
     );
   }
@@ -181,12 +288,16 @@ export class AuthService {
       take(1),
       switchMap((v) => {
         if (!v) {
-          return of(this.doLogout());
+          return this.doLogout(false, false).pipe(
+            map((opv) => {
+              return v;
+            })
+          );
         } else {
           return this.doGetProfile(v);
         }
       }),
-      switchMap((profile) => {
+      switchMap((profile: any) => {
         const p = { ...profile, ...override };
         return this.storeS.setItem('account', p).pipe(
           take(1),
@@ -216,7 +327,7 @@ export class AuthService {
     );
   }
 
-  // svae auth data to storage
+  // save auth data to storage
   processAuthResponse(data: LoginResponse) {
     const account = data.account ? data.account : null;
     const authToken = data.token ? data.token : null;
@@ -253,39 +364,72 @@ export class AuthService {
     return this.storeS.getItem('phoneNumber').pipe(take(1));
   }
 
-  doLogout(expired = false) {
+  /**
+   * Execute a logout.
+   *
+   * @param expired
+   *  - This should be set up by the atuomatic process that handles token expiration.
+   * @param execObs
+   *  - This will subscribe automatically to the logout process. mostly linked to the button.
+   *
+   * Will return the redirect url observable.
+   */
+  doLogout(expired = false, execObs = true) {
     unsubscriberHelper(this.sessionExpiryTimer);
-    this.storeS.removeItem('account');
-    this.storeS.removeItem('token');
+    const obsList = [
+      this.storeS.removeItem('account'),
+      this.storeS.removeItem('token'),
+      this.removePassFromStore(),
+    ];
+
     if (!expired) {
-      this.storeS.removeItem('phoneNumber');
+      obsList.push(this.storeS.removeItem('phoneNumber'));
     }
 
     this.authState.next({
       ...this.initialState,
     });
-    if (expired) {
-      // Flag the page with a message to the user.
-      return this.getPhoneNumber()
-        .pipe(take(1))
-        .subscribe((value) => {
-          if (value) {
-            this.routerS.navigate(['/login', 'verify', value], {
-              queryParams: {
-                expired: true,
-              },
-            });
-          } else {
-            this.routerS.navigate(['/login'], {
-              queryParams: {
-                expired: true,
-              },
-            });
-          }
-        });
-    } else {
-      this.routerS.navigateByUrl('/login');
+    this.tokenStore.next(null);
+    const op = combineLatest(obsList).pipe(
+      switchMap((vvv) => {
+        if (expired) {
+          // Flag the page with a message to the user.
+          return this.getPhoneNumber();
+        } else {
+          return of('/login');
+        }
+      }),
+      map((value) => {
+        if (value === '/login') {
+          return this.routerS.createUrlTree([value]);
+        } else if (value) {
+          return this.routerS.createUrlTree(['/login', 'verify', value], {
+            queryParams: {
+              expired: true,
+            },
+          });
+        } else {
+          return this.routerS.createUrlTree(['/login'], {
+            queryParams: {
+              expired: true,
+            },
+          });
+        }
+      })
+    );
+    // Basic calls will have to redirect to the specific login page.
+    if (execObs) {
+      op.subscribe(
+        (rL) => {
+          this.routerS.navigateByUrl(rL);
+        },
+        (err) => {
+          this.routerS.navigateByUrl('/login');
+        }
+      );
     }
+    this.logoutListener.next(new Date().getMilliseconds());
+    return op;
   }
 
   updateState(newState: AuthState) {
@@ -294,10 +438,8 @@ export class AuthService {
 
   getAuthState() {
     return this.authState.pipe(
-      share(),
-      distinctUntilChanged(distinctCheckObj),
       filter((val: AuthState) => val && val.hasOwnProperty('init') && val.init),
-      distinctUntilChanged()
+      distinctUntilChanged(distinctCheckObj)
     );
   }
 
@@ -305,6 +447,36 @@ export class AuthService {
     return this.getAuthState().pipe(
       map((val: AuthState) => {
         return val.account;
+      })
+    );
+  }
+
+  updatePassInStore(passValue) {
+    return this.storeS.setSecureItem(__AUTH_PASS_KEY, passValue);
+  }
+
+  getPassFromStore() {
+    return this.storeS.getSecureItem(__AUTH_PASS_KEY);
+  }
+
+  removePassFromStore() {
+    return this.storeS
+      .removeSecureItem(__AUTH_PASS_KEY)
+      .pipe(catchError((err) => of(true)));
+  }
+
+  doLoginAndLoadProfile(reqData) {
+    return this.doLogin(reqData).pipe(
+      switchMap((res) => {
+        return this.saveToken({ key: res.token, expiry: res.expiration }).pipe(
+          switchMap(() => {
+            return this.getProfile({
+              token: res.token,
+              phoneNumber: reqData.userName,
+              expiry: res.expiration,
+            });
+          })
+        );
       })
     );
   }
@@ -320,18 +492,8 @@ export class AuthService {
       password: loginData.password,
     };
 
-    return this.doLogin(reqData).pipe(
-      switchMap((res) => {
-        return this.saveToken({ key: res.token, expiry: res.expiration }).pipe(
-          switchMap(() => {
-            return this.getProfile({
-              token: res.token,
-              phoneNumber: loginData.phone,
-              expiry: res.expiration,
-            });
-          })
-        );
-      }),
+    return this.doLoginAndLoadProfile(reqData).pipe(
+      take(1),
       tap((value) => {
         let redirectUrl: any = '/home';
         if (loginData.aRoute instanceof ActivatedRoute) {
@@ -351,9 +513,16 @@ export class AuthService {
   }
 
   doLogin(reqData: Login) {
-    return this.reqS
-      .post<LoginResponse>(authEndpoints.login, reqData)
-      .pipe(take(1));
+    return this.reqS.post<LoginResponse>(authEndpoints.login, reqData).pipe(
+      switchMap((vv) => {
+        return this.updatePassInStore(reqData.password).pipe(
+          map((vvv) => vv),
+          catchError((err) => {
+            return of(vv);
+          })
+        );
+      })
+    );
   }
 
   redirectUrlTree(snapshot: ActivatedRouteSnapshot): UrlTree {
@@ -461,5 +630,18 @@ export class AuthService {
     } catch (e) {
       return null;
     }
+  }
+
+  public cnpValidator(): AsyncValidatorFn {
+    return (control: AbstractControl): Observable<ValidationErrors | null> => {
+      return this.validateCNP(control.value).pipe(
+        catchError((err) => {
+          return of(null);
+        }),
+        map((res) => {
+          return res ? null : { invalidCnp2: true };
+        })
+      );
+    };
   }
 }
