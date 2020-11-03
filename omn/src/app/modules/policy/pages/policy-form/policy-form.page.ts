@@ -66,6 +66,7 @@ export class PolicyFormPage implements OnInit, OnDestroy {
 
   // Stored Data:
   selectedAddressItem: PolicyLocuintaListItem;
+  preselectedAddressItem: PolicyLocuintaListItem;
   cesiuneData;
   periodStartData;
   userAccount: Account;
@@ -117,6 +118,7 @@ export class PolicyFormPage implements OnInit, OnDestroy {
       )
       .subscribe((vals: any) => {
         this.policyID = this.aRoute.snapshot.queryParamMap.get('policyID');
+        const locuintaId = this.aRoute.snapshot.queryParamMap.get('id');
         switch (this.policyID) {
           case 'AMPLUS':
             this.typeItem = policyTypes.AMPLUS;
@@ -131,7 +133,7 @@ export class PolicyFormPage implements OnInit, OnDestroy {
             break;
         }
 
-        this.loadLocuinte();
+        this.loadLocuinte(locuintaId);
         this.changeStep(vals[0]);
       });
   }
@@ -141,12 +143,63 @@ export class PolicyFormPage implements OnInit, OnDestroy {
   }
 
   // Load Address + policy combination data. Used in the address picker.
-  loadLocuinte() {
+  loadLocuinte(preselectedId = null) {
     this.locS.loadAllData();
     this.locS.locuinteStore$.subscribe((vals) => {
       this.policyLocuintaData$.next(
         this.policyFs.buildPolicyLocuintaModel(vals, this.typeItem.id)
       );
+      const pAddrId = this.preselectedAddressItem
+        ? get(this.preselectedAddressItem, 'locuinta.id', null)
+        : null;
+      const sAddrId = this.selectedAddressItem
+        ? get(this.selectedAddressItem, 'locuinta.id', null)
+        : null;
+      let preselectedChanged = false;
+      if (pAddrId === null && sAddrId === null) {
+        preselectedChanged = false;
+      } else {
+        try {
+          preselectedChanged = pAddrId.toString() !== sAddrId.toString();
+        } catch (err) {
+          preselectedChanged = false;
+        }
+      }
+      const presId = preselectedId
+        ? preselectedId
+        : get(this.preselectedAddressItem, 'locuinta.id', null);
+      if (presId) {
+        // Look for preselected item via address id.
+        const presAddrItemIndex = this.policyLocuintaData$.value.findIndex(
+          (plv) => {
+            try {
+              return (
+                get(plv, 'locuinta.id', null).toString() === presId.toString()
+              );
+            } catch (err) {
+              return false;
+            }
+          }
+        );
+
+        if (presAddrItemIndex > -1) {
+          this.preselectedAddressItem = this.policyLocuintaData$.value[
+            presAddrItemIndex
+          ];
+          // Move it as first item.
+          this.policyLocuintaData$.value.splice(presAddrItemIndex, 1);
+          const newIt = [this.preselectedAddressItem].concat(
+            this.policyLocuintaData$.value
+          );
+          // Preselect item.
+          if (!preselectedChanged) {
+            this.selectedAddressItem = { ...this.preselectedAddressItem };
+          }
+          this.policyLocuintaData$.next(newIt);
+        } else {
+          this.preselectedAddressItem = null;
+        }
+      }
     });
   }
 
