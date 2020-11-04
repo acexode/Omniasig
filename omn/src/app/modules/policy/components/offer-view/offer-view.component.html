@@ -678,7 +678,7 @@
                 </ion-text>
               </ion-label>
             </ion-item>
-            <ion-item class="ion-no-padding mb-21" lines="none">
+            <ion-item class="ion-no-padding mb-21" lines="none"  *ngIf="offer?.policy?.cesiune?.length">
               <ion-label class="ion-text-wrap ion-no-margin">
                 <div class="link-small text-weight-medium color-tertiary-grey">
                   Cesiune
@@ -1352,7 +1352,11 @@
                 </ion-text>
               </ion-label>
             </ion-item>
-            <ion-item class="ion-no-padding mb-21" lines="none">
+            <ion-item
+              class="ion-no-padding mb-21"
+              lines="none"
+              *ngIf="offer?.policy?.cesiune?.length"
+            >
               <ion-label class="ion-text-wrap ion-no-margin">
                 <div class="link-small text-weight-medium color-tertiary-grey">
                   Cesiune
