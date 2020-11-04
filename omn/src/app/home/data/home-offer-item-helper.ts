@@ -41,27 +41,51 @@ export const offerHomeItemHelper = (offer: PolicyOffer) => {
         ? 'Expiră la: ' + dateHelperDMY(offer.expiry)
         : ''
       : '';
-    baseItem.textContent.footer.text = (offer.policy.typeId === 'AMPLUS' || 'AMPLUS_PAD') && offer.supportData && offer.offerPrice
-      ? offer.supportData === 'GOLD'
-        ? 'Plan: GOLD ● ' + plataOption(offer.noOfPayments, offer.offerPrice, offer.currency)
-        : offer.supportData === 'VIP'
-          ? 'Plan: VIP ● ' + plataOption(offer.noOfPayments, offer.offerPrice, offer.currency)
+    baseItem.textContent.footer.text =
+      (offer.policy.typeId === 'AMPLUS' || 'AMPLUS_PAD') &&
+      offer.supportData &&
+      offer.offerPrice
+        ? offer.supportData === 'GOLD'
+          ? 'Plan: GOLD ● ' +
+            plataOption(
+              offer.noOfPayments,
+              offer?.currencyUserSelectedToPayIn === 'RON'
+                ? offer?.totalRon
+                : offer?.totalEur,
+              offer.currencyUserSelectedToPayIn
+            )
+          : offer.supportData === 'VIP'
+          ? 'Plan: VIP ● ' +
+            plataOption(
+              offer.noOfPayments,
+              offer?.currencyUserSelectedToPayIn === 'RON'
+                ? offer?.totalRon
+                : offer?.totalEur,
+              offer.currencyUserSelectedToPayIn
+            )
           : ''
-      : replaceHelper(offer.offerPrice, '.', ',') + currencyCheck(offer.currency);
+        : replaceHelper(offer.offerPrice, '.', ',') +
+          currencyCheck(offer.currency);
   }
   return baseItem;
 };
 
-
 const plataOption = (noOfPayments: number, offerPrice: any, currency) => {
   return noOfPayments !== 0
-    ? noOfPayments === 1 ? 'plata integrală' + ' ● ' + replaceHelper(offerPrice, '.', ',') + currencyCheck(currency)
-      : 'plata în ' + noOfPayments + ' rate' + ' ● ' + replaceHelper(offerPrice, '.', ',') + currencyCheck(currency) // plata în două rate
-    :
-    '';
+    ? noOfPayments === 1
+      ? 'plata integrală' +
+        ' ● ' +
+        replaceHelper(offerPrice, '.', ',') +
+        currencyCheck(currency)
+      : 'plata în ' +
+        noOfPayments +
+        ' rate' +
+        ' ● ' +
+        replaceHelper(offerPrice, '.', ',') +
+        currencyCheck(currency) // plata în două rate
+    : '';
 };
 
 const currencyCheck = (currency) => {
   return currency === 'EUR' ? ' eur/an' : ' lei/an';
 };
-
