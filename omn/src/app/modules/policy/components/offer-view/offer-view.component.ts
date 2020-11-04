@@ -120,6 +120,7 @@ export class OfferViewComponent implements OnInit {
         : this.policyType;
     this.policyDataService
       .getSingleOfferById(id, this.policyType)
+      .pipe(take(1))
       .subscribe((offer) => {
         this.offer = offer;
         if (offer && has(offer, 'policy.typeId')) {
@@ -185,6 +186,11 @@ export class OfferViewComponent implements OnInit {
       policyCurrency: this.offer.currency || 'RON',
       isMobilePayment: true,
     };
+    if (this.policyType === 'AMPLUS') {
+      if (this.offer.currency !== this.offer.currencyUserSelectedToPayIn) {
+        set(data, 'amount_IBAN_1', this.offer.firstPaymentValueConverted);
+      }
+    }
     if (this.policyType === 'AMPLUS_PAD') {
       const offer = this.offer;
       if (this.offer.currency !== this.offer.currencyUserSelectedToPayIn) {

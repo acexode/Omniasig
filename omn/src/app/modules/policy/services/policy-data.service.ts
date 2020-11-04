@@ -382,6 +382,39 @@ export class PolicyDataService {
         'amplusPolicyDocumentId',
         get(offer, 'amplusPolicyDocumentId', 0)
       );
+      const diffCurrency =
+        offerObj.currencyUserSelectedToPayIn !==
+        get(offer, 'offerCurrency', null);
+      if (offerObj.euroToRonConversion) {
+        offerObj.totalRon =
+          get(offer, 'offerPrimaConverted', 0) +
+          get(offer, 'padInsurance.firstPaymentValue', 0);
+        offerObj.totalEur =
+          get(offer, 'offerPrima', 0) +
+          get(offer, 'padInsurance.firstPaymentValueConverted', 0);
+      } else if (offerObj.currencyUserSelectedToPayIn === 'EUR') {
+        offerObj.totalRon =
+          (diffCurrency
+            ? get(offer, 'offerPrima', 0)
+            : get(offer, 'offerPrimaConverted', 0)) +
+          get(offer, 'padInsurance.firstPaymentValue', 0);
+        offerObj.totalEur =
+          (diffCurrency
+            ? get(offer, 'offerPrimaConverted', 0)
+            : get(offer, 'offerPrima', 0)) +
+          get(offer, 'padInsurance.firstPaymentValueConverted', 0);
+      } else {
+        offerObj.totalRon =
+          (diffCurrency
+            ? get(offer, 'offerPrimaConverted', 0)
+            : get(offer, 'offerPrima', 0)) +
+          get(offer, 'padInsurance.firstPaymentValue', 0);
+        offerObj.totalEur =
+          (diffCurrency
+            ? get(offer, 'offerPrima', 0)
+            : get(offer, 'offerPrimaConverted', 0)) +
+          get(offer, 'padInsurance.firstPaymentValueConverted', 0);
+      }
     }
     if (typeId === 'AMPLUS_PAD') {
       set(offerObj, 'padInsurance', {});
@@ -437,29 +470,6 @@ export class PolicyDataService {
         'padPolicyDocumentId',
         get(offer.padInsurance, 'padPolicyDocumentId', 0)
       );
-
-      if (offerObj.euroToRonConversion) {
-        offerObj.totalRon =
-          get(offerObj, 'offerPrimaConverted') +
-          get(offer.padInsurance, 'firstPaymentValue', 0);
-        offerObj.totalEur =
-          get(offerObj, 'offerPrice', 0) +
-          get(offer.padInsurance, 'firstPaymentValueConverted', 0);
-      } else if (offerObj.currencyUserSelectedToPayIn === 'EUR') {
-        offerObj.totalRon =
-          get(offerObj, 'offerPrice') +
-          get(offer.padInsurance, 'firstPaymentValue', 0);
-        offerObj.totalEur =
-          get(offerObj, 'offerPrimaConverted', 0) +
-          get(offer.padInsurance, 'firstPaymentValueConverted', 0);
-      } else {
-        offerObj.totalRon =
-          get(offerObj, 'offerPrice') +
-          get(offer.padInsurance, 'firstPaymentValue', 0);
-        offerObj.totalEur =
-          get(offerObj, 'offerPrimaConverted', 0) +
-          get(offer.padInsurance, 'firstPaymentValueConverted', 0);
-      }
     }
     return offerObj;
   }
