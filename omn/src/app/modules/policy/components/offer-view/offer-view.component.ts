@@ -10,7 +10,6 @@ import { get, has, set } from 'lodash';
 import { Subscription } from 'rxjs';
 import { first, take } from 'rxjs/operators';
 import { dateHelperDMY } from 'src/app/core/helpers/date.helper';
-import { locuinteFieldsData } from 'src/app/shared/data/locuinte-field-data';
 import { subPageHeaderDefault } from 'src/app/shared/data/sub-page-header-default';
 import { subPageHeaderSecondary } from 'src/app/shared/data/sub-page-header-secondary';
 import { PolicyOffer } from 'src/app/shared/models/data/policy-offer';
@@ -27,7 +26,6 @@ import { PaymentStatusComponent } from './../payment-status/payment-status.compo
 export class OfferViewComponent implements OnInit {
   policyType;
   offer: PolicyOffer = null;
-  leiCurrency;
   headerConfig = subPageHeaderSecondary('Oferta de asigurare');
   viewMode: 'V' | 'C' = 'V';
   @HostBinding('class') color = 'ion-color-white-page';
@@ -106,7 +104,7 @@ export class OfferViewComponent implements OnInit {
     private iab: InAppBrowser,
     private fileS: SharedFileService,
     private fb: FormBuilder
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     this.route.params.pipe(take(1)).subscribe((params: any) => {
@@ -122,15 +120,9 @@ export class OfferViewComponent implements OnInit {
         : this.policyType;
     this.policyDataService
       .getSingleOfferById(id, this.policyType)
+      .pipe(take(1))
       .subscribe((offer) => {
         this.offer = offer;
-        this.leiCurrency =
-          this.policyType === 'PAD'
-            ? true
-            : locuinteFieldsData.valueCurrency[1].id ===
-              this.offer?.policy?.locuintaData?.valueCurrency
-              ? true
-              : false;
         if (offer && has(offer, 'policy.typeId')) {
           this.policyType = get(offer, 'policy.typeId', this.policyType);
         }
@@ -172,7 +164,7 @@ export class OfferViewComponent implements OnInit {
           calendarName: 'offer',
         },
       };
-    } catch (e) { }
+    } catch (e) {}
   }
 
   addCalendarEntry() {
@@ -187,23 +179,30 @@ export class OfferViewComponent implements OnInit {
       amount_IBAN_1: this.offer.firstPaymentValue,
       areTermsAccepted: this.formG.get('accept').value,
       currencyToPay:
-        this.policyType === 'PAD' || this.policyType === 'AMPLUS_PAD'
-          ? 'RON'
-          : this.offer.policy.locuintaData.valueCurrency,
-      policyCurrency:
-        this.policyType === 'PAD' || this.policyType === 'AMPLUS_PAD'
-          ? 'RON'
-          : this.offer.policy.locuintaData.valueCurrency,
+        this.policyType === 'PAD'
+          ? this.offer.currency || 'RON'
+          : this.offer.currencyUserSelectedToPayIn,
       policyCode: this.offer.offerCode,
+      policyCurrency: this.offer.currency || 'RON',
       isMobilePayment: true,
     };
+    if (this.policyType === 'AMPLUS') {
+      if (this.offer.currency !== this.offer.currencyUserSelectedToPayIn) {
+        set(data, 'amount_IBAN_1', this.offer.firstPaymentValueConverted);
+      }
+    }
     if (this.policyType === 'AMPLUS_PAD') {
       const offer = this.offer;
+      if (this.offer.currency !== this.offer.currencyUserSelectedToPayIn) {
+        set(data, 'amount_IBAN_1', this.offer.firstPaymentValueConverted);
+      }
       set(data, 'ibaN_2', get(offer.padInsurance, 'iban', null));
       set(
         data,
         'amount_IBAN_2',
-        get(offer.padInsurance, 'firstPaymentValue', null)
+        this.offer.currencyUserSelectedToPayIn === 'RON'
+          ? get(offer.padInsurance, 'firstPaymentValue', null)
+          : get(offer.padInsurance, 'firstPaymentValueConverted', null)
       );
     }
     this.sub = this.policyDataService.makePayment(data).subscribe(
@@ -259,8 +258,10 @@ export class OfferViewComponent implements OnInit {
           (this.policyType === 'PAD' &&
             get(data, 'emiterePadPolitaResponse', null)) ||
           (this.policyType === 'AMPLUS' &&
-            get(data, 'emitereAmplusPolitaResponse', null)) || (this.policyType === 'AMPLUS_PAD' &&
-              get(data, 'emitereAmplusPolitaResponse', null) && get(data, 'emiterePadPolitaResponse', null))
+            get(data, 'emitereAmplusPolitaResponse', null)) ||
+          (this.policyType === 'AMPLUS_PAD' &&
+            get(data, 'emitereAmplusPolitaResponse', null) &&
+            get(data, 'emiterePadPolitaResponse', null))
         ) {
           this.presentModal('success');
           this.policyDataService.initData();
