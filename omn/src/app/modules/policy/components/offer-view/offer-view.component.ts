@@ -180,20 +180,23 @@ export class OfferViewComponent implements OnInit {
       currencyToPay:
         this.policyType === 'PAD'
           ? this.offer.currency || 'RON'
-          : this.policyType === 'AMPLUS_PAD'
-          ? this.offer.currencyUserSelectedToPayIn
-          : this.offer.policy.locuintaData.valueCurrency,
+          : this.offer.currencyUserSelectedToPayIn,
       policyCode: this.offer.offerCode,
       policyCurrency: this.offer.currency || 'RON',
       isMobilePayment: true,
     };
     if (this.policyType === 'AMPLUS_PAD') {
       const offer = this.offer;
+      if (this.offer.currency !== this.offer.currencyUserSelectedToPayIn) {
+        set(data, 'amount_IBAN_1', this.offer.firstPaymentValueConverted);
+      }
       set(data, 'ibaN_2', get(offer.padInsurance, 'iban', null));
       set(
         data,
         'amount_IBAN_2',
-        get(offer.padInsurance, 'firstPaymentValue', null)
+        this.offer.currencyUserSelectedToPayIn === 'RON'
+          ? get(offer.padInsurance, 'firstPaymentValue', null)
+          : get(offer.padInsurance, 'firstPaymentValueConverted', null)
       );
     }
     this.sub = this.policyDataService.makePayment(data).subscribe(

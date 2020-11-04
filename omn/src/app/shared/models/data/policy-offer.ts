@@ -13,6 +13,7 @@ export interface PolicyOffer {
   offerCode?: string;
   iban?: string;
   prima?: string | number;
+  offerPrimaConverted?: string | number;
   currency?: string;
   emisionDate?: string | Date;
   // New AMPLUS.
@@ -34,6 +35,12 @@ export interface PolicyOffer {
   firstPaymentValueConverted?: number;
   // Conversion enabled.
   euroToRonConversion?: boolean;
+  // totals - amplus + pad
+  totalRon?: number | string;
+  totalEur?: number | string;
+
+  totalEuroAmplusPadToPayFirst?: number | string;
+  totalRonAmplusPadToPayFirst?: number | string;
 }
 
 export interface RatePlan {
@@ -46,6 +53,7 @@ export interface RatePlan {
   expireDate?: any;
   insurancePrice?: any;
   firstPaymentValue?: any;
+
   ratePlanList?: Array<any>;
 }
 
@@ -55,6 +63,9 @@ export interface UniquePadData {
   currency?: string;
   offerPrice?: number;
   firstPaymentValue?: number;
+  firstPaymentValueConverted?: number;
+  insurancePrice?: any;
+  insurancePriceCurrency?: any;
   iban?: any;
 }
 

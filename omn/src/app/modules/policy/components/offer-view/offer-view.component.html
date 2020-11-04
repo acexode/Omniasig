@@ -950,14 +950,23 @@
                   Prețul Poliței Garant AMPLUS:
                 </ion-label>
                 <ion-label class="x-large text-weight-bold alt-font mb-8">
-                  {{ offer?.offerPrice }}
-                  {{ offer?.currency | locuinteField: 'valueCurrency' || '-' }}
+                  {{
+                    offer?.euroToRonConversion
+                      ? offer?.offerPrimaConverted
+                      : offer?.currency !== offer?.currencyUserSelectedToPayIn
+                      ? offer?.offerPrimaConverted
+                      : offer?.offerPrice
+                  }}
+                  {{
+                    offer?.currencyUserSelectedToPayIn
+                      | locuinteField: 'valueCurrency' || '-'
+                  }}
                 </ion-label>
                 <ion-label
                   class="text-normal text-weight-medium"
-                 *ngIf="offer?.euroToRonConversion"
+                  *ngIf="offer?.euroToRonConversion"
                 >
-                  {{ offer?.firstPaymentValueConverted }} Euro la cursul de
+                  {{ offer?.offerPrice }} Euro la cursul de
                   {{
                     offer?.euroExchangeRate.exchangeRateForToCurrency
                       | number: '1.4-4'
@@ -980,12 +989,13 @@
                 <ion-label class="x-large text-weight-bold alt-font mb-8">
                   {{ offer?.padInsurance?.offerPrice }}
                   {{
-                    (policyType === 'AMPLUS_PAD' ? 'RON' : offer?.currency)
+                    offer?.padInsurance?.currency
                       | locuinteField: 'valueCurrency' || '-'
                   }}
                 </ion-label>
                 <ion-label class="text-normal text-weight-medium">
-                  {{ offer?.firstPaymentValueConverted }} Euro la cursul de
+                  {{ offer?.padInsurance?.firstPaymentValueConverted }} Euro la
+                  cursul de
                   {{
                     offer?.euroExchangeRate.exchangeRateForToCurrency
                       | number: '1.4-4'
@@ -1007,16 +1017,21 @@
                 </ion-label>
                 <ion-label class="x-large text-weight-bold alt-font mb-8">
                   {{
-                    offer?.padInsurance?.offerPrice + offer?.offerPrice
-                      | number: '1.2-2'
+                    offer?.currencyUserSelectedToPayIn === 'RON'
+                      ? offer?.totalRon
+                      : (offer?.totalEur | number: '1.2-2')
                   }}
-                  Lei
+                  {{
+                    offer?.currencyUserSelectedToPayIn
+                      | locuinteField: 'valueCurrency' || '-'
+                  }}
                 </ion-label>
                 <ion-label
-                 *ngIf="offer?.euroToRonConversion"
+                  *ngIf="offer?.euroToRonConversion"
                   class="text-normal text-weight-medium"
                 >
-                  {{ offer?.firstPaymentValueConverted }} Euro la cursul de
+                  {{ offer?.totalEur | number: '1.0-2' }}
+                  Euro la cursul de
                   {{
                     offer?.euroExchangeRate.exchangeRateForToCurrency
                       | number: '1.4-4'
@@ -1036,8 +1051,15 @@
                   Valoarea primei rate:
                 </ion-label>
                 <ion-label class="x-large text-weight-bold alt-font mb-8">
-                  {{ offer?.firstPaymentValue }}
-                  {{ offer?.currency | locuinteField: 'valueCurrency' || '-' }}
+                  {{
+                    offer?.currencyUserSelectedToPayIn === 'RON'
+                      ? offer?.totalRonAmplusPadToPayFirst
+                      : offer?.totalEuroAmplusPadToPayFirst
+                  }}
+                  {{
+                    offer?.currencyUserSelectedToPayIn
+                      | locuinteField: 'valueCurrency' || '-'
+                  }}
                 </ion-label>
                 <ion-label class="text-normal text-weight-medium">
                   Această sumă include prima rată a Poliței facultative și
@@ -1584,9 +1606,9 @@
                   Suma asigurată
                 </div>
                 <ion-text class="s18-h24">
-                  {{ offer?.policy?.locuintaData?.value || '-' }}
+                  {{ offer?.padInsurance?.insurancePrice || '0' }}
                   {{
-                    offer?.policy?.locuintaData?.valueCurrency
+                    offer?.padInsurance?.insurancePriceCurrency
                       | locuinteField: 'valueCurrency' || '-'
                   }}
                 </ion-text>

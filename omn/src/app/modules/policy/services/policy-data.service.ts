@@ -294,6 +294,7 @@ export class PolicyDataService {
       iban: offer.offerIBAN,
       ratePlanList: offer.ratePlanList,
       offerPrice: offer.offerPrima,
+      offerPrimaConverted: offer.offerPrimaConverted,
       firstPaymentValue: offer.firstPaymentValue,
       firstPaymentValueConverted: offer.firstPaymentValueConverted,
       euroExchangeRate: offer.euroExchangeRate,
@@ -344,8 +345,13 @@ export class PolicyDataService {
       padOfferDocumentId: offer.padOfferDocumentId,
       padPolicyDocumentId: offer.padPolicyDocumentId,
       euroToRonConversion: true,
+      totalRon: 0,
+      totalEur: 0,
+      totalEuroAmplusPadToPayFirst: 0,
+      totalRonAmplusPadToPayFirst: 0,
     };
     if (typeId === 'AMPLUS' || typeId === 'AMPLUS_PAD') {
+      offerObj.insurancePriceCurrency = offer.locationValueCurrency;
       if (
         offer.locationValueCurrency === 'EUR' &&
         offer.currencyUserSelectedToPayIn === 'RON'
@@ -354,6 +360,11 @@ export class PolicyDataService {
       } else {
         offerObj.euroToRonConversion = false;
       }
+
+      offerObj.totalEuroAmplusPadToPayFirst =
+        offer.totalEuroAmplusPadToPayFirst || 0;
+      offerObj.totalRonAmplusPadToPayFirst =
+        offer.totalRonAmplusPadToPayFirst || 0;
       offerObj.expiry = get(offer, 'offerExpireDate', '');
       offerObj.policy.dates.to = get(offer, 'offerExpireDate', '');
       const isGold = get(offer, 'isGold', false);
@@ -373,6 +384,7 @@ export class PolicyDataService {
       );
     }
     if (typeId === 'AMPLUS_PAD') {
+      set(offerObj, 'padInsurance', {});
       // PAD offer fields that are not equal with similar fields in Amplus Offer for Amplus+PAD
       set(offerObj, 'padInsurance.id', get(offer.padInsurance, 'id', '-'));
       set(
@@ -383,22 +395,37 @@ export class PolicyDataService {
       set(
         offerObj,
         'padInsurance.currency',
-        get(offer.padInsurance, '"offerCurrency', '-')
+        get(offer.padInsurance, 'offerCurrency', 'RON')
       );
       set(
         offerObj,
         'padInsurance.offerPrice',
-        get(offer.padInsurance, 'offerPrima', '-')
+        get(offer.padInsurance, 'offerPrima', 0)
       );
       set(
         offerObj,
         'padInsurance.firstPaymentValue',
-        get(offer.padInsurance, 'firstPaymentValue', '-')
+        get(offer.padInsurance, 'firstPaymentValue', 0)
+      );
+      set(
+        offerObj,
+        'padInsurance.firstPaymentValueConverted',
+        get(offer.padInsurance, 'firstPaymentValueConverted', 0)
       );
       set(
         offerObj,
         'padInsurance.iban',
         get(offer.padInsurance, 'offerIBAN', '-')
+      );
+      set(
+        offerObj,
+        'padInsurance.insurancePrice',
+        get(offer.padInsurance, 'insurancePrice', 0)
+      );
+      set(
+        offerObj,
+        'padInsurance.insurancePriceCurrency',
+        get(offer.padInsurance, 'insurancePriceCurrency', 0)
       );
       set(
         offerObj,
@@ -410,6 +437,29 @@ export class PolicyDataService {
         'padPolicyDocumentId',
         get(offer.padInsurance, 'padPolicyDocumentId', 0)
       );
+
+      if (offerObj.euroToRonConversion) {
+        offerObj.totalRon =
+          get(offerObj, 'offerPrimaConverted') +
+          get(offer.padInsurance, 'firstPaymentValue', 0);
+        offerObj.totalEur =
+          get(offerObj, 'offerPrice', 0) +
+          get(offer.padInsurance, 'firstPaymentValueConverted', 0);
+      } else if (offerObj.currencyUserSelectedToPayIn === 'EUR') {
+        offerObj.totalRon =
+          get(offerObj, 'offerPrice') +
+          get(offer.padInsurance, 'firstPaymentValue', 0);
+        offerObj.totalEur =
+          get(offerObj, 'offerPrimaConverted', 0) +
+          get(offer.padInsurance, 'firstPaymentValueConverted', 0);
+      } else {
+        offerObj.totalRon =
+          get(offerObj, 'offerPrice') +
+          get(offer.padInsurance, 'firstPaymentValue', 0);
+        offerObj.totalEur =
+          get(offerObj, 'offerPrimaConverted', 0) +
+          get(offer.padInsurance, 'firstPaymentValueConverted', 0);
+      }
     }
     return offerObj;
   }
