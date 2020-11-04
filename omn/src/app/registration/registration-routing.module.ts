@@ -50,7 +50,7 @@ const routes: Routes = [
   },
   {
     path: 'account-created',
-    canActivate: [AuthGuard],
+    // canActivate: [AuthGuard],
     component: ContCreatComponent,
   },
   {

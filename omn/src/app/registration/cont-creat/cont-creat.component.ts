@@ -52,7 +52,7 @@ export class ContCreatComponent implements OnInit, AfterViewInit {
     private router: Router,
     private regService: RegistrationService,
     private authS: AuthService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.authS.getAccountData().subscribe((account) => {
