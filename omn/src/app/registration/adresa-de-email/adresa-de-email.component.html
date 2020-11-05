@@ -29,4 +29,9 @@
             </div>
         </ion-col>
     </div>
+    <app-generic-error
+    *ngIf="showError"
+    [texts]="errorMsgs"
+    (doClose)="goBack()"
+    ></app-generic-error>
 </ion-content>

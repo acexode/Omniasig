@@ -113,8 +113,8 @@ export class AuthService {
   }
 
   // check GDPR
-  checkGDPR(userId: string) {
-    return this.reqS.post<any>(`${authEndpoints.checkGDPR}?userId=${userId}`, { });
+  checkGDPR(cnp: string) {
+    return this.reqS.post<any>(`${authEndpoints.checkGDPR}?cnp=${cnp}`, { });
   }
 
   // request sms during login
