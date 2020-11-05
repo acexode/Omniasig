@@ -167,15 +167,6 @@ export class PolicyAddressFormComponent implements OnInit {
           // We need to clear the validator when we have no data on the initial call.
           this.toggleStreetInput =
             get(this.formInstance.data.addressStreet, 'length', 0) === 0;
-          if (
-            this.addressStreet &&
-            !get(this.formInstance.data, 'addressStreet', [])?.length
-          ) {
-            this.addressStreet.clearValidators();
-            if (this.toggleStreetInput) {
-              this.addressStreet.updateValueAndValidity();
-            }
-          }
           if (this.addressStreet || this.addressName) {
             this.formS.setInitialStreetValue(
               this.dataModel,
@@ -183,6 +174,20 @@ export class PolicyAddressFormComponent implements OnInit {
               this.addressName,
               this.formInstance.data
             );
+          }
+          this.formS.resetStreetFieldValues(
+            this.addressStreet,
+            this.addressName,
+            this.addressStreetType,
+            !this.toggleStreetInput,
+            false
+          );
+          if (!get(this.addressCity, 'value', null)) {
+            this.formS.disableFields([
+              this.addressStreet,
+              this.addressName,
+              this.addressStreetType,
+            ]);
           }
           this.cdRef.markForCheck();
           this.cdRef.detectChanges();
@@ -192,6 +197,11 @@ export class PolicyAddressFormComponent implements OnInit {
           this.addressCity.patchValue('');
           this.addressCity.updateValueAndValidity();
         }
+        this.formS.disableFields([
+          this.addressStreet,
+          this.addressStreetType,
+          this.addressName,
+        ]);
         this.formS
           .updateCounty(
             this.addressCounty,
@@ -218,6 +228,11 @@ export class PolicyAddressFormComponent implements OnInit {
           !this.toggleStreetInput,
           true
         );
+        this.formS.disableFields([
+          this.addressStreet,
+          this.addressStreetType,
+          this.addressName,
+        ]);
         this.formS
           .updateCity(this.addressCity, this.formInstance.data, this.dataModel)
           .subscribe((v) => {
@@ -243,6 +258,7 @@ export class PolicyAddressFormComponent implements OnInit {
                 this.addressCity ? this.addressCity.value : null
               );
             } else {
+              this.addressStreetType.enable();
               this.formS.handlePostalCode(
                 null,
                 this.formInstance.data,
@@ -256,6 +272,13 @@ export class PolicyAddressFormComponent implements OnInit {
                 !this.toggleStreetInput,
                 true
               );
+            }
+            if (!get(this.addressCity, 'value', null)) {
+              this.formS.disableFields([
+                this.addressStreet,
+                this.addressName,
+                this.addressStreetType,
+              ]);
             }
             this.cdRef.markForCheck();
             this.cdRef.detectChanges();

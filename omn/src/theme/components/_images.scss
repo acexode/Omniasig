@@ -60,6 +60,7 @@ ion-icon {
     height: rem(166);
     width: rem(160);
   }
+
   &.svg-absolute-right {
     > {
       position: relative;
@@ -75,5 +76,9 @@ ion-icon {
   }
   &.lg-case-12 {
     height: rem(128);
+  }
+  &.lg-card {
+    height: rem(200);
+    width: rem(254);
   }
 }
