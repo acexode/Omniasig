@@ -41,7 +41,7 @@ export class AdresaDeEmailComponent implements OnInit {
     private formBuilder: FormBuilder,
     private regSrvice: RegistrationService,
     private auth: AuthService,
-    private navCtrl: NavController,
+    private navCtrl: NavController
   ) {
     this.checkUserObj();
   }
@@ -74,14 +74,40 @@ export class AdresaDeEmailComponent implements OnInit {
     this.regSrvice.setUserObj({
       email: this.emailForm.get('email').value,
     });
-    this.regSrvice.registerUser().subscribe(
-      (data) => {
-        this.logUserIn();
-      },
-      (err) => {
-        this.busy = false;
-      }
-    );
+    return this.auth
+      .checkGDPR(this.regSrvice.getuserObj.cnp)
+      .pipe(
+        switchMap((isGDPRok) => {
+          this.isGDPRokStatus = get(isGDPRok, 'isGDPRNotRestricted', true);
+          if (this.isGDPRokStatus) {
+            return of(null);
+          } else {
+            return throwError('falseGDPR');
+          }
+        }),
+        switchMap((vv) => {
+          return this.regSrvice.registerUser();
+        })
+      )
+      .subscribe(
+        (data) => {
+          this.logUserIn();
+        },
+        (err) => {
+          this.busy = false;
+          if (err === 'falseGDPR') {
+            this.errorMsgs = genericErrorTexts(
+              'A fost identificată lipsa acordului tău privind procesare datelor personale.',
+              '',
+              true
+            );
+            this.showError = true;
+          } else {
+            this.router.navigate(['/login']);
+          }
+          this.busy = false;
+        }
+      );
   }
 
   logUserIn() {
@@ -91,21 +117,6 @@ export class AdresaDeEmailComponent implements OnInit {
         password: this.regSrvice.getuserObj.pin,
         aRoute: '/registration/account-created',
       })
-      .pipe(
-        switchMap((res) => {
-          return this.auth.checkGDPR(this.regSrvice.getuserObj.cnp)
-          .pipe(
-            switchMap((isGDPRok) => {
-              this.isGDPRokStatus = get(isGDPRok, 'isGDPRNotRestricted', true);
-              if (this.isGDPRokStatus) {
-                return of(null);
-              } else {
-                return throwError('falseGDPR');
-              }
-            })
-          );
-        })
-      )
       .subscribe(
         (data) => {
           this.auth.saveLastLoginNumber(this.regSrvice.getuserObj.phoneNumber);
@@ -113,7 +124,11 @@ export class AdresaDeEmailComponent implements OnInit {
         (err) => {
           this.busy = false;
           if (err === 'falseGDPR') {
-            this.errorMsgs = genericErrorTexts( 'lipsa acordului tău privind procesare datelor personale.', '' );
+            this.errorMsgs = genericErrorTexts(
+              'A fost identificată lipsa acordului tău privind procesare datelor personale.',
+              '',
+              true
+            );
             this.showError = true;
           } else {
             this.router.navigate(['/login']);
@@ -125,7 +140,7 @@ export class AdresaDeEmailComponent implements OnInit {
   goBack() {
     if (!this.isGDPRokStatus) {
       // logout if generic error is due to isGDPRok===false
-      this.auth.doLogout();
+      this.auth.doLogout(false, true);
     }
   }
 }

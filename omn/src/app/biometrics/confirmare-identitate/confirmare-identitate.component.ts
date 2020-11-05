@@ -10,7 +10,7 @@ import {
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { IonContent, NavController } from '@ionic/angular';
 import { get } from 'lodash';
-import { of } from 'rxjs';
+import { of, throwError } from 'rxjs';
 import { switchMap, take } from 'rxjs/operators';
 import { LocuinteFormService } from 'src/app/profile/pages/locuinte/services/locuinte-form/locuinte-form.service';
 import { autoCompleteConfigHelper } from 'src/app/shared/data/autocomplete-config-helper';
@@ -375,6 +375,22 @@ export class ConfirmareIdentitateComponent implements OnInit {
         } catch {}
         obsv
           .pipe(
+            switchMap((res) => {
+              return this.auth.checkGDPR(this.cnp.value).pipe(
+                switchMap((isGDPRok) => {
+                  const isGDPRokStatus = get(
+                    isGDPRok,
+                    'isGDPRNotRestricted',
+                    true
+                  );
+                  if (isGDPRokStatus) {
+                    return of(null);
+                  } else {
+                    return throwError('falseGDPR');
+                  }
+                })
+              );
+            }),
             switchMap((v) => {
               return this.auth.updateUserProfile(user);
             }),
@@ -393,12 +409,21 @@ export class ConfirmareIdentitateComponent implements OnInit {
               this.navCtrl.navigateRoot('/home');
             },
             (err) => {
-              this.errorMsgs = genericErrorTexts(
-                err
-                  ? get(err, 'error', 'A fost identificată o problemă...')
-                  : 'A fost identificată o problemă...',
-                ''
-              );
+              if (err === 'falseGDPR') {
+                this.errorMsgs = genericErrorTexts(
+                  'A fost identificată lipsa acordului tău privind procesare datelor personale.',
+                  '',
+                  true
+                );
+              } else {
+                this.errorMsgs = genericErrorTexts(
+                  err
+                    ? get(err, 'error', 'A fost identificată o problemă...')
+                    : 'A fost identificată o problemă...',
+                  ''
+                );
+              }
+
               this.hasError = true;
               this.cdRef.markForCheck();
             },

@@ -1,37 +1,49 @@
 <ion-content>
-    <app-sub-page-header [config]="headerConfig"> </app-sub-page-header>
-    <div class="px-32">
-        <ion-col>
-            <div class="text-center mb-8 ion-text-center">
-                <ion-text class="alt-font color-dark-green x-large mb-17 text-center">
-                    Adresă e-mail
-                </ion-text>
-            </div>
-            <div class="ion-text-center mb-32">
-                <ion-text class="text-small">
-                    Vei primi un link de validare la această adresă de e-mail.
-                </ion-text>
-            </div>
-            <div class="mt-30">
-                <form [formGroup]="emailForm" (ngSubmit)="proceed()">
-                    <app-input formControlName="email" [config]="config"></app-input>
-                </form>
-            </div>
-            <div class="mt-16 pb-32">
-                <ion-text class="text-small">
-                    La acestă adresă vei primi toate documentele pentru serviciile și polițele generate prin aplicație (contracte de asigurare, polițe etc.).
-                </ion-text>
-            </div>
-            <div class="ion-align-items-center ion-text-center mt-8">
-                <ion-button type="submit" (click)="proceed()" [disabled]="!emailForm.valid || busy" class="success-gradient ion-color-success" expand="full" size="large" shape="round" mode="md">
-                    Continuă
-                </ion-button>
-            </div>
-        </ion-col>
-    </div>
-    <app-generic-error
+  <app-sub-page-header [config]="headerConfig" *ngIf="!showError">
+  </app-sub-page-header>
+  <div class="px-32" *ngIf="!showError">
+    <ion-col class="ion-no-padding">
+      <div class="text-center mb-8 ion-text-center">
+        <ion-text class="alt-font color-dark-green x-large mb-17 text-center">
+          Adresă e-mail
+        </ion-text>
+      </div>
+      <div class="ion-text-center mb-32">
+        <ion-text class="text-small">
+          Vei primi un link de validare la această adresă de e-mail.
+        </ion-text>
+      </div>
+      <div class="mt-30">
+        <form [formGroup]="emailForm" (ngSubmit)="proceed()">
+          <app-input formControlName="email" [config]="config"></app-input>
+        </form>
+      </div>
+      <div class="mt-16 pb-32">
+        <ion-text class="text-small">
+          La acestă adresă vei primi toate documentele pentru serviciile și
+          polițele generate prin aplicație (contracte de asigurare, polițe
+          etc.).
+        </ion-text>
+      </div>
+      <div class="ion-align-items-center ion-text-center mt-8">
+        <ion-button
+          type="submit"
+          (click)="proceed()"
+          [disabled]="!emailForm.valid || busy"
+          class="success-gradient ion-color-success"
+          expand="full"
+          size="large"
+          shape="round"
+          mode="md"
+        >
+          Continuă
+        </ion-button>
+      </div>
+    </ion-col>
+  </div>
+  <app-generic-error
     *ngIf="showError"
     [texts]="errorMsgs"
     (doClose)="goBack()"
-    ></app-generic-error>
+  ></app-generic-error>
 </ion-content>

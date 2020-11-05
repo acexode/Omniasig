@@ -146,70 +146,83 @@ export class DatePersonaleFormComponent implements OnInit, OnDestroy {
           )
           .subscribe();
       } else if (this.formMode === this.formModes.EDIT_CNP) {
-        this.authS.getPhoneNumber().pipe(
-          switchMap((e) => {
-            let obsv = of(true);
-            try {
-              if (this.cnp.value !== this.account.cnp) {
-                obsv = this.authS.checkCNP(this.cnp.value, e);
-              }
-            } catch {
-              return throwError('');
-            }
-
-            return obsv
-            .pipe(
-              switchMap((v) => {
-                let user;
-                try {
-                  user = {
-                    userNameOrId: this.account.userId,
-                    name: this.account.name,
-                    cnp: this.cnp.value,
-                    surname: this.account.surname,
-                  };
-                } catch {
-                  return throwError('');
+        this.authS
+          .getPhoneNumber()
+          .pipe(
+            switchMap((e) => {
+              let obsv = of(true);
+              try {
+                if (this.cnp.value !== this.account.cnp) {
+                  obsv = this.authS.checkCNP(this.cnp.value, e);
                 }
-                if (user) {
-                  return this.authS.updateUserProfile(user);
-                }
+              } catch {
                 return throwError('');
-              }),
-              tap(() => {
-                this.authS.doUpdateAccount({ cnp: this.cnp.value });
-              })
-            );
-          }),
-          switchMap((res) => {
-            return this.authS.checkGDPR(this.cnp.value)
-            .pipe(
-              switchMap((isGDPRok) => {
-                this.isGDPRokStatus = get(isGDPRok, 'isGDPRNotRestricted', true);
-                if (this.isGDPRokStatus) {
-                  return of(null);
-                } else {
-                  return throwError({ error: 'lipsa acordului tău privind procesare datelor personale.' });
-                }
-              })
-            );
-          })
-        ).subscribe(
-          () => {
-            this.navCtrl.navigateBack('/profil/date-personale');
-            this.formSubmitting = false;
-          },
-          (err) => {
-            this.errorMsgs = genericErrorTexts(
-              err
-                ? get(err, 'error', 'A fost identificată o problemă...')
-                : 'A fost identificată o problemă...',
-              ''
-            );
-            this.errorPage = true;
-            this.cdRef.detectChanges();
-          }
-        );
+              }
+
+              return obsv.pipe(
+                switchMap((res) => {
+                  return this.authS.checkGDPR(this.cnp.value).pipe(
+                    switchMap((isGDPRok) => {
+                      this.isGDPRokStatus = get(
+                        isGDPRok,
+                        'isGDPRNotRestricted',
+                        true
+                      );
+                      if (this.isGDPRokStatus) {
+                        return of(null);
+                      } else {
+                        return throwError('falseGDPR');
+                      }
+                    })
+                  );
+                }),
+                switchMap((v) => {
+                  let user;
+                  try {
+                    user = {
+                      userNameOrId: this.account.userId,
+                      name: this.account.name,
+                      cnp: this.cnp.value,
+                      surname: this.account.surname,
+                    };
+                  } catch {
+                    return throwError('');
+                  }
+                  if (user) {
+                    return this.authS.updateUserProfile(user);
+                  }
+                  return throwError('');
+                }),
+                tap(() => {
+                  this.authS.doUpdateAccount({ cnp: this.cnp.value });
+                })
+              );
+            })
+          )
+          .subscribe(
+            () => {
+              this.navCtrl.navigateBack('/profil/date-personale');
+              this.formSubmitting = false;
+            },
+            (err) => {
+              if (err === 'falseGDPR') {
+                this.errorMsgs = genericErrorTexts(
+                  'A fost identificată lipsa acordului tău privind procesare datelor personale.',
+                  '',
+                  true
+                );
+              } else {
+                this.errorMsgs = genericErrorTexts(
+                  err
+                    ? get(err, 'error', 'A fost identificată o problemă...')
+                    : 'A fost identificată o problemă...',
+                  ''
+                );
+              }
+              this.errorPage = true;
+              this.cdRef.detectChanges();
+            }
+          );
       }
     } else {
       this.formGroup.updateValueAndValidity();
@@ -230,13 +243,9 @@ export class DatePersonaleFormComponent implements OnInit, OnDestroy {
   }
 
   goBack() {
-    if (!this.isGDPRokStatus) {
-      // logout if generic error is due to isGDPRok===false
-      this.authS.doLogout();
-    } else {
-      this.errorPage = false;
-      this.errorMsgs = [];
-      this.cdRef.detectChanges();
-    }
+    this.errorPage = false;
+    this.formSubmitting = false;
+    this.errorMsgs = [];
+    this.cdRef.detectChanges();
   }
 }
