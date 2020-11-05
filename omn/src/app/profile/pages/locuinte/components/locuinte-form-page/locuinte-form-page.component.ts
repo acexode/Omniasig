@@ -35,6 +35,7 @@ export class LocuinteFormPageComponent implements OnInit {
   headerConfig = null;
   buttonVisible = true;
   toggleStreetInput = null;
+  isHomeAddress = false;
   dataModel: any = { id: null };
   formMode: LocuinteFormModes;
   formType: LocuinteFormType;
@@ -125,6 +126,7 @@ export class LocuinteFormPageComponent implements OnInit {
                 (val: Locuinte) => {
                   if (val) {
                     this.dataModel = val;
+                    this.isHomeAddress = this.dataModel.isHomeAddress;
                     this.buildFormAdd();
                     observer.next(true);
                   } else {
