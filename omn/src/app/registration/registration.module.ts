@@ -13,6 +13,7 @@ import { RegInputSmsComponent } from './reg-input-sms/reg-input-sms.component';
 import { RegNumarTelefonComponent } from './reg-numar-telefon/reg-numar-telefon.component';
 import { RegPasscodeComponent } from './reg-passcode/reg-passcode.component';
 import { RegistrationPageRoutingModule } from './registration-routing.module';
+import { TermeniSiConditiiComponent } from './termeni-si-conditii/termeni-si-conditii.component';
 
 @NgModule({
   imports: [
@@ -34,6 +35,7 @@ import { RegistrationPageRoutingModule } from './registration-routing.module';
     ContCreatComponent,
     ConfirmCodDeAccesComponent,
     AdresaDeEmailComponent,
+    TermeniSiConditiiComponent,
   ],
 })
 export class RegistrationPageModule {}

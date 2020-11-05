@@ -8,7 +8,7 @@ import {
   Output,
 } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { get, set } from 'lodash';
 import { AuthService } from 'src/app/core/services/auth/auth.service';
 import { PaidExternalService } from '../../services/paid-external-service.service';
@@ -26,6 +26,7 @@ export class AdresaLocuintaComponent implements OnInit {
   addNew = 'ADD_NEW';
   checkPAD = false;
   userId;
+  locuinteId;
   loaderTitle = 'Verificăm datele în portalul PAID…';
   @Input() set locuinteList(lV) {
     this.fullList = lV;
@@ -35,14 +36,13 @@ export class AdresaLocuintaComponent implements OnInit {
     this.initLocuintaMainForm();
     this.cdRef.markForCheck();
   }
-
   @Input() policyID: string;
-
   @Output() selectionDone: EventEmitter<
     string | PolicyLocuintaListItem
   > = new EventEmitter();
   @Output() checkPadResponse: EventEmitter<any> = new EventEmitter();
   @Input() initialData: PolicyLocuintaListItem = null;
+  @Input() preselected: PolicyLocuintaListItem = null;
   locuintaForm = this.fb.group({
     selection: this.fb.control('', Validators.required),
   });
@@ -53,7 +53,8 @@ export class AdresaLocuintaComponent implements OnInit {
     private authS: AuthService,
     private paidS: PaidExternalService,
     private policyFs: PolicyFormService,
-    protected router: Router
+    protected router: Router,
+    private route: ActivatedRoute
   ) {
     this.authS.getAuthState().subscribe((authData) => {
       this.userId = authData.account.userId;
@@ -64,7 +65,6 @@ export class AdresaLocuintaComponent implements OnInit {
     this.authS.getAuthState().subscribe((authData) => {
       this.userId = authData.account.userId;
     });
-
     this.initLocuintaMainForm();
   }
 
@@ -84,7 +84,13 @@ export class AdresaLocuintaComponent implements OnInit {
   emitLocuintaItemById(id) {
     this.changeTitleEvent.emit();
     this.checkPAD = true;
-    const value = this.fullList.find((lI) => get(lI, 'locuinta.id', -1) === id);
+    const value = this.fullList.find((lI) => {
+      try {
+        return get(lI, 'locuinta.id', -1).toString() === id.toString();
+      } catch (err) {
+        return false;
+      }
+    });
     if (value) {
       const locuinta = get(value, 'locuinta', {});
 

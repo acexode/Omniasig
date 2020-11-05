@@ -1,0 +1,55 @@
+<app-sub-page-header [config]="headerConfig"></app-sub-page-header>
+<ion-label
+  class="floating-text ls-02 s13-h16 mt-44 mx-16 px-16 py-8 mb-n16 position-absolute right-0 z-index-999"
+  [color]="'dark'"
+  [routerLink]="'/biometrics'"
+>
+  Mai târziu
+</ion-label>
+<ion-content>
+  <ion-grid class="ion-no-padding flex flex-1 w-100 mh-100p flex-column px-24">
+    <ion-row
+      class="ion-no-padding ion-justify-content-start flex flex-column flex-1 w-100"
+    >
+      <ion-row
+        class="ion-justify-content-start ion-align-items-center mt-8 flex flex-column pb-24"
+      >
+        <ion-icon
+          name="card-lg"
+          class="lg-card"
+          alt="verification image"
+        ></ion-icon>
+      </ion-row>
+      <ion-row
+        class="ion-justify-content-center ion-align-items-center flex flex-column flex-0"
+      >
+        <div
+          class="alt-font color-dark-green s24-h32 ls-02 text-weight-bold my-0 pb-6 border-red border-bottom-1"
+        >
+          Confirmare identitate
+        </div>
+      </ion-row>
+      <ion-row
+        class="pt-24 flex flex-column ion-align-self-center ion-justify-content-start w-100 flex-1"
+      >
+        <div class="text-block s16-h22 ls-01 ion-text-center w-100 flex">
+          Ca să poți activa contul creat este necesară adăugarea adresei din
+          cartea ta de identitate și confirmarea că datele introduse sunt reale.
+        </div>
+      </ion-row>
+    </ion-row>
+    <div class="flex px-8 flex-column w-100 pt-16 mb-24">
+      <ion-button
+        class="activate-btn"
+        size="large"
+        color="success"
+        fill="solid"
+        expand="block"
+        class="m-0 w-100 flex mt-auto"
+        [routerLink]="['/biometrics/confirmare-identitate']"
+      >
+        Continuă
+      </ion-button>
+    </div>
+  </ion-grid>
+</ion-content>

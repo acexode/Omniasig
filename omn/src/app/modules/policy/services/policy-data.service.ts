@@ -96,8 +96,8 @@ export class PolicyDataService {
           map((pv) =>
             pv
               ? pv.map((pvi) =>
-                this.mapPolicyType(this.createPolicyObj(pvi, 'PAD'))
-              )
+                  this.mapPolicyType(this.createPolicyObj(pvi, 'PAD'))
+                )
               : []
           )
         ),
@@ -110,8 +110,8 @@ export class PolicyDataService {
           map((pv) =>
             pv
               ? pv.map((pvi) =>
-                this.mapPolicyType(this.createPolicyObj(pvi, 'AMPLUS'))
-              )
+                  this.mapPolicyType(this.createPolicyObj(pvi, 'AMPLUS'))
+                )
               : []
           )
         ),
@@ -198,7 +198,8 @@ export class PolicyDataService {
         addressPostalCode: policy.addressPostalCode,
       },
       expiry: policy.expirationDate,
-      insurancePrice: policy.offerPrima,
+      insurancePrice: policy.insurancePrice,
+      insurancePriceCurrency: policy.insurancePriceCurrency,
       currency: policy.offerCurrency,
     };
     if (typeId === 'AMPLUS') {
@@ -220,8 +221,8 @@ export class PolicyDataService {
         map((ov) => {
           return ov
             ? ov.map((ovi) =>
-              this.mapOfferPolicyType(this.createOffersObj(ovi, 'PAD'))
-            )
+                this.mapOfferPolicyType(this.createOffersObj(ovi, 'PAD'))
+              )
             : [];
         }),
         switchMap((padOffers) =>
@@ -234,10 +235,10 @@ export class PolicyDataService {
               map((ov) => {
                 return ov
                   ? ov.map((ovi) =>
-                    this.mapOfferPolicyType(
-                      this.createOffersObj(ovi, 'AMPLUS')
+                      this.mapOfferPolicyType(
+                        this.createOffersObj(ovi, 'AMPLUS')
+                      )
                     )
-                  )
                   : [];
               }),
               map((amplusOffers) => {
@@ -255,10 +256,10 @@ export class PolicyDataService {
               map((ov) => {
                 return ov
                   ? ov.map((ovi) =>
-                    this.mapOfferPolicyType(
-                      this.createOffersObj(ovi, 'AMPLUS_PAD')
+                      this.mapOfferPolicyType(
+                        this.createOffersObj(ovi, 'AMPLUS_PAD')
+                      )
                     )
-                  )
                   : [];
               }),
               map((padAmplusOffers) => {
@@ -286,14 +287,18 @@ export class PolicyDataService {
     return o;
   }
   // ceate offer obj
-  createOffersObj(offer: any, typeId: string) {
+  createOffersObj(offer: any, typeId: string): PolicyOffer {
     const offerObj = {
       id: offer.id,
       offerCode: offer.offerCode,
       iban: offer.offerIBAN,
       ratePlanList: offer.ratePlanList,
       offerPrice: offer.offerPrima,
+      offerPrimaConverted: offer.offerPrimaConverted,
       firstPaymentValue: offer.firstPaymentValue,
+      firstPaymentValueConverted: offer.firstPaymentValueConverted,
+      euroExchangeRate: offer.euroExchangeRate,
+      currencyUserSelectedToPayIn: offer.currencyUserSelectedToPayIn,
       policy: {
         id: offer.id,
         name: offer.offerCode,
@@ -335,11 +340,31 @@ export class PolicyDataService {
       expiry: offer.expirationDate,
       emisionDate: offer.offerDate ? new Date(offer.offerDate) : '',
       insurancePrice: offer.insurancePrice || 0,
+      insurancePriceCurrency: offer.insurancePriceCurrency,
       currency: offer.offerCurrency,
       padOfferDocumentId: offer.padOfferDocumentId,
       padPolicyDocumentId: offer.padPolicyDocumentId,
+      euroToRonConversion: true,
+      totalRon: 0,
+      totalEur: 0,
+      totalEuroAmplusPadToPayFirst: 0,
+      totalRonAmplusPadToPayFirst: 0,
     };
     if (typeId === 'AMPLUS' || typeId === 'AMPLUS_PAD') {
+      offerObj.insurancePriceCurrency = offer.locationValueCurrency;
+      if (
+        offer.locationValueCurrency === 'EUR' &&
+        offer.currencyUserSelectedToPayIn === 'RON'
+      ) {
+        offerObj.euroToRonConversion = true;
+      } else {
+        offerObj.euroToRonConversion = false;
+      }
+
+      offerObj.totalEuroAmplusPadToPayFirst =
+        offer.totalEuroAmplusPadToPayFirst || 0;
+      offerObj.totalRonAmplusPadToPayFirst =
+        offer.totalRonAmplusPadToPayFirst || 0;
       offerObj.expiry = get(offer, 'offerExpireDate', '');
       offerObj.policy.dates.to = get(offer, 'offerExpireDate', '');
       const isGold = get(offer, 'isGold', false);
@@ -357,8 +382,42 @@ export class PolicyDataService {
         'amplusPolicyDocumentId',
         get(offer, 'amplusPolicyDocumentId', 0)
       );
+      const diffCurrency =
+        offerObj.currencyUserSelectedToPayIn !==
+        get(offer, 'offerCurrency', null);
+      if (offerObj.euroToRonConversion) {
+        offerObj.totalRon =
+          get(offer, 'offerPrimaConverted', 0) +
+          get(offer, 'padInsurance.firstPaymentValue', 0);
+        offerObj.totalEur =
+          get(offer, 'offerPrima', 0) +
+          get(offer, 'padInsurance.firstPaymentValueConverted', 0);
+      } else if (offerObj.currencyUserSelectedToPayIn === 'EUR') {
+        offerObj.totalRon =
+          (diffCurrency
+            ? get(offer, 'offerPrima', 0)
+            : get(offer, 'offerPrimaConverted', 0)) +
+          get(offer, 'padInsurance.firstPaymentValue', 0);
+        offerObj.totalEur =
+          (diffCurrency
+            ? get(offer, 'offerPrimaConverted', 0)
+            : get(offer, 'offerPrima', 0)) +
+          get(offer, 'padInsurance.firstPaymentValueConverted', 0);
+      } else {
+        offerObj.totalRon =
+          (diffCurrency
+            ? get(offer, 'offerPrimaConverted', 0)
+            : get(offer, 'offerPrima', 0)) +
+          get(offer, 'padInsurance.firstPaymentValue', 0);
+        offerObj.totalEur =
+          (diffCurrency
+            ? get(offer, 'offerPrima', 0)
+            : get(offer, 'offerPrimaConverted', 0)) +
+          get(offer, 'padInsurance.firstPaymentValueConverted', 0);
+      }
     }
     if (typeId === 'AMPLUS_PAD') {
+      set(offerObj, 'padInsurance', {});
       // PAD offer fields that are not equal with similar fields in Amplus Offer for Amplus+PAD
       set(offerObj, 'padInsurance.id', get(offer.padInsurance, 'id', '-'));
       set(
@@ -369,22 +428,37 @@ export class PolicyDataService {
       set(
         offerObj,
         'padInsurance.currency',
-        get(offer.padInsurance, '"offerCurrency', '-')
+        get(offer.padInsurance, 'offerCurrency', 'RON')
       );
       set(
         offerObj,
         'padInsurance.offerPrice',
-        get(offer.padInsurance, 'offerPrima', '-')
+        get(offer.padInsurance, 'offerPrima', 0)
       );
       set(
         offerObj,
         'padInsurance.firstPaymentValue',
-        get(offer.padInsurance, 'firstPaymentValue', '-')
+        get(offer.padInsurance, 'firstPaymentValue', 0)
+      );
+      set(
+        offerObj,
+        'padInsurance.firstPaymentValueConverted',
+        get(offer.padInsurance, 'firstPaymentValueConverted', 0)
       );
       set(
         offerObj,
         'padInsurance.iban',
         get(offer.padInsurance, 'offerIBAN', '-')
+      );
+      set(
+        offerObj,
+        'padInsurance.insurancePrice',
+        get(offer.padInsurance, 'insurancePrice', 0)
+      );
+      set(
+        offerObj,
+        'padInsurance.insurancePriceCurrency',
+        get(offer.padInsurance, 'insurancePriceCurrency', 0)
       );
       set(
         offerObj,
@@ -558,8 +632,8 @@ export class PolicyDataService {
         calEntry.options
       )
       .then(
-        (msg) => { },
-        (err) => { }
+        (msg) => {},
+        (err) => {}
       );
   }
 
@@ -593,13 +667,20 @@ export class PolicyDataService {
             }
           }
           if (policyType === 'AMPLUS_PAD') {
-            const dataRes = get(res, 'emiterePadPolitaResponse.emiterePolitaResponse1', null);
-            const dataRes2 = get(res, 'emitereAmplusPolitaResponse.politaOut', null);
+            const dataRes = get(
+              res,
+              'emiterePadPolitaResponse.emiterePolitaResponse1',
+              null
+            );
+            const dataRes2 = get(
+              res,
+              'emitereAmplusPolitaResponse.politaOut',
+              null
+            );
             if (dataRes || dataRes2) {
               const mesaje = [];
               if (get(dataRes, 'eroare', false)) {
                 mesaje.push('PAD: ' + get(dataRes, 'mesaj', 'Eroare'));
-
               }
               if (get(dataRes2, 'eroare', false)) {
                 mesaje.push('AMPLUS: ' + get(dataRes2, 'mesaj', 'Eroare'));

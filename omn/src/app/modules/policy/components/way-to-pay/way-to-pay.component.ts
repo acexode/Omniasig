@@ -14,11 +14,6 @@ export class WayToPayComponent implements OnInit {
     type: this.fb.control(null, Validators.required),
   });
 
-  amplusPadGroup = this.fb.group({
-    rate: this.fb.control(null, Validators.required),
-    type: this.fb.control('RON', Validators.required),
-  });
-
   fieldConfig = {
     currency: {
       inputLabel: { text: 'Moneda' },
@@ -48,22 +43,18 @@ export class WayToPayComponent implements OnInit {
 
   ngOnInit() {
     this.policyID = this.aRoute.snapshot.queryParamMap.get('policyID');
-    if (this.payFormData && this.policyID === 'AMPLUS') {
+    if (
+      this.payFormData &&
+      (this.policyID === 'AMPLUS' || this.policyID === 'Garant AMPLUS + PAD')
+    ) {
       this.formGroup.setValue(this.payFormData);
-    }
-    if (this.payFormData && this.policyID === 'Garant AMPLUS + PAD') {
-      this.amplusPadGroup.setValue(this.payFormData);
     }
   }
 
   submit() {
-    if (this.policyID === 'AMPLUS') {
+    if (this.policyID === 'AMPLUS' || this.policyID === 'Garant AMPLUS + PAD') {
       if (this.formGroup.valid) {
         this.eventSubmit.emit(this.formGroup.value);
-      }
-    } else {
-      if (this.amplusPadGroup.valid) {
-        this.eventSubmit.emit(this.amplusPadGroup.value);
       }
     }
   }
