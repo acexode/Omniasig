@@ -100,7 +100,7 @@
           (goToErrorHandler)="handleError($event)"
           (createOfferEvent)="calculationSubmit()"
         ></app-policy-verify>
-        <ng-container *ngIf="policySteps?.OFFER_EMIT_CHECK">
+        <ng-container *ngIf="currentStep === policySteps?.OFFER_EMIT_CHECK">
           <app-loading-placeholder
             [title]="loaderTitle"
             class="flex flex-1 mh-100p w-100"
