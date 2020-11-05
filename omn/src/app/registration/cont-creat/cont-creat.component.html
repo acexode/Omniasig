@@ -1,10 +1,13 @@
-<ion-label class="floating-text ls-02 s13-h16 mt-44 mx-16 px-16 py-8 mb-n16 position-absolute right-0 z-index-999"
-  [color]="'dark'" [routerLink]="'/home'">
+<ion-label
+  class="floating-text ls-02 s13-h16 mt-44 mx-16 px-16 py-8 mb-n16 position-absolute right-0 z-index-999"
+  [color]="'dark'"
+  [routerLink]="'/home'"
+>
   Mai târziu
 </ion-label>
 
-<ion-content class="">
-  <div class="px-32">
+<ion-content>
+  <div class="px-32 flex flex-column mh-100p">
     <div class="align-items-center ion-text-center ion-text-capitalize pt-60">
       <ion-icon
         class="mr-auto ml-auto text-center check-icon-lg pt-40"
@@ -12,48 +15,62 @@
       ></ion-icon>
     </div>
 
-    <div class="text-center mb-8 ion-text-center pt-18">
+    <div class="text-center mb-8 ion-text-center pt-16">
       <ion-text
-        class="alt-font color-dark-green x-large mb-17 text-center text-weight-bold"
+        class="alt-font color-dark-green x-large text-center text-weight-bold s24-h32 w-100"
       >
-        Felicitări! Contul tău a fost creat.
+        Felicitări! </ion-text
+      ><br />
+      <ion-text
+        class="alt-font color-dark-green x-large mb-8 text-center text-weight-bold s24-h32 w-100"
+      >
+        Contul tău a fost creat.
       </ion-text>
     </div>
 
     <div>
       <div class="">
-        <hr class="bg-white border-danger border-bottom-2 color-red border-red" />
+        <hr
+          class="bg-white border-danger border-bottom-2 color-red border-red m-0 p-0"
+        />
       </div>
-      
+
       <div class="pt-16 ion-text-center">
         <ion-text class="s16-h22 text-weight-bold">
           Pentru activarea contului sunt obligatorii două elemente de siguranță:
         </ion-text>
       </div>
-      
+
       <div class="mt-32">
         <ion-grid class="p-0">
           <ion-row class="ion-wrap" *ngIf="cards?.length">
-            <ng-container *ngFor="let cardI of cards; let first = first; let i = index">
-              <ion-col class="ion-no-padding m-0 mb-24" size="6" [ngClass]="{
-                      'pl-8': i % 2,
-                      'pr-8': !(i % 2)
-                    }">
-                <app-image-card [item]="cardI" class="flex w-100"></app-image-card>
+            <ng-container
+              *ngFor="let cardI of cards; let first = first; let i = index"
+            >
+              <ion-col
+                class="ion-no-padding m-0 mb-24"
+                size="6"
+                [ngClass]="{
+                  'pl-8': i % 2,
+                  'pr-8': !(i % 2)
+                }"
+              >
+                <app-image-card
+                  [item]="cardI"
+                  class="flex w-100"
+                ></app-image-card>
               </ion-col>
             </ng-container>
           </ion-row>
         </ion-grid>
       </div>
-      
-      <div class="pt-60 ion-text-center">
-        <a class="no-decoration" routerLink="/home">
-          <ion-text class="ion-text-center s16-h22 color-dark-green">
-            Fac verificările mai târziu
-          </ion-text>
-        </a>
-      </div>
     </div>
-    
+    <div class="pt-16 pb-24 mt-auto ion-text-center">
+      <a class="no-decoration" routerLink="/home">
+        <ion-text class="ion-text-center s16-h22 color-dark-green py-8 px-16">
+          Fac verificările mai târziu
+        </ion-text>
+      </a>
+    </div>
   </div>
 </ion-content>
