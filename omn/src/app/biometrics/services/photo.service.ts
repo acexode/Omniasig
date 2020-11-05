@@ -7,7 +7,7 @@ import { RequestService } from 'src/app/core/services/request/request.service';
   providedIn: 'root',
 })
 export class PhotoService {
-  public photos: { card: Photo, face: Photo } = { card: null, face: null };
+  public photos: { card: Photo; face: Photo } = { card: null, face: null };
   endpoints = biometricsEndpoints;
 
   options: CameraOptions = {
@@ -17,11 +17,16 @@ export class PhotoService {
     mediaType: this.camera.MediaType.PICTURE,
     sourceType: this.camera.PictureSourceType.CAMERA,
     cameraDirection: this.camera.Direction.FRONT,
+    correctOrientation: true,
   };
 
-  constructor(private reqS: RequestService, private camera: Camera) { }
+  constructor(private reqS: RequestService, private camera: Camera) {}
 
-  public async addNewToGallery(newF, photoId: 'card' | 'face', direction: 'F' | 'B' = 'B') {
+  public async addNewToGallery(
+    newF,
+    photoId: 'card' | 'face',
+    direction: 'F' | 'B' = 'B'
+  ) {
     let dirV = this.options.cameraDirection;
     if (direction === 'B') {
       dirV = this.camera.Direction.BACK;
@@ -31,10 +36,11 @@ export class PhotoService {
     const nOptions = {
       ...this.options,
       ...{
-        sourceType: newF === true
-          ? this.camera.PictureSourceType.CAMERA
-          : this.camera.PictureSourceType.PHOTOLIBRARY,
-        cameraDirection: dirV
+        sourceType:
+          newF === true
+            ? this.camera.PictureSourceType.CAMERA
+            : this.camera.PictureSourceType.PHOTOLIBRARY,
+        cameraDirection: dirV,
       },
     };
     // Take a photo
@@ -54,13 +60,12 @@ export class PhotoService {
     }
   }
 
-  public getPhotos() { }
+  public getPhotos() {}
 
   public removePhoto(photoId: 'card' | 'face') {
     if (this.photos[photoId]) {
       this.photos[photoId] = null;
     }
-
   }
 
   uploadImage(blobData, isSelfie) {

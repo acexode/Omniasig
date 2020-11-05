@@ -58,12 +58,11 @@
       ></app-select>
     </ion-row>
     <ion-row class="ion-no-padding localitate mb-24">
-      <app-select
+      <app-autocomplete
         class="w-100"
-        [config]="fieldConfig?.addressCity"
-        [options]="fieldConfigData?.addressCity"
+        [config]="fieldConfig?.addressCity"        
         formControlName="addressCity"
-      ></app-select>
+      ></app-autocomplete>
     </ion-row>
     <ion-row class="ion-no-padding strada mb-24" *ngIf="!toggleStreetInput">
       <app-autocomplete
