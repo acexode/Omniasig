@@ -1,5 +1,10 @@
 <ion-content class="">
-  <app-sub-page-header [config]="headerConfig" (backActionEv)="goBack()"> </app-sub-page-header>
+  <app-sub-page-header
+    [config]="headerConfig"
+    (backActionEv)="goBack()"
+    *ngIf="!showError"
+  >
+  </app-sub-page-header>
   <ng-container *ngIf="showError">
     <app-generic-error
       *ngIf="showError"
