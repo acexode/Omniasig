@@ -234,6 +234,13 @@ export class LocuinteFormPageComponent implements OnInit {
     }
     if (this.addressCity) {
       this.addressCity.valueChanges.subscribe((val) => {
+        this.formS.resetStreetFieldValues(
+          this.addressStreet,
+          this.addressName,
+          this.addressStreetType,
+          !this.toggleStreetInput,
+          true
+        );
         this.formS.disableFields([
           this.addressStreet,
           this.addressStreetType,

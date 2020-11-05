@@ -11,7 +11,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { IonContent, NavController } from '@ionic/angular';
 import { get } from 'lodash';
 import { of } from 'rxjs';
-import { switchMap } from 'rxjs/operators';
+import { switchMap, take } from 'rxjs/operators';
 import { LocuinteFormService } from 'src/app/profile/pages/locuinte/services/locuinte-form/locuinte-form.service';
 import { autoCompleteConfigHelper } from 'src/app/shared/data/autocomplete-config-helper';
 import { inputConfigHelper } from 'src/app/shared/data/input-config-helper';
@@ -91,7 +91,7 @@ export class ConfirmareIdentitateComponent implements OnInit {
       dataServiceSource: this.locuinteF.city$,
       clearInvalid: true,
       idKey: 'name',
-      labelKey: 'name'
+      labelKey: 'name',
     }),
     addressStreet: autoCompleteConfigHelper({
       label: 'Strada',
@@ -161,9 +161,9 @@ export class ConfirmareIdentitateComponent implements OnInit {
       cnp: this.formBuilder.control(null, [Validators.required, cnpValidator]),
       addressCounty: ['', Validators.required],
       addressCity: ['', Validators.required],
-      addressStreet: ['', Validators.required],
-      addressStreetType: [''],
-      addressName: [''],
+      addressStreet: [{ value: '', disabled: true }, Validators.required],
+      addressStreetType: [{ value: '', disabled: true }],
+      addressName: [{ value: '', disabled: true }],
       addressStreetNumber: ['', Validators.required],
       addressBuildingNumber: [''],
       addressScara: [''],
@@ -177,14 +177,17 @@ export class ConfirmareIdentitateComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.auth.getAccountData().subscribe((v) => {
-      if (v && this.confirmareForm) {
-        this.account = v;
-        this.confirmareForm.get('name').setValue(get(v, 'name', ''));
-        this.confirmareForm.get('surname').setValue(get(v, 'surname', ''));
-        this.confirmareForm.get('cnp').setValue(get(v, 'cnp', ''));
-      }
-    });
+    this.auth
+      .getAccountData()
+      .pipe(take(1))
+      .subscribe((v) => {
+        if (v && this.confirmareForm) {
+          this.account = v;
+          this.confirmareForm.get('name').setValue(get(v, 'name', ''));
+          this.confirmareForm.get('surname').setValue(get(v, 'surname', ''));
+          this.confirmareForm.get('cnp').setValue(get(v, 'cnp', ''));
+        }
+      });
     if (this.addressCounty) {
       this.locuinteF
         .handleInitialCounty(this.addressCounty, this.formData)
@@ -207,15 +210,6 @@ export class ConfirmareIdentitateComponent implements OnInit {
           // We need to clear the validator when we have no data on the initial call.
           this.toggleStreetInput =
             get(this.formData.addressStreet, 'length', 0) === 0;
-          if (
-            this.addressStreet &&
-            !get(this.formData, 'addressStreet', [])?.length
-          ) {
-            this.addressStreet.clearValidators();
-            if (this.toggleStreetInput) {
-              this.addressStreet.updateValueAndValidity();
-            }
-          }
           if (this.addressStreet || this.addressName) {
             this.locuinteF.setInitialStreetValue(
               this.dataModel,
@@ -223,6 +217,20 @@ export class ConfirmareIdentitateComponent implements OnInit {
               this.addressName,
               this.formData
             );
+          }
+          this.locuinteF.resetStreetFieldValues(
+            this.addressStreet,
+            this.addressName,
+            this.addressStreetType,
+            !this.toggleStreetInput,
+            false
+          );
+          if (!get(this.addressCity, 'value', null)) {
+            this.locuinteF.disableFields([
+              this.addressStreet,
+              this.addressName,
+              this.addressStreetType,
+            ]);
           }
           this.cdRef.markForCheck();
           this.cdRef.detectChanges();
@@ -232,16 +240,21 @@ export class ConfirmareIdentitateComponent implements OnInit {
           this.addressCity.patchValue('');
           this.addressCity.updateValueAndValidity();
         }
+        this.locuinteF.disableFields([
+          this.addressStreet,
+          this.addressStreetType,
+          this.addressName,
+        ]);
         this.locuinteF
           .updateCounty(this.addressCounty, this.formData, this.dataModel)
           .subscribe((v) => {
-            this.cdRef.markForCheck();
-            this.cdRef.detectChanges();
             if (this.addressCity) {
               this.addressCity.updateValueAndValidity({
                 onlySelf: true,
               });
             }
+            this.cdRef.markForCheck();
+            this.cdRef.detectChanges();
           });
       });
     }
@@ -254,16 +267,17 @@ export class ConfirmareIdentitateComponent implements OnInit {
           !this.toggleStreetInput,
           true
         );
-        this.addressStreetType.disable();
-        this.addressStreet.disable();
-        this.cdRef.detectChanges();
+        this.locuinteF.disableFields([
+          this.addressStreet,
+          this.addressStreetType,
+          this.addressName,
+        ]);
         this.locuinteF
           .updateCity(this.addressCity, this.formData, this.dataModel)
           .subscribe((v) => {
             this.toggleStreetInput =
               get(this.formData.addressStreet, 'length', 0) === 0;
             if (v && v.length) {
-              this.addressStreet.enable();
               this.locuinteF.resetStreetFieldValues(
                 this.addressStreet,
                 this.addressName,
@@ -297,6 +311,13 @@ export class ConfirmareIdentitateComponent implements OnInit {
                 !this.toggleStreetInput,
                 true
               );
+            }
+            if (!get(this.addressCity, 'value', null)) {
+              this.locuinteF.disableFields([
+                this.addressStreet,
+                this.addressName,
+                this.addressStreetType,
+              ]);
             }
             this.cdRef.markForCheck();
             this.cdRef.detectChanges();
