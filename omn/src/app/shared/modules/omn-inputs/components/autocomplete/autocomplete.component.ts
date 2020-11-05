@@ -1,4 +1,3 @@
-import { distinctCheckObj } from './../../../../../core/helpers/distinct-check.helper';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -13,10 +12,11 @@ import {
   FormBuilder,
   NG_VALUE_ACCESSOR,
 } from '@angular/forms';
-import { get } from 'lodash';
+import { get, has } from 'lodash';
 import { distinctUntilChanged } from 'rxjs/operators';
 import { IonAutocompleteConfig } from 'src/app/shared/models/component/ion-autocomplete-config';
 import { AutocompleteProviderService } from '../../services/autocomplete-provider.service';
+import { distinctCheckObj } from './../../../../../core/helpers/distinct-check.helper';
 
 @Component({
   selector: 'app-autocomplete',
@@ -77,16 +77,30 @@ export class AutocompleteComponent implements OnInit, ControlValueAccessor {
     public autocompleteProvider: AutocompleteProviderService
   ) {}
 
-  getFieldValue() {
+  getFieldValue(override = '___NO_VALUE___') {
+    if (override !== '___NO_VALUE___') {
+      return override ? get(override, 'label', override) : null;
+    }
     const field = this.formGroup.get('text');
     return field ? get(field.value, 'label', field.value) : null;
+  }
+
+  // Use this to force item selection, as the text input still pushes invalid values.
+  modelChange(ev) {
+    if (this.onChange && has(this.config, 'clearInvalid')) {
+      const value = ev instanceof Array ? ev[0] : ev;
+      // update in here for multiple.
+      const objK = get(this.config, 'idKey', 'label');
+      const objectV = value ? get(value, objK, null) : null;
+      this.onChange(this.getFieldValue(objectV));
+    }
   }
 
   ngOnInit() {
     this.formGroup.valueChanges
       .pipe(distinctUntilChanged(distinctCheckObj))
       .subscribe((vals) => {
-        if (this.onChange) {
+        if (this.onChange && !has(this.config, 'clearInvalid')) {
           this.onChange(this.getFieldValue());
         }
       });

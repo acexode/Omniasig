@@ -20,6 +20,7 @@
       class="flex"
       [template]="template"
       [selectionTemplate]="selectionTemplate"
+      (modelChange)="modelChange($event)"
       #autoField
     ></ion-auto-complete>
     <ion-icon
