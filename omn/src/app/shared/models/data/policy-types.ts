@@ -398,7 +398,7 @@ export const policyTypes: { [key: string]: PolicyType } = {
       classes: 'mh-100  mw-188',
     },
     disabledDescription:
-      'Baza de pornire pentru asigurarea corespunzătoare a locuinței împreună cu produsele facultative.',
+      ' Acest pachet de asigurări îți oferă protecția completă de care ai nevoie pentru LOCUINTA TA',
   },
   PAD: {
     id: 'PAD',
@@ -486,8 +486,6 @@ export const policyTypes: { [key: string]: PolicyType } = {
       classes: 'mh-100  mw-188',
     },
     disabledDescription:
-      'Descriere, totam rem aperiam, eaque ipsa quae ab illo ' +
-      'inventore veritatis et quasi architecto beatae vitae ' +
-      'dicta sunt explicabo. Nemo enim ipsam voluptatem.',
+      'Baza de pornire pentru asigurarea corespunzătoare a locuinței împreună cu produsele facultative.',
   },
 };
