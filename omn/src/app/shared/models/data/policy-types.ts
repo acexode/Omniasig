@@ -404,8 +404,8 @@ export const policyTypes: { [key: string]: PolicyType } = {
     id: 'PAD',
     order: 2,
     typeId: 'PAD',
-    name: 'PAD - Polița de asigurare obligatorie',
-    shortDescription: 'Asigurarea obligatorie a locuințelor',
+    name: 'PAD',
+    shortDescription: 'Polița de asigurare obligatorie',
     dntConfig: {
       success: dntItemHelper({
         topIcon: {
@@ -486,8 +486,6 @@ export const policyTypes: { [key: string]: PolicyType } = {
       classes: 'mh-100  mw-188',
     },
     disabledDescription:
-      'Descriere, totam rem aperiam, eaque ipsa quae ab illo ' +
-      'inventore veritatis et quasi architecto beatae vitae ' +
-      'dicta sunt explicabo. Nemo enim ipsam voluptatem.',
+      'Baza de pornire pentru asigurarea corespunzătoare a locuinței împreună cu produsele facultative.',
   },
 };
