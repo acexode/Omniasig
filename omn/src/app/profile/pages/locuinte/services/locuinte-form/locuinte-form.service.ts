@@ -110,9 +110,21 @@ export class LocuinteFormService {
         Validators.required,
         Validators.minLength(1),
       ]),
-      addressStreet: this.fb.control('', Validators.required),
-      addressStreetType: this.fb.control(get(model, 'addressStreetType', '')),
-      addressName: this.fb.control(get(model, 'addressName', '')),
+      addressStreet: this.fb.control(
+        {
+          value: '',
+          disabled: true,
+        },
+        Validators.required
+      ),
+      addressStreetType: this.fb.control({
+        value: get(model, 'addressStreetType', ''),
+        disabled: true,
+      }),
+      addressName: this.fb.control({
+        value: get(model, 'addressName', ''),
+        disabled: true,
+      }),
       addressStreetNumber: this.fb.control(
         get(model, 'addressStreetNumber', '') !== 0
           ? get(model, 'addressStreetNumber', '')
@@ -460,8 +472,12 @@ export class LocuinteFormService {
     if (streetField) {
       if (singleField) {
         streetField.setValidators([Validators.required]);
+        if (!this.checkParentDisabled(streetField)) {
+          streetField.enable();
+        }
       } else {
         streetField.clearValidators();
+        streetField.disable();
       }
       if (reset) {
         streetField.patchValue('');
@@ -472,13 +488,31 @@ export class LocuinteFormService {
       if (f) {
         if (singleField) {
           f.clearValidators();
+          f.disable();
         } else {
           f.setValidators([Validators.required]);
+          if (!this.checkParentDisabled(f)) {
+            f.enable();
+          }
         }
         if (reset) {
           f.patchValue('');
         }
         f.updateValueAndValidity();
+      }
+    });
+  }
+
+  checkParentDisabled(control) {
+    if (control && control.parent instanceof AbstractControl) {
+      return get(control.parent, 'disabled', false);
+    }
+  }
+
+  disableFields(fields: Array<AbstractControl>) {
+    fields.forEach((f: AbstractControl) => {
+      if (f instanceof AbstractControl) {
+        f.disable();
       }
     });
   }
