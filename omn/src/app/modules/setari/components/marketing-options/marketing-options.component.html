@@ -18,8 +18,10 @@
         </div>
 
         <div class="mt-auto">
-            <ion-button size="large" color="success" expand="block" class="mb-n8" [disabled]="!formGroup?.valid || busy" (click)="submitForm()">
-                <ion-label class="s18-h24 text-weight-medium">Salvează</ion-label>
+            <ion-button size="large" color="success" expand="block" class="mb-n8" [disabled]="!formGroup?.valid || busy" (click)="updateConsent()">
+                <ion-label class="s18-h24 text-weight-medium">Salvează
+                    <ion-spinner name="crescent" *ngIf="busy" class="icon-8"></ion-spinner>
+                </ion-label>
             </ion-button>
         </div>
     </div>

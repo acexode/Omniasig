@@ -1,3 +1,5 @@
+import { switchMap, switchMapTo, take, tap } from 'rxjs/operators';
+import { AuthService } from 'src/app/core/services/auth/auth.service';
 import { SettingsService } from './../../services/settings.service';
 import { NavController } from '@ionic/angular';
 import { Component, HostBinding, OnInit } from '@angular/core';
@@ -38,8 +40,9 @@ export class MarketingOptionsComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private navCtrl: NavController,
-    private settingsS: SettingsService
-  ) {}
+    private settingsS: SettingsService,
+    private auth: AuthService
+  ) { }
 
   ngOnInit() {
     this.getSettings();
@@ -54,7 +57,6 @@ export class MarketingOptionsComponent implements OnInit {
   }
 
   submitForm() {
-    this.busy = true;
     this.settingsS
       .updateSettings({ marketing: this.formGroup.get('accept').value })
       .subscribe(
@@ -63,5 +65,18 @@ export class MarketingOptionsComponent implements OnInit {
         },
         (err) => (this.busy = false)
       );
+  }
+
+  updateConsent() {
+    this.busy = true;
+    this.auth.getAccountData().pipe(take(1)).subscribe((account) => {
+      this.settingsS.updateConsent({ isEnabled: this.formGroup.get('accept').value, consentDocumentType: 5, userId: account.userId })
+        .subscribe(
+          (obs) => {
+            this.submitForm();
+          },
+          err => this.busy = false
+        );
+    });
   }
 }
