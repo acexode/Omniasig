@@ -33,5 +33,6 @@ export interface PolicyItem {
   expiry?: Date | string;
   noOfPayments?: number;
   insurancePrice?: number;
+  insurancePriceCurrency?: number;
   currency?: string;
 }

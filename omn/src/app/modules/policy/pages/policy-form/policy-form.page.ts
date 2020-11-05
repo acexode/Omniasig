@@ -637,7 +637,7 @@ export class PolicyFormPage implements OnInit, OnDestroy {
 
   periodSubmit(startDate) {
     this.periodStartData = startDate;
-    if (this.policyID === 'PAD' || this.policyID === 'Garant AMPLUS + PAD') {
+    if (this.policyID === 'PAD') {
       this.offerData = this.buildOfferDetails();
       this.loaderTitle = 'Verificăm corectitudinea datelor…';
       if (this.policyID === 'PAD') {
@@ -777,7 +777,11 @@ export class PolicyFormPage implements OnInit, OnDestroy {
         startDate: this.offerData?.policy?.dates?.from,
         // startDate: "2020-10-10",
         numberOfMonths: '12',
-        insurancePrice: 100000,
+        insurancePrice: get(
+          this.offerData?.policy?.locuintaData,
+          'value',
+          100000
+        ),
         numberOfPayments: this.offerData?.payData?.rate,
         paymentCurrency: this.offerData?.payData?.type || 'RON',
         propertyCessionList: null,
