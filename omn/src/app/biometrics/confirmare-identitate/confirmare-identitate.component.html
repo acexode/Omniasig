@@ -1,5 +1,5 @@
 <p
-  class="floating-text ls-02 s13-h16 mt-44 mx-32 position-absolute right-0"
+  class="floating-text ls-02 s13-h16 mt-44 mx-32 position-absolute right-0 z-index-999"
   routerLink="../home"
 >
   Mai târziu
@@ -61,12 +61,11 @@
         ></app-select>
       </ion-row>
       <ion-row class="ion-no-padding localitate mb-24">
-        <app-select
+        <app-autocomplete
           class="w-100"
-          [config]="confirmModel?.addressCity"
-          [options]="formData?.addressCity"
+          [config]="confirmModel?.addressCity"          
           formControlName="addressCity"
-        ></app-select>
+        ></app-autocomplete>
       </ion-row>
       <ion-row class="ion-no-padding strada mb-24" *ngIf="!toggleStreetInput">
         <app-autocomplete

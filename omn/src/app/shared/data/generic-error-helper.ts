@@ -1,8 +1,14 @@
-export const genericErrorTexts = (errorMsg, additionalText = '') => {
+export const genericErrorTexts = (
+  errorMsg,
+  additionalText = '',
+  fullError = false
+) => {
   const texts = [
     {
       classes: 'text-weight-medium mb-16',
-      text: 'A fost identificată o problema: ' + errorMsg,
+      text: !fullError
+        ? 'A fost identificată o problema: ' + errorMsg
+        : errorMsg,
     },
   ];
   if (additionalText === '') {

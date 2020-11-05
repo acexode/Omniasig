@@ -19,6 +19,7 @@ import { LocuinteFormType } from 'src/app/shared/models/modes/locuinte-form-mode
 })
 export class LocuinteFormService {
   streets$ = this.locuinteS.streetStore$;
+  city$ = this.locuinteS.cityStore$;
   tipStreets$ = this.locuinteS.tipStreetStore$;
   constructor(private fb: FormBuilder, protected locuinteS: LocuinteService) {}
 
@@ -105,13 +106,25 @@ export class LocuinteFormService {
         get(model, 'addressCounty', ''),
         Validators.required
       ),
-      addressCity: this.fb.control(
-        get(model, 'addressCity', ''),
+      addressCity: this.fb.control(get(model, 'addressCity', ''), [
+        Validators.required,
+        Validators.minLength(1),
+      ]),
+      addressStreet: this.fb.control(
+        {
+          value: '',
+          disabled: true,
+        },
         Validators.required
       ),
-      addressStreet: this.fb.control('', Validators.required),
-      addressStreetType: this.fb.control(get(model, 'addressStreetType', '')),
-      addressName: this.fb.control(get(model, 'addressName', '')),
+      addressStreetType: this.fb.control({
+        value: get(model, 'addressStreetType', ''),
+        disabled: true,
+      }),
+      addressName: this.fb.control({
+        value: get(model, 'addressName', ''),
+        disabled: true,
+      }),
       addressStreetNumber: this.fb.control(
         get(model, 'addressStreetNumber', '') !== 0
           ? get(model, 'addressStreetNumber', '')
@@ -153,9 +166,12 @@ export class LocuinteFormService {
             idKey: 'name',
             labelKey: 'name',
           }),
-          addressCity: selectConfigHelper({
+          addressCity: autoCompleteConfigHelper({
             label: 'Localitate',
             disabled: isDisabled,
+            dataServiceCb: this.cityLookup,
+            dataServiceSource: this.city$,
+            clearInvalid: true,
             idKey: 'name',
             labelKey: 'name',
           }),
@@ -164,6 +180,7 @@ export class LocuinteFormService {
             disabled: isDisabled,
             dataServiceCb: this.streetLookup,
             dataServiceSource: this.streets$,
+            clearInvalid: true,
             idKey: 'name',
             labelKey: 'name',
             detailAttribute: 'streetType',
@@ -455,8 +472,12 @@ export class LocuinteFormService {
     if (streetField) {
       if (singleField) {
         streetField.setValidators([Validators.required]);
+        if (!this.checkParentDisabled(streetField)) {
+          streetField.enable();
+        }
       } else {
         streetField.clearValidators();
+        streetField.disable();
       }
       if (reset) {
         streetField.patchValue('');
@@ -467,13 +488,31 @@ export class LocuinteFormService {
       if (f) {
         if (singleField) {
           f.clearValidators();
+          f.disable();
         } else {
           f.setValidators([Validators.required]);
+          if (!this.checkParentDisabled(f)) {
+            f.enable();
+          }
         }
         if (reset) {
           f.patchValue('');
         }
         f.updateValueAndValidity();
+      }
+    });
+  }
+
+  checkParentDisabled(control) {
+    if (control && control.parent instanceof AbstractControl) {
+      return get(control.parent, 'disabled', false);
+    }
+  }
+
+  disableFields(fields: Array<AbstractControl>) {
+    fields.forEach((f: AbstractControl) => {
+      if (f instanceof AbstractControl) {
+        f.disable();
       }
     });
   }
@@ -495,6 +534,7 @@ export class LocuinteFormService {
       return this.locuinteS.getCities(addressCounty.id).pipe(
         take(1),
         map((data: any) => {
+          this.locuinteS.cityStore$.next(data);
           fieldsData.addressCity = data;
           return data;
         })
@@ -577,7 +617,42 @@ export class LocuinteFormService {
       return of([]);
     }
   }
+  cityLookup(
+    input: any,
+    source?: BehaviorSubject<any>
+  ): Observable<Array<any>> {
+    const keywords = input ? input.toString() : null;
 
+    if (source && source instanceof BehaviorSubject) {
+      return source.pipe(
+        map((data) => {
+          if (!data) {
+            return [];
+          }
+          // Filter whole list in here based on text input.
+          if (keywords) {
+            return data.filter((dV) => {
+              const name = get(dV, 'name', '').toLowerCase();
+              let id = get(dV, 'id', '');
+              try {
+                id = id.toString().toLowerCase();
+              } catch (e) {
+                id = null;
+              }
+              return (
+                name.includes(keywords.toLowerCase()) ||
+                id.includes(keywords.toLowerCase())
+              );
+            });
+          } else {
+            return data;
+          }
+        })
+      );
+    } else {
+      return of([]);
+    }
+  }
   processFormModel(
     formGroupValue,
     existingModel?: Locuinte | any,

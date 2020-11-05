@@ -1,4 +1,5 @@
 import { AuthService } from 'src/app/core/services/auth/auth.service';
+import { genericErrorTexts } from './../../shared/data/generic-error-helper';
 import { Component, HostBinding, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -6,6 +7,10 @@ import { RegistrationService } from 'src/app/core/services/auth/registration.ser
 import { subPageHeaderDefault } from 'src/app/shared/data/sub-page-header-default';
 import { IonInputConfig } from 'src/app/shared/models/component/ion-input-config';
 import { IonTextItem } from 'src/app/shared/models/component/ion-text-item';
+import { switchMap } from 'rxjs/operators';
+import { of, throwError } from 'rxjs';
+import { get } from 'lodash';
+import { NavController } from '@ionic/angular';
 
 @Component({
   selector: 'app-adresa-de-email',
@@ -28,11 +33,15 @@ export class AdresaDeEmailComponent implements OnInit {
   emailForm: FormGroup;
   headerConfig = subPageHeaderDefault('');
   busy = false;
+  errorMsgs = [];
+  showError = false;
+  isGDPRokStatus = true;
   constructor(
     private router: Router,
     private formBuilder: FormBuilder,
     private regSrvice: RegistrationService,
-    private auth: AuthService
+    private auth: AuthService,
+    private navCtrl: NavController
   ) {
     this.checkUserObj();
   }
@@ -65,14 +74,40 @@ export class AdresaDeEmailComponent implements OnInit {
     this.regSrvice.setUserObj({
       email: this.emailForm.get('email').value,
     });
-    this.regSrvice.registerUser().subscribe(
-      (data) => {
-        this.logUserIn();
-      },
-      (err) => {
-        this.busy = false;
-      }
-    );
+    return this.auth
+      .checkGDPR(this.regSrvice.getuserObj.cnp)
+      .pipe(
+        switchMap((isGDPRok) => {
+          this.isGDPRokStatus = get(isGDPRok, 'isGDPRNotRestricted', true);
+          if (this.isGDPRokStatus) {
+            return of(null);
+          } else {
+            return throwError('falseGDPR');
+          }
+        }),
+        switchMap((vv) => {
+          return this.regSrvice.registerUser();
+        })
+      )
+      .subscribe(
+        (data) => {
+          this.logUserIn();
+        },
+        (err) => {
+          this.busy = false;
+          if (err === 'falseGDPR') {
+            this.errorMsgs = genericErrorTexts(
+              'A fost identificată lipsa acordului tău privind procesare datelor personale.',
+              '',
+              true
+            );
+            this.showError = true;
+          } else {
+            this.router.navigate(['/login']);
+          }
+          this.busy = false;
+        }
+      );
   }
 
   logUserIn() {
@@ -88,8 +123,24 @@ export class AdresaDeEmailComponent implements OnInit {
         },
         (err) => {
           this.busy = false;
-          this.router.navigate(['/login']);
+          if (err === 'falseGDPR') {
+            this.errorMsgs = genericErrorTexts(
+              'A fost identificată lipsa acordului tău privind procesare datelor personale.',
+              '',
+              true
+            );
+            this.showError = true;
+          } else {
+            this.router.navigate(['/login']);
+          }
         }
       );
+  }
+
+  goBack() {
+    if (!this.isGDPRokStatus) {
+      // logout if generic error is due to isGDPRok===false
+      this.auth.doLogout(false, true);
+    }
   }
 }

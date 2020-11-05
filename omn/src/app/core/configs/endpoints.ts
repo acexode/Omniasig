@@ -27,6 +27,7 @@ export const authEndpoints = {
   updateUserProfile: serverBaseUrl + '/UserProfile/UpdateUserProfile',
   checkCNP: serverBaseUrl + '/UserProfile/CheckCNP',
   validateCNP: serverBaseUrl + '/UserProfile/validateCNP',
+  checkGDPR: serverBaseUrl + '/GDPR/CheckUserGdpr',
 };
 
 export const baseEndpoints = {
