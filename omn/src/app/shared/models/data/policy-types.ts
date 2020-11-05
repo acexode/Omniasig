@@ -404,8 +404,8 @@ export const policyTypes: { [key: string]: PolicyType } = {
     id: 'PAD',
     order: 2,
     typeId: 'PAD',
-    name: 'PAD',
-    shortDescription: 'Polița de asigurare obligatorie',
+    name: 'PAD - Polița de asigurare obligatorie',
+    shortDescription: 'Asigurarea obligatorie a locuințelor',
     dntConfig: {
       success: dntItemHelper({
         topIcon: {
