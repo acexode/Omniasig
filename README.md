@@ -62,3 +62,8 @@ The last step is to verify the signature on the APK with apksigner.
 
 Helpful link: https://ionicframework.com/docs/developing/ios#running-with-xcode
 
+### Test builds
+## IOS
+`ionic cordova build ios --c=test`
+## Android
+`ionic cordova build android --c=test`
