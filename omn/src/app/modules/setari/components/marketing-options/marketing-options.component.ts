@@ -66,17 +66,4 @@ export class MarketingOptionsComponent implements OnInit {
         (err) => (this.busy = false)
       );
   }
-
-  updateConsent() {
-    this.busy = true;
-    this.auth.getAccountData().pipe(take(1)).subscribe((account) => {
-      this.settingsS.updateConsent({ isEnabled: this.formGroup.get('accept').value, consentDocumentType: 5, userId: account.userId })
-        .subscribe(
-          (obs) => {
-            this.submitForm();
-          },
-          err => this.busy = false
-        );
-    });
-  }
 }
