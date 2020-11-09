@@ -1,30 +1,59 @@
 <ion-content>
-    <ion-header [translucent]="false" class="header-element">
-        <ion-toolbar size="small" color="omn-transparent-white" class="header-toolbar">
-            <ion-buttons slot="start" class="header-buttons" (click)="openCustom()">
-                <ion-button class="header-button">
-                    <ion-icon slot="icon-only" name="md-menu" class="icon-20 header-button-icon"></ion-icon>
-                </ion-button>
-            </ion-buttons>
-            <ion-buttons slot="end" class="header-buttons" *ngIf="!isDisableNotificationIcon">
-                <ion-button class="header-button">
-                    <ion-icon slot="icon-only" name="md-notificare" class="icon-20 header-button-icon"></ion-icon>
-                </ion-button>
-            </ion-buttons>
-            <ion-title class="ion-text-left header-title">
-                <h2 class="alt-font" *ngIf="account">
-                    {{account?.name + ' ' + account?.surname}}
-                </h2>
-            </ion-title>
-        </ion-toolbar>
-    </ion-header>
-    <ion-grid class="p-32">
-        <ion-row class="ion-no-padding h-272 mt-n112 mx-n32 omn-background-green-gradient omn-gradient-image"></ion-row>
-        <ion-row class="ion-no-padding mx-n8 mt-n128" *ngIf="(offers$|async)?.length">
-            <app-policy-list [title]="oferteTitle" class="flex w-100" [type]="'offer'" [list]="offers$|async" [emptyItem]="emptyItem">
-            </app-policy-list>
-        </ion-row>
-        <ion-row class="ion-no-padding mx-n8" [ngClass]="{
+  <ion-header [translucent]="false" class="header-element">
+    <ion-toolbar
+      size="small"
+      color="omn-transparent-white"
+      class="header-toolbar"
+    >
+      <ion-buttons slot="start" class="header-buttons"  (click)="openCustom()">
+        <ion-button class="header-button">
+          <ion-icon
+            slot="icon-only"
+            name="md-menu"
+            class="icon-20 header-button-icon"
+          ></ion-icon>
+        </ion-button>
+      </ion-buttons>
+      <ion-buttons
+        slot="end"
+        class="header-buttons"
+        *ngIf="!isDisableNotificationIcon"
+      >
+        <ion-button class="header-button">
+          <ion-icon
+            slot="icon-only"
+            name="md-notificare"
+            class="icon-20 header-button-icon"
+          ></ion-icon>
+        </ion-button>
+      </ion-buttons>
+      <ion-title class="ion-text-left header-title">
+        <h2 class="alt-font" *ngIf="account">
+          {{account?.surname + ' ' +  account?.name}}
+        </h2>
+      </ion-title>
+    </ion-toolbar>
+  </ion-header>
+  <ion-grid class="p-32">
+    <ion-row
+      class="ion-no-padding h-272 mt-n112 mx-n32 omn-background-green-gradient omn-gradient-image"
+    ></ion-row>
+    <ion-row
+      class="ion-no-padding mx-n8 mt-n128"
+      *ngIf="(offers$|async)?.length"
+    >
+      <app-policy-list
+        [title]="oferteTitle"
+        class="flex w-100"
+        [type]="'offer'"
+        [list]="offers$|async"
+        [emptyItem]="emptyItem"
+      >
+      </app-policy-list>
+    </ion-row>
+    <ion-row
+      class="ion-no-padding mx-n8"
+      [ngClass]="{
         ' mt-32': hasOffers,
         'mt-n128': !hasOffers
       }">
