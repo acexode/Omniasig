@@ -26,6 +26,7 @@ export class LocuinteFormComponent implements OnInit {
   @Input() toggleStreetInput = null;
   @Input() formType: LocuinteFormType = null;
   @Input() buttonVisible = true;
+  @Input() isHomeAddress = false;
   @Input() buttonText = 'Continuă';
   @Input() formSubmitting = false;
   @Input() fieldConfig: { [key: string]: any } = {};
