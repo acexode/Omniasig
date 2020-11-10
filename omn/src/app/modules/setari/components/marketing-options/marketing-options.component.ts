@@ -1,12 +1,12 @@
-import { SettingsService } from './../../services/settings.service';
-import { NavController } from '@ionic/angular';
 import { Component, HostBinding, OnInit } from '@angular/core';
+import { FormBuilder, Validators } from '@angular/forms';
+import { NavController } from '@ionic/angular';
 import { radiosConfigHelper } from 'src/app/shared/data/radios-config-helper';
 import { subPageHeaderDefault } from 'src/app/shared/data/sub-page-header-default';
 import { IonRadioInputOption } from 'src/app/shared/models/component/ion-radio-input-option';
 import { IonRadiosConfig } from 'src/app/shared/models/component/ion-radios-config';
 import { SubPageHeader } from 'src/app/shared/models/component/sub-page-header';
-import { FormBuilder, Validators } from '@angular/forms';
+import { SettingsService } from './../../services/settings.service';
 
 @Component({
   selector: 'app-marketing-options',
@@ -60,6 +60,7 @@ export class MarketingOptionsComponent implements OnInit {
       .subscribe(
         (data) => {
           this.navCtrl.navigateRoot('/home');
+          this.busy = false;
         },
         (err) => (this.busy = false)
       );

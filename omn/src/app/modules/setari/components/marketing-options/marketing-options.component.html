@@ -1,26 +1,43 @@
 <app-sub-page-header [config]="headerConfig"></app-sub-page-header>
 
 <ion-content class="ion-padding pt-32" [formGroup]="formGroup">
-    <div class="ion-padding flex flex-column h-100">
-        <div class="pt-16">
-            <ion-label class="s20-h24 ls-02 text-weight-normal alt-font">
-                Ești de acord să afli noutățile* și ofertele OMNIASIG și ale partenerilor noștri?
-            </ion-label>
-            <p class="s16-h22 ls-01">Află în exclusivitate toate ofertele noastre.</p>
+  <div class="ion-padding flex flex-column h-100">
+    <div class="pt-16">
+      <ion-label class="s20-h24 ls-02 text-weight-normal alt-font">
+        Ești de acord să afli noutățile* și ofertele OMNIASIG și ale
+        partenerilor noștri?
+      </ion-label>
+      <p class="s16-h22 ls-01">Află în exclusivitate toate ofertele noastre.</p>
 
-            <ion-row class="ion-no-padding w-100 flex">
-                <app-radios formControlName="accept" [config]="radiosConfig" [options]="radioOptions" class="w-100"></app-radios>
-            </ion-row>
+      <ion-row class="ion-no-padding w-100 flex">
+        <app-radios
+          formControlName="accept"
+          [config]="radiosConfig"
+          [options]="radioOptions"
+          class="w-100"
+        ></app-radios>
+      </ion-row>
 
-            <div class="mt-16 mb-24">
-                <ion-label class="color-dark-green s16-h22 ls-01 text-weight-bold">Vei primi în continuare informații legate de polița ta (sau polițele tale) de asigurare.</ion-label>
-            </div>
-        </div>
-
-        <div class="mt-auto">
-            <ion-button size="large" color="success" expand="block" class="mb-n8" [disabled]="!formGroup?.valid || busy" (click)="submitForm()">
-                <ion-label class="s18-h24 text-weight-medium">Salvează</ion-label>
-            </ion-button>
-        </div>
+      <div class="mt-16 mb-24">
+        <ion-label class="color-dark-green s16-h22 ls-01 text-weight-bold"
+          >Vei primi în continuare informații legate de polița ta (sau polițele
+          tale) de asigurare.</ion-label
+        >
+      </div>
     </div>
+
+    <div class="mt-auto">
+      <ion-button
+        size="large"
+        color="success"
+        expand="block"
+        class="mb-n8 s18-h24 text-weight-medium"
+        [disabled]="!formGroup?.valid || busy"
+        (click)="submitForm()"
+      >
+        <ion-spinner name="crescent" *ngIf="busy" class="icon-20"></ion-spinner>
+        Salvează
+      </ion-button>
+    </div>
+  </div>
 </ion-content>
